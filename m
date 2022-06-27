@@ -2,183 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 621BB55CF2E
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jun 2022 15:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E41D55C372
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jun 2022 14:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236251AbiF0Ndh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Jun 2022 09:33:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43042 "EHLO
+        id S237065AbiF0OUr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Jun 2022 10:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236264AbiF0Nde (ORCPT
+        with ESMTP id S236982AbiF0OUm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Jun 2022 09:33:34 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9775E6399;
-        Mon, 27 Jun 2022 06:33:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 41067B816B0;
-        Mon, 27 Jun 2022 13:33:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B42AC341D0;
-        Mon, 27 Jun 2022 13:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656336811;
-        bh=ozPyfku+IxLJ/xWqltXSkq39bDAVGGKGz9HK5lRI660=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Bd5Muo0k50BmpMKNCQwFcq1j67DQkwTwX0UmSF26tAHbqPvfeDci31nPqRtNrUurV
-         +UZTak+TRJUJv0oppssC6cYX1Fc4Lpjy02HhtTKlQuv7C9eYEdfPw06kRYST0ecBHj
-         ZRUTFh5lsbiGTA6KQbhxSzX23tKGD5pGbiUzqr3zTs+xD/HDjBOfirpm9RBpkGTa9p
-         FCsMN6HsgZsPlss0Sodi+1Lis8qhsoeJrswvvTpNx+ip5k8TdP9HY+O2ZdoIGOIUJ1
-         RcDed/3NLRZW/xk0/63cK87Ia40LtFmh/tYeZ/mc9mo+JAK2KaNsjUTDPiTTHUVCcs
-         pV3DCTqIa8uFw==
-Received: by mail-vk1-f175.google.com with SMTP id b5so4469999vkp.4;
-        Mon, 27 Jun 2022 06:33:31 -0700 (PDT)
-X-Gm-Message-State: AJIora9M6JDDkfWLj1YeERI0KOE6lFk+CrJBoltUz9gcvuq6WH6sQhbC
-        ytDlruTFO+XdsNVCbGZAG3LbiID4k5ErEBXT8A==
-X-Google-Smtp-Source: AGRyM1scsPUWNixG94RrMA/c0WdzqcCV5semb71Np32MVVYQN0Tnz33ChJSrmtGpjWTGsYsOWzKI4Q7hjj31Llm839Y=
-X-Received: by 2002:a1f:aac7:0:b0:35e:1c45:def with SMTP id
- t190-20020a1faac7000000b0035e1c450defmr4200423vke.35.1656336809878; Mon, 27
- Jun 2022 06:33:29 -0700 (PDT)
+        Mon, 27 Jun 2022 10:20:42 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBCDFD05;
+        Mon, 27 Jun 2022 07:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+        s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=2C7bvwZpbY0eq72GTwKLtH/NuxtYOf5fz40pL8puD8w=; b=idFX+Wyxs1EEtPItu5TJ0lYju3
+        KikYXV0VpCQyyPbnaZ6eyArNasehnnCxD7HQ2e5f/s16ZnBTodEClCTCCiFEnNgWXmMdDg7zvna6O
+        tylN2mm0Lb7OHkSlX5wx7Il8ji9b3+PyNWtxkmKZcM61IX+6fi2BF0Pv5Aj33o1q4cpjtvFpGy4Zz
+        6dVgw50B3lFuq8lnhuTChNT12GlqO6jTBfOv+WYU6kZQlxixlbyjo/jCge+7clCsJJCeYuMqXCvb6
+        TljMp8PLF2UQYBbh6NZcolxmZZ57UDmgdnPe5RX0UcbH1LJLQ7iWjUd3Eog20EBj4kZeg3KDfUKAG
+        DcGH/YhA==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1o5pbK-003N2J-As; Mon, 27 Jun 2022 17:20:29 +0300
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>
+Cc:     Mikko Perttunen <mperttunen@nvidia.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7/v3 00/22] Host1x context isolation / Tegra234 support
+Date:   Mon, 27 Jun 2022 17:19:46 +0300
+Message-Id: <20220627142008.2072474-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220621151022.1416300-1-cyndis@kapsi.fi> <20220621151022.1416300-3-cyndis@kapsi.fi>
- <1656091594.348474.146331.nullmailer@robh.at.kernel.org>
-In-Reply-To: <1656091594.348474.146331.nullmailer@robh.at.kernel.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 27 Jun 2022 07:33:18 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJMDEf1_3P2q2XPKKuOqr=+sYixVfMwnouGXPkMPWtjGA@mail.gmail.com>
-Message-ID: <CAL_JsqJMDEf1_3P2q2XPKKuOqr=+sYixVfMwnouGXPkMPWtjGA@mail.gmail.com>
-Subject: Re: [PATCH v6 02/10] dt-bindings: display: tegra: Convert to json-schema
-To:     Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     devicetree@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Will Deacon <will@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 11:26 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, 21 Jun 2022 18:10:14 +0300, Mikko Perttunen wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > Convert the Tegra host1x controller bindings from the free-form text
-> > format to json-schema.
-> >
-> > This also adds the missing display-hub DT bindings that were not
-> > previously documented.
-> >
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra114-mipi.txt    |  41 --
-> >  .../display/tegra/nvidia,tegra114-mipi.yaml   |  74 ++
-> >  .../display/tegra/nvidia,tegra124-dpaux.yaml  | 149 ++++
-> >  .../display/tegra/nvidia,tegra124-sor.yaml    | 206 ++++++
-> >  .../display/tegra/nvidia,tegra124-vic.yaml    |  71 ++
-> >  .../display/tegra/nvidia,tegra186-dc.yaml     |  85 +++
-> >  .../tegra/nvidia,tegra186-display.yaml        | 310 ++++++++
-> >  .../tegra/nvidia,tegra186-dsi-padctl.yaml     |  45 ++
-> >  .../display/tegra/nvidia,tegra20-dc.yaml      | 181 +++++
-> >  .../display/tegra/nvidia,tegra20-dsi.yaml     | 159 +++++
-> >  .../display/tegra/nvidia,tegra20-epp.yaml     |  70 ++
-> >  .../display/tegra/nvidia,tegra20-gr2d.yaml    |  73 ++
-> >  .../display/tegra/nvidia,tegra20-gr3d.yaml    | 214 ++++++
-> >  .../display/tegra/nvidia,tegra20-hdmi.yaml    | 126 ++++
-> >  .../display/tegra/nvidia,tegra20-host1x.txt   | 675 ------------------
-> >  .../display/tegra/nvidia,tegra20-host1x.yaml  | 347 +++++++++
-> >  .../display/tegra/nvidia,tegra20-isp.yaml     |  67 ++
-> >  .../display/tegra/nvidia,tegra20-mpe.yaml     |  73 ++
-> >  .../display/tegra/nvidia,tegra20-tvo.yaml     |  58 ++
-> >  .../display/tegra/nvidia,tegra20-vi.yaml      | 163 +++++
-> >  .../display/tegra/nvidia,tegra210-csi.yaml    |  52 ++
-> >  .../pinctrl/nvidia,tegra124-dpaux-padctl.txt  |  59 --
-> >  22 files changed, 2523 insertions(+), 775 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
-> >
->
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml: allOf:1:if:not:properties: {'contains': {'const': 'nvidia,panel'}} should not be valid under {'$ref': '#/definitions/sub-schemas'}
->         hint: A json-schema keyword was found instead of a DT property name.
->         from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml: ignoring, error in schema: allOf: 1: if: not: properties
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.example.dtb: gr3d@54180000: resets: [[4294967295, 24]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.example.dtb: gr3d@54180000: reset-names: ['3d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr2d@54140000: resets: [[4294967295, 21]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr2d@54140000: reset-names: ['2d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr3d@54180000: resets: [[4294967295, 24]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.example.dtb: gr3d@54180000: reset-names: ['3d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
-> Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.example.dtb:0:0: /example-0/sor@54540000: failed to match any schema with compatible: ['nvidia,tegra210-sor']
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.example.dtb: gr2d@54140000: resets: [[4294967295, 21]] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.example.dtb: gr2d@54140000: reset-names: ['2d'] is too short
->         From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
->
-> doc reference errors (make refcheckdocs):
-> MAINTAINERS: Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> MAINTAINERS: Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->
-> See https://patchwork.ozlabs.org/patch/
->
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Now failing in linux-next. Please fix.
+Integrated the Host1x context isolation series (patches 1 to 8) and
+Tegra234 support series (patches 9 to 22) in one email thread for
+the benefit of automatic testers.
 
-Rob
+Changes from previous versions:
+
+Context isolation:
+* Improved check to ensure context devices are attached to IOMMU
+* Fixed build failure when CONFIG_IOMMU_API=n as reported by bot
+* Dropped Thierry's Host1x schema YAML conversion from this series
+  -- it was accidentally included in the previous
+* Also dropped arm-smmu change for now. It can be merged later if
+  necessary.
+
+Tegra234:
+* Split bracketing fix in DT schema to separate patch
+* Added Acked-by
+
+Thanks,
+Mikko
+
+Mikko Perttunen (22):
+  dt-bindings: host1x: Add iommu-map property
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: nvdec: Fix TRANSCFG register offset
+  drm/tegra: Support context isolation
+  drm/tegra: Implement stream ID related callbacks on engines
+  dt-bindings: Add bindings for Tegra234 Host1x and VIC
+  dt-bindings: host1x: Fix bracketing in example
+  dt-bindings: Add headers for Host1x and VIC on Tegra234
+  arm64: tegra: Add Host1x and VIC on Tegra234
+  gpu: host1x: Deduplicate hardware headers
+  gpu: host1x: Simplify register mapping and add common aperture
+  gpu: host1x: Program virtualization tables
+  gpu: host1x: Allow reset to be missing
+  gpu: host1x: Program interrupt destinations on Tegra234
+  gpu: host1x: Tegra234 device data and headers
+  gpu: host1x: Rewrite job opcode sequence
+  gpu: host1x: Add MLOCK release code on Tegra234
+  gpu: host1x: Use RESTART_W to skip timed out jobs on Tegra186+
+  drm/tegra: vic: Add Tegra234 support
+
+ .../display/tegra/nvidia,tegra124-vic.yaml    |   1 +
+ .../display/tegra/nvidia,tegra20-host1x.yaml  | 115 +++++++++--
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  11 ++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  11 ++
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  46 +++++
+ drivers/gpu/drm/tegra/drm.c                   |   1 +
+ drivers/gpu/drm/tegra/drm.h                   |  11 ++
+ drivers/gpu/drm/tegra/falcon.c                |   8 +
+ drivers/gpu/drm/tegra/falcon.h                |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 |  13 +-
+ drivers/gpu/drm/tegra/submit.c                |  48 ++++-
+ drivers/gpu/drm/tegra/uapi.c                  |  43 ++++-
+ drivers/gpu/drm/tegra/vic.c                   |  79 +++++++-
+ drivers/gpu/host1x/Makefile                   |   6 +-
+ drivers/gpu/host1x/cdma.c                     |  19 +-
+ drivers/gpu/host1x/context.c                  | 160 ++++++++++++++++
+ drivers/gpu/host1x/context.h                  |  38 ++++
+ drivers/gpu/host1x/dev.c                      | 124 ++++++++----
+ drivers/gpu/host1x/dev.h                      |  13 ++
+ drivers/gpu/host1x/hw/cdma_hw.c               |  34 ++++
+ drivers/gpu/host1x/hw/channel_hw.c            | 136 +++++++++----
+ drivers/gpu/host1x/hw/host1x01_hardware.h     | 114 +----------
+ drivers/gpu/host1x/hw/host1x02_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x04_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x05_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x06_hardware.h     | 118 +-----------
+ drivers/gpu/host1x/hw/host1x07_hardware.h     | 118 +-----------
+ drivers/gpu/host1x/hw/host1x08.c              |  33 ++++
+ drivers/gpu/host1x/hw/host1x08.h              |  15 ++
+ drivers/gpu/host1x/hw/host1x08_hardware.h     |  21 ++
+ drivers/gpu/host1x/hw/hw_host1x08_channel.h   |  11 ++
+ drivers/gpu/host1x/hw/hw_host1x08_common.h    |  11 ++
+ .../gpu/host1x/hw/hw_host1x08_hypervisor.h    |   9 +
+ drivers/gpu/host1x/hw/hw_host1x08_uclass.h    | 181 ++++++++++++++++++
+ drivers/gpu/host1x/hw/hw_host1x08_vm.h        |  36 ++++
+ drivers/gpu/host1x/hw/intr_hw.c               |  11 ++
+ drivers/gpu/host1x/hw/opcodes.h               | 150 +++++++++++++++
+ include/dt-bindings/clock/tegra234-clock.h    |   4 +
+ include/dt-bindings/memory/tegra234-mc.h      |   5 +
+ .../dt-bindings/power/tegra234-powergate.h    |   1 +
+ include/dt-bindings/reset/tegra234-reset.h    |   1 +
+ include/linux/host1x.h                        |  42 ++++
+ 42 files changed, 1357 insertions(+), 781 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/hw/host1x08.c
+ create mode 100644 drivers/gpu/host1x/hw/host1x08.h
+ create mode 100644 drivers/gpu/host1x/hw/host1x08_hardware.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_channel.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_common.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_hypervisor.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_uclass.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_vm.h
+ create mode 100644 drivers/gpu/host1x/hw/opcodes.h
+
+-- 
+2.36.1
+
