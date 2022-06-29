@@ -2,126 +2,347 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF7655609D1
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jun 2022 20:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D3D5560A81
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jun 2022 21:42:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbiF2S4i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jun 2022 14:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41860 "EHLO
+        id S230492AbiF2Tmr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jun 2022 15:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbiF2S4h (ORCPT
+        with ESMTP id S231231AbiF2Tmp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jun 2022 14:56:37 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 108782EA23;
-        Wed, 29 Jun 2022 11:56:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e6n5n6BVHv7o2Vk/xivboXPzOF2bP8GKhjJqH5tE0wH+ILbe+hnSuowiikzd9i/b4mNWafQCRs5OshTSAk9xpEHxQuzGFg6+SCy7hlb/CgGnT74a4hFBMJGvMjpJLIJqAarD705s0ypHxFzRLOYYjeefl7GPgsGy+AIk/wIAFdc6MWcc40/WdoxF82ztSMGWAr2SOZ9oGR3wV0ZMWNtH4dQRn5bu1EBexGnu8YS+mIsCzfncTGDqMNDO2U0NEtMDXZjLZFaOBpq6XckG/VP4ZVhGgJOS5hktNiDriaTM4P3lwwrJMmDPnDut270tKj7x0UShVS5Orj98tCCUCCVvMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w3/nMgJrfZFM0ecEUSpS74BkPx5P6JQVHbMu4dmlRrw=;
- b=MBc2tJSiB4Xde7f1Qzsl66dDAfP+q+x/30605f2/4xdx3fnzGG1wEpzswtvdAKDYFzuPfpimFcejjbEoRcSyEYauEeYpb7uD5zezi5CIus1n37k/knVV6zIdCV5m9sDWma/yH9rfaeNZ7MZIqylUubzs33YWeSJzDxDu+8kWLs/E47ETatNDhC0li25aR1VNSxXQ9av6lxfSnOTKZ1dFmXiKsQoJLXWHTAeZkiFfbKDbKC8Od1xrGiXiJcy9rzedSX03ZPJcjia88OWjuqgyYNhJSOoSgcUNeBcM8nvg5+ZIlfCjoUDnCRzN0pQkINyus+Jzc4Vp8W6KifjXXMS64A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.14) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w3/nMgJrfZFM0ecEUSpS74BkPx5P6JQVHbMu4dmlRrw=;
- b=dHKqh+wXD2AGXhKCfm1QHgZExisucHLN8TgQag4bncoPguwKyI31L9R0sDwf8qdb8nSR/yqAomT1x02aCjMNuAdkps7wQOcw8MO7twS7n8Q31HoNCpFy5v2puURz5kfXog7OMcu61jxadkD0b7uXvvZUtcAgSZyKwlaLLU6UJfmvcNxoVIjczY9kzDyV9x95iflaRIhL+eFvX+vXyF/xSziTYlhyeVM5TchpJoYUnNqKyVK4C23w8sGRoscnABBENXUa3SmPQYc3rHhjjjAZhoIFryigd0Nd214jZ1PkdlRgVErzeMBWkMmqZ/FsT21684K0otoV7fLE9k4jWA+YZA==
-Received: from BN9PR03CA0086.namprd03.prod.outlook.com (2603:10b6:408:fc::31)
- by MN0PR12MB5977.namprd12.prod.outlook.com (2603:10b6:208:37c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Wed, 29 Jun
- 2022 18:56:35 +0000
-Received: from BN8NAM11FT023.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fc:cafe::22) by BN9PR03CA0086.outlook.office365.com
- (2603:10b6:408:fc::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17 via Frontend
- Transport; Wed, 29 Jun 2022 18:56:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.14)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.14 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.14; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (203.18.50.14) by
- BN8NAM11FT023.mail.protection.outlook.com (10.13.177.103) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5373.15 via Frontend Transport; Wed, 29 Jun 2022 18:56:34 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by HKMAIL103.nvidia.com
- (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 29 Jun
- 2022 18:56:32 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 29 Jun
- 2022 11:56:30 -0700
-Received: from kkartik-desktop.nvidia.com (10.127.8.13) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.986.26 via Frontend
- Transport; Wed, 29 Jun 2022 11:56:28 -0700
-From:   Kartik <kkartik@nvidia.com>
-To:     <jassisinghbrar@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <jonathanh@nvidia.com>,
-        <krzk+dt@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <kkartik@nvidia.com>
-Subject: Re: [PATCH 0/3] Add 128-bit support mailbox for Tegra234 chips
-Date:   Thu, 30 Jun 2022 00:26:27 +0530
-Message-ID: <1656528987-29280-1-git-send-email-kkartik@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1649921757-16919-1-git-send-email-kkartik@nvidia.com>
-References: <1649921757-16919-1-git-send-email-kkartik@nvidia.com>
+        Wed, 29 Jun 2022 15:42:45 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B20935DE0
+        for <linux-tegra@vger.kernel.org>; Wed, 29 Jun 2022 12:42:44 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o6da7-0007RF-8J; Wed, 29 Jun 2022 21:42:35 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o6da2-003SHN-Ak; Wed, 29 Jun 2022 21:42:33 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o6da5-001xRV-17; Wed, 29 Jun 2022 21:42:33 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH 1/5] ASoC: tegra: tegra20_das: Fold header file into only user
+Date:   Wed, 29 Jun 2022 21:42:20 +0200
+Message-Id: <20220629194224.175607-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69a01bd4-0585-405c-195f-08da5a0116f3
-X-MS-TrafficTypeDiagnostic: MN0PR12MB5977:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j/oTTVvcRFJPa6vrQldTxvEeGyAnnMp4tBkk9H9udfxrRIzJNVhMVlAKi9RRwvUAcwJTbL5bPwDJ69kM/9eJlppG0eb60so+Nb/uaGFrXkZ7r41fXWnF/JpmHtxtcQbbSlLTmh/aWwZBZDFssJ/qHAtZ5ylgw+xmHsHJmqFHH9ftVgxdmYueJ+dfzQY63G5ul50k95kaW0iEIs4d4o9HNwUsYPds44Tav5SkePh10yW4U1nJeAid/KW+7nPASMxm4kOE4kyHAau8Jzvw+9J8Zw4t+eggrrKUhjJIGe2dEQCukWVxl1wVau6i01wY9+7j6WHJXbEo/OBlpLmj9AzEWfz+80NyR0epWp/kcxv3lCpArzClA7yQC9ydIqpTEmUvXPfgxEU2rNPe8iRI88SnVRP+wJWRZi8t6gn9HmjZ86HMe4Bd5HyaascaSVrAlavpp3G0eaH2x7VD12HznZAeiiJJkl8pUyLU99b/QFAvve0XwuERnAnzKY0ghhLJs3DucEioWmIHloVs0U3ieNgRRWGF6sT9YpivLW0zIImP8Hmc6VRA+ELLDQV34VIwg1YI7Fru2iooZ/1hH5khVP3kxWcUu1VxHpVQ9y+id/eUTRYOmhosqLQZceRinJ3WyKAhiT4+PQImbbbi1iLplL27ZZtW+ESiFVb3+8q33nNkN1SN6xcdj4JnM0Nskv8cND7rcNb5o9BuMgnCFTjPx46zjaO8j7fchckDqvVfHZto8wE5QJjKBC5rV/DTHz1alaKvib1DW3AiuHaqU4iOmnOpSYAbtWEvaSU0FHDLjwU3CYeDM0+HFvOny2lQjx6w+04/
-X-Forefront-Antispam-Report: CIP:203.18.50.14;CTRY:HK;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:hkhybrid03.nvidia.com;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(39860400002)(346002)(396003)(40470700004)(36840700001)(46966006)(7696005)(41300700001)(2906002)(336012)(15650500001)(426003)(83380400001)(40480700001)(186003)(2616005)(82310400005)(36860700001)(478600001)(107886003)(4326008)(70586007)(356005)(8676002)(47076005)(36756003)(70206006)(26005)(8936002)(82740400003)(86362001)(6916009)(54906003)(40460700003)(4744005)(7636003)(5660300002)(316002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 18:56:34.8000
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69a01bd4-0585-405c-195f-08da5a0116f3
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[203.18.50.14];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT023.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5977
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9971; h=from:subject; bh=BTy0mmqclot2lVVQ+4NUmS55Evnj/fjfzi9Hk3gMHbA=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBivKsQfZGMbdaPxKTIw4Iv5rym/u69cLIVq/wm719N FhD9e7eJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYryrEAAKCRDB/BR4rcrsCbvDB/ 9SFq5iSxebD+Z1KO5D0OaHmJLljXunDMrCv50oBk8b/uZyXitoXZSu7AiIDUk6Vpl2dlJhG9fxSbWN j6MVQqi6suMu9HjnKXrgvi7UPdIx8MX6qOTdpfN3EFNp5Vm8oC8fJ25FQsCU69DXQacZZ+RrOtDYCr wvAzAV0jgoj8d3RPGxtYZAvef0F2WvCAMwAklKm5Isr+RRxYvjg3fE1q79aOOjRkf1kxPUPnOR+r2X BSTLSX1HL4QN1vSuxvXCJstffc+OqBdNc9Rxu5F0CSuRSHeLn72e4/wblX1GJ4Ut3wY66oCk8WNgz0 IbB2yKn680y5c3jrsA6ctRDEwFoH0i
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 14/04/2022 13:05 +530, Kartik Wrote:
-> This series of patches adds support for 128-bit shared mailbox found
-> on Tegra234 chips. It also introduce tegra_hsp_sm_ops to abstract
-> send & receive APIs for 32-bit and 128-bit shared mailboxes.
-> 
-> Kartik (3):
->   mailbox: tegra-hsp: Add tegra_hsp_sm_ops
->   dt-bindings: tegra186-hsp: add type for shared mailboxes
->   mailbox: tegra-hsp: Add 128-bit shared mailbox support
-> 
->  .../bindings/mailbox/nvidia,tegra186-hsp.yaml |   9 ++
->  drivers/mailbox/tegra-hsp.c                   | 149 ++++++++++++++----
->  include/dt-bindings/mailbox/tegra186-hsp.h    |   5 +
->  3 files changed, 134 insertions(+), 29 deletions(-)
+Since commit fcff5f99742e ("ASoC: tegra: remove unnecessary includes")
+the header file (which at the time was named tegra_das.h) there is only
+the actual driver that includes it. Just move the definitions into the
+driver, drop the exports and remove the completely unused function.
 
-Hi Jassi,
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ sound/soc/tegra/tegra20_das.c | 110 +++++++++++++++++++++++--------
+ sound/soc/tegra/tegra20_das.h | 120 ----------------------------------
+ 2 files changed, 83 insertions(+), 147 deletions(-)
+ delete mode 100644 sound/soc/tegra/tegra20_das.h
 
-Any comments on this from the mailbox side?
+diff --git a/sound/soc/tegra/tegra20_das.c b/sound/soc/tegra/tegra20_das.c
+index 69c651274c12..d2801130a986 100644
+--- a/sound/soc/tegra/tegra20_das.c
++++ b/sound/soc/tegra/tegra20_das.c
+@@ -13,10 +13,90 @@
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ #include <sound/soc.h>
+-#include "tegra20_das.h"
+ 
+ #define DRV_NAME "tegra20-das"
+ 
++/* Register TEGRA20_DAS_DAP_CTRL_SEL */
++#define TEGRA20_DAS_DAP_CTRL_SEL			0x00
++#define TEGRA20_DAS_DAP_CTRL_SEL_COUNT			5
++#define TEGRA20_DAS_DAP_CTRL_SEL_STRIDE			4
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_MS_SEL_P		31
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_MS_SEL_S		1
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA1_TX_RX_P	30
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA1_TX_RX_S	1
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA2_TX_RX_P	29
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA2_TX_RX_S	1
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL_P		0
++#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL_S		5
++
++/* Values for field TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL */
++#define TEGRA20_DAS_DAP_SEL_DAC1	0
++#define TEGRA20_DAS_DAP_SEL_DAC2	1
++#define TEGRA20_DAS_DAP_SEL_DAC3	2
++#define TEGRA20_DAS_DAP_SEL_DAP1	16
++#define TEGRA20_DAS_DAP_SEL_DAP2	17
++#define TEGRA20_DAS_DAP_SEL_DAP3	18
++#define TEGRA20_DAS_DAP_SEL_DAP4	19
++#define TEGRA20_DAS_DAP_SEL_DAP5	20
++
++/* Register TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL */
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL			0x40
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_COUNT		3
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_STRIDE		4
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL_P	28
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL_S	4
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL_P	24
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL_S	4
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL_P	0
++#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL_S	4
++
++/*
++ * Values for:
++ * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL
++ * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL
++ * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL
++ */
++#define TEGRA20_DAS_DAC_SEL_DAP1	0
++#define TEGRA20_DAS_DAC_SEL_DAP2	1
++#define TEGRA20_DAS_DAC_SEL_DAP3	2
++#define TEGRA20_DAS_DAC_SEL_DAP4	3
++#define TEGRA20_DAS_DAC_SEL_DAP5	4
++
++/*
++ * Names/IDs of the DACs/DAPs.
++ */
++
++#define TEGRA20_DAS_DAP_ID_1 0
++#define TEGRA20_DAS_DAP_ID_2 1
++#define TEGRA20_DAS_DAP_ID_3 2
++#define TEGRA20_DAS_DAP_ID_4 3
++#define TEGRA20_DAS_DAP_ID_5 4
++
++#define TEGRA20_DAS_DAC_ID_1 0
++#define TEGRA20_DAS_DAC_ID_2 1
++#define TEGRA20_DAS_DAC_ID_3 2
++
++struct tegra20_das {
++	struct device *dev;
++	struct regmap *regmap;
++};
++
++/*
++ * Terminology:
++ * DAS: Digital audio switch (HW module controlled by this driver)
++ * DAP: Digital audio port (port/pins on Tegra device)
++ * DAC: Digital audio controller (e.g. I2S or AC97 controller elsewhere)
++ *
++ * The Tegra DAS is a mux/cross-bar which can connect each DAP to a specific
++ * DAC, or another DAP. When DAPs are connected, one must be the master and
++ * one the slave. Each DAC allows selection of a specific DAP for input, to
++ * cater for the case where N DAPs are connected to 1 DAC for broadcast
++ * output.
++ *
++ * This driver is dumb; no attempt is made to ensure that a valid routing
++ * configuration is programmed.
++ */
++
+ static struct tegra20_das *das;
+ 
+ static inline void tegra20_das_write(u32 reg, u32 val)
+@@ -32,7 +112,7 @@ static inline u32 tegra20_das_read(u32 reg)
+ 	return val;
+ }
+ 
+-int tegra20_das_connect_dap_to_dac(int dap, int dac)
++static int tegra20_das_connect_dap_to_dac(int dap, int dac)
+ {
+ 	u32 addr;
+ 	u32 reg;
+@@ -48,31 +128,8 @@ int tegra20_das_connect_dap_to_dac(int dap, int dac)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(tegra20_das_connect_dap_to_dac);
+-
+-int tegra20_das_connect_dap_to_dap(int dap, int otherdap, int master,
+-				   int sdata1rx, int sdata2rx)
+-{
+-	u32 addr;
+-	u32 reg;
+-
+-	if (!das)
+-		return -ENODEV;
+-
+-	addr = TEGRA20_DAS_DAP_CTRL_SEL +
+-		(dap * TEGRA20_DAS_DAP_CTRL_SEL_STRIDE);
+-	reg = (otherdap << TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL_P) |
+-		(!!sdata2rx << TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA2_TX_RX_P) |
+-		(!!sdata1rx << TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA1_TX_RX_P) |
+-		(!!master << TEGRA20_DAS_DAP_CTRL_SEL_DAP_MS_SEL_P);
+-
+-	tegra20_das_write(addr, reg);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(tegra20_das_connect_dap_to_dap);
+ 
+-int tegra20_das_connect_dac_to_dap(int dac, int dap)
++static int tegra20_das_connect_dac_to_dap(int dac, int dap)
+ {
+ 	u32 addr;
+ 	u32 reg;
+@@ -90,7 +147,6 @@ int tegra20_das_connect_dac_to_dap(int dac, int dap)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(tegra20_das_connect_dac_to_dap);
+ 
+ #define LAST_REG(name) \
+ 	(TEGRA20_DAS_##name + \
+diff --git a/sound/soc/tegra/tegra20_das.h b/sound/soc/tegra/tegra20_das.h
+deleted file mode 100644
+index 18e832ded73a..000000000000
+--- a/sound/soc/tegra/tegra20_das.h
++++ /dev/null
+@@ -1,120 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * tegra20_das.h - Definitions for Tegra20 DAS driver
+- *
+- * Author: Stephen Warren <swarren@nvidia.com>
+- * Copyright (C) 2010,2012 - NVIDIA, Inc.
+- */
+-
+-#ifndef __TEGRA20_DAS_H__
+-#define __TEGRA20_DAS_H__
+-
+-/* Register TEGRA20_DAS_DAP_CTRL_SEL */
+-#define TEGRA20_DAS_DAP_CTRL_SEL			0x00
+-#define TEGRA20_DAS_DAP_CTRL_SEL_COUNT			5
+-#define TEGRA20_DAS_DAP_CTRL_SEL_STRIDE			4
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_MS_SEL_P		31
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_MS_SEL_S		1
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA1_TX_RX_P	30
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA1_TX_RX_S	1
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA2_TX_RX_P	29
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_SDATA2_TX_RX_S	1
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL_P		0
+-#define TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL_S		5
+-
+-/* Values for field TEGRA20_DAS_DAP_CTRL_SEL_DAP_CTRL_SEL */
+-#define TEGRA20_DAS_DAP_SEL_DAC1	0
+-#define TEGRA20_DAS_DAP_SEL_DAC2	1
+-#define TEGRA20_DAS_DAP_SEL_DAC3	2
+-#define TEGRA20_DAS_DAP_SEL_DAP1	16
+-#define TEGRA20_DAS_DAP_SEL_DAP2	17
+-#define TEGRA20_DAS_DAP_SEL_DAP3	18
+-#define TEGRA20_DAS_DAP_SEL_DAP4	19
+-#define TEGRA20_DAS_DAP_SEL_DAP5	20
+-
+-/* Register TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL */
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL			0x40
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_COUNT		3
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_STRIDE		4
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL_P	28
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL_S	4
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL_P	24
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL_S	4
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL_P	0
+-#define TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL_S	4
+-
+-/*
+- * Values for:
+- * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA2_SEL
+- * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_SDATA1_SEL
+- * TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL_DAC_CLK_SEL
+- */
+-#define TEGRA20_DAS_DAC_SEL_DAP1	0
+-#define TEGRA20_DAS_DAC_SEL_DAP2	1
+-#define TEGRA20_DAS_DAC_SEL_DAP3	2
+-#define TEGRA20_DAS_DAC_SEL_DAP4	3
+-#define TEGRA20_DAS_DAC_SEL_DAP5	4
+-
+-/*
+- * Names/IDs of the DACs/DAPs.
+- */
+-
+-#define TEGRA20_DAS_DAP_ID_1 0
+-#define TEGRA20_DAS_DAP_ID_2 1
+-#define TEGRA20_DAS_DAP_ID_3 2
+-#define TEGRA20_DAS_DAP_ID_4 3
+-#define TEGRA20_DAS_DAP_ID_5 4
+-
+-#define TEGRA20_DAS_DAC_ID_1 0
+-#define TEGRA20_DAS_DAC_ID_2 1
+-#define TEGRA20_DAS_DAC_ID_3 2
+-
+-struct tegra20_das {
+-	struct device *dev;
+-	struct regmap *regmap;
+-};
+-
+-/*
+- * Terminology:
+- * DAS: Digital audio switch (HW module controlled by this driver)
+- * DAP: Digital audio port (port/pins on Tegra device)
+- * DAC: Digital audio controller (e.g. I2S or AC97 controller elsewhere)
+- *
+- * The Tegra DAS is a mux/cross-bar which can connect each DAP to a specific
+- * DAC, or another DAP. When DAPs are connected, one must be the master and
+- * one the slave. Each DAC allows selection of a specific DAP for input, to
+- * cater for the case where N DAPs are connected to 1 DAC for broadcast
+- * output.
+- *
+- * This driver is dumb; no attempt is made to ensure that a valid routing
+- * configuration is programmed.
+- */
+-
+-/*
+- * Connect a DAP to a DAC
+- * dap_id: DAP to connect: TEGRA20_DAS_DAP_ID_*
+- * dac_sel: DAC to connect to: TEGRA20_DAS_DAP_SEL_DAC*
+- */
+-extern int tegra20_das_connect_dap_to_dac(int dap, int dac);
+-
+-/*
+- * Connect a DAP to another DAP
+- * dap_id: DAP to connect: TEGRA20_DAS_DAP_ID_*
+- * other_dap_sel: DAP to connect to: TEGRA20_DAS_DAP_SEL_DAP*
+- * master: Is this DAP the master (1) or slave (0)
+- * sdata1rx: Is this DAP's SDATA1 pin RX (1) or TX (0)
+- * sdata2rx: Is this DAP's SDATA2 pin RX (1) or TX (0)
+- */
+-extern int tegra20_das_connect_dap_to_dap(int dap, int otherdap,
+-					  int master, int sdata1rx,
+-					  int sdata2rx);
+-
+-/*
+- * Connect a DAC's input to a DAP
+- * (DAC outputs are selected by the DAP)
+- * dac_id: DAC ID to connect: TEGRA20_DAS_DAC_ID_*
+- * dap_sel: DAP to receive input from: TEGRA20_DAS_DAC_SEL_DAP*
+- */
+-extern int tegra20_das_connect_dac_to_dap(int dac, int dap);
+-
+-#endif
 
-Regards,
-Kartik
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+2.36.1
+
