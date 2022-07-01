@@ -2,64 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47027562DEA
-	for <lists+linux-tegra@lfdr.de>; Fri,  1 Jul 2022 10:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8559562DF3
+	for <lists+linux-tegra@lfdr.de>; Fri,  1 Jul 2022 10:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233510AbiGAIWt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 1 Jul 2022 04:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48852 "EHLO
+        id S233056AbiGAIWr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 1 Jul 2022 04:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234620AbiGAIWB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Jul 2022 04:22:01 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6950F70E64
-        for <linux-tegra@vger.kernel.org>; Fri,  1 Jul 2022 01:21:35 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id 136so1764820pfy.10
-        for <linux-tegra@vger.kernel.org>; Fri, 01 Jul 2022 01:21:35 -0700 (PDT)
+        with ESMTP id S236177AbiGAIW2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Jul 2022 04:22:28 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DD872EC9
+        for <linux-tegra@vger.kernel.org>; Fri,  1 Jul 2022 01:21:43 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id jb13so1699779plb.9
+        for <linux-tegra@vger.kernel.org>; Fri, 01 Jul 2022 01:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bNEnKpORd3QNjxmd6zUBrP8J5Frzy4cYVk636zNrdD0=;
-        b=NInfjvO3HxDbJt56x0UYfx+nwvC1lR93+qkcsX05NDwK5rNzTDLLw03Y/CGBpgN+0F
-         42bNNL8xJYwDLGgG/Ykhb8FwLm9q44K+YQeq6yGhoul+TvAZIvJZ7fQBSlgtSReLl3hU
-         UrohJgZTbFVwxMOKGPQND7n6nVnq9+w0OMtzOM42N5ghKCaZN1xZ26FNFO61XNMS8jtc
-         BfouMkbIzHbqaFMUQ0VLJub2rcav1Tnbg61uO893IIz0TTAd/So5sl/RDnLNuponV8Xn
-         JQls62z6q0j1+ZvbzjXnFLzpiXo9QPhYOkKiSEq1lrbPT8fdvwRte6cDj0li4Wkh9Xp4
-         0V7w==
+        bh=MkV+K20z+SrLBFTmdhzZDzVO0y1dFuzDvpTTKeDqBqE=;
+        b=yzdRH8X6v7XjVbWCRmhQya6HuMcF5QDs3XhGwV0qUuOVC7N9Vjw37/iNdrHs/HUQxV
+         y74PcIn1/3l0cSSs8nvADtawNuwHVw24Tj5pE/Y5YZ/SrnAIiyn37VtRAcWc6F2VTdPH
+         Og0S9HJ7/t0sSbyZOabJ8szydSfhBN26udvPspUSGWc7QC1l21GFd2nWHe4uU2zGABcy
+         0llFeMCk2bCaTiH50HqxyLUS9wHn05ko/MYu3aAaOjbdab2MHDn8azhy3W61Sn1Fk7xe
+         itPeaif5tkizyseanEr7m+J/gTbum7xOL3kVh0NZeeo1JdU5dV1hpkdf8pt99F63mI9/
+         p9JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bNEnKpORd3QNjxmd6zUBrP8J5Frzy4cYVk636zNrdD0=;
-        b=NChjUiwOtLu7XKWJkXN9Wrf6pICILj8LvukEtbUIjux+B5nTUUtN6UjbDOW3jpRErO
-         PDNO2M4IYL/HcAhmZzOHaKYHvy5tlut6Cflbnv/0vc132V4iLvzQFr5zLidX76AuzHdN
-         AU0EedTWVft+VVE/J0JDOBbIm3P13vRQiqjrpDAqLQEHq11EmGBBDN4TKiw4+vDA+2eH
-         4Y2GdX8FMNffPvka3JprhgwxE6dvbD1WiqLLfR11b3xnHnwJIh58Cykh2gjjJM/ZLo4Q
-         q0dzV6MQ9ynTYlT1AG9IM7tActcnrni7BiwWnkorQ+7ywHZq8ZTC6hnJjDQ/TwUw1SBO
-         EIag==
-X-Gm-Message-State: AJIora/pw8gRvWZmm9aG0mUDO0zzqEdpkSHvqfncRovklFPhqeT1YX1A
-        BfPwjD+hfvFV/NsPftPQupnN2A==
-X-Google-Smtp-Source: AGRyM1uYcdqOf+57d5/HlFxYYKsxbNuIuRKJ9aqdI/aVgWcgYUkw2wQLaX4vKBZMZrBpE8TsLtScWA==
-X-Received: by 2002:a05:6a00:a12:b0:527:dba9:c416 with SMTP id p18-20020a056a000a1200b00527dba9c416mr15334406pfh.33.1656663695136;
-        Fri, 01 Jul 2022 01:21:35 -0700 (PDT)
+        bh=MkV+K20z+SrLBFTmdhzZDzVO0y1dFuzDvpTTKeDqBqE=;
+        b=VbL8uROcEMgJlf19MB8VWLVyyuc9D03Z2Hh4KxLDHk+YHtjvlFfg/tlL6VK9fSldx8
+         0EAuchGYzySXmmyOe52aOundpy+tCroboTSVzOJ9LRmSgOV5QPZex6gQYyfqC60nXfRf
+         QkJVdMIciDA7E/tLPCS/bX39kQbX4sMt0qxRXZuJaFgUQrjddKB3ZNnIZM7S7qYyirJ+
+         8rGdD5y7Kjxdv8z/ZaEKND1cV+TM9hvz3/87stLCCfEid9WEg8VLVYIOWIb1aJv8xK18
+         22ApI0h+BRYvkLl3pQ874VPUftPumQzM8g2tSlmqVEzHCX7WF73gBoZhmmEHVAkzFQd+
+         Ht9A==
+X-Gm-Message-State: AJIora9QwPLSSZr7p/po1oDewFegO4CvkHrCg23Oyk7frqQmJ3Ha/m6V
+        R1tupc4aS8whibbJASb1inP0yw==
+X-Google-Smtp-Source: AGRyM1u79Bc2S58wPQPdFbJkDACJ+sZ7/b/+tANdARi2YjYY5IPeQwazkB2h7rZACs0vqq6yAt9e4Q==
+X-Received: by 2002:a17:902:db08:b0:16a:4b7e:af5f with SMTP id m8-20020a170902db0800b0016a4b7eaf5fmr19884988plx.143.1656663703361;
+        Fri, 01 Jul 2022 01:21:43 -0700 (PDT)
 Received: from localhost ([122.172.201.58])
-        by smtp.gmail.com with ESMTPSA id o12-20020a170902d4cc00b0016a3f9e4865sm15039024plg.148.2022.07.01.01.21.34
+        by smtp.gmail.com with ESMTPSA id j8-20020a17090a318800b001ed2fae2271sm3331446pjb.31.2022.07.01.01.21.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 01:21:34 -0700 (PDT)
+        Fri, 01 Jul 2022 01:21:43 -0700 (PDT)
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
         Vincent Guittot <vincent.guittot@linaro.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
         Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH V2 18/30] memory: tegra: Migrate to dev_pm_opp_set_config()
-Date:   Fri,  1 Jul 2022 13:50:13 +0530
-Message-Id: <74e3e4c6f63ea155aebd1c113d99e39bc2f8fd80.1656660185.git.viresh.kumar@linaro.org>
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V2 21/30] soc/tegra: Add comment over devm_pm_opp_set_clkname()
+Date:   Fri,  1 Jul 2022 13:50:16 +0530
+Message-Id: <b19a02422cae2408f953b92ae3c46a37fba688a3.1656660185.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 In-Reply-To: <cover.1656660185.git.viresh.kumar@linaro.org>
 References: <cover.1656660185.git.viresh.kumar@linaro.org>
@@ -75,55 +74,32 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The OPP core now provides a unified API for setting all configuration
-types, i.e. dev_pm_opp_set_config().
-
-Lets start using it.
+Explain why special handling was required here, it isn't obvious at all.
 
 Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 ---
- drivers/memory/tegra/tegra124-emc.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/soc/tegra/common.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/memory/tegra/tegra124-emc.c b/drivers/memory/tegra/tegra124-emc.c
-index 908f8d5392b2..8da6baa4c369 100644
---- a/drivers/memory/tegra/tegra124-emc.c
-+++ b/drivers/memory/tegra/tegra124-emc.c
-@@ -1395,15 +1395,18 @@ static int tegra_emc_interconnect_init(struct tegra_emc *emc)
- static int tegra_emc_opp_table_init(struct tegra_emc *emc)
- {
- 	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
--	struct opp_table *hw_opp_table;
--	int err;
-+	int opp_token, err;
-+	struct dev_pm_opp_config config = {
-+		.supported_hw = &hw_version,
-+		.supported_hw_count = 1,
-+	};
+diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
+index 32c346b72635..9f3fdeb1a11c 100644
+--- a/drivers/soc/tegra/common.c
++++ b/drivers/soc/tegra/common.c
+@@ -108,6 +108,13 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
+ 	u32 hw_version;
+ 	int err;
  
--	hw_opp_table = dev_pm_opp_set_supported_hw(emc->dev, &hw_version, 1);
--	err = PTR_ERR_OR_ZERO(hw_opp_table);
--	if (err) {
--		dev_err(emc->dev, "failed to set OPP supported HW: %d\n", err);
-+	err = dev_pm_opp_set_config(emc->dev, &config);
-+	if (err < 0) {
-+		dev_err(emc->dev, "failed to set OPP config: %d\n", err);
- 		return err;
- 	}
-+	opp_token = err;
- 
- 	err = dev_pm_opp_of_add_table(emc->dev);
++	/*
++	 * For some devices we don't have any OPP table in the DT, and in order
++	 * to use the same code path for all the devices, we create a dummy OPP
++	 * table for them via this call. The dummy OPP table is only capable of
++	 * doing clk_set_rate() on invocation of dev_pm_opp_set_rate() and
++	 * doesn't provide any other functionality.
++	 */
+ 	err = devm_pm_opp_set_clkname(dev, NULL);
  	if (err) {
-@@ -1430,7 +1433,7 @@ static int tegra_emc_opp_table_init(struct tegra_emc *emc)
- remove_table:
- 	dev_pm_opp_of_remove_table(emc->dev);
- put_hw_table:
--	dev_pm_opp_put_supported_hw(hw_opp_table);
-+	dev_pm_opp_clear_config(opp_token);
- 
- 	return err;
- }
+ 		dev_err(dev, "failed to set OPP clk: %d\n", err);
 -- 
 2.31.1.272.g89b43f80a514
 
