@@ -2,109 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E287563F97
-	for <lists+linux-tegra@lfdr.de>; Sat,  2 Jul 2022 13:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 538225643B3
+	for <lists+linux-tegra@lfdr.de>; Sun,  3 Jul 2022 05:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232272AbiGBLHy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 2 Jul 2022 07:07:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
+        id S230392AbiGCD0a (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 2 Jul 2022 23:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232131AbiGBLHw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Jul 2022 07:07:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E4015A23;
-        Sat,  2 Jul 2022 04:07:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D0C8FB81D65;
-        Sat,  2 Jul 2022 11:07:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12272C341CF;
-        Sat,  2 Jul 2022 11:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656760068;
-        bh=MUtQumptp1S/XDH3DSm7yGwg6amST7HBoH5oOaTodtw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rZOBBQfHQAfaDPDZTrfoZWmJyP+X7FYFjcgB0pE7CCFFDQQVM6gdwmRjfyKWuptVW
-         +xanstIS4FDR7LkZyhSt2f5/mWmtZbaf1r7rnojJ4hRNP3srJOMXYM8feMsB+7GUJT
-         oVFnOKPQj9C4gihRlVjPpEzi6//Cju8UesjMNBlM4L2xQ4gOphowDZQTVZXd52vVz9
-         /2LDAlT1VWJ5ddJDz170pesDwCQWouNTDiW8xh8rewCBRJ2H2CScNCSbdVIx0xn6jT
-         bLK8uA7IIaSPFTGSD/YfYiq0t9TXvg1bx070UUn6Srrr0SBdSwIobVSLcq6CLu4+h6
-         Thhroy1iqNPlQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
-        (envelope-from <mchehab@kernel.org>)
-        id 1o7ayX-007gru-KO;
-        Sat, 02 Jul 2022 12:07:45 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        with ESMTP id S229486AbiGCD02 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Jul 2022 23:26:28 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF1B9FC3;
+        Sat,  2 Jul 2022 20:26:22 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id fz10so139247pjb.2;
+        Sat, 02 Jul 2022 20:26:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/LE3/OvnxwC10hHaqp2JoOJSN7rfZOpUu2WCyCiyCz4=;
+        b=Augt3VIV/iWcoU+DHx6Yl7vroOm9Hwz+XtZe2jvyXkhsx95p/JLAo0xcEd6ix1ZIVf
+         qIfg68MUyw+xLjl2gBsPYsbv6l3jY94RzOJD92gb6rxdLTyy5Av/dXPYvA/EXIhLOtLz
+         svOqPB75mbgpDTnbuNTXc8rdS2DrehpRBgIiYcfLEACt56jQqPD4OYEXOr+iSon97xBH
+         KYxD4XfgTiHC/xmDNEPOFfPpT2EHhts4G6H0Pm0fJr3aoQ7VOuwkBeKtFwd1B4K1k9D/
+         GdNdQLrWNIKMTC9YgyvhuIjL+GirhGz9Rbn2DEPjhAWabLVNFd+wt0MxRzds1x2rF4/L
+         8aeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/LE3/OvnxwC10hHaqp2JoOJSN7rfZOpUu2WCyCiyCz4=;
+        b=hSqHn4/XX/P/1YE7EvPtr7Y+Gdsa1DIREWmnADK9NoQy99dUPWRtADeOmp8jV5NVib
+         WBnRteh9EbmYjsDyBRgK8MiOR/LL3MxloBDohF3ox6rX4Ywo29ftvJkN0cTn84sWVVP4
+         evQ/7KuPFaoOm6FTu1uGu6I4xfvA0YhJzAftMKvnnOMhvyMr+B+rSXsMCAuMHgDTUq0a
+         D60ZfydIqmFzEmlgQ99aOyFFJ66m35ObaZ2GcAZoDMLIiTzcRoL06Qy/4yrpQ0pkevKi
+         OrInWrB1W2JRoNrczCaKDgYwbnqHFMS7bK1d1RvhMkjJURkI2ulbJ1mbG3IgRfR4mwHX
+         tBtA==
+X-Gm-Message-State: AJIora9XIOW8cd/kwEIuBr8xZHO3SqObbMGFfCEDNVp09OqOPg7BXXUf
+        ScwRSq1f3RsApXnEAA2R9+hy4tQUFJpMcg==
+X-Google-Smtp-Source: AGRyM1v/qGK0NX2/G7uiSvuhmywhBxQ+rRzGPCB7tQOWN8p4Gfx3qW4Qvkfllc0ImMReMYjkXPk5jA==
+X-Received: by 2002:a17:903:2c6:b0:16a:276a:ad81 with SMTP id s6-20020a17090302c600b0016a276aad81mr29074812plk.65.1656818782428;
+        Sat, 02 Jul 2022 20:26:22 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-33.three.co.id. [116.206.28.33])
+        by smtp.gmail.com with ESMTPSA id u17-20020a170902e81100b0016a0db8c5b4sm1866809plg.156.2022.07.02.20.26.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jul 2022 20:26:21 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id EA78810390C; Sun,  3 Jul 2022 10:26:16 +0700 (WIB)
+Date:   Sun, 3 Jul 2022 10:26:16 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Alasdair Kergon <agk@redhat.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Brendan Higgins <brendanhiggins@google.com>,
         Dipen Patel <dipenp@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 02/12] docs: tegra194-hte.rst: don't include gpiolib.c twice
-Date:   Sat,  2 Jul 2022 12:07:34 +0100
-Message-Id: <de81b472f552bd651f140f0aa779a29652fffa62.1656759989.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656759988.git.mchehab@kernel.org>
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Mike Snitzer <snitzer@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Takashi Iwai <tiwai@suse.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        alsa-devel@alsa-project.org, dm-devel@redhat.com,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 00/12] Fix several documentation build warnings with
+ Sphinx 2.4.4
+Message-ID: <YsEMWDYCdjxiUZ1P@debian.me>
 References: <cover.1656759988.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cover.1656759988.git.mchehab@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-All extern functions of drivers/gpio/gpiolib.c are already
-inside the Kernel documentation, as driver-api/gpio/index.rst
-already includes it.
+On Sat, Jul 02, 2022 at 12:07:32PM +0100, Mauro Carvalho Chehab wrote:
+> This series is against next-20220701. It fixes several warnings
+> that are currently produced while building html docs.
+> 
+> Each patch in this series is independent from the others, as
+> each one touches a different file.
+> 
+> Mauro Carvalho Chehab (12):
+>   docs: ext4: blockmap.rst: fix a broken table
+>   docs: tegra194-hte.rst: don't include gpiolib.c twice
+>   docs: device-mapper: add a blank line at writecache.rst
+>   docs: PCI: pci-vntb-function.rst: Properly include ascii artwork
+>   docs: PCI: pci-vntb-howto.rst: fix a title markup
+>   docs: virt: kvm: fix a title markup at api.rst
+>   docs: ABI: sysfs-bus-nvdimm
+>   kunit: test.h: fix a kernel-doc markup
+>   net: mac80211: fix a kernel-doc markup
+>   docs: alsa: alsa-driver-api.rst: remove a kernel-doc file
+>   docs: arm: index.rst: add google/chromebook-boot-flow
+>   docs: leds: index.rst: add leds-qcom-lpg to it
+> 
 
-Placing a kernel-doc here will only cause mess, as the same symbol
-will be placed on two parts of the document, causing breakages
-in cross-references.
+Hi Mauro,
 
-So, instead, add a cross-reference there.
+Thanks for cleaning up these warning above. However, I have already
+submitted some of these cleanups (pending reviews or integration):
 
-This solves those Sphinx 3.1+ warnings:
-    .../Documentation/driver-api/hte/tegra194-hte:28: ./drivers/gpio/gpiolib.c:2464: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2464.
-    .../Documentation/driver-api/hte/tegra194-hte:28: ./drivers/gpio/gpiolib.c:2493: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2493.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2464: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2464.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2464: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2464.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2464: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2464.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2493: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2493.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2493: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2493.
-    .../Documentation/driver-api/hte/tegra194-hte.rst:2493: WARNING: Duplicate C declaration, also defined at driver-api/gpio/index:2493.
+[1]: https://lore.kernel.org/linux-doc/20220702042350.23187-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
+[3]: https://lore.kernel.org/linux-doc/20220627095151.19339-1-bagasdotme@gmail.com/
+[4]: https://lore.kernel.org/linux-doc/20220627082928.11239-1-bagasdotme@gmail.com/
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+There's still a warning left:
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
+Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
 
- Documentation/driver-api/hte/tegra194-hte.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+But I think the Date: field that triggered the warning above looks OK.
 
-diff --git a/Documentation/driver-api/hte/tegra194-hte.rst b/Documentation/driver-api/hte/tegra194-hte.rst
-index d29b7fe86f31..f2d617265546 100644
---- a/Documentation/driver-api/hte/tegra194-hte.rst
-+++ b/Documentation/driver-api/hte/tegra194-hte.rst
-@@ -25,8 +25,7 @@ and userspace consumers. The kernel space consumers can directly talk to HTE
- subsystem while userspace consumers timestamp requests go through GPIOLIB CDEV
- framework to HTE subsystem.
- 
--.. kernel-doc:: drivers/gpio/gpiolib.c
--   :functions: gpiod_enable_hw_timestamp_ns gpiod_disable_hw_timestamp_ns
-+See gpiod_enable_hw_timestamp_ns() and gpiod_disable_hw_timestamp_ns().
- 
- For userspace consumers, GPIO_V2_LINE_FLAG_EVENT_CLOCK_HTE flag must be
- specified during IOCTL calls. Refer to ``tools/gpio/gpio-event-mon.c``, which
+Regardless of that, the build successed.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
 -- 
-2.36.1
-
+An old man doll... just what I always wanted! - Clara
