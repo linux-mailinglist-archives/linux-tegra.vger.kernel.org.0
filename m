@@ -2,145 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6799456713C
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Jul 2022 16:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9294E5677A6
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Jul 2022 21:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233320AbiGEOf7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Jul 2022 10:35:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33078 "EHLO
+        id S230225AbiGETTF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Jul 2022 15:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232521AbiGEOf5 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Jul 2022 10:35:57 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF6C5FD3;
-        Tue,  5 Jul 2022 07:35:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LWPGxBMu4rvTPjcOrggRmA0Doh0GdEzB60SqSO1OPa24zB8MZECkRk0xNmR07UICqtNbwIbO64ftV3uo5juVaewR4ty2yp7WRjsOp1WNj1q6HkiWiysyTejm7PE49BY3jYradq2+pTcGdO4ti6TV3AcZwm4oM+LvO6gvZumiWVFpposdGW56M7fP4ptBKRUIzKlX9RCnosjC9jFaWlcA042twLtbgcBN5AdmO6LHXU8uQyJEq+fdeb1Qp5gFaG42+V0fzfRhOXN0J03qMxAj9ZoAPhlU+ex8XxkL4kTags4127c+jIn98bvv4SRH7/tG7B6zIJc2jKvlXfLkn18Wcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=waCDcD42TmtCFGYE+fbRGXCLEtBn2mqjaQAyCEX5CxA=;
- b=nBSmO7kxh5webnQkv2BkEL6AncDHMvh8M0nrrK25undDE8OZuAhtKQ33gR7VIrpxsF0hm19Y09NA9QUD0wWQWYX4s6YjIBGqQDOX2GPDtVeZBj89i1OO494JN5Lw20LJ/HKF4aiHyYgtDTifd2oeXj3rFSH7ffLNfXI06lS4SBTssnlei7ESO6yOrYz8Ga+LUJFA7n/Idjn0jm6kfSZtv4YjtI3KLah36umWx12JJIwqPBqMfD7uUSXRRzd0FP/pykXhfabf1qR7KtMQsJjyss7pVew71jbMxu1nYgW3scEqs+LftNDCaDCD3grqqHigjgQ+HLaWxjTqZcxoax3kAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=waCDcD42TmtCFGYE+fbRGXCLEtBn2mqjaQAyCEX5CxA=;
- b=OUSvMgp1P0xa5Pm2YZwpG/mxYK6CbpkMBzDgp+ig6noZDSbgedxY15KV4W2rQw3XS++c70S1tdXtvlLWpq0EYra/gSNaIJ+LjqV744kOSXE11M1jPc7w/0RJNgumT9r3p3ICk5IVvFgRoLsq995TOLcusp7Z/gNVH/9SWRq6mCIi1wYwJHjxP+IDdPCa1SU+oecIacUsFsqhv4DDv34TXKEs0mOcn468ZpomuCd9dTCfBWk6WnYUOA0TyylGDJMR75MRg1Ttt2uHgH0XWB3yymyey3CoYOWn/svQzAFAQ0Cm28xBy1pRdz8ntDIPEFlXxwbpJKmQlDyhJSYcswGS7w==
-Received: from BN9PR03CA0473.namprd03.prod.outlook.com (2603:10b6:408:139::28)
- by MN2PR12MB3855.namprd12.prod.outlook.com (2603:10b6:208:167::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.18; Tue, 5 Jul
- 2022 14:35:54 +0000
-Received: from BN8NAM11FT051.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:139:cafe::59) by BN9PR03CA0473.outlook.office365.com
- (2603:10b6:408:139::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15 via Frontend
- Transport; Tue, 5 Jul 2022 14:35:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- BN8NAM11FT051.mail.protection.outlook.com (10.13.177.66) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5395.14 via Frontend Transport; Tue, 5 Jul 2022 14:35:54 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL101.nvidia.com (10.27.9.10) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Tue, 5 Jul 2022 14:35:53 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Tue, 5 Jul 2022 07:35:53 -0700
-Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Tue, 5 Jul 2022 07:35:53 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <stable@vger.kernel.org>, <torvalds@linux-foundation.org>,
-        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
-        <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
-        <sudipm.mukherjee@gmail.com>, <slade@sladewatkins.com>,
-        <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.18 000/102] 5.18.10-rc1 review
-In-Reply-To: <20220705115618.410217782@linuxfoundation.org>
-References: <20220705115618.410217782@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-MIME-Version: 1.0
-Message-ID: <2ffcc794-60cb-4465-aab5-f5cad7695b86@drhqmail202.nvidia.com>
-Date:   Tue, 5 Jul 2022 07:35:53 -0700
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7906f34e-bd7a-4b17-a902-08da5e93aacf
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3855:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RkiQDxVmh2nEKKu5BqU+ISyQ2Dj17RdbdMkxFHpPK5Sle8XKxmkY++PiXgvpW9gLgOKpJyWCEN1ldNn4wsb3WA4cQ9BoAbDKYzfmThfy/pntnCUGBoehBptd7HajEsN41K4wtsbaGBAh0yL655rHWkG4aFkSveGiGivzJlzZx7yv5Vqx/zfhsYt7LhyfjzxpCQdMr9oudzCNFP8DBRXZb19ISvpOoLu1wCIVfqrlmtZX87++BTLP0AsLA6W9KCjIVG7UwvJ6j4VCJC08QkxpPv8XRsbk3Gi3rhAGWcQjNq/bhXrpH8Yupt7rU3Z4ZsaTnoyZljwmT8xIZwlWMIongeTDp9yEE1CD/x4YW4R7rMt2xZbBxKM1wB+1XxgLF6rNM7W9+NY3EzWCNsLY+PaULuTOFrpzuZJiExyZP0Qy/XEDe//6UwyFwVnmEf79nYrSgu7CVv1ZrLUyqTrOfyzMkVq3hpXiQWWxrg+nUhpXzYwYIzsa9bvMkn/WhIxME/ilWl+52ShUFaP//NFDzq0x0WUN2pdh6RGqs87eNmxtRYvScSwrZgV/8Jr6LU0PN49tpthGLQnVj4eG96lM0LWf5HJi/lmFpX9pP/tIDrGE01FrMzPt5D59fKlP5TtmZS63ebZZWe2BBeWX9HK6JB3T+y+iCRTzuO6wMDAYqvs0U+tLFLQ764QB4GfqRDYB85JLp+aS1qk/wpDIyt+ypvwLsV4ARRWWq2XLlNqRH/9unYWf4i62YPWrbhRD5Qki8aBu4Tm1Rj/4utiSV4YJpLHVqn3ZH3T6LMQEORiRlYS0bqMz6Mj41GfUalTRlwH/jRplTK/iPE4T3AMc0V6/s6ipzGi4nGz+6xJ1sbi8TMNgJp9S8vlvGadIT0Lkd/Cz8A0dno0w3zm0LhAQWvFdtrlrjv+9GWIIVPFjWxJuukyi6i6OmXcC3BwNNOHlQ+g2DSUu
-X-Forefront-Antispam-Report: CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(376002)(346002)(396003)(40470700004)(46966006)(36840700001)(8936002)(7416002)(81166007)(426003)(5660300002)(54906003)(4326008)(8676002)(70206006)(70586007)(86362001)(41300700001)(82310400005)(31696002)(6916009)(356005)(316002)(47076005)(36860700001)(186003)(26005)(40460700003)(2906002)(40480700001)(966005)(31686004)(82740400003)(336012)(478600001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 14:35:54.3567
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7906f34e-bd7a-4b17-a902-08da5e93aacf
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT051.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3855
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233703AbiGETTD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Jul 2022 15:19:03 -0400
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32111EC47;
+        Tue,  5 Jul 2022 12:19:00 -0700 (PDT)
+Received: by mail-il1-f178.google.com with SMTP id p13so7902817ilq.0;
+        Tue, 05 Jul 2022 12:19:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=HkWyYi1Y3vFcT2PDs2Eyw+VTCUEaA7uXAXTuzJrLtsY=;
+        b=LJGGyeG0BxRmTDDsoiUfYnY3KhooIScF00dAShy/Henxzt+59Nep6K4n/Xg676OlD1
+         6/hKEN+bNHqygNEgoQ02iKL8ghU3K//HGGUOEc2BoBSqNAZ2efeqSonYB84EKZpew68S
+         JsgJcDkuzwmB/4/FrKfb/afO5fSuCw3fM/P7VYNzEJQkwTyMeiftCu6E4zyW5VU/J+r+
+         chGlWgaSG/g3ZdXchRzRSLjqg2kLLlcX5U5mo3DTCzxvWhSY7a1H8HvVP5qX31aQWPxx
+         UFilp7w3nEM1wuF+ffd/VcdoQNrwYgH4TE5BnUMElB31x76apUzDwDL+TaqR+fF9Z9EZ
+         vpbw==
+X-Gm-Message-State: AJIora/SGS4RcwjlX5wRhbzDl/tj8GcLs3YA7ucxWuc1qhxk+6Ze96Ud
+        JC7ewoOgkigh+rbXBGNqz46KcxPGOQ==
+X-Google-Smtp-Source: AGRyM1vdzd9ImcLTIEnKAzJRYqtQ2TsGIfLnVMJa6Wx/iz9Q52vAZPVFFCMS7A72EzjGf+XbRGSpwA==
+X-Received: by 2002:a05:6e02:18c9:b0:2da:da9d:2ab1 with SMTP id s9-20020a056e0218c900b002dada9d2ab1mr17158155ilu.90.1657048739720;
+        Tue, 05 Jul 2022 12:18:59 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id bm13-20020a05663842cd00b0032ead96ee5csm14880002jab.165.2022.07.05.12.18.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 12:18:59 -0700 (PDT)
+Received: (nullmailer pid 2471228 invoked by uid 1000);
+        Tue, 05 Jul 2022 19:18:57 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Janne Grunau <j@jannau.net>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>, asahi@lists.linux.dev,
+        Will Deacon <will@kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>,
+        iommu@lists.linux-foundation.org,
+        Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220705130652.433496-1-thierry.reding@gmail.com>
+References: <20220705125834.431711-2-thierry.reding@gmail.com> <20220705130652.433496-1-thierry.reding@gmail.com>
+Subject: Re: [PATCH v7] dt-bindings: reserved-memory: Document iommu-addresses
+Date:   Tue, 05 Jul 2022 13:18:57 -0600
+Message-Id: <1657048737.387965.2471227.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 05 Jul 2022 13:57:26 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.18.10 release.
-> There are 102 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On Tue, 05 Jul 2022 15:06:52 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Responses should be made by Thu, 07 Jul 2022 11:55:56 +0000.
-> Anything received after that time might be too late.
+> This adds the "iommu-addresses" property to reserved-memory nodes, which
+> allow describing the interaction of memory regions with IOMMUs. Two use-
+> cases are supported:
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.18.10-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.18.y
-> and the diffstat can be found below.
+>   1. Static mappings can be described by pairing the "iommu-addresses"
+>      property with a "reg" property. This is mostly useful for adopting
+>      firmware-allocated buffers via identity mappings. One common use-
+>      case where this is required is if early firmware or bootloaders
+>      have set up a bootsplash framebuffer that a display controller is
+>      actively scanning out from during the operating system boot
+>      process.
 > 
-> thanks,
+>   2. If an "iommu-addresses" property exists without a "reg" property,
+>      the reserved-memory node describes an IOVA reservation. Such memory
+>      regions are excluded from the IOVA space available to operating
+>      system drivers and can be used for regions that must not be used to
+>      map arbitrary buffers.
 > 
-> greg k-h
+> Each mapping or reservation is tied to a specific device via a phandle
+> to the device's device tree node. This allows a reserved-memory region
+> to be reused across multiple devices.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v7:
+> - keep reserved-memory.txt to avoid broken references
+> 
+> Changes in v6:
+> - add device phandle to iommu-addresses property in examples
+> - remove now unused dt-bindings/reserved-memory.h header
+> ---
+>  .../reserved-memory/reserved-memory.yaml      | 62 +++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+> 
 
-All tests passing for Tegra ...
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Test results for stable-v5.18:
-    10 builds:	10 pass, 0 fail
-    28 boots:	28 pass, 0 fail
-    130 tests:	130 pass, 0 fail
+yamllint warnings/errors:
 
-Linux version:	5.18.10-rc1-g7622cfa48fbd
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
-                tegra20-ventana, tegra210-p2371-2180,
-                tegra210-p3450-0000, tegra30-cardhu-a04
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:22.7-45: Warning (reg_format): /reserved-memory/framebuffer@90000000:reg: property has invalid length (16 bytes) (#address-cells == 2, #size-cells == 1)
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:29.7-40: Warning (reg_format): /bus@0/adsp@2990000:reg: property has invalid length (16 bytes) (#address-cells == 2, #size-cells == 1)
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:34.7-42: Warning (reg_format): /bus@0/display@15200000:reg: property has invalid length (16 bytes) (#address-cells == 2, #size-cells == 1)
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:9.5-12: Warning (ranges_format): /reserved-memory:ranges: empty "ranges" property but its #size-cells (1) differs from / (2)
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:27.9-37.5: Warning (unit_address_vs_reg): /bus@0: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:21.30-24.7: Warning (avoid_default_addr_size): /reserved-memory/framebuffer@90000000: Relying on default #address-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:21.30-24.7: Warning (avoid_default_addr_size): /reserved-memory/framebuffer@90000000: Relying on default #size-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:28.24-31.7: Warning (avoid_default_addr_size): /bus@0/adsp@2990000: Relying on default #address-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:28.24-31.7: Warning (avoid_default_addr_size): /bus@0/adsp@2990000: Relying on default #size-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:33.27-36.7: Warning (avoid_default_addr_size): /bus@0/display@15200000: Relying on default #address-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:33.27-36.7: Warning (avoid_default_addr_size): /bus@0/display@15200000: Relying on default #size-cells value
+Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: /: bus@0: 'anyOf' conditional failed, one must be fixed:
+	'reg' is a required property
+	'ranges' is a required property
+	From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/root-node.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: /: 'compatible' is a required property
+	From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/root-node.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dtb: /: 'model' is a required property
+	From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/root-node.yaml
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+doc reference errors (make refcheckdocs):
 
-Jon
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
