@@ -2,132 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBFD56A66B
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Jul 2022 16:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2525756A85D
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Jul 2022 18:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236303AbiGGO7Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Jul 2022 10:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51482 "EHLO
+        id S236257AbiGGQhL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Jul 2022 12:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235905AbiGGO6a (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Jul 2022 10:58:30 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2041.outbound.protection.outlook.com [40.107.100.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33855EE09;
-        Thu,  7 Jul 2022 07:58:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GtLVqnBGqaeCseCann+SI6YDwhXEZZgO4fQfp/4qcNrm6Q/1c2vKUu+rlR6T8ilNUyJ2oa6mZDLpZHsMgG7teN3gJCJ4fN2Pps1GjBRARvwz8r1fZ3PvQOOeFYcckmYoa/n6V4g/23/pDt9zt2kAxTjV42gnnaktAXu339QCIUis6uLNktnqQpNmtg3OtxWDSF3Pr9JMC0Wn/Xd/Jr07qfSHKkBUv3N72JbkkmA2277MEOVlpg2HdlBtJeqCJH3G5R7u3tXNL6IRH6U7aLlQohYQW26PSLBUMVk2Xf5YL9mcRTW2EREQKizEFKf/7wxc7mpYeUINYCGX/l8CzypvOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aKaN6pvpVpwweBaOWKIO1cQXLDmdSqz/d1GUIdn3rBg=;
- b=RWR8/fIB5CiFVDgjVca/FS5S4wViNFB1lNdeQA2mjNEqVEscA7AeE3bXh6zKryff1IF4tO/1U6rh3ZzTXc/D1FqrCVQ4zVmxuTl6LeD8dpqM/NqldGH/CzL8vxAWpqnJGr0UjjlpmAd6zHGtdZPU20JnxmOAMqF4es2X0wPesnpKDyCbpDRKM1t6Wkr4AOdIPWerrWu1qdrEk8kaQzAm6y83wNetI3GPBAFvIClpDLlAc6qLqNsPe5W1cKAOQ9bLOeGZGsCyzUHANLxCKNiWvwLfOD4nNQVYTiIa4T9KZEEjtiIwYVBpL1pBnjQMNpFeHQPU+QzkTg/ejvHD3+x9WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aKaN6pvpVpwweBaOWKIO1cQXLDmdSqz/d1GUIdn3rBg=;
- b=jgh0Jd+xrIpmKZuBT1s3dyCHVQq4niCUtQGMcBKbiae6Djko20F7f/TUSezeGhwM0FK2RmoJtwEcNY1/zOlgxDqNPzhcT1MTFaGEgpTf1jgtfiw1VG7TSEWK0uCZ0SGWmQ0mJoGgKAJQObUwTVqtBtq66noT5iOmThNIkic50yopHXrV+CCdbR8hAjU4AqGM1udEmM/jLUiP00q7WyNd4RKw7x/pfaIepTH43v06oisfjd5vKvLRP6IzTNcY5m+hBeZ2EOBE6hoQKKndNoOtHXlu7fhVKtidQTfolGtbYhT8MlltS2x/8V3VPr8146/xvsUycu/OaBzP/iVz8Diapg==
-Received: from BN8PR15CA0058.namprd15.prod.outlook.com (2603:10b6:408:80::35)
- by BN8PR12MB3044.namprd12.prod.outlook.com (2603:10b6:408:45::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
- 2022 14:58:10 +0000
-Received: from BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:80:cafe::5e) by BN8PR15CA0058.outlook.office365.com
- (2603:10b6:408:80::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.21 via Frontend
- Transport; Thu, 7 Jul 2022 14:58:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT031.mail.protection.outlook.com (10.13.177.25) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 14:58:10 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Thu, 7 Jul
- 2022 14:58:09 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Thu, 7 Jul 2022
- 07:58:08 -0700
-Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.986.26 via Frontend
- Transport; Thu, 7 Jul 2022 07:58:05 -0700
-From:   Akhil R <akhilrajeev@nvidia.com>
-To:     <dmaengine@vger.kernel.org>, <jonathanh@nvidia.com>,
-        <ldewangan@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <p.zabel@pengutronix.de>,
-        <thierry.reding@gmail.com>, <vkoul@kernel.org>,
-        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>
-CC:     <akhilrajeev@nvidia.com>
-Subject: [PATCH v2 3/3] arm64: tegra: Update compatible for Tegra234 GPCDMA
-Date:   Thu, 7 Jul 2022 20:27:29 +0530
-Message-ID: <20220707145729.41876-4-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220707145729.41876-1-akhilrajeev@nvidia.com>
-References: <20220707145729.41876-1-akhilrajeev@nvidia.com>
+        with ESMTP id S236290AbiGGQhI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Jul 2022 12:37:08 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60CC564DA
+        for <linux-tegra@vger.kernel.org>; Thu,  7 Jul 2022 09:37:05 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id g126so6053893pfb.3
+        for <linux-tegra@vger.kernel.org>; Thu, 07 Jul 2022 09:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=tV06X8ZwNG1YBW7qI4+9zEQPn4cces6TNXHqdWyfoC4=;
+        b=kbGamTCBrLg0oYMpjTNMko7htfU0e7BF3RC13JW65s78vOyzbUBDgfcuvDxlAskpL0
+         4di1UMNwDc9jSx1j6TVrXpaem4bEpE6L9IfQWCoEzjTTb0aE0oawrFPaInrrvOxziQ1y
+         FALtax7m1GT5J1rv7Z6NC1vROJ145ws/dnLm/Ih6unMwnkSpBzjrDTa3YKrPnlhPxJG9
+         7YGHuMgHV05txyHNaD0HrqgyGa3o1H/uQdl4V89MzBua7O0JgrkGZiKW/iBSwbLD40y4
+         sSO4mrAtAWbY4pOkXQFM+QNmnO9ykUIN0oLQUz9w/foNqqC2y0Omgu69TZBgL3+4RU09
+         O1sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tV06X8ZwNG1YBW7qI4+9zEQPn4cces6TNXHqdWyfoC4=;
+        b=qe+pAt1DwYaBLDWRt3EFtoIrRZEM2VzuWjzmlJia05hS/7m7qgc1fQlKq0x67Y4EKQ
+         e4GMgz/R9IeNpYLCA61X8YET/6Dsvw3regK1U4kfNUoXu8KcvhVf5OFHj0d2z+uv6WqS
+         drINbUM2c6PwGLFJVQ5VPS22kjhIhkfnzBlL6HjnyKNLz/QmqM9GdrKDhICel5Z0u/Ot
+         QsFmSakW17OWMXa2r2s/5N3CWwwtr/CaAyKwG7FzhMbm1EjulvJikd8uiXodURXUhCjQ
+         JMD8h/Izq+ph5aGLN2NR3FBoOsZyN/BxBvOdVkaChJt6DxLFAoRP1pLJ+EYLrXMMfGa7
+         p63w==
+X-Gm-Message-State: AJIora+ir74zROj+5bDX9W70btlv/cPtCJt5h3UEvOxNF4SnXa2UnE6B
+        dGF9htnRB7RtasDoyMXjWwDIrA==
+X-Google-Smtp-Source: AGRyM1vzAxHVb8A5BM3cUTrB9ok+3+VShZVSqqsL9IGVRhf5PjhVblMcH7rfAoI61MaxE2OBZG+aWg==
+X-Received: by 2002:aa7:96da:0:b0:525:1752:85b with SMTP id h26-20020aa796da000000b005251752085bmr53522453pfq.63.1657211825312;
+        Thu, 07 Jul 2022 09:37:05 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id f126-20020a623884000000b0052891272298sm6048037pfa.120.2022.07.07.09.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 09:37:03 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 10:37:01 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Besar Wicaksono <bwicaksono@nvidia.com>
+Cc:     suzuki.poulose@arm.com, robin.murphy@arm.com,
+        catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, sudeep.holla@arm.com,
+        thanu.rangarajan@arm.com, Michael.Williams@arm.com,
+        treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+        mike.leach@linaro.org, leo.yan@linaro.org
+Subject: Re: [RESEND PATCH v3 0/2] perf: ARM CoreSight PMU support
+Message-ID: <20220707163701.GA2616901@p14s>
+References: <20220621055035.31766-1-bwicaksono@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e8f24ca1-f743-4f17-044e-08da60291bf2
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3044:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /6+OEw6QFAF/XsQ+k5xWWAiEs5EcpTnRdvnhzrzO8fPGoGmByZrQnjsoZ7Ux7IAmxdxhxnB71S0c0xrkmMqOspH+rYpjgZVv5t2X75X5Fe47/ZybJFoexNEjP9GVDS+JaSPpJ9kONFeYWAyVgWAP9YjxpMSuW9kwUtPeuHeYenqyTtJwrMCDWOxQHqdo9t0Uec3nb8iS5uzhkOFPX433v0o9gT/aDhwL/cef3AUqAy8AfP4afIVut+mXRVdL1e/P/LQVKzWxTJLUwLg59E3eOp5vJute1jgu42fVnuI2b8+pJc1xQVPXTHeonicQh5VawJwlP1vfTVD/jL1xHGr9pclx3kMFfVv96Ef6vlTc74LlGWTuvdK8LTSCUNi4b0sG8hFZR3oXXYp7q7MP0nitsfuysaCzGFPBSyNFLEePON/LIp08VAUFrTQ31UvlT5KG12xCUsPN+xK5j4uVeSWvea/s85k6b827vFGxqj/CA3M/FPZpPdCzIYKMtYeheYvOFMJXgRXycXXxAUZg3ukMzuNN6h1C3m52n0kK6lApRDo2Yh8Eq3QEVVrN40pR9x82rbI8cmA7f1VwI61EfcpF5rkGY5x1eOJpkio1Nkqwa23sq+FmMDxY6DW9+vCqSKTfmFWuakq3o5FC0NN+l46BwtZMUm+3iFHOxGtQ+dq0xT6UinYpVWNB4W1IFbsJwMM0NMOnCT3aGGxc7kyB1XtlnJ2YuVnhYUs23ojyPOzaqf1dOfPELNURHPr5uLYRNFKIOMZklKbmOJyofzaFqT2eWQc6ExwNO7vdI5JgLtelo1wpdcZKzr3BHu4LKqkOTSUzS7wZD7u3+1iYz+McsgTtH0WGQjzYNxKT/JncClevoqFu5pms+Bnoihny1DsLjS7D9apfJXIg+NwLD6IYFDp+8sxO+/zS/ENHcZvqqIYexXY=
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(396003)(136003)(346002)(46966006)(40470700004)(36840700001)(36860700001)(26005)(40460700003)(8936002)(7696005)(40480700001)(4744005)(1076003)(107886003)(4326008)(2616005)(8676002)(336012)(426003)(47076005)(316002)(186003)(5660300002)(110136005)(36756003)(478600001)(2906002)(41300700001)(82310400005)(6666004)(70206006)(70586007)(83380400001)(82740400003)(86362001)(921005)(356005)(81166007)(83996005)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 14:58:10.3399
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8f24ca1-f743-4f17-044e-08da60291bf2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3044
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621055035.31766-1-bwicaksono@nvidia.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use the compatible specific to Tegra234 for GPCDMA to support
-additional features.
+I will look at this patchset next week.
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Thanks,
+Mathieu
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index cf611eff7f6b..83d1ad7d3c8c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -22,8 +22,9 @@
- 		ranges = <0x0 0x0 0x0 0x40000000>;
- 
- 		gpcdma: dma-controller@2600000 {
--			compatible = "nvidia,tegra194-gpcdma",
--				      "nvidia,tegra186-gpcdma";
-+			compatible = "nvidia,tegra234-gpcdma",
-+				     "nvidia,tegra194-gpcdma",
-+				     "nvidia,tegra186-gpcdma";
- 			reg = <0x2600000 0x210000>;
- 			resets = <&bpmp TEGRA234_RESET_GPCDMA>;
- 			reset-names = "gpcdma";
--- 
-2.17.1
-
+On Tue, Jun 21, 2022 at 12:50:33AM -0500, Besar Wicaksono wrote:
+> Add driver support for ARM CoreSight PMU device and event attributes for NVIDIA
+> implementation. The code is based on ARM Coresight PMU architecture and ACPI ARM
+> Performance Monitoring Unit table (APMT) specification below:
+>  * ARM Coresight PMU:
+>         https://developer.arm.com/documentation/ihi0091/latest
+>  * APMT: https://developer.arm.com/documentation/den0117/latest
+> 
+> Notes:
+>  * There is a concern on the naming of the PMU device.
+>    Currently the driver is probing "arm-coresight-pmu" device, however the APMT
+>    spec supports different kinds of CoreSight PMU based implementation. So it is
+>    open for discussion if the name can stay or a "generic" name is required.
+>    Please see the following thread:
+>    http://lists.infradead.org/pipermail/linux-arm-kernel/2022-May/740485.html
+> 
+> The patchset applies on top of
+>   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>   master next-20220524
+> 
+> Changes from v2:
+>  * Driver is now probing "arm-system-pmu" device.
+>  * Change default PMU naming to "arm_<APMT node type>_pmu".
+>  * Add implementor ops to generate custom name.
+> Thanks to suzuki.poulose@arm.com for the review comments.
+> v2: https://lore.kernel.org/all/20220515163044.50055-1-bwicaksono@nvidia.com/
+> 
+> Changes from v1:
+>  * Remove CPU arch dependency.
+>  * Remove 32-bit read/write helper function and just use read/writel.
+>  * Add .is_visible into event attribute to filter out cycle counter event.
+>  * Update pmiidr matching.
+>  * Remove read-modify-write on PMCR since the driver only writes to PMCR.E.
+>  * Assign default cycle event outside the 32-bit PMEVTYPER range.
+>  * Rework the active event and used counter tracking.
+> Thanks to robin.murphy@arm.com for the review comments.
+> v1: https://lore.kernel.org/all/20220509002810.12412-1-bwicaksono@nvidia.com/
+> 
+> Besar Wicaksono (2):
+>   perf: coresight_pmu: Add support for ARM CoreSight PMU driver
+>   perf: coresight_pmu: Add support for NVIDIA SCF and MCF attribute
+> 
+>  arch/arm64/configs/defconfig                  |    1 +
+>  drivers/perf/Kconfig                          |    2 +
+>  drivers/perf/Makefile                         |    1 +
+>  drivers/perf/coresight_pmu/Kconfig            |   11 +
+>  drivers/perf/coresight_pmu/Makefile           |    7 +
+>  .../perf/coresight_pmu/arm_coresight_pmu.c    | 1316 +++++++++++++++++
+>  .../perf/coresight_pmu/arm_coresight_pmu.h    |  177 +++
+>  .../coresight_pmu/arm_coresight_pmu_nvidia.c  |  312 ++++
+>  .../coresight_pmu/arm_coresight_pmu_nvidia.h  |   17 +
+>  9 files changed, 1844 insertions(+)
+>  create mode 100644 drivers/perf/coresight_pmu/Kconfig
+>  create mode 100644 drivers/perf/coresight_pmu/Makefile
+>  create mode 100644 drivers/perf/coresight_pmu/arm_coresight_pmu.c
+>  create mode 100644 drivers/perf/coresight_pmu/arm_coresight_pmu.h
+>  create mode 100644 drivers/perf/coresight_pmu/arm_coresight_pmu_nvidia.c
+>  create mode 100644 drivers/perf/coresight_pmu/arm_coresight_pmu_nvidia.h
+> 
+> 
+> base-commit: 09ce5091ff971cdbfd67ad84dc561ea27f10d67a
+> -- 
+> 2.17.1
+> 
