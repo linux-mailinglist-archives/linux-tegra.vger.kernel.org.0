@@ -2,98 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABD755746F6
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 Jul 2022 10:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AACB574763
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 Jul 2022 10:42:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236955AbiGNIhD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 14 Jul 2022 04:37:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60770 "EHLO
+        id S237359AbiGNImQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 Jul 2022 04:42:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235992AbiGNIg4 (ORCPT
+        with ESMTP id S236564AbiGNImM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 14 Jul 2022 04:36:56 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708353ED75
-        for <linux-tegra@vger.kernel.org>; Thu, 14 Jul 2022 01:36:50 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id bp17so1651015lfb.3
-        for <linux-tegra@vger.kernel.org>; Thu, 14 Jul 2022 01:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=XrPG1uZaQRn1UCA0WJJ2pmJQ1csZW3HabgB7E+QXuACfRhko5FjAocWwoGAFMQM+4K
-         maoBv4gTZQXqu9EJzYUg27HWYGn7H4ps8X1YfFKAamIhhLSUESO1F6QG9mJgGHe0KMpr
-         yS6EmWRT7znGhWAi5CHDysnG1OxosqIxRYFf098GB0Xs4T6zMcBwQ+Ijt6ciUPeVVUwm
-         NwEO+Wz1v4Oa+mBtHNRupxuLErGpDho6oqFPRIm2MU+57eHEreDtv9TWX6BBq17KbV3w
-         UCTpqQeOnk576xhvUmMdcgTy5b4PgstjqS11/4Py/0diTc9tD3MngzVuJ3uMtq9Qr/CL
-         qkvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=SLJCgdLDt+kDThOf8PgFFS8VSnWBzpCGr2LbGmMG8M3iXKZbP+rB9d82Y0rJNeNdqF
-         oKCYSNo5SJJVOVfvu3m4oAIkm96zembv8iunR26dQzZAVrS4n4OxaVwhLCc+xUqktkGu
-         a07sm9MN/Z7MqxhlCVj0u/pUfZb+HgoFNPo2or3Rdjyo8Is3kePqnX8j13MHUBhek2bv
-         dJhxgKmuMc4N9a1Erfkb1zaGsILEJ7fxsBVwWieH+rUhf95pCYfxQWrCdhUerqckhiMZ
-         Q1Kc+PEh7L7JgnC4ywUKJoRZGL63iLGHhZg6D0+P9EzuP/bKGC/rBbMr/HrHYl4kNzER
-         mxjw==
-X-Gm-Message-State: AJIora+171PjbAJ84mj6KwyFbYdjSDefyllTOYFGFbi0uv8CQWmDnjd2
-        oJ9i1i9brnrc5+lqaV47zdT6T442IBWP0Dypr3E=
-X-Google-Smtp-Source: AGRyM1u3j4Kh8ROf600mZ9n+2mzPHZx1NFVtrSntlSiwIK2NP6HVto6IIpM3hlWxyt39lgmrdSwWdCXGiGrSzCPb6JE=
-X-Received: by 2002:a05:6512:3d27:b0:489:e623:f244 with SMTP id
- d39-20020a0565123d2700b00489e623f244mr4930609lfv.236.1657787809582; Thu, 14
- Jul 2022 01:36:49 -0700 (PDT)
+        Thu, 14 Jul 2022 04:42:12 -0400
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD19D3D5A7;
+        Thu, 14 Jul 2022 01:42:03 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R341e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VJIOffY_1657788120;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VJIOffY_1657788120)
+          by smtp.aliyun-inc.com;
+          Thu, 14 Jul 2022 16:42:01 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     thierry.reding@gmail.com
+Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] soc/tegra: cbb: Remove unnecessary print function dev_err()
+Date:   Thu, 14 Jul 2022 16:41:58 +0800
+Message-Id: <20220714084158.33521-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:36:48
- -0700 (PDT)
-Reply-To: abdwabbomaddahm@gmail.com
-From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
-Date:   Thu, 14 Jul 2022 09:36:48 +0100
-Message-ID: <CAFC-3ifKFkAVLmD=8z4VAKFLX0pV+_h5OJ=Ks62m+0uk+DimKQ@mail.gmail.com>
-Subject: Get back to me... URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:133 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4839]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [abdwabbomaddah746[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [abdwabbomaddah746[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+platform_get_irq()<--platform_get_irq_optional()
+platform_get_irq_optional() return non-zero IRQ number on success,
+negative error number on failure, if IRQ number is 0, return -EINVAL.
+so the function platform_get_irq() never returns 0, and the print function
+dev_err() is redundant because platform_get_irq() already prints an error.
+
+Eliminate the follow coccicheck warnings:
+./drivers/soc/tegra/cbb/tegra-cbb.c:142:3-10: line 142 is redundant because platform_get_irq() already prints an error
+./drivers/soc/tegra/cbb/tegra-cbb.c:152:2-9: line 152 is redundant because platform_get_irq() already prints an error
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/soc/tegra/cbb/tegra-cbb.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/soc/tegra/cbb/tegra-cbb.c b/drivers/soc/tegra/cbb/tegra-cbb.c
+index d200937353c7..aa9fcbd5d4a7 100644
+--- a/drivers/soc/tegra/cbb/tegra-cbb.c
++++ b/drivers/soc/tegra/cbb/tegra-cbb.c
+@@ -138,20 +138,16 @@ int tegra_cbb_get_irq(struct platform_device *pdev, unsigned int *nonsec_irq,
+ 
+ 	if (num_intr == 2) {
+ 		irq = platform_get_irq(pdev, index);
+-		if (irq <= 0) {
+-			dev_err(&pdev->dev, "failed to get non-secure IRQ: %d\n", irq);
++		if (irq < 0)
+ 			return -ENOENT;
+-		}
+ 
+ 		*nonsec_irq = irq;
+ 		index++;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, index);
+-	if (irq <= 0) {
+-		dev_err(&pdev->dev, "failed to get secure IRQ: %d\n", irq);
++	if (irq < 0)
+ 		return -ENOENT;
+-	}
+ 
+ 	*sec_irq = irq;
+ 
 -- 
-Dear,
-I had sent you a mail but i don't think you received it that's why am
-writing you again.It is important you get back to me as soon as you
-can.
-Abd-Wabbo Maddah
+2.20.1.7.g153144c
+
