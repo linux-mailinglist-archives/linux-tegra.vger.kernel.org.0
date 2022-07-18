@@ -2,79 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 130F6578A1E
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jul 2022 21:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB2FA578A7D
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jul 2022 21:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234974AbiGRTBk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Jul 2022 15:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
+        id S234551AbiGRTQb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Jul 2022 15:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235114AbiGRTBb (ORCPT
+        with ESMTP id S231199AbiGRTQb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Jul 2022 15:01:31 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 840A22FFF3
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id f10so5658958uam.0
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=IQXHlBQ3jHSYUTt89EYBBYMpS/rXYtHBaNUJ6e2ZzB07/ETpvOJM0/ZijryokIEfDh
-         oJG0jiachEiIldTcksV5XzU+dy3csOVeMrzVRYAIpdf4PUrGYfI/KNNvcLIWjvmc8oHa
-         yWKlPWKnOFkuEw2Mq2CzZYpqcRK9kJ+LygeUXE0izxh4s3I+nauj1w40rP+480vJCi+X
-         rAPSoEvo8wXV23cydMjOZnuzBivYToT/OwjRuq1iqX/8Isb8Rqougy46FnOdoQuh9Z/u
-         z7xKihQATs9EIIDqpmGAQl/2n//vpMk3ZDpLHQioaLk/1hVBrL4som/CgeyT77yPFwbn
-         VU6A==
+        Mon, 18 Jul 2022 15:16:31 -0400
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98792ED5D;
+        Mon, 18 Jul 2022 12:16:29 -0700 (PDT)
+Received: by mail-il1-f169.google.com with SMTP id r4so2362765ilb.10;
+        Mon, 18 Jul 2022 12:16:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=Y2BXnFj8JC05z4Fvmps4t+wwfNheP5rL3HVIULorvOVWOyILAepC02hYWm4gsTS9yW
-         /AnOMZ2J96HpowPiJLSt00euszZfyRB+zTLgipCU8orPXCSva1LTv8jwikO/nhy/t56u
-         Tgp3JWgT6ht1C1OYNwx1dOHFrFNiu4PqakoQm8z8RdoVr5jXAntowJ6m+ipxX9lAeGNz
-         FPdwBoEUJdI+2zAV7M2YK1hyUl3kXPtXLXvSeJ6xYhLIeI94OvY97CYMq1c8vjyPTC45
-         0QHrLVoGW80GhS+DeycXErMBzIgz5hlLGzOGKBcSnA4NL/VvAbfTKewSRvtSxdmwCcx/
-         ju4w==
-X-Gm-Message-State: AJIora8T/mWoK0Md+r8+cQMX8wloC3TfDf37KrjlD7505+eI7oQdO0nH
-        /x4rfqItcYKSdUH+lagkjm1vIHtqYpo2XD0QUD0titEustQcjg==
-X-Google-Smtp-Source: AGRyM1sOF4caZ/Mzb7i1HwUB8dyXYAmjf9y+Pd1nVHRKiUHeMR6opOrMc10oZNu5DLkN2HS0cpkKNGEh0T+MU99Jmes=
-X-Received: by 2002:a81:5747:0:b0:31d:1bb8:65b7 with SMTP id
- l68-20020a815747000000b0031d1bb865b7mr30830046ywb.168.1658170865217; Mon, 18
- Jul 2022 12:01:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8RF8yPg0V6Ei1ECcsENYa6ZgHRNw38bA40D3WRP4FyM=;
+        b=HtIUSlWeR67/+pac3QdOLs/nTkmfUEP3IOQGcSHNfw8CupHXTLHuMaPwMBcdCxOIt/
+         BhPgPwaC3u9lnnCi11gSBCzJVQj7yN5XOZDSekAdTLbbEv/wKCz3v5EekWn271vmFyX2
+         K+qsBpI1Al0EsGIxmNpu7joFOZ8hJIlSU/BUQitlZLuUXbWltgssjgOqed91QRTdfCUY
+         tUdMsIR6yWfknVDQpvBpE2IK1S8pitqKZjpX1KdEwTZlOGDCGnVcJ3xWlN3BpHPAM6ht
+         S8W+IvKX9hX33KOTj/EpK+Tnbli8NvbRr707kY6xmnEibAZQovY+PhBgf/cYJQD981hb
+         8u/Q==
+X-Gm-Message-State: AJIora/7P6kX1T4V4WCDr8g5mO2a4sCQ2f8w3oaC5Impc/Mx1DsqNDwQ
+        Lx3lJ/oTAvf3+xm+3dANP2dUqYEfZQ==
+X-Google-Smtp-Source: AGRyM1skZXRGXATxAj9yKT/sA/YyYFM/FtsMqbrtgIQYQ35QL7+WaUwDmKepF9LYedHCorY7wdg3Cg==
+X-Received: by 2002:a05:6e02:188c:b0:2dc:a00:3222 with SMTP id o12-20020a056e02188c00b002dc0a003222mr13783935ilu.43.1658171789064;
+        Mon, 18 Jul 2022 12:16:29 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id w64-20020a025d43000000b0033ef9dc43d4sm5785863jaa.159.2022.07.18.12.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 12:16:28 -0700 (PDT)
+Received: (nullmailer pid 3377517 invoked by uid 1000);
+        Mon, 18 Jul 2022 19:16:27 -0000
+Date:   Mon, 18 Jul 2022 13:16:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Akhil R <akhilrajeev@nvidia.com>
+Cc:     dmaengine@vger.kernel.org, jonathanh@nvidia.com,
+        ldewangan@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, p.zabel@pengutronix.de,
+        thierry.reding@gmail.com, vkoul@kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: dmaengine: Add compatible for
+ Tegra234
+Message-ID: <20220718191627.GA3375779-robh@kernel.org>
+References: <20220711154536.41736-1-akhilrajeev@nvidia.com>
+ <20220711154536.41736-2-akhilrajeev@nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6919:4004:b0:cc:50ff:b3d8 with HTTP; Mon, 18 Jul 2022
- 12:01:04 -0700 (PDT)
-Reply-To: lilywilliam989@gmail.com
-From:   Lily William <sgtalberts@gmail.com>
-Date:   Mon, 18 Jul 2022 11:01:04 -0800
-Message-ID: <CALPTejMFgL0Bg7jCKa7j+5KxVv_jnSM4ZPq-QhHCiUpG_ZswsQ@mail.gmail.com>
-Subject: Hi Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711154536.41736-2-akhilrajeev@nvidia.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dear,
+On Mon, Jul 11, 2022 at 09:15:34PM +0530, Akhil R wrote:
+> Document the compatible string used by GPCDMA controller for Tegra234.
+> 
+> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
+> ---
+>  .../devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml      | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml b/Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml
+> index 9dd1476d1849..399edcd5cecf 100644
+> --- a/Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml
+> +++ b/Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml
+> @@ -26,6 +26,10 @@ properties:
+>            - const: nvidia,tegra194-gpcdma
+>            - const: nvidia,tegra186-gpcdma
+>  
+> +      - items:
+> +          - const: nvidia,tegra234-gpcdma
 
-My name is Dr Lily William from the United States.I am a French and
-American nationality (dual) living in the U.S and sometimes in France
-for Work Purpose.
+This can be added to the above entry changing it from a const to enum.
 
-I hope you consider my friend request. I will share some of my pics
-and more details about myself when I get your response.
-
-Thanks
-
-With love
-Lily
+> +          - const: nvidia,tegra186-gpcdma
+> +
+>    "#dma-cells":
+>      const: 1
+>  
+> -- 
+> 2.17.1
+> 
+> 
