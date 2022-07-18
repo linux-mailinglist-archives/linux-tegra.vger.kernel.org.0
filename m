@@ -2,97 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6745788D2
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jul 2022 19:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 130F6578A1E
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jul 2022 21:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbiGRRvy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Jul 2022 13:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36802 "EHLO
+        id S234974AbiGRTBk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Jul 2022 15:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiGRRvx (ORCPT
+        with ESMTP id S235114AbiGRTBb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Jul 2022 13:51:53 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4AE2D1D0;
-        Mon, 18 Jul 2022 10:51:52 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id y8so16383630eda.3;
-        Mon, 18 Jul 2022 10:51:52 -0700 (PDT)
+        Mon, 18 Jul 2022 15:01:31 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 840A22FFF3
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id f10so5658958uam.0
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Jul 2022 12:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OzNDaj+DZhSHMIrNJY7lm71T3WkSPnzySsNM702N+zE=;
-        b=IWbRPmZUG1AiFeiQO3HR1B31sET+hYeHvzIh0Q39+w7eyfEjso7f94PSh6QwpZNeM4
-         coyKBTR+x5wfb0/iZ8dq92B/6W3rsZmYx5sa9ZDiCeZhxTaX2PoJXesmGAh2QNOJYQWE
-         /leEZWfou6/hefbt+hWXFHU7Jg5nt7Wy3BcZH6/h2Mx0BSkneg61rhS8D10kFxyFepXu
-         q81d/2HPF+N5GSRPD3tBgW7V3DorwUsD53ARgcy7FBdEc8yKxjeoBgCcd8Vb4OQhz9g0
-         D32bz/CTnROYPh5WV4onoKGn4s/8DQZ/w3UfGKAh3mKuP+IbVYrbIXqws4VroFFVtkrm
-         pZyg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=IQXHlBQ3jHSYUTt89EYBBYMpS/rXYtHBaNUJ6e2ZzB07/ETpvOJM0/ZijryokIEfDh
+         oJG0jiachEiIldTcksV5XzU+dy3csOVeMrzVRYAIpdf4PUrGYfI/KNNvcLIWjvmc8oHa
+         yWKlPWKnOFkuEw2Mq2CzZYpqcRK9kJ+LygeUXE0izxh4s3I+nauj1w40rP+480vJCi+X
+         rAPSoEvo8wXV23cydMjOZnuzBivYToT/OwjRuq1iqX/8Isb8Rqougy46FnOdoQuh9Z/u
+         z7xKihQATs9EIIDqpmGAQl/2n//vpMk3ZDpLHQioaLk/1hVBrL4som/CgeyT77yPFwbn
+         VU6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OzNDaj+DZhSHMIrNJY7lm71T3WkSPnzySsNM702N+zE=;
-        b=sFKHw/YSHfAt68k/lVDNcpEGbcPPaozAeQe5ypydWWo5I+G2Do3MnIUw6DVQsd1DHT
-         fJ0kBXAVfqnW9NCAJo404gxHquxBTa1MjOgy/Hh0ZdM/bkveMNxMopTZqvCGnZ5cFHPa
-         olfwK7R7cre1m0jXAO/AHTGpnVkO21oDOtjeLos1eTdOLG6n2QYiyORFAka8QgKw0dS/
-         KhSyy5jT721jviRy2DjBdbyY9ga1TpUm7QB18JA8YHT81e75zfeu9YpBZ08EHF0GRLvr
-         yX3v8xy033mufn+FfvxzEvkTE/NlnvcRsYXqTmCFWQv5gg3hQJ8TjYE24f+vNCx789pd
-         SUuA==
-X-Gm-Message-State: AJIora+Mtr+AQZVhCPlDstXwersjI/PL72bomFD2lu0BSkFSzG3sW3KI
-        O89hOoZb7SYtvEcV5/oGHOo=
-X-Google-Smtp-Source: AGRyM1t2SRY22FUnIBxr79BTWXtaLzb3OzYXyF2ywpYjSlpK3tyLidmTDuUPD/cRYOA9B9u9dzOEJA==
-X-Received: by 2002:aa7:d60a:0:b0:43a:5795:b729 with SMTP id c10-20020aa7d60a000000b0043a5795b729mr38562794edr.230.1658166710821;
-        Mon, 18 Jul 2022 10:51:50 -0700 (PDT)
-Received: from localhost (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id t21-20020aa7d4d5000000b0043a5bcf80a2sm9013260edr.60.2022.07.18.10.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 10:51:49 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Dipen Patel <dipenp@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [GIT PULL] hte: Fixes for v5.19
-Date:   Mon, 18 Jul 2022 19:51:45 +0200
-Message-Id: <20220718175145.1945060-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=Y2BXnFj8JC05z4Fvmps4t+wwfNheP5rL3HVIULorvOVWOyILAepC02hYWm4gsTS9yW
+         /AnOMZ2J96HpowPiJLSt00euszZfyRB+zTLgipCU8orPXCSva1LTv8jwikO/nhy/t56u
+         Tgp3JWgT6ht1C1OYNwx1dOHFrFNiu4PqakoQm8z8RdoVr5jXAntowJ6m+ipxX9lAeGNz
+         FPdwBoEUJdI+2zAV7M2YK1hyUl3kXPtXLXvSeJ6xYhLIeI94OvY97CYMq1c8vjyPTC45
+         0QHrLVoGW80GhS+DeycXErMBzIgz5hlLGzOGKBcSnA4NL/VvAbfTKewSRvtSxdmwCcx/
+         ju4w==
+X-Gm-Message-State: AJIora8T/mWoK0Md+r8+cQMX8wloC3TfDf37KrjlD7505+eI7oQdO0nH
+        /x4rfqItcYKSdUH+lagkjm1vIHtqYpo2XD0QUD0titEustQcjg==
+X-Google-Smtp-Source: AGRyM1sOF4caZ/Mzb7i1HwUB8dyXYAmjf9y+Pd1nVHRKiUHeMR6opOrMc10oZNu5DLkN2HS0cpkKNGEh0T+MU99Jmes=
+X-Received: by 2002:a81:5747:0:b0:31d:1bb8:65b7 with SMTP id
+ l68-20020a815747000000b0031d1bb865b7mr30830046ywb.168.1658170865217; Mon, 18
+ Jul 2022 12:01:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6919:4004:b0:cc:50ff:b3d8 with HTTP; Mon, 18 Jul 2022
+ 12:01:04 -0700 (PDT)
+Reply-To: lilywilliam989@gmail.com
+From:   Lily William <sgtalberts@gmail.com>
+Date:   Mon, 18 Jul 2022 11:01:04 -0800
+Message-ID: <CALPTejMFgL0Bg7jCKa7j+5KxVv_jnSM4ZPq-QhHCiUpG_ZswsQ@mail.gmail.com>
+Subject: Hi Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Linus,
+Hi Dear,
 
-The following changes since commit 5dad4eccd2b4316a84209603a28d34c6346392bb:
+My name is Dr Lily William from the United States.I am a French and
+American nationality (dual) living in the U.S and sometimes in France
+for Work Purpose.
 
-  dt-bindings: timestamp: Correct id path (2022-06-02 15:56:59 +0200)
+I hope you consider my friend request. I will share some of my pics
+and more details about myself when I get your response.
 
-are available in the Git repository at:
+Thanks
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/hte/for-5.19
-
-for you to fetch changes up to 85ff37e302efdf173cff6d1a310c2f7f38f1d069:
-
-  gpiolib: cdev: Fix kernel doc for struct line (2022-06-17 12:58:57 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-hte: Fixes for v5.19
-
-This contains a single fix for an out-of-sync kerneldoc comment.
-
-----------------------------------------------------------------
-Andy Shevchenko (1):
-      gpiolib: cdev: Fix kernel doc for struct line
-
- drivers/gpio/gpiolib-cdev.c | 4 ++++
- 1 file changed, 4 insertions(+)
+With love
+Lily
