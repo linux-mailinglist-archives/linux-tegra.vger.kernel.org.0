@@ -2,68 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C7C058663D
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Aug 2022 10:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A985866BA
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Aug 2022 11:10:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbiHAIUp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Aug 2022 04:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38310 "EHLO
+        id S230336AbiHAJKr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Aug 2022 05:10:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbiHAIUj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Aug 2022 04:20:39 -0400
-X-Greylist: delayed 525 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 Aug 2022 01:20:37 PDT
-Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3821220DC
-        for <linux-tegra@vger.kernel.org>; Mon,  1 Aug 2022 01:20:37 -0700 (PDT)
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-        id E934722A77; Mon,  1 Aug 2022 08:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-        t=1659341510; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-        h=Date:From:To:Subject:From;
-        b=Px/nOCa7JJe5yuwIpdvMhu/U40BayZm4HObOL96C1VL+7ynleRZFxXlKfDCwDFlvM
-         NSf8yaqt+m9H/ySy++07QNgGSXPspoodbXvFMkGKB0NDb0FBoPYDIYSGR3CrdbIX3j
-         z2r8x8hgXJZi3O6/T5A1OC9xjnZde6mDB/RKOHaOlKBhISpL5mwqQy8fuo5L3dj7uw
-         vuvvqgYYHhze5UY7n4euX1UNWumFKJMj8ZQpe9wpd7/pxsH4eOpJVIPfbV2dcqW2sy
-         CP482p7Puzf0Mk49ZijYNDmrRlCihyCk8ELE8qP6h8P3MaKeQ5md2J2mbJth8ghEQk
-         gGQ7jIM25KvZw==
-Received: by mail.fadrush.pl for <linux-tegra@vger.kernel.org>; Mon,  1 Aug 2022 08:11:17 GMT
-Message-ID: <20220801064500-0.1.r.596w.0.pd18wq42z0@fadrush.pl>
-Date:   Mon,  1 Aug 2022 08:11:17 GMT
-From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To:     <linux-tegra@vger.kernel.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+        with ESMTP id S230362AbiHAJKq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Aug 2022 05:10:46 -0400
+X-Greylist: delayed 333 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 Aug 2022 02:10:42 PDT
+Received: from sv8522.xserver.jp (sv8522.xserver.jp [183.181.84.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F201626F
+        for <linux-tegra@vger.kernel.org>; Mon,  1 Aug 2022 02:10:42 -0700 (PDT)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw12006.xserver.jp)
+Received: from kyoritsu-u.com (sv8522.xserver.jp [183.181.84.43])
+        by sv8522.xserver.jp (Postfix) with ESMTPSA id 38BAC822021F
+        for <linux-tegra@vger.kernel.org>; Mon,  1 Aug 2022 18:05:08 +0900 (JST)
+Date:   Mon, 1 Aug 2022 09:05:08 +0000
+To:     linux-tegra@vger.kernel.org
+From:   =?UTF-8?B?5YWx56uL576O5a655aSW56eR5a6H6YO95a6u6Zmi?= 
+        <info@kyoritsu-u.com>
+Subject: =?UTF-8?B?54Sh5paZ44Oh44O844Or55u46KuH44GC44KK44GM44Go44GG44GU44GW44GE?=
+ =?UTF-8?B?44G+44GX44Gf?=
+Message-ID: <8de5f4ec23f1eb2b2c2e7c23f0045f59@kyoritsu-u.com>
+X-Mailer: WPMailSMTP/Mailer/smtp 2.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,SPF_HELO_PASS,
+        SPF_PASS,URIBL_ABUSE_SURBL,URIBL_BLACK autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dzie=C5=84 dobry,
+無料メール相談ありがとうございます。
+下記の内容にて送信いたしました。
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
-proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
-stwa firmie stabilny rozw=C3=B3j.=20
+■お名前
+💟 Vicki sent you a private message! View Message: https://letsg0dancing.page.link/go?gywtp 💟
 
-Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
-a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
-nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
-po rozwoju firmy.
+■E-mail
+linux-tegra@vger.kernel.org
 
-Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
-nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
-adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
-j=C4=85 je innym.
+■都道府県
+沖縄県
 
-Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
-o=C5=9Bwiadczonego doradcy finansowego?
+■ご年齢
+zlur93
 
+■性別
+男性
 
-Pozdrawiam
-Jakub Olejniczak
+■ご相談内容
+男性の方
+
+■具体的なご相談内容をお聞かせ下さい
+78krpe
+
+■どの広告を見てこのサイトをお知りになりましたか？
+その他 ：
+nw56vy
+-------------------------------------------------
+医療法人創美会　共立美容外科宇都宮院
+宇都宮市駅前通り2-3-5 ユニマットビル3F
+0120-128-999
+
