@@ -2,89 +2,266 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12AEF58962D
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Aug 2022 04:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7BCF58A377
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Aug 2022 00:53:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbiHDChP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 3 Aug 2022 22:37:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
+        id S240194AbiHDWwg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Aug 2022 18:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbiHDChO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Aug 2022 22:37:14 -0400
-X-Greylist: delayed 125 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 03 Aug 2022 19:37:13 PDT
-Received: from lvs-smtpgate3.nz.fh-koeln.de (lvs-smtpgate3.nz.FH-Koeln.DE [139.6.1.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A6D5FAF9
-        for <linux-tegra@vger.kernel.org>; Wed,  3 Aug 2022 19:37:13 -0700 (PDT)
-Message-Id: <c8230b$21d9j5@smtp.intranet.fh-koeln.de>
-X-IPAS-Result: =?us-ascii?q?A2D//wCcLuti/wQiBotaHQEBPAEFBQECAQkBFYFRARoIA?=
- =?us-ascii?q?YEWAgFPAQEBgRSBLAEBK4ROg0+IT4NDAYEpgnWLFYFjBQKPBAsBAQEBAQEBA?=
- =?us-ascii?q?QEJEgIlCQQBAYUDAVMBAQEBB4QdJjgTAQIEAQEBAQMCAwEBAQEBAQMBAQgBA?=
- =?us-ascii?q?QEBBgSBHIUvOQ1fAQEBgQw0AQEBhBABAQEGAQEBK2sgAhkNAkkWRwEBAQGCR?=
- =?us-ascii?q?kUBAQGCHQEBMxOiK4dhgTGBAYIpgSYBgQuCKQWCcoEXKgIBAQGHZ5BcgQ8BA?=
- =?us-ascii?q?oUYHROCUgSXbwICGjgDNBEeNwsDXQgJFxIgAgQRGgsGAxY/CQIEDgNACA0DE?=
- =?us-ascii?q?QQDDxgJEggQBAYDMQwlCwMUDAEGAwYFAwEDGwMUAwUkBwMcDyMNDQQfHQMDB?=
- =?us-ascii?q?SUDAgIbBwICAwIGFQYCAk45CAQIBCsjDwUCBy8FBC8CHgQFBhEIAhYCBgQEB?=
- =?us-ascii?q?AQWAhAIAggnFwcTMxkBBVkQCSEcCR8QBQYTAyBtBUUPKDM1PCsfGwpgJwsqJ?=
- =?us-ascii?q?wQVAwQEAwIGEwMDIgIQLjEDFQYpExItCSp1CQIDIm0DAwQoLgMJPgcJJixMP?=
- =?us-ascii?q?g+WQ4INgTgCMIcLjUKDZQWKVKBbCoNRgUQCk32MKIJGknQOBJF9CYVvhHaME?=
- =?us-ascii?q?KdXgXiBfnCBbgolgRtRGQ+SEopfdAI5AgYBCgEBAwmMZIEKgRgBAQ?=
-IronPort-Data: A9a23:lq+fN6AUlJvFxRVW/7rkw5YqxClBgxIJ4kV8jS/XYbTApDkk1GFVm
- GVNXWyHbKmDajfyKdp+PIW090sG68SEyIQwOVdlrnsFo1CmCCbm6XZ1Cm+qYkt+++WaFBoPA
- /02M4WGdoZsJpPljk/FGqD7qnVh3r2/SLP5CerVUgh8XgYMpB0J0HqPpsZg6mJWqYnha++yk
- Y6qyyHvEAfN8yJ5NGsS95WCpHtH1BglkGpF1rCWTakjUG72zxH5PrpGTU2CByeQrr1vIwKPb
- 72rIIdVXo/u10xF5tuNyt4Xe6CRK1LYFVDmZnF+A8BOjvXez8A/+v5TCRYSVatYozqCsulL4
- cxrjsCLTSgRDquWicU4YSANRkmSPYUekFPGCV2WmpXO4RaAbWPqhftuSUIxMIkevOp6aY1M3
- aVDeXZTKEvfwb7eLLGTE4GAguwmJcLoMYUNu3wl0SzFEfIraZvKBb/Qo9Rf2V/cg+gQTauPP
- JBEMVKDajznWQVgPA5PDqhumeCBnyPcKyYJrmKK8P9fD2/7llUqieO9YbI5YOeiWd9cmF2Tv
- GPe423/BBgHMt2B4TWA+3OowOTImEvTRJgbEqaz7P9ynFCV33ESEgw+Wl6yoP3/gUm7M/pAJ
- kYR8zEyoLIa71a2CNTxQnWQq3eHuhcMVsB4HOgz6QXLwa3Riy6QHWsFUhZQb8YlqYk9TFQC3
- V6VnsHkAzdovrOYRFqS876VqXW5Pi19BXMHYjUeTBAe7sX/rak9hAnDR8pqVqWyi7XdAzb6z
- iqW6jMjnagRh84C0Y2851nMhz/qrZ/MJiY/6B/WUmu0xg5iecioa5HAwUDS/O5JKJyUUkSbu
- mMsh8Wa8fsPC42AjiqEXOQKGritof2CNVX0nAY3RJQ5/iW18nq5cJxN+jdlDFtkNtsfeDn1b
- VXVsB9Q45laOD2haqofS4u9Fckw0an7FNLqXffRadpJfbB+cQaG+GdlYkv492vomVMhlKwlN
- pqdeteEAnMTCKAhxz2zL88W1LYw7is7zHiVQor0pzy73LG2b3ucUvECKlTmRvsh64uPpQzOt
- dFFOKOizhxeVKjlfzHP9pQPBVsPJGN9Aor5w+RMa/abJRB6MGokAuSXxqkuE6R+grxNkf3U1
- nK6UV1Vzlfjw33aQS2BbXVqcq/0dZ9i6383IEQR0U2AwyB4Pd73sOEBb51yc+F7suJjiP1zQ
- v0DPcmNahhSdtjZ0zsWQKDHhZVET0iQgS22Dyz/cRkaTac1EmQl5eTYkhvTGDgmV3Tq5Jdm/
- uT9j2s3UrJeH1Q4XZi+hOaHkQLh5CN1dPdaBhOgHzVFRKn72KRHQ8AbpsA6ONoBLRTFyVN2P
- C7LWUxI9IEhT6cT98PVhei+r4avHq5BE1FGB2nS6be/XRQ2H1ZPIqcZDo5khRiHCAvJFFyKP
- I24D5jUaZXrZmpivYtmCKpMxqkj/dbprLIy5l06QSSWMg33Ue4xfCLuMSxzWktlmeIxVeyeB
- RnnxzWmEe/VZqsJ7XZOdVp1P7XZvR3qsmWDtKxsSKkF2MOH1ODeChwJb0jkZN11ILZoLJguw
- eo68MAR8Re0igcsPc2AgzxGn1lg3VRfO5jKd/gyXufWt+bc4gofPMOFVnKnsMnnhhclGhBCH
- wJ4TZHq39x0rncuuVJqfZQR9YKxXagzhS0=
-IronPort-HdrOrdr: A9a23:Bt8KMaMEyq21fcBcTtajsMiBIKoaSvp037Hjv3ocdfUzSKGlfq
- GV98jzuiWVtN98YhAdcLO7UpVoKEm0naKdh7NhXotLmWLdyQ6VxepZgrcKrQePJ8SEzJ8+6Z
- td
-X-IronPort-Anti-Spam-Filtered: true
-THK-HEADER: Antispam--identified_spam--outgoing_filter
-Received: from p034004.vpn-f04.fh-koeln.de (HELO MAC15F3.vpn.fh-koeln.de) ([139.6.34.4])
-  by smtp.intranet.fh-koeln.de with ESMTP/TLS/DHE-RSA-AES128-SHA; 04 Aug 2022 04:33:57 +0200
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S240191AbiHDWwO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Aug 2022 18:52:14 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1677849B5E
+        for <linux-tegra@vger.kernel.org>; Thu,  4 Aug 2022 15:52:10 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id q30so1316584wra.11
+        for <linux-tegra@vger.kernel.org>; Thu, 04 Aug 2022 15:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=vJqB3DsidiN9nPhS4su/6uSlvLZimTeb9ZrCY8jA13M=;
+        b=ywNDi5DlzfdiSw+Wek8UweNt+1cORGZIl0TiY0LahA+zegr97zHUu1bMR9080FcqEU
+         dSqFgcdJIxpBUNjA0i5szx8JLSn1UWQwhbyHZpUTNje0bugjrSHgqa4sj0pXpchDR1F3
+         FyqYK4bPVnJk43ZWZLXj0qL1k9DIxzcTPUYRlHix8KSpYuOD8ZtdTGiz+7XxYnWVYNQO
+         z3THZH8BwKyb7I2IV4BulTi76NYra85R4u/SnLuQZ0ChfGgLD+aIJoyfPtI0ddsvgI9z
+         lYRhO4eku4GSwSukfJqeuXyHqIpZKkJ2qRxoNI+9aUKGno6OZdVl/j2lziBqtm23XnZS
+         9svg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=vJqB3DsidiN9nPhS4su/6uSlvLZimTeb9ZrCY8jA13M=;
+        b=Gwg93CZocAtaI1Ppb6B8Qnk0L6sWw8qL8j1K0oNI2Z8faQx1BhtLlRH9qBZjPj2O9k
+         F7w82odaB6jxa4HkpaDGxy69xzIPYSwoLfaNB1EUZq5fo01Uh4maXHGQGz35h2hXpSmd
+         FaTCnu9fTegZSN7VIiOvi07i4XqFcJFzimbeFEh9I4G/9NJ8mBZCMHU7oBAKU8V5PJZK
+         PrEDZxqfgCO6UoERMJ8Sa90j7oxwL/rm4EyfVM8u7cEJCBHH0T38j9R9yY8rJB6Piv4q
+         qiCPETOmDg5CNcBK9uk/Q1x6NKFufy11mMUcf0VEKdngsCM9c4IqrSwOTSsLv7qWhmvJ
+         BENw==
+X-Gm-Message-State: ACgBeo0McD8owmeuMNxrreHCl1JKklhWzFTit8Xkfm4B+wmeW73cYahs
+        MydsTfeFR4B/oNqXB7PGnxL4Lg==
+X-Google-Smtp-Source: AA6agR4gPK2BFTS+f/e1TuM189EKCXODMRpapXlBFbhupBNMZ+wRdcTkc60a5Q4HLqzrKYg1t8mhxw==
+X-Received: by 2002:adf:fe42:0:b0:21f:8df:2239 with SMTP id m2-20020adffe42000000b0021f08df2239mr2524925wrs.644.1659653530594;
+        Thu, 04 Aug 2022 15:52:10 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:31aa:ed2c:3f7:19d])
+        by smtp.gmail.com with ESMTPSA id a16-20020a056000051000b0021f87e8945asm2495906wrf.12.2022.08.04.15.52.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 15:52:10 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linexp.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, khilman@baylibre.com,
+        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
+        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
+        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
+        baolin.wang7@gmail.com, f.fainelli@gmail.com,
+        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
+        glaroque@baylibre.com, miquel.raynal@bootlin.com,
+        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
+        matthias.bgg@gmail.com, j-keerthy@ti.com,
+        Amit Kucheria <amitk@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT)
+Subject: [PATCH v5 07/33] thermal/drivers/tegra: Switch to new of API
+Date:   Fri,  5 Aug 2022 00:43:23 +0200
+Message-Id: <20220804224349.1926752-8-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
+References: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Charity Donation
-To:     You <mackenzie-tuttle@ca.rr.com>
-From:   "MacKenzie Scott" <mackenzie-tuttle@ca.rr.com>
-Date:   Thu, 04 Aug 2022 03:33:54 +0100
-Reply-To: mackenzie-tuttle@californiamail.com
-X-Priority: 1 (High)
-Sensitivity: Company-Confidential
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,MSGID_FROM_MTA_HEADER,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
-  My name is MacKenzie Scott Tuttle; I'm a philanthropist and founder of one of the largest private foundations in the world. I'm on a mission to give it all away as I believe in ‘giving while living.’ I always had the idea that never changed in my mind — that wealth should be used to help each other, which has made me decide to donate to you. Kindly acknowledge this message and I will get back to you with more details.
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-Visit the web page to know more about me: https://www.nytimes.com/2022/04/10/business/mackenzie-scott-charity.html
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
-Regards,
-MacKenzie Scott Tuttle.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ drivers/thermal/tegra/soctherm.c           | 21 ++++++++++-----------
+ drivers/thermal/tegra/tegra-bpmp-thermal.c | 19 ++++++++++++-------
+ drivers/thermal/tegra/tegra30-tsensor.c    | 12 ++++++------
+ 3 files changed, 28 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
+index 825eab526619..1efe470f31e9 100644
+--- a/drivers/thermal/tegra/soctherm.c
++++ b/drivers/thermal/tegra/soctherm.c
+@@ -421,9 +421,9 @@ static int translate_temp(u16 val)
+ 	return t;
+ }
+ 
+-static int tegra_thermctl_get_temp(void *data, int *out_temp)
++static int tegra_thermctl_get_temp(struct thermal_zone_device *tz, int *out_temp)
+ {
+-	struct tegra_thermctl_zone *zone = data;
++	struct tegra_thermctl_zone *zone = tz->devdata;
+ 	u32 val;
+ 
+ 	val = readl(zone->reg);
+@@ -582,10 +582,9 @@ static int tsensor_group_thermtrip_get(struct tegra_soctherm *ts, int id)
+ 	return temp;
+ }
+ 
+-static int tegra_thermctl_set_trip_temp(void *data, int trip, int temp)
++static int tegra_thermctl_set_trip_temp(struct thermal_zone_device *tz, int trip, int temp)
+ {
+-	struct tegra_thermctl_zone *zone = data;
+-	struct thermal_zone_device *tz = zone->tz;
++	struct tegra_thermctl_zone *zone = tz->devdata;
+ 	struct tegra_soctherm *ts = zone->ts;
+ 	const struct tegra_tsensor_group *sg = zone->sg;
+ 	struct device *dev = zone->dev;
+@@ -657,9 +656,9 @@ static void thermal_irq_disable(struct tegra_thermctl_zone *zn)
+ 	mutex_unlock(&zn->ts->thermctl_lock);
+ }
+ 
+-static int tegra_thermctl_set_trips(void *data, int lo, int hi)
++static int tegra_thermctl_set_trips(struct thermal_zone_device *tz, int lo, int hi)
+ {
+-	struct tegra_thermctl_zone *zone = data;
++	struct tegra_thermctl_zone *zone = tz->devdata;
+ 	u32 r;
+ 
+ 	thermal_irq_disable(zone);
+@@ -682,7 +681,7 @@ static int tegra_thermctl_set_trips(void *data, int lo, int hi)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops tegra_of_thermal_ops = {
++static const struct thermal_zone_device_ops tegra_of_thermal_ops = {
+ 	.get_temp = tegra_thermctl_get_temp,
+ 	.set_trip_temp = tegra_thermctl_set_trip_temp,
+ 	.set_trips = tegra_thermctl_set_trips,
+@@ -2194,9 +2193,9 @@ static int tegra_soctherm_probe(struct platform_device *pdev)
+ 		zone->sg = soc->ttgs[i];
+ 		zone->ts = tegra;
+ 
+-		z = devm_thermal_zone_of_sensor_register(&pdev->dev,
+-							 soc->ttgs[i]->id, zone,
+-							 &tegra_of_thermal_ops);
++		z = devm_thermal_of_zone_register(&pdev->dev,
++						  soc->ttgs[i]->id, zone,
++						  &tegra_of_thermal_ops);
+ 		if (IS_ERR(z)) {
+ 			err = PTR_ERR(z);
+ 			dev_err(&pdev->dev, "failed to register sensor: %d\n",
+diff --git a/drivers/thermal/tegra/tegra-bpmp-thermal.c b/drivers/thermal/tegra/tegra-bpmp-thermal.c
+index 5affc3d196be..eb84f0b9dc7c 100644
+--- a/drivers/thermal/tegra/tegra-bpmp-thermal.c
++++ b/drivers/thermal/tegra/tegra-bpmp-thermal.c
+@@ -30,9 +30,9 @@ struct tegra_bpmp_thermal {
+ 	struct tegra_bpmp_thermal_zone **zones;
+ };
+ 
+-static int tegra_bpmp_thermal_get_temp(void *data, int *out_temp)
++static int __tegra_bpmp_thermal_get_temp(struct tegra_bpmp_thermal_zone *zone,
++					 int *out_temp)
+ {
+-	struct tegra_bpmp_thermal_zone *zone = data;
+ 	struct mrq_thermal_host_to_bpmp_request req;
+ 	union mrq_thermal_bpmp_to_host_response reply;
+ 	struct tegra_bpmp_message msg;
+@@ -60,9 +60,14 @@ static int tegra_bpmp_thermal_get_temp(void *data, int *out_temp)
+ 	return 0;
+ }
+ 
+-static int tegra_bpmp_thermal_set_trips(void *data, int low, int high)
++static int tegra_bpmp_thermal_get_temp(struct thermal_zone_device *tz, int *out_temp)
+ {
+-	struct tegra_bpmp_thermal_zone *zone = data;
++	return __tegra_bpmp_thermal_get_temp(tz->devdata, out_temp);
++}
++
++static int tegra_bpmp_thermal_set_trips(struct thermal_zone_device *tz, int low, int high)
++{
++	struct tegra_bpmp_thermal_zone *zone = tz->devdata;
+ 	struct mrq_thermal_host_to_bpmp_request req;
+ 	struct tegra_bpmp_message msg;
+ 	int err;
+@@ -157,7 +162,7 @@ static int tegra_bpmp_thermal_get_num_zones(struct tegra_bpmp *bpmp,
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops tegra_bpmp_of_thermal_ops = {
++static const struct thermal_zone_device_ops tegra_bpmp_of_thermal_ops = {
+ 	.get_temp = tegra_bpmp_thermal_get_temp,
+ 	.set_trips = tegra_bpmp_thermal_set_trips,
+ };
+@@ -200,13 +205,13 @@ static int tegra_bpmp_thermal_probe(struct platform_device *pdev)
+ 		zone->idx = i;
+ 		zone->tegra = tegra;
+ 
+-		err = tegra_bpmp_thermal_get_temp(zone, &temp);
++		err = __tegra_bpmp_thermal_get_temp(zone, &temp);
+ 		if (err < 0) {
+ 			devm_kfree(&pdev->dev, zone);
+ 			continue;
+ 		}
+ 
+-		tzd = devm_thermal_zone_of_sensor_register(
++		tzd = devm_thermal_of_zone_register(
+ 			&pdev->dev, i, zone, &tegra_bpmp_of_thermal_ops);
+ 		if (IS_ERR(tzd)) {
+ 			if (PTR_ERR(tzd) == -EPROBE_DEFER)
+diff --git a/drivers/thermal/tegra/tegra30-tsensor.c b/drivers/thermal/tegra/tegra30-tsensor.c
+index 05886684f429..c34501287e96 100644
+--- a/drivers/thermal/tegra/tegra30-tsensor.c
++++ b/drivers/thermal/tegra/tegra30-tsensor.c
+@@ -159,9 +159,9 @@ static void devm_tegra_tsensor_hw_disable(void *data)
+ 	tegra_tsensor_hw_disable(ts);
+ }
+ 
+-static int tegra_tsensor_get_temp(void *data, int *temp)
++static int tegra_tsensor_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	const struct tegra_tsensor_channel *tsc = data;
++	const struct tegra_tsensor_channel *tsc = tz->devdata;
+ 	const struct tegra_tsensor *ts = tsc->ts;
+ 	int err, c1, c2, c3, c4, counter;
+ 	u32 val;
+@@ -217,9 +217,9 @@ static int tegra_tsensor_temp_to_counter(const struct tegra_tsensor *ts, int tem
+ 	return DIV_ROUND_CLOSEST(c2 * 1000000 - ts->calib.b, ts->calib.a);
+ }
+ 
+-static int tegra_tsensor_set_trips(void *data, int low, int high)
++static int tegra_tsensor_set_trips(struct thermal_zone_device *tz, int low, int high)
+ {
+-	const struct tegra_tsensor_channel *tsc = data;
++	const struct tegra_tsensor_channel *tsc = tz->devdata;
+ 	const struct tegra_tsensor *ts = tsc->ts;
+ 	u32 val;
+ 
+@@ -240,7 +240,7 @@ static int tegra_tsensor_set_trips(void *data, int low, int high)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops ops = {
++static const struct thermal_zone_device_ops ops = {
+ 	.get_temp = tegra_tsensor_get_temp,
+ 	.set_trips = tegra_tsensor_set_trips,
+ };
+@@ -516,7 +516,7 @@ static int tegra_tsensor_register_channel(struct tegra_tsensor *ts,
+ 	tsc->id = id;
+ 	tsc->regs = ts->regs + 0x40 * (hw_id + 1);
+ 
+-	tsc->tzd = devm_thermal_zone_of_sensor_register(ts->dev, id, tsc, &ops);
++	tsc->tzd = devm_thermal_of_zone_register(ts->dev, id, tsc, &ops);
+ 	if (IS_ERR(tsc->tzd)) {
+ 		if (PTR_ERR(tsc->tzd) != -ENODEV)
+ 			return dev_err_probe(ts->dev, PTR_ERR(tsc->tzd),
+-- 
+2.25.1
+
