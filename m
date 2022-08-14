@@ -2,36 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A20915922CF
-	for <lists+linux-tegra@lfdr.de>; Sun, 14 Aug 2022 17:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B200F5922F3
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Aug 2022 17:53:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241578AbiHNPw1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 14 Aug 2022 11:52:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52632 "EHLO
+        id S242034AbiHNPw3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Aug 2022 11:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241661AbiHNPtk (ORCPT
+        with ESMTP id S241990AbiHNPuv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:49:40 -0400
+        Sun, 14 Aug 2022 11:50:51 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D851212AB5;
-        Sun, 14 Aug 2022 08:35:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8264C1CFF7;
+        Sun, 14 Aug 2022 08:36:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 79B8BB80B77;
-        Sun, 14 Aug 2022 15:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205A9C433D6;
-        Sun, 14 Aug 2022 15:35:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1249FB80B4D;
+        Sun, 14 Aug 2022 15:36:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82704C43470;
+        Sun, 14 Aug 2022 15:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491338;
-        bh=hRPBfczdm15C8/gZO/F3YClMCpGorCXgOhAyyTX1B+M=;
+        s=k20201202; t=1660491374;
+        bh=yx3F4GWmfbblmgPgIsm34N4nZ3rzz+7Tif+D4H6tSck=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P+GmVC/YgnTiPdy/WBKSomYItNLbYinIxYv7Fj93xJucivDc58XRnWhI9BExg6UtB
-         VGs1CfzxJgXKxHCkyJ3QjFScX1kA6xtwhRFVUpyENyLa6G9wCUm8O7CxZpETIPHIs5
-         YDXjs2YnIFJXPEIVwSK/EMezUHewa3kJx5/Wf3888T1JfzUpyXIpgudyR5ZvBESmml
-         hXxEtpoD6MrmskdZPUIyBMwoSfjmRRCXy5AZCkFj5eh8xwvvV3CBDpDfbgf2hf3yZ+
-         wb960PQFw+Pa5Wzz6QqkpK6/a2HO+oQ3xZtMcWSFmKcadflbUxyh2LvPpECI0Fv58z
-         dXjN/7Rqw7sQg==
+        b=mhhvMXWcbUlZSsKCIIeZKKfPFiNDu4noE6QCzBtZcRKHsb1Uj0d1Bmojd+Xpq3gFl
+         tFGmoVxwsqPEwB/agof+uoTGsYBzfJ5+uYQWV5ThcCM3WZjev0iZSEy46ONmmIpRKY
+         ZiyrDT9EkV7d0Ar2+vK8HR4G71S6bU7EX2xWKM2DsDt0fMTk2Ti+s+dAr49EeFKcTv
+         5KY3Nj8eM2wObfcriPHNAJEEDPRl6zcjtitup+UDYzWcqI1Hle8eRvjCQ6j/lGK9mw
+         ygY56g4u15VKO5fBSysZCl7eeiTIiw+q52gI4b4pBUWO1Mpc8XbZHr5XCBGuf9NDLp
+         N9QZ4qimpwdtQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
@@ -39,12 +39,12 @@ Cc:     Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
         Sasha Levin <sashal@kernel.org>, tglx@linutronix.de,
         thierry.reding@gmail.com, jonathanh@nvidia.com,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/21] irqchip/tegra: Fix overflow implicit truncation warnings
-Date:   Sun, 14 Aug 2022 11:35:14 -0400
-Message-Id: <20220814153531.2379705-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 02/13] irqchip/tegra: Fix overflow implicit truncation warnings
+Date:   Sun, 14 Aug 2022 11:35:59 -0400
+Message-Id: <20220814153610.2380234-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153531.2379705-1-sashal@kernel.org>
-References: <20220814153531.2379705-1-sashal@kernel.org>
+In-Reply-To: <20220814153610.2380234-1-sashal@kernel.org>
+References: <20220814153610.2380234-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/irqchip/irq-tegra.c b/drivers/irqchip/irq-tegra.c
-index e1f771c72fc4..ad3e2c1b3c87 100644
+index 0abc0cd1c32e..1b3048ecb600 100644
 --- a/drivers/irqchip/irq-tegra.c
 +++ b/drivers/irqchip/irq-tegra.c
-@@ -148,10 +148,10 @@ static int tegra_ictlr_suspend(void)
+@@ -157,10 +157,10 @@ static int tegra_ictlr_suspend(void)
  		lic->cop_iep[i] = readl_relaxed(ictlr + ICTLR_COP_IEP_CLASS);
  
  		/* Disable COP interrupts */
@@ -101,7 +101,7 @@ index e1f771c72fc4..ad3e2c1b3c87 100644
  
  		/* Enable the wakeup sources of ictlr */
  		writel_relaxed(lic->ictlr_wake_mask[i], ictlr + ICTLR_CPU_IER_SET);
-@@ -172,12 +172,12 @@ static void tegra_ictlr_resume(void)
+@@ -181,12 +181,12 @@ static void tegra_ictlr_resume(void)
  
  		writel_relaxed(lic->cpu_iep[i],
  			       ictlr + ICTLR_CPU_IEP_CLASS);
@@ -116,7 +116,7 @@ index e1f771c72fc4..ad3e2c1b3c87 100644
  		writel_relaxed(lic->cop_ier[i],
  			       ictlr + ICTLR_COP_IER_SET);
  	}
-@@ -312,7 +312,7 @@ static int __init tegra_ictlr_init(struct device_node *node,
+@@ -321,7 +321,7 @@ static int __init tegra_ictlr_init(struct device_node *node,
  		lic->base[i] = base;
  
  		/* Disable all interrupts */
