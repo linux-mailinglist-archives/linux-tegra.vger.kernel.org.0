@@ -2,36 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A258C5922CA
-	for <lists+linux-tegra@lfdr.de>; Sun, 14 Aug 2022 17:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C63795922E5
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Aug 2022 17:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242052AbiHNPwb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 14 Aug 2022 11:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
+        id S241996AbiHNPw2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Aug 2022 11:52:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242025AbiHNPu6 (ORCPT
+        with ESMTP id S242135AbiHNPvR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:50:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7991A806;
-        Sun, 14 Aug 2022 08:36:41 -0700 (PDT)
+        Sun, 14 Aug 2022 11:51:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D33D1D335;
+        Sun, 14 Aug 2022 08:36:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 88DF560B90;
-        Sun, 14 Aug 2022 15:36:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E24A3C433B5;
-        Sun, 14 Aug 2022 15:36:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C782660B90;
+        Sun, 14 Aug 2022 15:36:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44FE6C433C1;
+        Sun, 14 Aug 2022 15:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491401;
-        bh=yx3F4GWmfbblmgPgIsm34N4nZ3rzz+7Tif+D4H6tSck=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G+jFkkLHmHl10J5RCj1Af2DnQEW5zFbi0fR4RYnUymrvHXyqHoA/a9O5EkdTMF7Xn
-         KI8tcoPZdsH4oP6jdlY/JBDWYPd3ON54H9LAOZZt8L0mAx/4zmuSsMz5x9xibjiipT
-         dH4YQQScgQNEqL/QY+46gJEsU1nPCe8MDIjrM6EEmOjejNNJftkER9C5fuBEoMAhbx
-         hwP6zk926WOT0eHMq083jlg3mJjLnrtrzTjIkwJm8Idnm5hSuKWUZHpSBsmbfNBLB1
-         irFloNclFnd/hEcQrZq92YQI+qni8gKISN2bg7v4/DhVuIn2tSv9eKQa7lkpceTOMl
-         yd0iz/YlDRSeQ==
+        s=k20201202; t=1660491415;
+        bh=4w3lDk5hzKUuT+9+ilwQbT7hBop2B7aR7/BqfQaQuMM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lzxeP/vgnryJsW5c6XT087rEAVDCqrNX/FVQWgYoGT9wKZbrkpql6PTQVyEtxAIDP
+         ZXOMABkWE1KaladI4/kSsJpzIZ+56Lq+P3fVM/rMd3yDXwj6tjEGLrAUr6PutL/7Rn
+         Q70Oa1KhKJ2PwC9K60Is5RvxFK53ZMpwRUaM2IzT60QHcAML7C+7jZhIe5XtfzYkS9
+         qGhPwg9lJS25TkMBzyIe5kke55mZJcxqxTvWn9+37m0jvlEvDeGkKMO60byyD/ipTu
+         pG0P5k9JxFC4Re4hlcdcF71IIcG4IHj76oMxGACToPmySuPYtKFLphCVaOZQ0bl2hS
+         OMODoXS/LNHQQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
@@ -39,12 +39,10 @@ Cc:     Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
         Sasha Levin <sashal@kernel.org>, tglx@linutronix.de,
         thierry.reding@gmail.com, jonathanh@nvidia.com,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 2/9] irqchip/tegra: Fix overflow implicit truncation warnings
-Date:   Sun, 14 Aug 2022 11:36:29 -0400
-Message-Id: <20220814153637.2380406-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 1/7] irqchip/tegra: Fix overflow implicit truncation warnings
+Date:   Sun, 14 Aug 2022 11:36:46 -0400
+Message-Id: <20220814153652.2380549-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153637.2380406-1-sashal@kernel.org>
-References: <20220814153637.2380406-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -85,7 +83,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/irqchip/irq-tegra.c b/drivers/irqchip/irq-tegra.c
-index 0abc0cd1c32e..1b3048ecb600 100644
+index 3973a14bb15b..02ffefd5011a 100644
 --- a/drivers/irqchip/irq-tegra.c
 +++ b/drivers/irqchip/irq-tegra.c
 @@ -157,10 +157,10 @@ static int tegra_ictlr_suspend(void)
