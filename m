@@ -2,65 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFFA65AD78F
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Sep 2022 18:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B96275AD818
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Sep 2022 19:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbiIEQd0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Sep 2022 12:33:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40116 "EHLO
+        id S238136AbiIERJH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Sep 2022 13:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236332AbiIEQdX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Sep 2022 12:33:23 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211582C660;
-        Mon,  5 Sep 2022 09:33:20 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id lx1so18050981ejb.12;
-        Mon, 05 Sep 2022 09:33:19 -0700 (PDT)
+        with ESMTP id S237909AbiIERIl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Sep 2022 13:08:41 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B71E5E669;
+        Mon,  5 Sep 2022 10:08:40 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id q21so4445493edc.9;
+        Mon, 05 Sep 2022 10:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=hG5qOC2H13cLCXaupR4+peOyAcb2vcqeBUPSCe9IBNs=;
-        b=MBI+gg/logTsOdyivgK1UsqKQyV+jND6xnwUGSJbNZU7TjAaFQ4z74KpS1Dz0Snixy
-         mWv/kFOh7fgnTcx7Luh0MsodmrZY7MKPRgYzCudyzKnYDyQ2iGB6/hXt9aGwZosScqB4
-         ydoDjMdZW+mBHmG1Pj00mXFgV/Q5iUuhls987uyDWSU/z6oUwTQlJZzhmLDcyLTR90dh
-         mnssk4Kfs15LRjireNhxNHqDnYdlN/oepHHrTzzt7uYBytsFx8/JlySjdtslclaZ0Vn4
-         tRlNrV4GURTDqyWQLBegzlhofnNuCMnLtbHhFqGowwNYwU4Xs4czikTeoUc9ajWu38bF
-         bzzg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Z4NPH3VMOZhGzciAdUkGzboSEXiv1Tr3n/uskw1TaLc=;
+        b=HtssaPqx0g/dBFfnT62VO14ARKa+MavTMD+vXVu8bojf38JW+7oMZQ6FC2b1O4Cn7+
+         ANa1bm9arL1ODBssnKv0v1QZ2foCcZLwISc8vqGEEx859S6el9U3L55spM6H42+JUa4H
+         hWWKnlNkDTZZRLPKklGGucJUC8hrF6LXmk7ExVE3X1YNyBdOqLTwCuCYyDM4FawOoFH1
+         OksKreJsl8IH/zu9GwIpB0dofVgvbO7WFF9pl2PZ8RP+8VfCYrx0QOSLF/VIaRlt0WGH
+         9ki1epJB7901I41mfJrm0fqBnMX+OfTykLCbhcrhrMsPrw9e1SfBQWNUI3vgbw+3feWq
+         b+6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=hG5qOC2H13cLCXaupR4+peOyAcb2vcqeBUPSCe9IBNs=;
-        b=6YGF+rL5wB+UN0D5td5NcK/8qDjFGgDQQrOLEPDAFn2ZLEF7L1hsot3+qMXeTwPL8C
-         OPhZQbDDeT8f/OMkwocRjtfrhO3ErlosJPpadQ1Ojgzb3wqMhqOoKY0Hy9ugUvANlMvx
-         FXUUP6FSHA7H8PEaK16Q4XTMRY63nxg8pfS4VY5zhTP2iWb3g9iHbIKvNM/6HOnYE5S3
-         B6HvO+AjrwFwixm+FFXl8Hb3QAb0rVt3R9sCh7JwC8xvkuz4ORp2bDkIrUXJY8042sIR
-         DrekcNhNU8+ZIwLdWaxXVx0Yv+8CtaCXWL8NkR+F7i5sn/vpcf3COFL3z7Ru9WeTKLmJ
-         HXug==
-X-Gm-Message-State: ACgBeo33jHWjH+akT9GubxeJ/zIWKkW1ESoD0MD75rKHq9+IE+1AD4ZM
-        Pn0vvmBxu8o7ViIhjx2xhno=
-X-Google-Smtp-Source: AA6agR61TNYjnDHRsTKAWCI/N+zJmwR6G3Of3lFBODxyik1mowbXKlE2m6prYDYlGfFGBl5sEMdzXw==
-X-Received: by 2002:a17:907:7f02:b0:73d:dffa:57b3 with SMTP id qf2-20020a1709077f0200b0073ddffa57b3mr34533961ejc.19.1662395598445;
-        Mon, 05 Sep 2022 09:33:18 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Z4NPH3VMOZhGzciAdUkGzboSEXiv1Tr3n/uskw1TaLc=;
+        b=FNRpA7L7anao7ell4//yTVH3Eod6kkNMGyt3ybBM+KhXQ7ig6EKuHVc0YBLsloVpOL
+         X5rydoMk1t+qy65w4byiADRaZj3200nTXWOtvKnYSFBeeGy4T4l5AG6g36hQcTT+2coV
+         ud0OqPmFwZcsrqa6zcYAQMFMeKWW+8NNEvdSjufmTy1WXwKByLtY9+kw0TZJjNL6QGp9
+         t47c1nfE4/nk5X2jp86gEzIpHzgAi4yrXeOSNwGeLmUOao0W7BnD/gbg4BVFIJko5gZe
+         Gl12GeFDKWNK/q4jX/RDW+qelKd1KfCluaVOuDul1IkzRyv7kuX/8cPBQ3PhE65jlfsP
+         jstw==
+X-Gm-Message-State: ACgBeo0eRAQmpuavyHmHptiBDYL1/PnPB9RhWx0TilGjhQq+n1ZfziN4
+        SOHU3x41khrOB1pSPWjFP33lz1/w1mE=
+X-Google-Smtp-Source: AA6agR4s46ks47YtBXe+JZtx/QYH+X1xg0JmwBdjA7c8NgvDIjKokhXf7CMf1PItkPO6PqCYhfsZSQ==
+X-Received: by 2002:aa7:dcd2:0:b0:44e:69f3:edd1 with SMTP id w18-20020aa7dcd2000000b0044e69f3edd1mr6553227edu.244.1662397719116;
+        Mon, 05 Sep 2022 10:08:39 -0700 (PDT)
 Received: from localhost (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ca8-20020aa7cd68000000b0043d7b19abd0sm1962920edb.39.2022.09.05.09.33.16
+        by smtp.gmail.com with ESMTPSA id vs22-20020a170907139600b00734a9503bcasm5266319ejb.135.2022.09.05.10.08.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 09:33:17 -0700 (PDT)
+        Mon, 05 Sep 2022 10:08:38 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 6/6] arm64: tegra: Add simple framebuffer on Jetson Xavier NX
-Date:   Mon,  5 Sep 2022 18:33:00 +0200
-Message-Id: <20220905163300.391692-7-thierry.reding@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+        devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, asahi@lists.linux.dev
+Subject: [PATCH v8 0/5] iommu: Support mappings/reservations in reserved-memory regions
+Date:   Mon,  5 Sep 2022 19:08:28 +0200
+Message-Id: <20220905170833.396892-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220905163300.391692-1-thierry.reding@gmail.com>
-References: <20220905163300.391692-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,70 +75,78 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add the framebuffer carveout reserved memory node as well as a simple-
-framebuffer node that is used to bind to the framebuffer that the
-bootloader has set up.
+Hi,
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- .../nvidia/tegra194-p3509-0000+p3668-0001.dts | 32 +++++++++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  2 +-
- 2 files changed, 33 insertions(+), 1 deletion(-)
+This version has several fixes over the previous v6/v7, which can be
+found here:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
-index 238fd98e8e45..163950321c38 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
-@@ -7,4 +7,36 @@
- / {
- 	model = "NVIDIA Jetson Xavier NX Developer Kit (eMMC)";
- 	compatible = "nvidia,p3509-0000+p3668-0001", "nvidia,tegra194";
-+
-+	chosen {
-+		framebuffer {
-+			compatible = "simple-framebuffer";
-+			memory-region = <&fb>;
-+			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
-+			clocks = <&bpmp TEGRA194_CLK_SOR1_REF>,
-+				 <&bpmp TEGRA194_CLK_SOR1_OUT>,
-+				 <&bpmp TEGRA194_CLK_SOR1_PAD_CLKOUT>,
-+				 <&bpmp TEGRA194_CLK_PLLD2>,
-+				 <&bpmp TEGRA194_CLK_PLLDP>,
-+				 <&bpmp TEGRA194_CLK_NVDISPLAY_DISP>,
-+				 <&bpmp TEGRA194_CLK_NVDISPLAYHUB>,
-+				 <&bpmp TEGRA194_CLK_NVDISPLAY_P0>;
-+			width = <1920>;
-+			height = <1080>;
-+			stride = <7680>;
-+			format = "a8b8g8r8";
-+		};
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		fb: framebuffer@2,573a0000 {
-+			compatible = "framebuffer";
-+			reg = <0x2 0x573a0000 0x0 0x007e9000>;
-+			iommu-addresses = <&dc0 0x2 0x573a0000 0x0 0x007e9000>;
-+		};
-+	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 3e6ac20ace3d..5c5343cf8dc9 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1929,7 +1929,7 @@ display-hub@15200000 {
- 
- 				ranges = <0x15200000 0x15200000 0x40000>;
- 
--				display@15200000 {
-+				dc0: display@15200000 {
- 					compatible = "nvidia,tegra194-dc";
- 					reg = <0x15200000 0x10000>;
- 					interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
+  https://lore.kernel.org/all/20220705125834.431711-1-thierry.reding@gmail.com/
+
+An example is included in the DT bindings, but here is an extract of
+what I've used to test this:
+
+        reserved-memory {
+                #address-cells = <2>;
+                #size-cells = <2>;
+                ranges;
+
+                /*
+                 * Creates an identity mapping for the framebuffer that
+                 * the firmware has setup to scan out a bootsplash from.
+                 */
+                fb: framebuffer@92cb2000 {
+                        reg = <0x0 0x92cb2000 0x0 0x00800000>;
+                        iommu-addresses = <&dc0 0x0 0x92cb2000 0x0 0x00800000>;
+                };
+
+                /*
+                 * Creates a reservation in the IOVA space to prevent
+                 * any buffers from being mapped to that region. Note
+                 * that on Tegra the range is actually quite different
+                 * from this, but it would conflict with the display
+                 * driver that I tested this against, so this is just
+                 * a dummy region for testing.
+                 */
+                adsp: reservation-adsp {
+                        iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00010000>;
+                };
+        };
+
+        host1x@50000000 {
+                dc@54200000 {
+                        memory-region = <&fb>, <&adsp>;
+                };
+        };
+
+This is abbreviated a little to focus on the essentials. Note also that
+the ADSP reservation is not actually used on this device and the driver
+for this doesn't exist yet, but I wanted to include this variant for
+testing, because we'll want to use these bindings for the reservation
+use-case as well at some point.
+
+Adding Alyssa and Janne who have in the past tried to make these
+bindings work on Apple M1. Also adding Sameer from the Tegra audio team
+to look at the ADSP reservation and double-check that this is suitable
+for our needs.
+
+Thierry
+
+Navneet Kumar (1):
+  iommu/tegra-smmu: Support managed domains
+
+Thierry Reding (4):
+  dt-bindings: reserved-memory: Document iommu-addresses
+  iommu: Implement of_iommu_get_resv_regions()
+  iommu: dma: Use of_iommu_get_resv_regions()
+  iommu/tegra-smmu: Add support for reserved regions
+
+ .../reserved-memory/reserved-memory.yaml      | 70 +++++++++++++++
+ drivers/iommu/dma-iommu.c                     |  3 +
+ drivers/iommu/of_iommu.c                      | 85 +++++++++++++++++++
+ drivers/iommu/tegra-smmu.c                    | 85 +++++++++++++++----
+ include/linux/of_iommu.h                      |  8 ++
+ 5 files changed, 234 insertions(+), 17 deletions(-)
+
 -- 
 2.37.2
 
