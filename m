@@ -2,67 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F7265AE923
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 15:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E465AE997
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 15:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240059AbiIFNLW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Sep 2022 09:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
+        id S240112AbiIFN3b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Sep 2022 09:29:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240145AbiIFNLT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 09:11:19 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831C3659F8;
-        Tue,  6 Sep 2022 06:11:11 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru [109.252.119.13])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B80DF660037F;
-        Tue,  6 Sep 2022 14:11:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1662469869;
-        bh=5QO1SLp5eg80ObSSt8FLqmBTFoFhiD0BogISlBa9BUQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mOY7c50kE5+Xmrb35k079cHSMFkYyUhYJe+5NjUUjK8ZUXDK2Cj5ao5UFUt6ANYUq
-         MbENZTEK+MC3hZgppOROxiXeWrvpQjkxT6YjcoMgmWubysUlbKG77vCqaEkWRDRal9
-         XXpS0HpF4+46bmoLB10JvyBEUVX9ZdQGSREbTyPXFsZn6YfaEG5VzCQDo8FnzKShL+
-         XBdK7rg58ksb9EzHK9Ozg4bd0EY8Yc3pKrEVM3aopMr0XqtFVapzbd8WRV3eV8G+7D
-         kXDLzfz9Muog+VR73hD4bNVxPc1EBMTiMUwEjla1rHk5Sro9Q91O0seQeTlmhd+iQq
-         3CWCI7wojCwxQ==
-Message-ID: <efe46a7d-89b7-2465-e593-8383d1546c16@collabora.com>
-Date:   Tue, 6 Sep 2022 16:11:03 +0300
+        with ESMTP id S239896AbiIFN33 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 09:29:29 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B35395;
+        Tue,  6 Sep 2022 06:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+        s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=v3ozdKl00Zk3pGYhPltXKnY62thad7R3U2qnCg2ZWmA=; b=TejASX/tUfb05N0Rr03cDfUJ4z
+        c86onR0QHJHnqqOSViQP28CVl6Vw8eKFGdmSoybLPFtoagFjXer4+jRDQNVL6J5ioZmA7Ip/F7Xoa
+        5cYLC+4wcSBeZGwdlBM2f9yvgsJiaMCH1qppoCCxklP/40vjmwLNxmgrvMbgsxxK28yuPfeVARAAr
+        pNiNAAQokoAu6QoqI0J7i7dRSJ5oFrOF0GB7+xJRK0x9zr2XOLIwV19zEwF4vI8TR/WY1CTk0/8U6
+        DZ+O6ZBxkID6uZ2kD6jB8lhM9NjiuII827ydnCZwmaCmBJUCvpuzxsv2PqgwqU6fItVWn6P0JvQ1a
+        hCjXF2Fw==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1oVYdW-008sZV-CB; Tue, 06 Sep 2022 16:29:06 +0300
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Mikko Perttunen <mperttunen@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Sameer Pujar <spujar@nvidia.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] Support for NVDEC on Tegra234
+Date:   Tue,  6 Sep 2022 16:28:15 +0300
+Message-Id: <20220906132823.2390953-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v5 07/33] thermal/drivers/tegra: Switch to new of API
-Content-Language: en-US
-To:     Daniel Lezcano <daniel.lezcano@linexp.org>,
-        daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
-        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
-        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
-        baolin.wang7@gmail.com, f.fainelli@gmail.com,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        glaroque@baylibre.com, miquel.raynal@bootlin.com,
-        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
-        matthias.bgg@gmail.com, j-keerthy@ti.com,
-        Amit Kucheria <amitk@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-References: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
- <20220804224349.1926752-8-daniel.lezcano@linexp.org>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220804224349.1926752-8-daniel.lezcano@linexp.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,56 +62,66 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 8/5/22 01:43, Daniel Lezcano wrote:
-> diff --git a/drivers/thermal/tegra/tegra30-tsensor.c b/drivers/thermal/tegra/tegra30-tsensor.c
-> index 05886684f429..c34501287e96 100644
-> --- a/drivers/thermal/tegra/tegra30-tsensor.c
-> +++ b/drivers/thermal/tegra/tegra30-tsensor.c
-> @@ -159,9 +159,9 @@ static void devm_tegra_tsensor_hw_disable(void *data)
->  	tegra_tsensor_hw_disable(ts);
->  }
->  
-> -static int tegra_tsensor_get_temp(void *data, int *temp)
-> +static int tegra_tsensor_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -	const struct tegra_tsensor_channel *tsc = data;
-> +	const struct tegra_tsensor_channel *tsc = tz->devdata;
->  	const struct tegra_tsensor *ts = tsc->ts;
->  	int err, c1, c2, c3, c4, counter;
->  	u32 val;
-> @@ -217,9 +217,9 @@ static int tegra_tsensor_temp_to_counter(const struct tegra_tsensor *ts, int tem
->  	return DIV_ROUND_CLOSEST(c2 * 1000000 - ts->calib.b, ts->calib.a);
->  }
->  
-> -static int tegra_tsensor_set_trips(void *data, int low, int high)
-> +static int tegra_tsensor_set_trips(struct thermal_zone_device *tz, int low, int high)
->  {
-> -	const struct tegra_tsensor_channel *tsc = data;
-> +	const struct tegra_tsensor_channel *tsc = tz->devdata;
->  	const struct tegra_tsensor *ts = tsc->ts;
->  	u32 val;
->  
-> @@ -240,7 +240,7 @@ static int tegra_tsensor_set_trips(void *data, int low, int high)
->  	return 0;
->  }
->  
-> -static const struct thermal_zone_of_device_ops ops = {
-> +static const struct thermal_zone_device_ops ops = {
->  	.get_temp = tegra_tsensor_get_temp,
->  	.set_trips = tegra_tsensor_set_trips,
->  };
-> @@ -516,7 +516,7 @@ static int tegra_tsensor_register_channel(struct tegra_tsensor *ts,
->  	tsc->id = id;
->  	tsc->regs = ts->regs + 0x40 * (hw_id + 1);
->  
-> -	tsc->tzd = devm_thermal_zone_of_sensor_register(ts->dev, id, tsc, &ops);
-> +	tsc->tzd = devm_thermal_of_zone_register(ts->dev, id, tsc, &ops);
->  	if (IS_ERR(tsc->tzd)) {
->  		if (PTR_ERR(tsc->tzd) != -ENODEV)
->  			return dev_err_probe(ts->dev, PTR_ERR(tsc->tzd),
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com> # Nexus7
+Hi all,
+
+this series adds support for the HW video decoder, NVDEC,
+on Tegra234 (Orin). The main change is a switch from Falcon
+to RISC-V for the internal microcontroller, which brings along
+a change in how the engine is booted. Otherwise it is backwards
+compatible with earlier versions.
+
+In previous iterations, firmware was simply loaded from disk and
+written into engine internal memory. Now, the engine has a
+bootrom that loads the firmware from a carveout where it has been
+loaded by the system bootloader; however, we still need to tell it
+where that carveout is loaded and some offsets into it. For that,
+the first patch adds a new memory controller API to query the
+carveout address. The offsets are read from device tree -- the
+expectation is that at flashing time (when the firmware is also
+flashed), the flasher also delivers a device tree overlay with
+values corresponding to the flashed firmware.
+
+The currently available Linux for Tegra release doesn't yet
+include this device tree overlay flashing, and the firmware version
+it contains is incompatible with this series. The plan is to fix
+that for the next Linux for Tegra release, but if necessary, we
+can postpone merging of this series to once those changes are
+available.
+
+Thanks!
+Mikko
+
+Mikko Perttunen (8):
+  memory: tegra: Add API for retrieving carveout bounds
+  dt-bindings: Add headers for NVDEC on Tegra234
+  dt-bindings: Add bindings for Tegra234 NVDEC
+  arm64: tegra: Add NVDEC on Tegra234
+  gpu: host1x: Add stream ID register data for NVDEC on Tegra234
+  drm/tegra: nvdec: Support multiple clocks
+  drm/tegra: Add code for booting RISC-V based engines
+  drm/tegra: Add Tegra234 support to NVDEC driver
+
+ .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 118 ++++++++++--
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  27 +++
+ drivers/gpu/drm/tegra/Makefile                |   3 +-
+ drivers/gpu/drm/tegra/drm.c                   |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 | 171 +++++++++++++++---
+ drivers/gpu/drm/tegra/riscv.c                 | 106 +++++++++++
+ drivers/gpu/drm/tegra/riscv.h                 |  30 +++
+ drivers/gpu/host1x/dev.c                      |  12 ++
+ drivers/memory/tegra/mc.c                     |  23 +++
+ drivers/memory/tegra/tegra234.c               |   5 +
+ include/dt-bindings/clock/tegra234-clock.h    |   4 +
+ include/dt-bindings/memory/tegra234-mc.h      |   3 +
+ .../dt-bindings/power/tegra234-powergate.h    |   1 +
+ include/dt-bindings/reset/tegra234-reset.h    |   1 +
+ include/soc/tegra/mc.h                        |  11 ++
+ 15 files changed, 470 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/riscv.c
+ create mode 100644 drivers/gpu/drm/tegra/riscv.h
 
 -- 
-Best regards,
-Dmitry
+2.37.0
+
