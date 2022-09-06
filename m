@@ -2,130 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D975AED4A
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 16:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9F4E5AEE8D
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 17:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241806AbiIFOaB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Sep 2022 10:30:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46918 "EHLO
+        id S232070AbiIFPVn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Sep 2022 11:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242419AbiIFO3N (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 10:29:13 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2060f.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8a::60f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D38D90C6F;
-        Tue,  6 Sep 2022 06:55:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AwmcgaHosj32WcCXocjJ6LNjuLbCSv5VuY/VVqAkPvUZWGri5aIJ4rflrNwBd/LlyKAhrmS9dVDheeWRfgH07YtwrZs7jinktSXjFwNz3CWSvNwg3UcOjCHjK0CZaWzRQ9k5VQC12yL11xJb4NkMpULjOxaEPlMHqgb2Lq+h+jeqor7DMvWPNksG8jwqwLenrr1PsB/N1Zxlqpa6NNv2KhYi37Eiga9tslmOPUg9zTRzrK23gw6H/lpnQpNwTFYeTC6REFRPtd9tMmXf5VaZgqUCFNuA65TzYuE3ppyx+za9ay9G/7s0BVdFwWXKxxd1NZOfAgQ2tK7NbkiYJ5Xm1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N47Nf/3XmUtQI0vjqs2VhVAY+i2L6i3w33rZ6Lpb+ig=;
- b=gzt+9IpmJiJVHia1r+4Qmex0UYxwsUToYjaCvGt8Dqwed0QPClqN8+w6DPySDemowb0cCM5AoMjC7M+XUk5MJZsSaeNeSdozWpsXSmPDSpeWbe7/7FGU1Vy4xoyeXg7JYHs+/rrgs49p2HYVQPN2zGwoAtALzZqMGdYV5gGjN5Gwv4SEAimbsC6C9Kbe2B520YOXgUGAruXLX/5U2xk3AEK5N760+OKykh4F4bsiLsRYxav9MvPOvjxAGY5wd7rddfUEJLpaNodFpJAYDWDUBJY2Ae01os0DOMj02Y6Q0zMCugZOH0k7nH45CX5SKV9GeNoF6KDJYXWtSt9chZUamA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=linux.dev smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N47Nf/3XmUtQI0vjqs2VhVAY+i2L6i3w33rZ6Lpb+ig=;
- b=B/zc6kQ5XTXuyGSqv/or9IOuSa00FJsj98VPpWyOkWpjmYInbJzI+AkO3I2sVcjaGmSCheQu75Xtc8ukMICNbP0i9CiPARl60SoNAmv4s0Nrjf5RTEFCRK+5zZ0zbQn1u0dbdaLn3SE+YtDKZzXeSv0+H/VKwu0WmXWy2KMkwGAIUkQ5fVk0VVzbMKZctTD2lIZVhcmxt64BzQLVgnpU5ZJnLN3MCaffelTF1lAzHX0MO7L04BVADbW/B/Z+vl+B+5rzAc+z16M5EOJys4nhChs1J7E6x81F4Zt4hwxtHHQYZq74XKbNV7ZVFjPNg5FLMVYT/iKAn9F4BR9C3GN0ig==
-Received: from DM6PR07CA0086.namprd07.prod.outlook.com (2603:10b6:5:337::19)
- by MW3PR12MB4377.namprd12.prod.outlook.com (2603:10b6:303:55::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.16; Tue, 6 Sep
- 2022 13:51:25 +0000
-Received: from DM6NAM11FT107.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:337:cafe::55) by DM6PR07CA0086.outlook.office365.com
- (2603:10b6:5:337::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11 via Frontend
- Transport; Tue, 6 Sep 2022 13:51:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- DM6NAM11FT107.mail.protection.outlook.com (10.13.172.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5588.10 via Frontend Transport; Tue, 6 Sep 2022 13:51:24 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL109.nvidia.com (10.27.9.19) with Microsoft SMTP Server (TLS) id
- 15.0.1497.38; Tue, 6 Sep 2022 13:51:23 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Tue, 6 Sep 2022 06:51:22 -0700
-Received: from build-petlozup-20220627T000321362.nvidia.com (10.127.8.12) by
- mail.nvidia.com (10.126.190.182) with Microsoft SMTP Server id 15.2.986.29
- via Frontend Transport; Tue, 6 Sep 2022 06:51:22 -0700
-From:   Petlozu Pravareshwar <petlozup@nvidia.com>
-To:     <jonathanh@nvidia.com>, <thierry.reding@gmail.com>,
-        <p.zabel@pengutronix.de>, <dmitry.osipenko@collabora.com>,
-        <ulf.hansson@linaro.org>, <kkartik@nvidia.com>,
-        <cai.huoqing@linux.dev>, <spatra@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <petlozup@nvidia.com>, Manish Bhardwaj <mbhardwaj@nvidia.com>
-Subject: [PATCH] soc/tegra: pmc: Check device node status property
-Date:   Tue, 6 Sep 2022 13:51:17 +0000
-Message-ID: <20220906135117.341529-1-petlozup@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        with ESMTP id S232795AbiIFPVY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 11:21:24 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEFF82756;
+        Tue,  6 Sep 2022 07:33:05 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id t11-20020a05683014cb00b0063734a2a786so8149104otq.11;
+        Tue, 06 Sep 2022 07:33:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=0oc/efpNyK02TA049vRdVuq+a16ZNo/nBU3UNBlbLlA=;
+        b=Ond+kA/gLnCbMNvdgqRN8z9f1UGtgr1P5+UPOam+19NuXgbZKJD2X268HcEllLuukc
+         biMA7zpfNIOO8QKiof4wib0OLzrUDMZeug4s4jbLdnazxXqvZg1IbDPhAuP6yw0YX5PH
+         IfjpMq3fW8uX3y4bxHms+1rSKaN91n/O/jGpIB9gT4u4jkEL6/BmyJr11X2/rAWogrcL
+         j8bMCw76/pzsmcXma+fRx3KmeG/d1dFb2rPDLhM2R5vKbBdbAgc5QCofWGQsoKWJKKKp
+         Ui1hftWk7FiA/m2s9+6t2BnjxA+mRqGGkCoGfvv04FbuBT8rCBE3BPJ5hrDa1hrw9yRm
+         l1Hw==
+X-Gm-Message-State: ACgBeo0LDlo8jL22F3w4LRKIseeMrZCMA0hle4UIOrKyfULra2kToFrE
+        uTeqSUVnnlgu+ERGxvKaBw2RYnGM/g==
+X-Google-Smtp-Source: AA6agR5MNLEe98jQgQIHK50PgdC2yea2wXhfxxelbBN17o+lzcVRNee4Gc6KiaqLgekEcrc451ilLw==
+X-Received: by 2002:a05:6830:1281:b0:636:d7e9:1906 with SMTP id z1-20020a056830128100b00636d7e91906mr21706186otp.116.1662474443952;
+        Tue, 06 Sep 2022 07:27:23 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k5-20020a056830168500b0063922f00ee2sm5961637otr.39.2022.09.06.07.27.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 07:27:22 -0700 (PDT)
+Received: (nullmailer pid 439485 invoked by uid 1000);
+        Tue, 06 Sep 2022 14:27:21 -0000
+Date:   Tue, 6 Sep 2022 09:27:21 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH 2/6] dt-bindings: reserved-memory: Support framebuffer
+ reserved memory
+Message-ID: <20220906142721.GA427176-robh@kernel.org>
+References: <20220905163300.391692-1-thierry.reding@gmail.com>
+ <20220905163300.391692-3-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d35beff-be06-49ef-9132-08da900ee372
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4377:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dAyTuT5S62s6G2ELgbAJHGY5W9P3FdO7ymJ7Kz26pddwbRKXGMBpXNkWzYQQ6QOYUAJCzujbWWFLQ3zSXre+auqs9aKp0j3g3v2fYERjXr/Ozf7ZK4cJ0Szz97n6ifLOx4ocyXokOpE1GcJu8f7x/d8FqyEODbuWQSh4vbqAknJBoo2F9tyFwpZFFEdu43lHqxcRNm2lnge5Nc91n7RB2/VENicHCB+b5tI99v+qWUjAClR/+L1Fe13PQtOzmIt3SLR0UWWJt2B68O9q9XerYDSWLf660SDf3uK7iuJlW1H8qywk+3bK2VjyXDWMaqxdzep0Z+MTq+5C84U/rsTsbnHJbqrmxPZbljFnB2/X/qE+RDxbAt/nl1rnahmygFe7P4ntC/pJsuM30vrYIax9navuJ5RPK54yd800bLa9tF0ACuNNJzaS+3xngHaxOvqIGY4SiMvIGoSxr22whgxQxTdODsSoAJLPcM5wn26JiS1r93XKi1UI+Fb726xQuTe+LbLfFxiBXCTNUyzqzZC6WKjo5tBxfuash6FLyySFB5VVtyggtz0IYhTsJb/Gzi9LfIkV94+LPsIb+gdscz70rCQHW5Age+5r/uZllwcufRNNJ67CRfKfOPeRqUlT/z7VDIO7dfVudOYH51nThpbqIQsoEopAG+7DuXsB3t1GWDjC3O/doZuIFdHcA2iLL2O4IQjS1HQyXpySShIPBcWrPMM3ux4tdMbDAIiIFR5KMjLBv422tCCPFCumrP+Pwg9LIckuBLwoWkIYUOWe5JXhEDFH2linKwUfjXZw4iFH9mjb8DVY2mb82utdMBk6g9oC
-X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(136003)(39860400002)(346002)(40470700004)(36840700001)(46966006)(54906003)(70206006)(478600001)(110136005)(2906002)(316002)(70586007)(36756003)(356005)(81166007)(921005)(86362001)(82740400003)(36860700001)(2616005)(1076003)(107886003)(7696005)(26005)(6666004)(336012)(4326008)(186003)(5660300002)(8676002)(41300700001)(82310400005)(40460700003)(83380400001)(426003)(40480700001)(47076005)(4744005)(8936002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 13:51:24.4974
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d35beff-be06-49ef-9132-08da900ee372
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT107.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4377
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905163300.391692-3-thierry.reding@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In early_initcall, check if PMC device is available for use
-and avoid accessing PMC resources if the device node status
-property is set to disabled.
+On Mon, Sep 05, 2022 at 06:32:56PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Document the "framebuffer" compatible string for reserved memory nodes
+> to annotate reserved memory regions used for framebuffer carveouts.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../bindings/reserved-memory/framebuffer.yaml | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml b/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
+> new file mode 100644
+> index 000000000000..80574854025d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: /reserved-memory framebuffer node bindings
+> +
+> +maintainers:
+> +  - devicetree-spec@vger.kernel.org
+> +
+> +allOf:
+> +  - $ref: "reserved-memory.yaml"
 
-Signed-off-by: Manish Bhardwaj <mbhardwaj@nvidia.com>
-Signed-off-by: Petlozu Pravareshwar <petlozup@nvidia.com>
----
- drivers/soc/tegra/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Don't need quotes.
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 6a86961477e8..8c7b46ac6ad6 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -4295,7 +4295,7 @@ static int __init tegra_pmc_early_init(void)
- 		return -ENXIO;
- 	}
- 
--	if (np) {
-+	if (of_device_is_available(np)) {
- 		pmc->soc = match->data;
- 
- 		if (pmc->soc->maybe_tz_only)
--- 
-2.17.1
+> +
+> +properties:
+> +  compatible:
+> +    const: framebuffer
+> +    description: >
+> +      This indicates a region of memory meant to be used as a framebuffer for
+> +      a set of display devices. It can be used by an operating system to keep
+> +      the framebuffer from being overwritten and use it as the backing memory
+> +      for a display device (such as simple-framebuffer).
 
+I'm on the fence whether we need this. It doesn't really add anything 
+because 'simple-framebuffer' will reference this node and you can find 
+it that way. I guess a bootloader may not setup 'simple-framebuffer', 
+but then it should probably not have this node either.
+
+On the flip side, better to have compatibles than not to identify nodes.
+
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+
+Use '/ {' to skip the boilerplate causing the error.
+
+> +      chosen {
+> +        framebuffer {
+> +          compatible = "simple-framebuffer";
+> +          memory-region = <&fb>;
+> +        };
+> +      };
+> +
+> +      reserved-memory {
+> +          #address-cells = <1>;
+> +          #size-cells = <1>;
+> +          ranges;
+> +
+> +          fb: framebuffer@80000000 {
+> +              compatible = "framebuffer";
+> +              reg = <0x80000000 0x007e9000>;
+> +          };
+> +      };
+> +
+> +...
+> -- 
+> 2.37.2
+> 
+> 
