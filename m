@@ -2,148 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F4E5AEE8D
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 17:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3795AEF18
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Sep 2022 17:41:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232070AbiIFPVn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Sep 2022 11:21:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42894 "EHLO
+        id S232398AbiIFPlc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Sep 2022 11:41:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232795AbiIFPVY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 11:21:24 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEFF82756;
-        Tue,  6 Sep 2022 07:33:05 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id t11-20020a05683014cb00b0063734a2a786so8149104otq.11;
-        Tue, 06 Sep 2022 07:33:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=0oc/efpNyK02TA049vRdVuq+a16ZNo/nBU3UNBlbLlA=;
-        b=Ond+kA/gLnCbMNvdgqRN8z9f1UGtgr1P5+UPOam+19NuXgbZKJD2X268HcEllLuukc
-         biMA7zpfNIOO8QKiof4wib0OLzrUDMZeug4s4jbLdnazxXqvZg1IbDPhAuP6yw0YX5PH
-         IfjpMq3fW8uX3y4bxHms+1rSKaN91n/O/jGpIB9gT4u4jkEL6/BmyJr11X2/rAWogrcL
-         j8bMCw76/pzsmcXma+fRx3KmeG/d1dFb2rPDLhM2R5vKbBdbAgc5QCofWGQsoKWJKKKp
-         Ui1hftWk7FiA/m2s9+6t2BnjxA+mRqGGkCoGfvv04FbuBT8rCBE3BPJ5hrDa1hrw9yRm
-         l1Hw==
-X-Gm-Message-State: ACgBeo0LDlo8jL22F3w4LRKIseeMrZCMA0hle4UIOrKyfULra2kToFrE
-        uTeqSUVnnlgu+ERGxvKaBw2RYnGM/g==
-X-Google-Smtp-Source: AA6agR5MNLEe98jQgQIHK50PgdC2yea2wXhfxxelbBN17o+lzcVRNee4Gc6KiaqLgekEcrc451ilLw==
-X-Received: by 2002:a05:6830:1281:b0:636:d7e9:1906 with SMTP id z1-20020a056830128100b00636d7e91906mr21706186otp.116.1662474443952;
-        Tue, 06 Sep 2022 07:27:23 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k5-20020a056830168500b0063922f00ee2sm5961637otr.39.2022.09.06.07.27.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 07:27:22 -0700 (PDT)
-Received: (nullmailer pid 439485 invoked by uid 1000);
-        Tue, 06 Sep 2022 14:27:21 -0000
-Date:   Tue, 6 Sep 2022 09:27:21 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH 2/6] dt-bindings: reserved-memory: Support framebuffer
- reserved memory
-Message-ID: <20220906142721.GA427176-robh@kernel.org>
-References: <20220905163300.391692-1-thierry.reding@gmail.com>
- <20220905163300.391692-3-thierry.reding@gmail.com>
+        with ESMTP id S231891AbiIFPiN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Sep 2022 11:38:13 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85747C6E82;
+        Tue,  6 Sep 2022 07:47:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=amrRh4ZPtsTEYKAWOBU1ABMQl3k1FLLm/OK/TnZ4Tb19KyoNTLaxNIzXSI1m70yRrCEtwSKs4mfGinIHB2Vo++mmCw3rudsarl9A6JIWumkhVpLjp+JfK/LpF4sG6NipV3I7RQimYPD14IE2T1ZRqN8XONfxKEn5C9FQA2dWFb1csjAALFCQy6XNHYFKXTr6PKYywRyUap1yohPl0OVZVpDtt8BEQdh7LeYDah9V7m8dc1KjGNFW9kK4JmwwKRvTiW/2TisCoLytqF/QsaMu24ONhyHaUcEcKMCqpbxfoMbnUrpxTmtDwrSlpIWct5Rvj/H531zenpcy/J5prul+IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u07Q4Bkd6p1xDOkKVsrYKVkm5d9bpT1o3fUxl8xQ7Lo=;
+ b=G0PVM/6hgdIiNQieOgKm/0l32/dbF28SgaTXcjHfzJ0oeaIBIaXh85xxwjAEZdchQbiMJC+pFi+yXMSudt+odFuWKUPznZIBLg6IDsTZhp9yHNAq5T92+Iwy8TJOSE9Ux90D4BvKN/EsIJMT/vcxYtiyReL/hDGQUeJuubMQ6ZAHFRrOr9+z62h1JS1TmKrzCcQxR0KfbOQZmAoDqKAdUPPBoYY1FYnVjeOBuEdrO4kCWw2GJ24MI6BvyA0n6s4fK07gcZD4tgNn9St3bSlTUyNmfsoWxIzBH7rsiZRi0AuaeNjAZva3L/qX0a7dtACi5VysLpvy9SfM7jR/0NdLLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u07Q4Bkd6p1xDOkKVsrYKVkm5d9bpT1o3fUxl8xQ7Lo=;
+ b=dnQ8J4LwUDRY6MSCB0N7W1Y2t1xx2VmfgAcSytPd6rDY0aDPNbpwKx/s5CG/4FN1B45fhTv1yVEYuf+kHx/7hLq6lDVZ0U7NhEwT/xUAiP+UT2Zx+w6wLhgPB+Ig5sykU7b25YSWnxNa5Um12woTps1S0TZGN2KMWK92X+EoNX4iZrCva3Q9AOl9ozZL0QrlGPNWYC61eEq5rBDNR5WXtiIgTK7qhXUvc2HC5AV/l+Hte0Zh3HHOnRzD8DZ2dYlkjtQfkugb9K8sb+weaREZuU4OJNWZAL/70V+UCZ1cHUPLPJd3ieefIP/QIJABuKHPeQZychtCEYLuEPTuEpZ3VQ==
+Received: from DM6PR14CA0060.namprd14.prod.outlook.com (2603:10b6:5:18f::37)
+ by MN2PR12MB4079.namprd12.prod.outlook.com (2603:10b6:208:1d5::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Tue, 6 Sep
+ 2022 14:47:36 +0000
+Received: from DM6NAM11FT067.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:18f:cafe::d2) by DM6PR14CA0060.outlook.office365.com
+ (2603:10b6:5:18f::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
+ Transport; Tue, 6 Sep 2022 14:47:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.238) by
+ DM6NAM11FT067.mail.protection.outlook.com (10.13.172.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5588.10 via Frontend Transport; Tue, 6 Sep 2022 14:47:36 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Tue, 6 Sep
+ 2022 14:47:35 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 6 Sep 2022
+ 07:47:34 -0700
+Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Tue, 6 Sep 2022 07:47:31 -0700
+From:   Akhil R <akhilrajeev@nvidia.com>
+To:     <christian.koenig@amd.com>, <devicetree@vger.kernel.org>,
+        <digetx@gmail.com>, <jonathanh@nvidia.com>, <ldewangan@nvidia.com>,
+        <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <robh+dt@kernel.org>,
+        <sumit.semwal@linaro.org>, <thierry.reding@gmail.com>,
+        <wsa@kernel.org>
+CC:     <akhilrajeev@nvidia.com>
+Subject: [PATCH v2 0/3] Add GPCDMA support to Tegra I2C
+Date:   Tue, 6 Sep 2022 20:17:13 +0530
+Message-ID: <20220906144716.16274-1-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220905163300.391692-3-thierry.reding@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: af3c93ce-288e-43dd-d1ae-08da9016bd13
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4079:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cRyuyvZIrdDFNqyvZ2SAUQirhatroLXj4TrwN7iTwzOStB73l7LgbXB2KOiijdywiK+sY8eAZz8fxyGbqOxtiaoH5+XPCK8MVhFg/v2AHdpS9tZoYG/WmZx5AHuZ6RcyQHjo8nMj+z19xwqqJpZE7TsTTCQPe/pcbg/QZYYGlQ4+6M/XWM8w97izNtrpH8I5iAyBT+FolOtLWxxhjMFnSHpcF9nXjjcvURrDNFDTG/18Cq/k+KkQB1WEWvviiRTZ1yg7OXuZVXjfQZNSwXrvqsKtkkB5fgXbBYeAFMzXbJuCpptMTnNwLOOJItb2rdapA4sMmIuRSzO/5Q8hSbtjMbw+BKqGlf3dZEKfPdpt+hbhzFk13qobGFeon+qnwRYN3ugrQACjgdAAA2ftSaxzzqjsy4TqUPhFeYFxqf3wb5EqACuzd74YBgqCGKVLSMCBsZVE/K3lWasya31JtnaYvuHcmjwbLcBErYWQuI7I/nWFtkNG9flze1GkgL1cT608IFcTmQbGecI2V1Luu0OfHUoWaitRzKK5xdA31+J3c8sDUgU1wFkeRVsB8x07JHxYbZAcxUPMgkE06y8und5Nxe5q3MMUYr4FzT68CHkBFhQ4NdEvhHPlqgqTCNW/hBcuJmWO1v3zQRb8/eTHDYHBvUbYieQzd6UWkXdHSvesUBJLGj81dhdypekazQFsCdiTMBw+5zMrBMGxm7bVlTmp1lE06JTwBmGJ9g2X9jTc5ZheSaC2dU6VvCsg5zAxszUi2oTSoRdrKHiCMpOGqIRkvz6Ef1EhG14edkl1ke5zEFE6HiBEErJI27F3tqLTfIcaDz6mvtp2TbFtMNLo4jXgoxCahZoiMN237SD2FIhl1+FovgL4jj3Q7uphzYWA5TRa
+X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(136003)(376002)(396003)(46966006)(36840700001)(40470700004)(82740400003)(356005)(8676002)(921005)(4326008)(40460700003)(186003)(70586007)(81166007)(336012)(82310400005)(2616005)(8936002)(478600001)(83380400001)(70206006)(36756003)(1076003)(107886003)(7416002)(5660300002)(36860700001)(4744005)(41300700001)(6666004)(40480700001)(26005)(86362001)(7696005)(316002)(426003)(2906002)(110136005)(47076005)(2101003)(83996005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 14:47:36.1125
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: af3c93ce-288e-43dd-d1ae-08da9016bd13
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT067.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4079
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Sep 05, 2022 at 06:32:56PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Document the "framebuffer" compatible string for reserved memory nodes
-> to annotate reserved memory regions used for framebuffer carveouts.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../bindings/reserved-memory/framebuffer.yaml | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml b/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
-> new file mode 100644
-> index 000000000000..80574854025d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: /reserved-memory framebuffer node bindings
-> +
-> +maintainers:
-> +  - devicetree-spec@vger.kernel.org
-> +
-> +allOf:
-> +  - $ref: "reserved-memory.yaml"
+Updates in Tegra I2C driver, device tree and defconfig to support
+GPCDMA for I2C in Tegra 186 and later chips.
 
-Don't need quotes.
 
-> +
-> +properties:
-> +  compatible:
-> +    const: framebuffer
-> +    description: >
-> +      This indicates a region of memory meant to be used as a framebuffer for
-> +      a set of display devices. It can be used by an operating system to keep
-> +      the framebuffer from being overwritten and use it as the backing memory
-> +      for a display device (such as simple-framebuffer).
+Akhil R (3):
+  i2c: tegra: Add GPCDMA support
+  arm64: tegra: Add GPCDMA support for Tegra I2C
+  arm64: defconfig: Make TEGRA186_GPC_DMA built-in
 
-I'm on the fence whether we need this. It doesn't really add anything 
-because 'simple-framebuffer' will reference this node and you can find 
-it that way. I guess a bootloader may not setup 'simple-framebuffer', 
-but then it should probably not have this node either.
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 32 ++++++++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 32 ++++++++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 32 ++++++++++++++++++++++++
+ arch/arm64/configs/defconfig             |  2 +-
+ drivers/i2c/busses/i2c-tegra.c           | 11 +++++---
+ 5 files changed, 105 insertions(+), 4 deletions(-)
 
-On the flip side, better to have compatibles than not to identify nodes.
+-- 
+2.17.1
 
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-
-Use '/ {' to skip the boilerplate causing the error.
-
-> +      chosen {
-> +        framebuffer {
-> +          compatible = "simple-framebuffer";
-> +          memory-region = <&fb>;
-> +        };
-> +      };
-> +
-> +      reserved-memory {
-> +          #address-cells = <1>;
-> +          #size-cells = <1>;
-> +          ranges;
-> +
-> +          fb: framebuffer@80000000 {
-> +              compatible = "framebuffer";
-> +              reg = <0x80000000 0x007e9000>;
-> +          };
-> +      };
-> +
-> +...
-> -- 
-> 2.37.2
-> 
-> 
