@@ -2,162 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 190E85B8680
-	for <lists+linux-tegra@lfdr.de>; Wed, 14 Sep 2022 12:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D0535B8710
+	for <lists+linux-tegra@lfdr.de>; Wed, 14 Sep 2022 13:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiINKkM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 14 Sep 2022 06:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51654 "EHLO
+        id S229472AbiINLND (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 14 Sep 2022 07:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiINKkL (ORCPT
+        with ESMTP id S229586AbiINLNB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 14 Sep 2022 06:40:11 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894CE58097;
-        Wed, 14 Sep 2022 03:40:10 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id sb3so4052481ejb.9;
-        Wed, 14 Sep 2022 03:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=2q8cWxTdOT7NEjEAm48iQBXKuIhQLyWS2hOWoDR0iTY=;
-        b=DylVZ1TI5IYuSNnbh4HQypPHh3hxW8yETwHZ7tK0BXws5BOr1VdvOaNfaqTqAZzeSy
-         iVZLHCZ4IDW5C99L/FnrJjiKqfLCxjLpBeQ2XX/4MiU2z5adY+JbdVnrjcSrrGmjyQxC
-         1GX5lUGb/rcLVVkxep8ENB2iUhltpSeabSGZfHSelMzRhNFw0Eqxd3QgJ4meRdDu80BY
-         UvvqwtY6zFX79xh2/VKWStJjJV8PdxE3T/E23TtdBmw1oumC8GyThADXG6uRMU3nmh6U
-         FBowGk/gAa2xiyOQTjWmnQw71ItLgiUnzdIyEiGYwryC2WrB+jCu8OLyVqyKUnx/kgDg
-         MXoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=2q8cWxTdOT7NEjEAm48iQBXKuIhQLyWS2hOWoDR0iTY=;
-        b=XLLZ3Bl6QTy26NtT5rDNm9zH8C28hfCXaYorQlUuhbtxMvx2iT7VzeE1hCb1sP3+mo
-         Nubh5yJPfgl9sORQkIozSw+OdEwZrSjJaA/0jTeM76Ft9l8/PHYAe2+J5msk8DkKCUZf
-         +Le+aEMsRJH4YHe8CE5g+NM3uB/pWFSsf3NoMLp198AN6kXZ7+3nrleQ/wtkNw0fXkpH
-         D1mBUThJ6gr2xS7tTUE35t0MRJm2db0oa7UGd/pCeqgdcCj+xm3Ho5gmFcLWljgdOfPo
-         x/XtwZ63v4RljcntZsF+NucD7YJ3+TRTAwUYuXNTNPwjYTzJCEAwBi6g/ppce7cIqok+
-         2tsw==
-X-Gm-Message-State: ACgBeo008waOuOqMR0qK34PIQhOtj0UWCC2jMe0veiMky/On+guORIf0
-        kq99px3DbmdR1cMsa/jTA4w=
-X-Google-Smtp-Source: AA6agR548FPwc28DxYS445PZ5foFlZ/dWDKKUyLcm97KljK1vuY6/Kce2cqT8VdhjBo499zB+vRNZg==
-X-Received: by 2002:a17:907:2cf6:b0:77b:2dd9:7cd7 with SMTP id hz22-20020a1709072cf600b0077b2dd97cd7mr13428182ejc.334.1663152009082;
-        Wed, 14 Sep 2022 03:40:09 -0700 (PDT)
-Received: from orome (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id s16-20020a1709064d9000b00772eb5e9f51sm7262675eju.118.2022.09.14.03.40.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 03:40:07 -0700 (PDT)
-Date:   Wed, 14 Sep 2022 12:40:05 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Prathamesh Shete <pshete@nvidia.com>
-Cc:     adrian.hunter@intel.com, ulf.hansson@linaro.org,
-        jonathanh@nvidia.com, p.zabel@pengutronix.de,
-        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, anrao@nvidia.com,
-        smangipudi@nvidia.com, kyarlagadda@nvidia.com
-Subject: Re: [PATCH v2 1/4] mmc: sdhci-tegra: Separate T19x and T23x SoC data
-Message-ID: <YyGvhT4bvNb55kZK@orome>
-References: <20220914095628.26093-1-pshete@nvidia.com>
+        Wed, 14 Sep 2022 07:13:01 -0400
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [IPv6:2001:690:2100:1::15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BB55F204;
+        Wed, 14 Sep 2022 04:12:58 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id DC2D16000867;
+        Wed, 14 Sep 2022 12:12:53 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+        tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+        by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+        with LMTP id YQhThmxqhzsu; Wed, 14 Sep 2022 12:12:51 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 73BED6007C02;
+        Wed, 14 Sep 2022 12:12:51 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+        s=mail; t=1663153971;
+        bh=TE+9CQgt2xAzeh9uyj7cWVGFcHBh3ZaeFCVNfB2arKU=;
+        h=From:To:Cc:Subject:Date;
+        b=MjgauRuOqrxAfQV1uxEKWkuO7RJmfdIuF7mkNoJcRCI3/78ftcHVohDOQ0r35K47G
+         TnrWmZYLcQHgJIOu7T7rX6WHZ4fHKjRTwqoIlHMJ9Msssf7DLZ4Jtf2p63vP5n2Xsi
+         NbU08IhI+03H73vBgcf0JHA4ajOmBtH6/iEZ+/wk=
+Received: from wslaptop.lan (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
+        (Authenticated sender: ist187313)
+        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 26821360089;
+        Wed, 14 Sep 2022 12:12:51 +0100 (WEST)
+From:   Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+        krzysztof.kozlowski+dt@linaro.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/2] arm64: dts: tegra: smaug: Add Wi-Fi and BT DT nodes 
+Date:   Wed, 14 Sep 2022 12:12:19 +0100
+Message-Id: <20220914111221.862929-1-diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bPE/XjzJQ2fi1dxO"
-Content-Disposition: inline
-In-Reply-To: <20220914095628.26093-1-pshete@nvidia.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello,
 
---bPE/XjzJQ2fi1dxO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These patches add DT nodes separately for the BRCM4354 Wi-FI + BT combo
+module in the Pixel C, and have both been tested on it.
 
-On Wed, Sep 14, 2022 at 03:26:25PM +0530, Prathamesh Shete wrote:
-> Create new SoC data structure for T23x platforms.
+Thanks!
 
-Can you please use consistent spelling of Tegra194 and Tegra234 here and
-in the subject? That makes it a bit easier to search for things.
+Diogo Ivo (2):
+  arm64: dts: tegra: smaug: Add Bluetooth node
+  arm64: dts: tegra: smaug: Add Wi-Fi node
 
-> StreamID programming is one of the additional feature
-> added in Tegra234 and later chips
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-That's a bit confusing because this patch doesn't do anything with
-stream ID programming. Perhaps defer that comment to when it becomes
-relevant?
+-- 
+2.37.3
 
-Thierry
-
->=20
-> Signed-off-by: Aniruddha Tvs Rao <anrao@nvidia.com>
-> Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->=20
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegr=
-a.c
-> index 2d2d8260c681..a6c5bbae77b4 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -1556,7 +1556,21 @@ static const struct sdhci_tegra_soc_data soc_data_=
-tegra194 =3D {
->  	.max_tap_delay =3D 139,
->  };
-> =20
-> +static const struct sdhci_tegra_soc_data soc_data_tegra234 =3D {
-> +	.pdata =3D &sdhci_tegra186_pdata,
-> +	.dma_mask =3D DMA_BIT_MASK(39),
-> +	.nvquirks =3D NVQUIRK_NEEDS_PAD_CONTROL |
-> +		    NVQUIRK_HAS_PADCALIB |
-> +		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
-> +		    NVQUIRK_ENABLE_SDR50 |
-> +		    NVQUIRK_ENABLE_SDR104 |
-> +		    NVQUIRK_HAS_TMCLK,
-> +	.min_tap_delay =3D 95,
-> +	.max_tap_delay =3D 111,
-> +};
-> +
->  static const struct of_device_id sdhci_tegra_dt_match[] =3D {
-> +	{ .compatible =3D "nvidia,tegra234-sdhci", .data =3D &soc_data_tegra234=
- },
->  	{ .compatible =3D "nvidia,tegra194-sdhci", .data =3D &soc_data_tegra194=
- },
->  	{ .compatible =3D "nvidia,tegra186-sdhci", .data =3D &soc_data_tegra186=
- },
->  	{ .compatible =3D "nvidia,tegra210-sdhci", .data =3D &soc_data_tegra210=
- },
-> --=20
-> 2.17.1
->=20
-
---bPE/XjzJQ2fi1dxO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmMhr4MACgkQ3SOs138+
-s6GIBQ//RafadWYDI+Sx2L96z9hC8zerwG/M9qu5ohqQc2Mt3pb1XzUE/lPdT/d9
-rXcsOe/1YBz7KJsKnVOSCHt+paplUHTnLsZvyZPAaNsjxWD38s5bARMoVfOPJMRq
-355bNDdYfZwmIdGGsMSu8Kf4CXXM2ASkhgztJwu/2mLOROJmV9jujYho6n8T+9tE
-emNKSQeGQPnsjrTJkVY53cfGO9OAV8s9l1k5AbDwhE2Atw8bV8PWNsCyR+0shY3S
-w26o5sCUoVKXs5mGCg4uQzY90bG0e1/R3PH8yxBj1+1aTGudeadsdn/6i+KqUFoV
-LQUfV7eILj8Fv7wk+yFfIk8Qn66MyE9omR7s4ArV/IUOQAe4VoJWYiOCji5c1WyN
-ozMAMZfnU6iKr5tb+FhBpwrsez3lCQ7LKM7CyYDkMGm0pIxBU+zQQDsP6SCkohAK
-y5iEOXID+ww180/aB3sVNjKSNookWaR9Nffp/h96ySFzELK6PhSxOtEMKrCqDoji
-wU8flrhVJYzwtzNcUh81OqYKnoOU8RU755eIpxGHZHehX8No5dZV3fNN9gCTHLeA
-aPudvlmrX3uXzBrp5S0iGzxTLeA470ruC8wHczh0xu31mvsGjGMj8SSI+vEffkUa
-+1hymqH51i/B3UlblSaSIeOng5CRBpXrd3uOt/nLZ+vdjaPC68I=
-=dWyL
------END PGP SIGNATURE-----
-
---bPE/XjzJQ2fi1dxO--
