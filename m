@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E5C5B8711
-	for <lists+linux-tegra@lfdr.de>; Wed, 14 Sep 2022 13:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB385B870D
+	for <lists+linux-tegra@lfdr.de>; Wed, 14 Sep 2022 13:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiINLNE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 14 Sep 2022 07:13:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbiINLNC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
+        id S229649AbiINLNC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Wed, 14 Sep 2022 07:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229472AbiINLNB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 14 Sep 2022 07:13:01 -0400
 Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [IPv6:2001:690:2100:1::15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EB35E643;
-        Wed, 14 Sep 2022 04:12:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661445FAE3;
+        Wed, 14 Sep 2022 04:12:59 -0700 (PDT)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 1F4326007C12;
-        Wed, 14 Sep 2022 12:12:55 +0100 (WEST)
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id CCC076008769;
+        Wed, 14 Sep 2022 12:12:57 +0100 (WEST)
 X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
         tecnico.ulisboa.pt
 Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
         by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
-        with LMTP id 8uI3pcrmVLhY; Wed, 14 Sep 2022 12:12:52 +0100 (WEST)
+        with LMTP id zI4coHjeCo5B; Wed, 14 Sep 2022 12:12:54 +0100 (WEST)
 Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id AB2646007C0F;
-        Wed, 14 Sep 2022 12:12:52 +0100 (WEST)
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id E4D406007C02;
+        Wed, 14 Sep 2022 12:12:53 +0100 (WEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
-        s=mail; t=1663153972;
-        bh=1F25R9TmJ+XPgpvmFc9bytaCvAg1W4j5vCdm/FevPeE=;
+        s=mail; t=1663153973;
+        bh=CJQ0G0mq+t8EAFufh+9zSbkOe8T4djbo6UCGC6sqBfc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=uPbB+mm/PWnKFCI8EFCLMN8MceDDQECzv95fG9Ib6FDWPUcVwVcdsHZ4QvqKHkmuy
-         sIQi2sx5Urt9Rth1CDfq2zH/xzo5wrc2TBJrlCL62bynq5AQXDSPlkJYzp3MZCirAl
-         zdROKm4ZL5kbuTphzwd+I/VV9t/rvLDa9dnknPJk=
+        b=fLdFIzxuU1PDU72a4tYNpFQZ22oldRFxeOTmvvgPjh+Sk2GcFRbi1EvwtNx1hsoLN
+         nu+CLRYax5H4p0Ltccn3+gbwgryj5kZmUJZAGPJ1I6u7KXgqo2KLBGzyqI1xcAS+0M
+         7106eDJF++7upngWSXhrFZq7ChRUbTPvwgm4Hwp4=
 Received: from wslaptop.lan (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
         (Authenticated sender: ist187313)
-        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 4304A360089;
-        Wed, 14 Sep 2022 12:12:52 +0100 (WEST)
+        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id C7F2E360089;
+        Wed, 14 Sep 2022 12:12:53 +0100 (WEST)
 From:   Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
         krzysztof.kozlowski+dt@linaro.org, thierry.reding@gmail.com,
         linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 1/2] arm64: dts: tegra: smaug: Add Bluetooth node
-Date:   Wed, 14 Sep 2022 12:12:20 +0100
-Message-Id: <20220914111221.862929-2-diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH 2/2] arm64: dts: tegra: smaug: Add Wi-Fi node
+Date:   Wed, 14 Sep 2022 12:12:21 +0100
+Message-Id: <20220914111221.862929-3-diogo.ivo@tecnico.ulisboa.pt>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220914111221.862929-1-diogo.ivo@tecnico.ulisboa.pt>
 References: <20220914111221.862929-1-diogo.ivo@tecnico.ulisboa.pt>
@@ -60,48 +60,43 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 The Google Pixel C contains a BRCM4354 Wi-Fi + BT module.
-Add a DT node for its BT functionality. Tested on Pixel C.
+Add a DT node for its Wi-Fi functionality. Tested on Pixel C.
 
 Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 ---
- arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-index a263d51882ee..7ae503a29508 100644
+index 7ae503a29508..ffe37d7c66ba 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
 +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-@@ -17,6 +17,7 @@ / {
- 
- 	aliases {
- 		serial0 = &uarta;
-+		serial3 = &uartd;
+@@ -1709,6 +1709,25 @@ usb3-0 {
+ 		};
  	};
  
- 	chosen {
-@@ -1309,6 +1310,22 @@ serial@70006000 {
- 		status = "okay";
- 	};
- 
-+	uartd: serial@70006300 {
-+		compatible = "nvidia,tegra30-hsuart";
++	mmc@700b0200 {
++		power-gpios = <&gpio TEGRA_GPIO(H, 1) GPIO_ACTIVE_HIGH>;
++		bus-width = <4>;
++		non-removable;
++		vqmmc-supply = <&pp1800>;
++		vmmc-supply = <&pp3300>;
++		#address-cells = <1>;
++		#size-cells = <0>;
 +		status = "okay";
 +
-+		bluetooth {
-+			compatible = "brcm,bcm43540-bt";
-+			max-speed = <4000000>;
-+			brcm,bt-pcm-int-params = [01 02 00 01 01];
-+			device-wakeup-gpios = <&gpio TEGRA_GPIO(H, 3) GPIO_ACTIVE_HIGH>;
-+			shutdown-gpios = <&gpio TEGRA_GPIO(H, 4) GPIO_ACTIVE_HIGH>;
++		wifi@1 {
++			compatible = "brcm,bcm4354-fmac", "brcm,bcm4329-fmac";
++			reg = <1>;
 +			interrupt-parent = <&gpio>;
-+			interrupts = <TEGRA_GPIO(H, 5) IRQ_TYPE_LEVEL_LOW>;
-+			interrupt-names = "host-wakeup";
++			interrupts = <TEGRA_GPIO(H, 2) IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "host-wake";
 +		};
 +	};
 +
- 	i2c@7000c400 {
- 		status = "okay";
- 		clock-frequency = <1000000>;
+ 	mmc@700b0600 {
+ 		bus-width = <8>;
+ 		non-removable;
 -- 
 2.37.3
 
