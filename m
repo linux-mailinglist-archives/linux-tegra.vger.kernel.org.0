@@ -2,111 +2,217 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 573AB5BAB5F
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Sep 2022 12:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 449EE5BB162
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Sep 2022 18:56:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231805AbiIPKg1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 16 Sep 2022 06:36:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57658 "EHLO
+        id S229728AbiIPQ4s (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 16 Sep 2022 12:56:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbiIPKfv (ORCPT
+        with ESMTP id S229509AbiIPQ4n (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 16 Sep 2022 06:35:51 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3CAB7768
-        for <linux-tegra@vger.kernel.org>; Fri, 16 Sep 2022 03:20:58 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id m3so10969894eda.12
-        for <linux-tegra@vger.kernel.org>; Fri, 16 Sep 2022 03:20:58 -0700 (PDT)
+        Fri, 16 Sep 2022 12:56:43 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042F1ABD4D
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Sep 2022 09:56:42 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id g3so16039770wrq.13
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Sep 2022 09:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=5K/jTI7fjuDW4G/VqPOVZ9ue0kSth/V/PzuxFr/qC+g=;
-        b=S/JMXXmH9Zy6To5nOJq6ZR0ij3lS+NVTUJHgFx8rxpgsJacw+FJwEadgrLfb+JZ3a0
-         qhjwPba5hJ+8TRI3Xt8vOM+3dAg5rjNys6UeND+ot+F5hpgvJhCmLiPido+IsEdiEcdQ
-         OHYhqReTuFavRANuj5Phwt7Pxl7zRHNpREsldyW0r6J3vjIsWM20DbJKnJ3CTw82iWab
-         ZqR8q1PGl/9umXYyo5J/GWac0jA6IU5TPjWAGK9n0Ez0kE+caBGKQ6QbEvVFIr7/bP/+
-         kJLrgHB9XKzymQ5wIueIXjEUbsbzpMgUf7VY6bZTJ7GFoRbrdcFSA2KmiuoTnjdtEpCq
-         EZqQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=g6sKXgXASIMeZBB6NZfyCrVte8i/wWc80VJT69vF6Ec=;
+        b=WUbA0k+hNEc6Qzgn8oKwFKvWU5X9F4jjgyWtixwC/bt2NwEItkcUEihSUz7wFQjCOB
+         jEEKdX0tQMARtWpSW0oQSW+VACq58GYUGxa+YixsJYjM2w/cmJ5ZcM2FzNoxTvcBnNsx
+         7Z1gW2lgFoVWVTrPq52c6xJ3NYmoO32Y6omD4j5Aj8eNHY6+Z+Hv57tWwBx1vquYPPjy
+         XZGl4jeBL8uNgkgW4INO4eiwmfjUorxXTNLL9D9CuMxsTRKo36YQZmilrrXXYwoW9qRA
+         XVl6LqAY+L6vekvkGVizCeEx8IQho4CtXZehzabQ60w7TYDDKXsj747SZ1JExaAQyFWz
+         UD6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=5K/jTI7fjuDW4G/VqPOVZ9ue0kSth/V/PzuxFr/qC+g=;
-        b=WR5BP9PEiTPhtU77V75tTNbEZz3coMa1oxrVprbW4pbkarFuxrMmb3nuXdSCOaMZUf
-         lLchNsiq7y6eOlxez67XXcFyc0/6H1NNqGeNzEWX+v51uZyWinVNDwczGlQi1/w2hzKz
-         zKb5/Z5cZ0eMtPXjFcYBeOZyFTTDbdvvi5WRwvcfKvTMaIdjhituvwl0tnYTQdllb+FU
-         /gj8cU+F5jupT2s+arOJPta0xWCFsAcIY+od76H0RwzYU/0VBqUXNmrxH9K5GAqgXOD4
-         ON/SZ7wH6nNUkT/fyWpcAQfN6I/JAEyFmTDm9tR4fpluC5NsVFVJV26XQdW2KCtp9Xyk
-         E6Cw==
-X-Gm-Message-State: ACrzQf2+K4AYbVMyfvj1DX6qw/9Ajgk2atv9gDy/Ox7nnoj5Us4nNc9+
-        4Gu3f7NgrigVTIGt9NXSCXE=
-X-Google-Smtp-Source: AMsMyM75Nl7uONh5kfRDrG/I0m+0hj63axO4VVaXJFU3ADb+1LWIXuXeElQImsAj0uP8Ea48HWS8bg==
-X-Received: by 2002:a05:6402:448b:b0:43b:5ec6:8863 with SMTP id er11-20020a056402448b00b0043b5ec68863mr3296514edb.377.1663323610676;
-        Fri, 16 Sep 2022 03:20:10 -0700 (PDT)
-Received: from localhost (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id s1-20020a05640217c100b0044ec76521a1sm13230860edy.55.2022.09.16.03.20.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 03:20:09 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     arm@kernel.org, soc@kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 6/6] arm64: tegra: Default configuration changes for v6.1-rc1
-Date:   Fri, 16 Sep 2022 12:19:57 +0200
-Message-Id: <20220916101957.1635854-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220916101957.1635854-1-thierry.reding@gmail.com>
-References: <20220916101957.1635854-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=g6sKXgXASIMeZBB6NZfyCrVte8i/wWc80VJT69vF6Ec=;
+        b=dz7GMuqBP7UMKptRQVnIykvRM5i/02H9dn97jtghyX8VSPc5VNwdr9GhHcuLssn99X
+         FpKE1kaYgcK6haZxe/kyYSMuyiZsVXK+36vT8y4lBh41aa09aOvzuvgnqjcsGHRfN+q3
+         WhZ+QQt8UHlo8oGcgj6XBNhcIB5K8zfwGhfiYY6uIW5YFM74eVPJI+qHKMKA3DyDrnRS
+         LAhbbzA5vOCJptJ7Ewn0iPtF1xy7HULNPbg/ThEc8uP/h+upwhX+esrBLoWDsAAuPyBw
+         UhFhahTbZ94PREccSVN5iK/mAQG5KKpwkqWTGqjPEGgPXO2aeGcIp0TsgcHTxBSljUnd
+         ZGIQ==
+X-Gm-Message-State: ACrzQf1jSBN3fqU0wacZk57KwJgZdaSbzCgyfRz5dHkLim5Tv27XwlVW
+        0p1W5Z0mKxhfhm+NU4I5C8Zbew==
+X-Google-Smtp-Source: AMsMyM7krkoaqZCh//OQ4HJFErJusbQsRpilmEL0LL2rlGfn3yMfDz3NNImCsilq3MecAU6x3XejGw==
+X-Received: by 2002:a5d:6daa:0:b0:22a:da94:abe4 with SMTP id u10-20020a5d6daa000000b0022ada94abe4mr3296528wrs.543.1663347400456;
+        Fri, 16 Sep 2022 09:56:40 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id t5-20020a5d6a45000000b00229e0def760sm5144544wrw.88.2022.09.16.09.56.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Sep 2022 09:56:39 -0700 (PDT)
+Message-ID: <2b9651b0-94c6-dfd4-9c2d-d530c2cb3e86@linaro.org>
+Date:   Fri, 16 Sep 2022 18:56:38 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 11/30] thermal/drivers/tegra: Use generic
+ thermal_zone_get_trip() function
+Content-Language: en-US
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rafael@kernel.org, Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+References: <20220906164720.330701-1-daniel.lezcano@linaro.org>
+ <20220906164720.330701-12-daniel.lezcano@linaro.org>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20220906164720.330701-12-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi ARM SoC maintainers,
+On 06/09/2022 18:47, Daniel Lezcano wrote:
+> Replace a single call to thermal_zone_get_trip() to get a trip point
+> instead of calling the different ops->get_trip*
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+Any comment on this patch ?
 
-  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+> ---
+>   drivers/thermal/tegra/soctherm.c        | 33 +++++++++++--------------
+>   drivers/thermal/tegra/tegra30-tsensor.c | 17 ++++++-------
+>   2 files changed, 22 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
+> index 1efe470f31e9..96b541458ccd 100644
+> --- a/drivers/thermal/tegra/soctherm.c
+> +++ b/drivers/thermal/tegra/soctherm.c
+> @@ -582,23 +582,23 @@ static int tsensor_group_thermtrip_get(struct tegra_soctherm *ts, int id)
+>   	return temp;
+>   }
+>   
+> -static int tegra_thermctl_set_trip_temp(struct thermal_zone_device *tz, int trip, int temp)
+> +static int tegra_thermctl_set_trip_temp(struct thermal_zone_device *tz, int trip_id, int temp)
+>   {
+>   	struct tegra_thermctl_zone *zone = tz->devdata;
+>   	struct tegra_soctherm *ts = zone->ts;
+> +	struct thermal_trip trip;
+>   	const struct tegra_tsensor_group *sg = zone->sg;
+>   	struct device *dev = zone->dev;
+> -	enum thermal_trip_type type;
+>   	int ret;
+>   
+>   	if (!tz)
+>   		return -EINVAL;
+>   
+> -	ret = tz->ops->get_trip_type(tz, trip, &type);
+> +	ret = thermal_zone_get_trip(tz, trip_id, &trip);
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (type == THERMAL_TRIP_CRITICAL) {
+> +	if (trip.type == THERMAL_TRIP_CRITICAL) {
+>   		/*
+>   		 * If thermtrips property is set in DT,
+>   		 * doesn't need to program critical type trip to HW,
+> @@ -609,7 +609,7 @@ static int tegra_thermctl_set_trip_temp(struct thermal_zone_device *tz, int trip
+>   		else
+>   			return 0;
+>   
+> -	} else if (type == THERMAL_TRIP_HOT) {
+> +	} else if (trip.type == THERMAL_TRIP_HOT) {
+>   		int i;
+>   
+>   		for (i = 0; i < THROTTLE_SIZE; i++) {
+> @@ -620,7 +620,7 @@ static int tegra_thermctl_set_trip_temp(struct thermal_zone_device *tz, int trip
+>   				continue;
+>   
+>   			cdev = ts->throt_cfgs[i].cdev;
+> -			if (get_thermal_instance(tz, cdev, trip))
+> +			if (get_thermal_instance(tz, cdev, trip_id))
+>   				stc = find_throttle_cfg_by_name(ts, cdev->type);
+>   			else
+>   				continue;
+> @@ -687,25 +687,20 @@ static const struct thermal_zone_device_ops tegra_of_thermal_ops = {
+>   	.set_trips = tegra_thermctl_set_trips,
+>   };
+>   
+> -static int get_hot_temp(struct thermal_zone_device *tz, int *trip, int *temp)
+> +static int get_hot_temp(struct thermal_zone_device *tz, int *trip_id, int *temp)
+>   {
+> -	int ntrips, i, ret;
+> -	enum thermal_trip_type type;
+> +	int i, ret;
+> +	struct thermal_trip trip;
+>   
+> -	ntrips = of_thermal_get_ntrips(tz);
+> -	if (ntrips <= 0)
+> -		return -EINVAL;
+> +	for (i = 0; i < thermal_zone_get_num_trips(tz); i++) {
+>   
+> -	for (i = 0; i < ntrips; i++) {
+> -		ret = tz->ops->get_trip_type(tz, i, &type);
+> +		ret = thermal_zone_get_trip(tz, i, &trip);
+>   		if (ret)
+>   			return -EINVAL;
+> -		if (type == THERMAL_TRIP_HOT) {
+> -			ret = tz->ops->get_trip_temp(tz, i, temp);
+> -			if (!ret)
+> -				*trip = i;
+>   
+> -			return ret;
+> +		if (trip.type == THERMAL_TRIP_HOT) {
+> +			*trip_id = i;
+> +			return 0;	
+>   		}
+>   	}
+>   
+> diff --git a/drivers/thermal/tegra/tegra30-tsensor.c b/drivers/thermal/tegra/tegra30-tsensor.c
+> index c34501287e96..cbaad2245f1d 100644
+> --- a/drivers/thermal/tegra/tegra30-tsensor.c
+> +++ b/drivers/thermal/tegra/tegra30-tsensor.c
+> @@ -316,18 +316,17 @@ static void tegra_tsensor_get_hw_channel_trips(struct thermal_zone_device *tzd,
+>   	*hot_trip  = 85000;
+>   	*crit_trip = 90000;
+>   
+> -	for (i = 0; i < tzd->num_trips; i++) {
+> -		enum thermal_trip_type type;
+> -		int trip_temp;
+> +	for (i = 0; i < thermal_zone_get_num_trips(tzd); i++) {
+>   
+> -		tzd->ops->get_trip_temp(tzd, i, &trip_temp);
+> -		tzd->ops->get_trip_type(tzd, i, &type);
+> +		struct thermal_trip trip;
+>   
+> -		if (type == THERMAL_TRIP_HOT)
+> -			*hot_trip = trip_temp;
+> +		thermal_zone_get_trip(tzd, i, &trip);
+> +		
+> +		if (trip.type == THERMAL_TRIP_HOT)
+> +			*hot_trip = trip.temperature;
+>   
+> -		if (type == THERMAL_TRIP_CRITICAL)
+> -			*crit_trip = trip_temp;
+> +		if (trip.type == THERMAL_TRIP_CRITICAL)
+> +			*crit_trip = trip.temperature;
+>   	}
+>   
+>   	/* clamp hardware trips to the calibration limits */
 
-are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.1-arm64-defconfig
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-for you to fetch changes up to 747c39f0ebfaee9cf699dd3c35ac6462db847667:
-
-  arm64: defconfig: Make TEGRA186_GPC_DMA built-in (2022-09-15 15:51:47 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-arm64: tegra: Default configuration changes for v6.1-rc1
-
-Enables the new MGBE driver, as well as the existing SPI and QSPI
-drivers on 64-bit ARM. The GPC DMA driver is now also built into the
-kernel by default to avoid needless probe deferrals that would slow
-down the boot process significantly.
-
-----------------------------------------------------------------
-Akhil R (1):
-      arm64: defconfig: Make TEGRA186_GPC_DMA built-in
-
-Bhadram Varka (1):
-      arm64: defconfig: Enable Tegra MGBE driver
-
-Krishna Yarlagadda (1):
-      arm64: tegra: Enable Tegra SPI & QSPI in deconfig
-
- arch/arm64/configs/defconfig | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
