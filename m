@@ -2,71 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B63805E7AEC
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Sep 2022 14:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06CA15E7AFC
+	for <lists+linux-tegra@lfdr.de>; Fri, 23 Sep 2022 14:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230175AbiIWMgS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Sep 2022 08:36:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49418 "EHLO
+        id S229637AbiIWMj7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 23 Sep 2022 08:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbiIWMgR (ORCPT
+        with ESMTP id S231221AbiIWMj4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Sep 2022 08:36:17 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886AF128711;
-        Fri, 23 Sep 2022 05:36:15 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id z13so371931ejp.6;
-        Fri, 23 Sep 2022 05:36:15 -0700 (PDT)
+        Fri, 23 Sep 2022 08:39:56 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E4136434;
+        Fri, 23 Sep 2022 05:39:54 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id dv25so332408ejb.12;
+        Fri, 23 Sep 2022 05:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=OcVK8cEHIhhrEG5qIUUuL04h8/PHYGVEkTjTLnQzMJQ=;
-        b=W0hoFeaq+vvTKk8xQkURwyR5FoOWDM9YzfxcSmsuwvUZNFJp8LsxvGrIYReajbYB/q
-         nJc5WR1Y7rUcOqvuB63ERvsE7FyTC0ofl68VdSWcQK/CMkhaZ2eIBCrz0w42Iv/JFzKQ
-         Ff4JI5VDoBjunJbUufGNe6ptDEyLZxngst8EODLaUyvDvjfbZ+HVd7CfgOLeF/56RiP0
-         T+MVdxi8j96ZAYepS/4Lrbpio+QKWAUnQVhqHQVREAdLx6bKNKaqnHcyrYHm3XI+Ij9U
-         MsQCub17q31u37PTitQSEaiL6nsaosJv9Z7fzrZBRxkTE6srHKDiYUcqeQr8GdRUUOfb
-         vWzA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=89Pdm3fZG43xqH8RcuQNWzoAkMrNr3sxzlCA4ZL7Hv8=;
+        b=kp4FAFvavOGUoUQGNdmN/3zGrgkPFOEwxDLAACl7x88nEiPPkMYdjLI95SBpHT2ne8
+         JYXwCaMq71SXZHXKzoPvjORR2EfMttUdPnBwkYxwp/szLoCj3pqOr5/ovkJ1zC+0MM6T
+         2jAcQKLKFan4Y54bLA4glvpmlkpncZdZRVLSmcaY5VMlWtQY+czY2AHZP3S65GlgA8Rp
+         4po86l/+iH6z/8E4GJPaNyrD6lcpOfR4rVx1WHNcxo3MMXav0JWqjyFJ7AEQJmX8j255
+         pdlAiQNr9Vt7dYpZMCpxf25H6UarEM1hf+m2yPBkuxXWjntlNRgwn8GUMjkuzxGTxSTq
+         P1dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=OcVK8cEHIhhrEG5qIUUuL04h8/PHYGVEkTjTLnQzMJQ=;
-        b=iIRlccxe5uC7RQuE5eKYYYegcel50Ndsr5N8YfX07qckzOyvn/h68kyJX2+unKjIOI
-         0/v6BOl6oj5CrM0KCloRe5KGzlahJlE6S1t/RkUAHFDetkZsxeYck5XZNMlt5w5BBLIP
-         5relcxLQdHbLBFCRA71K7GwxdYhnh2Aycum7XUDrZ8QD4AxLNyTt+oxCne4BnwF+Dvdc
-         WOJ7P01WxctClvgGN6Kj1eRtWSPGJ/fZMhcQC0KK8Z0TDUwfnHsFCabAcmtreyMx/5R4
-         jXiQ8QNey0o7jKsT4tWOtW8NndsUAh1PhRliKnMbLLG5BMmdJNhyMSblo1+GeJnsUHrV
-         HCPw==
-X-Gm-Message-State: ACrzQf1frqdpIVLnGEtC2742/YQxHo8AHWVYmRKMwpJ4o0fMljCPr7Gg
-        LIvx4AgllFGyefENpumizgY=
-X-Google-Smtp-Source: AMsMyM6einoHp3XMiUb3xsIMekreEJuo4DUMLfkavQ2Py7A7x2lW5z8YfABIbMRraurdwHhYDB+zPg==
-X-Received: by 2002:a17:907:60cf:b0:782:d3ab:55b8 with SMTP id hv15-20020a17090760cf00b00782d3ab55b8mr238302ejc.6.1663936574058;
-        Fri, 23 Sep 2022 05:36:14 -0700 (PDT)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ky6-20020a170907778600b00778e3e2830esm4038013ejc.9.2022.09.23.05.36.12
+        bh=89Pdm3fZG43xqH8RcuQNWzoAkMrNr3sxzlCA4ZL7Hv8=;
+        b=7+5H8d15kgtNAHyFmAXFlp02fk7h6bYBUjR0zJiIiwZ7niBhjf3elLCNJ5RAeN12xQ
+         JLemzHzJFS+cVEcFU03SLUSeS5g7SyK8f4OuABCjJOzlV4uNFEbh8Iw4nOvWTE+UU+Xz
+         1ZxblD6Urs0+7tiI6ryUCWDEkLpxSCCWVoKV1ILWTinhQg0oF2ccpgPZSuxJ+hQpJGyX
+         7Dt+Ttdw19o5x05wm5CeYuVN4MWni5QY0MMs4he8jpWDYqTxqUy4J3S0TbW85Hr3je1a
+         nD7Nc2Ke9Yn3ZXFSWc1vpHBBgq2tbpTObf0puxSSHUCMYBaf76+nNyc+jge3jBbvljpB
+         41pQ==
+X-Gm-Message-State: ACrzQf0MRfqUoO4QZUQAieOm53GxOLkqnDz3yDA9RffVddfUGwpv8RYZ
+        WXfJt/nhBnbCl5M985dXlSo=
+X-Google-Smtp-Source: AMsMyM7vKpNILY1ysmbRJ1+H1iG6jmPCjjHfJEnkV/93ECAnZGfDDsJnKJP0zbe2EXz6X+/uc7DBlg==
+X-Received: by 2002:a17:906:8466:b0:77b:43e9:48b5 with SMTP id hx6-20020a170906846600b0077b43e948b5mr6815720ejc.254.1663936792628;
+        Fri, 23 Sep 2022 05:39:52 -0700 (PDT)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id q8-20020a170906388800b0077958ddaec6sm3969303ejd.186.2022.09.23.05.39.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 05:36:12 -0700 (PDT)
+        Fri, 23 Sep 2022 05:39:51 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 14:39:49 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
-        devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-tegra@vger.kernel.org, asahi@lists.linux.dev
-Subject: [PATCH v9 5/5] iommu/tegra-smmu: Support managed domains
-Date:   Fri, 23 Sep 2022 14:35:57 +0200
-Message-Id: <20220923123557.866972-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220923123557.866972-1-thierry.reding@gmail.com>
-References: <20220923123557.866972-1-thierry.reding@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bhadram Varka <vbhadram@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v4 9/9] stmmac: tegra: Add MGBE support
+Message-ID: <Yy2pFfUWU7LwGG/m@orome>
+References: <20220707074818.1481776-1-thierry.reding@gmail.com>
+ <20220707074818.1481776-10-thierry.reding@gmail.com>
+ <YxjIj1kr0mrdoWcd@orome>
+ <64414eac-fa09-732e-6582-408cfb9d41dd@nvidia.com>
+ <20220922083454.1b7936b2@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PZUsOL4JDQ+8OvIb"
+Content-Disposition: inline
+In-Reply-To: <20220922083454.1b7936b2@kernel.org>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,102 +87,68 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Navneet Kumar <navneetk@nvidia.com>
 
-Allow creating identity and DMA API compatible IOMMU domains. When
-creating a DMA API compatible domain, make sure to also create the
-required cookie.
+--PZUsOL4JDQ+8OvIb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Navneet Kumar <navneetk@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v5:
-- remove DMA cookie initialization that's now no longer needed
+On Thu, Sep 22, 2022 at 08:34:54AM -0700, Jakub Kicinski wrote:
+> On Thu, 22 Sep 2022 16:05:22 +0100 Jon Hunter wrote:
+> > On 07/09/2022 17:36, Thierry Reding wrote:
+> > > On Thu, Jul 07, 2022 at 09:48:18AM +0200, Thierry Reding wrote: =20
+> > >> From: Bhadram Varka <vbhadram@nvidia.com>
+> > >>
+> > >> Add support for the Multi-Gigabit Ethernet (MGBE/XPCS) IP found on
+> > >> NVIDIA Tegra234 SoCs.
+> > >>
+> > >> Signed-off-by: Bhadram Varka <vbhadram@nvidia.com>
+> > >> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > >> ---
+> > >> Note that this doesn't have any dependencies on any of the patches
+> > >> earlier in the series, so this can be applied independently.
+> >
+> > > Patches 1-8 of this have already been applied to the Tegra tree. Are
+> > > there any more comments on this or can this be merged as well?
+> > >=20
+> > >  From a Tegra point of view this looks good, so:
+> > >=20
+> > > Acked-by: Thierry Reding <treding@nvidia.com> =20
+> >=20
+> > Acked-by: Jon Hunter <jonathanh@nvidia.com>
+> >=20
+> > Please can we queue this for v6.1? I have added the stmmac maintainers=
+=20
+> > to the email, but not sure if you can pick this up?
+>=20
+> Could you repost it independently of the series so that it can go thru
+> the net auto-checkers? It should be able to make 6.1 pretty comfortably.
 
- drivers/iommu/tegra-smmu.c | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+Done. Let me know if there's anything in the patch that needs more work.
+For the auto-checkers, do they send out notifications if they find
+anything or can I monitor them manually somewhere? Are all of those
+reported in the patchwork checks?
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 57b4f2b37447..7ad993330634 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -20,6 +20,8 @@
- #include <soc/tegra/ahb.h>
- #include <soc/tegra/mc.h>
- 
-+#include "dma-iommu.h"
-+
- struct tegra_smmu_group {
- 	struct list_head list;
- 	struct tegra_smmu *smmu;
-@@ -277,7 +279,9 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- {
- 	struct tegra_smmu_as *as;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
-+	if (type != IOMMU_DOMAIN_UNMANAGED &&
-+	    type != IOMMU_DOMAIN_DMA &&
-+	    type != IOMMU_DOMAIN_IDENTITY)
- 		return NULL;
- 
- 	as = kzalloc(sizeof(*as), GFP_KERNEL);
-@@ -287,25 +291,16 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->attr = SMMU_PD_READABLE | SMMU_PD_WRITABLE | SMMU_PD_NONSECURE;
- 
- 	as->pd = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
--	if (!as->pd) {
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pd)
-+		goto free_as;
- 
- 	as->count = kcalloc(SMMU_NUM_PDE, sizeof(u32), GFP_KERNEL);
--	if (!as->count) {
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->count)
-+		goto free_pd_range;
- 
- 	as->pts = kcalloc(SMMU_NUM_PDE, sizeof(*as->pts), GFP_KERNEL);
--	if (!as->pts) {
--		kfree(as->count);
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pts)
-+		goto free_pts;
- 
- 	spin_lock_init(&as->lock);
- 
-@@ -315,6 +310,15 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->domain.geometry.force_aperture = true;
- 
- 	return &as->domain;
-+
-+free_pts:
-+	kfree(as->pts);
-+free_pd_range:
-+	__free_page(as->pd);
-+free_as:
-+	kfree(as);
-+
-+	return NULL;
- }
- 
- static void tegra_smmu_domain_free(struct iommu_domain *domain)
-@@ -1012,7 +1016,7 @@ static const struct iommu_ops tegra_smmu_ops = {
- 	.probe_device = tegra_smmu_probe_device,
- 	.release_device = tegra_smmu_release_device,
- 	.device_group = tegra_smmu_device_group,
--	.get_resv_regions = of_iommu_get_resv_regions,
-+	.get_resv_regions = iommu_dma_get_resv_regions,
- 	.of_xlate = tegra_smmu_of_xlate,
- 	.pgsize_bitmap = SZ_4K,
- 	.default_domain_ops = &(const struct iommu_domain_ops) {
--- 
-2.37.3
+Thierry
 
+--PZUsOL4JDQ+8OvIb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmMtqRUACgkQ3SOs138+
+s6HOew/+J/mhrRPu0C8SXCR2BYLpMLikcrSFxQLijLEa1YNMZ/YEYo5LtRGV67En
+DlHrxTpoO1aZ/6V/ok5Wp3bacorcQJnAauajCqsLWTzK5gmsdTRREHuLwL6WYgQE
+VloXZLx+W4U4ukQd9L8QiO092YMp1sqWNy7XcyoKukNWhO7lQS1SFR+FQK9QoRLj
+NRtuOBmn6A+ifc7vXHoMHa6jg2chLJu8H5rnFXy9jTIoEcPwtxq60kwpWtk/xmc8
+qhXbqbk6ZMGC7El49GDWZhbUbmAmmsL7+BIV2ywNklAc2npFkbTTioQedy0TuA5I
+M0XJgkCwDsmiChAlAYIuyVttprUIrO2jvLpMCEx1CwVhAUXsqaymfiZ/M7UZ/oAA
+O4K2HkFRlMxXSt8+0zrcCVlR/RNqLgDH5lmaDVsTsPIt4+mpJ9U/HRSofaPKSxEl
+6czO+ZYrxlkQ2RpRHFKfC29ZWjgyZH3UMgidN5sNlMfLSXrdHjtul+5o7CM/YhBl
+ci9N0lSDhlPbZyRTxxpL9399Sa/cUPeX+Fj7A0Gu3y2b4spo+jLfCGbFJDuFMzmO
+N5xmJ/O7f6cMbmopGQob2c4pRaf6YHsk+8m7aDi/3Z6k8w2ywq55eoKftTF5tcxf
+0VcN1pxfspDAqTTlKkKWiJRZVSanwwL9132rx0JIDi/Uw1ysOo8=
+=sVdn
+-----END PGP SIGNATURE-----
+
+--PZUsOL4JDQ+8OvIb--
