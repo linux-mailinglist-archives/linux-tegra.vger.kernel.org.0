@@ -2,89 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2545EA813
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Sep 2022 16:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A9A5EA85A
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Sep 2022 16:26:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234376AbiIZOMb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 26 Sep 2022 10:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
+        id S234376AbiIZO0Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Sep 2022 10:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbiIZOLx (ORCPT
+        with ESMTP id S234370AbiIZOZn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 26 Sep 2022 10:11:53 -0400
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4EAD597B12;
-        Mon, 26 Sep 2022 05:23:10 -0700 (PDT)
-Received: from 8bytes.org (p549ad5ad.dip0.t-ipconnect.de [84.154.213.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id D942A40735;
-        Mon, 26 Sep 2022 14:23:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1664194987;
-        bh=DwscMU+GZ+AeXouVGc8h0vEjh2jlqGirwv9sMdq7tsM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=8STw8MnSA0vAVtkrtSmDF4+3u6QSLslcq6Xos5c6BmVi2sGIcexptmY1qBKF+PFU6
-         bwYuW4DOVStwI+tWdsF+XG2x4884iYGuP9q38l2CX1WX0M1+PVV+Rva59Cc0/A4l1F
-         WgDtM0LRo0FxDvtTvzrrG1djmPU5AzJ6SjwDfyP9vDSN7L04lUGovAjNEMnlEE1Hi4
-         lYfrTK7DMdVUzzJNas/Z4FvIiET7Cy0awBlNiQtpUlugi0haBDLBrU4hwevC2j6mDt
-         iI3i+WFV531V6RNsmJHgS2+MjucxbD8bTDHvjhL1ewAS0KBhGs0F4s9d9ID+AD4o8a
-         C1RtC8FyC38tw==
-Date:   Mon, 26 Sep 2022 14:23:05 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Nicolin Chen <nicolinc@nvidia.com>
-Cc:     will@kernel.org, robin.murphy@arm.com, jgg@nvidia.com,
-        kevin.tian@intel.com, quic_jjohnson@quicinc.com,
-        suravee.suthikulpanit@amd.com, robdclark@gmail.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        yong.wu@mediatek.com, matthias.bgg@gmail.com, orsonzhai@gmail.com,
-        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-        thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-        jean-philippe@linaro.org, shameerali.kolothum.thodi@huawei.com,
-        tglx@linutronix.de, christophe.jaillet@wanadoo.fr,
-        thunder.leizhen@huawei.com, yangyingliang@huawei.com,
-        quic_saipraka@quicinc.com, jon@solid-run.com,
-        iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v6 0/5] Define EINVAL as device/domain incompatibility
-Message-ID: <YzGZqXCuw6yoXBla@8bytes.org>
-References: <cover.1663899032.git.nicolinc@nvidia.com>
+        Mon, 26 Sep 2022 10:25:43 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31AE626D;
+        Mon, 26 Sep 2022 05:37:51 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mbhxq500fzlWvQ;
+        Mon, 26 Sep 2022 20:33:35 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 26 Sep 2022 20:37:49 +0800
+Received: from [10.174.179.24] (10.174.179.24) by
+ dggpemm100009.china.huawei.com (7.185.36.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 26 Sep 2022 20:37:49 +0800
+Subject: Re: [PATCH 3/4] memory: tegra210-emc: use DEFINE_SHOW_ATTRIBUTE to
+ simplify code
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+References: <20220922143344.3252585-1-liushixin2@huawei.com>
+ <20220922143344.3252585-4-liushixin2@huawei.com>
+ <b5252d24-0c7a-5e71-ec4b-d0460181acb8@linaro.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+From:   Liu Shixin <liushixin2@huawei.com>
+Message-ID: <08a48f70-89e7-0cd0-b5d5-c2799b5d76e0@huawei.com>
+Date:   Mon, 26 Sep 2022 20:37:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1663899032.git.nicolinc@nvidia.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <b5252d24-0c7a-5e71-ec4b-d0460181acb8@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.24]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Nicolin,
 
-On Fri, Sep 23, 2022 at 12:16:29AM -0700, Nicolin Chen wrote:
-> This series is to replace the previous EMEDIUMTYPE patch in a VFIO series:
-> https://lore.kernel.org/kvm/Yxnt9uQTmbqul5lf@8bytes.org/
 
-\o/
-
-> Nicolin Chen (5):
->   iommu/amd: Drop unnecessary checks in amd_iommu_attach_device()
->   iommu: Add return value rules to attach_dev op and APIs
->   iommu: Regulate EINVAL in ->attach_dev callback functions
->   iommu: Use EINVAL for incompatible device/domain in ->attach_dev
->   iommu: Propagate return value in ->attach_dev callback functions
-
-This looks good to me, but I'd like to have the SMMU people have a look
-at patch 4. And I think it is too late for this to make it into 6.1, so
-please re-send after 6.1-rc1 is out.
+On 2022/9/26 17:26, Krzysztof Kozlowski wrote:
+> On 22/09/2022 16:33, Liu Shixin wrote:
+>> Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
+>> No functional change.
+>>
+>> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+>> ---
+>>  drivers/memory/tegra/tegra210-emc-core.c | 14 +-------------
+>>  1 file changed, 1 insertion(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/memory/tegra/tegra210-emc-core.c b/drivers/memory/tegra/tegra210-emc-core.c
+>> index cbe1a7723514..603b306daca1 100644
+>> --- a/drivers/memory/tegra/tegra210-emc-core.c
+>> +++ b/drivers/memory/tegra/tegra210-emc-core.c
+>> @@ -1621,20 +1621,8 @@ static int tegra210_emc_debug_available_rates_show(struct seq_file *s,
+>>  
+>>  	return 0;
+>>  }
+>> +DEFINE_SHOW_ATTRIBUTE(tegra210_emc_debug_available_rates);
+>>  
+>> -static int tegra210_emc_debug_available_rates_open(struct inode *inode,
+>> -						   struct file *file)
+>> -{
+>> -	return single_open(file, tegra210_emc_debug_available_rates_show,
+>> -			   inode->i_private);
+>> -}
+>> -
+>> -static const struct file_operations tegra210_emc_debug_available_rates_fops = {
+>> -	.open = tegra210_emc_debug_available_rates_open,
+>> -	.read = seq_read,
+>> -	.llseek = seq_lseek,
+>> -	.release = single_release,
+>> -};
+>>  
+> It looks you leave here two blank lines. If so, please fix it - only one
+> blank line.
+Thanks for the reminder, I have removed the duplicate blank lines in next version.
 
 Thanks,
+>
+>>  static int tegra210_emc_debug_min_rate_get(void *data, u64 *rate)
+>>  {
+> Best regards,
+> Krzysztof
+>
+> .
+>
 
-	Joerg
