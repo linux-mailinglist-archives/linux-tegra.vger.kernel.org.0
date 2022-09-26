@@ -2,108 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A9A5EA85A
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Sep 2022 16:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 326705EA832
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Sep 2022 16:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234376AbiIZO0Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 26 Sep 2022 10:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
+        id S234182AbiIZORi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Sep 2022 10:17:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234370AbiIZOZn (ORCPT
+        with ESMTP id S234292AbiIZORO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 26 Sep 2022 10:25:43 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31AE626D;
-        Mon, 26 Sep 2022 05:37:51 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mbhxq500fzlWvQ;
-        Mon, 26 Sep 2022 20:33:35 +0800 (CST)
+        Mon, 26 Sep 2022 10:17:14 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D3351FCCB1;
+        Mon, 26 Sep 2022 05:27:15 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MbhjV0b0lzWgwr;
+        Mon, 26 Sep 2022 20:22:54 +0800 (CST)
 Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 20:37:49 +0800
-Received: from [10.174.179.24] (10.174.179.24) by
- dggpemm100009.china.huawei.com (7.185.36.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 20:37:49 +0800
-Subject: Re: [PATCH 3/4] memory: tegra210-emc: use DEFINE_SHOW_ATTRIBUTE to
- simplify code
+ 15.1.2375.31; Mon, 26 Sep 2022 20:26:57 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
+ 2022 20:26:56 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
-References: <20220922143344.3252585-1-liushixin2@huawei.com>
- <20220922143344.3252585-4-liushixin2@huawei.com>
- <b5252d24-0c7a-5e71-ec4b-d0460181acb8@linaro.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-From:   Liu Shixin <liushixin2@huawei.com>
-Message-ID: <08a48f70-89e7-0cd0-b5d5-c2799b5d76e0@huawei.com>
-Date:   Mon, 26 Sep 2022 20:37:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH v2 0/4] memory: tegra: Use DEFINE_SHOW_ATTRIBUTE to simplify code
+Date:   Mon, 26 Sep 2022 21:00:21 +0800
+Message-ID: <20220926130025.1061373-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <b5252d24-0c7a-5e71-ec4b-d0460181acb8@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.24]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm100009.china.huawei.com (7.185.36.113)
 X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
+No functional change.
 
+v1->v2: remove duplicate blank lines.
 
-On 2022/9/26 17:26, Krzysztof Kozlowski wrote:
-> On 22/09/2022 16:33, Liu Shixin wrote:
->> Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
->> No functional change.
->>
->> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
->> ---
->>  drivers/memory/tegra/tegra210-emc-core.c | 14 +-------------
->>  1 file changed, 1 insertion(+), 13 deletions(-)
->>
->> diff --git a/drivers/memory/tegra/tegra210-emc-core.c b/drivers/memory/tegra/tegra210-emc-core.c
->> index cbe1a7723514..603b306daca1 100644
->> --- a/drivers/memory/tegra/tegra210-emc-core.c
->> +++ b/drivers/memory/tegra/tegra210-emc-core.c
->> @@ -1621,20 +1621,8 @@ static int tegra210_emc_debug_available_rates_show(struct seq_file *s,
->>  
->>  	return 0;
->>  }
->> +DEFINE_SHOW_ATTRIBUTE(tegra210_emc_debug_available_rates);
->>  
->> -static int tegra210_emc_debug_available_rates_open(struct inode *inode,
->> -						   struct file *file)
->> -{
->> -	return single_open(file, tegra210_emc_debug_available_rates_show,
->> -			   inode->i_private);
->> -}
->> -
->> -static const struct file_operations tegra210_emc_debug_available_rates_fops = {
->> -	.open = tegra210_emc_debug_available_rates_open,
->> -	.read = seq_read,
->> -	.llseek = seq_lseek,
->> -	.release = single_release,
->> -};
->>  
-> It looks you leave here two blank lines. If so, please fix it - only one
-> blank line.
-Thanks for the reminder, I have removed the duplicate blank lines in next version.
+Liu Shixin (4):
+  memory: tegra20-emc: use DEFINE_SHOW_ATTRIBUTE to simplify code
+  memory: tegra30-emc: use DEFINE_SHOW_ATTRIBUTE to simplify code
+  memory: tegra210-emc: use DEFINE_SHOW_ATTRIBUTE to simplify code
+  memory: tegra186-emc: use DEFINE_SHOW_ATTRIBUTE to simplify code
 
-Thanks,
->
->>  static int tegra210_emc_debug_min_rate_get(void *data, u64 *rate)
->>  {
-> Best regards,
-> Krzysztof
->
-> .
->
+ drivers/memory/tegra/tegra186-emc.c      | 15 +--------------
+ drivers/memory/tegra/tegra20-emc.c       | 15 +--------------
+ drivers/memory/tegra/tegra210-emc-core.c | 15 +--------------
+ drivers/memory/tegra/tegra30-emc.c       | 15 +--------------
+ 4 files changed, 4 insertions(+), 56 deletions(-)
+
+-- 
+2.25.1
 
