@@ -2,166 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A1D35EF814
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Sep 2022 16:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A45EF5EFB82
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Sep 2022 19:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235724AbiI2O50 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Sep 2022 10:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49750 "EHLO
+        id S234299AbiI2RFK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Sep 2022 13:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235697AbiI2O5Y (ORCPT
+        with ESMTP id S235147AbiI2RFI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Sep 2022 10:57:24 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDB313EE9C
-        for <linux-tegra@vger.kernel.org>; Thu, 29 Sep 2022 07:57:21 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id cc5so2615877wrb.6
-        for <linux-tegra@vger.kernel.org>; Thu, 29 Sep 2022 07:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=nMnoSaH++1jbxSRlI1i6ADibQaQmTqMy1EUBbqCTBb4=;
-        b=Vv38lf5pdCpNoqOoAP120tgQ2KJMA7ZXY3zRv5IFf/18Ka+QYWp8iVvfDHwGWrUURq
-         XMcDVzCN67NfLLBvXneNU5Hkez1866vy2rJVUYu1vKryg0jxvA42QIHMFr7FwGNaV9n6
-         +IocjwdpayeRbeM2/sZgvPjKG7ythoaKpeUuXczusJJEcfS9wVBWcjyCRFl0D/sVgICw
-         2J5a8U1veuMcYYFjAV1q0dwyuM/YnZan597rCZ3Ds+v2h0MHW6JxifLG9t4Ao/8M6lM7
-         dZ4dzrfOEAf3pCEuuCr6J1A5XSYwp2pNtFtcBkJ2x/vFTyXVLC2qrq4yFh7WpEiVWHAy
-         sp4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=nMnoSaH++1jbxSRlI1i6ADibQaQmTqMy1EUBbqCTBb4=;
-        b=ewLS8ub6CzY9pvOSfuSHkiDNxemxaNJG1yQMzyYPgVmq+Ph7za3c+is1NdoZmrOKLz
-         TlGsmEtDRbm6NBjkSd11tVM0V5C+smgbq7HWHT0B0zxbBYiWldPiE+5lVywpLyGbXw+I
-         NGYo29A6JHbw/qCal09oFlqNnObePnO5OuBtKqtZp2oVNv8iD+cNmFUzE4khFyFEDPV0
-         f/h/uRx+brY6+U3X0sxiTSfnAt/jKlvsT6rCxv7KtsKYG+lDkxSFzlIuvmTsM+Emerov
-         9rnTbRsunJHgOpWpMXEqyIatTxYtbKiytZR2jZANoyEweo5gJE1Kbca/cjaKj+2s7Ys5
-         vs5g==
-X-Gm-Message-State: ACrzQf0O7C1wGkJnQVA5QN7+WNxdJkxrSX5hR2fmgYShJEBTI2qQInyu
-        T4RepwglaKb38P9uhW2hjNbtTA==
-X-Google-Smtp-Source: AMsMyM4axP40VuENGb1cdsZ/JJas2+un/fCosaf9j+YjtgOlism/1wYOdarXHCbv/7WEnKLKyS9PoQ==
-X-Received: by 2002:a05:6000:2a3:b0:226:dff3:b031 with SMTP id l3-20020a05600002a300b00226dff3b031mr2687409wry.495.1664463439654;
-        Thu, 29 Sep 2022 07:57:19 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:48a2:39eb:9d1b:8b8d? ([2a05:6e02:1041:c10:48a2:39eb:9d1b:8b8d])
-        by smtp.googlemail.com with ESMTPSA id t187-20020a1c46c4000000b003b4a699ce8esm4646084wma.6.2022.09.29.07.57.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 07:57:19 -0700 (PDT)
-Message-ID: <ae86fc5a-0521-3dde-c2ea-8679c0ec4831@linaro.org>
-Date:   Thu, 29 Sep 2022 16:57:16 +0200
+        Thu, 29 Sep 2022 13:05:08 -0400
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D01E4361B;
+        Thu, 29 Sep 2022 10:05:01 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 51236600879F;
+        Thu, 29 Sep 2022 18:04:58 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+        tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+        by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+        with LMTP id l2l_SUiehblj; Thu, 29 Sep 2022 18:04:55 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id D1294600EAE6;
+        Thu, 29 Sep 2022 18:04:55 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+        s=mail; t=1664471095;
+        bh=qNenn2KoN9zsjzwvPudq5tWXFGJfOVtrVSY36thZMz0=;
+        h=From:To:Cc:Subject:Date;
+        b=OpO/4NDjuz87aKNYsZvEOxeQ52dTnhKpraERjSySCyK5tuhWXGGMXYWPAxKWu/QRe
+         mUbgaItpqNijEHI7Mdcdxm8PkDSdGE0lqYK8HBjAnkPoEt91UjuIovpQLhrWg6ckzj
+         jiyBePpLy8UOjqS4Yiu6HiCn7+TpSfiY3R1BylNk=
+Received: from wslaptop.lan (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
+        (Authenticated sender: ist187313)
+        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id D072F360086;
+        Thu, 29 Sep 2022 18:04:53 +0100 (WEST)
+From:   Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, thierry.reding@gmail.com,
+        sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jonathanh@nvidia.com, arnd@arndb.de,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 0/4] Add JDI LPM102A188A display panel support 
+Date:   Thu, 29 Sep 2022 18:04:58 +0100
+Message-Id: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 00/29] Rework the trip points creation
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
- <d0be3159-8094-aed1-d9b1-c4b16d88d67c@linaro.org>
- <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 29/09/2022 15:58, Rafael J. Wysocki wrote:
-> On Thu, Sep 29, 2022 at 2:26 PM Daniel Lezcano
-> <daniel.lezcano@linaro.org> wrote:
->>
->>
->> Hi Rafael,
->>
->> are you happy with the changes?
-> 
-> I'll have a look and let you know.
+Hello!
 
-Great, thanks
-> 
->> I would like to integrate those changes with the thermal pull request
-> 
-> Sure, but it looks like you've got only a few ACKs for these patches
-> from the driver people.
-> 
-> Wouldn't it be prudent to give them some more time to review the changes?
+These patches add support for the JDI LPM102A188A display panel,
+found in the Google Pixel C.
 
-Well I would say I received the ACKs from the drivers which are actively 
-maintained. Others are either not with a dedicated maintainer or not a 
-reactive one. The first iteration of the series is from August 5th. So 
-it has been 2 months.
+Patch 1 adds the DT bindings for the panel.
 
-I pinged for imx, armada and tegra two weeks ago.
+Patch 2 adds an optional register clear to the Tegra DSI driver.
 
-The st, hisilicon drivers fall under the thermal maintainers umbrella
+Patch 3 adds the panel driver, which is based on the downstream
+kernel driver published by Google and developed by Sean Paul.
 
-There are three series coming after this series to be posted. I would 
-like to go forward in the process of cleaning up the framework. IMO two 
-months is enough to let the maintainers pay attention to the changes, 
-especially if we do a gentle ping and there are seven versions.
+Patch 4 adds the DT node for the Google Pixel C. 
 
-And after that comes the thermal_zone_device_register() parameters 
-simplification :)
+There is one point in this series on which I would like to ask for
+some advice:
 
-[ ... ]
+Since the device's bootloader leaves the display on and in patch 3 I
+have assumed that the panel must be reset when probing, I was forced
+to add patch 2, discovered by poking at the DSI module's registers until
+the panel initialization sequence succeeded. However, if it is okay to
+keep the panel on from the bootloader then it would be possible to
+forego this second patch. Any comments on this would be highly appreciated.
+
+Thank you!
+
+Diogo Ivo (4):
+  dt-bindings: display: Add bindings for JDI LPM102A188A
+  drm/tegra: dsi: Clear enable register if powered by bootloader
+  drm/panel: Add driver for JDI LPM102A188A
+  arm64: dts: smaug: Add display panel node
+
+ .../display/panel/jdi,lpm102a188a.yaml        | 100 ++++
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts |  72 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 511 ++++++++++++++++++
+ drivers/gpu/drm/tegra/dsi.c                   |  29 +
+ 6 files changed, 724 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/jdi,lpm102a188a.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+2.37.3
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
