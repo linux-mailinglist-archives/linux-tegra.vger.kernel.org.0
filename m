@@ -2,169 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 676F45EFB86
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Sep 2022 19:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4585EFC13
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Sep 2022 19:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235091AbiI2RFM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Sep 2022 13:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49750 "EHLO
+        id S236099AbiI2Rfm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Sep 2022 13:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236018AbiI2RFK (ORCPT
+        with ESMTP id S235442AbiI2Rfk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Sep 2022 13:05:10 -0400
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [IPv6:2001:690:2100:1::15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105E154648;
-        Thu, 29 Sep 2022 10:05:03 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id CAF846005C4E;
-        Thu, 29 Sep 2022 18:05:01 +0100 (WEST)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
-        tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
-        by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
-        with LMTP id LPKtDgoflgO8; Thu, 29 Sep 2022 18:04:59 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 45A9E6008829;
-        Thu, 29 Sep 2022 18:04:59 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
-        s=mail; t=1664471099;
-        bh=1z5MIZzeYwJ1JfUX/ZDyqqjAalAcTmvA+Fvskl+RPyE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=upLzc1W3DivBzqT7/bQ00oBfLwDe+wZCRLIdCteLYPDMdvPLYnwA+CQHItLRBlTkX
-         vb0C/ux09KP1AECBJCg0qknXXzUx9eooIRSF0E+CqfpP7cq5DQIVj+8KGQIsy+VVtB
-         ZoHKP81tiEuzWQxmsZDjeuGYvW1YnehXg0ItvsjY=
-Received: from wslaptop.lan (unknown [IPv6:2001:818:dcb5:dc00:7a88:7f12:8ed8:518d])
-        (Authenticated sender: ist187313)
-        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 1C7E536009F;
-        Thu, 29 Sep 2022 18:04:58 +0100 (WEST)
-From:   Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, thierry.reding@gmail.com,
-        sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jonathanh@nvidia.com, arnd@arndb.de,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: smaug: Add display panel node
-Date:   Thu, 29 Sep 2022 18:05:02 +0100
-Message-Id: <20220929170502.1034040-5-diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
+        Thu, 29 Sep 2022 13:35:40 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAC210F729;
+        Thu, 29 Sep 2022 10:35:39 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id i17so1289470qkk.12;
+        Thu, 29 Sep 2022 10:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=zA6Y5hkQML6R8vIpJqVNEmC/+vTq2vUA6WDac9IkZHQ=;
+        b=oDEM1tP1F7UAQVNZ91VmNnenaUm4qws7hEHmiEJRTthVohQUH5kO4G1hktHhuWt4CM
+         EXQeLMeZeFlF32hqNkCbnw4vAAccKlVWEdhS89TBTSAWS4VrzAAwYropIGyq+4fzcIO5
+         eDhJkFzHIo9VN1Dc2ixvSF25dp8FYQaXt+ADjX3g7d9JFEJEKQoi5HInCc8iua/m7T9X
+         /0LdiHd4Ua5124nOwY/J4/lsmG9wSL2LOzz4GJGQ4eSC41jVmv1amWgIwgY0SoTz1KV5
+         gLSqULVmTuciVMrXMzGbthl1K7bl/z5QNTi7Uzp1DXtwPIrBwOoRdLlgk9Tzp/smlRHe
+         lBUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=zA6Y5hkQML6R8vIpJqVNEmC/+vTq2vUA6WDac9IkZHQ=;
+        b=stlfClGuOeRKo9IdjBO6QsPE5ItAzVKAq408AgvN/UoWm2gpXniOujvhlmlhqXw8ua
+         7lA8JrGZoD9Scrdo5qhhoZqP9k0HnKl6hAxgWCtVgLw/qz72hlm9rVOvqVJ5mAuADnsF
+         MYN7+8meZDGPPtZNCQICAftGSJfrCMjGVrFNqFqSqPNKtIFWRD5tCdyOay0NKMjnyHC6
+         qrVQ/ML1V3kNHkIkLrO6JDfT0Dpx0ikRw/h1OojmFx1FFdhqXLZ55CFLX8cme5urb8wU
+         PecmgWsExTbvc/ztOW1m2oHtZA5KMOYO3iSQDX1JAXAlVQbC9BpJNzyXrG6FYQFpSFfA
+         dvEg==
+X-Gm-Message-State: ACrzQf3JaelOPEMIF4soYIABCAC7Bm8JMoU7zfl65Ac3e8xzhuMCB4oe
+        OF9CZENOXkOttkiXUemnvV8=
+X-Google-Smtp-Source: AMsMyM4Yah3QrJm+TCHsStE8k6mas/dBTRodARjXJOj7YfvBpRznPsuKIDoMU9NryiwLqSH3VhMzdQ==
+X-Received: by 2002:a05:620a:2683:b0:6cf:3768:8e4b with SMTP id c3-20020a05620a268300b006cf37688e4bmr3058946qkp.768.1664472938687;
+        Thu, 29 Sep 2022 10:35:38 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id l19-20020ac84593000000b003437a694049sm5992207qtn.96.2022.09.29.10.35.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 10:35:37 -0700 (PDT)
+Message-ID: <bc0fd01d-4d05-ef97-dbb9-d92b4549b9a3@gmail.com>
+Date:   Thu, 29 Sep 2022 10:34:57 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 23/29] thermal/drivers/broadcom: Use generic
+ thermal_zone_get_trip() function
+Content-Language: en-US
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org
+References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
+ <20220928210059.891387-24-daniel.lezcano@linaro.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220928210059.891387-24-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Google Pixel C has a JDI LPM102A188A display panel. Add a
-DT node for it. Tested on Pixel C.
+On 9/28/22 14:00, Daniel Lezcano wrote:
+> The thermal framework gives the possibility to register the trip
+> points with the thermal zone. When that is done, no get_trip_* ops are
+> needed and they can be removed.
+> 
+> Convert ops content logic into generic trip points and register them with the
+> thermal zone.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
- arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-index 20d092812984..271ef70747f1 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-@@ -31,6 +31,39 @@ memory {
- 	};
- 
- 	host1x@50000000 {
-+		dc@54200000 {
-+			status = "okay";
-+		};
-+
-+		dsia: dsi@54300000 {
-+			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
-+			nvidia,boot-on;
-+			status = "okay";
-+
-+			link2: panel@0 {
-+				compatible = "jdi,lpm102a188a";
-+				reg = <0>;
-+			};
-+		};
-+
-+		dsib: dsi@54400000 {
-+			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
-+			nvidia,ganged-mode = <&dsia>;
-+			nvidia,boot-on;
-+			status = "okay";
-+
-+			link1: panel@0 {
-+				compatible = "jdi,lpm102a188a";
-+				reg = <0>;
-+				power-supply = <&pplcd_vdd>;
-+				ddi-supply = <&pp1800_lcdio>;
-+				enable-gpios = <&gpio TEGRA_GPIO(V, 1) GPIO_ACTIVE_HIGH>;
-+				reset-gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_LOW>;
-+				link2 = <&link2>;
-+				backlight = <&backlight>;
-+			};
-+		};
-+
- 		dpaux: dpaux@545c0000 {
- 			status = "okay";
- 		};
-@@ -1627,6 +1660,37 @@ nau8825@1a {
- 			status = "okay";
- 		};
- 
-+		backlight: lp8557-backlight@2c {
-+			compatible = "ti,lp8557";
-+			reg = <0x2c>;
-+			power-supply = <&pplcd_vdd>;
-+			enable-supply = <&pp1800_lcdio>;
-+			bl-name = "lp8557-backlight";
-+			dev-ctrl = /bits/ 8 <0x01>;
-+			init-brt = /bits/ 8 <0x80>;
-+
-+			/* Full scale current, 20mA */
-+			rom_11h {
-+				rom-addr = /bits/ 8 <0x11>;
-+				rom-val = /bits/ 8 <0x05>;
-+			};
-+			/* Frequency = 4.9kHz, magic undocumented val */
-+			rom_12h {
-+				rom-addr = /bits/ 8 <0x12>;
-+				rom-val = /bits/ 8 <0x29>;
-+			};
-+			/* Boost freq = 1MHz, BComp option = 1 */
-+			rom_13h {
-+				rom-addr = /bits/ 8 <0x13>;
-+				rom-val = /bits/ 8 <0x03>;
-+			};
-+			/* 4V OV, 6 output LED string enabled */
-+			rom_14h {
-+				rom-addr = /bits/ 8 <0x14>;
-+				rom-val = /bits/ 8 <0xbf>;
-+			};
-+		};
-+
- 		audio-codec@2d {
- 			compatible = "realtek,rt5677";
- 			reg = <0x2d>;
-@@ -1908,4 +1972,12 @@ usbc_vbus: regulator-usbc-vbus {
- 		regulator-min-microvolt = <5000000>;
- 		regulator-max-microvolt = <5000000>;
- 	};
-+
-+	vdd_dsi_csi: regulator-vdd-dsi-csi {
-+		compatible = "regulator-fixed";
-+		regulator-name = "AVDD_DSI_CSI_1V2";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&pp1200_avdd>;
-+	};
- };
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.37.3
-
+Florian
