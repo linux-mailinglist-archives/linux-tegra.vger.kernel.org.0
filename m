@@ -2,118 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35DC35F0A6C
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Sep 2022 13:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18AC35F0CDB
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Sep 2022 15:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbiI3Lay (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Sep 2022 07:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
+        id S230167AbiI3N6i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Sep 2022 09:58:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230521AbiI3L3y (ORCPT
+        with ESMTP id S231686AbiI3N6d (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Sep 2022 07:29:54 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B89C3DF0C
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Sep 2022 04:20:53 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id s6so6376558lfo.7
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Sep 2022 04:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=tSS0OwapmGCYXAOpgg6xlNApn7RpwyeG1gXGqydrbJ4=;
-        b=RnNLp5XOC5FP1l1QOpxkRAxm3SlY4+bFuwv0pJvVxm9o2BmI7JrUaMTpc0m30QGvQG
-         d1Z+Dk2GdC95Rwi8IFxxd2jGsY0fNMHD5rwNXWrvw/HOyxMGCYhj8XhlnOqerGM3QkIP
-         gKm+aRIpScjhv4OapLjH9oPyK+vtEVwNy+8dUrcrWMPeWtYXiJLJ5zVeGeJaUwHJpYIo
-         cggQFA664pyFL5A46dvED+9oxamy1IrFZaziE2EoKL93Cbh8a8GD8leRWDV56UED7sIN
-         +/EsrEDdSojmlNWOTBRHXMKkoKVTroqXqpOmYJhh1L0otqOa6iiMr9otpnOz+UYMlhpJ
-         ZUEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=tSS0OwapmGCYXAOpgg6xlNApn7RpwyeG1gXGqydrbJ4=;
-        b=ArTe10xLgXwEjvQUG903OhnnJdC2ZU5TsguB9eaWgcDO2kKRDLcboXdrxGopDyAo6S
-         dZG2vhsA4TiZIvHxVroGP83xayBjNfGq2zGdMK8MfxBWfeiZG8thgf7WIFSAhVb5vjFJ
-         Wr24qsEJwt5fvyHfC00JqvdOff8fYq2qjM3eusNnp4AojCM0OMd6kALw/U3LQQ/EGuXS
-         dLFDb+mt97kbK+YCIfVLZscQkrOD9kLNbx7jONwKahupsi2sf30GpNVKzXFWiVTWkcvq
-         3EUGD2wDdpoSX3eSkfM37Ek6v977GUX3USFQl2FNw+8zsHFBL4kqPFwTT+Tj3A1pa9QC
-         P77A==
-X-Gm-Message-State: ACrzQf0ndWC6QypEQhTnu9gnTNFU6TOR9+0a7W43z1uVYRbvbISph0RI
-        sQFPegya2Mt44GVmSvYDsN5Vug==
-X-Google-Smtp-Source: AMsMyM5+Br4pooYTCe1wcBue2LneLOWrbvkc2W5kR2lwYUem3rqWngE6Go7DjWuEqVmBFTIhyvEK3g==
-X-Received: by 2002:a05:6512:3503:b0:496:55d:a186 with SMTP id h3-20020a056512350300b00496055da186mr3040836lfs.340.1664536851811;
-        Fri, 30 Sep 2022 04:20:51 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id j22-20020a056512109600b0048af397c827sm258553lfg.218.2022.09.30.04.20.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 04:20:51 -0700 (PDT)
-Message-ID: <a0254559-a76d-de87-3458-e7dc148a8daf@linaro.org>
-Date:   Fri, 30 Sep 2022 13:20:50 +0200
+        Fri, 30 Sep 2022 09:58:33 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3D615C1D6;
+        Fri, 30 Sep 2022 06:58:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cx5wyHVPRIc9vS184dGuWOZM+jgN4lpusiT/Qfxxlm/cAWcLS8BvCInKbWDVe1RCJyYE6KcgvMXq7in1r1Wf/r7B9KW23kTpSX5C2G1ATmWFlhsHUPPywBMSkrwkkymDLRp/WlNNbFgjmkLa3pOrF+lOXUWMwKhZ8t0awfrCVjq8a/4c8beLV7CpJOfdaZ9LghRLX5C9Y+EqsYbb/J6gXFunkUNRQm6Ub0cFWpTwdfH2zU9Qk+ZqeL26T63wWZZBfWi6JQr1oNehYYClhvyRzbbZsmeqSWXAidpBZxngVJ3EBjpNTcMFXmErk9ryXi+akpoNgK4ELVWeWu/4f+KrmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xjq0RDd3EuZ82uOR+3ccOhJgThI7rR+cHnd9LaGTIxc=;
+ b=n+vGwKBonjr3/9WIuLRjUM1kpyQjgFrfpmQtd7Om+TaUhPpwfv/0Mghigon8Lqcr4mDQ/tk1iidasF6haN7lGUlxyY6HW+ESNoryI+hDWz0n7Pn7vfiNmBDXYIptSgBMzE7JymhMc3eq5kwFRHihi/LErglSQaM38h2x5UGxdl3w4V5O1eJx8lEVwVxdGislBZzls3grdxEE4u3gHDn0uJb/aPglSAnICCesBQiuxLTh4J42xd03CJNXYllPTNxXngDnfdDtouh9zLqUXX2KOM8+scvpRYpVEs23mY96OBXYfvgWj2F4Jvx3O/EEhgP+PXNY/3Xg5xQDuf1qSVMqaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xjq0RDd3EuZ82uOR+3ccOhJgThI7rR+cHnd9LaGTIxc=;
+ b=VlTlGbu9agJmf3jISvH/vOsZ+32tsbybs7rgeN9XCGfNY8HFn5BzuoTrprO6Z5WmMHhEeXXZ+IiNXhY4nIbMweMIuIPwfiCbzhAHfM17dL6cttalzkipbrUNTTzyc3bi6BnUCKJCW39qPb5JNQTMGuJK1+QCHbU5Dcwe1wGnUvfapM1+Pl2EHWknWwl3VrqGRosca3UkQ5rig4Rsap0IWYexNyQ+ZppuMvWiL4SR50091oARIfZF1rapahiSj9cmpo8JiNi59MY/kpk7Ls6bw2rTE6tzSYtEpYes3zlQ1CAO9Y+HMjsvJszFpmy5WivD/scr7jCNSisUYeL98PMeHg==
+Received: from BN8PR16CA0028.namprd16.prod.outlook.com (2603:10b6:408:4c::41)
+ by SJ1PR12MB6195.namprd12.prod.outlook.com (2603:10b6:a03:457::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.19; Fri, 30 Sep
+ 2022 13:58:29 +0000
+Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:4c:cafe::c2) by BN8PR16CA0028.outlook.office365.com
+ (2603:10b6:408:4c::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23 via Frontend
+ Transport; Fri, 30 Sep 2022 13:58:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 13:58:28 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Fri, 30 Sep
+ 2022 06:58:12 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Fri, 30 Sep 2022 06:58:11 -0700
+Received: from audio.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Fri, 30 Sep 2022 06:58:09 -0700
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <catalin.marinas@arm.com>, <will@kernel.org>, <broonie@kernel.org>,
+        <treding@gmail.com>, <linux-arm-kernel@lists.infradead.org>
+CC:     <linux-kernel@vger.kernel.org>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH 0/2] Audio configs for NVIDIA Jetson platforms
+Date:   Fri, 30 Sep 2022 19:26:32 +0530
+Message-ID: <1664546194-735-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 4/4] arm64: dts: smaug: Add display panel node
-Content-Language: en-US
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, sam@ravnborg.org,
-        airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jonathanh@nvidia.com,
-        arnd@arndb.de, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
- <20220929170502.1034040-5-diogo.ivo@tecnico.ulisboa.pt>
- <23bc38b8-ed67-d243-9739-f07b7411be3a@linaro.org> <YzbPz8mL0Yo+vgSS@orome>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YzbPz8mL0Yo+vgSS@orome>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT039:EE_|SJ1PR12MB6195:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5af487ba-6c69-488b-7745-08daa2ebda35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MkqAj1ptvxYcW+rt+Fwd6cKpZlNCeMVb8WclRWNCYXV+bBBz7Sl1hHjpx9gPoAof4Ye9vCwnFV9PhcsLINKq4Bkm0AuGa2ZNeC3ZfWnooscutEkN+jVtQsbo1CL5Y4BdttEr06ljXntO1XabN4dqo4bTdz3+oSPxLNqkWW84ZDXvMPiMJOFmsJIY1OhDulIBdpBuym/qTbBkfMoJx63SNhRzptIT/m4j8aKzSZhjMZVB1uh38H9Ha5qSTRvxDTGMftblJeLx4mvJvB8uEygd3+aufIT88kWiRNcxiWU16rYoABn9/foCBwsGx5dNoQRk1mIH5cICAI4eLqkP/nYPVhjDXdZiLIFvRdJY76zTJN/11moihHe0TGyqavwv+1dkRpFUT0UkEIaMwxzXRlHTLntVZk4vsUiVZkBpT/kcGb6H5VkP+pvN4bi36SMesJ25lg/kjym+XNu929olf+iVlt3p3ibE0tMt4gUPKjYcQioAYSrBy5VF9oIeSvNIJKtSyUo9clEWdFSYOifApoughT0I+oHNq6jZLqWpyWqe+01BCv0Wt3LLJacUz4Nzt7J0avWD68c5ZOQ820rBKAeKD8uybOXC/o4Cm7AXIw4lC5MmSW+5UudEqOEgK+d5Pxef3lAwn9JG9R33I8GckyGjcxemJmyI6I6FBdF21oFZrRidrl1q0YoxCOzowpgdcNB0BHT+SCqEvoF45kOeodubY+e4Fnwp4ZYdQuKL8b60D0WdMNaP6z+FtZpqNErFqhixb/NQt4gnsOAUHzAQGeHLBw==
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(39860400002)(136003)(346002)(451199015)(36840700001)(46966006)(40470700004)(41300700001)(2906002)(4744005)(5660300002)(40460700003)(426003)(7636003)(6666004)(107886003)(316002)(82310400005)(47076005)(110136005)(70586007)(70206006)(54906003)(40480700001)(82740400003)(356005)(4326008)(8676002)(36756003)(86362001)(478600001)(8936002)(26005)(7696005)(336012)(2616005)(186003)(36860700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 13:58:28.6110
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5af487ba-6c69-488b-7745-08daa2ebda35
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6195
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 30/09/2022 13:15, Thierry Reding wrote:
-> On Fri, Sep 30, 2022 at 12:51:07PM +0200, Krzysztof Kozlowski wrote:
->> On 29/09/2022 19:05, Diogo Ivo wrote:
->>> The Google Pixel C has a JDI LPM102A188A display panel. Add a
->>> DT node for it. Tested on Pixel C.
->>>
->>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
->>> ---
->>>  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 72 +++++++++++++++++++
->>>  1 file changed, 72 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> index 20d092812984..271ef70747f1 100644
->>> --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
->>> @@ -31,6 +31,39 @@ memory {
->>>  	};
->>>  
->>>  	host1x@50000000 {
->>> +		dc@54200000 {
->>> +			status = "okay";
->>
->> You should override by labels, not by full path.
-> 
-> Why exactly is that? I've always stayed away from that (and asked others
-> not to do so, at least on Tegra) because I find it impossible to parse
-> for my human brain. Replicating the original full hierarchy makes it
-> much more obvious to me where the changes are happening than the
-> spaghetti-like mess that you get from overriding by label reference.
+Enable configs for RT5640 and TAS2552 audio codecs.
+Also enable SND_ALOOP loopback card and these find
+applications in NVIDIA Jetson platforms.
 
-Sure, it's entirely up to you. I forgot your preference.
+Sameer Pujar (2):
+  arm64: defconfig: Enable couple of audio codecs
+  arm64: defconfig: Enable SND_ALOOP
 
-But it is a really nice way to have duplicated nodes and mistakes (which
-happen from time to time).
+ arch/arm64/configs/defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Best regards,
-Krzysztof
+-- 
+2.7.4
 
