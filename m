@@ -2,119 +2,185 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 702A95F415F
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Oct 2022 13:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D529E5F4186
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Oct 2022 13:08:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiJDLFf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Oct 2022 07:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53468 "EHLO
+        id S229679AbiJDLIv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Oct 2022 07:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiJDLFY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Oct 2022 07:05:24 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006D914D0D
-        for <linux-tegra@vger.kernel.org>; Tue,  4 Oct 2022 04:05:07 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id bu25so20605111lfb.3
-        for <linux-tegra@vger.kernel.org>; Tue, 04 Oct 2022 04:05:07 -0700 (PDT)
+        with ESMTP id S229892AbiJDLIl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Oct 2022 07:08:41 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7A5564F8
+        for <linux-tegra@vger.kernel.org>; Tue,  4 Oct 2022 04:08:38 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so18261249pjs.4
+        for <linux-tegra@vger.kernel.org>; Tue, 04 Oct 2022 04:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=CdB5pNPn1z3hOORutMayY9OylE9bDXafftjb5ZY85Ls=;
-        b=Aicc3p/LBIP8Hd7tOw2WCIqknBYo352b1b1KQPR9O/IjkKO71/O57c7Mz4gv7Ats4F
-         6Dq02RpB3MiBwI6H5tolRswKTCzujMlCDphrtPw3DoCBFbLUcSSMhbaFbj8KqUECeEyB
-         ZZb0FdgYEr1F/SR58Kf5vl7t1BDV+Sq4E+kQonxwwhbrOiQ1wa5YuKEWSEu0hG657lkg
-         Q5bwbVNQs2oqNWPcYE1LEglqVVxrN/RzJjVRdunJYo7teb7yhI3OExHJZPdd6C3F2yZ4
-         GU+t8aWxSjNcxC7osUORq7KOsKR8G6In8RWM8yOxr0rEBPRdD1oZQxMWBZUqftHV/+CQ
-         FhkQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Gtwwkxm3K9zy3ub+GhlddjjtZ7fh91sG2Y46OOYgmCM=;
+        b=EnhlO7DcICPKJpPG1jb7KTMLBU7DAMNWLzZM/l8aLFUsRZkWp+mkSVMMBmLZ1zgxaC
+         wxY3CYIRcHyRXss5NtxD4hq5yFum2Xsa/Xfa8NFMZbQ3tgmqUq13E1Fcil8BIgM2OEw6
+         m+P6TSNsaCcBVdUXpgo0TEJ7VOVGVt6KKPFMuMhn/bj0r2dm5zCuaEvX7UiZOqeeJEdX
+         h1wGhs9cmKjNMVwi5bkackIBv98JM8+NjLMoMPaPS3klw1yQNu9dahurEQIN+cDnqkmM
+         Hbcu0L1M6U3Rd654P0n2Hh4Q6bzGWuS7xOAcwB9SuDvPVBJ1Tctv5MAKRuD35o1eodHl
+         dgPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=CdB5pNPn1z3hOORutMayY9OylE9bDXafftjb5ZY85Ls=;
-        b=o5hvHMQBXYZamUrXB2hlhMJ8SWSlHdFOxaZciQfco1SCXB+COvbl/O+wno2YaBHYK4
-         8vAdZqFD6DfgMMzgOHtC0eZGn8+/vwPr9fA4636gdWkDTR2xKtwbzZvJRgifHQN9oB6h
-         +jcwqjrVoNJXBMn3qjQvFRZYMZOubqIt7ROPAoE8wjr3wgTcuXv2V99bX+nVCVm35Z7X
-         YXujhFwfNTo/to2GCQVzzkoZzl6HbmJml1aQDVFUv9KawIOGTNTgRyPUKSwmai11GvH4
-         e5L1MrnlSbXz5rp8vvbyNR8gbTMKD8gSS1OKRduwx80oxulkpGdz+1x+SK6zeKMwn3PF
-         lB2g==
-X-Gm-Message-State: ACrzQf2bZr8VhtZRv9AqENGWO5Z8NSKaFXh2TZSVfZlb8VziMOta7ZR6
-        j5VZXrCIXATz/oiwirMYDVJXfA==
-X-Google-Smtp-Source: AMsMyM6qbKEnyaJKurccIDdstvhYg0/dHAN3kIdwHg1wwhfHgZh++ybgBnDtI2SIdmUXvVbaaM5x1w==
-X-Received: by 2002:a05:6512:3a8b:b0:4a2:515e:eb51 with SMTP id q11-20020a0565123a8b00b004a2515eeb51mr1098564lfu.540.1664881506353;
-        Tue, 04 Oct 2022 04:05:06 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id p18-20020a2eb992000000b0026c47426cd0sm1177909ljp.140.2022.10.04.04.05.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 04:05:05 -0700 (PDT)
-Message-ID: <98d3b42d-3f9f-9b6e-8c17-46deae4b4030@linaro.org>
-Date:   Tue, 4 Oct 2022 13:05:04 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Gtwwkxm3K9zy3ub+GhlddjjtZ7fh91sG2Y46OOYgmCM=;
+        b=i1Xp9QknLNuYPnS/8FMi8MiUCU/xexCM8s0PRoZr/Xtbk07cd3enfNSSLw0bbhTtJs
+         0zCtFuq1tTl6x5G5CcDVwXPMqViBdWlf/sQ4pmidcf5s07pBdaI9sCy7N20o5RrL78rj
+         RBY/whn+Fgz46Y4+koGKNAwZMopZm5Ex7aBJI7aXnIZzpDn8LeMbxtqCCdfSGM844DMa
+         mD7QBpfm+DAJmMhxS0UMD/iyw5E+IYDvrW0P52sAA4FUVRsXib1S2X83WNRl72gYCt8L
+         EFz16hJfeGISQ4oxMdl5WdAtMpbd7JQEFXoNmlCLh5aj7dxMC8+lIY/B7HORE1plMU+c
+         +w+g==
+X-Gm-Message-State: ACrzQf00e7qTLfwi5GXGZ4hmJjwm375xl4T7S3WxUQmSNSL3WwTE0KK1
+        63OjTpLVnxnQFS/gWWduE0+UZSv3BomxAV7r30HKOg==
+X-Google-Smtp-Source: AMsMyM6cCdnxuhXSy92rYBN/YepwF/hndLawv3zc1vUJoDTHY6JL7u1f8y1gp2OsfAUCoRgnjKuog3OS/wqaN/v/F3w=
+X-Received: by 2002:a17:90b:1b06:b0:202:cce0:2148 with SMTP id
+ nu6-20020a17090b1b0600b00202cce02148mr17035330pjb.84.1664881717434; Tue, 04
+ Oct 2022 04:08:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 1/4] dt-bindings: display: Add bindings for JDI
- LPM102A188A
-Content-Language: en-US
-To:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc:     thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
-        daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jonathanh@nvidia.com,
-        arnd@arndb.de, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt>
- <20220929170502.1034040-2-diogo.ivo@tecnico.ulisboa.pt>
- <efa2f644-0a1d-00f7-970c-f17ceb0cc550@linaro.org>
- <20221003170634.56jibls3xjxiiulg@wslaptop>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221003170634.56jibls3xjxiiulg@wslaptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220919095939.761690562@infradead.org> <20220919101521.886766952@infradead.org>
+In-Reply-To: <20220919101521.886766952@infradead.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 4 Oct 2022 13:08:00 +0200
+Message-ID: <CAPDyKFoMidikoTPe0Xd+wZQdBBJSoy+CZ2ZmJShfLkbGZZRYDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 23/44] arm,smp: Remove trace_.*_rcuidle() usage
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com,
+        linus.walleij@linaro.org, bsegall@google.com, guoren@kernel.org,
+        pavel@ucw.cz, agordeev@linux.ibm.com, linux-arch@vger.kernel.org,
+        vincent.guittot@linaro.org, mpe@ellerman.id.au,
+        chenhuacai@kernel.org, christophe.leroy@csgroup.eu,
+        linux-acpi@vger.kernel.org, agross@kernel.org,
+        geert@linux-m68k.org, linux-imx@nxp.com, vgupta@kernel.org,
+        mattst88@gmail.com, mturquette@baylibre.com, sammy@sammy.net,
+        pmladek@suse.com, linux-pm@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-um@lists.infradead.org, npiggin@gmail.com,
+        tglx@linutronix.de, linux-omap@vger.kernel.org,
+        dietmar.eggemann@arm.com, andreyknvl@gmail.com,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, senozhatsky@chromium.org,
+        svens@linux.ibm.com, jolsa@kernel.org, tj@kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        mark.rutland@arm.com, linux-ia64@vger.kernel.org,
+        dave.hansen@linux.intel.com,
+        virtualization@lists.linux-foundation.org,
+        James.Bottomley@hansenpartnership.com, jcmvbkbc@gmail.com,
+        thierry.reding@gmail.com, kernel@xen0n.name, cl@linux.com,
+        linux-s390@vger.kernel.org, vschneid@redhat.com,
+        john.ogness@linutronix.de, ysato@users.sourceforge.jp,
+        linux-sh@vger.kernel.org, festevam@gmail.com, deller@gmx.de,
+        daniel.lezcano@linaro.org, jonathanh@nvidia.com, dennis@kernel.org,
+        lenb@kernel.org, linux-xtensa@linux-xtensa.org,
+        kernel@pengutronix.de, gor@linux.ibm.com,
+        linux-arm-msm@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+        shorne@gmail.com, chris@zankel.net, sboyd@kernel.org,
+        dinguyen@kernel.org, bristot@redhat.com,
+        alexander.shishkin@linux.intel.com, fweisbec@gmail.com,
+        lpieralisi@kernel.org, atishp@atishpatra.org,
+        linux@rasmusvillemoes.dk, kasan-dev@googlegroups.com,
+        will@kernel.org, boris.ostrovsky@oracle.com, khilman@kernel.org,
+        linux-csky@vger.kernel.org, pv-drivers@vmware.com,
+        linux-snps-arc@lists.infradead.org, mgorman@suse.de,
+        jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        ulli.kroll@googlemail.com, linux-clk@vger.kernel.org,
+        rostedt@goodmis.org, ink@jurassic.park.msu.ru, bcain@quicinc.com,
+        tsbogend@alpha.franken.de, linux-parisc@vger.kernel.org,
+        ryabinin.a.a@gmail.com, sudeep.holla@arm.com, shawnguo@kernel.org,
+        davem@davemloft.net, dalias@libc.org, tony@atomide.com,
+        amakhalov@vmware.com, konrad.dybcio@somainline.org,
+        bjorn.andersson@linaro.org, glider@google.com, hpa@zytor.com,
+        sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-riscv@lists.infradead.org, vincenzo.frascino@arm.com,
+        anton.ivanov@cambridgegreys.com, jonas@southpole.se,
+        yury.norov@gmail.com, richard@nod.at, x86@kernel.org,
+        linux@armlinux.org.uk, mingo@redhat.com, aou@eecs.berkeley.edu,
+        hca@linux.ibm.com, richard.henderson@linaro.org,
+        stefan.kristiansson@saunalahti.fi, openrisc@lists.librecores.org,
+        acme@kernel.org, paul.walmsley@sifive.com,
+        linux-tegra@vger.kernel.org, namhyung@kernel.org,
+        andriy.shevchenko@linux.intel.com, jpoimboe@kernel.org,
+        dvyukov@google.com, jgross@suse.com, monstr@monstr.eu,
+        linux-mips@vger.kernel.org, palmer@dabbelt.com,
+        anup@brainfault.org, bp@alien8.de, johannes@sipsolutions.net,
+        linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 03/10/2022 19:06, Diogo Ivo wrote:
-> On Fri, Sep 30, 2022 at 12:49:31PM +0200, Krzysztof Kozlowski wrote:
->>> +  ts-reset-gpios:
->>> +    maxItems: 1
->>> +    description: |
->>> +      Specifier for a GPIO connected to the touchscreen reset control signal.
->>> +      The reset signal is active low.
->>
->> Isn't touchscreen a separate (input) device?
-> 
-> Hello, thank you for the feedback.
-> 
-> According to the downstream kernel's log, it seems like the panel and
-> the touchscreen controller are considered to be embedded in the same unit
-> (for example in [1]), 
+On Mon, 19 Sept 2022 at 12:18, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> None of these functions should ever be ran with RCU disabled anymore.
+>
+> Specifically, do_handle_IPI() is only called from handle_IPI() which
+> explicitly does irq_enter()/irq_exit() which ensures RCU is watching.
+>
+> The problem with smp_cross_call() was, per commit 7c64cc0531fa ("arm: Use
+> _rcuidle for smp_cross_call() tracepoints"), that
+> cpuidle_enter_state_coupled() already had RCU disabled, but that's
+> long been fixed by commit 1098582a0f6c ("sched,idle,rcu: Push rcu_idle
+> deeper into the idle path").
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Downstream kernel is not a proof of proper description of hardware. If
-downstream says orange is an apple, does it mean orange is really an
-apple? No... Downstream creates a lot of junk, hacks and workarounds.
+FWIW:
 
-> with the touch input being transmitted via HID-over-I2C,
-> and since I did not find any reset gpio handling in that driver I opted to
-> include this reset here, unless there is a better way of going about this.
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-Instead it should be in touch screen device.
+Kind regards
+Uffe
 
-> 
-> Best regards,
-> 
-> Diogo
-> 
-> [1]: https://android.googlesource.com/kernel/tegra/+/bca61c34db9f72113af058f53eeb9fbd5e69a1d0
-
-Where is the DTS of that device?
-
-Best regards,
-Krzysztof
-
+> ---
+>  arch/arm/kernel/smp.c |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> --- a/arch/arm/kernel/smp.c
+> +++ b/arch/arm/kernel/smp.c
+> @@ -639,7 +639,7 @@ static void do_handle_IPI(int ipinr)
+>         unsigned int cpu = smp_processor_id();
+>
+>         if ((unsigned)ipinr < NR_IPI)
+> -               trace_ipi_entry_rcuidle(ipi_types[ipinr]);
+> +               trace_ipi_entry(ipi_types[ipinr]);
+>
+>         switch (ipinr) {
+>         case IPI_WAKEUP:
+> @@ -686,7 +686,7 @@ static void do_handle_IPI(int ipinr)
+>         }
+>
+>         if ((unsigned)ipinr < NR_IPI)
+> -               trace_ipi_exit_rcuidle(ipi_types[ipinr]);
+> +               trace_ipi_exit(ipi_types[ipinr]);
+>  }
+>
+>  /* Legacy version, should go away once all irqchips have been converted */
+> @@ -709,7 +709,7 @@ static irqreturn_t ipi_handler(int irq,
+>
+>  static void smp_cross_call(const struct cpumask *target, unsigned int ipinr)
+>  {
+> -       trace_ipi_raise_rcuidle(target, ipi_types[ipinr]);
+> +       trace_ipi_raise(target, ipi_types[ipinr]);
+>         __ipi_send_mask(ipi_desc[ipinr], target);
+>  }
+>
+>
+>
+> _______________________________________________
+> Virtualization mailing list
+> Virtualization@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/virtualization
