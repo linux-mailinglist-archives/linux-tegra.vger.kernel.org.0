@@ -2,45 +2,45 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6A65FA56D
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Oct 2022 22:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D7F15FA5E6
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Oct 2022 22:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiJJURi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Oct 2022 16:17:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52910 "EHLO
+        id S230405AbiJJUTQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Oct 2022 16:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbiJJUQd (ORCPT
+        with ESMTP id S230146AbiJJURJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Oct 2022 16:16:33 -0400
+        Mon, 10 Oct 2022 16:17:09 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B833F7A752;
-        Mon, 10 Oct 2022 13:15:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 333097B1EC;
+        Mon, 10 Oct 2022 13:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665432953; x=1696968953;
+  t=1665432969; x=1696968969;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=NQX2BVWLlvVYkedYPDWHm8jdtnPz/k4sPUqYMIaGnls=;
-  b=X4hlmu3/NpJIpuqysV8lcR3TyWLcse/gMw7s6bhV0PvSMjQTbjz4hSP1
-   i7hMQVdiwkqaNI9pddNDXktFqMfCMn88VdSBV+/LfaH2MnNVmTAkJCmpl
-   7+tQXooQvP4LaGv4T8uLMKppXnYObMP8iKR7EHj5eDdDEpfb9wWqQYaTy
-   TrdHUhJaBUokQE8EMHIQHp87ulE+NpFXqiFO0feQdDtDdNOygtnJKVcnR
-   52bOgYEy2qWKe5xDZuFYdKwoI5C+DsrSVHZwaMIlr9hA8sWmWgdTFcn93
-   s9+LQc6OpctwX7NXUujVaEx4LG3Qpc64+NfRgmolppRxj2KVJMwPNKCBa
+  bh=hQG6OaJlbxIbFx3vF4WcvOlnEf177H4lL2btu1IfLVo=;
+  b=OuChWcqvcalGOz3PgKSw2cWDjzxFjoMtJQNSRG3jD7QD/XnEzgNjxSYR
+   IuAHxKkN+j0qQ4U6N9imeDnFw1qSR42fnS2zmsFC9wcc2O9JPx+8uNOYM
+   ptOAHP3EJXOvuvpnx1U7pB0rnJjsT1JPsgp9p0V5eZOqdI0bSUlHfRwDq
+   mROZOfy+kRn7qvo3kJ7qVpdDfTHlxnPOcWJ4DllW42keSzXB+m6m3p70L
+   QEwiuh8WfmS3kGQHJOgUwhu85njRe91EH+Notnc8V09fX0ZUeXWzeiOKp
+   cvZJn0qRUZvYUtgAJKW+lF6xuSeRDs9s+sxXPdnls6KiRYtbjiBiBCeet
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284706730"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284706737"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="284706730"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:49 -0700
+   d="scan'208";a="284706737"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628424323"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="694786636"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="628424323"
+   d="scan'208";a="694786636"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Oct 2022 13:15:47 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 10 Oct 2022 13:15:49 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 31B363CB; Mon, 10 Oct 2022 23:15:14 +0300 (EEST)
+        id 44D84B97; Mon, 10 Oct 2022 23:15:14 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Marc Zyngier <maz@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -132,9 +132,9 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Emil Renner Berthing <kernel@esmil.dk>,
         Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
         Masami Hiramatsu <mhiramat@kernel.org>
-Subject: [PATCH v2 32/36] pinctrl: cherryview: Add missed header(s)
-Date:   Mon, 10 Oct 2022 23:14:48 +0300
-Message-Id: <20221010201453.77401-33-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 33/36] pinctrl: lynxpoint: Add missed header(s)
+Date:   Mon, 10 Oct 2022 23:14:49 +0300
+Message-Id: <20221010201453.77401-34-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
@@ -156,18 +156,19 @@ While at it, sort headers alphabetically.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pinctrl/intel/pinctrl-cherryview.c | 6 ++++--
+ drivers/pinctrl/intel/pinctrl-lynxpoint.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/intel/pinctrl-cherryview.c b/drivers/pinctrl/intel/pinctrl-cherryview.c
-index 5c4fd16e5b01..11b81213922d 100644
---- a/drivers/pinctrl/intel/pinctrl-cherryview.c
-+++ b/drivers/pinctrl/intel/pinctrl-cherryview.c
-@@ -16,12 +16,14 @@
- #include <linux/kernel.h>
+diff --git a/drivers/pinctrl/intel/pinctrl-lynxpoint.c b/drivers/pinctrl/intel/pinctrl-lynxpoint.c
+index 5d1abee30f8f..8d05dad38556 100644
+--- a/drivers/pinctrl/intel/pinctrl-lynxpoint.c
++++ b/drivers/pinctrl/intel/pinctrl-lynxpoint.c
+@@ -16,13 +16,15 @@
  #include <linux/module.h>
  #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
 +#include <linux/seq_file.h>
+ #include <linux/slab.h>
  #include <linux/types.h>
  
 +#include <linux/pinctrl/consumer.h>
