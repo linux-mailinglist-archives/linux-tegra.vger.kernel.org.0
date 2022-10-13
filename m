@@ -2,172 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D965FDDFD
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Oct 2022 18:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 082FD5FE1B8
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Oct 2022 20:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbiJMQIN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Oct 2022 12:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59034 "EHLO
+        id S230113AbiJMSoF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Oct 2022 14:44:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbiJMQIK (ORCPT
+        with ESMTP id S232201AbiJMSni (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Oct 2022 12:08:10 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4540013332B;
-        Thu, 13 Oct 2022 09:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665677289; x=1697213289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OPQmeZ5uzAfg/Yu3vsd+t3FuvAOQsHliIP9WOqPYQKw=;
-  b=SoZ6M8rz0w4z3tqVEyO+XsZ4LpzrSB+j4psBjwxxkGr7ZlvtlxbeZnOr
-   cH34D89cSJvtC0Tw4UD++MXu8FsT/uvqY8KhCDGhMdPPMCEIr0yJYUp0/
-   /rjZ5me0OzZW1Pd9jDrUcECkiX2WROEzlzIg4TuT86UMTv9Z1NqmiheM1
-   P9UHM8zb2/Kg19M+1TXwiYu2WFmcpC+NYZeAHWUMclTlMEy4ISS0Nguqd
-   Ob0eoReheIzChHZZJGmpD4qMulHNYBjjrK7bTOIkSRF0eXuq6yHUikDN7
-   kjRunC/rEc1Hw1vmhf8+ai//880HxGdovPSIqDnCmvqVrZXlAVGNIsLJU
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="306770460"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="306770460"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 09:05:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="802296581"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="802296581"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 13 Oct 2022 09:05:20 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oj0hv-006V2r-0F;
-        Thu, 13 Oct 2022 19:05:15 +0300
-Date:   Thu, 13 Oct 2022 19:05:14 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Rafa?? Mi??ecki <rafal@milecki.pl>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Andreas F??rber <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v2 35/36] pinctrl: intel: Add missed header(s)
-Message-ID: <Y0g3OiL/9oQlcovJ@smile.fi.intel.com>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-36-andriy.shevchenko@linux.intel.com>
- <Y0gma4fmhWISrKHe@black.fi.intel.com>
+        Thu, 13 Oct 2022 14:43:38 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on20606.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e89::606])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9D4786FF;
+        Thu, 13 Oct 2022 11:41:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CbGOtxfIKjblZY9w6t+3wdlhy1ViJZ97qVNYMssRbar4fA2pxyLQU6PQpKrb1Pwu+ZCAvakmKX7ewC6YPHi61QgTmFXgAwWIcJWPwc7bgL6AG585r/0Tu3kbVFB/EBEMwIFju+A6UY8VmmEuqxEL05uyKTJXBe4RZvfC1wrzZ29XFPfkxUaz8n/GhZL175IrLtW/qX345mOTOs70eN0xu/HmQx70ULWx00o/GhEiuSyS4uLXU/Ct1r5Uvnr98m8MeZj5xs/hvWrrZx5CiJOI/UhDZi841CL5J/Vp9b+NlhpTjX27sBSEZDonpzuPIYIWL4DGZc++2BxRYQ3Ej9R4jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T9y8LOnq54r3hVY4gU2YFAX39OX7oDRTKUOHceIjFYA=;
+ b=eaHtCEdM8Ucj1VhfkrCnBAXjDjSYlE6OrhSNsLMua6grfi5orpTjQ+0G7jTYwaS7NxjA5HONGh/oQqpUTHcQmD7tBfYDCwauQI/e8v/sTBqnNBIxCe/eub1Oa8xefDNykfzUDDDVlOlLNpThZ2jjxM9l0z6iOyR57CohyThWTV+GP09NMrBgsD4WeADVSbk7rQAWytdjJyd3FEFwiQaNyeDZrTtG2Ewv2kvYjSXj4hk8BtQUzCog6XDNqIYiIprgVcECRC9UkoW1fbvOJ0FHKbR9j7nPkz3c/wP6IqGgPfpXnIC5LhmOvAhxyYXfsShmWK0nfkN7w8N49ouv99nBPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T9y8LOnq54r3hVY4gU2YFAX39OX7oDRTKUOHceIjFYA=;
+ b=KuP81ARSY9n4TkwcJz/zvfBuCHk8j6HjZa67F+7lcsjA4/2yj8Ykja5JpqS6BLvYOBJLrtzN3FrhOyLzbrDZbstWpWUfcbSuxoSRAX7PtpjmsWNfsyWoa3NmCsmTHlBfFOnFMevcL97bRktQEzWbKWvGgop5BywkGlx/OYQ/Qd72QVE3uMo1bVtw6K3CTv8m5KKFYznAKOMU2gC9NNN7K5jDstII13qDqkeqZDmcCfckpQz1MaacjZ1Un3t92F3UgGbEh5rtCCY6h2Y0aR0vM7tsPc4PqnNJR41+Lh31h7RpHgP2kGJOpnY3QhB5wunrVDJVjnEBxjkGMoj2seznmA==
+Received: from BN1PR14CA0026.namprd14.prod.outlook.com (2603:10b6:408:e3::31)
+ by MN0PR12MB6103.namprd12.prod.outlook.com (2603:10b6:208:3c9::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.22; Thu, 13 Oct
+ 2022 18:39:15 +0000
+Received: from BN8NAM11FT108.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e3:cafe::60) by BN1PR14CA0026.outlook.office365.com
+ (2603:10b6:408:e3::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.21 via Frontend
+ Transport; Thu, 13 Oct 2022 18:39:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BN8NAM11FT108.mail.protection.outlook.com (10.13.176.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.20 via Frontend Transport; Thu, 13 Oct 2022 18:39:15 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Thu, 13 Oct
+ 2022 11:39:04 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Thu, 13 Oct 2022 11:39:03 -0700
+Received: from vidyas-desktop.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Thu, 13 Oct 2022 11:38:59 -0700
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lpieralisi@kernel.org>, <robh@kernel.org>, <kw@linux.com>,
+        <bhelgaas@google.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <vkoul@kernel.org>,
+        <mani@kernel.org>, <Sergey.Semin@baikalelectronics.ru>,
+        <ffclaire1224@gmail.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
+        <sagar.tv@gmail.com>
+Subject: [PATCH V3 00/21] Enhancements to pcie-tegra194 driver
+Date:   Fri, 14 Oct 2022 00:08:33 +0530
+Message-ID: <20221013183854.21087-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0gma4fmhWISrKHe@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT108:EE_|MN0PR12MB6103:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd245d28-8fa2-437d-9234-08daad4a3b22
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FnugxFfod2wsuJBpvo2enQtQsz2FDdYCXqYjs+Tj7++0EYxgdKEKNZA3uk5Oztjix7nexvEYlx0ceWB2twdcdCPamUSzawj5so5UxAv7lKLBxIR3lwBxE8OFDB2sv7m04G02I9dRuKpegZc0pWXlvul1IbsKczhlpGIIvNcD71nzKXbtH37uc7uR33ER+v8VP3eXPOlu5uqIr8ZiKI9zdk96MWvF7QJgrOhZj8pio8NHRk9pklE/e1BFzP1z04o9BeF/ZnHgFy1BVsgtOj6CnH8KNOTK42I4V9WoLLyAR+n3s+fd8lzNYZL7eK6dDpoHUZ6A7E92uL+yh4OIzhfOwgW9ZC6T3eYrAVFnuveQir2IdIMgoup2gxzRWlmP2h66qEtCr4Rqa8eA7SsAgrH8vGOBvlD5VB0bgvtgylkFLlxPVrjJHyUalSS3bSXGNC1+gcDE/iHMQyWVlBBepSrvsaH+AIWD2p7nzS55DhSzIiFxtyn+YZmkAI3Np2OIUpA7SbdgXv16Ay1xgzSLMobtHys/Y1J8VBfAE+jgpLR0sroApZ/iSPcbCQRs+uRpdm8FGkCT504B9vy4NamPf+2wRtoL86Cj5Kf82xXiMcc15oSpA5CJgK1X+ICOlacperisue0HtxKIA0hkhO6ZCoUDKemaXU9iM3dMzVPxSxUTMy9C7CNh74V6Xr3QlL6FoTz03U9//hTcu7qt30UNMMfS96/6qyxClLxY7bE6GjFaWKuyBiBEJtdrO3Weo2ET/0L4Zp3jnZvMQjFsTNnFYLVn0OkfcMLtirO0HgNZhcVOnPxMl6R5aIdg4aKyx19Fc3BbFC1gDRiH4zfYDts18Q/yoD4kt9KBEs8xsR+Ue+Gg2LQmPAYiLXGhhL1/uokF2Vec7Ky+6e/PBWrAP9MxoUsXPyfOOTDPwjA8mkDUUulw7iw=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(39860400002)(346002)(376002)(451199015)(40470700004)(46966006)(36840700001)(36860700001)(40460700003)(86362001)(40480700001)(36756003)(921005)(82740400003)(356005)(7636003)(316002)(8676002)(4326008)(70206006)(110136005)(70586007)(54906003)(2906002)(426003)(8936002)(5660300002)(7416002)(41300700001)(47076005)(186003)(1076003)(2616005)(82310400005)(83380400001)(336012)(966005)(6666004)(478600001)(26005)(7696005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 18:39:15.5778
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd245d28-8fa2-437d-9234-08daad4a3b22
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT108.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6103
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        SPF_HELO_PASS,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 05:53:31PM +0300, Mika Westerberg wrote:
-> On Mon, Oct 10, 2022 at 11:14:51PM +0300, Andy Shevchenko wrote:
-> > Do not imply that some of the generic headers may be always included.
-> > Instead, include explicitly what we are direct user of.
-> > 
-> > While at it, sort headers alphabetically.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> 
-> For all the intel pinctrl changes.
+This patch series contains enhancements to the pcie-tegra194.c driver
+that works for both Tegra194 and Tegra234 SoCs and for both RootPort
+and Endpoint modes.
 
-Thank you, I have added it to the 4 Intel related patches.
+This patch series depends on the following series in the same order
+
+PCI: designware-ep: Fix DBI access before core init
+https://patchwork.ozlabs.org/project/linux-pci/list/?series=322681
+
+PCI: endpoint: Rework the EPC to EPF notification
+https://patchwork.kernel.org/project/linux-pci/list/?series=683493
+
+Add DeInit support in the PCIe Endpoint framework
+https://patchwork.kernel.org/project/linux-pci/list/?series=685157
+
+V3:
+* Addressed review comments from Bjorn
+* Added new patches to the series
+
+V2:
+* Addressed review comments from test bot and Vinod
+
+Vidya Sagar (21):
+  PCI: tegra194: Use devm_gpiod_get_optional() to parse
+    "nvidia,refclk-select"
+  PCI: tegra194: Drive CLKREQ signal low explicitly
+  PCI: tegra194: Fix polling delay for L2 state
+  PCI: tegra194: Handle errors in BPMP response
+  PCI: tegra194: Apply pinctrl settings for both PCIe RP and EP
+  PCI: tegra194: Refactor LTSSM state polling on surprise down
+  PCI: tegra194: Disable direct speed change for EP
+  phy: tegra: p2u: Set ENABLE_L2_EXIT_RATE_CHANGE in calibration
+  PCI: tegra194: Calibrate P2U for endpoint mode
+  PCI: tegra194: Free resources during controller deinitialization
+  PCI: tegra194: Remove IRQF_ONESHOT flag during Endpoint interrupt
+    registration
+  PCI: tegra194: Enable DMA interrupt
+  PCI: tegra194: Enable hardware hot reset mode in Endpoint
+  PCI: tegra194: Allow system suspend when the Endpoint link is not up
+  PCI: tegra194: Disable L1.2 capability of Tegra234 EP
+  PCI: tegra194: Set LTR message request before PCIe link up
+  PCI: tegra194: Reduce AXI slave timeout value
+  PCI: tegra194: Don't force the device into the D0 state before L2
+  PCI: tegra194: Free up EP resources during remove()
+  dt-bindings: PCI: tegra194: Add monitor clock support
+  PCI: tegra194: Add core monitor clock support
+
+ .../bindings/pci/nvidia,tegra194-pcie-ep.yaml |   6 +-
+ .../bindings/pci/nvidia,tegra194-pcie.yaml    |   6 +-
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 261 ++++++++++++------
+ drivers/phy/tegra/phy-tegra194-p2u.c          |  14 +
+ 4 files changed, 194 insertions(+), 93 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
