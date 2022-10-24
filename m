@@ -2,119 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF34D60B49C
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 19:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86D9760B37E
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 19:07:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232445AbiJXR4N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Oct 2022 13:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35288 "EHLO
+        id S235240AbiJXRH0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Oct 2022 13:07:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbiJXRz5 (ORCPT
+        with ESMTP id S233893AbiJXRHJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Oct 2022 13:55:57 -0400
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206A2BE2FE
-        for <linux-tegra@vger.kernel.org>; Mon, 24 Oct 2022 09:35:15 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id o12so17602282lfq.9
-        for <linux-tegra@vger.kernel.org>; Mon, 24 Oct 2022 09:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iR3UfHXnsanM1f9q/rSbsmMzsT/UyuayGOc6ontvzEA=;
-        b=h0M99fGfmo9HphJkonF9O94gHqQb4vj07IZGBDBRmCiaecAQxq2iKyjZ2SCBlIOCOC
-         mg3Ny7SQ4qhinoyQlsSmt+CYL05AYJRMZbk7K24wp4f71VoYaLiuOYTOesVManE+EgLz
-         9VdyzROZSMbIRDf8hRmQ5EdpOYkrSyhWCMsrHGdzXM8krCjkGMlJ0w3aWioHnjE8FHO1
-         EozKOUPSJfNw97x/P74NZqUZELK8REv/mCij/bTxGsp0bMsr8+RxwUYv98MFgILLk96V
-         6t98uDjPlbLKAfxMZjxIDlrsk/MUeadoGJHezlVjL2hA4qe3IDvoqdXKhoCvQRB6PYSr
-         Y/EQ==
+        Mon, 24 Oct 2022 13:07:09 -0400
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45852D4A3D;
+        Mon, 24 Oct 2022 08:41:50 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id i127so11420106ybc.11;
+        Mon, 24 Oct 2022 08:41:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iR3UfHXnsanM1f9q/rSbsmMzsT/UyuayGOc6ontvzEA=;
-        b=8RbG5CYkGcPNkb7uguMIcAJUb3y08yhrM6eltyi47SbB3hRNFM6y4HAU/IGjY6gnQs
-         xvsLs210Q73vTRlodhFw77gDXju6xrkOajN6gi6Lvucs9Vyh8lmEsnHV5xmGf5zXrKql
-         bGsQVlNtSazFnX4p04lfnwWyiNFb63lqnjD5KqObXvyKnM0rLhQbirRfm0uHStgxSSPc
-         0X/a61khvg66CQzhcpRiWU84OD0FKgGvNJe+JmkBL/T0HmKTq4QBLWoOPHxmFOuusAnL
-         yLBL9liE0J16iuIYW+IJkIZTfdJE9I9bqrk+l0i5DO8mjPBV8tEuEoj2exUoe8hJCDCc
-         D7Gw==
-X-Gm-Message-State: ACrzQf0Kou/xKMLOERLw+1LEepu4mS8Y2JfyGon5/aockztWxfTvwbSO
-        rMBr/zn4pz0hsAaVPuz3cu0bxBp9oow=
-X-Google-Smtp-Source: AMsMyM7r6pB7n9rytw/CvT1aP0JJ0Cjm9z4Q9HnDgwFw3l11kdu+wc+9qLysPZikKqVQQW7AiNC1ew==
-X-Received: by 2002:a50:cc07:0:b0:453:4427:a918 with SMTP id m7-20020a50cc07000000b004534427a918mr30795242edi.121.1666617538725;
-        Mon, 24 Oct 2022 06:18:58 -0700 (PDT)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id e14-20020a170906314e00b0073d84a321c8sm15688033eje.166.2022.10.24.06.18.57
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qVg+okVBVsVNqz1/oTqCye1j7oYLVkbnznHF/a3NqAY=;
+        b=5xCgqx5WQQWXYUZHUGbJvoyxaErx/ZXYtkV0+unq/iuGq2mfuzaOgT/y7u8no0dpuc
+         t1zlmiJyH+DAoKbmUaH4YC5/lT8zKupSg8vz+LJj248PZyqMkB+e78A3N2Kd5nQiBqSG
+         jcXChDAcwLc3V8vLrk6zlbluTMKAw5pRbAKPOIl6A6gzEusLaj8POiSFFxhnbvpS9HHp
+         HeEtYBSFHstLYh0OEB/LGjYN6Z7xy666HMlo+1xc2M5tqZOKB8rXALKI6axNuXV6L3su
+         SoOHFleWAZm/lieEpaXob2K/gODQNYNMpnnLG+HeGNuzUFbxvdY1fYUqn1goCrG4CoNP
+         Z6/g==
+X-Gm-Message-State: ACrzQf0gc+mOXSGvMUeW5OBxGyM0JCkBFJ7m4BPXHkjq8FPyx8RfFyNS
+        JFEFeJ7TO2ZwB+KGke5FtyqzRurczg==
+X-Google-Smtp-Source: AMsMyM4AQUZXFNB/vdlLThjKII2zhkC/sXhO+TloBWEatc44pTvPltXHFlhLlkEuJZKFRaMFbLyLtA==
+X-Received: by 2002:a05:6830:4120:b0:661:d839:cc63 with SMTP id w32-20020a056830412000b00661d839cc63mr16898634ott.51.1666618203612;
+        Mon, 24 Oct 2022 06:30:03 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id j31-20020a056870051f00b0012c21a64a76sm14191930oao.24.2022.10.24.06.30.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 06:18:57 -0700 (PDT)
-Date:   Mon, 24 Oct 2022 15:18:56 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Manish Bhardwaj <mbhardwaj@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/3] firmware: tegra: bpmp: Prefer u32 over uint32_t
-Message-ID: <Y1aQwBEuFvWSMi88@orome>
-References: <20220922134125.844730-1-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zXw+nGSUHm4GLDgo"
-Content-Disposition: inline
-In-Reply-To: <20220922134125.844730-1-thierry.reding@gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 06:30:03 -0700 (PDT)
+Received: (nullmailer pid 1686092 invoked by uid 1000);
+        Mon, 24 Oct 2022 13:30:04 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Wayne Chang <waynec@nvidia.com>
+Cc:     jonathanh@nvidia.com, linux-phy@lists.infradead.org,
+        robh+dt@kernel.org, gregkh@linuxfoundation.org, kishon@ti.com,
+        vkoul@kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, singhanc@nvidia.com,
+        linux-i2c@vger.kernel.org, mathias.nyman@intel.com,
+        heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
+        thierry.reding@gmail.com, devicetree@vger.kernel.org,
+        treding@nvidia.com, krzysztof.kozlowski+dt@linaro.org,
+        balbi@kernel.org, ajayg@nvidia.com, jckuo@nvidia.com,
+        p.zabel@pengutronix.de
+In-Reply-To: <20221024074128.1113554-3-waynec@nvidia.com>
+References: <20221024074128.1113554-1-waynec@nvidia.com> <20221024074128.1113554-3-waynec@nvidia.com>
+Message-Id: <166661789886.1678573.2345753570567106623.robh@kernel.org>
+Subject: Re: [PATCH 02/11] dt-bindings: usb: Add NVIDIA Tegra XUSB host controller binding
+Date:   Mon, 24 Oct 2022 08:30:04 -0500
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---zXw+nGSUHm4GLDgo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 22, 2022 at 03:41:23PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> The canonical type for 32-bit unsigned integers in the kernel is u32, so
-> use that instead of uint32_t.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+On Mon, 24 Oct 2022 15:41:19 +0800, Wayne Chang wrote:
+> Add device-tree binding documentation for the XUSB host controller present
+> on Tegra194 and Tegra234 SoC. This controller supports the USB 3.1
+> specification.
+> 
+> Signed-off-by: Wayne Chang <waynec@nvidia.com>
 > ---
->  drivers/firmware/tegra/bpmp-debugfs.c | 40 +++++++++++++--------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
+>  .../bindings/usb/nvidia,tegra-xhci.yaml       | 213 ++++++++++++++++++
+>  1 file changed, 213 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.yaml
+> 
 
-All three patches applied.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Thierry
+yamllint warnings/errors:
 
---zXw+nGSUHm4GLDgo
-Content-Type: application/pgp-signature; name="signature.asc"
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.example.dts:36.27-28 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1492: dt_binding_check] Error 2
 
------BEGIN PGP SIGNATURE-----
+doc reference errors (make refcheckdocs):
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNWkMAACgkQ3SOs138+
-s6FhpA/9HTc1orCD5sOY/G50gYwIWu4fFBizznHr9Q/GbiIsqxTJrINcffKdsWPz
-89MrtXXX/rS7uui3yVou9/7estvI07ZXJ7Xqk2Yqcem3g/Vb4Ypk020VukgBS5A8
-frJzu7SC2L8tskfT//aThEL4ZsRSFZvgS2Z1+IDEYYdd+RlFFIYqUGfNDUsT24LS
-1/lIKOUF+VRxPunQmqrYGV20PDQAx/vXDnHhXeqD0t/8fb3uKu2zSMAfOuZtA5ST
-omupvJ/5x890loguMCOB5M6g5kslCK8ryhmPKHTi6jj/Qxl/eDftTmL+j5Oy6Lmo
-nyA4To5abVB/9xyhc8cohY44p++oWMMcmJ4YPAM1y4Y4n35/YDEbZ5deMOaywR/u
-6SlFIJ38Ca7r3ClZItZx7fCw7G8Xy7CBeXm2tMkPUKKoYnnahQ+MmytTsKPJ0+l1
-b31+1cOnP+g0I+2Ck7Iq5c7HmjlKd8x/5s8LbEyAC/mvaqEtXA/0qF2YSOoB+3pv
-795MyF/CvZfFkyc1sudtYCaprgzLkto4WdhmtcZ1dWfASOpEd/nksGpcWH8gurW8
-GE5CULLb589FOPX786yVxSdZJmQzPbIoaH8FFvd2fhAB1BJ+ZBBI6PMnnxgi3LZq
-UPCDJwYtJQScUZlv9bqqce7cJUhzU4C72BdZyhNHm8P6kiKjBBw=
-=XBJC
------END PGP SIGNATURE-----
+See https://patchwork.ozlabs.org/patch/
 
---zXw+nGSUHm4GLDgo--
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
