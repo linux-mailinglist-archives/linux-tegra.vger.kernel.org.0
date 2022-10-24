@@ -2,333 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D122C60B06C
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 18:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9107E60B480
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 19:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232897AbiJXQFg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Oct 2022 12:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49240 "EHLO
+        id S231393AbiJXRsd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Oct 2022 13:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233907AbiJXQFK (ORCPT
+        with ESMTP id S232017AbiJXRsS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Oct 2022 12:05:10 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC271357D1;
-        Mon, 24 Oct 2022 07:58:00 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-1322d768ba7so12132578fac.5;
-        Mon, 24 Oct 2022 07:58:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gezVBAneqrs7XaH/fdMxwAK/2YWaqmP9HW9vTh1Ptis=;
-        b=5ck8jY3wn3g1GFZCemkmlqIbMU53/OmH2UaNVLjAoQJ0Vh/rqxGdpBRaHln4B0Ahap
-         CDMUmPHXHDEEhCbr8G3g8cRV6mw+YhC2gErSqQMkYy3EaqycwhqgaYBfBbujWB1zblg/
-         4ubADQdf0GL76Zzuo9+Ad+xF6AgG9LgH8Z1uaXF9ov0WKfpgTNvHoHOgdLxb6lZaHM7X
-         weMa0M7ts3sxzLCDMsSStJKPW2TQDUZx30zgueQ/r0roFF+6sgW9KBikuRn6JQHlux3K
-         4aEGo+dzttL2f9QR5BTgI0MFvaT05YHamKUVgeBXbDA0lFkC6UNFKC7UPdAti2TMNJiG
-         NACA==
-X-Gm-Message-State: ACrzQf3qeeFsSTuHCBKDIJVauoEU9xs1IgJnfEC92j04p5HqqijCCVYy
-        A1QKBAhSG+1SmAemKBN9qA==
-X-Google-Smtp-Source: AMsMyM42Jg3r8Ewtmh0Qc3jpN13ZbUDnPdjYyras8m0IwxfR0o9ZvqlFWkFA5v9EIKywV/cIiznewg==
-X-Received: by 2002:a05:6870:d389:b0:13b:a0cd:5fcd with SMTP id k9-20020a056870d38900b0013ba0cd5fcdmr3731915oag.260.1666623286325;
-        Mon, 24 Oct 2022 07:54:46 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t19-20020a056871055300b0013b1301ce42sm5474921oal.47.2022.10.24.07.54.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 07:54:45 -0700 (PDT)
-Received: (nullmailer pid 1774935 invoked by uid 1000);
-        Mon, 24 Oct 2022 14:54:46 -0000
-Date:   Mon, 24 Oct 2022 09:54:46 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Wayne Chang <waynec@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, krzysztof.kozlowski+dt@linaro.org,
-        treding@nvidia.com, jonathanh@nvidia.com, thierry.reding@gmail.com,
-        heikki.krogerus@linux.intel.com, ajayg@nvidia.com, kishon@ti.com,
-        vkoul@kernel.org, p.zabel@pengutronix.de, balbi@kernel.org,
-        mathias.nyman@intel.com, jckuo@nvidia.com,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, singhanc@nvidia.com,
-        linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 02/11] dt-bindings: usb: Add NVIDIA Tegra XUSB host
- controller binding
-Message-ID: <20221024145446.GA1763588-robh@kernel.org>
-References: <20221024074128.1113554-1-waynec@nvidia.com>
- <20221024074128.1113554-3-waynec@nvidia.com>
+        Mon, 24 Oct 2022 13:48:18 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2081.outbound.protection.outlook.com [40.107.223.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F118287FB5;
+        Mon, 24 Oct 2022 09:24:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iBHuEOhU+KAjYcqdwW1n+yXlmLuTFkCJwShIROArMJ1dj7uwqllMG/7Jw7XnSIXIxj7aCxPTVNYLOCMd10oN6S3z+Zz90jZGdz1fUs8JK+MHjDOQR35nyfheNzYnP21GOCa9EcXjt58ti/vy5z78OfKOBQApSVXuLnagO57j+XQq9UJ8N4Dupg+RDhpH5KBYQbqhW4WOBZvkKCillprpKcXf52LQ/26sfQyfejGoeg8NJsy6v/Bx37jGVFCxo9wgEps2TgqgjbIJR+25FD+VfC3socoKDa78Ox6eIstRFAghTkazlDv8Cey4QIXlBoKOwA1N27u1jPmXujsgqFEwpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jrqHYP9BZdO40519lyI+U4xX0VrXdJ71tFGvZmpqcVU=;
+ b=C8Hp5zIzXrvPdxtYH+bm71iOi0oZ43dCRHB4DdlpHXF7JbbNwtamVc9DDRpS9jPw95Vs+Vw1P1XAkSD5W1gmiXGE3eSZkMaw17SHjfsJ2E/1U0JJcmILOgjh8Cs0fSfs+ZhpdK0+4E50kaozgAJaGTvSrK3o5Ov/Mo6swFIGC6bfHU5QQGItuSmlh7OaI25T/zaleKhr1AjV0xsb5IIajTc3DJWQ7LhptvZ537rMY1nUcEgP4oEzS1bzoT0YvczpYKD7F1VorCphi7HCqRCGJVnipQuWCla58/16Zmq1AytzbVuTLNcYXwsd/m3FaRIDAxg69bHNHf8PYczF4+jIdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jrqHYP9BZdO40519lyI+U4xX0VrXdJ71tFGvZmpqcVU=;
+ b=QF4m3tFt0W9N1MzCa+OO+ep3JSFn1LbWd6+aK6tz+/zPbLO4CtNXpd/mLGg9SssXbqyGXT0xaMqBPQeJZhnoYK7AHOxs2hScMn9ptn3tPKI+x3Mm1Afk2SJ9DxyzVX6iIj2EagDWi7bW+q7wIq9PyMGKLGaiDricQZidl6614Wwrcau+GsEBwYSOn06Rtw0qIv2XZVfBR/cGP1fy+oFSOQl6GjqLHB+HCAaShgith3AGrde1E6IlqkDBq1Zwu5gXPKoZDu6R3OSJKamSob/BwFVRIH+WI4eHFb0GHr1hDkTCWy6hTrzNI19zs1BRxIaoJceR0Ebtj8aCSoO7Rxp5+g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Mon, 24 Oct
+ 2022 15:55:44 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::c0e5:f111:3e59:7c66]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::c0e5:f111:3e59:7c66%6]) with mapi id 15.20.5746.023; Mon, 24 Oct 2022
+ 15:55:44 +0000
+Message-ID: <04c4afd8-6892-e64f-9ed5-b58d17770e8b@nvidia.com>
+Date:   Mon, 24 Oct 2022 16:55:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/2] arm64: tegra: Populate Tegra234 PWMs
+Content-Language: en-US
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20221019132903.157703-1-jonathanh@nvidia.com>
+ <Y1aUS8KK4Uy8q/9E@orome>
+From:   Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <Y1aUS8KK4Uy8q/9E@orome>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0330.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::11) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221024074128.1113554-3-waynec@nvidia.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|PH8PR12MB7373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64183708-0662-44a6-639f-08dab5d835a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rKnYAIOYf1P8Iy04DPpYRnKKuS9T2ZCeBG1SmDDr8LufoLDt+mB2HullZfF6FO7Wg8a0i5svJOelTIVg/6b9hKvXEK43SJkPhRNTZvU6cKF+uM1ICKeCubmrWneF2ogFzcVIk8Z4bJtq4hPfz8wzDmHLj9OqtiVqLi73NfVvA8moaWBr39kCIA/aUheV5zKCeB1JjJvk1aRhpebGXxfvtvvj9t/RPUMnOFEjboI6xOVbdrTrWbXUxhvcaobRxdu1+Wo2ekf7DFB3RL7FZV2I0T+dEXImWC/b+7L4J/mEgGdjhFChs7nRnMZo5GYKVUxCreC4EbEZ5Bu455pOjqtVtoiWrEZ8uiQkhu4GTDhZTI0LeJ9AhZsivUOeMPEewto4Lsv2SC+JyCkZtMvwHrUraE+HxdKzu0BL6crCBjCO6y34IhdtrklJCyktfArE5L+ME+BXxXWURISkFih8nwXSf9h2fZPlvEa7enZtjxQXZ3aPne4ZMwL6j+FtA6supL7Nid6FEHNj+D2Geil2mjcUVZ5/4dq7UHTm+sDXlHRu8v4xO6VhPl6+qhINE/90UlZWz7lkxIcZZLZvynaJn0OImWzTeWVcmdR9vQEG/jBZlmPWvYNUYMbbv8mooZTptDJcwUDAaJKhdb5nv3/X/Rg0H8btuiJwhuiNdrpib2ILvPrFzkqXRxFr5J0SRGy38tzINPJ8gDMRyL1W4NhYKATFmbJ6bW3pTvK7xvyxKhZRYpB5rmuFlFh6h/O2LbfuN6PwrhbcdZsw71XGwhIqSxW7UHb8OhVrhVhDaDmYIpeU4W8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(376002)(396003)(39860400002)(346002)(451199015)(186003)(41300700001)(4744005)(5660300002)(2616005)(6512007)(8936002)(38100700002)(86362001)(31696002)(83380400001)(2906002)(36756003)(316002)(54906003)(6916009)(31686004)(66556008)(66476007)(8676002)(66946007)(478600001)(6486002)(4326008)(6506007)(53546011)(6666004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a21sREgvdW5CZG9VTUdPd0UzNG8zU1NhWVcwa1piNFoxSjIrU0tIYWpUdEZ1?=
+ =?utf-8?B?bWwzQVU1cUxHd0xFeEVIeCtZMXZLaFBVUFhMemlRWXBJS1BaSTNpeVRaRWNQ?=
+ =?utf-8?B?ZURsVk41UkpaL3hYZ2RudG9xUmM4bis3YktTc0NwSFBnMjZpblY4VWRsVUZp?=
+ =?utf-8?B?NXd5YVpLcTdKN056cWhOREZwUVBpdFRJNmlNa1pJL3pIdmVnVzB1U3Q2UFlp?=
+ =?utf-8?B?T21aVlpNRVN0b2dQTVZTZU9qejNXenZyd1R5dVRsbnJrV2RtWG5YUUtpSDVo?=
+ =?utf-8?B?ZnhtemxmNkVHeEJWUHZ0MzBWeWZjUlVqbEgyb09KeDNUU3I5bXI0eHBKODBT?=
+ =?utf-8?B?MDRRYVN3UW5PTThRNmJWcVhDOTNGN3VVbExXQkRJYXp5cTRuTXM3eFc4Zjd0?=
+ =?utf-8?B?Yk1iWklJS1BnWmg1QW8vRm10dXJDeDRnb0ZXenJXSzI5dU1jb0wwM0hNSVZy?=
+ =?utf-8?B?T0dIVHNsZDhJQlZ5QlgzaUlpd3Z6M1pvUjQ4alNFMEV1cytFU3UvQXEvNnNN?=
+ =?utf-8?B?VlZpU1AvenRubmUvUGpDQkM0T2QxYmlxQU9adlBWbEt2S0l1cU54czA1c1Zr?=
+ =?utf-8?B?ampoSTV2RWFpQ28vdXN1MGxLTG5EdWp5Z0o2Rmc3MVFOaDB1ZnI4dmFncG81?=
+ =?utf-8?B?SkZDSTNVcjNSMldDbGFaVXRlelF5eVlkQVY5a3BlbUE2MjNTMEZmRElHQzVO?=
+ =?utf-8?B?RmVHdWlHNHZ2RDFiUjZyTHZoeFYxTWt5RVA2RkRENXVJMTZnL1ZqOThiZ2lT?=
+ =?utf-8?B?bUpPQmpuR0ZoRUt3blM5bmZiTmpkSlRRa3hEZkgrTUR6RXZOL0dBZnJyd3Zq?=
+ =?utf-8?B?VjFPRkM3MFRPdWVaS1B3VFd2ZjUrUjlsUGdpUmtTUnpyeUgrblVCaG9vekFW?=
+ =?utf-8?B?c0ZzTDl5OXNuenFqaCtpNW9qQUI3R3ZOaDMyUExJMXM4eFVBa3JuUW9qeGxW?=
+ =?utf-8?B?NUp6MnY4VHJUWXVnakJSRHBzZHM1cDlFVUNkUmhyMHhRWHM2TmlOcnpqK2JB?=
+ =?utf-8?B?OUpnWTl0dUF4QzR2bDlXdnJpbTlHQWc5MFE5MTJSdVdlU2QvWHo2Rm1HbFpP?=
+ =?utf-8?B?V3VsM0Z1Yk5iQm9VbWduSzQvekFtTW9SR0R1djEvRTk2TXhKS3JqOWxCZmtE?=
+ =?utf-8?B?L3lqM2pOazRHN2V1Tm4xMTNCdUMyRWg1MVQvZnpVMW9Fc3VtSFQrMEV4Y2ov?=
+ =?utf-8?B?SlZoaXNVd0pNRHNKOTZXUjdNNnV6QU1oOTNTSTc1QzJDTlUvV004UEtDRDNF?=
+ =?utf-8?B?Mk1pbXpRR0V6MTZQYnRSKzZNS05xdENyMXpndGhLcjNadmNNc2lIR1NzSnJs?=
+ =?utf-8?B?Yyt2K3VxRWdaRVdWM284OGx1aXVoVndqNmd5SmZRWldOdDRtSlFMS1ZBOU5O?=
+ =?utf-8?B?bWJUbnVWclNTbU5qaTFJOXdpVGk5cTB2aVFBZ2lMek5UT21wSGg5bnkyS042?=
+ =?utf-8?B?dGU0ejdMSWZiVEtGYmVHamY5Z1RnK3FldjZyYzZocHcyZTYyOVExV1JSazFY?=
+ =?utf-8?B?MEJsakx0Smw0Rm10aXVhN2xqV3Q2cWdrQmdRQmh2STdmbTcxYW91REpkUk5L?=
+ =?utf-8?B?OGZKRUMyRlpOL0R1aHhNK3lxWlNiM09ncFlIcUt3ZlcxanN6Wk9KTUxQTmU4?=
+ =?utf-8?B?bi9ZNVVTNmowMjI5ME1PMFM0VEZ6ekNrOUErVG1DSXZCNDdmNDdNVGtJeUN4?=
+ =?utf-8?B?RU5zbENPSFcxamM1akhWRkNWeTI3SkJ5cDJPSXdWeGMvd3RvTklUSFNnd0J4?=
+ =?utf-8?B?NTBOK0NGVHJlQnFPVGlHRE04alk5dkk1bDExeml6TW9WbTJBckZxRzFSVjNF?=
+ =?utf-8?B?MnNuWEZZZVVkOTMxc2djSjVRNjh6Y29oMXV5NXZlcGFJQ2RwUERaSFlUZWl4?=
+ =?utf-8?B?ZmNkVTlqRUVjczk3ZlN4WjJzMzR0dnRZRzJDWkk0MjExaFdQQWJob0JzcU4z?=
+ =?utf-8?B?dnVUTjI3dFNUWFlvNGxDU05wSGtucS9velIra1JTTGFwUEpQRUMvZE9CWkM5?=
+ =?utf-8?B?cHgvblo0SG9HYkRQbGJYcklSd0RMVWJpU2N5WHdKZm10dUZYMmtvRzhRSHJr?=
+ =?utf-8?B?K1VoTkdTdzgrUDZzZ1ZJcUt1VVlwU0pJeExxUGdvZW1yNkF6ZFFMWXJYWDBw?=
+ =?utf-8?B?aEJxM1lGdzk3enA5MnFCYThnRU83dFBmLzhsaG5hZm5OMGlCL3U5TEpacWlO?=
+ =?utf-8?B?bm5tNWJJbWZMWHA1cGQ4bHlqWnN4TEZobVQ4NmVoT3pNb1RJMVBMYnEvM2p0?=
+ =?utf-8?B?d25hS0NtcnA0VTdUV2VVVnAvNS9nPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64183708-0662-44a6-639f-08dab5d835a3
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 15:55:44.6621
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 63QAdRlkLtZbtpz+UHWd6R3VbpmnBKsJtE013/X+Vm0MMYTykWQkZULuwQCtPoPUeIyXWBNbdD8XulQjCQIbYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 03:41:19PM +0800, Wayne Chang wrote:
-> Add device-tree binding documentation for the XUSB host controller present
-> on Tegra194 and Tegra234 SoC. This controller supports the USB 3.1
-> specification.
+
+On 24/10/2022 14:34, Thierry Reding wrote:
+> On Wed, Oct 19, 2022 at 02:29:02PM +0100, Jon Hunter wrote:
+>> Populate all the PWM devices for Tegra234. Finally, update the
+>> compatible string for the existing 'pwm1' node to just be 'tegra194-pwm'
+>> and remove the fallback to 'tegra186-pwm', which aligns with the
+>> binding documentation.
+>>
+>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+>> ---
+>>   arch/arm64/boot/dts/nvidia/tegra234.dtsi | 80 +++++++++++++++++++++++-
+>>   1 file changed, 78 insertions(+), 2 deletions(-)
 > 
-> Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> ---
->  .../bindings/usb/nvidia,tegra-xhci.yaml       | 213 ++++++++++++++++++
->  1 file changed, 213 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.yaml
-> new file mode 100644
-> index 000000000000..d261a419a04f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xhci.yaml
-> @@ -0,0 +1,213 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/usb/nvidia,tegra-xhci.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Device tree binding for NVIDIA Tegra XUSB host controller
+> Both patches applied, thanks.
 
-Drop 'Device tree binding for '
+Thanks. Looks like I forgot to enable pwm3 in patch 2/2. I will send an 
+additional patch.
 
-> +
-> +description:
-> +  The Tegra XHCI controller supports both USB 2.0 HighSpeed/FullSpeed and
-> +  USB 3.1 SuperSpeed protocols.
-> +
-> +maintainers:
-> +  - Wayne Chang <waynec@nvidia.com>
-> +
+Jon
 
-Ref to usb-xhci.yaml? Or usb-hcd.yaml.
-
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - nvidia,tegra194-xusb # For Tegra194
-> +          - nvidia,tegra234-xusb # For Tegra234
-
-The comment is kind of redundant.
-
-> +
-> +  reg:
-> +    minItems: 2
-> +    items:
-> +      - description: XUSB host controller registers
-> +      - description: XUSB host PCI Config registers
-> +      - description: XUSB host bar2 registers
-
-Drop 'XUSB host '
-
-> +
-> +  reg-names:
-> +    minItems: 2
-> +    items:
-> +      - const: hcd
-> +      - const: fpci
-> +      - const: bar2
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Must contain the XUSB host interrupt.
-> +      - description: Must contain the XUSB mbox interrupt.
-
-Drop 'Must contain the '
-
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock to enable core XUSB host clock.
-> +      - description: Clock to enable XUSB falcon clock.
-> +      - description: Clock to enable XUSB super speed clock.
-> +      - description: Clock to enable XUSB super speed dev clock.
-> +      - description: Clock to enable XUSB high speed dev clock.
-> +      - description: Clock to enable XUSB full speed dev clock.
-> +      - description: Clock to enable XUSB UTMI PLL clock.
-> +      - description: Clock to enable core XUSB dev clock.
-> +      - description: Clock to enable XUSB PLLE clock.
-
-Drop 'Clock to enable '
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xusb_host
-> +      - const: xusb_falcon_src
-> +      - const: xusb_ss
-> +      - const: xusb_ss_src
-> +      - const: xusb_hs_src
-> +      - const: xusb_fs_src
-> +      - const: pll_u_480m
-> +      - const: clk_m
-> +      - const: pll_e
-> +
-> +  interconnects:
-> +    items:
-> +      - description: memory read client
-> +      - description: memory write client
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: dma-mem # read
-> +      - const: write
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    items:
-> +      - description: XUSBC(host) power-domain
-> +      - description: XUSBA(superspeed) power-domain
-> +
-> +  power-domain-names:
-> +    items:
-> +      - const: xusb_host
-> +      - const: xusb_ss
-
-Drop 'xusb_'.
-
-> +
-> +  nvidia,xusb-padctl:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to the XUSB pad controller that is used to configure the USB pads
-> +      used by the XUDC controller.
-> +
-> +  phys:
-> +    minItems: 1
-> +    maxItems: 8
-> +    description:
-> +      Must contain an entry for each entry in phy-names.
-> +      See ../phy/phy-bindings.txt for details.
-
-Drop description.
-
-> +
-> +  phy-names:
-> +    minItems: 1
-> +    maxItems: 8
-> +    items:
-> +      anyOf:
-> +        - const: usb2-0
-> +        - const: usb2-1
-> +        - const: usb2-2
-> +        - const: usb2-3
-> +        - const: usb3-0
-> +        - const: usb3-1
-> +        - const: usb3-2
-> +        - const: usb3-3
-> +
-> +  dma-coherent:
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - power-domain-names
-> +  - nvidia,xusb-padctl
-> +  - phys
-> +  - phy-names
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra194-xusb
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 2
-> +        reg-names:
-> +          minItems: 2
-> +        clocks:
-> +          minItems: 9
-> +        clock-names:
-> +          minItems: 9
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra234-xusb
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 3
-> +        reg-names:
-> +          minItems: 3
-> +        clocks:
-> +          minItems: 9
-> +        clock-names:
-> +          minItems: 9
-
-Same number of items, why are clocks in the if/then?
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/tegra234-gpio.h>
-> +    #include <dt-bindings/clock/tegra234-clock.h>
-> +    #include <dt-bindings/memory/tegra234-mc.h>
-> +    #include <dt-bindings/power/tegra234-powergate.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    usb@3610000 {
-> +      compatible = "nvidia,tegra234-xusb";
-> +      reg = <0x03610000 0x40000>,
-> +            <0x03600000 0x10000>,
-> +            <0x03650000 0x10000>;
-> +      reg-names = "hcd", "fpci", "bar2";
-> +
-> +      interrupts = <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH>,
-> +             <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +      clocks = <&bpmp TEGRA234_CLK_XUSB_CORE_HOST>,
-> +         <&bpmp TEGRA234_CLK_XUSB_FALCON>,
-> +         <&bpmp TEGRA234_CLK_XUSB_CORE_SS>,
-> +         <&bpmp TEGRA234_CLK_XUSB_SS>,
-> +         <&bpmp TEGRA234_CLK_CLK_M>,
-> +         <&bpmp TEGRA234_CLK_XUSB_FS>,
-> +         <&bpmp TEGRA234_CLK_UTMIP_PLL>,
-> +         <&bpmp TEGRA234_CLK_CLK_M>,
-> +         <&bpmp TEGRA234_CLK_PLLE>;
-> +      clock-names = "xusb_host", "xusb_falcon_src",
-> +              "xusb_ss", "xusb_ss_src", "xusb_hs_src",
-> +              "xusb_fs_src", "pll_u_480m", "clk_m",
-> +              "pll_e";
-> +      interconnects = <&mc TEGRA234_MEMORY_CLIENT_XUSB_HOSTR &emc>,
-> +          <&mc TEGRA234_MEMORY_CLIENT_XUSB_HOSTW &emc>;
-> +      interconnect-names = "dma-mem", "write";
-> +      iommus = <&smmu_niso1 TEGRA234_SID_XUSB_HOST>;
-> +
-> +      power-domains = <&bpmp TEGRA234_POWER_DOMAIN_XUSBC>,
-> +          <&bpmp TEGRA234_POWER_DOMAIN_XUSBA>;
-> +      power-domain-names = "xusb_host", "xusb_ss";
-> +
-> +      nvidia,xusb-padctl = <&xusb_padctl>;
-> +
-> +      phys =  <&pad_lanes_usb2_0>;
-> +      phy-names = "usb2-0";
-> +
-> +    };
-> -- 
-> 2.25.1
-> 
-> 
+-- 
+nvpublic
