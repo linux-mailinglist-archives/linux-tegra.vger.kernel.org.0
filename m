@@ -2,120 +2,262 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE39609D0F
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 10:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F9660A08C
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Oct 2022 13:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbiJXIqb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Oct 2022 04:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59536 "EHLO
+        id S230355AbiJXLUX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Oct 2022 07:20:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbiJXIq3 (ORCPT
+        with ESMTP id S230222AbiJXLUG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Oct 2022 04:46:29 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0459D67056;
-        Mon, 24 Oct 2022 01:46:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666601189; x=1698137189;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zr3WKsPxb7aaiIO0Wjz4+22fObmXP9eCkj8VHh8e+Zw=;
-  b=ivH+6Aiule3GXccJQb5bNmoDVy81GpkcZ4Q9RauKIkZsFODgkMs6cE8D
-   eFGKyNwTDiro+gbzfChUpsLiACAgyLA/UjPHvfoDhjRM1tfTncw8mSryk
-   AMWpg8pUSZiovFJseXClQKNSi6A3pmOv1u8iKJi+bE+/+X/ssl7lafhmq
-   AoPyfwkAvxgsnWTkGZQOPah2J+x8OHsBxqnZMjvtKn7WUvzKC9FMFlFwO
-   U6oIj/VvaULXWMi5uDK1WFA6Hg9WZpncT5wcNzJJTISMq29+c82SQSjpW
-   WrZJcxeKyTdy8nQtSeh29CBbJZFgPsyvwhDhshoyP3s+QOuIbMnfWFq9e
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="304978464"
-X-IronPort-AV: E=Sophos;i="5.95,207,1661842800"; 
-   d="scan'208";a="304978464"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 01:46:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="773746804"
-X-IronPort-AV: E=Sophos;i="5.95,207,1661842800"; 
-   d="scan'208";a="773746804"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 24 Oct 2022 01:46:20 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 24 Oct 2022 11:46:20 +0300
-Date:   Mon, 24 Oct 2022 11:46:20 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Wayne Chang <waynec@nvidia.com>, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        treding@nvidia.com, jonathanh@nvidia.com, thierry.reding@gmail.com,
-        ajayg@nvidia.com, kishon@ti.com, vkoul@kernel.org,
-        p.zabel@pengutronix.de, mathias.nyman@intel.com, jckuo@nvidia.com,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, singhanc@nvidia.com,
-        linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 06/11] usb: typec: ucsi_ccg: Replace ccgx to well-known
- regex
-Message-ID: <Y1ZQ3NyR7Suxdltu@kuha.fi.intel.com>
-References: <20221024074128.1113554-1-waynec@nvidia.com>
- <20221024074128.1113554-7-waynec@nvidia.com>
- <Y1ZGZ2H0/ug3se6j@kuha.fi.intel.com>
- <87czaheiag.fsf@balbi.sh>
+        Mon, 24 Oct 2022 07:20:06 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5213121E31;
+        Mon, 24 Oct 2022 04:19:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 973881FD86;
+        Mon, 24 Oct 2022 11:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1666610398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=hzNk2J1kv0hvXKhIHs7HnwozHE2hDAXgOdFZp8AywGo=;
+        b=HkTG27jc1phmO2sYSspbljuTMragV3RllZDVeL22LJUT+RamYsIuqsaoqDlSHb0l9OA6q6
+        GT0tqNWWqBg+tcq/3TR4T/xB1NJ2r0tlY31pSNOZnxJ/sjEt0/Pg+eWqW99hZIupGc0ZMW
+        XR3pQTAbIh0q7Iv51jt/wuMpfkBc3pw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1666610398;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=hzNk2J1kv0hvXKhIHs7HnwozHE2hDAXgOdFZp8AywGo=;
+        b=WgrsXz4shLgIugdW3McjjV/i28ZaSykMoNzWHCg2sSAlZ3E3ktA3U8MVWkGJBmn75Oj+fQ
+        sylXkr/Z8upKERDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 03E2813357;
+        Mon, 24 Oct 2022 11:19:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id zybkOt10VmOYMgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:19:57 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
+        javierm@redhat.com, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com
+Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/21] drm/fb-helper: Untangle fbdev emulation and helpers
+Date:   Mon, 24 Oct 2022 13:19:32 +0200
+Message-Id: <20221024111953.24307-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87czaheiag.fsf@balbi.sh>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 11:29:27AM +0300, Felipe Balbi wrote:
-> Heikki Krogerus <heikki.krogerus@linux.intel.com> writes:
-> 
-> > On Mon, Oct 24, 2022 at 03:41:23PM +0800, Wayne Chang wrote:
-> >> ccgx is refer to the cypress cypd4226 typec controller.
-> >> Replace ccgx to well-known regex "cypress".
-> >> 
-> >> Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> >> ---
-> >>  drivers/usb/typec/ucsi/ucsi_ccg.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> 
-> >> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> >> index 139707a2f3d6..5d3099e6eb77 100644
-> >> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> >> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> >> @@ -1358,7 +1358,7 @@ static int ucsi_ccg_probe(struct i2c_client *client,
-> >>  	INIT_WORK(&uc->pm_work, ccg_pm_workaround_work);
-> >>  
-> >>  	/* Only fail FW flashing when FW build information is not provided */
-> >> -	status = device_property_read_u16(dev, "ccgx,firmware-build",
-> >> +	status = device_property_read_u16(dev, "cypress,firmware-build",
-> >>  					  &uc->fw_build);
-> >>  	if (status)
-> >>  		dev_err(uc->dev, "failed to get FW build information\n");
-> >
-> > This will break bisectability. You need to first add that
-> > "cyppress,firmware-build" identifier without removing the old
-> > "ccgx,firmware-build" identifier, and then introduce a separate
-> > clean-up patch where you remove it when it's safe to remove:
-> >
-> > 1. Add new - This patch.
-> > 2. Modify users - PATCH 7/11.
-> > 3. Remove old - *missing*.
-> 
-> will it ever be safe to remove? What about potential products in the
-> market with little to no upgrade path? There are likely to be products
-> with a DTB that will never be updated, no?
+Separate generic fbdev emulation from the helper code that is shared
+among the various fbdev implementations within DRM. Affects many drivers.
 
-Not the case here. OF support is only just added to this driver in
-this series. That old identifier has been used as a build-in property
-only.
+It has become apparent that our fully generic fbdev emulation will
+never produce optimal results for all drivers. In its current form,
+it is also hard to maintain. The goal of this patchset is to improve
+readability and streamline the fbdev helper code within DRM. In the
+long term, we want to get to a point where drivers or memory managers
+can pick and combine the various helpers for optimal fbdev support.
 
-thanks,
+Patches 1 to 8 start by preparing drivers. Setting struct drm_driver's
+lastclose and output_poll_changed is not required by generic fbdev
+emulation.
 
+Two drivers depend on fb helpers implicitly including other Linux header
+files. Fixing this in patches 9 and 10 allows to remove unnecesary include
+statements from the fb-helper header in patch 11.
+
+Do some renaming in patches 12 to 14.
+
+There are currently various implementation of the fbdev I/O helpers
+with varying feature sets. The fb helpers for fbdev I/O should all call
+fb_sync, which is what fbdev's internal implementation does. For DRM,
+damage handling needs to be performed after updating a framebuffer. The
+damage worker is part of the fb helpers, but the actual update logic only
+works with generic fbdev emulation. Separate the two, which also gives
+other drivers an option to set their own damage handling if neccessary.
+The full-featured I/O helpers can be moved under a shared implementation
+and called by all drivers. Patches 15 to 18 resolve these issues.
+
+Patch 19 changes fbdev disablement to work at the level of display
+detection. If disabled, generic fbdev emulation will be initialized,
+but no display will be detected. It can later be enabled by changing
+the parameter in sysfs and plugging in a connector.
+
+Patches 20 and 21 move the generic fbdev emulation into their own source
+and header files and clean up the include statements throughout DRM. Many
+drivers only call drm_fbdev_generic_setup() and can avoid including other
+Linux header files.
+
+Built on x86-64, aarch64, arm, ppc64le. Tested with various combinations
+of bochs, i915, simpledrm.
+
+v2:
+	* fixed commit descriptions (Christian, Sergey)
+
+Thomas Zimmermann (21):
+  drm/komeda: Don't set struct drm_driver.lastclose
+  drm/mcde: Don't set struct drm_driver.lastclose
+  drm/vboxvideo: Don't set struct drm_driver.lastclose
+  drm/amdgpu: Don't set struct drm_driver.output_poll_changed
+  drm/imx/dcss: Don't set struct drm_driver.output_poll_changed
+  drm/ingenic: Don't set struct drm_driver.output_poll_changed
+  drm/logicvc: Don't set struct drm_driver.output_poll_changed
+  drm/rockchip: Don't set struct drm_driver.output_poll_changed
+  drm/panel-ili9341: Include <linux/backlight.h>
+  drm/tve200: Include <linux/of.h>
+  drm/fb-helper: Cleanup include statements in header file
+  drm/fb_helper: Rename field fbdev to info in struct drm_fb_helper
+  drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+  drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info
+    postfix
+  drm/fb-helper: Disconnect damage worker from update logic
+  drm/fb-helper: Call fb_sync in I/O functions
+  drm/fb-helper: Perform all fbdev I/O with the same implementation
+  drm/fb_helper: Minimize damage-helper overhead
+  drm/fb-helper: Always initialize generic fbdev emulation
+  drm/fb-helper: Move generic fbdev emulation into separate source file
+  drm/fb-helper: Remove unnecessary include statements
+
+ drivers/gpu/drm/Makefile                      |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |    2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |    1 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 -
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |    2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |    2 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |    1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c               |    2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |    2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |    6 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |    2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |    1 +
+ drivers/gpu/drm/ast/ast_drv.h                 |    1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |    2 +-
+ drivers/gpu/drm/bridge/tc358762.c             |    2 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |    1 -
+ drivers/gpu/drm/drm_fb_helper.c               | 1081 ++++++-----------
+ drivers/gpu/drm/drm_fbdev.c                   |  512 ++++++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |    1 -
+ drivers/gpu/drm/drm_probe_helper.c            |    1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |    6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |    2 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |    2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |    1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |    1 -
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |    8 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |    3 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |    2 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |    2 +-
+ drivers/gpu/drm/imx/imx-tve.c                 |    1 -
+ drivers/gpu/drm/imx/parallel-display.c        |    2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |    3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |    2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c               |    1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |    2 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |    2 -
+ drivers/gpu/drm/mcde/mcde_drv.c               |    3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |    2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |    1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |    1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |    4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |    2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |   27 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |    6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |    3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |    2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |    1 +
+ drivers/gpu/drm/qxl/qxl_drv.h                 |    1 -
+ drivers/gpu/drm/radeon/radeon_fb.c            |    6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 -
+ drivers/gpu/drm/solomon/ssd130x.c             |    2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |    2 +-
+ drivers/gpu/drm/stm/drv.c                     |    2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |    2 +-
+ drivers/gpu/drm/tegra/fb.c                    |    8 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |    2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |    1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |    2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |    2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |    2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |    2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |    2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |    2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |    2 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |    2 +-
+ drivers/gpu/drm/tiny/repaper.c                |    2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |    2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |    2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |    2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |    3 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |    2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |    4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |    1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                 |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |    1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |    1 -
+ drivers/gpu/drm/vkms/vkms_drv.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |    3 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |    2 +-
+ include/drm/drm_fb_helper.h                   |   59 +-
+ include/drm/drm_fbdev.h                       |   15 +
+ 99 files changed, 1019 insertions(+), 883 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev.c
+ create mode 100644 include/drm/drm_fbdev.h
+
+
+base-commit: 746559738f1335241ea686566cb654847c20d7a4
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
 -- 
-heikki
+2.38.0
+
