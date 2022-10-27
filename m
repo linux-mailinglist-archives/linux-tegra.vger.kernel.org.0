@@ -2,83 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E9B60F0DA
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Oct 2022 08:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2387360F5BF
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Oct 2022 12:51:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234775AbiJ0G7T (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Oct 2022 02:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47574 "EHLO
+        id S234041AbiJ0KvV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Oct 2022 06:51:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234779AbiJ0G7E (ORCPT
+        with ESMTP id S234676AbiJ0KvU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Oct 2022 02:59:04 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD481205F3
-        for <linux-tegra@vger.kernel.org>; Wed, 26 Oct 2022 23:57:22 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Mybvr61DCz15MBS;
-        Thu, 27 Oct 2022 14:52:24 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 27 Oct 2022 14:57:18 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 27 Oct
- 2022 14:57:18 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-tegra@vger.kernel.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <yangyingliang@huawei.com>
-Subject: [PATCH -next] soc/tegra: cbb: tegra194: use of_address_count() helper
-Date:   Thu, 27 Oct 2022 14:56:25 +0800
-Message-ID: <20221027065625.1443750-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 27 Oct 2022 06:51:20 -0400
+X-Greylist: delayed 1796 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 27 Oct 2022 03:51:19 PDT
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8B12037E
+        for <linux-tegra@vger.kernel.org>; Thu, 27 Oct 2022 03:51:19 -0700 (PDT)
+Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net ([86.15.83.122] helo=[192.168.0.17])
+        by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+        id 1onzbq-000Jzi-LI; Thu, 27 Oct 2022 10:55:35 +0100
+Message-ID: <6bba0876-3002-0614-5aeb-c4cf901938ca@codethink.co.uk>
+Date:   Thu, 27 Oct 2022 10:55:34 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH V1] PCI: dwc: Use dev_info for PCIe link down event
+ logging
+Content-Language: en-GB
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Bjorn Helgaas <helgaas@kernel.org>, lpieralisi@kernel.org
+Cc:     Vidya Sagar <vidyas@nvidia.com>, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, robh@kernel.org, kw@linux.com,
+        bhelgaas@google.com, treding@nvidia.com, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <20221018164329.GA3808783@bhelgaas>
+ <8670e757-7275-57eb-3f5c-0a21ba354e37@nvidia.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <8670e757-7275-57eb-3f5c-0a21ba354e37@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-After commit 16988c742968 ("of/address: introduce of_address_count() helper"),
-We can use of_address_count() to instead of open-coding it.
+On 26/10/2022 12:39, Jon Hunter wrote:
+> Hi Lorenzo,
+> 
+> On 18/10/2022 17:43, Bjorn Helgaas wrote:
+>> On Tue, Oct 18, 2022 at 07:21:54AM +0100, Jon Hunter wrote:
+>>> Hi Bjorn,
+>>>
+>>> On 13/09/2022 11:12, Vidya Sagar wrote:
+>>>> Some of the platforms (like Tegra194 and Tegra234) have open slots and
+>>>> not having an endpoint connected to the slot is not an error.
+>>>> So, changing the macro from dev_err to dev_info to log the event.
+>>>>
+>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>>>> ---
+>>>>    drivers/pci/controller/dwc/pcie-designware.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/pci/controller/dwc/pcie-designware.c 
+>>>> b/drivers/pci/controller/dwc/pcie-designware.c
+>>>> index 650a7f22f9d0..25154555aa7a 100644
+>>>> --- a/drivers/pci/controller/dwc/pcie-designware.c
+>>>> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+>>>> @@ -456,7 +456,7 @@ int dw_pcie_wait_for_link(struct dw_pcie *pci)
+>>>>        }
+>>>>        if (retries >= LINK_WAIT_MAX_RETRIES) {
+>>>> -        dev_err(pci->dev, "Phy link never came up\n");
+>>>> +        dev_info(pci->dev, "Phy link never came up\n");
+>>>>            return -ETIMEDOUT;
+>>>>        }
+>>>
+>>>
+>>> Are you OK to take this change?
+>>
+>> When this came up, Lorenzo was in the middle of a big move and I was
+>> covering for him while he was unavailable.  But he's back, and I'm
+>> sure he will resolve this soon.
+>>
+>> Personally I'm OK either way.
+>>
+>> Bjorn
+> 
+> 
+> Can we come to a conclusion on this?
+> 
+> We have tests that fail when errors/warning messages are reported. We 
+> can choose to ignore these errors, but given that this is not an error 
+> in this case, we were thinking it is better to make it informational.
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/soc/tegra/cbb/tegra194-cbb.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Is there any hardware presence detect available to just avoid even
+trying to bring a link up on an disconnected port?
 
-diff --git a/drivers/soc/tegra/cbb/tegra194-cbb.c b/drivers/soc/tegra/cbb/tegra194-cbb.c
-index 1ae0bd9a1ac1..b5676dd49e88 100644
---- a/drivers/soc/tegra/cbb/tegra194-cbb.c
-+++ b/drivers/soc/tegra/cbb/tegra194-cbb.c
-@@ -2191,7 +2191,6 @@ MODULE_DEVICE_TABLE(of, tegra194_cbb_match);
- static int tegra194_cbb_get_bridges(struct tegra194_cbb *cbb, struct device_node *np)
- {
- 	struct tegra_cbb *entry;
--	struct resource res;
- 	unsigned long flags;
- 	unsigned int i;
- 	int err;
-@@ -2211,8 +2210,7 @@ static int tegra194_cbb_get_bridges(struct tegra194_cbb *cbb, struct device_node
- 	spin_unlock_irqrestore(&cbb_lock, flags);
- 
- 	if (!cbb->bridges) {
--		while (of_address_to_resource(np, cbb->num_bridges, &res) == 0)
--			cbb->num_bridges++;
-+		cbb->num_bridges = of_address_count(np);
- 
- 		cbb->bridges = devm_kcalloc(cbb->base.dev, cbb->num_bridges,
- 					    sizeof(*cbb->bridges), GFP_KERNEL);
+
 -- 
-2.25.1
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
 
