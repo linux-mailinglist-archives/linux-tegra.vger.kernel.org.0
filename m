@@ -2,81 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 115AB613ACB
-	for <lists+linux-tegra@lfdr.de>; Mon, 31 Oct 2022 16:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66CA6613B5F
+	for <lists+linux-tegra@lfdr.de>; Mon, 31 Oct 2022 17:33:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231980AbiJaP4H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 31 Oct 2022 11:56:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
+        id S230502AbiJaQdR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 31 Oct 2022 12:33:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231753AbiJaP4G (ORCPT
+        with ESMTP id S231775AbiJaQdQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 31 Oct 2022 11:56:06 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E9B120B7
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Oct 2022 08:56:01 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id x2so18107903edd.2
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Oct 2022 08:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=54IXG2FPqhGXRhjbMJeBZJCoE2PKYVWz3wVMDeZTLCU=;
-        b=Zskj8hY47y9/vRBVhsXI/zOvfwa2iyJBv9QUq1+i13j5qsNOJnVU3wL/JUdlYLqz4v
-         Mk75ESkgustxHq75/QaQ5OEO1eZt7heVL+VSe9tWHj5UP5z0WxpoZwggf/S4CeijV4z5
-         HpPLq4by6bha61t+359KMwWeXzdOid4NQVZsaks1CdeCumgLsRV5VNAtoBtOUtua3AOs
-         B5a4nrT+akXiUSdAx3LfyeaIm/nUCwSaWn4ght0Rx/QkIRjjlRNszAEfCaGP1d1g0WE4
-         nBI6wREzdJQ6Rx+IOYKCW7XmWBLDVtspMgcS3+GdeG5+YYpDHOEQlReggADgkn+UXgD5
-         SxHw==
+        Mon, 31 Oct 2022 12:33:16 -0400
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9313112A9C;
+        Mon, 31 Oct 2022 09:33:15 -0700 (PDT)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-13c569e5ff5so13621823fac.6;
+        Mon, 31 Oct 2022 09:33:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=54IXG2FPqhGXRhjbMJeBZJCoE2PKYVWz3wVMDeZTLCU=;
-        b=j5RLNx2KXRjqOH9Y1u2BDxiJ0c9rVAByZkUPASxArCIcps8VEUTJklIFA+8qxKh1d+
-         JiBwn/H0DHYXL7/iCM9kdAP1LOOLC5Fav4SYWSC8hSt700Ry1wD2BZvKf1Cl46tJx/n3
-         qaF/N30irLQo+YMTLeQ5tlwPUEHqqLBqMfRR1uz7Laf8eLZjMt6Wa7lO9z/LaoyJXmu+
-         ZQUDX/zaTL4wuGFDv4tsELuZkplmU3RrB/Lxse5yi4iBryVcOgpoJZljSRF+mpSTW61n
-         wWzZC+uNlywgxbDT1p3NzfQD4+nQP15eomzi8O1vWy6qVRKKI24uXO/deE0JceiYd4DU
-         cr5w==
-X-Gm-Message-State: ACrzQf1DcZM7cUgmHMzWEdCQm6JYzgjZKqGKOOkA4fCk17w2onE4eJPq
-        gNoJT3K8OuvKnSqKuuEVRi8LczXb+tN6SeWFT8M=
-X-Google-Smtp-Source: AMsMyM4G/j8m1/zSeccQf2AkVugX8309cUfDI+UYDvZQuRuoGB23q/LHl7RH2mbAs7rIvYUS8mc5Ee0Zt9e7fN034Ws=
-X-Received: by 2002:a05:6402:f0e:b0:461:aaa3:a11c with SMTP id
- i14-20020a0564020f0e00b00461aaa3a11cmr14510961eda.53.1667231759743; Mon, 31
- Oct 2022 08:55:59 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8/ek65kq7yHOaURSYRqzebh5SC1fg52rynZgdILWhX4=;
+        b=pcj5Jh9lvGYnV2OcRkswCR6hCFVQgc7Jf85ZChg3IXVG6TR5LZAxktqLG8/T5du7M+
+         o8bHytQXTCE899kHGIVglOcTZosEZX2Y3xlxnB7J7PtM9BAHhqCLPqu4okVSH3Ni5r5c
+         pDYHf5QFyf2sKaDhi8dAZhn+KMtwu9LsAQ9qgKYQx/KOfW2SZVYuL2Yq8vY5g3RayKHQ
+         4LAFKjOheEgi3O9A+qh+anzhcJRaefETAT5VJJ80dg0drqwvCyaif0zvLBlvt+F/CK7u
+         K9lWqHFXb+JYCkPOYdAuYiChBEe0cFgzgLZC/fHirnUxNCVSEFZ8RvC+cVnW+aGRWt72
+         HNhA==
+X-Gm-Message-State: ACrzQf01rY5N1wCeo03qcYBBuYE+tWy0eKt2hcPlWIym5FRc461im/JQ
+        ECJPYw2bhlaIT3spKrTKJw==
+X-Google-Smtp-Source: AMsMyM5n6ycmXWieT0+iQQXHvxoao0+Kzj4kL9UzGXba08k2+w2fKVvTiKB9k2bkjWX01BQO6gLn3A==
+X-Received: by 2002:a05:6870:15d4:b0:12b:8d8d:1001 with SMTP id k20-20020a05687015d400b0012b8d8d1001mr8166471oad.137.1667233994806;
+        Mon, 31 Oct 2022 09:33:14 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id f2-20020a4ad802000000b0047f72b6988fsm2503291oov.45.2022.10.31.09.33.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 09:33:14 -0700 (PDT)
+Received: (nullmailer pid 2978384 invoked by uid 1000);
+        Mon, 31 Oct 2022 16:33:16 -0000
+Date:   Mon, 31 Oct 2022 11:33:16 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     krzysztof.kozlowski+dt@linaro.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, mperttunen@nvidia.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V1 1/2] dt-bindings: PCI: tegra234: Add ECAM support
+Message-ID: <20221031163316.GA2968837-robh@kernel.org>
+References: <20221027051214.22003-1-vidyas@nvidia.com>
+ <20221027051214.22003-2-vidyas@nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7208:608b:b0:5d:5fd:eaac with HTTP; Mon, 31 Oct 2022
- 08:55:59 -0700 (PDT)
-Reply-To: victorinaquezon01@yahoo.com
-From:   Victorina <victorinaquezon@gmail.com>
-Date:   Mon, 31 Oct 2022 15:55:59 +0000
-Message-ID: <CAAOoKdtKiOsY9NHKOKnMFde+5RJ9erb66BYraxj99G3YEi+ybg@mail.gmail.com>
-Subject: Bonjour
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221027051214.22003-2-vidyas@nvidia.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
--- 
-I am Madam Victorina Quezon a citizen of philippine,A widow
-I am  woman going through so much pain and suffer and might not walk
-again if nothing is been done fast
-Please  I want you to help me retrieve the only Thing I have now in a
-box  which contains my jewelries and 585,000 thounsand dollars   which
- my late husband left for me which is currently in a Security company,
-I have no strength to do this due to my health condition and safety
-Please Keep this Confidential
-I await your response
-Please reply me at     victorinaquezon01@yahoo.com
-So i can explain more
-With love
-Victorina Quezon
+On Thu, Oct 27, 2022 at 10:42:13AM +0530, Vidya Sagar wrote:
+> Add support for ECAM aperture for Tegra234.
+> 
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+>  .../devicetree/bindings/pci/nvidia,tegra194-pcie.yaml  | 10 ++++++++--
+>  .../devicetree/bindings/pci/snps,dw-pcie.yaml          |  2 +-
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.yaml b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.yaml
+> index 75da3e8eecb9..15cc2d2055bb 100644
+> --- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.yaml
+> +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.yaml
+> @@ -27,6 +27,7 @@ properties:
+>        - nvidia,tegra234-pcie
+>  
+>    reg:
+> +    minItems: 4
+>      items:
+>        - description: controller's application logic registers
+>        - description: configuration registers
+> @@ -35,13 +36,17 @@ properties:
+>            available for software access.
+>        - description: aperture where the Root Port's own configuration
+>            registers are available.
+> +      - description: aperture to access the configuration space through ECAM.
+> +          This is applicable only for Tegra234.
+
+Is it really only Tegra234 or that's all you've tested or care 
+about? For the former, I agree with Krzysztof.
+
+Rob
