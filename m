@@ -2,73 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2354B61DA40
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Nov 2022 13:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F148361DB05
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Nov 2022 15:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbiKEMkA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 5 Nov 2022 08:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
+        id S229531AbiKEOkY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 5 Nov 2022 10:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiKEMjt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Nov 2022 08:39:49 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6F5175B1
-        for <linux-tegra@vger.kernel.org>; Sat,  5 Nov 2022 05:39:48 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id v4-20020a17090a088400b00212cb0ed97eso6660948pjc.5
-        for <linux-tegra@vger.kernel.org>; Sat, 05 Nov 2022 05:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
-        b=mu8m7znM9duu/MEuox3wxE9uI+enJzfHDrHCiCJ0dxXEnbtqlugP30RV4pUA4LaD8D
-         DTqzL6R3iJdygnN0tebcl2jKMC1xnk2qmH9yHj5ZpYJsig0zgAkFbQEJMtQOsyMS9E9+
-         9mZsd+BXbCYizoNZILloIeJgVKBYQDDlfcxWmhtehgP0gShVz6QbysTuA73O0zNW89oN
-         M95vp9qd39mlLDduLYXTQkqHXtcuCB6sr4c0ysKpoCTw5s/vT8zmw06SHC/DLusZ9o66
-         sNkDbmLIhAcJBtA+VmbRSjB+l+4rXBDt3pKOG75zF9L+vjSBjo5n2zZjo+rRsufLH5jZ
-         6xmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
-        b=UCgooVE6EtmrRgYHDx8/EBQcGxyxD95a/Uv65xrOrKyq7QBL0ybkTCoPQBheyaU0DJ
-         fI82mcRXDxMXOKKk9O6FTDRWv795nRp1rEv1gWDFvFureMe3ewH35QB0VjeZgJ/zTV7K
-         CVCwiKT1Vhm3pVxBO9+6nqO636BiN7R3StqAx9xy/DvHvZqNMdgvJHasZmXTW6HnjJK7
-         msWpE+u01+crXicoK64Y9sZOzWzVbelLRORWMga2IEFLQKoKcpWcztIUNOrX3FaACFXh
-         SbZl7LKj0hY8gf48vpTv+fiitXUCK+M1Ij8nNYoI+avtSclyn7mzftEuwfJoOgVix0Hg
-         WKMA==
-X-Gm-Message-State: ACrzQf274k5u284lKnjUELZHhEyauEE4TxK+Huk66Ia7QbyQyTJWdYYl
-        0zVj95F4QCJWPuf9IK2y+KfDIQ4H5iwYaV9mthI=
-X-Google-Smtp-Source: AMsMyM5GFe2gsiMaHXHXvp99K7JeNN2UuK6dELDyLpsoJjIUkQcn4q3aD74FbKEapmwctM2YF8x1D4LMLHeg4fM3LVk=
-X-Received: by 2002:a17:90b:4ac3:b0:213:3918:f276 with SMTP id
- mh3-20020a17090b4ac300b002133918f276mr57022678pjb.19.1667651987563; Sat, 05
- Nov 2022 05:39:47 -0700 (PDT)
+        with ESMTP id S229517AbiKEOkX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Nov 2022 10:40:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A15DFBB;
+        Sat,  5 Nov 2022 07:40:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8208CB8016A;
+        Sat,  5 Nov 2022 14:40:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961DEC433D6;
+        Sat,  5 Nov 2022 14:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667659220;
+        bh=29M2448cgOHYMEKXGsRwTgE8lDNz4UjpIrZVsELUkhI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bflqU6waEXJqA6CNM09mtvnNt/MZZikccFuzmCnxFLkmYKiXy63JrPY+t+MzZ1oYb
+         OtC6+GcrwZxIoxEp0Ki+TTNKl/0CV/GJuC4ybq2IO08Q9JNNMTUprs3GgwAS3gEfEL
+         wRR8wkvsro/j4Tw00v1LhsZhbU3wvYmSzzipipcbOnL4kxLQ6cvWBfEiuGlcrD3ufY
+         SVtxrSpCKYnLNW3rerKUzP9hk4Kqrla9CB2eKcPuBXstLq+E7bffk55hgDD5ciAf4h
+         H2yRtkqw8GxU0j+v9IjCoQC4QF0FR6HVRmJwHUmgCYvtnWBsRtKMQq/VYCOaq/DHSH
+         m8pnSqQCFUjtQ==
+Date:   Sat, 5 Nov 2022 20:10:16 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Haotien Hsu <haotienh@nvidia.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>, JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-phy@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Wayne Chang <waynec@nvidia.com>
+Subject: Re: [PATCH] phy: tegra: xusb: Remove usb3 supply
+Message-ID: <Y2Z10EDPOwj5X2yX@matsya>
+References: <20221005084031.2154251-1-haotienh@nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
- 05:39:47 -0700 (PDT)
-Reply-To: stefanopessia755@hotmail.com
-From:   Stefano Pessina <wamathaibenard@gmail.com>
-Date:   Sat, 5 Nov 2022 15:39:47 +0300
-Message-ID: <CAN7bvZKO8GxFn7CG_EtS_Of+AZ+KsuqTkq40Mq-yJDNrEHyakg@mail.gmail.com>
-Subject: Geldspende
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221005084031.2154251-1-haotienh@nvidia.com>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=20
-Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
-t.
-Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
-stefanopessia755@hotmail.com
+On 05-10-22, 16:40, Haotien Hsu wrote:
+> From: Wayne Chang <waynec@nvidia.com>
+> 
+> Remove redundant codes for getting the vbus supply of usb3 ports because
+> we get and control the vbus supply by the companion usb2 ports
+
+Applied, thanks
+
+-- 
+~Vinod
