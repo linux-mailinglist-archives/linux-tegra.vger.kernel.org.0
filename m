@@ -2,97 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8E0B6210B0
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Nov 2022 13:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F5B662122E
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Nov 2022 14:20:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbiKHMaK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Nov 2022 07:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48144 "EHLO
+        id S234368AbiKHNUx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Nov 2022 08:20:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234065AbiKHMaH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Nov 2022 07:30:07 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99FCF17AA2
-        for <linux-tegra@vger.kernel.org>; Tue,  8 Nov 2022 04:30:06 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id v8so8928600qkg.12
-        for <linux-tegra@vger.kernel.org>; Tue, 08 Nov 2022 04:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=cigNPlEtEE1k5xiZ9PvVBazoo9lUtOBUwB6YZSwBfhiXaLfnGYlViGJ/CkI7QbpyRc
-         DUkc/pXyGXkzwxwNKmQ/AVr17gtcnro/HIxn3z8V8Vc+39bff1bepY3CjxGya/RlhJQD
-         pm03SLH1zh1vk5Et08W05yayJWnxdxRnbNjb7jCohrMzy/0/FJWKkATniYBbpKgsaBKE
-         Z+OGb8Lsc3JgCU/vlNmJzwFukVrY1yODwKOWdcEffdpTGbLPgR5Erg+jlwzjZKljWkGx
-         l6m9q0cv+BGPJ+GX+X1NDb4hrmrYY0d2qQvBndPhFSr7mcH+QfGu5TnM80huZaOEkW4m
-         IdPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=fu4CXbY5oNQSgGhpfnCO4/3PjPxUQLF/h9R2kcOVbIn8XsA09D1mM/VeDzrUJKgOTI
-         kkigAzLg8rUvdNN96Ec6Tek7zbh/Dd2MRcK8exO9IdPd2wrDq0zvnn4aRbs31nkveyhm
-         QNjzL/UWdsLEnMzA+h5RbXXKTA5apHSmVkm2ZmxdS/V92s75LtzIA/1NKAbV48pVM5+3
-         KrDsPbfqMzgUiMjnQQ57FqC7OJ0EVs7yjXYtwu0QiXjjzR4YotyvFqcYOw/Yslzg4auE
-         85TestJydEVEjVMQOuBuywwzWAmdfMeRN1dLupFzGUPzpGhYQv2nI72t4+dq9MXspaoP
-         Y4HQ==
-X-Gm-Message-State: ACrzQf34EzVp2StDS/WzflQoHGxQrFWBlza0bwT2i81drV5OQ2FWk9Vo
-        BYtTvDhc4PzXrK3Q4Z/QNz8zc3V2GTAVvkFBZCk=
-X-Google-Smtp-Source: AMsMyM58hZ1EPsKu7coHtKEAadQRfLUwq2/6MbLEjdgMZ+NpfmCkJjte0dLlRzUMReSpEc0nbvrKDwByTED+/niEF+4=
-X-Received: by 2002:ae9:eb48:0:b0:6fa:d61:4510 with SMTP id
- b69-20020ae9eb48000000b006fa0d614510mr37684535qkg.768.1667910605712; Tue, 08
- Nov 2022 04:30:05 -0800 (PST)
+        with ESMTP id S233751AbiKHNUx (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Nov 2022 08:20:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ECF831F8D;
+        Tue,  8 Nov 2022 05:20:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 121EE61557;
+        Tue,  8 Nov 2022 13:20:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7360C433D6;
+        Tue,  8 Nov 2022 13:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667913651;
+        bh=F1MrMjvh/L1F4zxWBX7r8xXYoMUO4ZXMTGWde/+UFd8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LZaBgX2VaqGZgOh/2C0l++qPRlM8ueDrM9SLeSVBvUQEQ0+CNdo356p2qirP1dEgJ
+         p/H4iy/1oAwn0ait0PvZKuBfPMAnQDFDkXJtKbJiot6gOdqiqVGf0/w7jk8vpPsbFI
+         n39iYmDpzjVLSA1MXWr/cDCfrGf3A/+OHru3RiE4kPX3W97ALdEM6/h3yPQ0zjGCJZ
+         q1ivEC4oeiOD9WI4AegBBhj03IgPbMrHzOGR+4pXQwzPuGiX7waZ0und1RxcXF1J+j
+         MXeA9iQvAXVNy8WS4w2xu8rFWvjxhzh0obhV1OFgD6jSVycIiG4hb8lh5dBxyqba2D
+         JHeBEQ2z21fvg==
+Date:   Tue, 8 Nov 2022 13:20:42 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Nicolin Chen <nicolinc@nvidia.com>
+Cc:     joro@8bytes.org, robin.murphy@arm.com, jgg@nvidia.com,
+        kevin.tian@intel.com, quic_jjohnson@quicinc.com,
+        suravee.suthikulpanit@amd.com, robdclark@gmail.com,
+        dwmw2@infradead.org, baolu.lu@linux.intel.com,
+        yong.wu@mediatek.com, matthias.bgg@gmail.com, orsonzhai@gmail.com,
+        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+        thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+        jean-philippe@linaro.org, tglx@linutronix.de,
+        shameerali.kolothum.thodi@huawei.com,
+        christophe.jaillet@wanadoo.fr, yangyicong@hisilicon.com,
+        yangyingliang@huawei.com, quic_saipraka@quicinc.com,
+        jon@solid-run.com, iommu@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v7 4/5] iommu: Use EINVAL for incompatible device/domain
+ in ->attach_dev
+Message-ID: <20221108132041.GB22816@willie-the-truck>
+References: <cover.1666042872.git.nicolinc@nvidia.com>
+ <f52a07f7320da94afe575c9631340d0019a203a7.1666042873.git.nicolinc@nvidia.com>
+ <20221107152645.GD21002@willie-the-truck>
+ <Y2mfaG1/6hd1qykW@Asurada-Nvidia>
 MIME-Version: 1.0
-Received: by 2002:a05:6214:2f8a:b0:4bb:6e86:8303 with HTTP; Tue, 8 Nov 2022
- 04:30:05 -0800 (PST)
-Reply-To: mr.abraham022@gmail.com
-From:   Mr Abraham <mr.abraham2021@gmail.com>
-Date:   Tue, 8 Nov 2022 12:30:05 +0000
-Message-ID: <CAJ2UK+YqK-OgWa-GbqjTU89edKqVZ5nqmL-j=gKpwP5uFtkvUA@mail.gmail.com>
-Subject: Greeting
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:72d listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4973]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mr.abraham022[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [mr.abraham2021[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mr.abraham2021[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2mfaG1/6hd1qykW@Asurada-Nvidia>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-My Greeting, Did you receive the letter i sent to you. Please answer me.
-Regard, Mr.Abraham
+On Mon, Nov 07, 2022 at 04:14:32PM -0800, Nicolin Chen wrote:
+> On Mon, Nov 07, 2022 at 03:26:45PM +0000, Will Deacon wrote:
+> 
+> > > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > > index ba47c73f5b8c..01fd7df16cb9 100644
+> > > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > > @@ -2430,23 +2430,14 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+> > >                       goto out_unlock;
+> > >               }
+> > >       } else if (smmu_domain->smmu != smmu) {
+> > > -             dev_err(dev,
+> > > -                     "cannot attach to SMMU %s (upstream of %s)\n",
+> > > -                     dev_name(smmu_domain->smmu->dev),
+> > > -                     dev_name(smmu->dev));
+> > > -             ret = -ENXIO;
+> > > +             ret = -EINVAL;
+> > >               goto out_unlock;
+> > >       } else if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1 &&
+> > >                  master->ssid_bits != smmu_domain->s1_cfg.s1cdmax) {
+> > > -             dev_err(dev,
+> > > -                     "cannot attach to incompatible domain (%u SSID bits != %u)\n",
+> > > -                     smmu_domain->s1_cfg.s1cdmax, master->ssid_bits);
+> > >               ret = -EINVAL;
+> > >               goto out_unlock;
+> > >       } else if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1 &&
+> > >                  smmu_domain->stall_enabled != master->stall_enabled) {
+> > > -             dev_err(dev, "cannot attach to stall-%s domain\n",
+> > > -                     smmu_domain->stall_enabled ? "enabled" : "disabled");
+> > >               ret = -EINVAL;
+> > >               goto out_unlock;
+> > >       }
+> 
+> > I think it would be helpful to preserve these messages using
+> > dev_err_ratelimited() so that attach failure can be diagnosed without
+> > having to hack the messages back into the driver.
+> 
+> Thank you for the review.
+> 
+> The change is already picked up last week. Yet, I can add prints
+> back with a followup patch, if no one has a problem with that.
+
+Sorry, I fell behind with upstream so I got to this late. A patch on top
+would be fantastic!
+
+> Also, I am not quite sure what the use case would be to have an
+> error print. Perhaps dev_dbg() would be more fitting if it is
+> just for diagnosis?
+
+Sure, that works for me. I think the messages are useful for folks
+triggering this path e.g. via sysfs but if they're limited to debug I think
+that's better than removing them altogether.
+
+Cheers,
+
+Will
