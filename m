@@ -2,111 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4457F6308B7
-	for <lists+linux-tegra@lfdr.de>; Sat, 19 Nov 2022 02:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB4A63092C
+	for <lists+linux-tegra@lfdr.de>; Sat, 19 Nov 2022 03:11:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231947AbiKSBsY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Nov 2022 20:48:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
+        id S230398AbiKSCLt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Nov 2022 21:11:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231969AbiKSBsF (ORCPT
+        with ESMTP id S231491AbiKSCLk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Nov 2022 20:48:05 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B94532C0
-        for <linux-tegra@vger.kernel.org>; Fri, 18 Nov 2022 17:20:33 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id n20so17145344ejh.0
-        for <linux-tegra@vger.kernel.org>; Fri, 18 Nov 2022 17:20:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rbfoB6c/UjNlcqISExBxrNR+Gfa67oAo9Qlc4W4UOAg=;
-        b=KSLhX264k+IOo0mAuAPfLH/1foRxs+K6tkJuDT098hpRXMY4tGQvh9KdYdkZX4Wmm9
-         bcEUkdVEylkFyGgFfgLeKv/0S4FquJnVjFKWjqv6njGuAqcSIOj1kBRa1r9I/cWmCWtx
-         eNPg+S2yvMemxZe112isBa0CO9cr+pM4DL6tTP4al38Ga4NKCx/OTKGYfqFOJ0WGdmVu
-         RXs5iPEZDOwIHtGR5YrhdP1P0Z3khSnDnwQVo2Iv7hnHKTDUzOlDGW+75G5+hAbftQa1
-         QnCKFkXvzCB6dVYnzpPbC5L09F2CVV5/PuAwhUm80cj8tTyDjaQhxdn8oGybznJKJ8ks
-         5/xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rbfoB6c/UjNlcqISExBxrNR+Gfa67oAo9Qlc4W4UOAg=;
-        b=pXPt9WlQWVlQnrMUMh7ZToq+Mjrc7ARLPD79Z7P1ioRX1VDcVSLVeLWA623a7N5FvB
-         9MRz8SU/r6zMXeAbLJqFm2Ijz9p3GsDnElgbXEeu2xr02FnDIaS9qd4Ynrk/DIecHIay
-         x4iJKIwlYV54HSd/uTaR0JJQRgTbmUCouGtlEBRcVDgBZPgTozLcl7eN/Cs8cXNfwUlY
-         FtCtNSo99F9Vb1WodZVVvfqIlATFjd4t10SRqoExYL+SC1+W+jz84T15LQWzJyCPCeXs
-         yDI+W26DHo0UY8YnBZda1VeK14gGtRVubVfyrm6eL05Viw21BA88QI2r4+/DL7oR3CAg
-         fnhg==
-X-Gm-Message-State: ANoB5plL8UWBKemF0w5pDQorILVG/44aeZ+lgrD76SI3CqY2r9mxfjUi
-        drG9j++1+gQsptLUQQ2ersM=
-X-Google-Smtp-Source: AA0mqf4ZhE+3dLywNGW4ArFee0NvtkX1VLVd3EKlZD8se5YYnR49unxuUUs1Y+nI1choMdLaYRel1A==
-X-Received: by 2002:a17:906:1641:b0:7ae:7d78:9fa1 with SMTP id n1-20020a170906164100b007ae7d789fa1mr7868452ejd.98.1668820833213;
-        Fri, 18 Nov 2022 17:20:33 -0800 (PST)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id d10-20020a170906344a00b0077b523d309asm2294476ejb.185.2022.11.18.17.20.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 17:20:32 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     arm@kernel.org, soc@kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 8/8] arm64: tegra: Default configuration updates for v6.2-rc1
-Date:   Sat, 19 Nov 2022 02:20:25 +0100
-Message-Id: <20221119012025.3968358-8-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221119012025.3968358-1-thierry.reding@gmail.com>
-References: <20221119012025.3968358-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+        Fri, 18 Nov 2022 21:11:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8167E2FC25;
+        Fri, 18 Nov 2022 18:11:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1ADC6B82677;
+        Sat, 19 Nov 2022 02:11:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C227AC43147;
+        Sat, 19 Nov 2022 02:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668823892;
+        bh=TOLqu0LbFYDS5QL1E942g7sbSUH5VdBr7xnwJtZrtr8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UNNmdzh1RaIpb+JTkTVrV2qTmJHAvSjp5yzhHD4YB0eir8AvnDXa8NMyd+EAC/lOr
+         tYJ11cPPAK2AnFUsX4l5jgz6aYwksm4d+6fTa0XFM8sAheCYCO9L3Je67fIXraV75a
+         s4aX9a5bTApezcJnxYcqkCMBUEIhR1wX70WPTnBXflz4996eCi8QT1gTKXuWte0lpH
+         u4rPt63HsfBe/p/ebzRUEYBTTdbdWutBoPHTwD5uvU0veF+HizYvRT7c9q0MyGm/zB
+         LgQYCJP4kE6E0aG3d4sGDMH5957g2OF8kv9LN3EGf3GGN7W4K2o9ahWm2Q6I8cPtfc
+         hbUphI5iSxBuQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
+        skomatineni@nvidia.com, ldewangan@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 04/44] spi: tegra210-quad: Don't initialise DMA if not supported
+Date:   Fri, 18 Nov 2022 21:10:44 -0500
+Message-Id: <20221119021124.1773699-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
+References: <20221119021124.1773699-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi ARM SoC maintainers,
+From: Jon Hunter <jonathanh@nvidia.com>
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+[ Upstream commit ae4b3c1252f0fd0951d2f072a02ba46cac8d6c92 ]
 
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+The following error messages are observed on boot for Tegra234 ...
 
-are available in the Git repository at:
+ ERR KERN tegra-qspi 3270000.spi: cannot use DMA: -19
+ ERR KERN tegra-qspi 3270000.spi: falling back to PIO
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.2-arm64-defconfig
+Tegra234 does not support DMA for the QSPI and so initialising the DMA
+is expected to fail. The above error messages are misleading for devices
+that don't support DMA and so fix this by skipping the DMA
+initialisation for devices that don't support DMA.
 
-for you to fetch changes up to b4c8adc40f4918d77ab851fbc06415fb313d6c7f:
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Link: https://lore.kernel.org/r/20221026155633.141792-1-jonathanh@nvidia.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/spi/spi-tegra210-quad.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-  arm64: defconfig: Enable HTE config (2022-11-11 15:51:29 +0100)
+diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
+index c89592b21ffc..d66ef7fa592b 100644
+--- a/drivers/spi/spi-tegra210-quad.c
++++ b/drivers/spi/spi-tegra210-quad.c
+@@ -720,6 +720,9 @@ static int tegra_qspi_start_cpu_based_transfer(struct tegra_qspi *qspi, struct s
+ 
+ static void tegra_qspi_deinit_dma(struct tegra_qspi *tqspi)
+ {
++	if (!tqspi->soc_data->has_dma)
++		return;
++
+ 	if (tqspi->tx_dma_buf) {
+ 		dma_free_coherent(tqspi->dev, tqspi->dma_buf_size,
+ 				  tqspi->tx_dma_buf, tqspi->tx_dma_phys);
+@@ -750,6 +753,9 @@ static int tegra_qspi_init_dma(struct tegra_qspi *tqspi)
+ 	u32 *dma_buf;
+ 	int err;
+ 
++	if (!tqspi->soc_data->has_dma)
++		return 0;
++
+ 	dma_chan = dma_request_chan(tqspi->dev, "rx");
+ 	if (IS_ERR(dma_chan)) {
+ 		err = PTR_ERR(dma_chan);
+-- 
+2.35.1
 
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-arm64: tegra: Default configuration updates for v6.2-rc1
-
-This enables several audio-related options, as well as the Tegra186
-timer and hardware timestamping engine drivers.
-
-----------------------------------------------------------------
-Dipen Patel (1):
-      arm64: defconfig: Enable HTE config
-
-Jon Hunter (1):
-      arm64: defconfig: Enable Tegra186 timer support
-
-Sameer Pujar (2):
-      arm64: defconfig: Enable couple of audio codecs
-      arm64: defconfig: Enable SND_ALOOP
-
- arch/arm64/configs/defconfig | 7 +++++++
- 1 file changed, 7 insertions(+)
