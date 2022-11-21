@@ -2,62 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6F3632A8F
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Nov 2022 18:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 741AD632A91
+	for <lists+linux-tegra@lfdr.de>; Mon, 21 Nov 2022 18:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231219AbiKURO1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 21 Nov 2022 12:14:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36106 "EHLO
+        id S231440AbiKUROe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 21 Nov 2022 12:14:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231222AbiKURNs (ORCPT
+        with ESMTP id S230522AbiKURN5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 21 Nov 2022 12:13:48 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B41D0DF1
-        for <linux-tegra@vger.kernel.org>; Mon, 21 Nov 2022 09:12:48 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id l11so17182968edb.4
-        for <linux-tegra@vger.kernel.org>; Mon, 21 Nov 2022 09:12:48 -0800 (PST)
+        Mon, 21 Nov 2022 12:13:57 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B48D14F5
+        for <linux-tegra@vger.kernel.org>; Mon, 21 Nov 2022 09:12:49 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id m22so29998946eji.10
+        for <linux-tegra@vger.kernel.org>; Mon, 21 Nov 2022 09:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dD+nn3RcUVAXIgjkmKfwa+r2PxTnm0FpkC5Fz1p9PlQ=;
-        b=EKAKUvd313xA40Vd4Lnjm1Omf6+O4la2dwU7/bRGmpuzsfV4iaFgyOd1hrdMCr/S4B
-         imEFDVKKNNxraUt5f6OxZoW14TIUf+M0J5NFmPkdepaWSxQK3BKUjxbP7GOmw33yvDoI
-         pI0i99nSQ5ho7PhItlEBpTUKK4Kt3InrGGRzUlKV2OXeM0yXxPQIdEGDJIN1rJ9zfKLL
-         yDOHnOiaHvrpIzfUF1XyVI6ahbZt03mN86GlhZrUfN3D64XFoYoPxLwNNr+mxoCWONLe
-         052baunEUUY56WWeetg7cQpFaOoukrdwPHIwh4uuYTOIfR7Qmy+fnmFsnhU3RQLtsDPf
-         cnjw==
+        bh=/I/hLJg7MJV1bbkW493eGQbSidaKR60YPeJkn7lTWxA=;
+        b=nIHs6uEOvd7f5zoJ/R87pVZth0gXsB7ILmkvMmacJfaAUVc5N8SgC/SlkavakiyKZD
+         xGJptgWdBt+Z2g8a9p6nBheyfoSHPuELey76LK+xxYaH2SFkCCueBErlQpOSREBrHwYP
+         ddqjjJr7gx/poxH2aFHrjPb2lo04E1VnJNIVOX27PpZjh3GwKrjTg+J2zgq+0vs982mT
+         b57b+5W4sLMW9uUepW8LTrhdw5F0NkaMT4NlXaTf2Fi374CKtn0dvZZ32oQJFXgp1TTQ
+         PGcsE+fjxgD9ojKcjjqanrK1yF0I3AsOCrt8x+4etRl/tEPe2XjYWzg+nY8K9LxJ+awj
+         /wtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dD+nn3RcUVAXIgjkmKfwa+r2PxTnm0FpkC5Fz1p9PlQ=;
-        b=UyAnipbiB56xcZvudUL1kgxtagZr29C4mxE5r48XEETrBr8Ivs+sX/2kxHKH77WvP1
-         lWvlC030/jhYLRRNMqEBCWhuwXsaNRlZBumrus3vKLOhjKKYCn/74vB72DKMWTKB4BEK
-         q1HXb8qDuCpL8J6RqrGjzmLtmlKOscH1BG870HbHCPve8OlN2W4n9BT6j/KW2fA3/iw6
-         ZXHLgo5ZfKPEXIX+OiyzU1LiXtEYmfnS0JERs7T3Xz36iHkSt+W8pR8LpgcoQeP2Fwyt
-         NCK9m8WzHveLVW+zonkrCkyvImAZI1FK8yEVcqUnoK1QXp9oQX+3pOihdCY8PQU/qJq6
-         Mkkw==
-X-Gm-Message-State: ANoB5pmj7wlONsC1VBdgsDU4Tc9qHVqhkr1nNEjioTTg7XR3Op8wN2LG
-        J/hxrVoneowzFHIyXCo5O5k=
-X-Google-Smtp-Source: AA0mqf42i2eQOmFt+Gy7c5CkEuQu5yMKeKQlpAMO2TnU3vVzAPwYj2GnwiM9+8NN37FyV8P3t6E0RQ==
-X-Received: by 2002:aa7:cc8d:0:b0:461:15f0:a574 with SMTP id p13-20020aa7cc8d000000b0046115f0a574mr17446256edt.187.1669050767045;
+        bh=/I/hLJg7MJV1bbkW493eGQbSidaKR60YPeJkn7lTWxA=;
+        b=J+rBCySzZauMavPvbnniGTgpImKiBQMhIViyAV6Dyzbw3U7A1raAcb9qN0ZY/Qz07N
+         c1UfbVOcPVlDd28hfnvY4gKO23o+G+NguC9QoQliB3n1qGBP+iVrLTKWOIj4t7dmzA6N
+         yIU6ybWacWFt4ZbyvPajT7+p4fNESSaEVT4KZ+6EGnweC6CQ7UOvp7QO7DOlIzo0zt99
+         LfHVlBeEYZ0dJPHAojiZh77pXn8jM6acp9lmgAHRJpQ9YNxLcnI0LKG/8GdCjF7SQ4pl
+         1sy1WQQZ/2R7SE9tpM00F7nK2SX3cfiU2qfhhyDTEywFG5odV6YO4SRoueI0lCgS8mNQ
+         eKRg==
+X-Gm-Message-State: ANoB5plvXA6KROByzt8LaaW4q9+rSYCY0Qu5smpj/93kjIGYAzYBgbNB
+        sUspnbpv8dDBB/CdXTTtutk=
+X-Google-Smtp-Source: AA0mqf6HMYgi3IGidZEidg91nwrgrNnZLuWMZJvTXyr05gfMwwYYCVXlUSm6yayBL2u+IVsE5gfb+g==
+X-Received: by 2002:a17:907:d60c:b0:7ae:e592:6d83 with SMTP id wd12-20020a170907d60c00b007aee5926d83mr15462529ejc.699.1669050767943;
         Mon, 21 Nov 2022 09:12:47 -0800 (PST)
 Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ee47-20020a056402292f00b00468f7bb4895sm5098579edb.43.2022.11.21.09.12.46
+        by smtp.gmail.com with ESMTPSA id w18-20020a056402129200b00467c3cbab6fsm1354462edv.77.2022.11.21.09.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 09:12:46 -0800 (PST)
+        Mon, 21 Nov 2022 09:12:47 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL v2 4/7] dt-bindings: Changes for v6.2-rc1
-Date:   Mon, 21 Nov 2022 18:12:36 +0100
-Message-Id: <20221121171239.2041835-4-thierry.reding@gmail.com>
+Subject: [GIT PULL v2 5/7] memory: tegra: Changes for v6.2-rc1
+Date:   Mon, 21 Nov 2022 18:12:37 +0100
+Message-Id: <20221121171239.2041835-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221121171239.2041835-1-thierry.reding@gmail.com>
 References: <20221121171239.2041835-1-thierry.reding@gmail.com>
@@ -82,89 +82,45 @@ The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.2-dt-bindings-v2
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.2-memory-v2
 
-for you to fetch changes up to 97351cd8bea8e284cf62b4b7f35fa12059b47d7f:
+for you to fetch changes up to 5cd24ca0985f2dfb5628354fb63ede67b1dd993d:
 
-  dt-bindings: usb: tegra-xusb: Convert to json-schema (2022-11-21 13:27:30 +0100)
+  memory: tegra: Add DLA clients for Tegra234 (2022-11-21 13:29:02 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-dt-bindings: Changes for v6.2-rc1
+memory: tegra: Changes for v6.2-rc1
 
-New memory client IDs and IOMMU stream IDs, as well as new compatible
-strings are introduced to support more hardware on Tegra234. Some device
-tree bindings are converted to json-schema to allow formal validation.
+Some cleanups replace open-coded debugfs attributes and memory client
+IDs are added for the DLA IP found on Tegra234 SoCs.
 
 ----------------------------------------------------------------
-Jon Hunter (1):
+Jon Hunter (2):
       dt-bindings: tegra: Update headers for Tegra234
+      memory: tegra: Add DLA clients for Tegra234
 
-Mikko Perttunen (2):
+Liu Shixin (4):
+      memory: tegra20-emc: Use DEFINE_SHOW_ATTRIBUTE to simplify code
+      memory: tegra30-emc: Use DEFINE_SHOW_ATTRIBUTE to simplify code
+      memory: tegra210-emc: Use DEFINE_SHOW_ATTRIBUTE to simplify code
+      memory: tegra186-emc: Use DEFINE_SHOW_ATTRIBUTE to simplify code
+
+Mikko Perttunen (1):
       dt-bindings: Add headers for NVDEC on Tegra234
-      dt-bindings: Add bindings for Tegra234 NVDEC
 
-Sandipan Patra (1):
-      dt-bindings: pwm: tegra: Document Tegra234 PWM
+Thierry Reding (1):
+      Merge branch for-6.2/dt-bindings into for-6.2/memory
 
-Thierry Reding (4):
-      dt-bindings: pinctrl: tegra: Convert to json-schema
-      dt-bindings: pinctrl: tegra194: Separate instances
-      dt-bindings: pwm: tegra: Convert to json-schema
-      dt-bindings: usb: tegra-xusb: Convert to json-schema
-
-Vidya Sagar (1):
-      dt-bindings: PCI: tegra234: Add ECAM support
-
- .../bindings/clock/nvidia,tegra124-dfll.txt        |   2 +-
- .../bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml | 156 +++++
- .../bindings/pci/nvidia,tegra194-pcie.yaml         |  34 +-
- .../devicetree/bindings/pci/snps,dw-pcie.yaml      |   2 +-
- .../pinctrl/nvidia,tegra-pinmux-common.yaml        | 178 ++++++
- .../bindings/pinctrl/nvidia,tegra114-pinmux.txt    | 131 -----
- .../bindings/pinctrl/nvidia,tegra114-pinmux.yaml   | 155 +++++
- .../bindings/pinctrl/nvidia,tegra124-pinmux.txt    | 153 -----
- .../bindings/pinctrl/nvidia,tegra124-pinmux.yaml   | 176 ++++++
- .../bindings/pinctrl/nvidia,tegra194-pinmux.txt    | 107 ----
- .../bindings/pinctrl/nvidia,tegra194-pinmux.yaml   | 284 +++++++++
- .../bindings/pinctrl/nvidia,tegra20-pinmux.txt     | 143 -----
- .../bindings/pinctrl/nvidia,tegra20-pinmux.yaml    | 112 ++++
- .../bindings/pinctrl/nvidia,tegra210-pinmux.txt    | 166 ------
- .../bindings/pinctrl/nvidia,tegra210-pinmux.yaml   | 142 +++++
- .../bindings/pinctrl/nvidia,tegra30-pinmux.txt     | 144 -----
- .../bindings/pinctrl/nvidia,tegra30-pinmux.yaml    | 176 ++++++
- .../devicetree/bindings/pwm/nvidia,tegra20-pwm.txt |  77 ---
- .../bindings/pwm/nvidia,tegra20-pwm.yaml           |  96 ++++
- .../bindings/usb/nvidia,tegra124-xusb.txt          | 132 -----
- .../bindings/usb/nvidia,tegra124-xusb.yaml         | 202 +++++++
- .../bindings/usb/nvidia,tegra186-xusb.yaml         | 173 ++++++
- .../bindings/usb/nvidia,tegra194-xusb.yaml         | 179 ++++++
- .../bindings/usb/nvidia,tegra210-xusb.yaml         | 199 +++++++
- include/dt-bindings/clock/tegra234-clock.h         | 639 ++++++++++++++++++++-
- include/dt-bindings/memory/tegra234-mc.h           | 440 +++++++++++++-
- include/dt-bindings/power/tegra234-powergate.h     |  15 +
- include/dt-bindings/reset/tegra234-reset.h         | 111 +++-
- 28 files changed, 3437 insertions(+), 1087 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra234-nvdec.yaml
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra-pinmux-common.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra114-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra114-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra20-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra20-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra210-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra210-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra30-pinmux.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra30-pinmux.yaml
- delete mode 100644 Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
- create mode 100644 Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.txt
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra186-xusb.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra194-xusb.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra210-xusb.yaml
+ drivers/memory/tegra/tegra186-emc.c            |  15 +-
+ drivers/memory/tegra/tegra20-emc.c             |  15 +-
+ drivers/memory/tegra/tegra210-emc-core.c       |  15 +-
+ drivers/memory/tegra/tegra234.c                | 160 +++++++
+ drivers/memory/tegra/tegra30-emc.c             |  15 +-
+ include/dt-bindings/clock/tegra234-clock.h     | 639 ++++++++++++++++++++++++-
+ include/dt-bindings/memory/tegra234-mc.h       | 440 ++++++++++++++++-
+ include/dt-bindings/power/tegra234-powergate.h |  15 +
+ include/dt-bindings/reset/tegra234-reset.h     | 111 ++++-
+ 9 files changed, 1339 insertions(+), 86 deletions(-)
