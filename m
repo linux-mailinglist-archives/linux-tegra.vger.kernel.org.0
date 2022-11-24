@@ -2,193 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D000637414
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Nov 2022 09:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECECE637452
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Nov 2022 09:45:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229952AbiKXIgX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Nov 2022 03:36:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59322 "EHLO
+        id S229582AbiKXIpY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Nov 2022 03:45:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbiKXIgU (ORCPT
+        with ESMTP id S229705AbiKXIpY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Nov 2022 03:36:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6E5F2C0D;
-        Thu, 24 Nov 2022 00:36:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 69FE66202F;
-        Thu, 24 Nov 2022 08:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800B3C433D7;
-        Thu, 24 Nov 2022 08:36:15 +0000 (UTC)
-Message-ID: <3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
-Date:   Thu, 24 Nov 2022 09:36:14 +0100
+        Thu, 24 Nov 2022 03:45:24 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0AD8FDD84
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Nov 2022 00:45:22 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id d3so1245641ljl.1
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Nov 2022 00:45:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o+bou2Eqve5CvNCEe8A4y27WMBYElKaquLsQIo7P2JQ=;
+        b=Eqfk1RGF9j3RdprJYIXx7HGeIq9xPFflC0DBHFZv84z8rXJQ5/vglbRa3wWOGKWGIQ
+         gLftpjDA8F2d9p131D/taQD+L1ualWywLsR9jmFpVeUEmOyx3skcNVLbLGmxUv01Ccs1
+         h8hoaQCg3vx1YFG8Tv7hav6GCcfU3oehhr9h4Za3ef5AV/vCOoMBq1g36K8bi4XB0fMz
+         v5tqdMn4k68ROH2+hh2ygTIlS1j0bf0Y31Iv9IyMpkN5hK6rGEl5kftjMe56NRobUhlc
+         CY3p8z8pvDn+c0fA/4z7p97JFRmkc4RMljDdiyIZ86cIR8ax3Xoh4vis9omLr9B5CBQ9
+         KUSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+bou2Eqve5CvNCEe8A4y27WMBYElKaquLsQIo7P2JQ=;
+        b=g7DBWgKJJfKKAbBNpQsMzt/G3VnRN2iXrQsXMVhpV+CZreE5dAWYUjiWXQet3XU/nV
+         tnwnZhD7jCIR9BiJpi50Cx22xgNOAZjM2lEpINIOG1d3wJB743ojsctGLoDtaIRVJ3nP
+         CBTCJDlVxjhL/1fvaZLEyNFptSZIhSbyQAL/oDV8psUP2ZkCyYv80zDrxJEGoev3Syla
+         jLaaPKwC72a6AuosNjXUi9DUmc5gEuLVM9yuIMsmrd380zHrtyOSGVstV0kd75bUAqlQ
+         fS4W7PJ1M/96Cq/Z9s+F62s2VjdIhPlgDGNTN4Rx7VGlSJee3zWlVKoWW85IX9pmUGkc
+         s05g==
+X-Gm-Message-State: ANoB5pm93pQ0j0WBiUZa1QCWTaQZFL/W28Gpqg3HW5j9VudCn05gosSA
+        iO/Bf8U2llMw3VATl5R6d8RWVA==
+X-Google-Smtp-Source: AA0mqf6Z3tWCtGpuP577dWMuvzhmVrpzGUmuDSeOU43vilip13LGn5V10NAdwcMHcLQV3aLfRXGe8Q==
+X-Received: by 2002:a05:651c:c89:b0:26f:bd61:ac4f with SMTP id bz9-20020a05651c0c8900b0026fbd61ac4fmr5219103ljb.396.1669279520992;
+        Thu, 24 Nov 2022 00:45:20 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id z8-20020a2e8848000000b0026b2094f6fcsm48669ljj.73.2022.11.24.00.45.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Nov 2022 00:45:20 -0800 (PST)
+Message-ID: <0b203c11-851c-fd6c-faeb-e283b158f1c8@linaro.org>
+Date:   Thu, 24 Nov 2022 09:45:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 00/23] Add Tegra20 parallel video input capture
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/3] dt-bindings: PHY: P2U: Add PCIe lane margining
+ support
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>, vkoul@kernel.org,
+        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, vidyas@nvidia.com
+Cc:     linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, bhelgaas@google.com,
+        lpieralisi@kernel.org, nkristam@nvidia.com
+References: <20221124083510.3008139-1-mmaddireddy@nvidia.com>
+ <20221124083510.3008139-2-mmaddireddy@nvidia.com>
 Content-Language: en-US
-To:     luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221124083510.3008139-2-mmaddireddy@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Luca,
+On 24/11/2022 09:35, Manikanta Maddireddy wrote:
+> Tegra234 supports PCIe lane margining. P2U HW acts as a relay to exchange
 
-On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-> and "VIP" in the documentation). The kernel currently has a staging driver
-> for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> capture.
-> 
-> Unfortunately I had no real documentation available to base this work on,
-> and I started from a working downstream 3.1 kernel, that I have heavily
-> reworked to fit into the existing tegra-video driver. The existing code
-> appears written with the intent of being modular and allow adding new input
-> mechanisms and new SoCs while keeping a unique VI core module. However its
-> modularity and extensibility was not enough to add Tegra20 VIP support, so
-> I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
-> customizable code. There are also some fixes, some generic cleanups and DT
-> bindings.
+typo: merging?
 
-I plan on testing this series (esp. making sure it keeps working on non-tegra210
-hardware), but I have to find time for that. This is on my TODO list, so I will
-get to it, but it might time.
+> margin control data and margin status between PCIe controller and UPHY.
 
-In the meantime, don't hesitate to post new versions (I saw comments on the
-bindings), when I have time for testing I'll pick the latest version you post.
-In other words, don't let lack of review comments from me stop you from working
-on this :-)
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
 
-Regards,
-
-	Hans
 
 > 
-> Quick tour of the patches:
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> ---
+>  .../bindings/phy/phy-tegra194-p2u.yaml        | 50 +++++++++++++++++++
+>  1 file changed, 50 insertions(+)
 > 
->  * Device tree bindings and minor DTS improvements
-> 
->    01. dt-bindings: display: tegra: add bindings for Tegra20 VIP
->    02. dt-bindings: display: tegra: vi: add 'vip' property and example
->    03. ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->    04. ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
-> 
->  * A fix
-> 
->    05. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
-> 
->  * Minor improvements to logging, comments, cleanups
-> 
->    06. staging: media: tegra-video: improve documentation of tegra_video_format fields
->    07. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
->    08. staging: media: tegra-video: fix typos in comment
->    09. staging: media: tegra-video: improve error messages
->    10. staging: media: tegra-video: slightly simplify cleanup on errors
->    11. staging: media: tegra-video: move private struct declaration to C file
->    12. staging: media: tegra-video: remove unneeded include
-> 
->  * Preparation to make the VI module generic enough to host Tegra20 and VIP
-> 
->    13. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->    14. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
->    15. staging: media: tegra-video: move default format to soc-specific data
->    16. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
->    17. staging: media: tegra-video: add a per-soc enable/disable op
->    18. staging: media: tegra-video: move syncpt init/free to a per-soc op
->    19. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
->    20. staging: media: tegra-video: add hooks for planar YUV and H/V flip
->    21. staging: media: tegra-video: add H/V flip controls
-> 
->  * Implementation of VIP and Tegra20
-> 
->    22. staging: media: tegra-video: add support for VIP (parallel video input)
->    23. staging: media: tegra-video: add tegra20 variant
-> 
-> Enjoy!
-> 
-> Luca
-> 
-> Luca Ceresoli (23):
->   dt-bindings: display: tegra: add bindings for Tegra20 VIP
->   dt-bindings: display: tegra: vi: add 'vip' property and example
->   ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->   ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
->   staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
->     all formats
->   staging: media: tegra-video: improve documentation of
->     tegra_video_format fields
->   staging: media: tegra-video: document
->     tegra_channel_get_remote_source_subdev
->   staging: media: tegra-video: fix typos in comment
->   staging: media: tegra-video: improve error messages
->   staging: media: tegra-video: slightly simplify cleanup on errors
->   staging: media: tegra-video: move private struct declaration to C file
->   staging: media: tegra-video: remove unneeded include
->   staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->   staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
->     op
->   staging: media: tegra-video: move default format to soc-specific data
->   staging: media: tegra-video: move MIPI calibration calls from VI to
->     CSI
->   staging: media: tegra-video: add a per-soc enable/disable op
->   staging: media: tegra-video: move syncpt init/free to a per-soc op
->   staging: media: tegra-video: add syncpts for Tegra20 to struct
->     tegra_vi
->   staging: media: tegra-video: add hooks for planar YUV and H/V flip
->   staging: media: tegra-video: add H/V flip controls
->   staging: media: tegra-video: add support for VIP (parallel video
->     input)
->   staging: media: tegra-video: add tegra20 variant
-> 
->  .../display/tegra/nvidia,tegra20-vi.yaml      |  68 ++
->  .../display/tegra/nvidia,tegra20-vip.yaml     |  64 ++
->  MAINTAINERS                                   |  10 +
->  arch/arm/boot/dts/tegra20-tamonten.dtsi       |   2 +-
->  arch/arm/boot/dts/tegra20.dtsi                |   2 +-
->  drivers/staging/media/tegra-video/Kconfig     |   1 +
->  drivers/staging/media/tegra-video/Makefile    |   2 +
->  drivers/staging/media/tegra-video/csi.c       |  44 ++
->  drivers/staging/media/tegra-video/tegra20.c   | 649 ++++++++++++++++++
->  drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
->  drivers/staging/media/tegra-video/vi.c        | 321 ++-------
->  drivers/staging/media/tegra-video/vi.h        |  76 +-
->  drivers/staging/media/tegra-video/video.c     |   5 +
->  drivers/staging/media/tegra-video/video.h     |   2 +-
->  drivers/staging/media/tegra-video/vip.c       | 298 ++++++++
->  drivers/staging/media/tegra-video/vip.h       |  72 ++
->  16 files changed, 1425 insertions(+), 288 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
->  create mode 100644 drivers/staging/media/tegra-video/tegra20.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.h
-> 
+> diff --git a/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml b/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml
+> index 4dc5205d893b..0ba3f6a0b474 100644
+> --- a/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml
+> +++ b/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml
+> @@ -40,6 +40,51 @@ properties:
+>    '#phy-cells':
+>      const: 0
+>  
+> +  interrupts:
+> +    items:
+> +      description: P2U interrupt for Gen4 lane margining functionality.
+
+typo: merging?
+
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: intr
+
+Drop entire property, not really useful.
+
+> +
+> +  nvidia,bpmp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: Must contain a pair of phandles to BPMP controller node followed by P2U ID.
+> +    items:
+> +      - items:
+> +          - description: phandle to BPMP controller node
+> +          - description: P2U instance ID
+> +            maximum: 24
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra194-p2u
+> +    then:
+> +      required:
+> +        - reg
+> +        - reg-names
+> +        - '#phy-cells'
+
+That's not how it should be done. You have only two variants here, so
+add a "required:" block with above and only one if:then: clause for
+interrupts and nvidia,bpmp.
+
+Requiring reg/reg-names/phy-cells should be in separate patch with its
+own reasoning.
+
+
+Best regards,
+Krzysztof
 
