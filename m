@@ -2,145 +2,322 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55142640721
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Dec 2022 13:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 134B5640892
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Dec 2022 15:37:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233197AbiLBMtM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Dec 2022 07:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47806 "EHLO
+        id S229502AbiLBOhj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Dec 2022 09:37:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232705AbiLBMtI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Dec 2022 07:49:08 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD018DC869;
-        Fri,  2 Dec 2022 04:49:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PZJFH+vKYj7I/Q5cIb3DY4/mIAVsPGKjDtyIxR1QLm+WlqaQL/3KN4TjIxzsNl1TWx57Bdt9bwnYarK2zHHyrBFGH5ujkpsrdld8uSBsLn1x7xPdYhBTUl/B/8JhrimuccUrYKqEHxbTEyElQU1RW31FmnjZLbZa4mW2TLhbdI3d4wxuP0ujVVjLbRwarHORMAuTZAKtqm04frX2xg1L3Lk+O9UG/KAzjqHTVDr1gQnLnTRIA7VeZ0Y8ublK6pjn+k+UKSCiSrO7ifeUKSF/pAknp35DUrZfeV6L1Z+LaU5s3CTryK+ec4MWlFhfIkawqAktQWVYRxY7Iyj9eP8xBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zuaikIznK3jfr1VCd6A7joh07Sq2m60IbSz6ZBkDlCU=;
- b=a5PD0NWtHaa74ZAYsNpnaHV/ZgEc3GnYicuGvshm4QMCJZK3n72Iqm5IzrALG3RKQsuD6WEeT6A3sRW8drnQTP//vg2vonzNYnQUgrbfnyNn2nsLzRMfSww5vCwzdHzy156RLBiTrC7O/5zJkP4rX/1WdP3o3TBnhNH55a+zx0CCg9o/OKFMyA+rmVAtuhPmvfI7d4CdRgoYGvarO4rdRm5cY9KzdDn6+aZMJhAGCHeh9sZpx2Bs9y6Q2wyeS/z/YbTXPpu40cbvMxs1vwNApGP2zKltekrLp1QjSOBUtRoaTEUgEF5h8eVsjHZzWOBTwCgkeoBLp7M3ZBEqc9PIvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuaikIznK3jfr1VCd6A7joh07Sq2m60IbSz6ZBkDlCU=;
- b=gcbVHObZ3pJSYJJeg0iP58qidiURdTEqXps7uysRBEA2qTKE71nyim/Mia8lTXxYsb4MEtVh+wUgPLxW3Y6rI+RXiePOguKEbO9pLchV25Tj6eHVKkxiuh9PwAsYAU0ecp/Q/MPCzU6D6jsYAAJJnctdjxfV+DdHwMV9zyzjQO91IFrvG4QyayrUqTXrdiGzz5/OH3+L1bjzbr2z68DQ/j+2jSUF5BisKOF1iSca1Hw1YqN4n/rtFo5ZYrDa6IxWO+LSdNalCHVTYde14jS6BfK67wzR8SpKOc2+0wFhSzf/KXZ8ZLuHhpoNJnszxbsJ3aArigwiWnIopQSMDNr5eQ==
-Received: from DM5PR07CA0108.namprd07.prod.outlook.com (2603:10b6:4:ae::37) by
- CH2PR12MB4184.namprd12.prod.outlook.com (2603:10b6:610:a7::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5880.8; Fri, 2 Dec 2022 12:49:02 +0000
-Received: from DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:ae:cafe::93) by DM5PR07CA0108.outlook.office365.com
- (2603:10b6:4:ae::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
- Transport; Fri, 2 Dec 2022 12:49:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DM6NAM11FT009.mail.protection.outlook.com (10.13.173.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5857.20 via Frontend Transport; Fri, 2 Dec 2022 12:49:02 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 2 Dec 2022
- 04:49:00 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 2 Dec 2022
- 04:48:59 -0800
-Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36 via Frontend
- Transport; Fri, 2 Dec 2022 04:48:59 -0800
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
-        <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
-        <rwarsow@gmx.de>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 6.0 000/280] 6.0.11-rc2 review
-In-Reply-To: <20221201131113.897261583@linuxfoundation.org>
-References: <20221201131113.897261583@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S232038AbiLBOhj (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Dec 2022 09:37:39 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C8F25E0;
+        Fri,  2 Dec 2022 06:37:36 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id h4-20020a1c2104000000b003d0760654d3so5192658wmh.4;
+        Fri, 02 Dec 2022 06:37:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jC6vYmHZlOprUlpnLMqFysjiPAVXh21XNPM4ynQXCDY=;
+        b=ietSvAUrLth+t0R+nc4ixCzn/qh8qt++AMGX2loy/vL9pkx0FpoNlaR5MCP8dx3ItT
+         D8s+MSR1ONl0JhcRQFmb+YxBB4Gdi/dPctVv6EStnzH5CWjPaREWbD4zYvhNU1XH/FEQ
+         Xd7c5GMsGNF8IG5DNM822Fik9BdAa4dhm4zhjt2VXm2IYAmrclvWB0O7lSXrs4wEjWPn
+         D2c/47JQCPE9DcQVdGgTx5x/00YALCc2afwIUGNLZUhpOQFIcKlfmtRT511bIRIcv9nl
+         ulYua/BgyMIYGsDIT1Hx7DPViQfYVDv8kle+hhEsz+021AOEtDYpI0rdE1WMcqD2dM3m
+         W1vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jC6vYmHZlOprUlpnLMqFysjiPAVXh21XNPM4ynQXCDY=;
+        b=naNWhpL/ncNDzXgc3Bn23Vx+uEB3YmmYZS2hn8MDXNlKAPt5/ykCCkdFeQLgUQrqjE
+         v+nMfDtwbenoJeZFYgW02kqF//51qL1g11MQF6WSxY+LjOCiy7ICfSWHzMoX7JsWAqgo
+         nF6MwMVCyKgHZkGJv4Fn5+GEjU2vGznBvnl+dVoRxCgdmxYMKVNM28mFLWSKYdrx6Lgv
+         tttv5ij8t+VMGCnq8/zkxvNlCB49thlWC7u72cPMQHaqyConGRJ//gjUdwbvRW22GlWt
+         FK+nnHKZpfZgXpx2cXowHxee8DcGGGR5ntx8HFMmPhCnDPkBOkrCFYz8L+spTrthZB1M
+         YDIw==
+X-Gm-Message-State: ANoB5pnjZSfcu/TNTBazKkq37zugOINr4Vh74TcX+eUVk5rO7O8CtvL/
+        Bg9TP1GBJrkRd9kaOw04bSIl0ULWFf8=
+X-Google-Smtp-Source: AA0mqf4EjSy7EEunpV07jBxCO5DnpW94nJlCI10IF2GIDt6jbzlgD25xftYCJB5Ci5wl/rAHI8XSXA==
+X-Received: by 2002:a1c:6a13:0:b0:3cf:7801:c780 with SMTP id f19-20020a1c6a13000000b003cf7801c780mr53015523wmc.29.1669991854412;
+        Fri, 02 Dec 2022 06:37:34 -0800 (PST)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id j33-20020a05600c1c2100b003b4ff30e566sm15247155wms.3.2022.12.02.06.37.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Dec 2022 06:37:33 -0800 (PST)
+Date:   Fri, 2 Dec 2022 15:37:31 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, asahi@lists.linux.dev,
+        Frank Rowand <frowand.list@gmail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v12 3/4] iommu: Implement of_iommu_get_resv_regions()
+Message-ID: <Y4oNq7bZGrmZ7Hvd@orome>
+References: <20221117185424.2359687-1-thierry.reding@gmail.com>
+ <20221117185424.2359687-4-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Message-ID: <9faca91e-0b7d-4343-869d-ffc0053e5273@rnnvmail204.nvidia.com>
-Date:   Fri, 2 Dec 2022 04:48:59 -0800
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT009:EE_|CH2PR12MB4184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ea8d56e-563c-47cf-857f-08dad46396f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HHbnImyxgFSpx5TM/bxVqf/yRissWwE9DG2VZOYxUZ1isSbDC5mRLNocyRBg3/wPlMSqeOoUDCJ/8z/kWfz6R31kPW9ZnwSgfw6vUQlQI68DeyoK3Fegd/i4KWf5MguClG448UMAbNIIX+L+EXRTDFbQTKEXO0PXf4iswRhPjopKShWUdJG3fd4W8qqg/yMBdXUziXCLBnfKBb2AWhw2nJ8Jy5eF5CUAGPYb2PjAPFq2Q1dD1OnNbC5kyNW+viDpKLHs1SsQaBc9GcgW7kr4BEWYh+lTivtMBdTM3VYNqdkb4xzRtk+M69PrxGpNwjbbs6g4H7/wlhVjjotC5caT80BHioeR+9nq86w/WSCiNBiQgeSfQnz76pjks+qd21PpxExR+AXN08SZ6/66/erQ0/G3IDpnODxfOiw/gqCwnyPve5i136CYOhOhHXON3vF2TEE+FNUOryCkGvc7Si45yFoKTv+TyaDMXJgHOYVxB+aSJ8gebGuQhWjItUUGTGYEiDDvpsGyvVoLg9OYwiiZUIBT7GqfOqsV8GdGgy9Cmh+I/zf43jJJMZTePolRqpRgURQmeSPH31xEIhsa6rwJXcq5TOK1TkjVVr6VwiN0trEglabdTRf4lenL90NjMAwz2/4k7dL+XflbuPEeRNESymeAAep/Jbd/XVsz7c1JzCRdP6aJ0jzrTMW4R8MHB1I+t+AY2W1QR1g/xpTiKWQ8gE//tmsYnpiLkJ0HYUF863D9n3bz8de73Ghb7VXMfbjDihzBEiZVTtApfLf3F/8g6FQnWxbH+qaTfwJ43UvOCpA=
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(396003)(346002)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(7636003)(356005)(40480700001)(86362001)(40460700003)(966005)(31696002)(478600001)(70586007)(7416002)(8936002)(41300700001)(5660300002)(316002)(4326008)(6916009)(8676002)(2906002)(54906003)(36860700001)(70206006)(82310400005)(336012)(82740400003)(186003)(26005)(47076005)(426003)(31686004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 12:49:02.4136
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ea8d56e-563c-47cf-857f-08dad46396f0
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4184
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uP83EJqHt8cZ6GFS"
+Content-Disposition: inline
+In-Reply-To: <20221117185424.2359687-4-thierry.reding@gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 01 Dec 2022 14:11:47 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 6.0.11 release.
-> There are 280 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sat, 03 Dec 2022 13:10:41 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v6.x/stable-review/patch-6.0.11-rc2.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-6.0.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
 
-All tests passing for Tegra ...
+--uP83EJqHt8cZ6GFS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Test results for stable-v6.0:
-    11 builds:	11 pass, 0 fail
-    28 boots:	28 pass, 0 fail
-    130 tests:	130 pass, 0 fail
+On Thu, Nov 17, 2022 at 07:54:23PM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> This is an implementation that IOMMU drivers can use to obtain reserved
+> memory regions from a device tree node. It uses the reserved-memory DT
+> bindings to find the regions associated with a given device. If these
+> regions are marked accordingly, identity mappings will be created for
+> them in the IOMMU domain that the devices will be attached to.
+>=20
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: devicetree@vger.kernel.org
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v10:
+> - extract more code into the new iommu_resv_region_get_type() function
+> - rename variables for physical and I/O virtual addresses for clarity
+> - default to IOMMU_RESV_DIRECT instead of IOMMU_RESV_DIRECT_RELAXABLE
+> - use newly introduced of_translate_dma_region()
+>=20
+> Changes in v9:
+> - address review comments by Robin Murphy:
+>   - warn about non-direct mappings since they are not supported yet
+>   - cleanup code to require less indentation
+>   - narrow scope of variables
+>=20
+> Changes in v8:
+> - cleanup set-but-unused variables
+>=20
+> Changes in v6:
+> - remove reference to now unused dt-bindings/reserved-memory.h include
+>=20
+> Changes in v5:
+> - update for new "iommu-addresses" device tree bindings
+>=20
+> Changes in v4:
+> - fix build failure on !CONFIG_OF_ADDRESS
+>=20
+> Changes in v3:
+> - change "active" property to identity mapping flag that is part of the
+>   memory region specifier (as defined by #memory-region-cells) to allow
+>   per-reference flags to be used
+>=20
+> Changes in v2:
+> - use "active" property to determine whether direct mappings are needed
+>=20
+>  drivers/iommu/of_iommu.c | 94 ++++++++++++++++++++++++++++++++++++++++
+>  include/linux/of_iommu.h |  8 ++++
+>  2 files changed, 102 insertions(+)
 
-Linux version:	6.0.11-rc2-g7a60d1d7c4cd
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
-                tegra20-ventana, tegra210-p2371-2180,
-                tegra210-p3450-0000, tegra30-cardhu-a04
+Hi Robin,
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+can you take a look at this to see if all your concerns have now been
+addressed?
 
-Jon
+Thanks,
+Thierry
+
+> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+> index 5696314ae69e..fa7c63a4abbf 100644
+> --- a/drivers/iommu/of_iommu.c
+> +++ b/drivers/iommu/of_iommu.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/module.h>
+>  #include <linux/msi.h>
+>  #include <linux/of.h>
+> +#include <linux/of_address.h>
+>  #include <linux/of_iommu.h>
+>  #include <linux/of_pci.h>
+>  #include <linux/pci.h>
+> @@ -172,3 +173,96 @@ const struct iommu_ops *of_iommu_configure(struct de=
+vice *dev,
+> =20
+>  	return ops;
+>  }
+> +
+> +static enum iommu_resv_type iommu_resv_region_get_type(struct device *de=
+v, struct resource *phys,
+> +						       phys_addr_t start, size_t length)
+> +{
+> +	phys_addr_t end =3D start + length - 1;
+> +
+> +	/*
+> +	 * IOMMU regions without an associated physical region cannot be
+> +	 * mapped and are simply reservations.
+> +	 */
+> +	if (phys->start >=3D phys->end)
+> +		return IOMMU_RESV_RESERVED;
+> +
+> +	/* may be IOMMU_RESV_DIRECT_RELAXABLE for certain cases */
+> +	if (start =3D=3D phys->start && end =3D=3D phys->end)
+> +		return IOMMU_RESV_DIRECT;
+> +
+> +	dev_warn(dev, "treating non-direct mapping [%pr] -> [%pap-%pap] as rese=
+rvation\n", &phys,
+> +		 &start, &end);
+> +	return IOMMU_RESV_RESERVED;
+> +}
+> +
+> +/**
+> + * of_iommu_get_resv_regions - reserved region driver helper for device =
+tree
+> + * @dev: device for which to get reserved regions
+> + * @list: reserved region list
+> + *
+> + * IOMMU drivers can use this to implement their .get_resv_regions() cal=
+lback
+> + * for memory regions attached to a device tree node. See the reserved-m=
+emory
+> + * device tree bindings on how to use these:
+> + *
+> + *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.t=
+xt
+> + */
+> +void of_iommu_get_resv_regions(struct device *dev, struct list_head *lis=
+t)
+> +{
+> +#if IS_ENABLED(CONFIG_OF_ADDRESS)
+> +	struct of_phandle_iterator it;
+> +	int err;
+> +
+> +	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
+> +		const __be32 *maps, *end;
+> +		struct resource phys;
+> +		int size;
+> +
+> +		memset(&phys, 0, sizeof(phys));
+> +
+> +		/*
+> +		 * The "reg" property is optional and can be omitted by reserved-memor=
+y regions
+> +		 * that represent reservations in the IOVA space, which are regions th=
+at should
+> +		 * not be mapped.
+> +		 */
+> +		if (of_find_property(it.node, "reg", NULL)) {
+> +			err =3D of_address_to_resource(it.node, 0, &phys);
+> +			if (err < 0) {
+> +				dev_err(dev, "failed to parse memory region %pOF: %d\n",
+> +					it.node, err);
+> +				continue;
+> +			}
+> +		}
+> +
+> +		maps =3D of_get_property(it.node, "iommu-addresses", &size);
+> +		if (!maps)
+> +			continue;
+> +
+> +		end =3D maps + size / sizeof(__be32);
+> +
+> +		while (maps < end) {
+> +			struct device_node *np;
+> +			u32 phandle;
+> +
+> +			phandle =3D be32_to_cpup(maps++);
+> +			np =3D of_find_node_by_phandle(phandle);
+> +
+> +			if (np =3D=3D dev->of_node) {
+> +				int prot =3D IOMMU_READ | IOMMU_WRITE;
+> +				struct iommu_resv_region *region;
+> +				enum iommu_resv_type type;
+> +				phys_addr_t iova;
+> +				size_t length;
+> +
+> +				maps =3D of_translate_dma_region(np, maps, &iova, &length);
+> +				type =3D iommu_resv_region_get_type(dev, &phys, iova, length);
+> +
+> +				region =3D iommu_alloc_resv_region(iova, length, prot, type,
+> +								 GFP_KERNEL);
+> +				if (region)
+> +					list_add_tail(&region->list, list);
+> +			}
+> +		}
+> +	}
+> +#endif
+> +}
+> +EXPORT_SYMBOL(of_iommu_get_resv_regions);
+> diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
+> index 55c1eb300a86..9a5e6b410dd2 100644
+> --- a/include/linux/of_iommu.h
+> +++ b/include/linux/of_iommu.h
+> @@ -12,6 +12,9 @@ extern const struct iommu_ops *of_iommu_configure(struc=
+t device *dev,
+>  					struct device_node *master_np,
+>  					const u32 *id);
+> =20
+> +extern void of_iommu_get_resv_regions(struct device *dev,
+> +				      struct list_head *list);
+> +
+>  #else
+> =20
+>  static inline const struct iommu_ops *of_iommu_configure(struct device *=
+dev,
+> @@ -21,6 +24,11 @@ static inline const struct iommu_ops *of_iommu_configu=
+re(struct device *dev,
+>  	return NULL;
+>  }
+> =20
+> +static inline void of_iommu_get_resv_regions(struct device *dev,
+> +					     struct list_head *list)
+> +{
+> +}
+> +
+>  #endif	/* CONFIG_OF_IOMMU */
+> =20
+>  #endif /* __OF_IOMMU_H */
+> --=20
+> 2.38.1
+>=20
+
+--uP83EJqHt8cZ6GFS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmOKDakACgkQ3SOs138+
+s6FlSxAAq5gWDsz/6v2mXHjiXDx0XkZ85ofrfSX3o6+tAviMiToIwE36lsIaPzpI
+ZFaVu8XbZ5pDkLft9AjYxn7P+aC1VaqXjJ45CJGdq+nBrWuc+g8x2mvfIFfg/frg
+5WgRJkaaLcgGWYctl98zcBMKu73jNOVSiW5qM+TjUBEG78T8f5purUWeDEwOooIm
+HSXYbWM3IbJZK3kKwB/Osydj2+7Xv8AHuI6T6fsHmmqGMy8qwV9Qo3abaQu8X9yu
+ze6ianVSLzeW1nj+fTSDTewqW0/9QY/GhTz5SsZ1SjgYhqZuGt1JU3eCuHQZYtbA
+Bteag/ePfM1TLGkZbMSYlK77G3koXW3/Gu6DjIqXGlJF40UJWY3tw3CEGLCYVJ0O
+YTWSVToylHIHMD0eeB7P0E1B35Ngw9AWYKTCxOKbNQsH8VSyV5gb6YZm07J9XqR1
+DvUir5JMZ8GSNp/m1bNaED1yJpEltKFE2Wfqw70N6uJrKRh07FeBE9IAsOwByyM/
+OuN3DPHfpZSob6CwEB9Ygo7IvwDwokMgnW0dvcgRKp11fBPfFnQphP1xNyw+GaeA
+c0orYBcwi0MCD3S2uTyVMV+HEliz6eUodyoHcOSLpGmnJZ5/ysvc1w92r70aWsTH
+EOVzZ4RqZVZpXbTRLVVoSyPrSTEtdMS1FhmYO1auric0vHFU0p8=
+=eCh8
+-----END PGP SIGNATURE-----
+
+--uP83EJqHt8cZ6GFS--
