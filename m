@@ -2,77 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86719642DB3
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Dec 2022 17:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E421642E0F
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Dec 2022 18:00:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232516AbiLEQuk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Dec 2022 11:50:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47484 "EHLO
+        id S230154AbiLERAO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Dec 2022 12:00:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232575AbiLEQt4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Dec 2022 11:49:56 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08EF2BC8A
-        for <linux-tegra@vger.kernel.org>; Mon,  5 Dec 2022 08:49:14 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so10560628wms.0
-        for <linux-tegra@vger.kernel.org>; Mon, 05 Dec 2022 08:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=Z2wBWagY9UnEZ+M5YPDdGkg6nVUsQfYS1BhjpcwGEao2GhG01+Mm/qvV+1fKOq1lbu
-         EFS78qR+UGfEwXQVt6IRXk6jTGT8mo+KAwwjj0fZxBmjE1jztugOoJP4/rka0x6XFhxu
-         W6iUCvsIDO6eHcdCHFvdIDlIVpJCsES5SD3xSnapoHClZmLcHlXbjXoeix+TX99ab7ry
-         BqOOHDFzUlmJeyU3OvUitATOsPkFA0DOczbi/Afsjm9NHI/YtApk72ny0qjFhFTXO+XP
-         yKXAtBeMHMlIwSKvmuRpEfOfWiK9b959mo8P7Fx64Ot+uHxQXUUrd10S+RG2s/yWLOX2
-         BSUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=Bsk5GHqvaT9yxsH33gECdoAQYW0mho4q2bQITaAiykXp0HoX2Seg80y8GEk3bN55Ih
-         wJMTlQsY6Pt4Y30vTrYOOUhhr/Y3nXwaTRIcWDHufzgJBkPMReB+onPbA0MzZLiamKta
-         pYXEkNfXnW9M+/N0JSkZACgC1jbLwXrtRPfbKu44L3qaO8jWOg1ZnuW2cSMrOYuqqIsj
-         HtSNIt4u/5EhsgWEzH0rm4jGOzGoYjpHjKFrqq2Hfw6juS41h3fNPbY/MnDL7GNAyxqI
-         5A0hNGsUzIIFzaodh37mE034616DWrolDpBpkuNZQPnKAb3MdkPjx17Q/+ZvcdiVr7TR
-         Ei7A==
-X-Gm-Message-State: ANoB5pmIZTzJ+4KRhC9jrBi5zN+p4hzVAtuuEsqhAAGADtUII0lWZw04
-        KsZ117Gz1bCfeyT704hsM+XgO/HliOXiqjuLlMHS7GXXXhU=
-X-Google-Smtp-Source: AA0mqf6LlThRqxALxahU+d5CDCL5XgA0Iri4oQFEx6hETTBFBZxUw9iI5CXyM5b3WvWotoaM22oBvK+CwFtVO/zgxX4=
-X-Received: by 2002:a7b:c8d0:0:b0:3cf:ca91:7094 with SMTP id
- f16-20020a7bc8d0000000b003cfca917094mr60628535wml.24.1670258943314; Mon, 05
- Dec 2022 08:49:03 -0800 (PST)
+        with ESMTP id S231839AbiLERAK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Dec 2022 12:00:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72C25DF60;
+        Mon,  5 Dec 2022 09:00:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E302611E2;
+        Mon,  5 Dec 2022 17:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B7A6C43149;
+        Mon,  5 Dec 2022 17:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670259606;
+        bh=n1tNuBxJl22jRV6QaxMEbZMS84zoN2ML70kUJauH5W8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cYrpcAW6X7bZJmUk4REzq31fe5g1ks4ZXnxngkPmCgWzb81XUjyBfR9YhvK4ado9S
+         9eEVOIHBt53gNS5aC1CZKBLtdkHgIRPz4tPxibk1wS5Tq0q9rCLokr42tqH+QUnyLU
+         DCrtmFM1QUmRfUQeq1n/u/GCYvEke1OHTrwXIbr4znzrx9Swoybys2neS3dAU/Rds4
+         7VoJQQW1B6K2qndyYWRk/MzA/wc4emCdOVnFW/GOF/cWlr9kCkVPJkeQQ+NUoQeXiv
+         DLTjH2GqCc44zMXzdWWYXxWBMrQ+IojnQjTxqrkeJpP+e9PWofCZLpxEdvd/DLkiVs
+         GaEz1d9v3J/gg==
+Received: by mail-vk1-f172.google.com with SMTP id bi15so5590005vkb.11;
+        Mon, 05 Dec 2022 09:00:06 -0800 (PST)
+X-Gm-Message-State: ANoB5pl6TqmQAzgY6KYvMbTpxX0vGENmJ3yRlrC4nq4Pce0PlJVk0AqF
+        VHvuQM974HKVhVOJgyXtgHiPo8YAJRTCf0/AYA==
+X-Google-Smtp-Source: AA0mqf7cT6MONVFTUtdo3Q9sJ7pbfQxVT3ByTs0BM06UEq5l9z+p6SfDRPcgGT9jaeApv/S7UUb/fu3WDMvBdZQxS3I=
+X-Received: by 2002:a1f:9110:0:b0:3bc:fc56:597 with SMTP id
+ t16-20020a1f9110000000b003bcfc560597mr15575139vkd.14.1670259605174; Mon, 05
+ Dec 2022 09:00:05 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6000:5c1:0:0:0:0 with HTTP; Mon, 5 Dec 2022 08:49:02
- -0800 (PST)
-Reply-To: phmanu14@hotmail.com
-From:   Philip Manul <zagbamdjala@gmail.com>
-Date:   Mon, 5 Dec 2022 08:49:02 -0800
-Message-ID: <CAPCnorG0wZz4L65xmUUzHEvxvuhrsq0nQnSPJqno3Ah89AhSwA@mail.gmail.com>
-Subject: REP:
-To:     in <in@proposal.net>
+References: <20221117185424.2359687-1-thierry.reding@gmail.com> <Y4oOg5nSBPBieArv@orome>
+In-Reply-To: <Y4oOg5nSBPBieArv@orome>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 5 Dec 2022 10:59:53 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLLz5hRVrNw0QaQiv2Xyq4ueFkMLZnxncF6JkbCgZWhNA@mail.gmail.com>
+Message-ID: <CAL_JsqLLz5hRVrNw0QaQiv2Xyq4ueFkMLZnxncF6JkbCgZWhNA@mail.gmail.com>
+Subject: Re: [PATCH v12 0/4] iommu: Support mappings/reservations in
+ reserved-memory regions
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=20
-Guten tag,
-Mein Name ist Philip Manul. Ich bin von Beruf Rechtsanwalt. Ich habe
-einen verstorbenen Kunden, der zuf=C3=A4llig denselben Namen mit Ihnen
-teilt. Ich habe alle Papierdokumente in meinem Besitz. Ihr Verwandter,
-mein verstorbener Kunde, hat hier in meinem Land einen nicht
-beanspruchten Fonds zur=C3=BCckgelassen. Ich warte auf Ihre Antwort zum
-Verfahren.
-Philip Manul.
+On Fri, Dec 2, 2022 at 8:41 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Thu, Nov 17, 2022 at 07:54:20PM +0100, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >
+> > Hi,
+> >
+> > This version is a minor update to the previous v11, which can be found
+> > here:
+> >
+> >   https://lore.kernel.org/all/20221111161806.630527-1-thierry.reding@gmail.com/
+> >
+> > The only change here is that the #dma-{address,size}-cells is dropped.
+> > It turns out to be much simpler to just update #{address,size}-cells to
+> > what they should be rather than add extra complexity for the DMA work-
+> > around. There's a minor update to the DT binding so that it can now
+> > properly validate cases where we have both reg and iommu-addresses
+> > properties.
+> >
+> > An example is included in the DT bindings, but here is an extract of
+> > what I've used to test this:
+> >
+> >         reserved-memory {
+> >                 #address-cells = <2>;
+> >                 #size-cells = <2>;
+> >                 ranges;
+> >
+> >                 /*
+> >                  * Creates an identity mapping for the framebuffer that
+> >                  * the firmware has setup to scan out a bootsplash from.
+> >                  */
+> >                 fb: framebuffer@92cb2000 {
+> >                         reg = <0x0 0x92cb2000 0x0 0x00800000>;
+> >                         iommu-addresses = <&dc0 0x0 0x92cb2000 0x0 0x00800000>;
+> >                 };
+> >
+> >                 /*
+> >                  * Creates a reservation in the IOVA space to prevent
+> >                  * any buffers from being mapped to that region. Note
+> >                  * that on Tegra the range is actually quite different
+> >                  * from this, but it would conflict with the display
+> >                  * driver that I tested this against, so this is just
+> >                  * a dummy region for testing.
+> >                  */
+> >                 adsp: reservation-adsp {
+> >                         iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00010000>;
+> >                 };
+> >         };
+> >
+> >         host1x@50000000 {
+> >                 dc@54200000 {
+> >                         memory-region = <&fb>, <&adsp>;
+> >                 };
+> >         };
+> >
+> > This is abbreviated a little to focus on the essentials. Note also that
+> > the ADSP reservation is not actually used on this device and the driver
+> > for this doesn't exist yet, but I wanted to include this variant for
+> > testing, because we'll want to use these bindings for the reservation
+> > use-case as well at some point.
+> >
+> > I've also been able to make use of this binding and the IOMMU code in
+> > conjunction with the simple-framebuffer driver to hand over a display
+> > configuration set up by UEFI to the Linux kernel.
+> >
+> > Janne has confirmed[0] this to be suitable for indirect mappings as
+> > well, though these patches don't implement that feature yet. Potential
+> > extensions to this have been discussed but are not yet included at this
+> > time to not further complicate things.
+> >
+> > Thierry
+> >
+> > [0]: https://lore.kernel.org/all/20220909144504.GA4024@jannau.net/
+> >
+> > Thierry Reding (4):
+> >   of: Introduce of_translate_dma_region()
+> >   dt-bindings: reserved-memory: Document iommu-addresses
+> >   iommu: Implement of_iommu_get_resv_regions()
+> >   iommu: dma: Use of_iommu_get_resv_regions()
+> >
+> >  .../reserved-memory/reserved-memory.yaml      | 89 +++++++++++++++++-
+> >  drivers/iommu/dma-iommu.c                     |  3 +
+> >  drivers/iommu/of_iommu.c                      | 94 +++++++++++++++++++
+> >  drivers/of/address.c                          | 41 ++++++++
+> >  include/linux/of_address.h                    |  2 +
+> >  include/linux/of_iommu.h                      |  8 ++
+> >  6 files changed, 233 insertions(+), 4 deletions(-)
+>
+> Joerg, Rob,
+>
+> Is there anything left to do on the series? It'd be great to get some
+> feedback from Robin on patch 3 since he had some concerns about how the
+> reservation type was getting determined. All those should now be
+> addressed and I think overall this is ready to go.
+>
+> Rob, you've given a Reviewed-by on all the DT-related parts, does that
+> mean you're okay with this going through Joerg's tree?
+
+Yes. Okay with and what I'm expecting.
+
+Rob
