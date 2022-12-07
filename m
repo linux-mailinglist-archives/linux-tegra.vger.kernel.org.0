@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6665645793
-	for <lists+linux-tegra@lfdr.de>; Wed,  7 Dec 2022 11:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A339645798
+	for <lists+linux-tegra@lfdr.de>; Wed,  7 Dec 2022 11:23:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbiLGKXI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 7 Dec 2022 05:23:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49984 "EHLO
+        id S230054AbiLGKXO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 7 Dec 2022 05:23:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230410AbiLGKXF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Dec 2022 05:23:05 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFFE7186CF
-        for <linux-tegra@vger.kernel.org>; Wed,  7 Dec 2022 02:23:03 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id h10so20344614ljk.11
-        for <linux-tegra@vger.kernel.org>; Wed, 07 Dec 2022 02:23:03 -0800 (PST)
+        with ESMTP id S230359AbiLGKXH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Dec 2022 05:23:07 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608A216488
+        for <linux-tegra@vger.kernel.org>; Wed,  7 Dec 2022 02:23:06 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id bp15so27910327lfb.13
+        for <linux-tegra@vger.kernel.org>; Wed, 07 Dec 2022 02:23:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NxOwaXNbTiEohgYyBqos3ms0rULNHpJBLRwyMfOuuH0=;
-        b=NtKUk2m1h3tLka81IoJVoYRO3XnaUNp+OqGVpu2UIcDW9+4BaG8iIZFmn/vtIjuTqi
-         V4+WX4tk+TwKIvxxQWDijQxly9/gd6KSixNCxktzJkBLGftbVPRtuGBJBJZKOT2BRvpq
-         WQyIFgXaeLdSnCBUAFJB6fdBC44QK0SZOP6rCHfdL5PRyW0mNbIWRuF3goCn15W+GkaY
-         oKboGUhxZwqjHwmQDc5U7yUDwNaEM9y3el52V+V604DZkpjjsyukn1yOulYSUhnatiD+
-         ki4VLvjYWaIqEqHMYS9EwMBeukSVaaP/ZPe0tkSMGvnLG9AADxtjgyREr08Di6iZ1cJv
-         jXqA==
+        bh=d5ptnyM8tU9KK9vuHrqJhLp9kBHzmtP8NOjNL98W6O0=;
+        b=kwnECpHYYs2dljETpxBP82ebzWcB8+wP08KcpTW0mTbgigX6RffI70K/KhpLO/YDC2
+         6DwfcxArNz6QB+WP8rHiDiRyFxCJlWR4KIL0b5P82ylwXg++5M3rZhjXdHiiXenylfhh
+         WHGDlw16wENi7DG/Sin7l0bUZZT73PHBprW595DmdPO4nQRLmk9Hzom9bLKpofnmbhu1
+         7eeohVs98jGdxiVle7XGMFdI+y4jxV+npBwZjmRSfJFJNx67uycw7h98J5ThbGjBDaJg
+         KFTspp95uosj6pXTZxb2sC4/FEUjUWOCO/8FUs5ZSXmYLlNvJY4ndBIiWMWqIYdxGArH
+         cL5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NxOwaXNbTiEohgYyBqos3ms0rULNHpJBLRwyMfOuuH0=;
-        b=N/hL1dV5oVl+UT2S9IxRg7/u8ybom9CEHGPmWmf4eoSmQkp47vyxSnrq8xwCUiAbSK
-         GoWkrppYF8ou83NXFAJQtHVQrGVPe/LUmE4FlRQxRDMM8I9DjtPz41ZGsiaIUToDSTmv
-         2hfbHy1o+rVVT1bje9izG1vkLG/ypB/CfkurVeAPH0IyeQMgtX/SyYK0SlIYi+cdj4zl
-         m5RTtUpVIM4L28E0TaBbm3vAZgOmWsj2hnJYw7C77Lc5i4szdihbO5nyVVrAZMuysPp9
-         wsfVbsvq2Pw9OFEUo8321Uo8+uWSDBiIDn6MwsOoAUvjB3DkFMYwHLKYrxWisML4vvHC
-         DZwA==
-X-Gm-Message-State: ANoB5plXJKF24+MdG9PtMhmIgBaTJvxltAsCgM8XwZfOkywXiPSuXFsl
-        Y/9yyg2fhd7JjSjEUllaM5fAdw==
-X-Google-Smtp-Source: AA0mqf6kl71n3zxYJOrPVwuyZZp4Mf3tgmyBuSLPs/1nIQLPZ1sv2HBeaCPNbpwVi7Vl5Oxm8OdFqQ==
-X-Received: by 2002:a2e:b88f:0:b0:277:f46:617b with SMTP id r15-20020a2eb88f000000b002770f46617bmr26983808ljp.221.1670408583209;
-        Wed, 07 Dec 2022 02:23:03 -0800 (PST)
+        bh=d5ptnyM8tU9KK9vuHrqJhLp9kBHzmtP8NOjNL98W6O0=;
+        b=oUsHTe7n67NFcrLJjTscoK9d9MmSrHkOqkO8dNt0CU/E3XLeSMQWKzPgPkWjAnBKko
+         5l7ZgDaoG/GEdubbsg6GZRaN+lWEYgoZlgbK7BH6jQrYVx5IfvRrPgz9gsg/jNWcnmAd
+         raFCxMMu6hT9kPgg7IJYB4D/FIZtgRRGlMHIH3Cs6OYcv2FGQ0sF5osD1RZhYGhFfoal
+         qT2vSwZ0uP4ZjkyxMpCU7e5e82GtsfDGjtqV6kyd5l/3RY3MH7UuMItqjFumBpKUXKXf
+         Hf8hLQkzgGcz2gXcxSySkurT2RauVtBxQoJ4WYXOeMHFb5FP06Z9zaT5pkHvesmaSuPF
+         iZag==
+X-Gm-Message-State: ANoB5pmCLwODBD+LgzOYohRXj/A1jh5cnLIGPfgPwHda6nzC/dnTtPJf
+        3+uxIh1+oXa/Qi1Bva0HzxQl5g==
+X-Google-Smtp-Source: AA0mqf4r7f2xeXn7yaYoPkPuO7SMWpWfTPrwG1RH+SDYe9rX4EhYS8TzE8+PgGnMNg3pkiB3apXW2A==
+X-Received: by 2002:ac2:5e8e:0:b0:4b5:9370:d084 with SMTP id b14-20020ac25e8e000000b004b59370d084mr573180lfq.527.1670408584717;
+        Wed, 07 Dec 2022 02:23:04 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id bu31-20020a056512169f00b00499b27a329esm1953183lfb.300.2022.12.07.02.23.01
+        by smtp.gmail.com with ESMTPSA id bu31-20020a056512169f00b00499b27a329esm1953183lfb.300.2022.12.07.02.23.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 02:23:02 -0800 (PST)
+        Wed, 07 Dec 2022 02:23:04 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -73,9 +73,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-stm32@st-md-mailman.stormreply.com
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 4/9] media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC properties
-Date:   Wed,  7 Dec 2022 11:22:48 +0100
-Message-Id: <20221207102253.26663-5-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 5/9] media: dt-bindings: chrontel,ch7322: reference common CEC properties
+Date:   Wed,  7 Dec 2022 11:22:49 +0100
+Message-Id: <20221207102253.26663-6-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221207102253.26663-1-krzysztof.kozlowski@linaro.org>
 References: <20221207102253.26663-1-krzysztof.kozlowski@linaro.org>
@@ -92,41 +92,61 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 Reference common HDMI CEC adapter properties to simplify the binding and
-have only one place of definition for common properties.
+have only one place of definition for common properties.  The common CEC
+binding expects also node name to be 'cec'.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../bindings/media/cec/amlogic,meson-gx-ao-cec.yaml        | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
-index f65c9681a9f7..b1fab53418f9 100644
---- a/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
-+++ b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
-@@ -33,11 +33,8 @@ properties:
-   interrupts:
+---
+
+Changes since v1:
+1. Fix node name to cec.
+---
+ .../bindings/media/i2c/chrontel,ch7322.yaml           | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+index 63e5b89d2e0b..af8ada55b3f2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+@@ -13,6 +13,9 @@ description:
+   The Chrontel CH7322 is a discrete HDMI-CEC controller. It is
+   programmable through I2C and drives a single CEC line.
+ 
++allOf:
++  - $ref: /schemas/media/cec/cec-common.yaml#
++
+ properties:
+   compatible:
+     const: chrontel,ch7322
+@@ -40,16 +43,12 @@ properties:
+       if in auto mode.
      maxItems: 1
  
+-  # see ../cec.txt
 -  hdmi-phandle:
 -    description: phandle to the HDMI controller
--    $ref: /schemas/types.yaml#/definitions/phandle
 -
- allOf:
-+  - $ref: cec-common.yaml#
-   - if:
-       properties:
-         compatible:
-@@ -81,7 +78,7 @@ required:
-   - clocks
-   - clock-names
+ required:
+   - compatible
+   - reg
+   - interrupts
  
 -additionalProperties: false
 +unevaluatedProperties: false
  
  examples:
    - |
+@@ -58,7 +57,7 @@ examples:
+     i2c {
+       #address-cells = <1>;
+       #size-cells = <0>;
+-      ch7322@75 {
++      cec@75 {
+         compatible = "chrontel,ch7322";
+         reg = <0x75>;
+         interrupts = <47 IRQ_TYPE_EDGE_RISING>;
 -- 
 2.34.1
 
