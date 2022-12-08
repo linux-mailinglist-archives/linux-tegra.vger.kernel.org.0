@@ -2,183 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C72F964659A
-	for <lists+linux-tegra@lfdr.de>; Thu,  8 Dec 2022 01:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9F1646CE0
+	for <lists+linux-tegra@lfdr.de>; Thu,  8 Dec 2022 11:33:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbiLHAE3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 7 Dec 2022 19:04:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37556 "EHLO
+        id S230033AbiLHKdM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 8 Dec 2022 05:33:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbiLHAE2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Dec 2022 19:04:28 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526A7F7B;
-        Wed,  7 Dec 2022 16:04:27 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id gh17so89474ejb.6;
-        Wed, 07 Dec 2022 16:04:27 -0800 (PST)
+        with ESMTP id S230023AbiLHKb5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 8 Dec 2022 05:31:57 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65B207F891
+        for <linux-tegra@vger.kernel.org>; Thu,  8 Dec 2022 02:31:27 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id a19so1119324ljk.0
+        for <linux-tegra@vger.kernel.org>; Thu, 08 Dec 2022 02:31:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=09yFi4TXhEKbvW2/X5YzYxYv1R9+iUTjSTTQ7wd1bnQ=;
-        b=MpQ9JnFQ/euUsZ/W8OFV4ShAxJSfk4Uj+Fh5ObXvfcEN/hxXWwIXtzZXxPTbiGdBqy
-         kZLlS8+RPqtgg0VJ6KeueqWQoJTozjN5cnJ62fiv8r/Q+wzr5w5fIZEmI6fa70uZrQ2B
-         R+OX3CaFxKJBPcEJYTazGjqI5suxpWUuLJThQgBBwiYjUnIgvet+Vzw82fBzAFNnXT3M
-         EjIP+EitzyNzXbBSNFlSjN/SroLmlxNCpVC4vc+6AINXRsI8JzOXDbpwV9pr6l+2pV9Z
-         dXVlTNiQACcV9uPWHZkK2vJThmnr3F9qx4teZOTXdLgBab+gRutVqMyqNj5Ac2TZFXxq
-         KZhw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
+        b=lYkktDDamxCqSzLug7/jM6W5q3xrwBPVxdKHojjaI+5YLOTvfvjGAF3suKsT7ZOuZj
+         D26pEZy5c+Fgf4U3ZEupe3wBJ8BY7XeWnpxs3oPF00XBwYvgdba0EYWCnniEDOIU25BD
+         d93uf25o+GlAocvZyCKOC1Dqe4dvUAa2PE/zxshL55Jm19Z662tl7kt88IzxeMvx1y9a
+         87haUECX9Ix1B2GJDY6XsflvT1P4JnchaRB2RdQ2gXqG8nb2lU+STpo3VNF0sXHwaS3E
+         6j4IJITO8mGNzCKrnDIZp/65HCYeba7WcjyBptakuOl1p2TLS+yHAn2Js5IEhInO0T8v
+         3lHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=09yFi4TXhEKbvW2/X5YzYxYv1R9+iUTjSTTQ7wd1bnQ=;
-        b=pilbJu1r13CoFM0gaQeGfNarNiIm+mjPJuVpZv5txlnzIQ/WXaa00kUTs+ub9nwvCR
-         OaK67hJLQKwwxOJwIu8DopLDzzPuaVMG802WNpaeE2eC0LnmGCoOpfXO+cxXLEGz3mHv
-         897OuKLsts4fnQIdmK41CFGCTiCBVLTwjKga9WvxU4fpjN8Rs1oFjZOwWjrHONSLYtgz
-         wxS7ORjh0Mf9h5Ov8qymEoHOX5/qXChedjubf4B5fnM267vyTkQV9KQOygFcsl4doT+V
-         f1PtKIepnW/ThpX0553cZ13qjRJFH0RlMhK7R8icbIiwLxLIlXcNZMyHTof1rFeLlOgN
-         h+rw==
-X-Gm-Message-State: ANoB5plCjiZZFPDWvpV5kYw5vbK/EjHOBIGq0BXKz+tnefVy6nNmPTOW
-        oWZ1ggi7ptgo4P/uqIRrRV0=
-X-Google-Smtp-Source: AA0mqf7ix9VqiSrzOCVzD1oVQR95GIG6qQ9oCQEo05Kw2TypymU86K66teos7Ddte4Szx75gO7+V3g==
-X-Received: by 2002:a17:906:160b:b0:78d:dddb:3974 with SMTP id m11-20020a170906160b00b0078ddddb3974mr77961094ejd.411.1670457865683;
-        Wed, 07 Dec 2022 16:04:25 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1709063d2900b0079dbf06d558sm8996047ejf.184.2022.12.07.16.04.24
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
+        b=nJVsDs4OQiOb69UqpiovW7VQXyjDD93A8QDNYHkzu8WE/Mlc/j+/KxKvjWGUcAKuIB
+         3/f7XgkT0ZC9j5agVCo/xcMPjc0driECrUWsKsHsO5DtXsyrolggokXHUHfBk24F/zp+
+         VQVgVIvkHK522Fvp0yQE6mfd8z6RUQ5TgT5w110RlQCla924DBkXhXXyq9IcmlXq7ecJ
+         mtO6xmjB7y/PIkZV8qqbV7hB2qKAET+gbSbtsXEki4ntwV+cTWV5Hoyi9kyLKaN0eAAG
+         sviRs2F3iH/RSoFtpz/5zmFn2A108fJU4M1/gvKUw5+FVy89FMrH776RuXqIaBxNQZ+G
+         LXtA==
+X-Gm-Message-State: ANoB5pmBUKFyiWzpLhaLmTHBXMTxlVjT5xkQJwo3MaOyB4jdAlspPFsW
+        F0BlbZPKXIWHY4M7jqKceViZcA==
+X-Google-Smtp-Source: AA0mqf4YQr6Rqh7drzmAs4lwxW/QyZKhfelPGBRvTCbcteoRamNm4E3qRXuBmWRnOH2IoXB0BKMdTg==
+X-Received: by 2002:a05:651c:1592:b0:277:b9f:cdbd with SMTP id h18-20020a05651c159200b002770b9fcdbdmr31733522ljq.0.1670495485712;
+        Thu, 08 Dec 2022 02:31:25 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 16:04:25 -0800 (PST)
-Date:   Thu, 8 Dec 2022 01:04:23 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Stephen Rothwell <sfr@rothwell.id.au>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
+        Thu, 08 Dec 2022 02:31:24 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Will Deacon <will@kernel.org>,
-        iommu@lists.linux-foundation.org, linux-mmc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v13 0/6] mmc: sdhci: Add Tegra234 support
-Message-ID: <Y5EqB7v7m2XSkpn4@orome>
-References: <20221206165945.3551774-1-thierry.reding@gmail.com>
- <CAPDyKFr2BzeE6N+ZDXj2HE2SEL30CkpvbsRP4wAPnFRHjP=miQ@mail.gmail.com>
- <20221208104749.5a79482d@oak.ozlabs.ibm.com>
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Joe Tessler <jrt@google.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 0/9] media: dt-bindings: common CEC properties
+Date:   Thu,  8 Dec 2022 11:31:06 +0100
+Message-Id: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Zl3rVGReu28PhYjM"
-Content-Disposition: inline
-In-Reply-To: <20221208104749.5a79482d@oak.ozlabs.ibm.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi,
 
---Zl3rVGReu28PhYjM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v3
+================
+1. cec-gpio: Add missing SPDX.
+2. nvidia,tegra114-cec: Correct path in maintainers.
 
-On Thu, Dec 08, 2022 at 10:47:49AM +1100, Stephen Rothwell wrote:
-> Hi all,
->=20
-> On Wed, 7 Dec 2022 13:37:52 +0100 Ulf Hansson <ulf.hansson@linaro.org> wr=
-ote:
-> >
-> > On Tue, 6 Dec 2022 at 17:59, Thierry Reding <thierry.reding@gmail.com> =
-wrote:
-> > >
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >
-> > > Hi,
-> > >
-> > > This is an updated version of v12 from a few days ago:
-> > >
-> > >     https://lore.kernel.org/all/20221202152644.29450-1-thierry.reding=
-@gmail.com/
-> > >
-> > > The only difference here is a fix for the included headers (bitops.h
-> > > does not have all the definitions on all architectures, so we need
-> > > bitfield.h instead) and an Acked-by from Robin on the new Tegra-speci=
-fic
-> > > helper.
-> > >
-> > > It'd be great to see this go in for v6.2 so that the new helper is
-> > > available for the next release and the other patches that I have
-> > > prepared can be merged.
-> > >
-> > > Ulf, given that Joerg has acked patch 1 and Robin has acked patch 2, I
-> > > think the expectation is for you to pick up the whole set. =20
-> >=20
-> > Applied for next, thanks!
-> >=20
-> > Note that, it seems likely that we may encounter a merge conflict
-> > between the mmc and iommu tree, due to changes in
-> > include/linux/iommu.h. Although, if that's the case, I believe the
-> > conflict should be trivial to resolve, so let's try this and see how
-> > it goes.
-> >=20
-> > Stephen, I added you here, just to let you know of what goes on.
-> >=20
-> > >
-> > > Thanks,
-> > > Thierry
-> > >
-> > > Prathamesh Shete (3):
-> > >   mmc: sdhci-tegra: Separate Tegra194 and Tegra234 SoC data
-> > >   mmc: sdhci-tegra: Add support to program MC stream ID
-> > >   mmc: sdhci-tegra: Issue CMD and DAT resets together
-> > >
-> > > Thierry Reding (3):
-> > >   iommu: Add note about struct iommu_fwspec usage
-> > >   iommu/tegra: Add tegra_dev_iommu_get_stream_id() helper
-> > >   mmc: sdhci-tegra: Sort includes alphabetically
-> > >
-> > >  drivers/mmc/host/sdhci-tegra.c | 69 ++++++++++++++++++++++++++++----=
---
-> > >  drivers/mmc/host/sdhci.c       |  5 +++
-> > >  drivers/mmc/host/sdhci.h       |  2 +
-> > >  include/linux/iommu.h          | 25 ++++++++++++
-> > >  4 files changed, 89 insertions(+), 12 deletions(-) =20
->=20
-> All good. Thanks for the heads up.
->=20
-> BTW, it would be good if some of those long lines in comments were
-> wrapped ...
+Changes since v2:
+================
+1. nvidia,tegra114-cec: Rename to nvidia,tegra114-cec.yaml.
+2. nvidia,tegra114-cec: Nvidia->NVIDIA.
+3. Add acks/rb tags.
 
-Hm... looks like I misinterpreted the checkpatch.pl change from a while
-ago. I should probably switch back my editor settings if the preference
-is still 80 characters instead of the 100 enforced by checkpatch.
+Changes since v1
+================
+1. chrontel,ch7322: fix node name to 'cec'.
+2. Add ack tags.
 
-Thierry
+Best regards,
+Krzysztof
 
---Zl3rVGReu28PhYjM
-Content-Type: application/pgp-signature; name="signature.asc"
+Krzysztof Kozlowski (9):
+  media: dt-bindings: amlogic,meson-gx-ao-cec: move to cec subfolder
+  media: dt-bindings: st,stm32-cec: move to cec subfolder
+  media: dt-bindings: cec: convert common CEC properties to DT schema
+  media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC
+    properties
+  media: dt-bindings: chrontel,ch7322: reference common CEC properties
+  media: dt-bindings: samsung,s5p-cec: convert to DT schema
+  media: dt-bindings: cec-gpio: convert to DT schema
+  media: dt-bindings: nvidia,tegra114-cec: convert to DT schema
+  media: dt-bindings: st,stih-cec: convert to DT schema
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/media/cec-gpio.txt    | 42 -----------
+ .../devicetree/bindings/media/cec.txt         |  8 --
+ .../{ => cec}/amlogic,meson-gx-ao-cec.yaml    | 11 +--
+ .../bindings/media/cec/cec-common.yaml        | 28 +++++++
+ .../bindings/media/cec/cec-gpio.yaml          | 74 +++++++++++++++++++
+ .../media/cec/nvidia,tegra114-cec.yaml        | 58 +++++++++++++++
+ .../bindings/media/cec/samsung,s5p-cec.yaml   | 66 +++++++++++++++++
+ .../bindings/media/cec/st,stih-cec.yaml       | 66 +++++++++++++++++
+ .../media/{ => cec}/st,stm32-cec.yaml         |  4 +-
+ .../bindings/media/i2c/chrontel,ch7322.yaml   | 11 ++-
+ .../devicetree/bindings/media/s5p-cec.txt     | 36 ---------
+ .../devicetree/bindings/media/stih-cec.txt    | 27 -------
+ .../devicetree/bindings/media/tegra-cec.txt   | 27 -------
+ MAINTAINERS                                   | 12 +--
+ 14 files changed, 309 insertions(+), 161 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cec-gpio.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
+ rename Documentation/devicetree/bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml (86%)
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-gpio.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/samsung,s5p-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
+ rename Documentation/devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml (89%)
+ delete mode 100644 Documentation/devicetree/bindings/media/s5p-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/stih-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/tegra-cec.txt
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmORKgQACgkQ3SOs138+
-s6Gmzg//Q2E3eo7bIzRh+yuhkK4tU3jadK0bUBvmNMKSjWjt+IKb8ntT9sAqH+Mi
-50tGNrbJWDwoWEkYcZlAWUFPvx0+X83eVRLGQO4VUU5+wih8jsvj48bfwdrhMh6T
-EkWKs8JhCDYMUoRUSrIiELdexns6pP35D2WCCNI3VYr9pAJm4Wh+14oSqB5Uu23J
-snl9mu6FoBHeEIvkvDZGfi4uQ2zX5vmQq3/6P1etSgQITiJKLIwuxxeTshQymY12
-Qd2kBdGstWtpj2OjZhCapb+OjC4GgwHZqmoy8kPjUfe8K6b/9nhw7/HOC/ztmO6d
-V3LywfbBVh8q69HWd4de121vlYwP3/IKcVIFYVIkSIvW40zoyZ3NeMLMlpC2LE6C
-GXxZhXj9ZfSH5B0IaOUbBOYo51WQY3cCg0dyfzwJm907BqWUrTkV0YBeva6/x5U3
-BVvsJUT/2MLNPBtD26XUEKn//Vu9KZ6UkAhI+2w0u6Tj2ivEGomgLDmQ/CweSy/L
-F3zP21iqnuah7+U9YEwDmdp35z8Zizhjn7XKHpjprbDrd2oz7if/vq7RwUYjDIUI
-bJJ2U1vKCneN2oyGI1rxJP7/mdBaVe0G3gVpqt/LecKLCtQ7Z/JCZW/yLW5nId9i
-dPtGB6SyMOb17OKaL+NlFkVPdPC2b8BPbRSbfnTsbauXl/tHLEQ=
-=b7jI
------END PGP SIGNATURE-----
+-- 
+2.34.1
 
---Zl3rVGReu28PhYjM--
