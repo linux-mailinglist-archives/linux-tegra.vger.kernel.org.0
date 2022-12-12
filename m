@@ -2,219 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05B5B649532
-	for <lists+linux-tegra@lfdr.de>; Sun, 11 Dec 2022 18:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 063E664A876
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Dec 2022 21:12:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230080AbiLKRQU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 11 Dec 2022 12:16:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
+        id S233461AbiLLUME (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 12 Dec 2022 15:12:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiLKRQT (ORCPT
+        with ESMTP id S233436AbiLLUL6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 11 Dec 2022 12:16:19 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD8DE0C4;
-        Sun, 11 Dec 2022 09:16:18 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id y25so14809327lfa.9;
-        Sun, 11 Dec 2022 09:16:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l2DNHmS3fylLel+oZvu0tLHDRVwogY7TDzQkfnHP98c=;
-        b=kDDur/1+3usP1zvO0m0CkWQQtlCWkAMMeyGgmhaU1sQ6vhe4fVyZfP2kkeZ6vqX/OS
-         yZOxEjB8lNOLCHEYXH42sw2STK8uyX1r0bpW/n8/EyHuSBheTRPa5G8JZzzkMK2mFwH9
-         tc+FGEBzAb3n+HmCwAddUvlxjJm0AhSn7JKQDK7HJfTMJ/IlPj+24PR5Iwm5NTmj/sS2
-         BC4wvdfBI4vlq8f5m8wfrIz/3KzSDXHCvjnQfE3Xkh3huhM0cBFaZSzD2uw/IbmgiU3O
-         Zb2xl7dnV1yXmmiwZCJaJ/0fdduoPiQWGY14rOtRRHgcNS9B0Epvw/3iBhiUxXwkdbUM
-         a1KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l2DNHmS3fylLel+oZvu0tLHDRVwogY7TDzQkfnHP98c=;
-        b=5dqAC2M8gB4hiQNKZ4bnceoIWlUwW/4JiOHnczGMAEjfgibysiXhk6rrNyI/NW1C56
-         7hSmG+fhIYQOmGe9yl7YUbDNAA6bn8m+1qWPNAiO6wOeq4qWBZcuGhc0j0BX0LJQ9YyY
-         HsMrRTGKqvhSKFb9G5vSV9T7AgzoOPhP63+CTSMUmZ3MudDr1ySZ+6Y3Sy66PNsU52az
-         OVDhYsiS56ZUyA6tM9zF51/qi+36sMP9z9LODw3cDjGg67/0i5W9NHIaTIC/s5CHNPHq
-         Ndh0PJNuxWED90CjcxYqMrTdmDgl3cVRTDPXuH0bShqzJYRhiNOKPh73TXqO3pD8kNxW
-         Gfjg==
-X-Gm-Message-State: ANoB5plEKkgTRp1cD7ujv7LIuZC7qreKmfkx9Pcerz47jAQRctXe1zDC
-        EMR2/WXGnHdc284PiKtgq8o=
-X-Google-Smtp-Source: AA0mqf4Zu5Z0Gy/+BqrIPom15lElZzdBKjFcwPaxKsZsW38Xtnw86wBE7wzcfPdfR1IdeK8ApDiM0Q==
-X-Received: by 2002:a05:6512:b1c:b0:4a4:68b7:dee8 with SMTP id w28-20020a0565120b1c00b004a468b7dee8mr4819493lfu.68.1670778976282;
-        Sun, 11 Dec 2022 09:16:16 -0800 (PST)
-Received: from mobilestation ([95.79.133.202])
-        by smtp.gmail.com with ESMTPSA id j2-20020a056512028200b0049f54c5f2a4sm1249666lfp.229.2022.12.11.09.16.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 09:16:15 -0800 (PST)
-Date:   Sun, 11 Dec 2022 20:16:13 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, vidyas@nvidia.com,
-        mmaddireddy@nvidia.com
-Subject: Re: [PATCH V3 1/2] dt-bindings: PCI: tegra234: Add ECAM support
-Message-ID: <20221211171613.ba4u3k5onw3uzjy7@mobilestation>
-References: <20221114155333.234496-1-jonathanh@nvidia.com>
- <20221114155333.234496-2-jonathanh@nvidia.com>
- <Y3ap1o2SbNvFw8Vd@orome>
- <CAL_JsqKpyn=mWXv4tuS4U8AahNPkL6hpNQCfyRdf9bDY1EqSJg@mail.gmail.com>
- <Y49xg7wptRweHd4I@orome>
- <CAL_JsqK+BxHB8__aN=84R4xpoJtf4_7xHeTkbgPakdNqzywJWw@mail.gmail.com>
- <20221209101743.uzyw5ejubkbfm5di@mobilestation>
- <CAL_JsqLp7QVgxrAZkW=z38iB7SV5VeWH1O6s+DVCm9p338Czdw@mail.gmail.com>
+        Mon, 12 Dec 2022 15:11:58 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF703178BE;
+        Mon, 12 Dec 2022 12:11:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HB/SBmin4V/+mIim07cm+kzWRz/2QFZG8VE+IwRVxAFluRFC0TcNlaYJIT31LVX89RmVrPvaaxKUVWZ8DHCpPi1MC/acRJ4Rd4+OoPeGW+fVdT5DmmQOUOwnTeb8k6aiCIYXhdgYjmM+GlbltcbiP1/VMiZfFn9DsVBgctPKQ1V4gywz9p0V7/ZYo3KF9xEhQYPDf34bSts2fj0zbnI6u3FOH8GDMMD1hTwoR07GTd+T/a6sPdAVzyqRr3gsrMPq7ESe3BKjer5h1CP7zuxyypCw/rMAJDeU9FUF3J7/tqi7FSRSUNq8t4QYuQKu4p2buTmwFlxpctHflozUWbFmyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I//logkfwCQMKXXUbEjUhUedv7l7+1/d9U4N5Tguq2c=;
+ b=e/NK7FIVk+AW1Aph7p2tm3lzHtO2lka41aiwBpBhnMR/xztmfi4owC2TFA4f1vVUjynGYZbIyO67GfWpRCbf1nhmb5prJAzP5a35pSGtXQ6jRW8b1BiJawRa/VeQKRTfkImucZPxH5f/7shi/T5u7O3zvRq1sko26mhVTsTagAsGhxuYkE+Ig5TO6sVY6PQUORS/6ydwhOTqNWQYUaioGnNpwyMvbnshdXQLRlE+ZoTySXDz1fYE8Of01gKyTgmVA5uGIZiXXRKuNo3OSXoL8olbhM6vTIbX7aeCVVYp5ZqD3crTGnAhZJSrJKaQ+UuDZj9zTgrAAxAdaxetzTyMwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I//logkfwCQMKXXUbEjUhUedv7l7+1/d9U4N5Tguq2c=;
+ b=nSmdbfM0nZMi4ougsYuf/f2RZdJ7jdQeuvqh65kFvw1FSw8IL0Y7nzI6dIift2dPsUbiWCdyqAedlID7e6aELDeYb3jCSynjfsBzpHJ8z8/TBhvYLia8nNFAnxtrvjXG6KDZ1leS36grukcM7OLepCG0dCnmEt96+s7icI57VOdFeWigJrkSbI8kMFNX9pxX6n6x68xvA5Q4ovBVNduNW2MWK9Tnr0Lja0UJeZsj/Fh+x76R2uCdZy67Ag6H26l/WyRqg8xhIVJ+nXbKN4rsPN5Ojy9SCKAHrBatDl7R2iWP6vEaC6eZHaqDr3/OYhWbW8c1HX8ymWZvl0UWwYCezA==
+Received: from BN9PR03CA0668.namprd03.prod.outlook.com (2603:10b6:408:10e::13)
+ by DS0PR12MB6559.namprd12.prod.outlook.com (2603:10b6:8:d1::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5880.19; Mon, 12 Dec 2022 20:11:54 +0000
+Received: from BL02EPF0000C402.namprd05.prod.outlook.com
+ (2603:10b6:408:10e:cafe::5a) by BN9PR03CA0668.outlook.office365.com
+ (2603:10b6:408:10e::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19 via Frontend
+ Transport; Mon, 12 Dec 2022 20:11:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BL02EPF0000C402.mail.protection.outlook.com (10.167.241.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5924.7 via Frontend Transport; Mon, 12 Dec 2022 20:11:52 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 12 Dec
+ 2022 12:11:39 -0800
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 12 Dec 2022 12:11:39 -0800
+Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36 via Frontend
+ Transport; Mon, 12 Dec 2022 12:11:39 -0800
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
+        <rwarsow@gmx.de>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.9 00/31] 4.9.336-rc1 review
+In-Reply-To: <20221212130909.943483205@linuxfoundation.org>
+References: <20221212130909.943483205@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqLp7QVgxrAZkW=z38iB7SV5VeWH1O6s+DVCm9p338Czdw@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Message-ID: <e9768511-16a8-499e-b905-fd8bd3b07ae6@drhqmail202.nvidia.com>
+Date:   Mon, 12 Dec 2022 12:11:39 -0800
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0000C402:EE_|DS0PR12MB6559:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc748c63-0f89-49ed-30bb-08dadc7d1c0f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VGkbhx2PpM0+nBjJnQ9ShxQuYo/D0qjmO0uqHQZcZZIi0V9uRdlgnylw6nGcqKexm5wn1fuSBrML2qFai6+8BSH09KfGAPL2VbNQd+h2cZq6nc8Ba1cJSH+Fanxf9vMCaWsAxK7LswT/LVfGyaV4WRGtSKOkCEu8k82mF8dDG4KBhpZJoesjJwiKzyCJDVmGLuJJroEfnQ9GIK188W4NdIRwg81vcs/jH190XGTDXCi9228Edac1s6vEaN9FsdD9kVy1QuzoWM47YKX6TZOIrRwOqiJ5ephZQ50p4ILw7VKgUj+nvhU/YSA2pzoQqzY4q8pQ+tjRgnOjg0IpXoIqsX7kjlQfhkcLcdzWZq0l/uz4qwo8OHplaxd2TIGwt9aQSlT5j3+gMH/WLSkGU+ixmfjG+7c+98y141sQx/ZQ+uCWaG1ZhFvqrZK8IYiIUMuGMRF315DF1M8T4VkFPbmfIrgUTTQ4plJ8JnlMQourY7yZoSHAPclryEbk9u7VYU7Km0BLTv7LosxbCZpC6xSAvwLBEJkSsJ4nf0y3s6YDxNPiFZ3SnQbBPT6rrsGm0WbOPc+uPPo9mx+FGas6dorIA7ficgS7KETOfHaG46HxrJVWWxREYCxPIe7DI/fDNhURRuO0qPY9UxX4Iwf+ACYe0jLtcP6TOpXtOZ/enzFrPHU+i1dzCS1vH9gHv6bC9Jy5N2EH0iOlInp5gNEyntzi/N/ricWYtAQKyemRxcDdgFLx+omxCzV0a+fYLup4fxyp5zlsP6SA4nY5bDBuR8D7k5vN7sB0DztgUq0ySmilXrU=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(376002)(136003)(451199015)(46966006)(40470700004)(36840700001)(966005)(478600001)(31686004)(26005)(82310400005)(186003)(316002)(6916009)(2906002)(5660300002)(54906003)(7416002)(70206006)(70586007)(36860700001)(40480700001)(4326008)(336012)(426003)(47076005)(8676002)(7636003)(356005)(8936002)(31696002)(40460700003)(86362001)(41300700001)(82740400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 20:11:52.4252
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc748c63-0f89-49ed-30bb-08dadc7d1c0f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C402.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6559
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Dec 09, 2022 at 08:29:52AM -0600, Rob Herring wrote:
-> On Fri, Dec 9, 2022 at 4:17 AM Serge Semin
-> <Sergey.Semin@baikalelectronics.ru> wrote:
-> >
-> > On Tue, Dec 06, 2022 at 03:14:58PM -0600, Rob Herring wrote:
-> > > On Tue, Dec 6, 2022 at 10:44 AM Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > >
-> > > > On Mon, Dec 05, 2022 at 05:41:55PM -0600, Rob Herring wrote:
-> > > > > On Thu, Nov 17, 2022 at 3:38 PM Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > > > >
-> > > > > > On Mon, Nov 14, 2022 at 03:53:32PM +0000, Jon Hunter wrote:
-> > > > > > > From: Vidya Sagar <vidyas@nvidia.com>
-> > > > > > >
-> > > > > > > Add support for ECAM aperture that is only supported for Tegra234
-> > > > > > > devices.
-> > > > > > >
-> > > > > > > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> > > > > > > Co-developed-by: Jon Hunter <jonathanh@nvidia.com>
-> > > > > > > Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> > > > > > > ---
-> > > > > > > Changes since V2:
-> > > > > > > - Avoid duplication of reg items and reg-names
-> > > > > > > Changes since V1:
-> > > > > > > - Restricted the ECAM aperture to only Tegra234 devices that support it.
-> > > > > > >
-> > > > > > >  .../bindings/pci/nvidia,tegra194-pcie.yaml    | 34 +++++++++++++++++--
-> > > > > > >  .../devicetree/bindings/pci/snps,dw-pcie.yaml |  2 +-
-> > > > > > >  2 files changed, 33 insertions(+), 3 deletions(-)
-> > > > > >
-> > > > > > Both patches applied now.
-> > > > >
-> > > > > linux-next now fails with this. I suspect it is due to Sergey's
-> > > > > changes to the DWC schema.
-> > > > >
-> > > > > /builds/robherring/linux-dt/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.example.dtb:
-> > > > > pcie@14160000: reg-names:4: 'oneOf' conditional failed, one must be
-> > > > > fixed:
-> > > > >         'dbi' was expected
-> > > > >         'dbi2' was expected
-> > > > >         'ecam' is not one of ['elbi', 'app']
-> > > > >         'atu' was expected
-> > > > >         'dma' was expected
-> > > > >         'phy' was expected
-> > > > >         'config' was expected
-> > > > >         /builds/robherring/linux-dt/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.example.dtb:
-> > > > > pcie@14160000: reg-names:4: 'oneOf' conditional failed, one must be
-> > > > > fixed:
-> > > > >                 'ecam' is not one of ['apb', 'mgmt', 'link', 'ulreg', 'appl']
-> > > > >                 'ecam' is not one of ['atu_dma']
-> > > > >                 'ecam' is not one of ['smu', 'mpu']
-> > > > >         From schema:
-> > > > > /builds/robherring/linux-dt/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.yaml
-> > > >
-> > > > Stephen reported the other day that he wasn't able to resolve this
-> > > > conflict in linux-next, so he dropped the ECAM bits. The ECAM patch has
-> > > > now propagated to ARM SoC so it can't be easily backed out, but I guess
-> > > > we could revert on that tree and instead apply the patch to the DT tree
-> > > > and resolve the conflict there.
-> > > >
-> > > > I guess the better alternative would be to try and resolve the merge
-> > > > properly and let Stephen (and Linus) know.
-> > >
-> >
-> > > Instead, can you prepare a patch on top of Sergey's adding a 'oneOf'
-> > > entry with 'ecam'. As this is a new thing, it should have its own
-> > > entry. Then when merging, we just throw out the change from your side.
-> >
-> > Right, the only change that is required here is to extend the
-> > reg-names oneOf list of the DT-bindings:
-> > < Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml
-> > with the 'ecam' entry. If it's a vendor-specific part then add to the
-> > last the last entry defines the vendor-specific duplicates of the generic CSR
-> > spaces.
-> >
-> > On the other hand I don't really see a reason in adding the ECAM CSRs
-> > space to the generic DW PCIe device since basically the ECAM memory is
-> > just a pre-configured outbound iATU window. So if it's a ECAM-based
-> > device then it should have been already configured by the system
-> > bootloader upon the kernel boot up. Thus there is no point in having
-> > the generic DW PCIe resources and it should be just a generic
-> > ECAM-based device with a single ECAM CSR space as the
-> > "snps,dw-pcie-ecam"/"pci-host-ecam-generic" DT-bindings require
-> > especially seeing the Nvidia low-level driver doesn't use the ECAM
-> > registers at all. Moreover the DW PCIe core driver doesn't
-> > differentiate between the already configured iATU windows and the one
-> > available for the ranges-based mapping. Instead the DW PCIe core just
-> > disables all the detected in- and outbound iATUs by means of the
-> > dw_pcie_iatu_setup() method. So the pre-configured ECAM space will be
-> > reset by the driver core anyway.
+On Mon, 12 Dec 2022 14:19:18 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.336 release.
+> There are 31 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-
-> This was discussed some before. This is for the firmware/bootloader to
-> setup ECAM mode. Then the kernel will see generic (ACPI) ECAM.
+> Responses should be made by Wed, 14 Dec 2022 13:08:57 +0000.
+> Anything received after that time might be too late.
 > 
-> Yes, it is iATU config, but so is 'config'. If we were starting over,
-> I'd say 'reg' should just have the entire address space for iATU and
-> the driver could figure out how to configure it (beyond what ranges
-> says). But that ship has sailed. Also, note that the address range
-> here is disjoint from 'config', so it looks like we'd need 2 entries
-> anyways.
-
-Thanks for the explanation. I've got another suggestion them. The
-semantics of the 'config' reg-space and the ECAM reg-space is very
-similar. The only difference is the way the corresponding outbound
-iATU window is configured. The DW PCIe driver just maps it in
-accordance with the requested peripheral device BDF value so the very
-first 4KB is translated to the CFG TLPs sent out to that device. The
-same space could be mapped with the
-IATU_REGION_CTRL_2_OFF_OUTBOUND_i.CFG_SHIFT_MODE flag set. So the
-entire PCIe BDFs space will be available via the same MMIO region.
-Thus the corresponding peripheral device will be available at the
-BDF-based offset with respect to the 'config' reg-space base address.
-Of course in the later case the 'config' MMIO range must be much
-greater (256MB) than in the former case (4KB), but still the
-difference in just the way the window is configured.  Moreover the DW
-PCIe driver could be easier fixed to using the later approach if the
-'config' reg-space is specified wide enough to map the entire PCIe bus
-CFG-space (256MB).
-
-Based on that and on the fact you said that the ECAM reg-space will be
-used by the bootloader/firmware only anyway, I'd suggest to just
-extend the 'config' reg-space semantics. So the bootloader/firmware
-will be able to use it to create a generic ECAM device. The kernel DW
-PCIe driver will by default use it to remap each peripheral device
-CFG-space on request, but at some point the driver could be converted
-to map the entire PCIe BDFs similarly to the ECAM space. Thus we won't
-need to add a redundant ECAM reg-space. What do you think?
-
-* hopefully it isn't too late for the suggested approach.
-
--Serge(y)
-
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.336-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
 > 
-> Rob
+> thanks,
+> 
+> greg k-h
+
+All tests passing for Tegra ...
+
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	4.9.336-rc1-gc4da25efd82f
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
