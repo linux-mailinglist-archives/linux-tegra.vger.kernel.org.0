@@ -2,43 +2,50 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1918264CAFA
-	for <lists+linux-tegra@lfdr.de>; Wed, 14 Dec 2022 14:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5016464CBC3
+	for <lists+linux-tegra@lfdr.de>; Wed, 14 Dec 2022 15:02:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238458AbiLNNTG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 14 Dec 2022 08:19:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
+        id S238569AbiLNOC1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 14 Dec 2022 09:02:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238520AbiLNNTA (ORCPT
+        with ESMTP id S238548AbiLNOCZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 14 Dec 2022 08:19:00 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12920209AC;
-        Wed, 14 Dec 2022 05:18:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C3B0DB818BA;
-        Wed, 14 Dec 2022 13:18:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A14FC433EF;
-        Wed, 14 Dec 2022 13:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671023934;
-        bh=xwJ2F+HL8Yk0Fx3XqoMXtNfS5GIPd1gzxcsg5dDoon8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QP7v+ZzVI06/yPy1cj0gYDD7mG1of1hKuSt/w5bpOrTOsOETjgUEc6Dxsq65g4/hQ
-         Fjy5ZqjxlEO4FPBy+HmWmxUARSuxIc328Fzp+FLLmftMf0i9OO7JDX0pfLb1AAELxO
-         4F2oUr73dVKcnjM84Sm1+0uoO332iQyxBEjrQDzgOhOchxhbfaBaP0GiecxfOpt8U7
-         2RgX4K0g69VvqkFaH3Oy4ffIl4AFigY7gl+xIltPIJbjXCwlSdgufiiDPMDhPmI97X
-         cp5rZOCf/Bmf7NFqdGdEGrwTBsae1YJmG5SHuHSmoPTDEGuXLGZ97M7gAlRE+SBO+a
-         iT520n6hJ8R2Q==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1p5RfO-0000gO-Nm; Wed, 14 Dec 2022 14:19:22 +0100
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Amit Kucheria <amitk@kernel.org>,
+        Wed, 14 Dec 2022 09:02:25 -0500
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58511E3EC;
+        Wed, 14 Dec 2022 06:02:23 -0800 (PST)
+Received: by mail-qv1-f43.google.com with SMTP id u10so12557814qvp.4;
+        Wed, 14 Dec 2022 06:02:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5J5l9PHNH3hAPkvemcjxbJ/Q/3nbdWjzIYM+AXgHrFA=;
+        b=41HwYnyiwXLeTftAUEDCuwO0jDXGdJSaNNA/PUjeDm1t7SP/+iAE8nkCz3nVe1c82c
+         BTJE0LqAKmmZ0XImyC0AFkE/qKttl4RthV3++9xuRFjoH/1Wc60hB1SutgEECG1T9xQn
+         yOiq8HXQ8zMWKlOKpxdKrWUEhJyOf7Dive8ow3TaG7ndEL76YnL6lT+TbHGomJnfdkQ2
+         7+jMOf4QYs20+KZTjoWqGSs3cKOzr2sAQ+CfOrrYNdWAoGsu5B0YjDDk8FHQ7wa3zsuC
+         qAHmmjW43IFDcPsj/CIAxKuiDDF+dP1om4kybQD9b/1kGdfusr2OFp4GJ8qDI0Qb+opa
+         TnGQ==
+X-Gm-Message-State: ANoB5pm8KhXimx/uROFW7Cge42Sj+RgPZSuM/LeNduxfMGu6vnt+AMef
+        64AZmUNjHg/lXLWB6/gJO9ai3Ns85S7wBZD5VC4=
+X-Google-Smtp-Source: AA0mqf7xzEzMqCeas0yquK7x82mUOIhnAdFVlNjmSgz6/8Cv2sAjkGMVNZQlSV+dzJnDteLF4AnlNeFIX5JoxiM/ciE=
+X-Received: by 2002:ad4:534b:0:b0:4b1:8429:a8a7 with SMTP id
+ v11-20020ad4534b000000b004b18429a8a7mr69941479qvs.52.1671026543044; Wed, 14
+ Dec 2022 06:02:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20221214131617.2447-1-johan+linaro@kernel.org>
+In-Reply-To: <20221214131617.2447-1-johan+linaro@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 14 Dec 2022 15:02:12 +0100
+Message-ID: <CAJZ5v0gY-Lhgf_1Kfg6P5O8s+YMkP4TxggxyS=LU9jVgJikAkg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] thermal: fix locking regressions in linux-next
+To:     Johan Hovold <johan+linaro@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
         Thara Gopinath <thara.gopinath@gmail.com>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -52,70 +59,41 @@ Cc:     Amit Kucheria <amitk@kernel.org>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 4/4] thermal/drivers/qcom: fix lock inversion
-Date:   Wed, 14 Dec 2022 14:16:17 +0100
-Message-Id: <20221214131617.2447-5-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221214131617.2447-1-johan+linaro@kernel.org>
-References: <20221214131617.2447-1-johan+linaro@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The thermal-zone-device lock is held by core when setting trip points
-and the driver takes its chip lock in the corresponding callback.
+On Wed, Dec 14, 2022 at 2:18 PM Johan Hovold <johan+linaro@kernel.org> wrote:
+>
+> This series fixes some of the fallout after the thermal changes that
+> just landed in linux-next.
+>
+> Lockdep reported a lock inversion in one of the Qualcomm drivers and a
+> closer review revealed that the changes had also broken the sysfs
+> interface for at least three drivers.
+>
+> Note that a simple revert of the offending patches was not an option as
+> some of the infrastructure that the old implementation relied on has
+> also been removed.
 
-Fetching the thermal trip points using thermal_zone_get_trip() also
-involves taking the thermal-zone-device lock, which means that the chip
-lock can not be held when doing so.
+I've dropped that material from my linux-next branch and Daniel,
+please also remove it from your branch that is pulled by linux-next so
+that it doesn't show up in there until 6.2-rc1 is out.
 
-Drop the chip lock temporarily during probe to avoid the lock inversion
-that was detected by lockdep:
+It clearly is not ready for merging in its current form.
 
-  ======================================================
-  WARNING: possible circular locking dependency detected
-  6.1.0-next-20221213 #122 Not tainted
-  ------------------------------------------------------
-  systemd-udevd/264 is trying to acquire lock:
-  ffff741e444a0920 (&chip->lock){+.+.}-{3:3}, at: qpnp_tm_get_temp+0xb4/0x1b0 [qcom_spmi_temp_alarm]
+It is still present in my bleeding-edge branch, though, so please
+apply the patches from Johan on top of it and send a new PR to me, so
+I can add it back to my linux-next branch once 6.2-rc1 appears.
 
-  but task is already holding lock:
-  ffff741e44341618 (&tz->lock){+.+.}-{3:3}, at: thermal_zone_device_update+0x2c/0x70
+It would be good to check the code again too for any more similar fallout.
 
-  which lock already depends on the new lock.
-
-Fixes: 78c3e2429be8 ("thermal/drivers/qcom: Use generic thermal_zone_get_trip() function")
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/thermal/qcom/qcom-spmi-temp-alarm.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-index bfaec74f13b2..e2429676d0d2 100644
---- a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-+++ b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-@@ -348,7 +348,12 @@ static int qpnp_tm_init(struct qpnp_tm_chip *chip)
- 	if (stage)
- 		chip->temp = qpnp_tm_decode_temp(chip, stage);
- 
-+	mutex_unlock(&chip->lock);
-+
- 	crit_temp = qpnp_tm_get_critical_trip_temp(chip);
-+
-+	mutex_lock(&chip->lock);
-+
- 	ret = qpnp_tm_update_critical_trip_temp(chip, crit_temp);
- 	if (ret < 0)
- 		goto out;
--- 
-2.37.4
-
+Thanks!
