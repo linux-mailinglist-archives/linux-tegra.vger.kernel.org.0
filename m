@@ -2,52 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D142F668659
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Jan 2023 23:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5823D66904F
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Jan 2023 09:14:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232791AbjALWHQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Jan 2023 17:07:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57072 "EHLO
+        id S241127AbjAMINz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Jan 2023 03:13:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239924AbjALWG3 (ORCPT
+        with ESMTP id S231745AbjAMINL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Jan 2023 17:06:29 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3824E3C3B1
-        for <linux-tegra@vger.kernel.org>; Thu, 12 Jan 2023 13:55:15 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pG5XV-0005Zm-5Q; Thu, 12 Jan 2023 22:55:13 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pG5XU-005cqG-81; Thu, 12 Jan 2023 22:55:12 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pG5XT-00CN2u-D8; Thu, 12 Jan 2023 22:55:11 +0100
-Date:   Thu, 12 Jan 2023 22:55:11 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 3/3] soc: tegra: cbb: Drop empty platform remove function
-Message-ID: <20230112215511.gjmplw4kcq55g6zy@pengutronix.de>
-References: <20221212222549.3779846-1-u.kleine-koenig@pengutronix.de>
- <20221212222549.3779846-4-u.kleine-koenig@pengutronix.de>
+        Fri, 13 Jan 2023 03:13:11 -0500
+X-Greylist: delayed 3602 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 13 Jan 2023 00:11:49 PST
+Received: from mp-relay-02.fibernetics.ca (mp-relay-02.fibernetics.ca [208.85.217.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DF048827;
+        Fri, 13 Jan 2023 00:11:46 -0800 (PST)
+Received: from mailpool-fe-01.fibernetics.ca (mailpool-fe-01.fibernetics.ca [208.85.217.144])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mp-relay-02.fibernetics.ca (Postfix) with ESMTPS id 2BD0A70D66;
+        Fri, 13 Jan 2023 05:47:46 +0000 (UTC)
+Received: from localhost (mailpool-mx-01.fibernetics.ca [208.85.217.140])
+        by mailpool-fe-01.fibernetics.ca (Postfix) with ESMTP id D208626892;
+        Fri, 13 Jan 2023 05:47:45 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at 
+X-Spam-Score: 3.651
+X-Spam-Level: ***
+X-Spam-Status: No, score=3.6 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,
+        SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.6
+Received: from mailpool-fe-01.fibernetics.ca ([208.85.217.144])
+        by localhost (mail-mx-01.fibernetics.ca [208.85.217.140]) (amavisd-new, port 10024)
+        with ESMTP id esUwsufxhvnb; Fri, 13 Jan 2023 05:47:45 +0000 (UTC)
+Received: from localhost (unknown [208.85.220.72])
+        by mail.ca.inter.net (Postfix) with ESMTP id F10692688E;
+        Fri, 13 Jan 2023 05:47:42 +0000 (UTC)
+Received: from reverse.rain.network (reverse.rain.network [197.184.176.8])
+ by webmail.ca.inter.net (Horde Framework) with HTTP; Fri, 13 Jan 2023
+ 00:47:42 -0500
+Message-ID: <20230113004742.621163hyb1z0eida@webmail.ca.inter.net>
+Date:   Fri, 13 Jan 2023 00:47:42 -0500
+From:   INFO <boothg@istar.ca>
+Reply-to: s.g0392440821@gmail.com
+To:     undisclosed-recipients:;
+Subject: IST DIESE E-MAIL AKTIV?
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ehjeverzqerdm3oz"
+Content-Type: text/plain;
+ charset=ISO-8859-1;
+ DelSp="Yes";
+ format="flowed"
 Content-Disposition: inline
-In-Reply-To: <20221212222549.3779846-4-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+User-Agent: Internet Messaging Program (IMP) H3 (4.3.7)
+X-Originating-User-Info: boothg@istar.ca 208.85.219.96
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -55,40 +62,9 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---ehjeverzqerdm3oz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Sehr geehrter E-Mail-Begünstigter, Sie wurden für eine Spende in Höhe  
+von 3.500.000,00 ? ausgewählt. Wenden Sie sich an diese  
+E-Mail-Adresse: s.g0392440821@gmail.com, um weitere Informationen zum  
+Erhalt Ihrer Spende zu erhalten. Vielen Dank
 
-On Mon, Dec 12, 2022 at 11:25:49PM +0100, Uwe Kleine-K=F6nig wrote:
-> A remove callback just returning 0 is equivalent to no remove callback
-> at all. So drop the useless function.
-
-the other two patches in this series were applied individually to their
-matching trees. For this one I didn't get feedback yet.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ehjeverzqerdm3oz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPAgbwACgkQwfwUeK3K
-7Amyewf9FgKfvBDPvMGtUFCt3uF8BhdWXQ3azJZiwvT/ijx2xjP82Y1l/aabxIsF
-CEFUMq11W2UWFp3vf7uAbDJwupsWyF8QZPpkkOKNYFkw19Ivp2SNu32gkF6dOqxK
-7xmCKWTNpaKnhSp3da6jiEkxnddjzBzaPN9Cp96JaJcGmLRZYVo5dPs9hh8G+g2M
-BIXqgDfgkHuu0/GILCoJWheQkGOHWQzpCUHxFZYUQJFfYzXYfrrSwY+uYvuxFvf4
-l3nV2KFsnagpSzdvanPsUNuVVSsBvJWC1u6obi88Gu7E8Tvmrv2LJJRVHWOL0g78
-BajKKuOohSncE0t3MRnzsFRHs08bJw==
-=SuTw
------END PGP SIGNATURE-----
-
---ehjeverzqerdm3oz--
