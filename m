@@ -2,34 +2,30 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DEC4671A44
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 12:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1D16719FE
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 12:09:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjARLQz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Jan 2023 06:16:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36844 "EHLO
+        id S229987AbjARLJS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Jan 2023 06:09:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbjARLQN (ORCPT
+        with ESMTP id S230167AbjARLIs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Jan 2023 06:16:13 -0500
-X-Greylist: delayed 437 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 18 Jan 2023 02:29:12 PST
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD4C7F995
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 02:29:12 -0800 (PST)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Nxhd75SSBz4xFh7
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 11:21:47 +0100 (CET)
+        Wed, 18 Jan 2023 06:08:48 -0500
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44E4951A9
+        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 02:15:45 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4745:2e6d:e3a6:3327])
-        by xavier.telenet-ops.be with bizsmtp
-        id AAFN290092zf9gW01AFNxV; Wed, 18 Jan 2023 11:15:42 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id AAFN2900D2zf9gW06AFNza; Wed, 18 Jan 2023 11:15:43 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TQ-005aIh-PT;
+        id 1pI5TQ-005aIk-Q7;
         Wed, 18 Jan 2023 11:15:22 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TW-001JW3-3f;
+        id 1pI5TW-001JWA-4U;
         Wed, 18 Jan 2023 11:15:22 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Madalin Bucur <madalin.bucur@nxp.com>,
@@ -58,17 +54,17 @@ Cc:     netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 6/7] usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
-Date:   Wed, 18 Jan 2023 11:15:19 +0100
-Message-Id: <96fce347ffa2d6efaa3fd24bf2d91e2a0a91c371.1674036164.git.geert+renesas@glider.be>
+Subject: [PATCH 7/7] usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+Date:   Wed, 18 Jan 2023 11:15:20 +0100
+Message-Id: <cd685d8e4d6754c384acfc1796065d539a2c3ea8.1674036164.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1674036164.git.geert+renesas@glider.be>
 References: <cover.1674036164.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_NONE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -83,20 +79,20 @@ handle NULL parameters fine.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/usb/host/ehci-exynos.c | 24 +++++++-----------------
+ drivers/usb/host/ohci-exynos.c | 24 +++++++-----------------
  1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/usb/host/ehci-exynos.c b/drivers/usb/host/ehci-exynos.c
-index a333231616f437b8..0f8d7df4937b2da4 100644
---- a/drivers/usb/host/ehci-exynos.c
-+++ b/drivers/usb/host/ehci-exynos.c
-@@ -80,19 +80,12 @@ static int exynos_ehci_get_phy(struct device *dev,
+diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
+index 8d7977fd5d3bd502..8dd9c3b2411c383f 100644
+--- a/drivers/usb/host/ohci-exynos.c
++++ b/drivers/usb/host/ohci-exynos.c
+@@ -69,19 +69,12 @@ static int exynos_ohci_get_phy(struct device *dev,
  			return -EINVAL;
  		}
  
 -		phy = devm_of_phy_get(dev, child, NULL);
 +		phy = devm_of_phy_optional_get(dev, child, NULL);
- 		exynos_ehci->phy[phy_number] = phy;
+ 		exynos_ohci->phy[phy_number] = phy;
  		if (IS_ERR(phy)) {
 -			ret = PTR_ERR(phy);
 -			if (ret == -EPROBE_DEFER) {
@@ -114,31 +110,31 @@ index a333231616f437b8..0f8d7df4937b2da4 100644
  		}
  	}
  
-@@ -108,12 +101,10 @@ static int exynos_ehci_phy_enable(struct device *dev)
+@@ -97,12 +90,10 @@ static int exynos_ohci_phy_enable(struct device *dev)
  	int ret = 0;
  
  	for (i = 0; ret == 0 && i < PHY_NUMBER; i++)
--		if (!IS_ERR(exynos_ehci->phy[i]))
--			ret = phy_power_on(exynos_ehci->phy[i]);
-+		ret = phy_power_on(exynos_ehci->phy[i]);
+-		if (!IS_ERR(exynos_ohci->phy[i]))
+-			ret = phy_power_on(exynos_ohci->phy[i]);
++		ret = phy_power_on(exynos_ohci->phy[i]);
  	if (ret)
  		for (i--; i >= 0; i--)
--			if (!IS_ERR(exynos_ehci->phy[i]))
--				phy_power_off(exynos_ehci->phy[i]);
-+			phy_power_off(exynos_ehci->phy[i]);
+-			if (!IS_ERR(exynos_ohci->phy[i]))
+-				phy_power_off(exynos_ohci->phy[i]);
++			phy_power_off(exynos_ohci->phy[i]);
  
  	return ret;
  }
-@@ -125,8 +116,7 @@ static void exynos_ehci_phy_disable(struct device *dev)
+@@ -114,8 +105,7 @@ static void exynos_ohci_phy_disable(struct device *dev)
  	int i;
  
  	for (i = 0; i < PHY_NUMBER; i++)
--		if (!IS_ERR(exynos_ehci->phy[i]))
--			phy_power_off(exynos_ehci->phy[i]);
-+		phy_power_off(exynos_ehci->phy[i]);
+-		if (!IS_ERR(exynos_ohci->phy[i]))
+-			phy_power_off(exynos_ohci->phy[i]);
++		phy_power_off(exynos_ohci->phy[i]);
  }
  
- static void exynos_setup_vbus_gpio(struct device *dev)
+ static int exynos_ohci_probe(struct platform_device *pdev)
 -- 
 2.34.1
 
