@@ -2,117 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A87967188C
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 11:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB00671A42
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 12:16:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbjARKIc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Jan 2023 05:08:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44216 "EHLO
+        id S229663AbjARLQy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Jan 2023 06:16:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230121AbjARKHx (ORCPT
+        with ESMTP id S229867AbjARLQO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Jan 2023 05:07:53 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4DB656D6;
-        Wed, 18 Jan 2023 01:13:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674033202; x=1705569202;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HX0zyAQncS5vJj7zoni+iRi+Vpv7/c6EyhwOr9hb9OE=;
-  b=MPZHkIZlGcw0OOrVn+FQkQRobP1KWdDYpsM9L9qdwfl32KvNq8PMvJmA
-   mdlHIPjN5lteovrxhoEKtYtihe+f/vWo0w0KddIuGgJ8l8mJ3ddv5gr39
-   JVnpVphulAqSzK1XwGHZxqDQS+WIxgY/0YO/ljCsrENuI9Kkdn2MHEWXb
-   vwmonFDJsd0ZxETizRVIpczO8dPG93T1F/2vDiIxElWMfDyfK1f9+NO5l
-   yT2qDev08KIjmTKed7m/vb2rEv09T2NhXFktAn6aEppEk68n+mOsHsfsP
-   2sR0LgRWMj/XVOL36NVbuvWtey0JnixotngqGJRDR/tOCD73aqPj8kVi3
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="304619727"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="304619727"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 01:13:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="802108498"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="802108498"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 18 Jan 2023 01:13:14 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 18 Jan 2023 11:13:13 +0200
-Date:   Wed, 18 Jan 2023 11:13:13 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Sanket Goswami <Sanket.Goswami@amd.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wed, 18 Jan 2023 06:16:14 -0500
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653577F9AD
+        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 02:29:31 -0800 (PST)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by riemann.telenet-ops.be (Postfix) with ESMTPS id 4Nxhd7026Vz4xQGM
+        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 11:21:47 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4745:2e6d:e3a6:3327])
+        by xavier.telenet-ops.be with bizsmtp
+        id AAFN290042zf9gW01AFNxL; Wed, 18 Jan 2023 11:15:42 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pI5TQ-005aIN-M1;
+        Wed, 18 Jan 2023 11:15:22 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pI5TV-001JVg-Uw;
+        Wed, 18 Jan 2023 11:15:21 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Madalin Bucur <madalin.bucur@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
         Thierry Reding <thierry.reding@gmail.com>,
-        Wayne Chang <waynec@nvidia.com>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V4 3/5] usb: typec: ucsi_ccg: Replace ccgx to well-known
- regex
-Message-ID: <Y8e4KXMh+bi6Gj7r@kuha.fi.intel.com>
-References: <20230116155045.100780-1-jonathanh@nvidia.com>
- <20230116155045.100780-4-jonathanh@nvidia.com>
- <Y8aOaH+ALBvjm/rH@kuha.fi.intel.com>
- <11349701-f82f-3a7f-61ef-11f1585958c3@nvidia.com>
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Siddharth Vadapalli <s-vadapalli@ti.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH treewide 0/7] phy: Add devm_of_phy_optional_get() helper
+Date:   Wed, 18 Jan 2023 11:15:13 +0100
+Message-Id: <cover.1674036164.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11349701-f82f-3a7f-61ef-11f1585958c3@nvidia.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 11:29:25PM +0000, Jon Hunter wrote:
-> 
-> On 17/01/2023 12:02, Heikki Krogerus wrote:
-> > On Mon, Jan 16, 2023 at 03:50:43PM +0000, Jon Hunter wrote:
-> > > From: Wayne Chang <waynec@nvidia.com>
-> > > 
-> > > ccgx is refer to the cypress cypd4226 typec controller.
-> > > Replace ccgx to well-known regex "cypress".
-> > > 
-> > > Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> > > Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> > > ---
-> > > V2 -> V4: nothing has changed
-> > > V1 -> V2: new change added for adding cypress,firmware-build
-> > > 
-> > >   drivers/usb/typec/ucsi/ucsi_ccg.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > > index 4bc31ed8e5bc..d6114fb8d5a9 100644
-> > > --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > > +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> > > @@ -1357,7 +1357,7 @@ static int ucsi_ccg_probe(struct i2c_client *client)
-> > >   	INIT_WORK(&uc->pm_work, ccg_pm_workaround_work);
-> > >   	/* Only fail FW flashing when FW build information is not provided */
-> > > -	status = device_property_read_u16(dev, "ccgx,firmware-build",
-> > > +	status = device_property_read_u16(dev, "cypress,firmware-build",
-> > >   					  &uc->fw_build);
-> > 
-> > You need to first add that property to
-> > drivers/i2c/busses/i2c-nvidia-gpu.c.
-> 
-> 
-> Looking at this some more, I wonder if we need to keep 'ccgx,firmware-build'
-> as a fallback for AMD? It is not clear to me if they implement this property
-> or not. Let me know what you think. I will still update the i2c-nvidia-gpu
-> driver. 	
+	Hi all,
 
-AMD needs to answer to that one. Sanket, do you have that device
-property ("ccgx,firmware-build") in your ACPI tables (as _DSD device
-property) for this device?
+While there exist several optional_get() PHY helper functions, there is
+no optional variant of devm_of_phy_get(), leading to several drivers
+implementing this theirselves, sometimes in buggy ways.
 
-thanks,
+Hence this series introduces a devm_of_phy_optional_get() helper(), and
+converts existing users of devm_of_phy_get() where appropriate.
+
+This series been compile-tested only, but the new helper itself has been
+tested with a new user I am about to submit.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (7):
+  phy: Add devm_of_phy_optional_get() helper
+  net: fman: memac: Convert to devm_of_phy_optional_get()
+  net: lan966x: Convert to devm_of_phy_optional_get()
+  net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
+  PCI: tegra: Convert to devm_of_phy_optional_get()
+  usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
+  usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+
+ .../net/ethernet/freescale/fman/fman_memac.c  |  8 +++---
+ .../ethernet/microchip/lan966x/lan966x_main.c |  5 ++--
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  6 ++---
+ drivers/pci/controller/pci-tegra.c            |  5 +---
+ drivers/phy/phy-core.c                        | 26 +++++++++++++++++++
+ drivers/usb/host/ehci-exynos.c                | 24 +++++------------
+ drivers/usb/host/ohci-exynos.c                | 24 +++++------------
+ include/linux/phy/phy.h                       |  9 ++++++
+ 8 files changed, 59 insertions(+), 48 deletions(-)
 
 -- 
-heikki
+2.34.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
