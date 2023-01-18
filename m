@@ -2,586 +2,200 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE13A67252E
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 18:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A6AA672628
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Jan 2023 19:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230509AbjARRkJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Jan 2023 12:40:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37720 "EHLO
+        id S230329AbjARSCF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Jan 2023 13:02:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231263AbjARRjz (ORCPT
+        with ESMTP id S230356AbjARSBA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Jan 2023 12:39:55 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1987759B4D
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 09:39:53 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id n7so8657052wrx.5
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Jan 2023 09:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wtwVyM3K+4xfqOEqd0qS9jQUn3un4dIlOZ3IaOVmOyo=;
-        b=uG1LoW51EyTrR5K0su1WK7HgiV36VrKRpjf9MMIxBKxArggNiL2gx3cbAclzZEnGrX
-         173HD3BB4/BQRq2R/W1sT/l09f8WqPXdK9ZPSgaKxMRXJt+aOo4q9JY/ZqcxAv0tb9XJ
-         3TFUWt70aAnHCUa6YQWTveEKwbt/QJjGE5UYjs2tS0LyI0aNugkdYz3HNb7zquj5Ndkz
-         mtkMvQ18inXyuY2JCFt8qMVlOhEEzXZtKX0RscXIU/CXARgdk1SfAd2RxyqZZf0Bcm3l
-         qSz5PmQX71Tk4es9dGaQQe+EN2Th4RsmYJ0Ch2xaYIKqc+U24Fu5lJ1HvVj+ZL8rf0YJ
-         NTbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wtwVyM3K+4xfqOEqd0qS9jQUn3un4dIlOZ3IaOVmOyo=;
-        b=XXj0KN5KN9Ar/IAeMNsexwjXfTwpTd9Z6A9BMMnzU/waNG1wmoDA2f7z2/bCBlNrDd
-         MPOPlklDXrm4xikp33Ge9RnfQNYanGaAQWdGOLjWSH5MgJj6sjHQyYjwj6NLwLACmsG0
-         sl/ah0aq1Gz4hVyDrqDwdkwugOHEUVUeIedxGAkMXW0WTdSR40QfJis8Y7rj53Z3Z2Oe
-         nANrllKmCpvc3Zw8BKL3kmu3BZ9Ew5821892OqpN39wwjXQsB0BtXRNR5RUTxrGytLgP
-         nl5wgQOrPsfz2+In7CwIovsn8CKHC9ocfKQUTCE+90/ly//Vm0oNsptN3VZd3m3Hv929
-         iwSg==
-X-Gm-Message-State: AFqh2koiazgVatAQHJzkLYv1RvS60AohKK6llJPKkCr+l+NbNsqJLwO8
-        j5Pao5g5x7d0CnU1LargeSLMiA==
-X-Google-Smtp-Source: AMrXdXssGP6UUIlZOO/mf0W4Agmrlx2dZmmc5gPJRGSrJysLLW8tVlfCePh1WGEBQI7iccNrD8TtpQ==
-X-Received: by 2002:a05:6000:110e:b0:2bd:db2a:ec8 with SMTP id z14-20020a056000110e00b002bddb2a0ec8mr2666620wrw.28.1674063591544;
-        Wed, 18 Jan 2023 09:39:51 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id u24-20020adfa198000000b002bc84c55758sm28730074wru.63.2023.01.18.09.39.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 09:39:51 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-        =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>, Han Xu <han.xu@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Haibo Chen <haibo.chen@nxp.com>,
-        Yogesh Gaur <yogeshgaur.83@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Li-hao Kuo <lhjeff911@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        =?UTF-8?q?=82ecki?= <rafal@milecki.pl>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Parshuram Thombare <pthombar@cadence.com>,
-        Leilk Liu <leilk.liu@mediatek.com>,
-        Gabor Juhos <juhosg@openwrt.org>,
-        Bert Vermeulen <bert@biot.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Marek Vasut <marex@denx.de>,
-        Birger Koblitz <mail@birger-koblitz.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Kuldeep Singh <singh.kuldeep87k@gmail.com>,
-        Pragnesh Patel <pragnesh.patel@sifive.com>,
-        Christophe Kerello <christophe.kerello@foss.st.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Erwan Leray <erwan.leray@foss.st.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] spi: dt-bindings: cleanup examples - indentation, lowercase hex
-Date:   Wed, 18 Jan 2023 18:39:32 +0100
-Message-Id: <20230118173932.358153-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230118173932.358153-1-krzysztof.kozlowski@linaro.org>
-References: <20230118173932.358153-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
+        Wed, 18 Jan 2023 13:01:00 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5161059B7D;
+        Wed, 18 Jan 2023 10:00:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b13MVDYY7bbGHTUlgwSYceJVDjyUJZupY3pgMiyFK1TKbeP97ncYvK4CjK17HFBsq4KaaVh62JifSV4251Pz7A1fLGGbNhI38KukZDARp/DDMhT77K70Pnlg2JKYNrqoX+rBoy0LF+b0Pt/VBwLhhkvf+BG6Vx8CjHe2o2JZe9Rhvm53Oe5rYq3Jd7uO8tDdC2efjDaK3p7lnwFE0qNx63RK+UcdnSKhakPHCeiiP7ny7yMx1M2Yh0pkZju8prBzLenXvowWnZwIBkMbA0VPQHZN3dw9XatzJGRHFflTsdduMS9O8XR9vj1At02tSvBBFt59+hNk+sLlB4Ol6bxo0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OXY/qk74Ck4Y66fZQMt4tpXzsyUT4nAbalQAysEmLhI=;
+ b=XVW3okh659iMcvaJl7MDK/xeuemIwZYRHrKHnSvdRSwkGIwoxDc1WXt5wBjXxjs2I+6q5jS3IJMwKVERouraFf+bwXlRd3O/p+hXuZSWK8EnHyCGHOExF1tOi4Hih5Sp3Esd+fNgWJQvhk1UMlcroKct5vdjG7hk0gMyAiRQ1LykofOL//YCoQb8oe3j2xyzgnSXEnt40uRg0fKdFhEn983Ht7ZFUGSzpWdSHSuyQDO5Pt7fvScSDsWD3yPzO1qRk+Yib12j1wL/stt+jSDqCa38xot6M6Q4f73IKkFsLQ1HyxgQ2EfcZmjALJE4GYrhPM25eiYFee4M4Ik8RYfNtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OXY/qk74Ck4Y66fZQMt4tpXzsyUT4nAbalQAysEmLhI=;
+ b=TUwlS+NBxcX+vCPVtzaYrc76yJkjqdBbQSY2sOB0iH4VncYJ3qbdw3nDXPjsTAP+hF8M0F2stGmSewFk7wvvbLnoyQ/bBe7mizH/RuIRWjMuzflT3uETdWHsQRDT3DMIETOxgdOl4ANZPhCNZ+2OgWRPed7nStgWCaUCq79fWqQQfQ1cHQZQZ7oajjCHdcmkdNGowVmby7/TZBnaEJK1FquDHTfb1obO4naPZ6L5+2LHtRfVuL2Go3H2wb4bs+iq5DEFi0AhfSvu7qbYuuF7ElqAuSWCh3fue1K7JLF1hUgfpT2+++Dk2RhbcKVcdV166GL8qvbDzC7qLimi1G1KGA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB5818.namprd12.prod.outlook.com (2603:10b6:8:62::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Wed, 18 Jan
+ 2023 18:00:50 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.6002.013; Wed, 18 Jan 2023
+ 18:00:50 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v2 00/10] Let iommufd charge IOPTE allocations to the memory cgroup
+Date:   Wed, 18 Jan 2023 14:00:34 -0400
+Message-Id: <0-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0020.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::23) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5818:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcb5a4b7-172b-4677-f89a-08daf97decb8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dhP7/JH5PJMpBi3jgPqbwyjejs4hvrmKK3Fk6bDqtC2i7rBV+4IQBRJx+2tGiPJEZUcTGIvh/bMCVkamjb5TS9IVBlzpLrzJ593r7yfa90hVEppx7DOER0DiIezgs4MmqJ6/GxrmxPRMSvMq1d4SumkMCK1Np58pIzthcP/NMBilOBde7K7Sfwvg1nA3+ijAB5p1rPoqnnsRfRmMmAylIEW5vDlMNnu4+rr2ZfrM6xI3RFGTvGb2ITuZBJQ4UyVOlcDCnU2fzKU+Pp7KJynLVEUPPM54k8TrUeiMmfoNnigk0KINY9N5qw97RxM0/2L7QHqkzPGt+UPt/aqa/ZMuQmH63F3z+e0CAc2qxSJEj5Tz5eaeNphusUpeVCmymolXnxpZ1A+zV8pvRPaVdfnS/hUC+rS1dk9U/Ifv4NdqDM4Cn0escktZRxgYe3FSw/St3BqYMhpag+ezcNs5ETtm4hHmGAIe8ZSSzXt2k4+W8/i8l09qvT+BKBEfamuQQRfZhUThBRVYFIl5XOPo0gKZm7TP47UqCjut5ON3TRM4EL7INixslVkOOH5K/WsmR0o8MldEvshCrn8tN3wxdILDYw8siHxfBhCtdwAvQUqNnzJk65LaSYYqwOikLkbr7kCWArLHlWt3AqJrvq0LHxqwo1CMZqNcZlC4lce4dmg5qldFxeANL/sQeLd+4UPbUeOs0ocEuQv7M9TKxO+Sl27+dP1pjtwAqiJKK7Ec0mLnMytJWoTDHpdWHFE0r2TDVL5/KbMjibdTrYvjMnE1drY0Kw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199015)(8676002)(36756003)(83380400001)(41300700001)(8936002)(2906002)(66476007)(2616005)(110136005)(54906003)(4326008)(316002)(5660300002)(38100700002)(86362001)(66556008)(7416002)(186003)(6486002)(966005)(6512007)(478600001)(26005)(66946007)(6666004)(6506007)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0+ipP0cNJR2O6QiA4qAaCOd1JJtpo+Q3j+cwqjBTF2x0XiedG6mwWY8m4syw?=
+ =?us-ascii?Q?VqaPUfT3771B6PHVF3pa4eUCY5aAISihxLoMpnwqIMgDZK6nZyBfv+QZNpIz?=
+ =?us-ascii?Q?jdNsMszjfxcyZgs4zplJWVfeQ/kXpRLKQagSE9WpfES6s1w2ucjznFkX6/Ph?=
+ =?us-ascii?Q?NGs/1ugsrZOon702kvPlS1jDKPzetVhrNFGvM3Mz5h+MT+ZJzceQAuPvDcys?=
+ =?us-ascii?Q?x3F//F8LMt59t4A3M81KNIjgMxzv4re1HxH9rfZI4KSFAH/NzmTflXiv1wYp?=
+ =?us-ascii?Q?2Ngl9cfzjveo5PSWh5A2PuXrceSar6J+Adl0qBitNs8IJPhx4iuVB4h7P6o8?=
+ =?us-ascii?Q?60xV2l2MvD0ysfhVSTJUtrvmw8QKEdFoM/YpscVsICLB1PytaLGuIIQrL8eu?=
+ =?us-ascii?Q?TfyBXcHEoFXN+aJYopewsFT43KXNYSamP2cjLT8Q7K9lPZO8+7EbYhX4AwK9?=
+ =?us-ascii?Q?PCmpxzKSOt0YQYAzQimzrDvpZzM+FlCdciwyQWPqhAOzrKuMW3cniTOfFTkk?=
+ =?us-ascii?Q?+fZt34Jac5t5ydnk9Zx8AsttfjQq6V/kv9OOTnSsP9PMQj7YzZe13mjbOS3V?=
+ =?us-ascii?Q?OoMw1RAFi9jq1KKDnAzjMk+ynL6L/OQdsV4ec0ZR70QpsF/PfW6EeY8SsiY+?=
+ =?us-ascii?Q?D4IGOG/XT4ssA6eq5cxiA4J3r5CHDAeISote6SbiSeykopbkfuN56ZiAORBn?=
+ =?us-ascii?Q?ZdztHdTZ00l3ilwF+4YZJFcA4hlIm/zlp0SN283dWAz4xtbcdGnK4mzXa/mm?=
+ =?us-ascii?Q?fcg1VDdUQ65TfqynvCXCBuK7QQfwss15ToKItTK+3PMIBA7hfc4rAdKcNbZJ?=
+ =?us-ascii?Q?RBa4h6kuEfePhIfC9TfOCkAUfU+b5bboiqLdk8yBsAB4hwLEE3EBO3OL5Hfu?=
+ =?us-ascii?Q?gjeIjgrqz8jn1yPCaLVUAi9ijzUy6KEWpxCakHhyZJB5OLeNQ5HhB0OY4Ny6?=
+ =?us-ascii?Q?201l7yta+8FvttgWSXSm2Ee/UsbIlM7Tbs1gn8WaNyA40GwkFO0A1zGUPMyN?=
+ =?us-ascii?Q?bErVz4KdK0ktRnEN/1S6E6XRRIk5bE/av/cvCawQjyRu7BvrLXGKFQcagWvL?=
+ =?us-ascii?Q?UJ60G3pebbKDX9g3Hu73QGD7EA17+A8tj0+XMH1mpijjGz+125mRn/iTEWnD?=
+ =?us-ascii?Q?sJkgCFlbFDOGtpPKXlsu0wW3kryKng9mafn2sLdpfD+vM9ihZfKyKS7brGqU?=
+ =?us-ascii?Q?rHT3yEfUauqdqtm7GB6rPBHhGZMvUhLznmjTIwXqNg590Imkr02G1GoVX+kN?=
+ =?us-ascii?Q?MRRY4HcY+3osmGhrgI2Y6c+eT3kB7sezMngl+STL9qAXw9ZhDiysUc2et5nW?=
+ =?us-ascii?Q?jVxlDPDUpc2yi74FuDwcXkWKb5/tc8p3mC1Rzmmbe0cb4ntUHf64R8lvp9TP?=
+ =?us-ascii?Q?KRwcKM1ZGLQevf+yO+1Y7uldA3INxd5+8hdRh3CEScfKvxkQneEd3MKWvptF?=
+ =?us-ascii?Q?y9h65bkhwPwE+KYNrV5qJZLgfuiGjRWN8lBQTdaLcuglmRlBsz7Bk/U/4hoB?=
+ =?us-ascii?Q?dgtdwmLKSTne1sT/4M21wMFV2Ylqq2p1xyXRgAui5DAbVY5cXbiK6BmtzjJO?=
+ =?us-ascii?Q?8OM+FY96VE55yFmFvVEUYUm6yt0RE1J2CDAFAjS7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcb5a4b7-172b-4677-f89a-08daf97decb8
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 18:00:46.6307
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GOJpGrHkqt8CsdlS6nmGOEHGfnMgfuRRM0eCoTW337GkTTyDQ89VkV1f0l1EeTO2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5818
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Cleanup examples:
- - use 4-space indentation (for cases when it is neither 4 not 2 space),
- - drop redundant blank lines,
- - use lowercase hex.
+iommufd follows the same design as KVM and uses memory cgroups to limit
+the amount of kernel memory a iommufd file descriptor can pin down. The
+various internal data structures already use GFP_KERNEL_ACCOUNT to charge
+its own memory.
 
-No functional impact except adjusting to preferred coding style.
+However, one of the biggest consumers of kernel memory is the IOPTEs
+stored under the iommu_domain and these allocations are not tracked.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
- .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
- .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
- .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
- .../bindings/spi/cdns,qspi-nor.yaml           |   4 +-
- .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
- .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
- .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
- .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
- .../devicetree/bindings/spi/st,stm32-spi.yaml |   1 -
- 10 files changed, 150 insertions(+), 152 deletions(-)
+This series is the first step in fixing it.
 
-diff --git a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-index e5eca3a6f132..4e28e6e9d8e0 100644
---- a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-+++ b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-@@ -100,17 +100,17 @@ unevaluatedProperties: false
- examples:
-   - |
-     spi@c1108d80 {
--          compatible = "amlogic,meson-gx-spicc";
--          reg = <0xc1108d80 0x80>;
--          interrupts = <112>;
--          clocks = <&clk81>;
--          clock-names = "core";
--          #address-cells = <1>;
--          #size-cells = <0>;
--
--          display@0 {
--              compatible = "lg,lg4573";
--              spi-max-frequency = <1000000>;
--              reg = <0>;
--          };
-+        compatible = "amlogic,meson-gx-spicc";
-+        reg = <0xc1108d80 0x80>;
-+        interrupts = <112>;
-+        clocks = <&clk81>;
-+        clock-names = "core";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        display@0 {
-+            compatible = "lg,lg4573";
-+            spi-max-frequency = <1000000>;
-+            reg = <0>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml b/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-index 806043fed4d1..8e769ccda97f 100644
---- a/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-+++ b/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-@@ -40,15 +40,15 @@ unevaluatedProperties: false
- examples:
-   - |
-     spi@c1108c80 {
--          compatible = "amlogic,meson6-spifc";
--          reg = <0xc1108c80 0x80>;
--          clocks = <&clk81>;
--          #address-cells = <1>;
--          #size-cells = <0>;
--
--          flash: flash@0 {
--              compatible = "spansion,m25p80", "jedec,spi-nor";
--              reg = <0>;
--              spi-max-frequency = <40000000>;
--          };
-+        compatible = "amlogic,meson6-spifc";
-+        reg = <0xc1108c80 0x80>;
-+        clocks = <&clk81>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        flash: flash@0 {
-+            compatible = "spansion,m25p80", "jedec,spi-nor";
-+            reg = <0>;
-+            spi-max-frequency = <40000000>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-index aae6fb139b5b..57d932af4506 100644
---- a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-+++ b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-@@ -60,23 +60,23 @@ examples:
-         interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 
-         flash@0 {
--                reg = < 0 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 0 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
- 
-         flash@1 {
--                reg = < 1 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 1 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
- 
-         flash@2 {
--                reg = < 2 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 2 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-index ec5873919170..28222aae3077 100644
---- a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-@@ -99,98 +99,98 @@ required:
- examples:
-   - | # BRCMSTB SoC: SPI Master (MSPI+BSPI) for SPI-NOR access
-     spi@f03e3400 {
--            compatible = "brcm,spi-brcmstb-qspi", "brcm,spi-bcm-qspi";
--            reg = <0xf03e3400 0x188>, <0xf03e3200 0x50>, <0xf03e0920 0x4>;
--            reg-names = "mspi", "bspi", "cs_reg";
--            interrupts = <0x5>, <0x6>, <0x1>, <0x2>, <0x3>, <0x4>, <0x0>;
--            interrupt-parent = <&gic>;
--            interrupt-names = "mspi_done",
--                              "mspi_halted",
--                              "spi_lr_fullness_reached",
--                              "spi_lr_session_aborted",
--                              "spi_lr_impatient",
--                              "spi_lr_session_done",
--                              "spi_lr_overread";
--            clocks = <&hif_spi>;
--            #address-cells = <0x1>;
--            #size-cells = <0x0>;
--
--            flash@0 {
--                    #size-cells = <0x2>;
--                    #address-cells = <0x2>;
--                    compatible = "m25p80";
--                    reg = <0x0>;
--                    spi-max-frequency = <0x2625a00>;
--                    spi-cpol;
--                    spi-cpha;
--            };
-+        compatible = "brcm,spi-brcmstb-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0xf03e3400 0x188>, <0xf03e3200 0x50>, <0xf03e0920 0x4>;
-+        reg-names = "mspi", "bspi", "cs_reg";
-+        interrupts = <0x5>, <0x6>, <0x1>, <0x2>, <0x3>, <0x4>, <0x0>;
-+        interrupt-parent = <&gic>;
-+        interrupt-names = "mspi_done",
-+                          "mspi_halted",
-+                          "spi_lr_fullness_reached",
-+                          "spi_lr_session_aborted",
-+                          "spi_lr_impatient",
-+                          "spi_lr_session_done",
-+                          "spi_lr_overread";
-+        clocks = <&hif_spi>;
-+        #address-cells = <0x1>;
-+        #size-cells = <0x0>;
-+
-+        flash@0 {
-+            #size-cells = <0x2>;
-+            #address-cells = <0x2>;
-+            compatible = "m25p80";
-+            reg = <0x0>;
-+            spi-max-frequency = <0x2625a00>;
-+            spi-cpol;
-+            spi-cpha;
-+        };
-     };
-   - | # BRCMSTB SoC: MSPI master for any SPI device
-     spi@f0416000 {
--            clocks = <&upg_fixed>;
--            compatible = "brcm,spi-brcmstb-mspi", "brcm,spi-bcm-qspi";
--            reg = <0xf0416000 0x180>;
--            reg-names = "mspi";
--            interrupts = <0x14>;
--            interrupt-parent = <&irq0_aon_intc>;
--            interrupt-names = "mspi_done";
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        clocks = <&upg_fixed>;
-+        compatible = "brcm,spi-brcmstb-mspi", "brcm,spi-bcm-qspi";
-+        reg = <0xf0416000 0x180>;
-+        reg-names = "mspi";
-+        interrupts = <0x14>;
-+        interrupt-parent = <&irq0_aon_intc>;
-+        interrupt-names = "mspi_done";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-   - | # iProc SoC
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     spi@18027200 {
--            compatible = "brcm,spi-nsp-qspi", "brcm,spi-bcm-qspi";
--            reg = <0x18027200 0x184>,
--                  <0x18027000 0x124>,
--                  <0x1811c408 0x004>,
--                  <0x180273a0 0x01c>;
--            reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
--            interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
--            interrupt-names = "mspi_done",
--                              "mspi_halted",
--                              "spi_lr_fullness_reached",
--                              "spi_lr_session_aborted",
--                              "spi_lr_impatient",
--                              "spi_lr_session_done";
--            clocks = <&iprocmed>;
--            num-cs = <2>;
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        compatible = "brcm,spi-nsp-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0x18027200 0x184>,
-+              <0x18027000 0x124>,
-+              <0x1811c408 0x004>,
-+              <0x180273a0 0x01c>;
-+        reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
-+        interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "mspi_done",
-+                          "mspi_halted",
-+                          "spi_lr_fullness_reached",
-+                          "spi_lr_session_aborted",
-+                          "spi_lr_impatient",
-+                          "spi_lr_session_done";
-+        clocks = <&iprocmed>;
-+        num-cs = <2>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-   - | # NS2 SoC
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     spi@66470200 {
--            compatible = "brcm,spi-ns2-qspi", "brcm,spi-bcm-qspi";
--            reg = <0x66470200 0x184>,
--                  <0x66470000 0x124>,
--                  <0x67017408 0x004>,
--                  <0x664703a0 0x01c>;
--            reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
--            interrupts = <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>;
--            interrupt-names = "spi_l1_intr";
--            clocks = <&iprocmed>;
--            num-cs = <2>;
-+        compatible = "brcm,spi-ns2-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0x66470200 0x184>,
-+              <0x66470000 0x124>,
-+              <0x67017408 0x004>,
-+              <0x664703a0 0x01c>;
-+        reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
-+        interrupts = <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "spi_l1_intr";
-+        clocks = <&iprocmed>;
-+        num-cs = <2>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        flash@0 {
-             #address-cells = <1>;
--            #size-cells = <0>;
--
--            flash@0 {
--                    #address-cells = <1>;
--                    #size-cells = <1>;
--                    compatible = "m25p80";
--                    reg = <0x0>;
--                    spi-max-frequency = <12500000>;
--                    spi-cpol;
--                    spi-cpha;
--            };
-+            #size-cells = <1>;
-+            compatible = "m25p80";
-+            reg = <0x0>;
-+            spi-max-frequency = <12500000>;
-+            spi-cpol;
-+            spi-cpha;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-index 9be4e2c5d1ee..7606b5a252b6 100644
---- a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-+++ b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-@@ -117,7 +117,7 @@ examples:
-       reset-names = "qspi", "qspi-ocp";
- 
-       flash@0 {
--              compatible = "jedec,spi-nor";
--              reg = <0x0>;
-+        compatible = "jedec,spi-nor";
-+        reg = <0x0>;
-       };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-index 9f78b2c06494..9ae1611175f2 100644
---- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-+++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-@@ -74,25 +74,25 @@ examples:
-     #include <dt-bindings/reset/tegra210-car.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     spi@70410000 {
--            compatible = "nvidia,tegra210-qspi";
--            reg = <0x70410000 0x1000>;
--            interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
--            #address-cells = <1>;
--            #size-cells = <0>;
--            clocks = <&tegra_car TEGRA210_CLK_QSPI>,
--                     <&tegra_car TEGRA210_CLK_QSPI_PM>;
--            clock-names = "qspi", "qspi_out";
--            resets = <&tegra_car 211>;
--            dmas = <&apbdma 5>, <&apbdma 5>;
--            dma-names = "rx", "tx";
--
--            flash@0 {
--                    compatible = "jedec,spi-nor";
--                    reg = <0>;
--                    spi-max-frequency = <104000000>;
--                    spi-tx-bus-width = <2>;
--                    spi-rx-bus-width = <2>;
--                    nvidia,tx-clk-tap-delay = <0>;
--                    nvidia,rx-clk-tap-delay = <0>;
--            };
-+        compatible = "nvidia,tegra210-qspi";
-+        reg = <0x70410000 0x1000>;
-+        interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        clocks = <&tegra_car TEGRA210_CLK_QSPI>,
-+                 <&tegra_car TEGRA210_CLK_QSPI_PM>;
-+        clock-names = "qspi", "qspi_out";
-+        resets = <&tegra_car 211>;
-+        dmas = <&apbdma 5>, <&apbdma 5>;
-+        dma-names = "rx", "tx";
-+
-+        flash@0 {
-+            compatible = "jedec,spi-nor";
-+            reg = <0>;
-+            spi-max-frequency = <104000000>;
-+            spi-tx-bus-width = <2>;
-+            spi-rx-bus-width = <2>;
-+            nvidia,tx-clk-tap-delay = <0>;
-+            nvidia,rx-clk-tap-delay = <0>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-index 85e7770703bd..e94d915e28c8 100644
---- a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-@@ -87,7 +87,6 @@ examples:
-                 spi-tx-bus-width = <2>;
-                 spi-rx-bus-width = <2>;
-             };
--
-         };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-index f45d3b75d6de..4d8ec69214c9 100644
---- a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-@@ -141,15 +141,15 @@ examples:
-     #include <dt-bindings/power/r8a7791-sysc.h>
- 
-     qspi: spi@e6b10000 {
--            compatible = "renesas,qspi-r8a7791", "renesas,qspi";
--            reg = <0xe6b10000 0x2c>;
--            interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
--            clocks = <&cpg CPG_MOD 917>;
--            dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
--            dma-names = "tx", "rx", "tx", "rx";
--            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
--            resets = <&cpg 917>;
--            num-cs = <1>;
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        compatible = "renesas,qspi-r8a7791", "renesas,qspi";
-+        reg = <0xe6b10000 0x2c>;
-+        interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 917>;
-+        dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
-+        dma-names = "tx", "rx", "tx", "rx";
-+        power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+        resets = <&cpg 917>;
-+        num-cs = <1>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-diff --git a/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml b/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-index 69a463305274..edb5ba71af3a 100644
---- a/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-@@ -59,9 +59,9 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
--    spi@9C002D80 {
-+    spi@9c002d80 {
-         compatible = "sunplus,sp7021-spi";
--        reg = <0x9C002D80 0x80>, <0x9C002E00 0x80>;
-+        reg = <0x9c002d80 0x80>, <0x9c002e00 0x80>;
-         reg-names = "master", "slave";
-         interrupt-parent = <&intc>;
-         interrupt-names = "dma_w",
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-index d35c6f7e2dd5..18afdaab946d 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-@@ -95,7 +95,6 @@ examples:
-              <&dmamux1 1 40 0x400 0x05>;
-       dma-names = "rx", "tx";
-       cs-gpios = <&gpioa 11 0>;
--
-     };
- 
- ...
+The iommu driver contract already includes a 'gfp' argument to the
+map_pages op, allowing iommufd to specify GFP_KERNEL_ACCOUNT and then
+having the driver allocate the IOPTE tables with that flag will capture a
+significant amount of the allocations.
+
+Update the iommu_map() API to pass in the GFP argument, and fix all call
+sites. Replace iommu_map_atomic().
+
+Audit the "enterprise" iommu drivers to make sure they do the right thing.
+Intel and S390 ignore the GFP argument and always use GFP_ATOMIC. This is
+problematic for iommufd anyhow, so fix it. AMD and ARM SMMUv2/3 are
+already correct.
+
+A follow up series will be needed to capture the allocations made when the
+iommu_domain itself is allocated, which will complete the job.
+
+v2:
+ - Prohibit bad GFP flags in the iommu wrappers
+ - Split out the new GFP_KERNEL usages into dedicated patches so it is
+   easier to check. No code change after the full series
+v1: https://lore.kernel.org/r/0-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com
+
+Jason Gunthorpe (10):
+  iommu: Add a gfp parameter to iommu_map()
+  iommu: Remove iommu_map_atomic()
+  iommu: Add a gfp parameter to iommu_map_sg()
+  iommu/dma: Use the gfp parameter in __iommu_dma_alloc_noncontiguous()
+  iommufd: Use GFP_KERNEL_ACCOUNT for iommu_map()
+  iommu/intel: Add a gfp parameter to alloc_pgtable_page()
+  iommu/intel: Support the gfp argument to the map_pages op
+  iommu/intel: Use GFP_KERNEL in sleepable contexts
+  iommu/s390: Push the gfp parameter to the kmem_cache_alloc()'s
+  iommu/s390: Use GFP_KERNEL in sleepable contexts
+
+ arch/arm/mm/dma-mapping.c                     | 11 ++--
+ arch/s390/include/asm/pci_dma.h               |  5 +-
+ arch/s390/pci/pci_dma.c                       | 31 ++++++-----
+ .../drm/nouveau/nvkm/subdev/instmem/gk20a.c   |  3 +-
+ drivers/gpu/drm/tegra/drm.c                   |  2 +-
+ drivers/gpu/host1x/cdma.c                     |  2 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c      |  4 +-
+ drivers/iommu/dma-iommu.c                     | 11 ++--
+ drivers/iommu/intel/iommu.c                   | 36 +++++++------
+ drivers/iommu/intel/iommu.h                   |  2 +-
+ drivers/iommu/intel/pasid.c                   |  2 +-
+ drivers/iommu/iommu.c                         | 53 +++++++------------
+ drivers/iommu/iommufd/pages.c                 |  6 ++-
+ drivers/iommu/s390-iommu.c                    | 15 +++---
+ drivers/media/platform/qcom/venus/firmware.c  |  2 +-
+ drivers/net/ipa/ipa_mem.c                     |  6 ++-
+ drivers/net/wireless/ath/ath10k/snoc.c        |  2 +-
+ drivers/net/wireless/ath/ath11k/ahb.c         |  4 +-
+ drivers/remoteproc/remoteproc_core.c          |  5 +-
+ drivers/vfio/vfio_iommu_type1.c               |  9 ++--
+ drivers/vhost/vdpa.c                          |  2 +-
+ include/linux/iommu.h                         | 31 +++--------
+ 22 files changed, 119 insertions(+), 125 deletions(-)
+
+
+base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
 -- 
-2.34.1
+2.39.0
 
