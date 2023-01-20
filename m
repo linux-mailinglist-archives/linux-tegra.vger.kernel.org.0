@@ -2,54 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6AE675B6B
+	by mail.lfdr.de (Postfix) with ESMTP id AC742675B6C
 	for <lists+linux-tegra@lfdr.de>; Fri, 20 Jan 2023 18:31:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbjATRbU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S230224AbjATRbU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Fri, 20 Jan 2023 12:31:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbjATRbR (ORCPT
+        with ESMTP id S230216AbjATRbR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Fri, 20 Jan 2023 12:31:17 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B9D2DBC8;
-        Fri, 20 Jan 2023 09:31:09 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id o17-20020a05600c511100b003db021ef437so4234707wms.4;
-        Fri, 20 Jan 2023 09:31:09 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BDC08BA89;
+        Fri, 20 Jan 2023 09:31:10 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id g10so4656915wmo.1;
+        Fri, 20 Jan 2023 09:31:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D4HRh/xECMVrkAQ+rHzLh2y2hx0e7txexSDUMhaR4Ks=;
-        b=KOAy7WqeTvP8+Sbxusk9elhvfXIfyG8QADBBoywCpEcBPcOP35aZ2eFIxNC8ba5J8S
-         ejgpcz6IZhgQ9jtjJjsXnZV8qJ3lJwF/gXp3RXcD5Iw1lT+tDbvTzl1pEy1IdC7jjqks
-         yrCtZnhYlBkJhI1HGOBOIu/IUvgeZdegsizv94t/ybFUOdb+mmXUSDb2bH5EWTiF1JzI
-         57P7OTdbT1iHUgcpQCsP8xnLFNOvrS4oIzSOG+/fb3avZa5o9MFFxqRWHjUjLDWYqSMu
-         tscKRJ9ohqkJvPnS9tyfJBUYEd+eLXgcDKmf9/3Im+aZ6ONe0YLvaVpYyujNycdX2gXP
-         EQNA==
+        bh=GBbS1vR/mSuCPWTVaI9sYUbEGcKE+xDxJZ9yOEMjCrg=;
+        b=qjJVGDJH0jKQ0b4gzTbkmZrDvUkl0cBq7dqS3DzmJkGXk0cUiGw8MiLlBytpyxXpe5
+         nPd0+VJ6zqdQsWok6dWwpaQBGSKGsvLc4gOrnwT1BVZvQK+0aLewi7lVVZHJUFxJPn06
+         g41pppSD132BYkYxl21lBvFQjz6pO66N66lmvbCaP3vkyAEGnAD2nlCuZ1R5vEuUmPxZ
+         2KTrzvHbb3+2zUKcoGlUfsJmTEiwjhSdt2OYDX1MXzRcV6vsbD50CYFwRnlVDpQNTUq2
+         QwOeJ4cLfmobuPYC8LGX27KOOZ0rqd+21etuwUqfegxoR29BVSHH88bVUIv61f2xTjHx
+         edOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D4HRh/xECMVrkAQ+rHzLh2y2hx0e7txexSDUMhaR4Ks=;
-        b=iT8x8NtOr0pT3UnS4CgDLIqehEc3roZkqMBG7Ea5+K9iz65vC3qKM3yEEqR2ffeWZ1
-         exQVO18WttMiFlUADVumxr86LAkUpA54gTZVOLkOCiZGP3tI9lJs1uRbDMlNYo0DI8jV
-         kEx+2paxnnEtFCsD/aJ8DvfLLZec3BTSXA1OQJ9m0OtOCnXCUUkfDeU4De9kOJGSrJo9
-         ktYWNKcO9WfsjmJBUJ5+B/JnC58YMd2gQv8Wih4FIj/dA6bR3Ut9kDRO4dgsonQ0tjzr
-         X96Zemyps1SnqfHVYWpgeWQ+mKDOFXvz3aC4yHaj07DnnmzZZD4aKCtIKk3XfROW75I9
-         FO8w==
-X-Gm-Message-State: AFqh2krfcp//2133qW67ZB2dSBg7E+/Bnt16Eo+y6QbI9R4IeVbxq7Qv
-        ivWl5CgLhU989QcN30I5wy0=
-X-Google-Smtp-Source: AMrXdXs++sNuHqUOoSyqqneB+mzWpppVn+a3j8F11wwCSMf5OEMNBjzUd4wpvTw9gp8LCE0jyfcYHA==
-X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id j35-20020a05600c1c2300b003db0b9f0f2emr13321794wms.14.1674235867778;
-        Fri, 20 Jan 2023 09:31:07 -0800 (PST)
+        bh=GBbS1vR/mSuCPWTVaI9sYUbEGcKE+xDxJZ9yOEMjCrg=;
+        b=fqB1jCDpTP2QFOmX0O/tCNdjD1o07GaoIFh2DNmp0LJZZRkeT2DwZJbA9/WhCHj57X
+         UBP1esBnEL64MdLVLY/r0G3Qy350yU1SqNmWykgVyZBL9v7l0RHmTTJl6DMEOEBniAuW
+         FZkWxv+SQw50xpzxGB2Jdfi5CSVdfN9KZ6DSYK80DXNt/sby5HduFDJvFpHCi+kXj2Xc
+         HEE0l/ig1vqAqGsrSDIaN+d28MLguPgDq7YuN13RelkJPE5b3/hgW1xW228dxZYOBWT8
+         59Kz4KYsnG8bALeFWJYiffiYDBItGSRj3Ms4ioqoi2US/HmodgAgPNYSlomBVhOfCEv8
+         Vb1g==
+X-Gm-Message-State: AFqh2kqUaQTLK6OtK3mUuVrWsGViqBAHPj3OyCpJsP3m2Oaqzrma72KS
+        lRRhx8FzocM271GWmwuAxuo=
+X-Google-Smtp-Source: AMrXdXsbFPG+yPqtgN9BXP7pJsSnwZmnCuFETW1Ckv3V7VUiLfVY2ra6BoEUOfuxX5YKtYvRx/HBcg==
+X-Received: by 2002:a05:600c:6006:b0:3db:21b8:5f58 with SMTP id az6-20020a05600c600600b003db21b85f58mr7162938wmb.2.1674235868713;
+        Fri, 20 Jan 2023 09:31:08 -0800 (PST)
 Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id p8-20020a5d4588000000b002bdfb97e029sm14413258wrq.19.2023.01.20.09.31.07
+        by smtp.gmail.com with ESMTPSA id w4-20020adfee44000000b0029100e8dedasm36214943wro.28.2023.01.20.09.31.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 09:31:07 -0800 (PST)
+        Fri, 20 Jan 2023 09:31:08 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
         Thomas Zimmermann <tzimmermann@suse.de>
@@ -57,9 +57,9 @@ Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Robin Murphy <robin.murphy@arm.com>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 1/8] dt-bindings: display: simple-framebuffer: Support system memory framebuffers
-Date:   Fri, 20 Jan 2023 18:30:56 +0100
-Message-Id: <20230120173103.4002342-2-thierry.reding@gmail.com>
+Subject: [PATCH v4 2/8] dt-bindings: display: simple-framebuffer: Document 32-bit BGR format
+Date:   Fri, 20 Jan 2023 18:30:57 +0100
+Message-Id: <20230120173103.4002342-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120173103.4002342-1-thierry.reding@gmail.com>
 References: <20230120173103.4002342-1-thierry.reding@gmail.com>
@@ -77,32 +77,35 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-In order to support framebuffers residing in system memory, allow the
-memory-region property to override the framebuffer memory specification
-in the "reg" property.
+This is a variant of the 32-bit RGB format where the red and blue
+components are swapped.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../devicetree/bindings/display/simple-framebuffer.yaml      | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../devicetree/bindings/display/simple-framebuffer.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index dd64f70b5014..3e9857eb002e 100644
+index 3e9857eb002e..3c9f29e428a4 100644
 --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -63,6 +63,11 @@ properties:
-   reg:
-     description: Location and size of the framebuffer memory
+@@ -99,6 +99,7 @@ properties:
+         * `x1r5g5b5` - 16-bit pixels, d[14:10]=r, d[9:5]=g, d[4:0]=b
+         * `x2r10g10b10` - 32-bit pixels, d[29:20]=r, d[19:10]=g, d[9:0]=b
+         * `x8r8g8b8` - 32-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
++        * `x8b8g8r8` - 32-bit pixels, d[23:16]=b, d[15:8]=g, d[7:0]=r
+     enum:
+       - a1r5g5b5
+       - a2r10g10b10
+@@ -110,6 +111,7 @@ properties:
+       - x1r5g5b5
+       - x2r10g10b10
+       - x8r8g8b8
++      - x8b8g8r8
  
-+  memory-region:
-+    maxItems: 1
-+    description: Phandle to a node describing the memory to be used for the
-+      framebuffer. If present, overrides the "reg" property (if one exists).
-+
-   clocks:
-     description: List of clocks used by the framebuffer.
- 
+   display:
+     $ref: /schemas/types.yaml#/definitions/phandle
 -- 
 2.39.0
 
