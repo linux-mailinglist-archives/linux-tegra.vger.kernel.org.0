@@ -2,193 +2,160 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0B4677FFD
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 16:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCFD677EC2
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 16:08:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232735AbjAWPiL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Jan 2023 10:38:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
+        id S231618AbjAWPIh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Jan 2023 10:08:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232742AbjAWPiF (ORCPT
+        with ESMTP id S229791AbjAWPIg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Jan 2023 10:38:05 -0500
-X-Greylist: delayed 4193 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 07:38:03 PST
-Received: from 6.mo552.mail-out.ovh.net (6.mo552.mail-out.ovh.net [188.165.49.222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7659D10402
-        for <linux-tegra@vger.kernel.org>; Mon, 23 Jan 2023 07:38:03 -0800 (PST)
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 731DB2B568;
-        Mon, 23 Jan 2023 13:10:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 23 Jan
- 2023 14:10:10 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-109S0035e8cf7e5-490b-4306-97b9-26c7bcdb01f8,
-                    A67B952EB2D8D9A0A9F9E7F867E869D975DF4B5D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d1743abc-3d9f-cdf4-dfbe-67aac4b1b8cd@kaod.org>
-Date:   Mon, 23 Jan 2023 14:10:05 +0100
-MIME-Version: 1.0
+        Mon, 23 Jan 2023 10:08:36 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222E9E3BC;
+        Mon, 23 Jan 2023 07:08:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M+EY1a2piXUlE3h70EsXdMxTG8bsGNv/QitLcSwl+gxFKCOtUuyGvcJaaHuViCBUoVwPSGiS8Ib8BO/i3ePqv7/Hb84GhbU06to029bREt6Kr43xJY9O99joSN7TA/Wvff6cvwf1Bbh3qVzztmybThAN9XVH+4pmNJLbHWKWeGVgtXArHkBDHbAfqf/5IcAjNmZQrNS44G8r9qX3Pz8aZKdmMeNhE7Lew/okcoIz73cvqTLTbRRYyMNXKYRnyd3lqGET7Tm7agG/zwpAie8teypraWEA8CK1jHha5yQ264c+01r/5x/g5Noq7HERo6mVvqw7Hn6ThuOyDmY/fy/3BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zkUCYVNxoQU8ramC0vCLWCjHQ8QXSBwF6gO6Qt4Rz7A=;
+ b=hmYwnUStH4a+VSNKLCYLsfBD2OfyIujkNuTKjuI87z7z+43OeMiXje47Pa/Kh3yZbiZPjXQ/5U47770LKdC59+uOdyxK/qVz7VS2/+ZVbpT5vIUoD+6Z5A36LSIfxviPTg/XEZKRgZDsqpCQfHg+ctY4Jy7rUHKow+bAIYHj1Ky7qFvA+633b1lOwXv3xnw01ispwqYJ+1tCp0o7e02fhu1S02ziP9A4e64F95D2JpJjd1r8yVwg58IAQKnmf1uZegTZjyzzUmWsJ6e4bntFg/rNMj6ITaSsS9PbilSZVqz3vUNHyVlz6YC7GYN/uXCDWfjoUlnMC/P1iBPBj6ejVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zkUCYVNxoQU8ramC0vCLWCjHQ8QXSBwF6gO6Qt4Rz7A=;
+ b=FCMBjtblkIWvSslJO1AMEg3hMgbOjKFFSKa5eLGu+lrhJ51mM3D7Xmocu4Ukd+4l6cu5JFxpo6xEG7ZbyxwPkeRiateCykq42GOvf6TrnrNjvYL1UK5uowPeHdFc5RxJs4NW3KPGpwusfqWACO3qm/1U+Oevd8KC+KSp3WAY8R5QSyORY1nxT0uDE7khuyecBUxuJaPNGaZG/1UR4pjeqIwjGtbuGVs8/eKvZgwD+GHJuls2QRbI9K9h55Qc+DqOOgN1ijy6SJGqBHNpYGArToh/qrDTo7P0NdBZp/FRHA0zHiO8k9kgd9phpA1wYwNdarPyl9iFPLU5WLBulmOSIA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ CY8PR12MB7414.namprd12.prod.outlook.com (2603:10b6:930:5e::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.33; Mon, 23 Jan 2023 15:08:33 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::f1be:5d:f297:e2f]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::f1be:5d:f297:e2f%8]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 15:08:33 +0000
+Message-ID: <71814bdb-f7d9-330d-f85c-659db3499f6c@nvidia.com>
+Date:   Mon, 23 Jan 2023 15:04:05 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
+ Thunderbird/102.4.2
+Subject: Re: [PATCH V6 1/6] dt-bindings: usb: Add Cypress cypd4226 Type-C
+ controller
 Content-Language: en-US
-To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-        <broonie@kernel.org>, <miquel.raynal@bootlin.com>,
-        <richard@nod.at>, <vigneshr@ti.com>, <jic23@kernel.org>,
-        <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
-        <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
-        <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
-        <rjui@broadcom.com>, <sbranden@broadcom.com>,
-        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
-        <john.garry@huawei.com>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
-        <khilman@baylibre.com>, <matthias.bgg@gmail.com>,
-        <haibo.chen@nxp.com>, <linus.walleij@linaro.org>,
-        <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-        <robert.jarzmik@free.fr>, <agross@kernel.org>,
-        <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
-        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-        <rostedt@goodmis.org>, <mingo@redhat.com>,
-        <l.stelmach@samsung.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-        <kvalo@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <skomatineni@nvidia.com>,
-        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <j.neuschaefer@gmx.net>, <vireshk@kernel.org>, <rmfrfs@gmail.com>,
-        <johan@kernel.org>, <elder@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC:     <git@amd.com>, <linux-spi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <claudiu.beznea@microchip.com>,
-        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
-        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
-        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
-        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
-        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
-        <libertas-dev@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-        <linux-iio@vger.kernel.org>, <michael@walle.cc>,
-        <palmer@dabbelt.com>, <linux-riscv@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
-        <amitrkcian2002@gmail.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-From:   =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Wayne Chang <waynec@nvidia.com>
+References: <20230119121639.226729-1-jonathanh@nvidia.com>
+ <20230119121639.226729-2-jonathanh@nvidia.com>
+ <2789cf94-60b4-7e35-50f8-e21b564a1dfb@linaro.org>
+ <e39c0b6b-6265-b419-a7aa-18f930bb3a9f@nvidia.com>
+In-Reply-To: <e39c0b6b-6265-b419-a7aa-18f930bb3a9f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: d8c081e3-7749-496f-b92b-664d73f13c17
-X-Ovh-Tracer-Id: 9743537793859029808
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghmihhtrdhkuhhmrghrqdhmrghhrghprghtrhgrsegrmhgurdgtohhmpdhkohhnrhgrugdrugihsggtihhosehsohhmrghinhhlihhnvgdrohhrghdphihoghgvshhhghgruhhrrdekfeesghhmrghilhdrtghomhdpsggvnhhjrghmihhnfhgrihhrsehgohhoghhlvgdrtghomhdphihuvghnnhesghhoohhglhgvrdgtohhmpdhvvghnthhurhgvsehgohhoghhlvgdrtghomhdpthgrlhhirdhpvghrrhihudesghhmrghilhdrtghomhdpthhmrghimhhonhejjeesghhmrghilhdrtg
- homhdprghvihhfihhshhhmrghnjedtsehgmhgrihhlrdgtohhmpdhmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdplhhinhhugidqihhmgiesnhigphdrtghomhdpfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdgrlhhimhdrrghkhhhtrghrsehsrghmshhunhhgrdgtohhmpdhkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdgstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdgtlhgruhguihhurdgsvgiinhgvrgesmhhitghrohgthhhiphdrtghomhdprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhhitgholhgrshdrfhgvrhhrvgesmhhitghrohgthhhiphdrtghomhdprhgrughupghnihgtohhlrggvrdhpihhrvggrsehuphgsrdhrohdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdpghhithesrghmugdrtghomhdpghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhfrghntggvrhdrlhgrnhgtvghrsehgmhgrihhlrdgtohhmpdhluggvfigrnhhgrghnsehnvhhiughirgdrtghomhdpmhhitghhrghlrdhsihhmvghksegrmhgurdgtohhmpdhlihhnuhigqdgrshhpvggvuge
- slhhishhtshdrohiilhgrsghsrdhorhhgpdhgrhgvhigsuhhsqdguvghvsehlihhsthhsrdhlihhnrghrohdrohhrghdpughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhmihgthhgrvghlseifrghllhgvrdgttgdplhhinhhugidqihhiohesvhhgvghrrdhkvghrnhgvlhdrohhrghdpofhitghhrggvlhdrjfgvnhhnvghrihgthhesrghnrghlohhgrdgtohhmpdhlrghrshesmhgvthgrfhhoohdruggvpdhlihhnuhigqdhmthgusehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifihhrvghlvghsshesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhisggvrhhtrghsqdguvghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifphgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhtvghgrhgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhlihhnuhigqdhsthhmfedvsehsthdqmhguqdhmrghilhhmrghnrdhsthhorhhmrhgvphhlhidrtghomhdplhhinhhugidqshgrmhhsuhhn
- ghdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhotghktghhihhpsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrghmlhhoghhitgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrhhpihdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdgvlhguvghrsehkvghrnhgvlhdrohhrghdplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpjhhohhgrnheskhgvrhhnvghlrdhorhhgpdhvihhrvghshhhksehkvghrnhgvlhdrohhrghdphhgrohhjihgrnhdriihhuhgrnhhgsehgmhgrihhlrdgtohhmpdgurghnihgvlhesiihonhhquhgvrdhorhhgpdhlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdphhgrihgsohdrtghhvghnsehngihprdgtohhmpdhmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdpshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhjohhhnhdrghgrr
- hhrhieshhhurgifvghirdgtohhmpdhhrghnrdiguhesnhigphdrtghomhdpohhlthgvrghnvhesghhmrghilhdrtghomhdpvggrjhgrmhgvsheslhhinhhugidrihgsmhdrtghomhdprhhosggvrhhtrdhjrghriihmihhksehfrhgvvgdrfhhrpdhssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhfrdhfrghinhgvlhhlihesghhmrghilhdrtghomhdpkhgurghsuhdrkhguvghvsehgmhgrihhlrdgtohhmpdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpshgrnhhjuhdrmhgvhhhtrgesrghmugdrtghomhdpphhrrghthihushhhsehkvghrnhgvlhdrohhrghdpthhuughorhdrrghmsggrrhhushesmhhitghrohgthhhiphdrtghomhdpjhhitgdvfeeskhgvrhhnvghlrdhorhhgpdhvihhgnhgvshhhrhesthhirdgtohhmpdhrihgthhgrrhgusehnohgurdgrthdpmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrjhhuihessghrohgruggtohhmrdgtohhmpdgrghhrohhssheskhgvrhhnvghlrdhorhhgpdgsjhhorhhnrdgrnhguvghrshhsohhnsehlihhnrghrohdrohhrghdphhgvihhkohesshhnthgvtghhrdguvgdpjhdrnhgvuhhstghhrggvfhgvrhesghhmgidrnhgvthdptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhsuhhmihhtrdhsvghmfigrlheslhhinhgrrhhordhorhhgpdhskh
- homhgrthhinhgvnhhisehnvhhiughirgdrtghomhdpjhhonhgrthhhrghnhhesnhhvihguihgrrdgtohhmpdhthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdpkhhvrghloheskhgvrhhnvghlrdhorhhgpdhsthgvfhgrnhesuggrthgvnhhfrhgvihhhrghfvghnrdhorhhgpdgrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdpphgrsggvnhhisehrvgguhhgrthdrtghomhdpkhhusggrsehkvghrnhgvlhdrohhrghdpvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdpuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdplhdrshhtvghlmhgrtghhsehsrghmshhunhhgrdgtohhmpdhmihhnghhosehrvgguhhgrthdrtghomhdprhhoshhtvgguthesghhoohgumhhishdrohhrghdpjhgrshifihhnuggvrhdrshhinhhghheslhhinhgrrhhordhorhhgpdhmrghsrghhihhsrgdrkhhojhhimhgrsehlihhnrghrohdrohhrghdpshgrmhhuvghlsehshhholhhlrghnugdrohhrghdpjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdifvghnshestghsihgvrdhorhhgpdgrlhgvgigrnhgurhgvrdhtohhrghhuvgesfhhoshhsrdhsthdrtghomhdpmhgtohhquhgvlhhinhdrshhtmhefvdesghhmrghilhdrtghomhdprghnughisegvthgviihirghnrdhorhhgpdhkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhhmfhhrfhhssehgmhgrihhlrdgtohhmpdg
- rmhhithhrkhgtihgrnhdvtddtvdesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: LNXP265CA0031.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:5c::19) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|CY8PR12MB7414:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65a2ab07-b643-4fee-5699-08dafd53b1b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pRJGDuxToy/dWzf/9RLD7hqtCqo+CZ5FJLX3V3zIQqcC54EjJdF1z/TFxGcVPai5RL1/E2LZGMT6WjN7dKEQzK/YKSpxijMsI8m4q0DFQlcwPEWBB2d9q0WahZByloD9OqpIb93YaCKc+wQ8TNMfNgg13STd7HBT7wuK3i4I2Fei2ICvoP8xX7DiJ00+9YeSLbBHGO7GTzKzJgtVI9ZQIt3LCMUOlVkdUDnMxbUEbWkjTnmKfQcxT1czaL+SNc8gStJvGDg0OFAIb/mnKMD5n91IwENo1nnB+etUpYC5hnpJ1pwG8fBEHEQaz7Ud537qg9ZbaiifDLuArLyAdx1ydQKnXoDA8CAq9Xip9sh4yhChOFWUp7O79pg4SWBF182Rv0d0UO942Yvp+zDq83WVyPqrcz7f5hxVOTzuvQua1eYDK5nbOhEyX8ed4Us4gvyZIIFROcB5dz2c31LBmIp9rm/H0Ck84Ii8eczv/FSZMuc99jj2G2L0TBsjwpes1vk9lTEqhnCtxIpLzYnvgpZ/TUwrKQ4I8l2jVmZmVTOXin942azwSw5LfBQOgrhwGgxn7UVxxgVz6srqm5uCAZ8Lt3VvapOQ/AoNZYmbslnSpvbrRCXTCg2WAPVhvyNaQFIV6+cT19Oof/IKM7SJkQug+H8Cw9fDAMdmftpmWZi4+c3AE4cqukc7x3hC5aMfoaAl4ZKZrjNm1YHszcvsuUdUxeGAqx5QLVrc5Wa3gxrZqh0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(136003)(366004)(39860400002)(451199015)(31686004)(2906002)(66556008)(4326008)(66476007)(66946007)(966005)(8676002)(6486002)(2616005)(6512007)(6666004)(26005)(5660300002)(8936002)(107886003)(4744005)(41300700001)(186003)(6506007)(53546011)(55236004)(38100700002)(31696002)(478600001)(110136005)(316002)(86362001)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SGtzWTNDTHRrRFlDd2JpeGlSdWJLMmJVNUloU0lDMG11aEpJcHJVd1RoejBh?=
+ =?utf-8?B?T1RoM2xqYnRneVlaUWU0WFVTTlMraCsyYTkzSWl0UlFzTmZIL0NFZU9yajNH?=
+ =?utf-8?B?ZlhKYW5PRUdLMGY3WmpZMTlsUWsybXpLaVFpQkdqckNoWXZUSFE4dHRlVE03?=
+ =?utf-8?B?M3YycVFGR2lyS1Yxd3B6Rlo2OWVrOEg5SFFoZEEyWWlqOGZQRHh6a3E5b25H?=
+ =?utf-8?B?OEltVXlUUGo5MWxUZ2lxSXNLV0pjem9NcG1YKy9RMzh0TU5CN3U3U1VaWW9n?=
+ =?utf-8?B?cUFoRWVEc0c4RCs1NmlxTTRpLy9IckpaWWl2Yk1OOFB5bTJxd0dPV1hiUUF2?=
+ =?utf-8?B?Yzc3endVSEpTdDlUZ0RwVmRDVWxCbFZMZmxEbkpsZDB1QjJVdFlhWjVZeDh5?=
+ =?utf-8?B?WU5zcWs4QlJhNzdyOTV3NUR2eVJIS1gxSVdaTStqU2tHc2M2T2VkaGo3Ukcv?=
+ =?utf-8?B?ZmZOSXAreDdiM01TTHdNYVNWVmY5Z1JSY3l4WmorNVJyU00rclo1SlZHcjUz?=
+ =?utf-8?B?WjFrUTkxa1N0aGQwMTVheVZvT3RFUy9WdGl1UHR5OVJ3cVZwRVpaaUlUZWVH?=
+ =?utf-8?B?OUFjMVpXWEVSeUV5cHQwRlB0ZUpweHR4OWJqTjZ1Rm1JekZ2YWVtQ3A1eC8w?=
+ =?utf-8?B?TWFxbUNEU1VvbHdQU21ZQkVrcE51a2IvLzJUR2tYSHhBV3RKTnZlMjBtYXRK?=
+ =?utf-8?B?T2UxNmJVMDlTRkpldldJc3NVVlN5UFEzaGFzOEpKTHB6S3NlRVRDUk1VZDJH?=
+ =?utf-8?B?Z040NWJnblljQWhXZXNNSEV5cnlKaTVaK1RtNkdyVUFzZW5Tem5lUlFsaWVk?=
+ =?utf-8?B?QUl1N0Q2UzhHQThNYU1zUEhhcWYrVnVPaVloNzB0RE5pdTZmdGZUNzFiMEVr?=
+ =?utf-8?B?STVKQ2lWUm9ZRWQrNHZrK0tudWR2ZTliSHZtY0ZiSWtUMDBreDZXYTVCNmNa?=
+ =?utf-8?B?aS9DV25McHR1ZXQzUC9xbURMWG8wRkxVNzhqbHVPM1NlYk56THU4TVJMdjNk?=
+ =?utf-8?B?M1NVUnBDaUVHR3YvTWJYdDF4dlRWVHRrc0VCcFFIdHhvTTl6Zzd6MFBuUGhX?=
+ =?utf-8?B?c2g5VkI2WTlzZi9SS25WOUhXdnFreCs3YzJWYVdSaE1tdG44NFUxeGdCdzJW?=
+ =?utf-8?B?czEya3UrUG0vZDVSVUl5Z1JYemhQcmNYZkZ4REZDbEVxSEt4YkYrODJhbmJV?=
+ =?utf-8?B?UElNQVljNTJBK0hkaG1XTHduMTV5M0c2a203RnZjY1ZPSzg0QXJibGN6SVNi?=
+ =?utf-8?B?MEUrbkRFN0xUSEpsQzlDejZXQjBYOTBYTVRveWlDN1lOU3c3QWtRd3FyemhN?=
+ =?utf-8?B?NFp6R0tCNGtvazFSdjhRL1NqY0Y2RnJxMjJzQmgyQmlDcXFZMGRMNEEzSUZN?=
+ =?utf-8?B?NS8rcFRKWE54YVE4TkJ1V2k4UnpmckExZGZYVXFLVjkyK0gxNUxzRVRnYWRM?=
+ =?utf-8?B?OW4yRWxNcEZ2OTNvYkJQSitiazBqc255OURkOVJTQkUxZ3VGM3RqOGF6RStV?=
+ =?utf-8?B?RExaWGZIOStjN25LRFJUa1gxVTk2ckZBd2ZZa0kzNmRIS0l6ZHlFd00vaVUy?=
+ =?utf-8?B?MS9QYWJkdXB3NHJLZ3h4OXFyeTQ0bjZXaXlDeFFONUY2T1BQTzlJcWJScENh?=
+ =?utf-8?B?R0VZQ28vVTY2RW5Pa09HZzlYZ0tpbHVPdEZRTDRQeWtrcE5YYjZYQUJTQ05x?=
+ =?utf-8?B?YTNMVUZXOUhyMlFGNE1NaVVBZG9hbFNoQmY2Rjd0UGVHNXQ0d3ZrTkNPZWtI?=
+ =?utf-8?B?TnlwbTZLYTgrdGgwMkQ2YlZUcTNTOVhDeEVaeGRJdE9xN2JUWUF0UDV4WHVz?=
+ =?utf-8?B?UGgrUjBEVGpEaUlHQjJsekNMaUFWUnQwMW5JaHN6ZmFtaEV3N1duRU4zWU01?=
+ =?utf-8?B?ci85ZWJCRDZmbk1MTCthQjVQUmw5bFlyQXJGMWpacUMwcEFiUGlRVDFyNzNw?=
+ =?utf-8?B?cXl4b2I0MDBHTjZIZlBvRjFFeHFkOFRHSDhNV1ZMZ2FMZVlTOWVEOThzaE5y?=
+ =?utf-8?B?Z3pPeG5GVHMranpGSy9ZaCtFa2g4MzZDYWZWNVRYU21qOHVaNjBweXhhclN2?=
+ =?utf-8?B?YnRXWHBpdDJqVjdFbFNwOFlGakJabHM3N2dBZ2hpK2hKV2pzd0k3NndyRk5z?=
+ =?utf-8?B?RFBnZFhmcGdGVzIzWTdiandCV1RtZjJhMnk5M3hLeVRIYmxLbW5VbUFvNWhH?=
+ =?utf-8?B?VWc9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65a2ab07-b643-4fee-5699-08dafd53b1b2
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 15:08:33.5307
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BO+8QwzXHqydo0K2dNnrPxrAE/klnPT8s/Z0x7yAtc7LcswswclqOtuiKp2kjfIODXzpbDpB2Afq2ioBQ6RQHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7414
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index 873ff2cf72c9..b7a9ec550ba1 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -296,7 +296,7 @@ static const struct aspeed_spi_data ast2400_spi_data;
->   static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
->   	u32 addr_mode, addr_mode_backup;
->   	u32 ctl_val;
->   	int ret = 0;
-> @@ -377,7 +377,8 @@ static const char *aspeed_spi_get_name(struct spi_mem *mem)
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
->   	struct device *dev = aspi->dev;
->   
-> -	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev), mem->spi->chip_select);
-> +	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev),
-> +			      spi_get_chipselect(mem->spi, 0));
->   }
->   
->   struct aspeed_spi_window {
-> @@ -553,7 +554,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
->   static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
->   	struct spi_mem_op *op = &desc->info.op_tmpl;
->   	u32 ctl_val;
->   	int ret = 0;
-> @@ -620,7 +621,7 @@ static ssize_t aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
->   				      u64 offset, size_t len, void *buf)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
->   
->   	/* Switch to USER command mode if mapping window is too small */
->   	if (chip->ahb_window_size < offset + len) {
-> @@ -670,7 +671,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
->   	const struct aspeed_spi_data *data = aspi->data;
-> -	unsigned int cs = spi->chip_select;
-> +	unsigned int cs = spi_get_chipselect(spi, 0);
->   	struct aspeed_spi_chip *chip = &aspi->chips[cs];
->   
->   	chip->aspi = aspi;
-> @@ -697,7 +698,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
->   static void aspeed_spi_cleanup(struct spi_device *spi)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
-> -	unsigned int cs = spi->chip_select;
-> +	unsigned int cs = spi_get_chipselect(spi, 0);
->   
->   	aspeed_spi_chip_enable(aspi, cs, false);
->   
 
-For the Aspeed driver,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+On 23/01/2023 14:28, Jon Hunter wrote:
 
-Thanks,
+...
 
-C.
+>>> +
+>>> +      ucsi-ccg@8 {
+>>
+>> Node names should be generic.
+>> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> 
+> Thanks. I don't see anything there is would fit here, so would 
+> 'typec-controller' for the node name be OK?
+
+
+Looks like the st,typec-stm32g0 and google,cros-ec-typec both use just 
+'typec'. So we can use the same as this looks quite similar to the ST 
+device.
+
+Jon
+
+-- 
+nvpublic
