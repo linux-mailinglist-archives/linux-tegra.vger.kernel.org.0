@@ -2,182 +2,193 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F6B9677E20
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 15:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB0B4677FFD
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 16:38:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231537AbjAWOdX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Jan 2023 09:33:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45118 "EHLO
+        id S232735AbjAWPiL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Jan 2023 10:38:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230520AbjAWOdW (ORCPT
+        with ESMTP id S232742AbjAWPiF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Jan 2023 09:33:22 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831B37693;
-        Mon, 23 Jan 2023 06:33:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jIjkgrmPamvpo43GfeDEzuY7t9ZjBqn0rAnp1gdJC5TpFBaVIkXYpBEBDBaqz2EfHqfUiVfyYBjy+BRb4A+Acc9BKBdx4UagZnsYJlnuoLRirms+3FmYIXo52aSNg2SaDvGn74mw4DbBpPVeINxDo+GbpcNNsUNvvFsDAJ/JBrL04lmcA00o9G2WeihOOGpH0XMu+wJAnh9ZaKxPO9nIJscR6YeSCmje8kr2yahkWNUbgtoT5/IEAnaphe6T0bscASAFoqFa6NcPtioycwA/ogYFoE6PU6CZhx4MUtaBkKLxjUnvOIptUoiNYQREh8x2BT3KKz+GW5E+ZBK0Ys6lUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Pmps9L24qiJZfT66gM1Ahyu/GldNI7W7y1ogirN7Vo=;
- b=OZZq0GOqaq1bV8sH+Iheh79gRkK4QEQlLDN/3ycIMGSC4Sa5e+ZChiRUI+WggrgPCWbZVV0QB5vUdy7VLtoEPRNF3ZTp5Lc5gTm1vkZX50uyE7osZxl2tnkUwVGLvI5ItwoSIXNzpA2inF+ZYQC/+TSzOK7R17EbTcUmSxE/WBdSegWY6vFX8LXyRf8mVZHesPY9vFwFB1satXvG5uM0q5cTZylSFLoA6C4d9NZyAteSqB6NCmwzeeydDo7qfjdcfaXgC14KCwVp4/GH+q6s3N/KvmNs7jxVIRhEtCTVEq3R6CNBJo6g7dLjhqSTfCCZtRjErhrbIiCEnDXFtZf2aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Pmps9L24qiJZfT66gM1Ahyu/GldNI7W7y1ogirN7Vo=;
- b=i0yIPIff8tf+/0jCAdpukgtVK9QuPOlP5c3zvfe3mkKZZksiVog7d451f2+LjiHQ4TkiUmb/dm48ezj16vmTqRdmXTfZ7Xujf49LSk62LZ63fiyT+cgSGDaP1a83QKNJ1oG5x4CqKP38Lgy4N7cDemrfoIki9k8DKx3UHSG7UO6t00q6d8lV0rYm4QyVtGUPzUv36Y4IRGWdts35CxBoTcQAM6cD/P5iZ/g3JB6q8V6D6+VVVlPj5GgRr8JddXHyVn21HTklOMEwuiC1WvmCmLFCxw4TW/iprtCZOYlaRcqYyxArccUbddwN+t+nA9h+zGv6OJvr7clvcVOvUaOSxg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- DM6PR12MB4370.namprd12.prod.outlook.com (2603:10b6:5:2aa::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6002.33; Mon, 23 Jan 2023 14:33:19 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::f1be:5d:f297:e2f]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::f1be:5d:f297:e2f%8]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 14:33:19 +0000
-Message-ID: <e39c0b6b-6265-b419-a7aa-18f930bb3a9f@nvidia.com>
-Date:   Mon, 23 Jan 2023 14:28:51 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH V6 1/6] dt-bindings: usb: Add Cypress cypd4226 Type-C
- controller
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Wayne Chang <waynec@nvidia.com>
-References: <20230119121639.226729-1-jonathanh@nvidia.com>
- <20230119121639.226729-2-jonathanh@nvidia.com>
- <2789cf94-60b4-7e35-50f8-e21b564a1dfb@linaro.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <2789cf94-60b4-7e35-50f8-e21b564a1dfb@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P302CA0027.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::17) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+        Mon, 23 Jan 2023 10:38:05 -0500
+X-Greylist: delayed 4193 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 07:38:03 PST
+Received: from 6.mo552.mail-out.ovh.net (6.mo552.mail-out.ovh.net [188.165.49.222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7659D10402
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Jan 2023 07:38:03 -0800 (PST)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
+        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 731DB2B568;
+        Mon, 23 Jan 2023 13:10:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 23 Jan
+ 2023 14:10:10 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-109S0035e8cf7e5-490b-4306-97b9-26c7bcdb01f8,
+                    A67B952EB2D8D9A0A9F9E7F867E869D975DF4B5D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d1743abc-3d9f-cdf4-dfbe-67aac4b1b8cd@kaod.org>
+Date:   Mon, 23 Jan 2023 14:10:05 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|DM6PR12MB4370:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b778871-4450-4d1d-b20a-08dafd4ec5a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Hecf5Lak79XL+f8+ph0Ki0HGPB3QTGJKrb6zT1PhP+lUzlbg+1Oxxpc6nmqIslSRVTjqRl86pZkDu1aXY95wybE2AnJ8BiU+Cwq2rUEjwZOIPolaqi7D7XaTpWQ40zxlFhX9hwI+pv2OBQcfrMOxOt1MwheazNhsA7eaUF/+M1B6l5WsmHsJQ1BMwZmHmBRyhI83ZmpTjKuNe5tH+StSiBqwCLLwA8DBk2RzDOjj4IEpZp3SJQrV/R53pADIVr7bMxyJWnmJpEvvrdjG+Nv/tFTFp+t5fLlrUcKJid65QDiMRmz8VFW04kAhNOYVcEX9kXSA0s5aHhD/2KaucnRL1zb46vb5UsqD3laSYfY3kpq/S6+zZEZR9oaJmYp/EWStkFnu5cklCqHQktf8SQGkpdrt8o+kPJ8dk2QmvxshuozBl3fuJdAjkn2HIs9UhHcbvhYBEtvXGPP+VvIuANGHS5RJaO/+wpS968YtFhDiC+5aBrpyCLWBR1AqJtizq4Y6ZDYqqTi0EKuN3G2JuJYvINKbPHTHngQc9SjYfduOpNIQKQ0pIOZIlOFAel65jFHYsP/X9WSzDJLEs5uu3rAQ3j70t/0LIBu0+tTxPwxbPRJyYve7u05Zir1spz3XYsKdB5nzo6vSp4hLeufUNs2O5p1y1uLkoQVYcsLHk4l//e0w151QGt7CAXk4fftd3ZeeGGogOAfY3ipAD6uBuoiQnVQ59xsackJToZKK0gYKa8U=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(451199015)(83380400001)(38100700002)(31696002)(41300700001)(86362001)(2906002)(8936002)(5660300002)(4326008)(8676002)(55236004)(26005)(53546011)(186003)(6512007)(6506007)(6666004)(107886003)(66476007)(316002)(66946007)(2616005)(66556008)(478600001)(110136005)(966005)(6486002)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q3VEVDlxNm5VV3ZkTWRLTXpRQmNXamdCQkt2N2Z0ZmF2SVpTaXJrN2hPL0lH?=
- =?utf-8?B?L2pDY2l0MVJBUkVsNFRCMzhIQmF0MkVwbDcrc3BDZUYvQVJlSlExK3BXd08x?=
- =?utf-8?B?VUhGNmZCMTZvL3hhK0ZRcU84dTlxSExKeE1MaHFkMkpzNXAyZnlXS2d4RU1X?=
- =?utf-8?B?VHpFV3VQNVZqOVI1SXBWbVlPS3FRNU5QOFdXVHdnSVlvNG02bVBnV2VYbVMy?=
- =?utf-8?B?T3NRLyt5L2pldExQSWlUb3UzQ3NDVWl5N0FpOHcrUlQ4cHdySUw5NEJkbnFX?=
- =?utf-8?B?QUtCSlo2Szg3eWNnZkplejlvbHlWUGNMaFR1QXBaU2lMNlFCdWNwaXVpdUJz?=
- =?utf-8?B?UTlIMFZ6anZKOUV1VkVEcmtuQ3hybVJmSUhDUFNkc29jUkExTk9iYkhBYmNu?=
- =?utf-8?B?aWdIN3dFK1hmWTV4cVI1bGFhTG1VZkdRNy9RelZnaVk3dkdUZkQ5dDY5SVZ4?=
- =?utf-8?B?ZTEvcDVyUi95NEVScGIxR05JcTkvSTRnSnJSV0Z1NTBFTS9CdFNUUXlKR3gx?=
- =?utf-8?B?dndlWFlOZ0xyVlhUdUN4eVVFQlk5NkRUb2JnSStoSFR0bDBQekFYbDhPSTJQ?=
- =?utf-8?B?a1JoRTBkbU1NcXg0Z1pKKzFDdHkrZlA0SUlFenFoeWhQREtLYmhEVlJNRVBq?=
- =?utf-8?B?b1NaYjExd0hqNGdLNnh3TEVwRVJqU3hYS213eFNPZUlDWEFLaGVSNVQ1TlZn?=
- =?utf-8?B?STNSOUVhVDBPaDEwOUU2WlZKTHpPRFFHZUx6NTFxUHVXUWhVMG1mS0NRaUNT?=
- =?utf-8?B?dndDMWkyNUYza29iaGlKNmhMY2dVWTliaXNHUWlmWHpKVFh5czlGQ0RhcXd0?=
- =?utf-8?B?QjdYbHRxbStjemwvT3pNbHgvZ0xScU5rT2lXTzFJYThuNS9PakNoRGpscE0w?=
- =?utf-8?B?VU9rdXFFSFl1OTdlcXNNUU1IZUR1TmQ3TWJadzVPWmdJVytqLzdWUkNpOTNZ?=
- =?utf-8?B?dHhHc0NHb2dRa3FyR0tDK3QzajR6ajB4QXk2bTNPaW14dEVOZTVjY3V5bnNu?=
- =?utf-8?B?TnEvMFpNZnR5TGdGQzN0d0FEZERQNGVOT2hRbGFaQ2ZXK3BIUkw1dENHb1lV?=
- =?utf-8?B?bmVWVmxLU2RrVTJxdDRLZ1NKMm03NlM0c0FrNVd1WmNrQUMrTHdQelc5QnY0?=
- =?utf-8?B?ZStHaW1QSGI0VDh0WCtNVnJLTUgvZFpXdW44dExEZGxLR0lsMFRpamtVNUUr?=
- =?utf-8?B?bzlvdGwvd1ppbG9BaVF6ZzdpN2pzNXg2VEs4L2hWWTVwOTZUKzJEM2VXODI2?=
- =?utf-8?B?dUdSb2IycjlKR0c2MmMvOTROT3BmMGM3QTZrMm43ekdQbkI5UTI3bFN3eExo?=
- =?utf-8?B?TFVyc2JhbFVFbDlObmJlZ0lrcEVSRHVyVEJOUk9xaVRuTWMvb3ROV1NtRGNX?=
- =?utf-8?B?SmRUMXYxNjZ0Wjg0cmQwSUhUdVBpYVBGaG1YKzJkSDdPRGlkRHNqYUx5cFUv?=
- =?utf-8?B?TCtSd3JBK3VoUHhvUUhYRnVzUkZEVnFTellSSWlSU21Vd29nUlhzMkk3MkZJ?=
- =?utf-8?B?NVFzUCthbnl4dElwajI5eGZBaFpQWi9UT1dkUTRKdElwQks2WDhZbjlOMll3?=
- =?utf-8?B?NVBzaHpERjA2RUZvTytWcGY0dzQwZmFaSlN0cmYyR0d5bm9zUkU2YS8vWHBN?=
- =?utf-8?B?UGhSTVF2bDVwRE1YdExtVVBsMW1SenZTUWcydVYzaWNjRFMvY25TTG5RZTNy?=
- =?utf-8?B?T1dtai9UK3VZekkwUGlHL1lXbEl6VldzcGt0dFhMTDl2cXlmN0ZRL1d5eS9o?=
- =?utf-8?B?UTF3d3V6SGE0QTNYWkVkNERKRGgxclJDcmVtMFZXSXJuZzhLYmdjbysyVTRn?=
- =?utf-8?B?aTdiOU9QTWNIM1QwaTlTUXU3WGZyalFSNHpKYTdicmFNWnhpdkxOems3ZjUw?=
- =?utf-8?B?eC9QaWJsZzBRSXYwRVhpVWJ0T2lmaDN5UFo4OXM1QkZmRmdFTkMzRStVSFNK?=
- =?utf-8?B?UGd6dGtxU1F0MGNFTTlTa3lCTWQwRS9sTHBVRXNGbDVVWElldXBYMHRLNHdj?=
- =?utf-8?B?L3g2emZ4d1c1OTJTeWE3YjVZVGRYSGprL2I5Rk00cU5BYzA1Nkg2cFg1dncr?=
- =?utf-8?B?TTFsKzFrS01tenJLTWZNWVNwU0FjWW1GdytyM0s1eHh5ek04ZHFHdTFFc2ZZ?=
- =?utf-8?B?Tk05QTBkQ3dFRkIwdm5SeG5NSU9CTXpibWZ2ZTY3endlbGNpYWVMamlVcWcx?=
- =?utf-8?B?REE9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b778871-4450-4d1d-b20a-08dafd4ec5a7
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 14:33:19.5942
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pz2RGr5H+4MbT8JQUgZtN1rkg4i+mYty/uCnYf71XftBCV0h/sfjCSUyvCt8AqVZ+pzjr6iUqCUnSFVy5zInjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4370
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Content-Language: en-US
+To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+        <broonie@kernel.org>, <miquel.raynal@bootlin.com>,
+        <richard@nod.at>, <vigneshr@ti.com>, <jic23@kernel.org>,
+        <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
+        <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
+        <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
+        <rjui@broadcom.com>, <sbranden@broadcom.com>,
+        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
+        <john.garry@huawei.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
+        <khilman@baylibre.com>, <matthias.bgg@gmail.com>,
+        <haibo.chen@nxp.com>, <linus.walleij@linaro.org>,
+        <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
+        <robert.jarzmik@free.fr>, <agross@kernel.org>,
+        <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
+        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
+        <rostedt@goodmis.org>, <mingo@redhat.com>,
+        <l.stelmach@samsung.com>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
+        <kvalo@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <skomatineni@nvidia.com>,
+        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
+        <j.neuschaefer@gmx.net>, <vireshk@kernel.org>, <rmfrfs@gmail.com>,
+        <johan@kernel.org>, <elder@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC:     <git@amd.com>, <linux-spi@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@microchip.com>,
+        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
+        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
+        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
+        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
+        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
+        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
+        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
+        <libertas-dev@lists.infradead.org>,
+        <linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+        <linux-iio@vger.kernel.org>, <michael@walle.cc>,
+        <palmer@dabbelt.com>, <linux-riscv@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+        <amitrkcian2002@gmail.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+From:   =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: d8c081e3-7749-496f-b92b-664d73f13c17
+X-Ovh-Tracer-Id: 9743537793859029808
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghmihhtrdhkuhhmrghrqdhmrghhrghprghtrhgrsegrmhgurdgtohhmpdhkohhnrhgrugdrugihsggtihhosehsohhmrghinhhlihhnvgdrohhrghdphihoghgvshhhghgruhhrrdekfeesghhmrghilhdrtghomhdpsggvnhhjrghmihhnfhgrihhrsehgohhoghhlvgdrtghomhdphihuvghnnhesghhoohhglhgvrdgtohhmpdhvvghnthhurhgvsehgohhoghhlvgdrtghomhdpthgrlhhirdhpvghrrhihudesghhmrghilhdrtghomhdpthhmrghimhhonhejjeesghhmrghilhdrtg
+ homhdprghvihhfihhshhhmrghnjedtsehgmhgrihhlrdgtohhmpdhmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdplhhinhhugidqihhmgiesnhigphdrtghomhdpfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdgrlhhimhdrrghkhhhtrghrsehsrghmshhunhhgrdgtohhmpdhkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdgstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdgtlhgruhguihhurdgsvgiinhgvrgesmhhitghrohgthhhiphdrtghomhdprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhhitgholhgrshdrfhgvrhhrvgesmhhitghrohgthhhiphdrtghomhdprhgrughupghnihgtohhlrggvrdhpihhrvggrsehuphgsrdhrohdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdpghhithesrghmugdrtghomhdpghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhfrghntggvrhdrlhgrnhgtvghrsehgmhgrihhlrdgtohhmpdhluggvfigrnhhgrghnsehnvhhiughirgdrtghomhdpmhhitghhrghlrdhsihhmvghksegrmhgurdgtohhmpdhlihhnuhigqdgrshhpvggvuge
+ slhhishhtshdrohiilhgrsghsrdhorhhgpdhgrhgvhigsuhhsqdguvghvsehlihhsthhsrdhlihhnrghrohdrohhrghdpughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhmihgthhgrvghlseifrghllhgvrdgttgdplhhinhhugidqihhiohesvhhgvghrrdhkvghrnhgvlhdrohhrghdpofhitghhrggvlhdrjfgvnhhnvghrihgthhesrghnrghlohhgrdgtohhmpdhlrghrshesmhgvthgrfhhoohdruggvpdhlihhnuhigqdhmthgusehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifihhrvghlvghsshesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhisggvrhhtrghsqdguvghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifphgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhtvghgrhgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhlihhnuhigqdhsthhmfedvsehsthdqmhguqdhmrghilhhmrghnrdhsthhorhhmrhgvphhlhidrtghomhdplhhinhhugidqshgrmhhsuhhn
+ ghdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhotghktghhihhpsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrghmlhhoghhitgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrhhpihdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdgvlhguvghrsehkvghrnhgvlhdrohhrghdplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpjhhohhgrnheskhgvrhhnvghlrdhorhhgpdhvihhrvghshhhksehkvghrnhgvlhdrohhrghdphhgrohhjihgrnhdriihhuhgrnhhgsehgmhgrihhlrdgtohhmpdgurghnihgvlhesiihonhhquhgvrdhorhhgpdhlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdphhgrihgsohdrtghhvghnsehngihprdgtohhmpdhmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdpshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhjohhhnhdrghgrr
+ hhrhieshhhurgifvghirdgtohhmpdhhrghnrdiguhesnhigphdrtghomhdpohhlthgvrghnvhesghhmrghilhdrtghomhdpvggrjhgrmhgvsheslhhinhhugidrihgsmhdrtghomhdprhhosggvrhhtrdhjrghriihmihhksehfrhgvvgdrfhhrpdhssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhfrdhfrghinhgvlhhlihesghhmrghilhdrtghomhdpkhgurghsuhdrkhguvghvsehgmhgrihhlrdgtohhmpdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpshgrnhhjuhdrmhgvhhhtrgesrghmugdrtghomhdpphhrrghthihushhhsehkvghrnhgvlhdrohhrghdpthhuughorhdrrghmsggrrhhushesmhhitghrohgthhhiphdrtghomhdpjhhitgdvfeeskhgvrhhnvghlrdhorhhgpdhvihhgnhgvshhhrhesthhirdgtohhmpdhrihgthhgrrhgusehnohgurdgrthdpmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrjhhuihessghrohgruggtohhmrdgtohhmpdgrghhrohhssheskhgvrhhnvghlrdhorhhgpdgsjhhorhhnrdgrnhguvghrshhsohhnsehlihhnrghrohdrohhrghdphhgvihhkohesshhnthgvtghhrdguvgdpjhdrnhgvuhhstghhrggvfhgvrhesghhmgidrnhgvthdptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhsuhhmihhtrdhsvghmfigrlheslhhinhgrrhhordhorhhgpdhskh
+ homhgrthhinhgvnhhisehnvhhiughirgdrtghomhdpjhhonhgrthhhrghnhhesnhhvihguihgrrdgtohhmpdhthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdpkhhvrghloheskhgvrhhnvghlrdhorhhgpdhsthgvfhgrnhesuggrthgvnhhfrhgvihhhrghfvghnrdhorhhgpdgrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdpphgrsggvnhhisehrvgguhhgrthdrtghomhdpkhhusggrsehkvghrnhgvlhdrohhrghdpvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdpuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdplhdrshhtvghlmhgrtghhsehsrghmshhunhhgrdgtohhmpdhmihhnghhosehrvgguhhgrthdrtghomhdprhhoshhtvgguthesghhoohgumhhishdrohhrghdpjhgrshifihhnuggvrhdrshhinhhghheslhhinhgrrhhordhorhhgpdhmrghsrghhihhsrgdrkhhojhhimhgrsehlihhnrghrohdrohhrghdpshgrmhhuvghlsehshhholhhlrghnugdrohhrghdpjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdifvghnshestghsihgvrdhorhhgpdgrlhgvgigrnhgurhgvrdhtohhrghhuvgesfhhoshhsrdhsthdrtghomhdpmhgtohhquhgvlhhinhdrshhtmhefvdesghhmrghilhdrtghomhdprghnughisegvthgviihirghnrdhorhhgpdhkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhhmfhhrfhhssehgmhgrihhlrdgtohhmpdg
+ rmhhithhrkhgtihgrnhdvtddtvdesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 873ff2cf72c9..b7a9ec550ba1 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -296,7 +296,7 @@ static const struct aspeed_spi_data ast2400_spi_data;
+>   static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
+>   	u32 addr_mode, addr_mode_backup;
+>   	u32 ctl_val;
+>   	int ret = 0;
+> @@ -377,7 +377,8 @@ static const char *aspeed_spi_get_name(struct spi_mem *mem)
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
+>   	struct device *dev = aspi->dev;
+>   
+> -	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev), mem->spi->chip_select);
+> +	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev),
+> +			      spi_get_chipselect(mem->spi, 0));
+>   }
+>   
+>   struct aspeed_spi_window {
+> @@ -553,7 +554,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
+>   static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
+>   	struct spi_mem_op *op = &desc->info.op_tmpl;
+>   	u32 ctl_val;
+>   	int ret = 0;
+> @@ -620,7 +621,7 @@ static ssize_t aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
+>   				      u64 offset, size_t len, void *buf)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
+>   
+>   	/* Switch to USER command mode if mapping window is too small */
+>   	if (chip->ahb_window_size < offset + len) {
+> @@ -670,7 +671,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
+>   	const struct aspeed_spi_data *data = aspi->data;
+> -	unsigned int cs = spi->chip_select;
+> +	unsigned int cs = spi_get_chipselect(spi, 0);
+>   	struct aspeed_spi_chip *chip = &aspi->chips[cs];
+>   
+>   	chip->aspi = aspi;
+> @@ -697,7 +698,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
+>   static void aspeed_spi_cleanup(struct spi_device *spi)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
+> -	unsigned int cs = spi->chip_select;
+> +	unsigned int cs = spi_get_chipselect(spi, 0);
+>   
+>   	aspeed_spi_chip_enable(aspi, cs, false);
+>   
 
-On 20/01/2023 08:32, Krzysztof Kozlowski wrote:
+For the Aspeed driver,
 
-...
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/tegra194-gpio.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    i2c {
->> +      #address-cells = <1>;
->> +      #size-cells = <0>;
->> +      #interrupt-cells = <2>;
-> 
-> Drop, does not look like relevant or used here.
+Thanks,
 
-
-Without the above I get ...
-
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dts:25.13-26: Warning (reg_format): /example-0/i2c/typec-controller@8:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dts:22.13-43.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dts:22.13-43.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dts:23.30-42.13: Warning (avoid_default_addr_size): /example-0/i2c/typec-controller@8: Relying on default #address-cells value
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dts:23.30-42.13: Warning (avoid_default_addr_size): /example-0/i2c/typec-controller@8: Relying on default #size-cells value
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
-Documentation/devicetree/bindings/usb/cypress,cypd4226.example.dtb: typec-controller@8: interrupts: [[10], [8]] is too long
-
-> 
->> +
->> +      ucsi-ccg@8 {
-> 
-> Node names should be generic.
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-Thanks. I don't see anything there is would fit here, so would 'typec-controller' for the node name be OK?
-
-Cheers
-Jon
-
--- 
-nvpublic
+C.
