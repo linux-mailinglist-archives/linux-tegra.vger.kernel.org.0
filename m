@@ -2,187 +2,207 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A38367878B
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 21:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E292B678819
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Jan 2023 21:36:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231670AbjAWUUc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Jan 2023 15:20:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51184 "EHLO
+        id S232790AbjAWUgZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Jan 2023 15:36:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231584AbjAWUUa (ORCPT
+        with ESMTP id S232656AbjAWUgU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Jan 2023 15:20:30 -0500
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8AB9367D5;
-        Mon, 23 Jan 2023 12:20:13 -0800 (PST)
-Received: by mail-ot1-f50.google.com with SMTP id m18-20020a05683026d200b0068661404380so8031141otu.2;
-        Mon, 23 Jan 2023 12:20:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eJIseX7fbuePlCt3lfYMHgc5yPjn6sJZXZh9GvE7Yuk=;
-        b=MEb/+JI39ce0AogF0PuxwubSLof1UjvG4bMroBo0nt6jOEb17wqgEwlBD5fjwkWcg2
-         Ts+zA+YlPt0gkasuxBsyzfU7XchoOZEJXSaNUV56uCYcqUGJDcAnzG8QffrTVCz+KPVH
-         tJXW618z6PANQHuUqlh8fJyKp20CXPJmaRAagOgNMGagS2HHmmS74UAv21VQxuQfnfu5
-         cKTtZJtxjV+BKID5xSeOkkf6G1KrZdqFumSCdaINCRZ6fr4LXLuFErxSS0tauSvrSxh6
-         6JYpBB3v/4HroGpKeZuGZRVri6AAsW4TBK6Er60+IwKF+fCjbSurOAtyIutIBtwtCWp8
-         CUBQ==
-X-Gm-Message-State: AFqh2kpxpAoTvdcWca5BIljKt/EXat4bOkVQ4iyZt4x4oNHtOT4s7V59
-        cYTaMWkR3Dm2PMfVbFLRBQ==
-X-Google-Smtp-Source: AMrXdXtXo7dsxEuvQDVOZCdjfJoyKEoO2vYkeou3j0fcHEiMdz4hYCE8ilnCls8sDDy5APHHbusT7w==
-X-Received: by 2002:a9d:370:0:b0:66c:dd2b:e1ad with SMTP id 103-20020a9d0370000000b0066cdd2be1admr23494564otv.23.1674505212954;
-        Mon, 23 Jan 2023 12:20:12 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x17-20020a9d6291000000b00677714a440fsm52560otk.81.2023.01.23.12.20.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 12:20:12 -0800 (PST)
-Received: (nullmailer pid 2457598 invoked by uid 1000);
-        Mon, 23 Jan 2023 20:20:10 -0000
-Date:   Mon, 23 Jan 2023 14:20:10 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Olivier Dautricourt <olivierdautricourt@gmail.com>,
-        Stefan Roese <sr@denx.de>, Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Green Wan <green.wan@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        =?UTF-8?B?77+9ZXI=?= <povik+lin@cutebit.org>,
-        Peng Fan <peng.fan@nxp.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        - <chuanhua.lei@intel.com>, Long Cheng <long.cheng@mediatek.com>,
-        Rajesh Gumasta <rgumasta@nvidia.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Palmer Debbelt <palmer@sifive.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Amelie Delaunay <amelie.delaunay@foss.st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Mon, 23 Jan 2023 15:36:20 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB73CE04C;
+        Mon, 23 Jan 2023 12:36:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IQdu4X9gOvGj2p5R0XxOcYhdXz7lqP+SROcbR02rgVqtE1YSsPDymzODdvzXgo+YQRLSp+CxwpKZWUyRaMu4eWjruxHde1AcdwFtGFeF+80tJ5kbe7AsVMOD7GV6djq2IAEtqjSBOEJXJvI3r/VorbAeBEbUCkp+bAK927tMrYUTre6AJ4EQBfb3mb9eT3akkVfMkubTpKRe0XGt71gifHcsoKqYEzGOe2xyANSQWT8uHi5xupnqNGq/QvXeNI36DouZe7jO07VA2qyEOh3R4nvpoMw1s89JYEe5D+fqyPDpCrYZJZQROB640DXC8ONNF0nKFaRmXM9G2Ut9MAHWXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yr3Vh37QBYLrjm83cKMD5EEuq4JtjyN4kOlmHNMMt5g=;
+ b=NaULF8rNUgeGClO3gXp0ZsU3BjgxXpk8bpAsAUEiUYf0/DruD6ifCGMIxpirj28coe4aoJc1aDWnURGKMFsAqkVeKb2eS2midMY0q5fVLVwU6gA17HQufli5M80OBY0agyCwbVko3cKI/s5g5qgxNgC7+pj9Nojl9e3dvOHBg6RpfP6blbDdCZAJUPMM0GJIEX600VYfADlt5haZglT9LikX3qJlB6wMH7DVFTDtO55o9hCi9fWrQ/kHjkeZQsBiKy+10GQfIvas4xFpD5RtaodG+fg71Ajyt6clQ2wqHHNfhe9uYbQE0o58hhqcWj+Wr3hDne7yDO2DVrlbmG1WDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yr3Vh37QBYLrjm83cKMD5EEuq4JtjyN4kOlmHNMMt5g=;
+ b=TE7K2h2vcxo6KbxJTIMMjovxnLd391F0RrDRpGZTdqYcbqXs2DC50wy5idi2k/5cNnYkb589SJEByoSBYTDBHJoJBWUDuQnjf5idh1sN42bDHGQEtlwrL6fRN70N88PpP1pRQf6C1OmZgaWpRHDvwV2juGuP4Gz/Xdxws5HODnZBd1AKJNswzl7u8SMcZQRpNZIOXAHRUsynTrE+8/z1J/tw5XRj1GlhxydJJFvlLwxufxmFTxPQ6eR109VLSF1+BoEoIDSGNAWIV3hpHiZYRQ019Mctmfg19VAgCLmpU3aczxwIu9L9RStY3Wxo6pACN94LL8dM9cILVc5ijTLRaQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BL3PR12MB6571.namprd12.prod.outlook.com (2603:10b6:208:38e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Mon, 23 Jan
+ 2023 20:36:04 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 20:36:04 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 2/2] dt-bindings: dma: cleanup examples - indentation,
- lowercase hex
-Message-ID: <20230123202010.GA2455859-robh@kernel.org>
-References: <20230118180144.364756-1-krzysztof.kozlowski@linaro.org>
- <20230118180144.364756-2-krzysztof.kozlowski@linaro.org>
+        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v3 00/10] Let iommufd charge IOPTE allocations to the memory cgroup
+Date:   Mon, 23 Jan 2023 16:35:53 -0400
+Message-Id: <0-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0020.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::23) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118180144.364756-2-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL3PR12MB6571:EE_
+X-MS-Office365-Filtering-Correlation-Id: 808b6e2a-c9d1-4ffd-852f-08dafd81729a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /qwTNrBFLnOuOvrtPPzK6WNp4+MzYoRMe7/K+868I50KEqOI/9cZ9jS6MYKqXkKAwnjXz2UcjznWeywRVoCOg1JfxpZ6iEwdxeHCIx/Tfa3siFs6O1xYxw5thRoG4mKcjpTY+5k8t810ZlCwHWVhU9rNtUwL+DhL/5VeazIfha/AJWqbdoTYEG7eQEhFWk5VZix+D/kUBA/jRSwUmcjs4ItQUnHUQNkGiefll4vrXyFxx1Ljc8lb98opVkSauDaNnGP5C3iMkjf3YtgnrwpoVLUSq6lx/F32949ODqIW1xnrE8PSF1syCTlzlycjJUrPReg7NKnzGnCtQMlbgnb7bPbkM6iaP+rLBXA27N/IJoT9cC2zDPcK8IdfgkX4CWgwCk/7w7aQ2fQb+6kGLFqd5qV4gBHIS+yzt/jlnlup5W78wH24g8RKnE2tf8gqLAryW3pf3hvqIvjLCoo551rz2aYmYLqeUQshia7Z2jV6bWm1+13ELEETLMl2+BUMOMnbxfyENLSaYJMZbIwiVJ/86a6+EGMKN9zFsEvv3rWm+yOXYyu0h7YtNkt+rD4vTY8TuB9Vw8LtFasctYopcl4pGGY7Ip6MxocUoGxjulOjmoUdaNjGeAz5gQ35N/LAaVcI6dSwcTBKOXmq+XJNtuB/Hygn4S+oCrPWEAVWfxlX71NtLuk+fYsfBdgZuufN4n3KC3/eraukHWYhgHdEaYc3L4qn+7475FfjgO2O9a0D2DC+km8Aow0IHLQ3GfBK9qcALQ2v71UneT3zU3c/GXA6ruFiRi19ckfpLFWYuoCAQtkmhfTgx9E5i2w7aNp7QJOg
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(451199015)(5660300002)(316002)(8936002)(7416002)(41300700001)(38100700002)(110136005)(36756003)(186003)(83380400001)(478600001)(6666004)(86362001)(6512007)(6506007)(6486002)(26005)(66476007)(8676002)(66946007)(966005)(4326008)(2616005)(54906003)(2906002)(66556008)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vAYN7Tx1dy3bge4mTiovHW5AvAtW/Q/us19gbM+Xj2rF+dIgfj8H7TR2REl2?=
+ =?us-ascii?Q?rnP48CBsKksfFrkJPe0xs9u2n6flUSkJ+70OcnVZILDytdebIWhsEyrExEZs?=
+ =?us-ascii?Q?7Ck/3J0StPL2PqX1P5ShpUNG3K5yqUQINzXKMymMaevms088OM1xdaSJxDxv?=
+ =?us-ascii?Q?+v5ZIGC/8y56FY/rVRy54vRITTI/ukKfsaBU1c/9851HZzt+GqmBzxV/ZZV/?=
+ =?us-ascii?Q?w7mSsbCeAB/MqfjcDqRivnDmM6RBtzip/QRliWsTWvcw7MKigMdT/8VWdcrh?=
+ =?us-ascii?Q?BqOiTDbZp7P1dRtyzpzijgsWHQ5XrozWRWEYMbYQlpw922UEl2kp+D6hz+Kd?=
+ =?us-ascii?Q?IYkeDP//F0RiUdQPmByuhgoIFnhfYGYeT5O7ag4jIH+7QZgoU2rSS56dhuxZ?=
+ =?us-ascii?Q?9Ji/eAuNnyGRt+NUsve1RXr9NgrleEts52w3Iz8sPKdL5F2zmiW+R3smJN09?=
+ =?us-ascii?Q?ZAN2SM+8kmOj3arbaaU8cU5XQG2IFb7+/2cxnVtz4iGIIeK26bkeLJrOtrMe?=
+ =?us-ascii?Q?ZLOmlFpo25DDjYUFHPe1AphcqLskkgIVu5DvnMctngzBNVUivgrSOD/1ofPa?=
+ =?us-ascii?Q?FcaKNYWH3K+Ro304hd2EH0b59canUMBcuWR+hHNE+ISY9tDrnCR1HhC/rj1q?=
+ =?us-ascii?Q?AZ8KT9woEpXdvDkl1nY+JCyciOnipfb193jwZX1kY0W5ZjNhPGx+Ijnl9TR8?=
+ =?us-ascii?Q?ZetMN53tz3xwBin+wCILJtjyMN+xT5QTp0t5y78TFN54FmqN7DDNOW09TVLn?=
+ =?us-ascii?Q?ZyuRalFWH2o6winaaAhzFCSWjUKFlnv1CNjms6MFZnUDV/q305jfPRaOYkMO?=
+ =?us-ascii?Q?1t6uDKEjUH/931luA1A6A40fHISReAcWptwjszxXtBaY5ws93d9DHGnmI7Mu?=
+ =?us-ascii?Q?D4sgr+fNOazAFYN06/rRdOd57mxt5RM264pE2VZhi2SFgoRhdnjm/fFoo4/7?=
+ =?us-ascii?Q?DKIBDK00owEms33MYf5ppanK/Q3kDl6mOpT3854fGe1LD+XrsoFNFNirMEx9?=
+ =?us-ascii?Q?PBwzoSnhHNt4dRB9FGAZp8DzvT0nK2eS6lb6eyEGhSCvRGqtTMGUy6Xzv3TH?=
+ =?us-ascii?Q?toLV1ZjijT4JoP/wlNRhmILJ6E8lq5l/YCOj0BfHwc6ETsHdHfqlnvPMFBuO?=
+ =?us-ascii?Q?JlmUskvgbjznpUTceoWcYx2qFGKwdHZygPJhDFywMywUa6m/Lb9b2HTqidMk?=
+ =?us-ascii?Q?ESnoyiHqlu+94KBIM6d40rqpT1ndJw/SXgE7O9Fd9/lCtCaXNiFkFQ6WhIas?=
+ =?us-ascii?Q?9Z+mXP4cOdME7UzrdYhl399F+O2zQ9/AX7D0GFZZ7qEE5J8r3pS0Q/KwBFyX?=
+ =?us-ascii?Q?TBK/mBNM2V5Wpnhb/DOXURImaahv4sxrOiTc5SctUUW6b99SR8PiOQyGwXaw?=
+ =?us-ascii?Q?2nV+Qp7yAYBL/FNaTHz+AluAwppirNQseoLxun+n/c24vNcR3YpMncUBDHG/?=
+ =?us-ascii?Q?QJWCcRR72g5IM3LPlJcqnvyLa/Kf8NRBVM1sSby4VbEMip+69HSifZ7M1VAK?=
+ =?us-ascii?Q?gf8aax1FVqlhqDGAtw64dAyeFuqc6jVVp+bd7l5lFsWsRA7o2rrE1/Ianv8J?=
+ =?us-ascii?Q?CLbfEWMkzgIWBjbMb8orOxI0t52l7pljMDGACsua?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 808b6e2a-c9d1-4ffd-852f-08dafd81729a
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 20:36:04.2777
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zHlL7iwdfLJOVwSWdoQkotYBVZTbCXUsK2C6oTuCQxNQ86RydNUUAETqqJ+VfKlL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6571
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 07:01:44PM +0100, Krzysztof Kozlowski wrote:
-> Cleanup examples:
->  - use 4-space indentation (for cases when it is neither 4 not 2 space),
->  - use lowercase hex.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/dma/snps,dw-axi-dmac.yaml        | 36 +++++++++----------
->  .../bindings/dma/stericsson,dma40.yaml        |  4 +--
->  2 files changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> index 2bedab1f74e0..d34d0fa62ab5 100644
-> --- a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> @@ -113,21 +113,21 @@ additionalProperties: false
->  
->  examples:
->    - |
-> -     #include <dt-bindings/interrupt-controller/arm-gic.h>
-> -     #include <dt-bindings/interrupt-controller/irq.h>
-> -     /* example with snps,dw-axi-dmac */
-> -     dmac: dma-controller@80000 {
-> -         compatible = "snps,axi-dma-1.01a";
-> -         reg = <0x80000 0x400>;
-> -         clocks = <&core_clk>, <&cfgr_clk>;
-> -         clock-names = "core-clk", "cfgr-clk";
-> -         interrupt-parent = <&intc>;
-> -         interrupts = <27>;
-> -         #dma-cells = <1>;
-> -         dma-channels = <4>;
-> -         snps,dma-masters = <2>;
-> -         snps,data-width = <3>;
-> -         snps,block-size = <4096 4096 4096 4096>;
-> -         snps,priority = <0 1 2 3>;
-> -         snps,axi-max-burst-len = <16>;
-> -     };
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    /* example with snps,dw-axi-dmac */
-> +    dmac: dma-controller@80000 {
+iommufd follows the same design as KVM and uses memory cgroups to limit
+the amount of kernel memory a iommufd file descriptor can pin down. The
+various internal data structures already use GFP_KERNEL_ACCOUNT to charge
+its own memory.
 
-Drop unused labels while you are here.
+However, one of the biggest consumers of kernel memory is the IOPTEs
+stored under the iommu_domain and these allocations are not tracked.
 
-> +        compatible = "snps,axi-dma-1.01a";
-> +        reg = <0x80000 0x400>;
-> +        clocks = <&core_clk>, <&cfgr_clk>;
-> +        clock-names = "core-clk", "cfgr-clk";
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <27>;
-> +        #dma-cells = <1>;
-> +        dma-channels = <4>;
-> +        snps,dma-masters = <2>;
-> +        snps,data-width = <3>;
-> +        snps,block-size = <4096 4096 4096 4096>;
-> +        snps,priority = <0 1 2 3>;
-> +        snps,axi-max-burst-len = <16>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml b/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-> index 664ee61a00d8..57395a810719 100644
-> --- a/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-> +++ b/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-> @@ -147,9 +147,9 @@ examples:
->      #include <dt-bindings/interrupt-controller/irq.h>
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/mfd/dbx500-prcmu.h>
-> -    dma-controller@801C0000 {
-> +    dma-controller@801c0000 {
->        compatible = "stericsson,db8500-dma40", "stericsson,dma40";
-> -      reg = <0x801C0000 0x1000>, <0x40010000 0x800>;
-> +      reg = <0x801c0000 0x1000>, <0x40010000 0x800>;
->        reg-names = "base", "lcpa";
->        interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
->        #dma-cells = <3>;
+This series is the first step in fixing it.
 
-Indentation?
+The iommu driver contract already includes a 'gfp' argument to the
+map_pages op, allowing iommufd to specify GFP_KERNEL_ACCOUNT and then
+having the driver allocate the IOPTE tables with that flag will capture a
+significant amount of the allocations.
+
+Update the iommu_map() API to pass in the GFP argument, and fix all call
+sites. Replace iommu_map_atomic().
+
+Audit the "enterprise" iommu drivers to make sure they do the right thing.
+Intel and S390 ignore the GFP argument and always use GFP_ATOMIC. This is
+problematic for iommufd anyhow, so fix it. AMD and ARM SMMUv2/3 are
+already correct.
+
+A follow up series will be needed to capture the allocations made when the
+iommu_domain itself is allocated, which will complete the job.
+
+v3:
+ - Leave a GFP_ATOMIC in "Add a gfp parameter to iommu_map_sg()"
+   and move the conversion to gfp argument to "Use the gfp parameter in
+   __iommu_dma_alloc_noncontiguous()"
+ - Mask off the zone/policy flags from gfp before doing internal
+   allocations and add a comment about Robin's note that this is to keep
+   the buffer and internal seperate.
+v2: https://lore.kernel.org/r/0-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com
+ - Prohibit bad GFP flags in the iommu wrappers
+ - Split out the new GFP_KERNEL usages into dedicated patches so it is
+   easier to check. No code change after the full series
+v1: https://lore.kernel.org/r/0-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com
+
+Jason Gunthorpe (10):
+  iommu: Add a gfp parameter to iommu_map()
+  iommu: Remove iommu_map_atomic()
+  iommu: Add a gfp parameter to iommu_map_sg()
+  iommu/dma: Use the gfp parameter in __iommu_dma_alloc_noncontiguous()
+  iommufd: Use GFP_KERNEL_ACCOUNT for iommu_map()
+  iommu/intel: Add a gfp parameter to alloc_pgtable_page()
+  iommu/intel: Support the gfp argument to the map_pages op
+  iommu/intel: Use GFP_KERNEL in sleepable contexts
+  iommu/s390: Push the gfp parameter to the kmem_cache_alloc()'s
+  iommu/s390: Use GFP_KERNEL in sleepable contexts
+
+ arch/arm/mm/dma-mapping.c                     | 11 ++--
+ arch/s390/include/asm/pci_dma.h               |  5 +-
+ arch/s390/pci/pci_dma.c                       | 31 ++++++-----
+ .../drm/nouveau/nvkm/subdev/instmem/gk20a.c   |  3 +-
+ drivers/gpu/drm/tegra/drm.c                   |  2 +-
+ drivers/gpu/host1x/cdma.c                     |  2 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c      |  4 +-
+ drivers/iommu/dma-iommu.c                     | 18 +++++--
+ drivers/iommu/intel/iommu.c                   | 36 +++++++------
+ drivers/iommu/intel/iommu.h                   |  2 +-
+ drivers/iommu/intel/pasid.c                   |  2 +-
+ drivers/iommu/iommu.c                         | 53 +++++++------------
+ drivers/iommu/iommufd/pages.c                 |  6 ++-
+ drivers/iommu/s390-iommu.c                    | 15 +++---
+ drivers/media/platform/qcom/venus/firmware.c  |  2 +-
+ drivers/net/ipa/ipa_mem.c                     |  6 ++-
+ drivers/net/wireless/ath/ath10k/snoc.c        |  2 +-
+ drivers/net/wireless/ath/ath11k/ahb.c         |  4 +-
+ drivers/remoteproc/remoteproc_core.c          |  5 +-
+ drivers/vfio/vfio_iommu_type1.c               |  9 ++--
+ drivers/vhost/vdpa.c                          |  2 +-
+ include/linux/iommu.h                         | 31 +++--------
+ 22 files changed, 126 insertions(+), 125 deletions(-)
+
+
+base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+-- 
+2.39.0
+
