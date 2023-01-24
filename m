@@ -2,106 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03AF6679F88
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Jan 2023 18:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E7267A191
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Jan 2023 19:43:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234780AbjAXRDp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Jan 2023 12:03:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35230 "EHLO
+        id S233975AbjAXSnN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Jan 2023 13:43:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234788AbjAXRDQ (ORCPT
+        with ESMTP id S234006AbjAXSnH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Jan 2023 12:03:16 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3C0DBE7;
-        Tue, 24 Jan 2023 09:02:46 -0800 (PST)
-Received: from [192.168.2.197] (unknown [109.252.117.89])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2DAD86602E22;
-        Tue, 24 Jan 2023 17:02:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674579765;
-        bh=VAJAGj9mDF7o3WZ3VOmzDTm34wwnrr+/a3gGZ+27DcI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=OqA6JBs5LLnbiF3bNfeASDGBc4uGRUfEr6zBijDjjsUF63mSKkRq61H+Ogw9Va3U5
-         nXK1JWLUho68iAggIZRLRUaU3vAJzpDl7Ea9j/EXVA2YnShDKFWGszLSNQ5aex2/xt
-         lRC2qqNKV84Q6dsmY94S3inYxg+tY1jgQlEbBChdhQVKfylFuG97e6KJny1mjhgtxc
-         v49Ei6tcwTPI+78x+xVmsZGn59CmY6jUoag06XVedrIQtZHKceH2Ao8SQSqvCwUYKf
-         fQ8fSgDT+4wrTCWXwjeeQ62Dt0ZXeCrrALllFMtrGu5qpGKWVPxKfr2x2hqhJnd0GO
-         EchjENhVjcddg==
-Message-ID: <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
-Date:   Tue, 24 Jan 2023 20:02:39 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
- property and example
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Tue, 24 Jan 2023 13:43:07 -0500
+X-Greylist: delayed 302 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Jan 2023 10:43:01 PST
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5BB428874
+        for <linux-tegra@vger.kernel.org>; Tue, 24 Jan 2023 10:43:01 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:2f4a:8573:c294:b2ce])
+        by xavier.telenet-ops.be with bizsmtp
+        id CidZ2900656uRqi01idZDF; Tue, 24 Jan 2023 19:37:56 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pKOAe-007HCL-GZ;
+        Tue, 24 Jan 2023 19:37:33 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pKOAm-002n0W-Uv;
+        Tue, 24 Jan 2023 19:37:32 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
         Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
- <20221229133205.981397-3-luca.ceresoli@bootlin.com>
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Siddharth Vadapalli <s-vadapalli@ti.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH treewide v2 0/9] phy: Add devm_of_phy_optional_get() helper
+Date:   Tue, 24 Jan 2023 19:37:19 +0100
+Message-Id: <cover.1674584626.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 12/29/22 16:31, Luca Ceresoli wrote:
-> +        vip {
-> +            compatible = "nvidia,tegra20-vip";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            channel@0 {
-> +                reg = <0>;
-> +                ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    port@0 {
-> +                        reg = <0>;
-> +                        vi_vip_in: endpoint {
-> +                            remote-endpoint = <&mt9v111_out>;
-> +                        };
-> +                    };
-> +                    port@1 {
-> +                        reg = <1>;
-> +                        vi_vip_out: endpoint {
-> +                            remote-endpoint = <&vi_in>;
-> +                        };
-> +                    };
-> +                };
-> +            };
+	Hi Vinod et al,
 
-In the changelog you said that the channel@0 node is removed
+While there exist several optional_get() PHY helper functions, there is
+no optional variant of devm_of_phy_get(), leading to several drivers
+implementing this theirselves, sometimes in buggy ways.
+
+Hence this series, after two cleanup patches, introduces a
+devm_of_phy_optional_get() helper(), and converts existing users of
+devm_of_phy_get() where appropriate.
+
+Changes compared to v1[1]:
+  - Incorporate "[PATCH v2 1/9] phy: Remove unused phy_optional_get()",
+    as it touches the same documentation,
+  - New patch "[PATCH v2 2/9] doc: phy: Document devm_of_phy_get()",
+  - Print an error message in case of failure, as requested by RobH,
+  - Update Documentation,
+  - Clarify removed checks for -ENODEV and -ENOSYS,
+  - Remove error printing in case of real failures from callers,
+  - Rebase am65-cpsw change on top of commit 854617f52ab42418 ("net:
+    ethernet: ti: am65-cpsw: Handle -EPROBE_DEFER for Serdes PHY") in
+    net-next (next-20230123 and later),
+  - Add Reviewed-by, Acked-by.
+
+Most of this series been compile-tested only, but the new helper itself
+has been tested with a new user[2].
+
+Thanks for your comments!
+
+[1] "[PATCH treewide 0/7] phy: Add devm_of_phy_optional_get() helper"
+    https://lore.kernel.org/r/cover.1674036164.git.geert+renesas@glider.be
+[2] "[PATCH 12/12] can: rcar_canfd: Add transceiver support"
+    https://lore.kernel.org/r/e825b50a843ffe40e33f34e4d858c07c1b2ff259.1674499048.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (9):
+  phy: Remove unused phy_optional_get()
+  doc: phy: Document devm_of_phy_get()
+  phy: Add devm_of_phy_optional_get() helper
+  net: fman: memac: Convert to devm_of_phy_optional_get()
+  net: lan966x: Convert to devm_of_phy_optional_get()
+  net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
+  PCI: tegra: Convert to devm_of_phy_optional_get()
+  usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
+  usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+
+ Documentation/driver-api/phy/phy.rst          | 24 +++++----
+ .../net/ethernet/freescale/fman/fman_memac.c  |  9 ++--
+ .../ethernet/microchip/lan966x/lan966x_main.c |  5 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  8 ++-
+ drivers/pci/controller/pci-tegra.c            |  5 +-
+ drivers/phy/phy-core.c                        | 51 +++++++++++--------
+ drivers/usb/host/ehci-exynos.c                | 23 +++------
+ drivers/usb/host/ohci-exynos.c                | 23 +++------
+ include/linux/phy/phy.h                       | 16 +++---
+ 9 files changed, 75 insertions(+), 89 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
