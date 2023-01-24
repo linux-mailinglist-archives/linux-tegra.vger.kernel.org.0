@@ -2,165 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60B486798BE
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Jan 2023 13:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A69679964
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Jan 2023 14:40:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233999AbjAXM5w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Jan 2023 07:57:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
+        id S234232AbjAXNkQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Jan 2023 08:40:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233906AbjAXM5t (ORCPT
+        with ESMTP id S232302AbjAXNkO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Jan 2023 07:57:49 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F263C65A6
-        for <linux-tegra@vger.kernel.org>; Tue, 24 Jan 2023 04:57:46 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id z13so14623068plg.6
-        for <linux-tegra@vger.kernel.org>; Tue, 24 Jan 2023 04:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHDwofD6SNKiSG9J7TUSJkrmFZQrL5w821eu/p8EPRU=;
-        b=iPN6ih9dkMLk+5Z2aO/raD5la104GDCNl3CCUgRjXeNfrMc1eRRQLX+rW/a5QmZO+m
-         B5bXAwh1T1YLSp3rlbm8FEnva/gJP3n3OZYoMOG77PVmiWJagWclMj6tHYAK+pMUsXE6
-         +CjNrIrurjl+60nhpqO6rp6LooQAlirhjPvvmRM3LPQ4rAOOyT2ZBxeOjwqYIlfhL4lE
-         CDYW1321n16C9CBrp3BhFS1Jp1ctyQTPyCxk6dKfdcYO6VyAQqB06pX4VPHDdtvEHyJp
-         6Q3bbPNirD14g9/iLGGTr5bZQBj6ZQGdhdG6dDIzD6wr1RuFw1GLdUgOA8PWfnMm1Ojg
-         KrTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pHDwofD6SNKiSG9J7TUSJkrmFZQrL5w821eu/p8EPRU=;
-        b=7DT9HQcmLii+6WFr2Qeddl+X1dNSbDZo82tE4Gm7iJG6u2mfVS7uOHY0IJC8HtV7bk
-         A7gq5nRIQVeefVMWQ+lUg4/u2HpG7pXIiyDG59q2RCJlGIRQa+9j+8YsVjYeUfVijC3W
-         UUIy7hOfs2djTMKan9hupd1STTzcMTQip8pZvytXqzEVNVdKVcY3lSoSelCbZ83lh6se
-         N+kHVzMxvCE60Xm+rLu5W23hA12FlfyCW7IA2uJTLusE+4CNRu3/lIRYYKZT8YigN2/m
-         Nt9YogWr7X5ePN0LO2p5yK8bJb0d9jcOFsT1ijhkmLIhlLE3A3QREkntVZqD2ZA7f5R7
-         Bniw==
-X-Gm-Message-State: AFqh2kp7t/5cHgztLMIsoDsdm/MhXApExFKA7+117f01T6N/iuMaEOSD
-        waL8LTVH/2FHqo9Cwb7zqZkNFzBLI9qMJrsycj5QMg==
-X-Google-Smtp-Source: AMrXdXsXrzgXKblU35lGXnG8geMzqwtmylKWGg/S46lL+qzXF/CIo+TO3fVEgZ6gox2a0BBdn7y53nUVeSWujIcNZtM=
-X-Received: by 2002:a17:90a:730a:b0:229:7d95:a476 with SMTP id
- m10-20020a17090a730a00b002297d95a476mr3744415pjk.84.1674565066523; Tue, 24
- Jan 2023 04:57:46 -0800 (PST)
+        Tue, 24 Jan 2023 08:40:14 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A411BE5;
+        Tue, 24 Jan 2023 05:40:12 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id A31021FDAB;
+        Tue, 24 Jan 2023 13:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1674567611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=uuz5Gc28I72toEzheVihb1NwF+5uagOX/baEUlcny3Q=;
+        b=hnjjRtK70vrWP/7Gtb7cZ/1R+kREJ760PS5GaDoZ12OKFhjC/IJkKqbnIDlkSQ2i8iN/eR
+        LmTVJbR345Pgjx6cv9/5L/IiyA63fue54pngFshqdFQuPjW+Gju/4twDP5JSW4i0LyMGUO
+        LVGUnTNvkGbdjxhzQmOIXoLYSTqUwYU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1674567611;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=uuz5Gc28I72toEzheVihb1NwF+5uagOX/baEUlcny3Q=;
+        b=vx6CvAe2lKURVdi0Scdb3/tFfnQYlvS5+85D0ZsHJ1qgDXPb0/H8RdzQNDJ+rsyJdgoioW
+        AdAQeQgWurK1DFCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5CC6913487;
+        Tue, 24 Jan 2023 13:40:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 5SCjFbvfz2PWZgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:11 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        javierm@redhat.com
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/10] drm/fb-helper: Various cleanups
+Date:   Tue, 24 Jan 2023 14:40:00 +0100
+Message-Id: <20230124134010.30263-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230120085722.171965-1-krzysztof.kozlowski@linaro.org> <20230120085722.171965-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120085722.171965-2-krzysztof.kozlowski@linaro.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 24 Jan 2023 13:57:09 +0100
-Message-ID: <CAPDyKFraR3BNa4874S4ZVHxTQNZWuSVOOpbGZ_Vnzfwe3ik7=g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: mmc: correct pwrseq node names
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Tony Huang <tonyhuang.sunplus@gmail.com>,
-        Li-hao Kuo <lhjeff911@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Markus Pargmann <mpa@pengutronix.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 20 Jan 2023 at 09:57, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Node names should be generic and should not contain underscores.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Add various cleanups and changes to DRM's fbdev helpers and the
+generic fbdev emulation. There's no clear theme here, just lots
+of small things that need to be updated.
+ 
+In the end, the code will better reflect which parts are in the 
+DRM client, which is fbdev emulation, and which are shared fbdev
+helpers.
 
-Applied for next, thanks!
+v2:
+	* cleanups in drm_fbdev_fb_destroy() (Sam)
+	* fix declaration of drm_fb_helper_unprepare()
 
-Kind regards
-Uffe
+Thomas Zimmermann (10):
+  drm/client: Test for connectors before sending hotplug event
+  drm/client: Add hotplug_failed flag
+  drm/fb-helper: Introduce drm_fb_helper_unprepare()
+  drm/fbdev-generic: Initialize fb-helper structure in generic setup
+  drm/fb-helper: Remove preferred_bpp parameter from fbdev internals
+  drm/fb-helper: Initialize fb-helper's preferred BPP in prepare
+    function
+  drm/fbdev-generic: Minimize hotplug error handling
+  drm/fbdev-generic: Minimize client unregistering
+  drm/fbdev-generic: Inline clean-up helpers into drm_fbdev_fb_destroy()
+  drm/fbdev-generic: Rename struct fb_info 'fbi' to 'info'
+
+ drivers/gpu/drm/armada/armada_fbdev.c      |   4 +-
+ drivers/gpu/drm/drm_client.c               |  10 ++
+ drivers/gpu/drm/drm_fb_helper.c            |  58 ++++++---
+ drivers/gpu/drm/drm_fbdev_generic.c        | 131 ++++++++-------------
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |   4 +-
+ drivers/gpu/drm/gma500/framebuffer.c       |   4 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  11 +-
+ drivers/gpu/drm/msm/msm_fbdev.c            |   4 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |   4 +-
+ drivers/gpu/drm/radeon/radeon_fb.c         |   4 +-
+ drivers/gpu/drm/tegra/fb.c                 |   7 +-
+ include/drm/drm_client.h                   |   8 ++
+ include/drm/drm_fb_helper.h                |   8 +-
+ 13 files changed, 134 insertions(+), 123 deletions(-)
 
 
-> ---
->  Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml   | 2 +-
->  Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml | 2 +-
->  Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
-> index 911a5996e099..588be73168fa 100644
-> --- a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
-> @@ -41,7 +41,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> -    sdhci0_pwrseq {
-> +    pwrseq {
->        compatible = "mmc-pwrseq-emmc";
->        reset-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
->      };
-> diff --git a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml
-> index 3397dbff88c2..b35e00e8c65e 100644
-> --- a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml
-> @@ -35,7 +35,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> -    wifi_pwrseq: wifi_pwrseq {
-> +    pwrseq {
->        compatible = "mmc-pwrseq-sd8787";
->        powerdown-gpios = <&twl_gpio 0 GPIO_ACTIVE_LOW>;
->        reset-gpios = <&twl_gpio 1 GPIO_ACTIVE_LOW>;
-> diff --git a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml
-> index 64e3644eefeb..00feaafc1063 100644
-> --- a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml
-> @@ -55,7 +55,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> -    sdhci0_pwrseq {
-> +    pwrseq {
->        compatible = "mmc-pwrseq-simple";
->        reset-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
->        clocks = <&clk_32768_ck>;
-> --
-> 2.34.1
->
+base-commit: 7d3e7f64a42d66ba8da6e7b66a8d85457ef84570
+-- 
+2.39.0
+
