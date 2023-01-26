@@ -2,59 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B57DF67D618
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Jan 2023 21:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97DB267D6E6
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Jan 2023 21:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbjAZUTd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Jan 2023 15:19:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37084 "EHLO
+        id S231587AbjAZU53 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Jan 2023 15:57:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232241AbjAZUTb (ORCPT
+        with ESMTP id S229730AbjAZU52 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Jan 2023 15:19:31 -0500
-X-Greylist: delayed 1395 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 12:19:26 PST
-Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C56E460B1
-        for <linux-tegra@vger.kernel.org>; Thu, 26 Jan 2023 12:19:26 -0800 (PST)
-Received: from [167.98.27.226] (helo=[10.35.5.149])
-        by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-        id 1pL8Lx-000eC0-7l
-        for <linux-tegra@vger.kernel.org> ; Thu, 26 Jan 2023 19:56:09 +0000
-Message-ID: <c1c0932e-c3cc-6bbc-a196-fc170b0d215a@codethink.co.uk>
-Date:   Thu, 26 Jan 2023 19:56:09 +0000
+        Thu, 26 Jan 2023 15:57:28 -0500
+X-Greylist: delayed 756 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 12:57:26 PST
+Received: from sp14.canonet.ne.jp (sp14.canonet.ne.jp [210.134.168.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD43E34330;
+        Thu, 26 Jan 2023 12:57:26 -0800 (PST)
+Received: from csp14.canonet.ne.jp (unknown [172.21.160.134])
+        by sp14.canonet.ne.jp (Postfix) with ESMTP id DBBD31E071E;
+        Fri, 27 Jan 2023 05:44:48 +0900 (JST)
+Received: from echeck14.canonet.ne.jp ([172.21.160.124])
+        by csp4 with ESMTP
+        id L972pIaIqVjWJL972p2hxg; Fri, 27 Jan 2023 05:44:48 +0900
+X-CNT-CMCheck-Reason: "undefined", "v=2.4 cv=WsmVjfTv c=1 sm=1 tr=0
+ ts=63d2e640 cx=g_jp:t_eml p=jICtXCb1Bd4A:10 p=QA8zHFxAwLBQ4A9MkZgA:9
+ p=WKcvGfCz9DfGexK3dBCb:22 a=puqJfqqrwnhV2n3dwg+kWg==:117
+ a=yr9NA9NbXb0B05yJHQEWeQ==:17 a=PlGk70OYzacA:10 a=kj9zAlcOel0A:10
+ a=RvmDmJFTN0MA:10 a=x7bEGLp0ZPQA:10 a=CjuIK1q_8ugA:10 a=0iaRBTTaEecA:10
+ a=xo5jKAKm-U-Zyk2_beg_:22"
+X-CNT-CMCheck-Score: 100.00
+Received: from echeck14.canonet.ne.jp (localhost [127.0.0.1])
+        by esets.canonet.ne.jp (Postfix) with ESMTP id 88A871C0246;
+        Fri, 27 Jan 2023 05:44:48 +0900 (JST)
+X-Virus-Scanner: This message was checked by ESET Mail Security
+        for Linux/BSD. For more information on ESET Mail Security,
+        please, visit our website: http://www.eset.com/.
+Received: from smtp14.canonet.ne.jp (unknown [172.21.160.104])
+        by echeck14.canonet.ne.jp (Postfix) with ESMTP id 4C9121C0257;
+        Fri, 27 Jan 2023 05:44:48 +0900 (JST)
+Received: from daime.co.jp (webmail.canonet.ne.jp [210.134.169.250])
+        by smtp14.canonet.ne.jp (Postfix) with ESMTPA id 6600215F967;
+        Fri, 27 Jan 2023 05:44:47 +0900 (JST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-GB
-To:     linux-tegra <linux-tegra@vger.kernel.org>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: jetson tx2 module, no wifi with upstream kernel
-Organization: Codethink Limited.
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Message-ID: <20230126204447.00005E45.0195@daime.co.jp>
+Date:   Fri, 27 Jan 2023 05:44:47 +0900
+From:   "Mrs Alice Walton" <daime@daime.co.jp>
+To:     <INQUIRY@daime.co.jp>
+Reply-To: <alicewaltton1@gmail.com>
+Subject: INQUIRY
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Priority: 3
+ORGANIZATION: Mrs Alice Walton
+X-MAILER: Active! mail
+X-EsetResult: clean, %VIRUSNAME%
+X-ESET-AS: R=SPAM;S=100;OP=CALC;TIME=1674765888;VERSION=7944;MC=3655060679;TRN=17;CRV=0;IPC=210.134.169.250;SP=4;SIPS=1;PI=5;F=0
+X-I-ESET-AS: RN=285,624:0;RNP=alicewaltton1@gmail.com
+X-ESET-Antispam: SPAM
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOCALPART_IN_SUBJECT,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_MR_MRS,
+        UNRESOLVED_TEMPLATE,XPRIO_SHORT_SUBJ autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5021]
+        *  1.1 LOCALPART_IN_SUBJECT Local part of To: address appears in
+        *      Subject
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [alicewaltton1[at]gmail.com]
+        *  1.3 UNRESOLVED_TEMPLATE Headers contain an unresolved template
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 T_HK_NAME_MR_MRS No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+        *  1.0 XPRIO_SHORT_SUBJ Has X Priority header + short subject
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I've not yet found a kernel version from the current release tree
-that brings WiFi up on the Jetson TX2. There doesn't even seem to
-be any sort of card detetion with 6.2-rc5
 
-The only sign is the bus gets initialised as mmc2, but then no
-card detect:
+Greetings,
 
-[    3.177416] mmc2: SDHCI controller on 3440000.mmc [3440000.mmc] using 
-ADMA 64-bit
+I trust you are well. I sent you an email yesterday, I just want to confirm if you received it.
+Please let me know as soon as possible,
 
-Has anyone seen this or know how to fix it? I know it works under
-the L4T which this board has on flash.
+Regard
+Mrs Alice Walton
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
 
-https://www.codethink.co.uk/privacy.html
