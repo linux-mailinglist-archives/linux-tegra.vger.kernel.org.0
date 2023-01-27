@@ -2,142 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8257D67EF3C
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Jan 2023 21:06:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF6B67F0C0
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Jan 2023 22:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233608AbjA0UGd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Jan 2023 15:06:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49996 "EHLO
+        id S231216AbjA0V7b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Jan 2023 16:59:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233037AbjA0UGJ (ORCPT
+        with ESMTP id S229713AbjA0V7a (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Jan 2023 15:06:09 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on20627.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e88::627])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B043A87C;
-        Fri, 27 Jan 2023 12:05:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mIG6GzZbsr0lrv5MBoky3paRa9iZWjwo2nkipGreTUj7HR/0KpmRo88/VqXGpk3bqce6lzVtU9R0TewHUqvgAOOweRStRyOWJ58pOASX10SW0STre6/eh/5F/e5qkc04s95OviUdu2+pIc+xEddEtlpy5utnPa+AanqDuaRd55iKh3+Tc+8GgSJ2S1pBUOj4pP6/dyGiV+fSazxuw/R+pZsMtNpsGcoOMtyPtAVNG/T3yqwMSJdbS2X08lMj6XP9Lh1CxTfdSsHbbEm/xKLn9Hf1HP33dD894sXJ73UsTaL8dE+Kx0W1Uh8Aiqp6X5JmzzjKvsdMoARdH7MAkCqEJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o7EmmtTfdC1T2cy1HdvKUC7kTulqclX17gm9CF+M76o=;
- b=RQCY3oEDTPRqE7cyizjGO9M+j83o4d1gLgGKOIqEQWxtLegS7QdBwF4EHxm1lXbrpfqAu3VC3VuSmniJMBs2pvEMsbsW9pGkIIA/SbnRRsOIrcGZrFonVgybMIJyK43RZFQUxpD8f5j7HkUTqq32TLODOtUGpwbzpGjF/Syr4ubf4CQi86876ihOUojsE34kc4NrySGnEc1NTKXsqLvPqIlJApAL6XjA+JhSFdipT5jT3n7ecTqXoBbXArQ43sLgNpNQBF2R8S7NgdZtHSrsPxBhEbUQTx1KDx1XyFiPwAwO/Dbwvacuqcrzqww8QaOnOuAaJwTvnyzI0gYz9/96+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7EmmtTfdC1T2cy1HdvKUC7kTulqclX17gm9CF+M76o=;
- b=asCisvUzJrfR14Og7RP/mS0grPh2gsbr777KreyStjvscxOBUhvtQVPLBVXLvqwaU1AFCtrxWIdTCvBI0ftYFVErTiDCZVpvoq0DUc08QjecUgyi9KkczxK3XxuOGUttTTCiJ4NP52K0Qi3PA6N3B5EPS4UcUAjUHGR2Csk4chhQuRxijYlSsAc8kWhEMKuR4VnyELda04BCd6kGmHMZhQ98sVSu8QkOl2Rhed5MJ7VYnpWwefm6No3S4N1as+5SovWjH9oHAobUfNUCdnv5hd1seMUvhRh1mAdpJyAR/5OWIrLtNWovuhWBqNNFTax6wRoh2OdGuLBJEhCCVFc3rg==
-Received: from BN0PR04CA0065.namprd04.prod.outlook.com (2603:10b6:408:ea::10)
- by DS0PR12MB8365.namprd12.prod.outlook.com (2603:10b6:8:f8::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.20; Fri, 27 Jan
- 2023 20:05:11 +0000
-Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ea:cafe::10) by BN0PR04CA0065.outlook.office365.com
- (2603:10b6:408:ea::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22 via Frontend
- Transport; Fri, 27 Jan 2023 20:05:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6043.21 via Frontend Transport; Fri, 27 Jan 2023 20:05:11 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 27 Jan
- 2023 12:05:02 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 27 Jan
- 2023 12:05:02 -0800
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.36 via Frontend
- Transport; Fri, 27 Jan 2023 12:05:00 -0800
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     <jgg@nvidia.com>, <kevin.tian@intel.com>, <robin.murphy@arm.com>,
-        <joro@8bytes.org>, <will@kernel.org>, <agross@kernel.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
-        <thierry.reding@gmail.com>, <alex.williamson@redhat.com>,
-        <cohuck@redhat.com>
-CC:     <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-        <iommu@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <kvm@vger.kernel.org>
-Subject: [PATCH 4/4] vfio: Do not allocate domain if broken_unmanaged_domain
-Date:   Fri, 27 Jan 2023 12:04:20 -0800
-Message-ID: <42f5cec9d3f03eab3af9509bd5a730f6a1414989.1674849118.git.nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1674849118.git.nicolinc@nvidia.com>
-References: <cover.1674849118.git.nicolinc@nvidia.com>
+        Fri, 27 Jan 2023 16:59:30 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6BF9A7E078;
+        Fri, 27 Jan 2023 13:58:58 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7CD31FB;
+        Fri, 27 Jan 2023 13:59:35 -0800 (PST)
+Received: from [10.57.88.221] (unknown [10.57.88.221])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC4143F5A1;
+        Fri, 27 Jan 2023 13:58:50 -0800 (PST)
+Message-ID: <dfad6d75-6f4d-99ef-1c6a-4bf397dcaa13@arm.com>
+Date:   Fri, 27 Jan 2023 21:58:46 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT039:EE_|DS0PR12MB8365:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16aa347e-5ccd-4e8c-007b-08db00a1cc0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R6jo/E9hj+aFlwNh+ZQngKjzIs7s9C8Rr0TWz7tvftdukTv9brVHYi1ddAvd/5iVqpfpkuimTGThpauWSYwJVkpg1YpiKR3l80PUi97R+UEmGlMmpRMplN8zDQBw/XcFc0qAbYoiRU7q7zqFYpY3NAvGiMA9FAnR6rXHhpvCkS9tw8bGSjTqAV/5Top83N4/+Uh6zWp212eKGEiRT6dxeWdONz2z0urkGUdQ7ZkPnAb5SpWSj7Kt+hahPTAM8VMiFhpTdrv28fYSc/LwO5xc+BN0Iznsnm3NXQjBOeXo98voPXVDyrc2F1rHxROhyiSblkSo11tVDICFujNSRW25kdEVu8wERS2Zp1sOJourGD16KBPP4VBXW8zeyOiGIzXQXfHvU7pYO9sdcF/iGLFMGHLik5mSdVtqlpbuN/YXR6lswn8ecbA5TDhuqoyueOVjKPSVe044afcqHdNFlJ+B80i7HKB+JVmpQH3as6ogq+4CJjTFwxqwKetgCFzcYkfl05bxVSJJfk96zrQGi/VUkuNRRRpOZl3jEBjpzq3oKdGr8Ee741cGkUycZhDOkT6SgohZoOG54yQl/O1cKer3eVyEXcY2KrA4rc3v+Obfxjdx6My61NZpLi2/eM2n+eUimeXTWCxnaBDQyanfshLiaPgkbFra79JkWXr8p3OhzBPBV/9d39Hn3SlJUVOiNB2Aj1CUfl/i5UyDMutc/9p2sv2ZiLOymE9zIC7VH6ETIh8=
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(39860400002)(136003)(346002)(451199018)(36840700001)(46966006)(40470700004)(8936002)(2616005)(5660300002)(41300700001)(70206006)(2906002)(70586007)(4326008)(8676002)(7696005)(336012)(186003)(6666004)(26005)(83380400001)(426003)(86362001)(82310400005)(47076005)(82740400003)(316002)(7636003)(4744005)(7416002)(478600001)(54906003)(110136005)(36756003)(356005)(40460700003)(40480700001)(921005)(36860700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 20:05:11.4190
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16aa347e-5ccd-4e8c-007b-08db00a1cc0b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8365
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        SPF_HELO_PASS,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/4] iommu: Add a broken_unmanaged_domain flag in
+ iommu_ops
+Content-Language: en-GB
+To:     Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
+        kevin.tian@intel.com, joro@8bytes.org, will@kernel.org,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        yong.wu@mediatek.com, matthias.bgg@gmail.com,
+        thierry.reding@gmail.com, alex.williamson@redhat.com,
+        cohuck@redhat.com
+Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com, iommu@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        kvm@vger.kernel.org
+References: <cover.1674849118.git.nicolinc@nvidia.com>
+ <0875479d24a53670e17db8a11945664a6bb4a25b.1674849118.git.nicolinc@nvidia.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <0875479d24a53670e17db8a11945664a6bb4a25b.1674849118.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add a sanity of the broken_unmanaged_domain flag to reject the use of
-vfio_iommu_type1 in the early stage, if the flag is set by the iommu
-driver.
+On 2023-01-27 20:04, Nicolin Chen wrote:
+> Both IOMMU_DOMAIN_UNMANAGED and IOMMU_DOMAIN_DMA require the support
+> of __IOMMU_DOMAIN_PAGING capability, i.e. iommu_map/unmap. However,
+> some older iommu drivers do not fully support that, and these drivers
+> also do not advertise support for dma-iommu.c via IOMMU_DOMAIN_DMA,
+> or use arm_iommu_create_mapping(), so largely their implementations
+> of IOMMU_DOMAIN_UNMANAGED are untested. This means that a user like
+> vfio/iommufd does not likely work with them.
+> 
+> Several of them have obvious problems:
+>    * fsl_pamu_domain.c
+>      Without map/unmap ops in the default_domain_ops, it isn't an
+>      unmanaged domain at all.
+>    * mtk_iommu_v1.c
+>      With a fixed 4M "pagetable", it can only map exactly 4G of
+>      memory, but doesn't set the aperture.
 
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/vfio/vfio_iommu_type1.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The aperture is easily fixed (one could argue that what's broken there 
+are the ARM DMA ops for assuming every IOMMU has a 32-bit IOVA space and 
+not checking).
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 23c24fe98c00..6ec238aefe89 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -2170,7 +2170,10 @@ static int vfio_iommu_domain_alloc(struct device *dev, void *data)
- {
- 	struct iommu_domain **domain = data;
- 
--	*domain = iommu_domain_alloc(dev->bus);
-+	if (device_iommu_unmanaged_supported(dev))
-+		*domain = iommu_domain_alloc(dev->bus);
-+	else
-+		*domain = NULL;
- 	return 1; /* Don't iterate */
- }
- 
--- 
-2.39.1
+>    * tegra-gart.c
+>      Its notion of attach/detach and groups has to be a complete lie to
+>      get around all the other API expectations.
 
+That's true, and the domain is tiny and not isolated from the rest of 
+the address space outside the aperture, but the one thing it does do is 
+support iommu_map/unmap just fine, which is what this flag is documented 
+as saying it doesn't.
+
+> Some others might work but have never been tested with vfio/iommufd:
+>    * msm_iommu.c
+>    * omap-iommu.c
+>    * tegra-smmu.c
+
+And yet they all have other in-tree users (GPUs on MSM and Tegra, 
+remoteproc on OMAP) that allocate unmanaged domains and use 
+iommu_map/unmap just fine, so they're clearly not broken either.
+
+On the flipside, you're also missing cases like apple-dart, which can 
+have broken unmanaged domains by any definition, but only under certain 
+conditions (at least it "fails safe" and they will refuse attempts to 
+attach anything). I'd also question sprd-iommu, which hardly has a 
+generally-useful domain size, and has only just recently gained the 
+ability to unmap anything successfully. TBH none of the SoC IOMMUs are 
+likely to ever be of interest to VFIO or IOMMUFD, since the only things 
+they could assign to userspace are the individual devices - usually 
+graphics and media engines - that they're coupled to, whose useful 
+functionality tends to depend on clocks, phys, and random other 
+low-level stuff that would be somewhere between impractical and 
+downright unsafe to attempt to somehow expose as well.
+
+> Thus, mark all these drivers as having "broken" UNAMANGED domains and
+> add a new device_iommu_unmanaged_supported() API for vfio/iommufd and
+> dma-iommu to refuse to work with these drivers.
+> 
+> Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+
+[...]
+
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 46e1347bfa22..919a5dbad75b 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -245,6 +245,10 @@ struct iommu_iotlb_gather {
+>    *                    pasid, so that any DMA transactions with this pasid
+>    *                    will be blocked by the hardware.
+>    * @pgsize_bitmap: bitmap of all possible supported page sizes
+> + * @broken_unmanaged_domain: IOMMU_DOMAIN_UNMANAGED is not fully functional; the
+> + *                           driver does not really support iommu_map/unmap, but
+> + *                           uses UNMANAGED domains for the IOMMU API, called by
+> + *                           other SOC drivers.
+
+"uses UNMANAGED domains for the IOMMU API" is literally the definition 
+of unmanaged domains :/
+
+Some "other SOC drivers" use more of the IOMMU API than VFIO does :/
+
+Please just add IOMMU_CAP_IOMMUFD to represent whatever the nebulous 
+requirements of IOMMUFD actually are (frankly it's no less informative 
+than calling domains "broken"), handle that in the drivers you care 
+about and have tested, and use device_iommu_capable(). What you're 
+describing in this series is a capability, and we have a perfectly good 
+API for drivers to express those already. Plus, as demonstrated above, a 
+positive capability based on empirical testing will be infinitely more 
+robust than a negative one based on guessing.
+
+Thanks,
+Robin.
