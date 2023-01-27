@@ -2,66 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A757A67E07D
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Jan 2023 10:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B818967E7EB
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Jan 2023 15:14:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232524AbjA0Jkt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Jan 2023 04:40:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
+        id S233049AbjA0OOM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Jan 2023 09:14:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbjA0Jks (ORCPT
+        with ESMTP id S233907AbjA0ONx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Jan 2023 04:40:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067F31B9;
-        Fri, 27 Jan 2023 01:40:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 27 Jan 2023 09:13:53 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979AA39BB8;
+        Fri, 27 Jan 2023 06:13:52 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A8A4CB81FFC;
-        Fri, 27 Jan 2023 09:40:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126B7C433D2;
-        Fri, 27 Jan 2023 09:40:39 +0000 (UTC)
-Message-ID: <019f6407-a7ca-3129-d4cb-2cfed7519369@xs4all.nl>
-Date:   Fri, 27 Jan 2023 10:40:38 +0100
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 48BE32205E;
+        Fri, 27 Jan 2023 14:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1674828831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xnty0YewjjZGntfA5Jezh1stOqjzMINOZh3MNW1NGRE=;
+        b=XILFmXDhp2Rkm3Gt877yc+9GZnJqZCsgfbsIdjM1dV/FG2uTDvUxt8XOjlNNCRjr4Six1J
+        SsvVjSV3PtGynLAuTblPJndStDJir8dFn/tOZtXUMn+Agp1eaMeT5UgXg+lM5h0lqmajpA
+        pqe6dqMaDqdDs/bUiTO/GpLk9M7GYBQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1674828831;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xnty0YewjjZGntfA5Jezh1stOqjzMINOZh3MNW1NGRE=;
+        b=jutVM9bPYO31A6tbeYAXpAfj4PSLyPGa8PWW6ZJzmfKvcHn/lBJlgvTOG5wJP1dXtL0OBx
+        YEKvcx1sYQCvGKCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 16CB9138E3;
+        Fri, 27 Jan 2023 14:13:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id txeIBB/c02NCPAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Fri, 27 Jan 2023 14:13:51 +0000
+Message-ID: <bf1aa950-3b58-3e33-4849-2ee7fbefcfcc@suse.de>
+Date:   Fri, 27 Jan 2023 15:13:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/9] media: dt-bindings: common CEC properties
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 01/10] drm/client: Test for connectors before sending
+ hotplug event
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        devicetree@vger.kernel.org, Joe Tessler <jrt@google.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-tegra@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, Jeff Chase <jnchase@google.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-kernel@vger.kernel.org
-References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
- <cd803c70-faf0-963e-fca3-0edd13fa8a29@linaro.org>
- <c092c11f-870f-6520-ad89-001468ed59dc@xs4all.nl>
- <7e941a2d-25d9-44e0-7438-13225c87d8ac@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <7e941a2d-25d9-44e0-7438-13225c87d8ac@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, javierm@redhat.com,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230125200415.14123-1-tzimmermann@suse.de>
+ <20230125200415.14123-2-tzimmermann@suse.de> <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------5rxgPFJ3j2KL4oJ65FD8FXSd"
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,39 +77,99 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 27/01/2023 10:37, Krzysztof Kozlowski wrote:
-> On 13/01/2023 10:04, Hans Verkuil wrote:
->> Hi Krzysztof,
->>
->> On 13/01/2023 09:59, Krzysztof Kozlowski wrote:
->>> On 08/12/2022 11:31, Krzysztof Kozlowski wrote:
->>>> Hi,
->>>>
->>>> Changes since v3
->>>> ================
->>>> 1. cec-gpio: Add missing SPDX.
->>>> 2. nvidia,tegra114-cec: Correct path in maintainers.
->>>>
->>>
->>>
->>> Mauro (and maybe Hans?), any comments here. Can you apply the patchset?
->>
->> No comments yet. I plan to review and likely merge this next week.
-> 
-> Hi Hans,
-> 
-> I hope they didn't get forgotten and you still have a plan to look at
-> these. Patchwork shows they are waiting for review:
-> https://patchwork.kernel.org/project/linux-media/patch/20221208103115.25512-2-krzysztof.kozlowski@linaro.org/
-> 
-> Best regards,
-> Krzysztof
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------5rxgPFJ3j2KL4oJ65FD8FXSd
+Content-Type: multipart/mixed; boundary="------------heOeejt6LNNDwxF4fkjBknOr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <bf1aa950-3b58-3e33-4849-2ee7fbefcfcc@suse.de>
+Subject: Re: [PATCH v3 01/10] drm/client: Test for connectors before sending
+ hotplug event
+References: <20230125200415.14123-1-tzimmermann@suse.de>
+ <20230125200415.14123-2-tzimmermann@suse.de> <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+In-Reply-To: <Y9GWfi4EiCDPa6BJ@ravnborg.org>
 
-They are on my todo list :-)
+--------------heOeejt6LNNDwxF4fkjBknOr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I hope to get to it next week.
+SGkNCg0KQW0gMjUuMDEuMjMgdW0gMjE6NTIgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIFdlZCwgSmFuIDI1LCAyMDIzIGF0IDA5OjA0OjA2UE0gKzAx
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gVGVzdCBmb3IgY29ubmVjdG9ycyBp
+biB0aGUgY2xpZW50IGNvZGUgYW5kIHJlbW92ZSBhIHNpbWlsYXIgdGVzdA0KPj4gZnJvbSB0
+aGUgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24uIERvIG5vdGhpbmcgaWYgdGhlIHRlc3QgZmFp
+bHMuDQo+PiBOb3QgaGF2aW5nIGNvbm5lY3RvcnMgaW5kaWNhdGVzIGEgZHJpdmVyIGJ1Zy4N
+Cj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4NCj4+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGph
+dmllcm1AcmVkaGF0LmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Ns
+aWVudC5jICAgICAgICB8IDUgKysrKysNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRl
+dl9nZW5lcmljLmMgfCA1IC0tLS0tDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRp
+b25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2NsaWVudC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYw0KPj4g
+aW5kZXggMjYyZWM2NGQ0Mzk3Li4wOWFjMTkxYzIwMmQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2NsaWVudC5jDQo+PiBAQCAtMTk4LDYgKzE5OCwxMSBAQCB2b2lkIGRybV9jbGllbnRfZGV2
+X2hvdHBsdWcoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4+ICAgCWlmICghZHJtX2NvcmVf
+Y2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9NT0RFU0VUKSkNCj4+ICAgCQlyZXR1cm47DQo+
+PiAgIA0KPj4gKwlpZiAoIWRldi0+bW9kZV9jb25maWcubnVtX2Nvbm5lY3Rvcikgew0KPj4g
+KwkJZHJtX2RiZ19rbXMoZGV2LCAiTm8gY29ubmVjdG9ycyBmb3VuZCwgd2lsbCBub3Qgc2Vu
+ZCBob3RwbHVnIGV2ZW50cyFcbiIpOw0KPj4gKwkJcmV0dXJuOw0KPiBUaGlzIGRlc2VydmVz
+IGEgbW9yZSB2aXNpYmxlIGxvZ2dpbmcgLSBpZiBhIGRyaXZlciBmYWlscyBoZXJlIGl0IHdv
+dWxkDQo+IGJlIGdvb2QgdG8gc3BvdCBpdCBpbiB0aGUgbm9ybWFsIGtlcm5lbCBsb2cuDQo+
+IGRybV9pbmZvIG9yIGRybV9ub3RpY2U/DQoNCkJ1dCBpcyB0aGF0IHJlYWxseSBub3Rld29y
+dGh5PyBBRkFJSywgdGhpcyBzaXR1YXRpb24gY2FuIGxlZ2FsbHkgaGFwcGVuLiANClNvIGlm
+IGl0J3MgZXhwZWN0ZWQsIHdoeSBzaG91bGQgd2UgcHJpbnQgYSBtZXNzYWdlIGFib3V0IGl0
+Pw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGUgb3JpZ2luYWwgY29kZSBo
+YWQgdGhpcyBvbiB0aGUgZGVidWcgbGV2ZWwsIGJ1dCB3aGVuIG1vdmluZyB0aGUgbG9nDQo+
+IGxldmVsIGNvdWxkIGFsc28gYmUgdXBkYXRlZC4NCj4gDQo+IAlTYW0NCj4gDQo+PiArCX0N
+Cj4+ICsNCj4+ICAgCW11dGV4X2xvY2soJmRldi0+Y2xpZW50bGlzdF9tdXRleCk7DQo+PiAg
+IAlsaXN0X2Zvcl9lYWNoX2VudHJ5KGNsaWVudCwgJmRldi0+Y2xpZW50bGlzdCwgbGlzdCkg
+ew0KPj4gICAJCWlmICghY2xpZW50LT5mdW5jcyB8fCAhY2xpZW50LT5mdW5jcy0+aG90cGx1
+ZykNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiBpbmRleCAwYTRj
+MTYwZTBlNTguLjNkNDU1YTJlM2ZiNSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zi
+ZGV2X2dlbmVyaWMuYw0KPj4gQEAgLTM4OSwxMSArMzg5LDYgQEAgc3RhdGljIGludCBkcm1f
+ZmJkZXZfY2xpZW50X2hvdHBsdWcoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpDQo+
+PiAgIAlpZiAoZGV2LT5mYl9oZWxwZXIpDQo+PiAgIAkJcmV0dXJuIGRybV9mYl9oZWxwZXJf
+aG90cGx1Z19ldmVudChkZXYtPmZiX2hlbHBlcik7DQo+PiAgIA0KPj4gLQlpZiAoIWRldi0+
+bW9kZV9jb25maWcubnVtX2Nvbm5lY3Rvcikgew0KPj4gLQkJZHJtX2RiZ19rbXMoZGV2LCAi
+Tm8gY29ubmVjdG9ycyBmb3VuZCwgd2lsbCBub3QgY3JlYXRlIGZyYW1lYnVmZmVyIVxuIik7
+DQo+PiAtCQlyZXR1cm4gMDsNCj4+IC0JfQ0KPj4gLQ0KPj4gICAJZHJtX2ZiX2hlbHBlcl9w
+cmVwYXJlKGRldiwgZmJfaGVscGVyLCAmZHJtX2ZiX2hlbHBlcl9nZW5lcmljX2Z1bmNzKTsN
+Cj4+ICAgDQo+PiAgIAlyZXQgPSBkcm1fZmJfaGVscGVyX2luaXQoZGV2LCBmYl9oZWxwZXIp
+Ow0KPj4gLS0gDQo+PiAyLjM5LjANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
+MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Regards,
+--------------heOeejt6LNNDwxF4fkjBknOr--
 
-	Hans
+--------------5rxgPFJ3j2KL4oJ65FD8FXSd
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPT3B4FAwAAAAAACgkQlh/E3EQov+Dc
+WxAAon9oAW+n4SDkB6P3CQ+G/JHDXSh26ifvSOw9Psr06ZvDnaHGytExuF+cXV6Re7SQiz4rCCc4
+0c4AKQqvMnCKdO2p8CPHkBjE2MdrNhsqQGCrhDWP3DRSnzjB3MmBPZMhaz3INiURYod42cTLnxG1
+EeyarMIBH8k0nTor7oczo2a7HVvUuA3K3I0n7gCOn4seaocvvG7MM0RmhFmhF4lAfjnUQ2sOOLFy
+LUVq20J4bVRB2ftF7C/xXoiTnoH+Vaht3o1D06Px0FGU0+e0sEMkkjPudg0mdZ3Kpf9xLQiQwGNo
+dkF/BZSQS7SiXso4zu3T0BOMFK5uYizhc9fQfn3AAhPuDWhB+wqz9dQuDhwQB08NShXGhIQrJ/MW
+q5I26mgWBcpOe5DNgI2l+Wefw/MrYrRvvzEbkuOXG6efMvnpmTL5BMYOPH3sKT8gl855v+ezShTq
+hiYijcXkkaPNrFesBVG81zHnUOgi/HM0JDGDfhcFUde8YYpRcE0LptKMtOfRwkdZTxPPCXGp+aRJ
+3bglCykbu7UpwF/gu8ywHCYDPRU06emQYWJCRr6BpzWDxxTLdsVn9Gd6Z3q5PYgrRbZkDlRxmgO+
+qLxO7GNYcXpt34MiyUWdOaSc0M04I1SBTgVp0qExDLnwEcrf2EAQyGGuU5N2GDuPsnYKMQX2nYa+
+v7c=
+=Q75b
+-----END PGP SIGNATURE-----
+
+--------------5rxgPFJ3j2KL4oJ65FD8FXSd--
