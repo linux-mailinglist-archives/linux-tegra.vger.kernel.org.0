@@ -2,110 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A87B9687AF6
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Feb 2023 11:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4AD687C06
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Feb 2023 12:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232222AbjBBK67 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Feb 2023 05:58:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
+        id S231207AbjBBLQa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Feb 2023 06:16:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230233AbjBBK66 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Feb 2023 05:58:58 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AF4712CB
-        for <linux-tegra@vger.kernel.org>; Thu,  2 Feb 2023 02:58:55 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id d4-20020a05600c3ac400b003db1de2aef0so1059640wms.2
-        for <linux-tegra@vger.kernel.org>; Thu, 02 Feb 2023 02:58:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UVC3BbCIKGwKEURboffcV34GlxCVIjCwQdv8Aw/FvBc=;
-        b=NSlTIDIuXmr9NgzQl2ljftdQqscbgLmM96D3y9V9sYNrZSiu7WXdyrOZf1aaNeVxXJ
-         CuunDZjDr09/Cn+xmJ6lxD49d4UDmurgZv+j8P8UFRDkZmjyQ/Sc0yTJ3sXCCUv56pYy
-         bfDiIHEvJGj0Z0iIOpv03yIbxpVwUUUbRU4mvE5KjVQzts5vFFju1ZuCUmuBwhJzzfMQ
-         uFl8/km3hcqaTjZ3oh7N3c9q1FB/k10A+v1QatIqEXQQqZKnuDt/pk2iDp0M8oZkKqlH
-         C9uzeMyVPZ0ag98zy3c8OHcROza1M1HLe5QiFdnu6cFEaLoJBIkOT1Cjb+R+W+AsoTtz
-         HHsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UVC3BbCIKGwKEURboffcV34GlxCVIjCwQdv8Aw/FvBc=;
-        b=V2yoaS5MP91eWA6uKJ0YdfLxAHa93M+NWoAX4bTHYK7X2FFT4HSagFAOmG0CNKSoQg
-         EQ+MjsaIxQ1KjzJ6XlWkVledR4z2/zCEmuzySjD+L6hC1A4KmMQrrX+Qpu9QoEdETl+L
-         8KuEAAf6urTyu2ZwpBuyV+J4dOXHaYcDpYANUiyIDRkZttyv7h9KybS0YBEnV9kYZj8I
-         NRA+KF9T0ALMbewaHnLUm/GDZdUREQ98nhpshiAa5bXN8pgN44e7yS1UcHqzszBr0hxn
-         pESqKo1mjiFjfvkhJAxOyFMbdatw3IhhFZkodvW281Ms3iuYBvcTW7lHOh1XH4m24Jh8
-         91Ow==
-X-Gm-Message-State: AO0yUKUr5bjiYuy+0/ou+HGkVDEkr8upnxfATaw6KWiO/CdOn8QB0yUP
-        Y3l/DcX9L2KlwHpAKXFtt9dBbw==
-X-Google-Smtp-Source: AK7set83lIl4nGCVu7Pf1aCB5oUVzv4rO6WDAnBXErPnHSfhSs/9z3OqQW47YCDl+K02oT7+vlDn0w==
-X-Received: by 2002:a05:600c:4f41:b0:3d7:889:7496 with SMTP id m1-20020a05600c4f4100b003d708897496mr5231407wmq.17.1675335534471;
-        Thu, 02 Feb 2023 02:58:54 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003d237d60318sm4322832wmi.2.2023.02.02.02.58.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 02:58:53 -0800 (PST)
-Message-ID: <d006ea43-6aa1-89d9-ec6a-a44810d31bff@linaro.org>
-Date:   Thu, 2 Feb 2023 11:58:51 +0100
+        with ESMTP id S232071AbjBBLQO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Feb 2023 06:16:14 -0500
+X-Greylist: delayed 4199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Feb 2023 03:15:53 PST
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 309BD89FBE
+        for <linux-tegra@vger.kernel.org>; Thu,  2 Feb 2023 03:15:52 -0800 (PST)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+        id D0826A4007; Wed,  1 Feb 2023 09:11:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+        t=1675242679; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+        h=Date:From:To:Subject:From;
+        b=Ie7uLRIWE5Rg72XKlb7sq1ISpXnkXTyYDbFUzowYR04+NGTj2lvgXwCwhpim5fM+x
+         qDMK8y/E81XOYZJhFoO7VFgTnSObWZxA3mn4z5UUe7TqPhnYomAlLGdHdtk+BUVy5O
+         9Ea4CDnMi/qzLOK42Z8XQWkrG5w9PnQNqbLjijZU5JgcRE1xCw5G27GotogCG/huj5
+         PR8Xn/mA9XNM+USvJddTtRKMiySZ14xKRerI2SNrg3It4sE/zCWF+Zc5E4ZV07/Z4+
+         PZNZii2nSUsKMJpOvo/yu+Vq0g8D8PQah2APQvl8ADo4rpcgf/tL0C5UihiZPl3Gi/
+         3ZvIgUPrFf/6Q==
+Received: by mail.corrib.pl for <linux-tegra@vger.kernel.org>; Wed,  1 Feb 2023 09:11:14 GMT
+Message-ID: <20230201074500-0.1.58.fiot.0.r8k35boq3w@corrib.pl>
+Date:   Wed,  1 Feb 2023 09:11:14 GMT
+From:   =?UTF-8?Q? "Szczepan_Kie=C5=82basa" ?= 
+        <szczepan.kielbasa@corrib.pl>
+To:     <linux-tegra@vger.kernel.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 14/23] interconnect: exynos: fix node leak in probe PM QoS
- error path
-Content-Language: en-US
-To:     Johan Hovold <johan+linaro@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20230201101559.15529-1-johan+linaro@kernel.org>
- <20230201101559.15529-15-johan+linaro@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230201101559.15529-15-johan+linaro@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,SPF_PASS,
+        T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 01/02/2023 11:15, Johan Hovold wrote:
-> Make sure to add the newly allocated interconnect node to the provider
-> before adding the PM QoS request so that the node is freed on errors.
-> 
-> Fixes: 2f95b9d5cf0b ("interconnect: Add generic interconnect driver for Exynos SoCs")
-> Cc: stable@vger.kernel.org      # 5.11
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
->  drivers/interconnect/samsung/exynos.c | 6 +++---
+Dzie=C5=84 dobry,
+
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Pozdrawiam
+Szczepan Kie=C5=82basa
