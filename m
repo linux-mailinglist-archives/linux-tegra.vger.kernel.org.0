@@ -2,252 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE59268829C
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Feb 2023 16:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8825C6883F1
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Feb 2023 17:18:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbjBBPf1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Feb 2023 10:35:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S232071AbjBBQSU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Feb 2023 11:18:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233386AbjBBPfG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Feb 2023 10:35:06 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E45512F3E;
-        Thu,  2 Feb 2023 07:34:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675352070; x=1706888070;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1hiGSI7yYJkj7zXJb3P5ImKWY0yPb5nCR7lnpVL9118=;
-  b=O5xIWTBfmXjGlvXe141j5oWmXeRpajcM/z+lBubiSb/5qdz1CExI8FR2
-   jUYEAlH5RNNMsJULPPw9igzOVYjCiZxsvCi7V8FunzYucr38TT54d1zkT
-   2Den3BXu9F7CQNRlgU6kAS8IdibORNhitCM8/0hfLmPB0UG5FqHYJxvZz
-   q1cUQHu2snVDf48GWQYtsrfYN4D14lRM8cCW3Zd/orwAj1yZiG+/CjezO
-   3LV0RXD9PQf7E2L3zlI8TrKzGC+X83N4J0oa/LsNV86a3WwdeyN93NJvT
-   4++ASuS6I9Vl4N60BQzixKC7EGW7Dc4xREKjbcd1gNVne6k7MWvQ8vDf+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="393055052"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="393055052"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 07:26:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="667316707"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="667316707"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Feb 2023 07:26:36 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNbTv-0006cC-17;
-        Thu, 02 Feb 2023 15:26:35 +0000
-Date:   Thu, 02 Feb 2023 23:25:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-trace-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        kvmarm@lists.cs.columbia.edu, kasan-dev@googlegroups.com,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- ea4dabbb4ad7eb52632a2ca0b8f89f0ea7c55dcf
-Message-ID: <63dbd5f9.EHwMUB1NksMSVh+v%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S231775AbjBBQST (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Feb 2023 11:18:19 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5506A212B3;
+        Thu,  2 Feb 2023 08:18:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aFpNW+M9zTyjYVQIVpZQVTu+7yrBPyjBe+vU1fMRk646tqmAvhyUrw1/Vb5gHU30NwZ6mAY1JuzO6vL5iQ3ae42fT9OrBcm+aeidl+27tRGdJhslIXVIrCAZ1yz204DjGXMmeWXMF0ZhjP1w0NkmdrwQGZezNpVzVx06xtAvs2MwrRcxAm2/ATve9Xr4Tj2unOnC/22yHDhTO/gVz1M3OZTG4qrCjUVeZ0CM1nURSOLINJcWsrWCLjhygJM+JOYeo2q+Kfcr7GgXBIVmF6BBH62l9Oo0YQ2jrvSO31CKvoHBt7hwYwRZtRpC46TB5gPwv8amf6L3VUNXBLnPlSrTzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CkiGvIpGnfI4C1w+gojgg+XU7WO0Xt+bk/w+Sqr/k5k=;
+ b=Ch20AfMJMrLh+ro+utBxa99fus6SzmttY0BQxhduMp7ZS5wB6gCFqBJ4LMWP8HrYEk4tT5vcB+RlM/+cFdXonUfG5Cic0kuRDJCeuZgK7ymlfY8BknqqnaNx8pU7k6geDAoJXh8VAayvr0P3ozFPLUcykycKcWpoBNwu4OSsxTRDyMBuJnJ5tHWZS7qD14pgyxVTdpdEfEuVb+jn4ygsUlCALspG7PgeL+th1EEP+iuNTif/qvP+UMiC2i1Cr5XH3FwWHY5DbBToLiXhn1NNhOM4I9xt82JMFbzQJVubiAzslLMECjH7S2oI0pz9EpxAsJoaC9n/JVXISXxIU0FWwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CkiGvIpGnfI4C1w+gojgg+XU7WO0Xt+bk/w+Sqr/k5k=;
+ b=lhQC9JK9mILJO52mkXai8v2X1vHe0w/kMNzOPk29TETjXI1InnsJNJdmcYLJDnsYXj4pFsJgSgvGp224rUl0eECPfDglWb9ossJJs0Q7ppffGzlSn8BlWIG2aynnTdvJ07BmJYqFSEXUJ2i/iKmBE+A411HkmIKO5GdfDavuYkMULxKSgRObgqIShqdTf5tcUYtPUjsju3EYJXW2n9G4Gb6KlUcTffFkbeoSXCsw69cEo3HWztOoK2kW66pk5TBR8a1F4ple2ClXdFj3+5bj7rBtyZKrHHybFdtMhPKk9SHTMgiVmIr6Fo7Qn1kUzOSbHQ/vKShpmshtR+xk8Cs2tQ==
+Received: from MW4PR03CA0265.namprd03.prod.outlook.com (2603:10b6:303:b4::30)
+ by BL1PR12MB5080.namprd12.prod.outlook.com (2603:10b6:208:30a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.27; Thu, 2 Feb
+ 2023 16:18:10 +0000
+Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b4:cafe::dd) by MW4PR03CA0265.outlook.office365.com
+ (2603:10b6:303:b4::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.27 via Frontend
+ Transport; Thu, 2 Feb 2023 16:18:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6064.25 via Frontend Transport; Thu, 2 Feb 2023 16:18:10 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 2 Feb 2023
+ 08:17:59 -0800
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 2 Feb 2023 08:17:59 -0800
+Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.36 via Frontend
+ Transport; Thu, 2 Feb 2023 08:17:55 -0800
+From:   Krishna Yarlagadda <kyarlagadda@nvidia.com>
+To:     <robh+dt@kernel.org>, <broonie@kernel.org>, <peterhuewe@gmx.de>,
+        <jgg@ziepe.ca>, <jarkko@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <linux-spi@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <skomatineni@nvidia.com>, <ldewangan@nvidia.com>,
+        Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Subject: [PATCH 0/4] Tegra TPM driver with hw flow control
+Date:   Thu, 2 Feb 2023 21:47:46 +0530
+Message-ID: <20230202161750.21210-1-kyarlagadda@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT045:EE_|BL1PR12MB5080:EE_
+X-MS-Office365-Filtering-Correlation-Id: f12b4569-cfa7-4860-62a4-08db053913dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZW6KTEMLzzpJxXwedHOHIWA9cJAhCYiHeck7sqkdIGnM/2CxOF3ih0TvHWoGGE8Idqtqvs0rL77Z6W5ctwa/7SHExX8HET8tiq3RXjD9Qu08YnulWq1IuZH6rGJuQ4Hi5aV23rw/mbO6I/bNOrYA2bktOf9VRi0/+EAj3NoxLFHO6LezCSbxNRmA8UhhhaoC5GXniEGgWSu6Q/kzYr8MRi2sFjR1KUtL/ObfG0WwVhMk4josweAqTFBbnwBzyFNiQ881WLztKhwaqR+UWIoTUv+YeBXFxbgad+tT/2XUf30zsKmJlG5BLQlTXCFYdZonZRVfPrUzHSRPOzxBRrWL3Y1FE67p/IOVnyX2HAG2FnSoCmP3QrSrR0scF+er/JXfNDtRK23F0uDlgAdrCDBApeU4xO6udtEphVSBt8uFlR8QMswCz6L4O6MS0ZCw6+SQf7KJrqAJ96BCLHPLNhg5HKgefWF1Q7oBQJcHubemyrzVZG0JVRTyjcBrKmpMKiAHpCA7UgQwur/zNMFCxzjN9bNaZwtLe6iLsR4PjWEjjvdj+FCDxNC55u/w1qWRS/Cg1stRX3CeMlgXqTfvIAHvZQohu4ge2WT1DdXb7nliE1k2QsHt9vZbd9JZ/vEehcBdP1Wg/kCy8A1ROXaolqQ8imNc1NqtJeACF501pE2y+Um1iqjpVqgMmSfd4BBfvKrAm8QWnIHSgD4EOEeBfm4+AGy2paJo2IV4dYE9xCyLtyFzCkezdiRcCR6KpqsmT91XFyhNYQOyFZ7beWddpSte2Q==
+X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(376002)(39860400002)(396003)(136003)(346002)(451199018)(46966006)(36840700001)(40470700004)(47076005)(7696005)(40460700003)(36756003)(356005)(86362001)(40480700001)(7636003)(82740400003)(36860700001)(82310400005)(2616005)(26005)(186003)(426003)(83380400001)(336012)(921005)(478600001)(1076003)(7416002)(110136005)(316002)(54906003)(8676002)(6666004)(107886003)(70586007)(4326008)(8936002)(70206006)(41300700001)(5660300002)(2906002)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 16:18:10.6670
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f12b4569-cfa7-4860-62a4-08db053913dd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5080
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: ea4dabbb4ad7eb52632a2ca0b8f89f0ea7c55dcf  Add linux-next specific files for 20230202
+Tegra234 and Tegra241 chips have QSPI controller that supports TCG
+PC Client Specific TPM Interface Specification (TIS) flow control.
+Since the controller only supports half duplex, sw wait polling
+(flow control using full duplex transfers) method implemented in
+tpm_tis_spi_main.c does not suffice.
+Added extended driver to disable sw flow control and send
+all transfers in single message. Flow control is handled by hardware.
 
-Error/Warning reports:
+Krishna Yarlagadda (4):
+  dt-bindings: tpm: Add compatible for Tegra TPM
+  tpm: tegra: Support SPI tpm wait state detect
+  spi: dt-bindings: Add Tegra TPM wait polling flag
+  spi: tegra210-quad: Enable TPM wait polling
 
-https://lore.kernel.org/oe-kbuild-all/202301301801.y5O08tQx-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310227.SeMvYeta-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302021325.700zGa0M-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-arch/arm64/kvm/arm.c:2206: warning: expecting prototype for Initialize Hyp(). Prototype was for kvm_arm_init() instead
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for function 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for function 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for function 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1295:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:279:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1585:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-drivers/gpu/host1x/dev.c:521:10: warning: variable 'syncpt_irq' is uninitialized when used here [-Wuninitialized]
-ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
-mm/kasan/report.c:272:44: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/media/i2c/max9286.c:802 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
-drivers/nvmem/imx-ocotp.c:599:21: sparse: sparse: symbol 'imx_ocotp_layout' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-r026-20230129
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-s052-20230129
-|   |-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8916_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8939_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_backup_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_9607_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_8976_nvmem-was-not-declared.-Should-it-be-static
-|   `-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_qcs404_nvmem-was-not-declared.-Should-it-be-static
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-buildonly-randconfig-r004-20230130
-|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-clang_recent_errors
-|-- arm-randconfig-r033-20230129
-|   |-- drivers-gpu-host1x-dev.c:warning:variable-syncpt_irq-is-uninitialized-when-used-here
-|   `-- mm-kasan-report.c:warning:format-specifies-type-unsigned-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_get_edp_poweron_timestamp
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_set_edp_power_timestamp
-`-- powerpc-randconfig-r015-20230130
-    `-- mm-kasan-report.c:warning:format-specifies-type-unsigned-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-
-elapsed time: 723m
-
-configs tested: 67
-configs skipped: 3
-
-gcc tested configs:
-x86_64                            allnoconfig
-x86_64               randconfig-a001-20230130
-i386                 randconfig-a002-20230130
-x86_64               randconfig-a003-20230130
-i386                 randconfig-a001-20230130
-x86_64               randconfig-a004-20230130
-um                             i386_defconfig
-x86_64               randconfig-a002-20230130
-i386                 randconfig-a004-20230130
-i386                 randconfig-a003-20230130
-x86_64               randconfig-a006-20230130
-um                           x86_64_defconfig
-i386                 randconfig-a005-20230130
-x86_64               randconfig-a005-20230130
-i386                 randconfig-a006-20230130
-arc                                 defconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-s390                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-x86_64                    rhel-8.3-kselftests
-alpha                               defconfig
-s390                                defconfig
-x86_64                          rhel-8.3-func
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-s390                             allyesconfig
-x86_64                              defconfig
-mips                             allyesconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20230129
-arm                                 defconfig
-arm                  randconfig-r046-20230129
-i386                                defconfig
-ia64                             allmodconfig
-x86_64                               rhel-8.3
-arm                  randconfig-r046-20230130
-arc                  randconfig-r043-20230130
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-arm64                            allyesconfig
-x86_64                           rhel-8.3-bpf
-arm                              allyesconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-
-clang tested configs:
-x86_64               randconfig-a012-20230130
-x86_64               randconfig-a013-20230130
-x86_64               randconfig-a011-20230130
-x86_64               randconfig-a014-20230130
-x86_64               randconfig-a015-20230130
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a016-20230130
-i386                 randconfig-a013-20230130
-i386                 randconfig-a012-20230130
-i386                 randconfig-a014-20230130
-hexagon              randconfig-r045-20230130
-i386                 randconfig-a015-20230130
-i386                 randconfig-a011-20230130
-i386                 randconfig-a016-20230130
-hexagon              randconfig-r041-20230130
-hexagon              randconfig-r045-20230129
-s390                 randconfig-r044-20230129
-s390                 randconfig-r044-20230130
-riscv                randconfig-r042-20230129
-riscv                randconfig-r042-20230130
+ .../security/tpm/nvidia,tegra-tpm-spi.txt     |  14 ++
+ ...nvidia,tegra210-quad-peripheral-props.yaml |   6 +
+ drivers/char/tpm/Makefile                     |   1 +
+ drivers/char/tpm/tpm_tis_spi.h                |   1 +
+ drivers/char/tpm/tpm_tis_spi_main.c           |   4 +-
+ drivers/char/tpm/tpm_tis_spi_tegra.c          | 123 ++++++++++++++++++
+ drivers/spi/spi-tegra210-quad.c               |  16 +++
+ 7 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/security/tpm/nvidia,tegra-tpm-spi.txt
+ create mode 100644 drivers/char/tpm/tpm_tis_spi_tegra.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.17.1
+
