@@ -2,189 +2,345 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 425D66A9BA3
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Mar 2023 17:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03C116A9D86
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Mar 2023 18:23:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbjCCQWD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Mar 2023 11:22:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60864 "EHLO
+        id S231249AbjCCRXX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Mar 2023 12:23:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbjCCQV7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Mar 2023 11:21:59 -0500
-Received: from mx.socionext.com (mx.socionext.com [202.248.49.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 21B765ADF6;
-        Fri,  3 Mar 2023 08:21:53 -0800 (PST)
-Received: from unknown (HELO kinkan2-ex.css.socionext.com) ([172.31.9.52])
-  by mx.socionext.com with ESMTP; 04 Mar 2023 01:21:52 +0900
-Received: from mail.mfilter.local (mail-arc02.css.socionext.com [10.213.46.40])
-        by kinkan2-ex.css.socionext.com (Postfix) with ESMTP id EE1632058442;
-        Sat,  4 Mar 2023 01:21:51 +0900 (JST)
-Received: from kinkan2.css.socionext.com ([172.31.9.51]) by m-FILTER with ESMTP; Sat, 4 Mar 2023 01:21:51 +0900
-Received: from [10.212.156.241] (unknown [10.212.156.241])
-        by kinkan2.css.socionext.com (Postfix) with ESMTP id 60F9D25528;
-        Sat,  4 Mar 2023 01:21:44 +0900 (JST)
-Message-ID: <acb7d81e-69d5-ff1b-aa0b-709c8c56010b@socionext.com>
-Date:   Sat, 4 Mar 2023 01:21:43 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 02/18] thermal/core: Use the thermal zone 'devdata'
- accessor in thermal located drivers
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mark Brown <broonie@kernel.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Balsam CHIHI <bchihi@baylibre.com>,
-        Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        with ESMTP id S231559AbjCCRW5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Mar 2023 12:22:57 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C0248E1A
+        for <linux-tegra@vger.kernel.org>; Fri,  3 Mar 2023 09:22:51 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pY95b-0006Ot-7P; Fri, 03 Mar 2023 18:21:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pY95P-001bia-Q5; Fri, 03 Mar 2023 18:20:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pY95P-001tht-22; Fri, 03 Mar 2023 18:20:51 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Mark Brown <broonie@kernel.org>,
+        Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+        =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Radu Pirea <radu_nicolae.pirea@upb.ro>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Dhruva Gole <d-gole@ti.com>,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
         Ray Jui <rjui@broadcom.com>,
         Scott Branden <sbranden@broadcom.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
+        William Zhang <william.zhang@broadcom.com>,
+        Kursad Oney <kursad.oney@broadcom.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Anand Gore <anand.gore@broadcom.com>,
+        =?utf-8?b?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>, Han Xu <han.xu@nxp.com>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jay Fang <f.fangjian@huawei.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Haibo Chen <haibo.chen@nxp.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
         Heiko Stuebner <heiko@sntech.de>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
+        Andi Shyti <andi@etezian.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
         Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
         Chunyan Zhang <zhang.lyra@gmail.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
         Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
+        Li-hao Kuo <lhjeff911@gmail.com>,
+        Masahisa Kojima <masahisa.kojima@linaro.org>,
+        Jassi Brar <jaswinder.singh@linaro.org>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Talel Shenhar <talel@amazon.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        "Lee, Chun-Yi" <joeyli.kernel@gmail.com>,
-        Shang XiaoJing <shangxiaojing@huawei.com>,
-        Tim Zimmermann <tim@linux4.de>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Jiang Jian <jiangjian@cdjrlc.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
-        <linux-amlogic@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:QUALCOMM TSENS THERMAL DRIVER" 
-        <linux-arm-msm@vger.kernel.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC support" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:SAMSUNG THERMAL DRIVER" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:ARM/Allwinner sunXi SoC support" 
-        <linux-sunxi@lists.linux.dev>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        "open list:TI BANDGAP AND THERMAL DRIVER" 
-        <linux-omap@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
- <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-Content-Language: en-US
-From:   Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-In-Reply-To: <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Michal Simek <michal.simek@xilinx.com>,
+        Max Filippov <jcmvbkbc@gmail.com>
+Cc:     linux-spi@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Yogesh Gaur <yogeshgaur.83@gmail.com>,
+        linux-rockchip@lists.infradead.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org
+Subject: [PATCH 00/87] spi: Convert to platform remove callback returning void
+Date:   Fri,  3 Mar 2023 18:19:14 +0100
+Message-Id: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11739; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=RWqvc8RnhEbQQ2oAk+E+9rPdzPGR+1W5SnXdzobHuT8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkAisJkW18zyL+YEzlTtbekP+5UvgovAIj/gcML nwd+Kay6RGJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAIrCQAKCRDB/BR4rcrs CaFBB/92x5SnXIGhT6giruoYpGJoso7Z3MP3OVm/DCgJH6s6vYJGV9pYI2lu5eRUCDJcQoZTtgK ZkjyGMNYXLHw5tUKn88EDwX0RuzGhj1fwNvi8u3zdCpZd0blCS4DV8PGtqPH15IKjCg/NSwpEO0 xOmALBy9uOxij739aBF/xuxhaZWpjiyjPVbwwC1NGIxdOTpGl00eDfc6ZiABfbeTa5LWEblpdn3 rWOBzSBlcyizkhTVwSimgHB/YEYbG/drCH5pRdxMGW+U10fVOuvdYOknPfRpZ5kOcyLnDxD362d aviWRkaIauhw3X9/YDqmV6gHXwcidGlxnJzNMnpfCDTq2Mlj
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2023/03/02 5:14, Daniel Lezcano wrote:
-> The thermal zone device structure is exposed to the different drivers
-> and obviously they access the internals while that should be
-> restricted to the core thermal code.
-> 
-> In order to self-encapsulate the thermal core code, we need to prevent
-> the drivers accessing directly the thermal zone structure and provide
-> accessor functions to deal with.
-> 
-> Use the devdata accessor introduced in the previous patch.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> #MediaTek auxadc and lvts
-> Reviewed-by: Balsam CHIHI <bchihi@baylibre.com> #Mediatek lvts
-> Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com> #da9062
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>  #spread
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com> #sun8i_thermal
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
-> Reviewed-by: Dhruva Gole <d-gole@ti.com> # K3 bandgap
+Hello,
 
-(snip)
+this patch series adapts the platform drivers below drivers/spi
+to use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-> diff --git a/drivers/thermal/uniphier_thermal.c
-> b/drivers/thermal/uniphier_thermal.c
-> index 47801841b3f5..aef6119cc004 100644
-> --- a/drivers/thermal/uniphier_thermal.c
-> +++ b/drivers/thermal/uniphier_thermal.c
-> @@ -187,7 +187,7 @@ static void uniphier_tm_disable_sensor(struct
-> uniphier_tm_dev *tdev)
-> 
->   static int uniphier_tm_get_temp(struct thermal_zone_device *tz, int
-> *out_temp)
->   {
-> -	struct uniphier_tm_dev *tdev = tz->devdata;
-> +	struct uniphier_tm_dev *tdev = thermal_zone_device_priv(tz);
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-Reviewed-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com> #uniphier
+All drivers touched here returned zero unconditionally in their remove
+callback, so they could all be converted trivially to .remove_new().
 
-Thank you,
+Note that this series depends on commit 5c5a7680e67b ("platform: Provide
+a remove callback that returns no value") that is already in Linus' tree
+but not yet included in a tagged version.
 
----
-Best Regards
-Kunihiko Hayashi
+Best regards
+Uwe
+
+Uwe Kleine-König (87):
+  spi: ar934x: Convert to platform remove callback returning void
+  spi: armada-3700: Convert to platform remove callback returning void
+  spi: aspeed-smc: Convert to platform remove callback returning void
+  spi: at91-usart: Convert to platform remove callback returning void
+  spi: ath79: Convert to platform remove callback returning void
+  spi: atmel: Convert to platform remove callback returning void
+  spi: au1550: Convert to platform remove callback returning void
+  spi: axi-spi-engine: Convert to platform remove callback returning void
+  spi: bcm2835: Convert to platform remove callback returning void
+  spi: bcm2835aux: Convert to platform remove callback returning void
+  spi: bcm63xx-hsspi: Convert to platform remove callback returning void
+  spi: bcm63xx: Convert to platform remove callback returning void
+  spi: bcmbca-hsspi: Convert to platform remove callback returning void
+  spi: brcmstb-qspi: Convert to platform remove callback returning void
+  spi: cadence-quadspi: Convert to platform remove callback returning void
+  spi: cadence: Convert to platform remove callback returning void
+  spi: cavium-octeon: Convert to platform remove callback returning void
+  spi: coldfire-qspi: Convert to platform remove callback returning void
+  spi: davinci: Convert to platform remove callback returning void
+  spi: dln2: Convert to platform remove callback returning void
+  spi: dw-bt1: Convert to platform remove callback returning void
+  spi: dw-mmio: Convert to platform remove callback returning void
+  spi: ep93xx: Convert to platform remove callback returning void
+  spi: fsl-dspi: Convert to platform remove callback returning void
+  spi: fsl-espi: Convert to platform remove callback returning void
+  spi: fsl-lpspi: Convert to platform remove callback returning void
+  spi: fsl-qspi: Convert to platform remove callback returning void
+  spi: fsl-spi: Convert to platform remove callback returning void
+  spi: geni-qcom: Convert to platform remove callback returning void
+  spi: hisi-kunpeng: Convert to platform remove callback returning void
+  spi: img-spfi: Convert to platform remove callback returning void
+  spi: iproc-qspi: Convert to platform remove callback returning void
+  spi: lantiq-ssc: Convert to platform remove callback returning void
+  spi: meson-spicc: Convert to platform remove callback returning void
+  spi: meson-spifc: Convert to platform remove callback returning void
+  spi: microchip-core-qspi: Convert to platform remove callback returning void
+  spi: microchip-core: Convert to platform remove callback returning void
+  spi: mpc512x-psc: Convert to platform remove callback returning void
+  spi: mpc52xx-psc: Convert to platform remove callback returning void
+  spi: mpc52xx: Convert to platform remove callback returning void
+  spi: mtk-nor: Convert to platform remove callback returning void
+  spi: mtk-snfi: Convert to platform remove callback returning void
+  spi: mxic: Convert to platform remove callback returning void
+  spi: mxs: Convert to platform remove callback returning void
+  spi: npcm-fiu: Convert to platform remove callback returning void
+  spi: npcm-pspi: Convert to platform remove callback returning void
+  spi: nxp-fspi: Convert to platform remove callback returning void
+  spi: oc-tiny: Convert to platform remove callback returning void
+  spi: omap-uwire: Convert to platform remove callback returning void
+  spi: omap2-mcspi: Convert to platform remove callback returning void
+  spi: orion: Convert to platform remove callback returning void
+  spi: pic32-sqi: Convert to platform remove callback returning void
+  spi: pic32: Convert to platform remove callback returning void
+  spi: ppc4xx: Convert to platform remove callback returning void
+  spi: pxa2xx: Convert to platform remove callback returning void
+  spi: qcom-qspi: Convert to platform remove callback returning void
+  spi: rb4xx: Convert to platform remove callback returning void
+  spi: rockchip-sfc: Convert to platform remove callback returning void
+  spi: rockchip: Convert to platform remove callback returning void
+  spi: rpc-if: Convert to platform remove callback returning void
+  spi: rspi: Convert to platform remove callback returning void
+  spi: s3c64xx: Convert to platform remove callback returning void
+  spi: sh-hspi: Convert to platform remove callback returning void
+  spi: sh-msiof: Convert to platform remove callback returning void
+  spi: sh-sci: Convert to platform remove callback returning void
+  spi: sh: Convert to platform remove callback returning void
+  spi: sifive: Convert to platform remove callback returning void
+  spi: slave-mt27xx: Convert to platform remove callback returning void
+  spi: sn-f-ospi: Convert to platform remove callback returning void
+  spi: sprd-adi: Convert to platform remove callback returning void
+  spi: st-ssc4: Convert to platform remove callback returning void
+  spi: stm32-qspi: Convert to platform remove callback returning void
+  spi: stm32: Convert to platform remove callback returning void
+  spi: sun4i: Convert to platform remove callback returning void
+  spi: sun6i: Convert to platform remove callback returning void
+  spi: sunplus-sp7021: Convert to platform remove callback returning void
+  spi: synquacer: Convert to platform remove callback returning void
+  spi: tegra114: Convert to platform remove callback returning void
+  spi: tegra20-sflash: Convert to platform remove callback returning void
+  spi: tegra20-slink: Convert to platform remove callback returning void
+  spi: tegra210-quad: Convert to platform remove callback returning void
+  spi: topcliff-pch: Convert to platform remove callback returning void
+  spi: uniphier: Convert to platform remove callback returning void
+  spi: xilinx: Convert to platform remove callback returning void
+  spi: xtensa-xtfpga: Convert to platform remove callback returning void
+  spi: zynq-qspi: Convert to platform remove callback returning void
+  spi: zynqmp-gqspi: Convert to platform remove callback returning void
+
+ drivers/spi/spi-ar934x.c              |  6 ++----
+ drivers/spi/spi-armada-3700.c         |  6 ++----
+ drivers/spi/spi-aspeed-smc.c          |  5 ++---
+ drivers/spi/spi-at91-usart.c          |  6 ++----
+ drivers/spi/spi-ath79.c               |  6 ++----
+ drivers/spi/spi-atmel.c               |  6 ++----
+ drivers/spi/spi-au1550.c              |  5 ++---
+ drivers/spi/spi-axi-spi-engine.c      |  6 ++----
+ drivers/spi/spi-bcm2835.c             | 12 +++---------
+ drivers/spi/spi-bcm2835aux.c          |  6 ++----
+ drivers/spi/spi-bcm63xx-hsspi.c       |  6 ++----
+ drivers/spi/spi-bcm63xx.c             |  6 ++----
+ drivers/spi/spi-bcmbca-hsspi.c        |  6 ++----
+ drivers/spi/spi-brcmstb-qspi.c        |  6 ++----
+ drivers/spi/spi-cadence-quadspi.c     |  6 ++----
+ drivers/spi/spi-cadence.c             |  6 ++----
+ drivers/spi/spi-cavium-octeon.c       |  6 ++----
+ drivers/spi/spi-coldfire-qspi.c       |  6 ++----
+ drivers/spi/spi-davinci.c             |  5 ++---
+ drivers/spi/spi-dln2.c                |  6 ++----
+ drivers/spi/spi-dw-bt1.c              |  6 ++----
+ drivers/spi/spi-dw-mmio.c             |  6 ++----
+ drivers/spi/spi-ep93xx.c              |  6 ++----
+ drivers/spi/spi-fsl-dspi.c            |  6 ++----
+ drivers/spi/spi-fsl-espi.c            |  6 ++----
+ drivers/spi/spi-fsl-lpspi.c           |  5 ++---
+ drivers/spi/spi-fsl-qspi.c            |  6 ++----
+ drivers/spi/spi-fsl-spi.c             | 11 ++++-------
+ drivers/spi/spi-geni-qcom.c           |  5 ++---
+ drivers/spi/spi-hisi-kunpeng.c        |  6 ++----
+ drivers/spi/spi-img-spfi.c            |  6 ++----
+ drivers/spi/spi-iproc-qspi.c          |  6 ++----
+ drivers/spi/spi-lantiq-ssc.c          |  6 ++----
+ drivers/spi/spi-meson-spicc.c         |  6 ++----
+ drivers/spi/spi-meson-spifc.c         |  6 ++----
+ drivers/spi/spi-microchip-core-qspi.c |  6 ++----
+ drivers/spi/spi-microchip-core.c      |  6 ++----
+ drivers/spi/spi-mpc512x-psc.c         | 22 ++++++++--------------
+ drivers/spi/spi-mpc52xx-psc.c         |  6 ++----
+ drivers/spi/spi-mpc52xx.c             |  6 ++----
+ drivers/spi/spi-mtk-nor.c             |  6 ++----
+ drivers/spi/spi-mtk-snfi.c            |  5 ++---
+ drivers/spi/spi-mxic.c                |  6 ++----
+ drivers/spi/spi-mxs.c                 |  6 ++----
+ drivers/spi/spi-npcm-fiu.c            |  5 ++---
+ drivers/spi/spi-npcm-pspi.c           |  6 ++----
+ drivers/spi/spi-nxp-fspi.c            |  6 ++----
+ drivers/spi/spi-oc-tiny.c             |  5 ++---
+ drivers/spi/spi-omap-uwire.c          |  5 ++---
+ drivers/spi/spi-omap2-mcspi.c         |  6 ++----
+ drivers/spi/spi-orion.c               |  6 ++----
+ drivers/spi/spi-pic32-sqi.c           |  6 ++----
+ drivers/spi/spi-pic32.c               |  6 ++----
+ drivers/spi/spi-ppc4xx.c              |  5 ++---
+ drivers/spi/spi-pxa2xx.c              |  6 ++----
+ drivers/spi/spi-qcom-qspi.c           |  6 ++----
+ drivers/spi/spi-rb4xx.c               |  6 ++----
+ drivers/spi/spi-rockchip-sfc.c        |  6 ++----
+ drivers/spi/spi-rockchip.c            |  6 ++----
+ drivers/spi/spi-rpc-if.c              |  6 ++----
+ drivers/spi/spi-rspi.c                |  6 ++----
+ drivers/spi/spi-s3c64xx.c             |  6 ++----
+ drivers/spi/spi-sh-hspi.c             |  6 ++----
+ drivers/spi/spi-sh-msiof.c            |  5 ++---
+ drivers/spi/spi-sh-sci.c              |  5 ++---
+ drivers/spi/spi-sh.c                  |  6 ++----
+ drivers/spi/spi-sifive.c              |  6 ++----
+ drivers/spi/spi-slave-mt27xx.c        |  6 ++----
+ drivers/spi/spi-sn-f-ospi.c           |  6 ++----
+ drivers/spi/spi-sprd-adi.c            |  5 ++---
+ drivers/spi/spi-st-ssc4.c             |  6 ++----
+ drivers/spi/spi-stm32-qspi.c          |  6 ++----
+ drivers/spi/spi-stm32.c               |  6 ++----
+ drivers/spi/spi-sun4i.c               |  6 ++----
+ drivers/spi/spi-sun6i.c               |  5 ++---
+ drivers/spi/spi-sunplus-sp7021.c      |  5 ++---
+ drivers/spi/spi-synquacer.c           |  6 ++----
+ drivers/spi/spi-tegra114.c            |  6 ++----
+ drivers/spi/spi-tegra20-sflash.c      |  6 ++----
+ drivers/spi/spi-tegra20-slink.c       |  5 ++---
+ drivers/spi/spi-tegra210-quad.c       |  6 ++----
+ drivers/spi/spi-topcliff-pch.c        |  6 ++----
+ drivers/spi/spi-uniphier.c            |  6 ++----
+ drivers/spi/spi-xilinx.c              |  6 ++----
+ drivers/spi/spi-xtensa-xtfpga.c       |  6 ++----
+ drivers/spi/spi-zynq-qspi.c           |  6 ++----
+ drivers/spi/spi-zynqmp-gqspi.c        |  6 ++----
+ 87 files changed, 183 insertions(+), 350 deletions(-)
+
+base-commit: 2eb29d59ddf02e39774abfb60b2030b0b7e27c1f
+-- 
+2.39.1
+
