@@ -2,99 +2,169 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CFC36A9307
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Mar 2023 09:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 590EA6A93F2
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Mar 2023 10:26:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjCCIts (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Mar 2023 03:49:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
+        id S230152AbjCCJZz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Mar 2023 04:25:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbjCCItm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Mar 2023 03:49:42 -0500
-X-Greylist: delayed 529 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Mar 2023 00:49:40 PST
-Received: from mail.amblevebiz.com (mail.amblevebiz.com [80.211.239.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0513928C
-        for <linux-tegra@vger.kernel.org>; Fri,  3 Mar 2023 00:49:40 -0800 (PST)
-Received: by mail.amblevebiz.com (Postfix, from userid 1002)
-        id 6B4AC83887; Fri,  3 Mar 2023 09:40:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=amblevebiz.com;
-        s=mail; t=1677832849;
-        bh=mG5KF9rXIT2hCcIXZaMY449X9Ndwb1czFhgZLlqDg7A=;
-        h=Date:From:To:Subject:From;
-        b=o7FxvgJCyvA7gHcwFOvOoS3ZjXcXKIsvhRtwPmJhUZ+NaHLjPAT5oj9CxNIH/W4Sb
-         mjjL53UD1IrnI5gfWMNd01NWkwFclCAnY5Pnmz5dQIF9t9T/EeWDE5TDc2APBlVpFl
-         AlTSGpCVdB8L2oA+WvzzYKszwLEgmL7uyzzcIRSPOSa329WlgFLflrrN6qQs8I9CMB
-         72/Hv8xnwFf73sP1t/cHukf7JNF4Ptc8tOd5QjUWC8UjMY7X7pGUaOtglgPkhD1leZ
-         xotDNGd9xncbfDT0T7oTuhbOtpC+Sr2+J0lyy7HIGifSRanNkm8VZGZhNs5PVheTCi
-         RXYaqf1MHONJw==
-Received: by mail.amblevebiz.com for <linux-tegra@vger.kernel.org>; Fri,  3 Mar 2023 08:40:32 GMT
-Message-ID: <20230303084500-0.1.h.uus.0.p05k2iafu9@amblevebiz.com>
-Date:   Fri,  3 Mar 2023 08:40:32 GMT
-From:   =?UTF-8?Q? "Luk=C3=A1=C5=A1_Horv=C3=A1th" ?= 
-        <lukas.horvath@amblevebiz.com>
-To:     <linux-tegra@vger.kernel.org>
-Subject: =?UTF-8?Q?Technick=C3=BD_audit_podlah?=
-X-Mailer: mail.amblevebiz.com
+        with ESMTP id S231205AbjCCJZk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Mar 2023 04:25:40 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D6E47410;
+        Fri,  3 Mar 2023 01:25:18 -0800 (PST)
+X-UUID: 4d9ce2b2b9a511eda06fc9ecc4dadd91-20230303
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=bSqog9Arn5WTEwlshb3YMHHP4Vbkyic4vpImRhlxN2s=;
+        b=QoDQZZsGQTgmBo/JH8zHNLrEWXnnB/v1Fw8/8F/Yi3KOuO8sjOZtM6dfeqXLerob30RKTF2QGUmPnpxt7g7Ub7PVxwBksizZeOMyHjjGJ+NYudFv5qYv1rKfu397hBSQaxp2ctTMBV28TPYJ1GLqAGfkG6aeTWxZUcfZcAN3D08=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.20,REQID:959b73a5-cab3-4986-8e8b-e46402f9969d,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:25b5999,CLOUDID:0c70abf4-ddba-41c3-91d9-10eeade8eac7,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-UUID: 4d9ce2b2b9a511eda06fc9ecc4dadd91-20230303
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <cheng-jui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1005376028; Fri, 03 Mar 2023 17:25:14 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 3 Mar 2023 17:25:13 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Fri, 3 Mar 2023 17:25:12 +0800
+From:   Cheng-Jui Wang <cheng-jui.wang@mediatek.com>
+To:     <stable@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Cheng-Jui Wang <cheng-jui.wang@mediatek.com>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH 03/10] cpuidle, tegra: Push RCU-idle into driver
+Date:   Fri, 3 Mar 2023 17:23:25 +0800
+Message-ID: <20230303092347.4825-4-cheng-jui.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20230303092347.4825-1-cheng-jui.wang@mediatek.com>
+References: <20230303092347.4825-1-cheng-jui.wang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=7.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: amblevebiz.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [80.211.239.97 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: amblevebiz.com]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4999]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
-        *      days
-X-Spam-Level: *******
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+From: Peter Zijlstra <peterz@infradead.org>
 
-uva=C5=BEujete o bezesp=C3=A1rov=C3=A9 podlaze pro v=C3=BDrobn=C3=AD prov=
-oz?
+commit 5fca0d9f5d76664786ca6c09076341def165a677 upstream.
 
-Jako sv=C4=9Btov=C3=BD l=C3=ADdr ve v=C3=BDrob=C4=9B a pokl=C3=A1dce podl=
-ah =C5=99e=C5=A1=C3=ADme probl=C3=A9my vypl=C3=BDvaj=C3=ADc=C3=AD z vlivu=
- chemick=C3=BDch slou=C4=8Denin, ot=C4=9Bru, n=C3=A1raz=C5=AF, vlhkosti n=
-ebo n=C3=A1hl=C3=BDch zm=C4=9Bn teplot - na=C5=A1e podlahov=C3=A9 syst=C3=
-=A9my jsou p=C5=99izp=C5=AFsobeny nejt=C4=9B=C5=BE=C5=A1=C3=ADm podm=C3=AD=
-nk=C3=A1m prost=C5=99ed=C3=AD.
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again, at least twice, before going idle is suboptimal.
 
-Garantujeme v=C3=A1m =C5=99e=C5=A1en=C3=AD, kter=C3=A1 jsou =C5=A1etrn=C3=
-=A1 k =C5=BEivotn=C3=ADmu prost=C5=99ed=C3=AD, odoln=C3=A1 a snadno se =C4=
-=8Dist=C3=AD, hygienick=C3=A1, protiskluzov=C3=A1 a bezpe=C4=8Dn=C3=A1 pr=
-o zam=C4=9Bstnance.
+Notably once implicitly through the cpu_pm_*() calls and once
+explicitly doing RCU_NONIDLE().
 
-Poskytujeme kr=C3=A1tkou dobu instalace a nep=C5=99etr=C5=BEit=C3=BD prov=
-oz i o v=C3=ADkendech a sv=C3=A1tc=C3=ADch, =C4=8D=C3=ADm=C5=BE eliminuje=
-me riziko prostoj=C5=AF.
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Tested-by: Tony Lindgren <tony@atomide.com>
+Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Link: https://lore.kernel.org/r/20230112195539.699546331@infradead.org
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: Cheng-Jui Wang <cheng-jui.wang@mediatek.com>
+---
+ drivers/cpuidle/cpuidle-tegra.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-Mohu V=C3=A1m zdarma nab=C3=ADdnout technick=C3=BD audit podlah s komplex=
-n=C3=ADm rozborem podkladu.
+diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+index 9845629aeb6d..3ca5cfb9d322 100644
+--- a/drivers/cpuidle/cpuidle-tegra.c
++++ b/drivers/cpuidle/cpuidle-tegra.c
+@@ -180,9 +180,11 @@ static int tegra_cpuidle_state_enter(struct cpuidle_device *dev,
+ 	}
+ 
+ 	local_fiq_disable();
+-	RCU_NONIDLE(tegra_pm_set_cpu_in_lp2());
++	tegra_pm_set_cpu_in_lp2();
+ 	cpu_pm_enter();
+ 
++	ct_idle_enter();
++
+ 	switch (index) {
+ 	case TEGRA_C7:
+ 		err = tegra_cpuidle_c7_enter();
+@@ -197,8 +199,10 @@ static int tegra_cpuidle_state_enter(struct cpuidle_device *dev,
+ 		break;
+ 	}
+ 
++	ct_idle_exit();
++
+ 	cpu_pm_exit();
+-	RCU_NONIDLE(tegra_pm_clear_cpu_in_lp2());
++	tegra_pm_clear_cpu_in_lp2();
+ 	local_fiq_enable();
+ 
+ 	return err ?: index;
+@@ -226,6 +230,7 @@ static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+ 			       struct cpuidle_driver *drv,
+ 			       int index)
+ {
++	bool do_rcu = drv->states[index].flags & CPUIDLE_FLAG_RCU_IDLE;
+ 	unsigned int cpu = cpu_logical_map(dev->cpu);
+ 	int ret;
+ 
+@@ -233,9 +238,13 @@ static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+ 	if (dev->states_usage[index].disable)
+ 		return -1;
+ 
+-	if (index == TEGRA_C1)
++	if (index == TEGRA_C1) {
++		if (do_rcu)
++			ct_idle_enter();
+ 		ret = arm_cpuidle_simple_enter(dev, drv, index);
+-	else
++		if (do_rcu)
++			ct_idle_exit();
++	} else
+ 		ret = tegra_cpuidle_state_enter(dev, index, cpu);
+ 
+ 	if (ret < 0) {
+@@ -285,7 +294,8 @@ static struct cpuidle_driver tegra_idle_driver = {
+ 			.exit_latency		= 2000,
+ 			.target_residency	= 2200,
+ 			.power_usage		= 100,
+-			.flags			= CPUIDLE_FLAG_TIMER_STOP,
++			.flags			= CPUIDLE_FLAG_TIMER_STOP |
++						  CPUIDLE_FLAG_RCU_IDLE,
+ 			.name			= "C7",
+ 			.desc			= "CPU core powered off",
+ 		},
+@@ -295,6 +305,7 @@ static struct cpuidle_driver tegra_idle_driver = {
+ 			.target_residency	= 10000,
+ 			.power_usage		= 0,
+ 			.flags			= CPUIDLE_FLAG_TIMER_STOP |
++						  CPUIDLE_FLAG_RCU_IDLE   |
+ 						  CPUIDLE_FLAG_COUPLED,
+ 			.name			= "CC6",
+ 			.desc			= "CPU cluster powered off",
+-- 
+2.18.0
 
-M=C5=AF=C5=BEeme pro v=C3=A1s mluvit o =C5=99e=C5=A1en=C3=ADch?
-
-
-Luk=C3=A1=C5=A1 Horv=C3=A1th
