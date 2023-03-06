@@ -2,153 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5FEA6AAA7E
-	for <lists+linux-tegra@lfdr.de>; Sat,  4 Mar 2023 15:47:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 474DF6AB761
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 08:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjCDOrr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Sat, 4 Mar 2023 09:47:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S229817AbjCFH5l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Mar 2023 02:57:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjCDOrq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Mar 2023 09:47:46 -0500
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9D512F12;
-        Sat,  4 Mar 2023 06:47:44 -0800 (PST)
-Received: by mail-qt1-f179.google.com with SMTP id z6so6108053qtv.0;
-        Sat, 04 Mar 2023 06:47:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677941263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KeKbxzDZy3GcKkrGUofgHv5MAh6MoP5a08Lg7rMsvMk=;
-        b=S3qNnTfaGG8dWVsorNdGIUyak/GpcZUpktOkv6gyxtw3XAcFdhL/CEPTnxawlQEyNf
-         ahJg6xrVKof9Ba8qj4jmw8QWAUQHq5sg8lZVrnFFXNh2e6FSXM8aN92iCBHMkyHyhFOW
-         pF5M9IbKRWk6kueY6GrPeTRsBtYQnAJ+bqHZJg2WQdnDvJo82uZG4w76/sYjAQcpPvj5
-         X3PdR7+eBUj3v3V5VGL6SUaQt75AyLPdgwuQKZZZXmKfQaf0t6b+z4rxR4EzF95nhetG
-         mkUGP6pbLyZPqZlct7Y+mkWH0S8etn2r4am3ttLR2fi3LMB2kL6kUnxO0X/vIDvBZFe5
-         5UKQ==
-X-Gm-Message-State: AO0yUKVzoLn4IAtoBJaDXBH/SlyIWWFCRfWfBdJsVlpAKhiY40HLN8OC
-        Olj/cAkGxTOPQq8Y+JsX6KiYQ9LQxU20VA==
-X-Google-Smtp-Source: AK7set8iJFGfogd8HyTfcNNFYdWDx6zvwpzg4FmQZW+Si0Gg/ZbY1ExyzEf60dMofx6GBE4kRARcwA==
-X-Received: by 2002:ac8:7f14:0:b0:3bf:c407:10c5 with SMTP id f20-20020ac87f14000000b003bfc40710c5mr10006171qtk.26.1677941263461;
-        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id r15-20020ac867cf000000b003bfc2fc3235sm3817779qtp.67.2023.03.04.06.47.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536cb25982eso96915597b3.13;
-        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
-X-Received: by 2002:a81:b723:0:b0:536:38b4:f51 with SMTP id
- v35-20020a81b723000000b0053638b40f51mr3187721ywh.5.1677941242747; Sat, 04 Mar
- 2023 06:47:22 -0800 (PST)
+        with ESMTP id S229723AbjCFH5j (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 02:57:39 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A281B54F;
+        Sun,  5 Mar 2023 23:57:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9124960C27;
+        Mon,  6 Mar 2023 07:57:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53437C433AA;
+        Mon,  6 Mar 2023 07:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678089456;
+        bh=K26aMBWxlHn/kqrsAOXmsd/Ax8lLFUacKHubBz29pvM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Efw6f3Kh0QPT+wsdf45HNRQCHIpsbD+hBozYkazPWAwjdiGi57Eqyf2PlKmDY4pWd
+         8XYxmeMHJLIjYpjJ6VijeWe2kAGeq6TRazi2S9OqAnR85Pi9odMMBlzxEnFaHVhpHp
+         Lwm7IL49t06WcfqK5O32KhdpcKjNHdAYrHeJnZaxA8VV73xHfQgI9RRJLINNhURMHR
+         e0PvAO4HWvgN4UNgszNaitLEqbXfZrQQflD5xdV+X0nKsS5I40yqO12MURfZxSB5q3
+         P8WdS6SKYHHs8BIFgkSbcEnTuSA5EAgPPEPlULkEDa+SdV9z9cpYAgNN/Tsl80wEq7
+         LWpJT6uYRRauw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1pZ5ja-0000hr-WB; Mon, 06 Mar 2023 08:58:15 +0100
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Georgi Djakov <djakov@kernel.org>
+Cc:     "Shawn Guo" <shawnguo@kernel.org>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
+        =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        "Alim Akhtar" <alim.akhtar@samsung.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        "Jonathan Hunter" <jonathanh@nvidia.com>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Dan Carpenter <error27@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v2 00/23] interconnect: fix racy provider registration
+Date:   Mon,  6 Mar 2023 08:56:28 +0100
+Message-Id: <20230306075651.2449-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230301185209.274134-1-jjhiblot@traphandler.com>
- <20230301185209.274134-3-jjhiblot@traphandler.com> <CAMuHMdVF337k+zyjpbzoDtWWDnYhM6eM3+As6UuZ7FCgASsMQg@mail.gmail.com>
- <7fa7f07f-d1e1-1e43-992c-4981c5810284@traphandler.com>
-In-Reply-To: <7fa7f07f-d1e1-1e43-992c-4981c5810284@traphandler.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 4 Mar 2023 15:47:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVdZatMYsc=367OuGotzYuo2-XVe5MAZdzh+kBs31=t5A@mail.gmail.com>
-Message-ID: <CAMuHMdVdZatMYsc=367OuGotzYuo2-XVe5MAZdzh+kBs31=t5A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] of: irq: make callers of of_irq_parse_one() release
- the device node
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     saravanak@google.com, clement.leger@bootlin.com,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        zajec5@gmail.com, Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Marc Zyngier <maz@kernel.org>, afaerber@suse.de,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Nishanth Menon <nm@ti.com>, ssantosh@kernel.org,
-        mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-wireless@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Jean-Jacques,
+The current interconnect provider interface is inherently racy as
+providers are expected to be registered before being fully initialised.
 
-On Sat, Mar 4, 2023 at 11:34 AM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
-> On 02/03/2023 08:49, Geert Uytterhoeven wrote:
-> > On Wed, Mar 1, 2023 at 7:53 PM Jean-Jacques Hiblot
-> > <jjhiblot@traphandler.com> wrote:
-> >> of_irq_parse_one() does a get() on the device node returned in out_irq->np.
-> >> Callers of of_irq_parse_one() must do a put() when they are done with it.
-> >
-> > What does "be done with it" really mean here?
-> >
-> >> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> >
-> >> --- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-> >> +++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-> >> @@ -184,6 +184,7 @@ static int __init rcar_gen2_regulator_quirk(void)
-> >>                          kfree(quirk);
-> >>                          continue;
-> >>                  }
-> >> +               of_node_put(argsa->np);
-> >
-> > The quirk object, which is a container of argsa, is still used below,
-> > and stored in a linked list.  I agree argsa->np is not dereferenced,
-> > but the pointer itself is still compared to other pointers.
->
-> I fail to see when the pointers are compared. It looks to me that only
-> the args are compared. Am I missing something ?
+This can specifically cause racing DT lookups to fail as I recently
+noticed when the Qualcomm cpufreq driver failed to probe:
 
-You're right, in upstream, there is no such check.
-In my local tree, I have converted the comparisons below to use a new
-helper of_phandle_args_eq() (which does compare the np member, too),
-but that change never went upstream, as the other user of that helper
-was rejected.
+	of_icc_xlate_onecell: invalid index 0
+        cpu cpu0: error -EINVAL: error finding src node
+        cpu cpu0: dev_pm_opp_of_find_icc_paths: Unable to get path0: -22
+        qcom-cpufreq-hw: probe of 18591000.cpufreq failed with error -22
 
-> In any case, looking more closely at the code, I guess that indeed the
-> of_node_put() shouldn't be added here because this code expects that the
-> nodes never go away. That is probably a good assertion in case of PMICs
+This only happens very rarely, but the bug is easily reproduced by
+increasing the race window by adding an msleep() after registering
+osm-l3 interconnect provider.
 
-OK.
+Note that the Qualcomm cpufreq driver is especially susceptible to this
+race as the interconnect path is looked up from the CPU nodes so that
+driver core does not guarantee the probe order even when device links
+are enabled (which they not always are).
 
-> > IIUIC, calling of_node_put() might cause the reference count to drop to
-> > zero, and the underlying struct node object to be deallocated.
-> > So when a future reference to the same DT node will be taken, a new
-> > struct node object will be allocated, and the pointer comparison below
-> > will fail?
+This series adds a new interconnect provider registration API which is
+used to fix up the interconnect drivers before removing the old racy
+API.
 
-Gr{oetje,eeting}s,
+Included are also a number of fixes for other bugs found while preparing
+the series.
 
-                        Geert
+Johan
+
+
+Changes in v2
+ - icc_node_destroy() can be called with an arbitrary node id so add the
+   missing sanity check to handle potential attempts to destroy a
+   non-existing node (patch 01/23). Reported by Dan Carpenter and the
+   kernel test robot:
+
+   https://lore.kernel.org/oe-kbuild/202302222118.nGz1F0oJ-lkp@intel.com/
+
+
+Johan Hovold (23):
+  interconnect: fix mem leak when freeing nodes
+  interconnect: fix icc_provider_del() error handling
+  interconnect: fix provider registration API
+  interconnect: imx: fix registration race
+  interconnect: qcom: osm-l3: fix registration race
+  interconnect: qcom: rpm: fix probe child-node error handling
+  interconnect: qcom: rpm: fix probe PM domain error handling
+  interconnect: qcom: rpm: fix registration race
+  interconnect: qcom: rpmh: fix probe child-node error handling
+  interconnect: qcom: rpmh: fix registration race
+  interconnect: qcom: msm8974: fix registration race
+  interconnect: qcom: sm8450: fix registration race
+  interconnect: qcom: sm8550: fix registration race
+  interconnect: exynos: fix node leak in probe PM QoS error path
+  interconnect: exynos: fix registration race
+  interconnect: exynos: drop redundant link destroy
+  memory: tegra: fix interconnect registration race
+  memory: tegra124-emc: fix interconnect registration race
+  memory: tegra20-emc: fix interconnect registration race
+  memory: tegra30-emc: fix interconnect registration race
+  interconnect: drop racy registration API
+  interconnect: drop unused icc_get() interface
+  interconnect: drop unused icc_link_destroy() interface
+
+ drivers/interconnect/core.c           | 152 +++++---------------------
+ drivers/interconnect/imx/imx.c        |  20 ++--
+ drivers/interconnect/qcom/icc-rpm.c   |  33 +++---
+ drivers/interconnect/qcom/icc-rpmh.c  |  30 +++--
+ drivers/interconnect/qcom/msm8974.c   |  20 ++--
+ drivers/interconnect/qcom/osm-l3.c    |  14 +--
+ drivers/interconnect/qcom/sm8450.c    |  22 ++--
+ drivers/interconnect/qcom/sm8550.c    |  22 ++--
+ drivers/interconnect/samsung/exynos.c |  30 ++---
+ drivers/memory/tegra/mc.c             |  16 ++-
+ drivers/memory/tegra/tegra124-emc.c   |  12 +-
+ drivers/memory/tegra/tegra20-emc.c    |  12 +-
+ drivers/memory/tegra/tegra30-emc.c    |  12 +-
+ include/linux/interconnect-provider.h |  19 ++--
+ include/linux/interconnect.h          |   8 --
+ 15 files changed, 157 insertions(+), 265 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.39.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
