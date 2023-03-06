@@ -2,103 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66126AC111
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 14:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFFAE6AC386
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 15:40:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbjCFNcA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Mar 2023 08:32:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44288 "EHLO
+        id S229520AbjCFOkD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Mar 2023 09:40:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231252AbjCFNb7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 08:31:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E06E2E80F;
-        Mon,  6 Mar 2023 05:31:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 749A360F10;
-        Mon,  6 Mar 2023 13:31:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2FF6C433D2;
-        Mon,  6 Mar 2023 13:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678109515;
-        bh=xk2sxBEfsiN8aKVYWYbUYCkQgq5QDPcbaOkOnFjwYec=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=sddlj8enGoNsBB53XnM6yLjlWH6qW0MM4/OXj2+Rd0hDjZKdOA8lStIgrDIroyhqS
-         z3y7rgMjk3K0fqY2Wvs1ndD1L26gzBtFoNFxT6Sl+vOD+o+tVGnW0lHEWqTRn6YOwM
-         ptESxC8P7B5UMiwsRl1dHQEEgUl4gW4Gl1yv2I+8eQnA9Khh6P/Atisof+/iZLsjCw
-         YbZzdtgqrkrjTIULwrFsypWiN3RmoBcRrKua8GqJJYMWtehYD6ls1ftWD9T1mKO70W
-         mmXI8ERzpLqaQ3fedpWkCKXxWlKZm7H2U8NCLy8reO8GCxL3qDrQ4wiuO9D2S42qGk
-         8a8K8eDvN6yvA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        with ESMTP id S231266AbjCFOjy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 09:39:54 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472313A94
+        for <linux-tegra@vger.kernel.org>; Mon,  6 Mar 2023 06:39:30 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id i34so39470938eda.7
+        for <linux-tegra@vger.kernel.org>; Mon, 06 Mar 2023 06:39:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678113568;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xK40+IrvuLAaGEzw1vO71ZMnvX089nmXSE+KdSBZGxI=;
+        b=yrdpLCMyHKrmoAudHhPHQnqdaN1kIKb4D1frwVvOfPs+vbAmT0/CwNE3zf7ZQHBPdQ
+         KxXkPsaLP8mEdKymxbVC2tlDI6o6BpNwhSKkgqbz+MXikEAwDHC6VX2KvtqTs1Tx27L9
+         Veb78Y6K/Pd/D5JxBEnt6dJaV5Z/xcGgYEEjHvX6zuMO+lzZJZl3IcYH74VLwAgdwZcI
+         c/FigBOsborvk72pyqqZfRjkxaI2eReo0zhgzhNKyOMIutVJu5JYamCC9j+Tq76W+ohw
+         5jXHPT3AAeqDHgeGD4q0Y/tS8fk4aDjrdvPTc/7pX/t8PsRXnv1z3ObflCbBIOdq7KY8
+         HL5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678113568;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xK40+IrvuLAaGEzw1vO71ZMnvX089nmXSE+KdSBZGxI=;
+        b=JKvAeJofCVxaQKvUHdy0FQ5N+3rIYKOTi9o+yPZRxElmHE4UUJ0e0/Gy0Cy5s0Q0+N
+         v3m7Yty0n5/Gif3hon6BLp9u2BVrmVh+KefrvpCNXxrQuxuBF7G0Clo6paUhU8RqeAzC
+         xeAz7d/ia+dANfVvLPr5PcJwTKJlvckzYW1tW1PpH167kJJg3pOSr9yRMOXUuPRa/EAr
+         q6mt7wh7ptlwwell6r//pF99bGcTIj84kXvsQiTLv7ak7YKOCzJj6Bi6zo5U7ewqAuvP
+         gSf2vTEmr6dje5N4WFk1qO5K74TJAKdThjwBNpua1cLX0Bdgamb8xSF4z4EoZ/3fJIlD
+         zMcw==
+X-Gm-Message-State: AO0yUKUL3W6B5MwVcZzyKmjyM8Q0mG06FZlQBk1g7up+gwK6MaVwTdq0
+        ZcxE6ANp39PuQidXfqv0R9NZJFlCNJMqOqWK4k0=
+X-Google-Smtp-Source: AK7set9tagM4MvfxFASDbgv+ClynFHyi2+EfGVgbjvu5S9HDWrjjA77I6x2FIorpAtxNw/VW+IojBA==
+X-Received: by 2002:a17:906:5e0c:b0:872:82d3:4162 with SMTP id n12-20020a1709065e0c00b0087282d34162mr10260275eju.44.1678112891814;
+        Mon, 06 Mar 2023 06:28:11 -0800 (PST)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:c1e7:5006:98ac:f57])
+        by smtp.gmail.com with ESMTPSA id k14-20020a170906a38e00b008b8ae79a72bsm4636763ejz.135.2023.03.06.06.28.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 06:28:11 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     mcgrof@kernel.org, Nick Alcock <nick.alcock@oracle.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Maxim Schwalm <maxim.schwalm@gmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-staging@lists.linux.dev
-In-Reply-To: <20230221183211.21964-1-clamor95@gmail.com>
-References: <20230221183211.21964-1-clamor95@gmail.com>
-Subject: Re: (subset) [PATCH v1 00/10] Fix sound on ASUS Transformers
-Message-Id: <167810951258.75807.6694477245258374695.b4-ty@kernel.org>
-Date:   Mon, 06 Mar 2023 13:31:52 +0000
+        linux-tegra@vger.kernel.org,
+        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
+        linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: (subset) [PATCH 16/27] memory: tegra: remove MODULE_LICENSE in non-modules
+Date:   Mon,  6 Mar 2023 15:28:08 +0100
+Message-Id: <167811288496.11610.7328079575847216501.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230224150811.80316-17-nick.alcock@oracle.com>
+References: <20230224150811.80316-1-nick.alcock@oracle.com> <20230224150811.80316-17-nick.alcock@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-bd1bf
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 21 Feb 2023 20:32:01 +0200, Svyatoslav Ryhel wrote:
-> - add quirk for headset detection used by some T30 devices
->   (ASUS Transformers, LG Optimus 4X HD and Vu);
-> - add RT5631 and MAX9808x machine drivers
-> - add Fortemedia FM34NE DSP driver used by ASUS Transformers
->   and mandatory for correct sound work
-> - bind everything into working configuration
+On Fri, 24 Feb 2023 15:08:00 +0000, Nick Alcock wrote:
+> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
+> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
+> are used to identify modules. As a consequence, uses of the macro
+> in non-modules will cause modprobe to misidentify their containing
+> object file as a module when it is not (false positives), and modprobe
+> might succeed rather than failing with a suitable error message.
 > 
 > [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[16/27] memory: tegra: remove MODULE_LICENSE in non-modules
+        https://git.kernel.org/krzk/linux-mem-ctrl/c/ee5ca07b2041dba178e11f33c79d4bfc20227f09
 
-Thanks!
-
-[02/10] sound: soc: jack: allow multiple interrupt per gpio
-        commit: a2d4051b0bd6dffcd736888ae89a550d6f60b060
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
