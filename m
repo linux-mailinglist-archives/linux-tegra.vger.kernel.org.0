@@ -2,106 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 420C96ACAA0
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 18:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE0B06ACC7B
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 19:26:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbjCFRfj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Mar 2023 12:35:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43542 "EHLO
+        id S230203AbjCFS0Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Mar 2023 13:26:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbjCFRff (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 12:35:35 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC9386A1F0;
-        Mon,  6 Mar 2023 09:35:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 27F39B8105F;
-        Mon,  6 Mar 2023 17:33:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4725C433EF;
-        Mon,  6 Mar 2023 17:32:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678123997;
-        bh=oCRV/O5q3R94VDA67eta1+j60LSWpLxWhmxqrzbP2FY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tzMRw/rwKmj16OdXkTBYsEPVgFatAfUN3LJ33ZBFVzmWPChI0zegxz8a6lrSnpVNM
-         a5WWAe2HioVWJtIPc/ttoZWVvhbbsyNHioBhNIQsfUp41fNu7Bsn12CrCVulbshfh3
-         xaVbonUnnhiN36hPDyYZX/yUWExunxxxGCl97t7m1BbXS8j1Pcd3ba2pmytwNFlcuo
-         A4JumTBBP3xhvGiEXHq6D5gvgXZpJRCL48CblfxVMHFohHME3UQpdMcaz7KQ0rX6Bi
-         zb4ahU89uF20dlnC+V+KW34/XFSen5uQSXFbDSnNjd2h/1S6Rp+UFmOkj5NVaXulLq
-         RxBBn71VZ8v1A==
-Date:   Mon, 6 Mar 2023 17:32:49 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc:     miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
-        Sanju.Mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
-        kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
-        sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
-        han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, narmstrong@baylibre.com,
-        khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
-        linus.walleij@linaro.org, daniel@zonque.org,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        agross@kernel.org, bjorn.andersson@linaro.org, heiko@sntech.de,
-        krzysztof.kozlowski@linaro.org, andi@etezian.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-        masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
-        rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
-        kvalo@kernel.org, james.schulman@cirrus.com,
-        david.rhodes@cirrus.com, tanureal@opensource.cirrus.com,
-        rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com,
-        npiggin@gmail.com, christophe.leroy@csgroup.eu, mpe@ellerman.id.au,
-        oss@buserror.net, windhl@126.com, yangyingliang@huawei.com,
-        william.zhang@broadcom.com, kursad.oney@broadcom.com,
-        jonas.gorski@gmail.com, anand.gore@broadcom.com, rafal@milecki.pl,
-        git@amd.com, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
-        radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
-        alim.akhtar@samsung.com, ldewangan@nvidia.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-mtd@lists.infradead.org, lars@metafoo.de,
-        Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-        michael@walle.cc, palmer@dabbelt.com,
-        linux-riscv@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
-        amitrkcian2002@gmail.com, Dhruva Gole <d-gole@ti.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>
-Subject: Re: [PATCH V5 01/15] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <479f5b1e-6ac1-47c7-9f5b-4080e0c77c16@sirena.org.uk>
-References: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
- <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
+        with ESMTP id S229929AbjCFS0K (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 13:26:10 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6777C65C49
+        for <linux-tegra@vger.kernel.org>; Mon,  6 Mar 2023 10:25:30 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id k10so18625141edk.13
+        for <linux-tegra@vger.kernel.org>; Mon, 06 Mar 2023 10:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678127128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nQzsrijClWNNzU3MRuhrnrc1rJRiQBgGk6WQ0sbFW3w=;
+        b=hOraMv8H7Cyz5xH6F7BK/KyRTvjXIZqXW9MxDPz7cE2clNcvKPVAVWnMOGnD8OCJYt
+         bbnDcAlBA40qUUqzWql2ZfFMYGK87mnXjnQEzZBq2+FV2TugN15eYHqXRWiV5tJTi0nV
+         0Iu0OfdTHVYuVav3UMc4jZGk9SRBfCuI4QuE+qTuuRfEmxH4frYRr4qH2QhVDc4KSAXo
+         iV063p5qOo5CAFYkLs5heOtOof1RMogLbiJGS0ePSKgOsgiiLMbBI7mgvgy+5zb0Mj7j
+         rgIZV7el8QgPYEic7w2QZdqobAOpKz8CQloM07aqIjjny0rfbWGGq7tBaVeMpDf9LWiD
+         JfhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678127128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nQzsrijClWNNzU3MRuhrnrc1rJRiQBgGk6WQ0sbFW3w=;
+        b=O11blS4V6hNULnLB9GxpxDr2ethF5lPOzmd4JDsOh2pvioVeiCkSZ850Fr9vTjysr0
+         ynIJH5FIIPfc+BHM3+UPs8MDuMjIKw7c45Df/RSYL3TyzzZEcv7CVzk5SvL/kIx/uAIj
+         1fsjJxgM8YgCMiRkcke5dvXCuRaLMDW7S5yxTsvR216MnZKuIUetKIJKr966Ru2DIAcm
+         brXqYyIOgBCGA/WFSRQ429KutpGemkC0DEAmhbDTKrzslnT/jDj4QQyndtN7hKbETDVs
+         SZNTLOcOVZNg28J7zvBdLmOci2QFKP7pCCX2NuNXjZZzOJUURU2StuI6OqGBU9hqYSGM
+         9xoQ==
+X-Gm-Message-State: AO0yUKVl9WE6YWdRgyt1UizAojuyf4XLAEG2nQ6E8XUY7l4lvMrvCiYi
+        vyv5rBOTH2bPdhc8P44ciCWTsg==
+X-Google-Smtp-Source: AK7set9JT2Nj4Pw013wQ3FbV4jgAzrH9Kxatn5KcWt4QQiYFaLHZ4DdRvS6lee8MRRyNPFu8gIV/1A==
+X-Received: by 2002:aa7:c44e:0:b0:4af:502b:54a8 with SMTP id n14-20020aa7c44e000000b004af502b54a8mr9877761edr.6.1678127128376;
+        Mon, 06 Mar 2023 10:25:28 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:dcb0:1567:5d06:3be8? ([2a02:810d:15c0:828:dcb0:1567:5d06:3be8])
+        by smtp.gmail.com with ESMTPSA id x20-20020a50d614000000b004aeeb476c5bsm4816005edi.24.2023.03.06.10.25.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 10:25:28 -0800 (PST)
+Message-ID: <16bee433-0088-d651-9592-96a2bb827b7f@linaro.org>
+Date:   Mon, 6 Mar 2023 19:25:26 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1RpCo94WkIg3XG9u"
-Content-Disposition: inline
-In-Reply-To: <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
-X-Cookie: teamwork, n.:
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 15/27] memory: tegra: remove MODULE_LICENSE in non-modules
+Content-Language: en-US
+To:     Nick Alcock <nick.alcock@oracle.com>
+Cc:     mcgrof@kernel.org, linux-modules@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+References: <20230224150811.80316-1-nick.alcock@oracle.com>
+ <20230224150811.80316-16-nick.alcock@oracle.com>
+ <c6f39365-e840-d782-8ec0-e34ec3681b98@linaro.org>
+ <acc27e8f-73ce-39ee-3666-461f5c72d39d@linaro.org>
+ <87h6ux7qhp.fsf@esperi.org.uk>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <87h6ux7qhp.fsf@esperi.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -109,39 +81,50 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 06/03/2023 18:13, Nick Alcock wrote:
+> On 6 Mar 2023, Krzysztof Kozlowski told this:
+> 
+>> On 06/03/2023 15:30, Krzysztof Kozlowski wrote:
+>>> On 24/02/2023 16:07, Nick Alcock wrote:
+>>>> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
+>>>> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
+>>>> are used to identify modules. As a consequence, uses of the macro
+>>>> in non-modules will cause modprobe to misidentify their containing
+>>>> object file as a module when it is not (false positives), and modprobe
+>>>> might succeed rather than failing with a suitable error message.
+>>>>
+>>>> So remove it in the files in this commit, none of which can be built as
+>>>> modules.
+>>>
+>>> Applied as well. Squashed with next one. Same subject messes with b4, so
+>>> prefix should be corrected if these were to stay as separate patches.
+>>
+>> And all dropped. Run checkpatch before sending patches.
+> 
+> So... which of the 27 patches n this series is being dropped? It would
+> also be nice to know what the checkpatch problems were, because all I
+> can see from checkpatch is one error per patch, an apparent false
 
---1RpCo94WkIg3XG9u
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The ones I responded that I applied - so the memory controller ones.
 
-On Mon, Mar 06, 2023 at 10:50:55PM +0530, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
 
-This doesn't apply against current code, there was a rework of the
-mpc512x-psc driver.  Please check and resend.
+> positive:
+> 
+> ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 8b41fc4454e3 ("kbuild: create modules.builtin without Makefile.modbuiltin or tristate.conf")'
+> 
+> The commit message says:
+> 
+>> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
+>> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
+> 
+> ... which unless I am seeing things is precisely what checkpatch.pl is
+> asking for. Perhaps it can't handle wrapped lines, but not wrapping a
+> git commit log line *also* (correctly) elicits a checkpatch error...
 
---1RpCo94WkIg3XG9u
-Content-Type: application/pgp-signature; name="signature.asc"
+It's not a false positive, but an error I am asking fix (assuming there
+are no more ones) There is no problem with wrapping lines - checkpatch
+handles it.
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQGI8AACgkQJNaLcl1U
-h9CIEwf/aZyH3WWgY7CUVh9W2WlSP5NnJGsbwRuFubTTP3ObZz0pCsJEwP8mAwdf
-wpWZ2t/nCcibXSVknqIW+r7FPrfknmY5nJ9jal+WTp/hkYYJeVEebOg9nMUX+Nwh
-fycQjw6AcKBn6mbRNf2c9ZVSKOpTnKNHFCdGSAfVWdMclSNADYerewze+WELEn9D
-6YoQTAPR4B1PBZUkwpAympwP8+SR1wFKzN2dmCVFQSWgYJ834b4wWLD9eZFMrjEN
-gf4+dIPQkjxzNMIErUCqVkaf/wgPkCAIjb2p1cWKU2b3IOG6di49DMsuImObYUAJ
-8cVDQ8KP5PGcINenovKCKWd1awBmtw==
-=ppxH
------END PGP SIGNATURE-----
-
---1RpCo94WkIg3XG9u--
