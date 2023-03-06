@@ -2,109 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B25A76ABAA4
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 11:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D72E06ABC0F
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Mar 2023 11:25:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbjCFKEF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Mar 2023 05:04:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
+        id S230326AbjCFKZN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Mar 2023 05:25:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjCFKEC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 05:04:02 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8527412844;
-        Mon,  6 Mar 2023 02:04:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2BA6560D36;
-        Mon,  6 Mar 2023 10:04:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77831C433EF;
-        Mon,  6 Mar 2023 10:03:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678097039;
-        bh=NqMbYyvssKAx59ycEdKMFhaWpef5XSN1pFTGQ0DPAQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KDfIzHRqSbIPRxQ5kEQXWQNFgsmQ/3ugZts1z8YigEBSh4faCn+rLeqBU6w2tFriP
-         BNIu+8YydqPo4riorBbgxOS7CtqVCqLa6wD9kBbSsh10BujzmsaKnO9x5rtfEEB5ZP
-         CrjBgY61IiuUQIyOL7tTJ8wwjay4MuazLBK/8lIjUw1v5rTby3vl6CMMhl9CV315FM
-         ugCoVWCZAf3kgg1y9ZrCdpSVrR/yFzmlRd4GGXoezELkFnR8jeZcGIeQBDMoxgdlTo
-         hc4aTM3O+wUqG2rTJguyh0O/y219zleqkiBzP4gP+USDs8yUueXwlNh2AzJzEVyu+M
-         yG3K63UQfyD7Q==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1pZ7hv-0007OS-4q; Mon, 06 Mar 2023 11:04:39 +0100
-Date:   Mon, 6 Mar 2023 11:04:39 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Abel Vesa <abel.vesa@linaro.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 13/23] interconnect: qcom: sm8550: fix registration
- race
-Message-ID: <ZAW6t7LKCBubfnx/@hovoldconsulting.com>
-References: <20230306075651.2449-1-johan+linaro@kernel.org>
- <20230306075651.2449-14-johan+linaro@kernel.org>
- <ZAWsUrlrOfmmNBy3@linaro.org>
- <ZAWzqtWt5yBlYpQU@hovoldconsulting.com>
- <ZAW01RH/gLwlueoT@linaro.org>
+        with ESMTP id S229923AbjCFKZM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Mar 2023 05:25:12 -0500
+Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0F422DD9
+        for <linux-tegra@vger.kernel.org>; Mon,  6 Mar 2023 02:25:09 -0800 (PST)
+Received: by mail-ua1-x931.google.com with SMTP id x1so6049058uav.9
+        for <linux-tegra@vger.kernel.org>; Mon, 06 Mar 2023 02:25:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678098308;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=XLGWJIk9ngr+DzzO288LuvJaM4tXJNvPNwQ2aS9Ags44qiVmrxsinzlSTI373SWvQL
+         +6SgUcT0EwDOIVN2f57batbL6WGkZ2VjHiZD2U0ZfoB3ufKNwLox0AmmmOFBlt9HJ6RH
+         OS5dvcaELSOGwrw7xfZFJ2NbgVH7MQKiyCspd7sI5fG3WOcHvbeWf9pH0zYeQabOYzn3
+         yw9gnSfWn+YHaL2P9olrtireCVfXlHXeG4tpX1ltR43P7LxaSqE8ArqnuABg3RgkQyVT
+         NPOLZ1x9kR7oCsOGhR6lezPY8aiclxT9jA/o8x8OVtbG9/bfL0WUzRZuLJI8IqemKCfK
+         Id5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678098308;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=cRolRWNvsl9J7J7k+hzUsQ8vh/yrLV4kP12KVmh4IqJRZzQ5/9hEUtlMT4j44B1yvO
+         WOolqsRbhy13HvUHrPEWar2lAyKAkOpb/LiA6i6AXmUm6YAZfAhOuQ9zhG7MUPVotWTa
+         sAuHv5Pq+sNCnQ7XKid6TuHUdK5JWDBkuMLuh8FKOsfaJCerloacWROATbV720LFVoam
+         KutdcaItJTDG7sHHWCYNns3LxxN3zktLePvgFCSiHeDdFLdUSHvIGxTvW4Zl9v0W/7aI
+         jhseBaSX78Js94m7cB9ZRsDUWyNzLNmy8fjNj3Ryl0ObULEK1CkOwW3kjzR45xGTWsWg
+         tMyQ==
+X-Gm-Message-State: AO0yUKUQGNkc4jHX5nDjypbCBgbdo9vI8nLj06lfuAN2xW3viSq/JMks
+        2nmpd1VY/Y0emT4MyOGV+IeM5Aqym7G1w4AJmyM=
+X-Google-Smtp-Source: AK7set+HbxOG8fRWYdSd2Spe8YgeAHrZJbrwpyn/MCNLktCdTFpedrqR91TU0+OXtW6ZaqP/6B7py4FyO7omWVyWxwo=
+X-Received: by 2002:a1f:1752:0:b0:401:f65:99c2 with SMTP id
+ 79-20020a1f1752000000b004010f6599c2mr6566336vkx.3.1678098308425; Mon, 06 Mar
+ 2023 02:25:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZAW01RH/gLwlueoT@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a59:ce6f:0:b0:3ae:930b:3e70 with HTTP; Mon, 6 Mar 2023
+ 02:25:08 -0800 (PST)
+Reply-To: madis.scarl@terlera.it
+From:   "Ms Eve from U.N" <denisagotou@gmail.com>
+Date:   Mon, 6 Mar 2023 11:25:08 +0100
+Message-ID: <CAD6bNBj=acZn6jpkuAhuMAxbq=prud3DvWJUd6YsqM0swBt35Q@mail.gmail.com>
+Subject: Re: Claim of Fund:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_80,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_SCAM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:931 listed in]
+        [list.dnswl.org]
+        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
+        *      [score: 0.9011]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [denisagotou[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.0 HK_SCAM No description available.
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 11:39:33AM +0200, Abel Vesa wrote:
-> On 23-03-06 10:34:34, Johan Hovold wrote:
-> > On Mon, Mar 06, 2023 at 11:03:14AM +0200, Abel Vesa wrote:
-> > > On 23-03-06 08:56:41, Johan Hovold wrote:
-> > > > The current interconnect provider registration interface is inherently
-> > > > racy as nodes are not added until the after adding the provider. This
-> > > > can specifically cause racing DT lookups to fail.
-> > > > 
-> > > > Switch to using the new API where the provider is not registered until
-> > > > after it has been fully initialised.
-> > > > 
-> > > > Fixes: e6f0d6a30f73 ("interconnect: qcom: Add SM8550 interconnect provider driver")
-> > > > Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
-> > > > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > > > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > > > ---
-> > > 
-> > > Any changes since v1 or is it just a resend? 
-> > 
-> > Please see the cover letter:
-> > 
-> > 	https://lore.kernel.org/lkml/20230306075651.2449-1-johan+linaro@kernel.org/
-> > 
-> > Only the first patch of the series was updated in v2.
-> 
-> Right, my bad. Though I wasn't CC'ed on that as well.
+Hello Good Morning,
+This is to bring to your notice that all our efforts to contact you
+through this your email ID failed Please Kindly contact Barrister.
+Steven Mike { mbarrsteven@gmail.com } on his private email for the
+claim of your compensation entitlement
 
-Yeah, sorry about that. I copied the CC list from v1 and forgot to make
-sure that all reviewers were copied on the cover letter.
-
-Johan
+Note: You have to pay for the delivery fee.
+Yours Sincerely
+Mrs EVE LEWIS
