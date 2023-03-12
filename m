@@ -2,57 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FA36B6805
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Mar 2023 17:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3CB36B687B
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Mar 2023 17:59:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbjCLQPw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Mar 2023 12:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38632 "EHLO
+        id S229891AbjCLQ7q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Mar 2023 12:59:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230179AbjCLQPg (ORCPT
+        with ESMTP id S229609AbjCLQ7q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Mar 2023 12:15:36 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FF139B95
-        for <linux-tegra@vger.kernel.org>; Sun, 12 Mar 2023 09:15:34 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbOM1-0007ru-D5; Sun, 12 Mar 2023 17:15:25 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbOM0-003f3N-Lm; Sun, 12 Mar 2023 17:15:24 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbOLz-004K9d-Sr; Sun, 12 Mar 2023 17:15:23 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 26/30] clk: tegra: Convert to platform remove callback returning void
-Date:   Sun, 12 Mar 2023 17:15:08 +0100
-Message-Id: <20230312161512.2715500-27-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230312161512.2715500-1-u.kleine-koenig@pengutronix.de>
-References: <20230312161512.2715500-1-u.kleine-koenig@pengutronix.de>
+        Sun, 12 Mar 2023 12:59:46 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB2D367DD
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Mar 2023 09:59:44 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id fd5so5840865edb.7
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Mar 2023 09:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678640383;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SfkSWA4m4vFAXt2ymWh162tAViiyki63Q+2RK+3+MZw=;
+        b=FwZgdZlG2VMoGePCPY47G78odADDfhen4NV/muzUfWciVYQLptd4It+z3v4nzVDf1o
+         +RxcI8dyyC9LuEZ7JdIDns2gPQie/I+UGiCrEtjYXLbWweRsMBq/mwUxkW5fRtwDlXQY
+         W94AKsztmAXyKuZ8WllAaHaNguGsWPLPO7t71qjowwHLwrN4AYsQyxe+6/fUqOchcr+r
+         M+3mS4Npzjziul260HLKyY0LnlipttFpDJzuxUb54wLH690kPLDuBKA+lFC0bQBD8vQs
+         UYJfTtGkPplV5lWxNq5N3rJmAJrs9zbU69AmaPSl1cAC1CFp16fro96SG4Z9YqhbQhIi
+         RThg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678640383;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SfkSWA4m4vFAXt2ymWh162tAViiyki63Q+2RK+3+MZw=;
+        b=FNIAd/WsR0AO/3Fj+XPQEIvmm16J7erFyOwKCNTsDZtqVmirecIUPIn+n6R4O98qtC
+         MDaUjMVNkB2CtHpVQwMhKD0qKZuIlhoUhts2Md6uPOoaVQ6nwTQtW9FLgh0E/6FMGoel
+         Ejz53NkwLl5UxlBnDf078nJ/qXxO66xBpJqsdOuK4Vw63Z5Ov76CzBcCMJLabAAzJaKW
+         IRnK/gSDC6rvzdLLscBQFzH95kVAGvNXIZw/92qio1neaSo9hHRmcXYrKOgY5vakCOml
+         bAmLU2mRm9ao3v8LdStRezXgLS+OSDUyN2QwjbErKFrhNyOpxuvYrIWk/upe/LAUlLAz
+         rHcA==
+X-Gm-Message-State: AO0yUKVnSbTLThf4FizPLQeGwUU+npTwhHGg5BWd8gXLjsfjMgKO0ok4
+        lsp4CAytk2EVyhwvv5hhMcpmIA==
+X-Google-Smtp-Source: AK7set+nI3aCESbd8oGKsfl3taae2ALqKdzfqzM+VGWa5LNdGfepqdi2ys/KmLdkyVd1293hwFecbg==
+X-Received: by 2002:a17:906:dc8c:b0:928:3d04:c7e6 with SMTP id cs12-20020a170906dc8c00b009283d04c7e6mr1452734ejc.26.1678640382986;
+        Sun, 12 Mar 2023 09:59:42 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d9f6:3e61:beeb:295a? ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
+        by smtp.gmail.com with ESMTPSA id sg41-20020a170907a42900b00922f76decefsm1592861ejc.99.2023.03.12.09.59.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Mar 2023 09:59:42 -0700 (PDT)
+Message-ID: <cd9d9983-3dd5-70dd-8155-1b7d856bf35f@linaro.org>
+Date:   Sun, 12 Mar 2023 17:59:41 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] arm64: dts: tegra: drop serial clock-names and
+ reset-names
+Content-Language: en-US
+To:     Thierry Reding <thierry.reding@gmail.com>
+References: <20230123151543.369724-1-krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230123151543.369724-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1980; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=x6okcs6Su+YD3uh5eJbZ5VyDAW7RapD+fKHvx8TVC4A=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkDfp9rzArRWRh7p5ABLZY7wv3BgO+zzrr/0PIT TmIX5WS8WqJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZA36fQAKCRDB/BR4rcrs CYAwB/9sx5f5Twyck2oZkwirbVUmDa8bdOpezb6m36WniA/NzZgfYeh6B5WTaPUjQN0+PBWBI5m 2kGMctIojvHOvILTna14KpOF7LYZBM5D/p1NFZae3aV1pku5YOZbRHXvxcYIO8AqBOwDpUGWv6A yeUf2N+58kNeg2xv1/9mQchOfaqMqIV5iep/c6QpwaCv4x/KYmq+wHT/HpFsgjaFRUbdfSw6Z0x eL8bkcHlVxJlyXcWkl67Ch83BCNVTbfd35ZxKSdBPGh4WwfOtXPhwKTi6/XfDz8VrF5U+W1KJNy cKZRM4sVxoYD7Uw3wgOp6B4/p0dTzMgsZup74K7Byi6I/MKX
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -61,57 +78,15 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On 23/01/2023 16:15, Krzysztof Kozlowski wrote:
+> The serial node does not use clock-names and reset-names:
+> 
+>   tegra234-sim-vdk.dtb: serial@3100000: Unevaluated properties are not allowed ('clock-names', 'reset-names' were unexpected)
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Thierry, any comments? Can you pick it up?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/clk/tegra/clk-tegra124-dfll-fcpu.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/clk/tegra/clk-tegra124-dfll-fcpu.c b/drivers/clk/tegra/clk-tegra124-dfll-fcpu.c
-index 15c5e14dd82f..2a164e565c86 100644
---- a/drivers/clk/tegra/clk-tegra124-dfll-fcpu.c
-+++ b/drivers/clk/tegra/clk-tegra124-dfll-fcpu.c
-@@ -612,7 +612,7 @@ static int tegra124_dfll_fcpu_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int tegra124_dfll_fcpu_remove(struct platform_device *pdev)
-+static void tegra124_dfll_fcpu_remove(struct platform_device *pdev)
- {
- 	struct tegra_dfll_soc_data *soc;
- 
-@@ -622,11 +622,9 @@ static int tegra124_dfll_fcpu_remove(struct platform_device *pdev)
- 	 */
- 	soc = tegra_dfll_unregister(pdev);
- 	if (IS_ERR(soc))
--		return 0;
-+		return;
- 
- 	tegra_cvb_remove_opp_table(soc->dev, soc->cvb, soc->max_freq);
--
--	return 0;
- }
- 
- static const struct dev_pm_ops tegra124_dfll_pm_ops = {
-@@ -637,7 +635,7 @@ static const struct dev_pm_ops tegra124_dfll_pm_ops = {
- 
- static struct platform_driver tegra124_dfll_fcpu_driver = {
- 	.probe = tegra124_dfll_fcpu_probe,
--	.remove = tegra124_dfll_fcpu_remove,
-+	.remove_new = tegra124_dfll_fcpu_remove,
- 	.driver = {
- 		.name = "tegra124-dfll",
- 		.of_match_table = tegra124_dfll_fcpu_of_match,
--- 
-2.39.1
+Best regards,
+Krzysztof
 
