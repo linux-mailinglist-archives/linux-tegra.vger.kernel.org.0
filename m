@@ -2,127 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D90186B66EA
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Mar 2023 14:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41CAA6B679D
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Mar 2023 16:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbjCLNqH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Mar 2023 09:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51096 "EHLO
+        id S229958AbjCLPre (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Mar 2023 11:47:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231139AbjCLNpm (ORCPT
+        with ESMTP id S229656AbjCLPrd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:45:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26962DE71;
-        Sun, 12 Mar 2023 06:45:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61583814;
-        Sun, 12 Mar 2023 14:45:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678628720;
-        bh=HY06FK/X1xlEQwlPSr2Kzwr8PW2ACwPKKPD5WqC75QA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X1ehpH7fp4JbHWbhhzQPlMtiBhrLhq19IGwdA4eT5CiPYQLGfhqqE6uowTQ1cQoKN
-         o8k4c0qo4RtDpmQYspeuE8frJx2t+XdPQVIYQ/Hl0kfew9thjO6n5KNz95T474iJ/L
-         s9weY8G18+gV5eenOHxY4slRjNWsNmx9MWEzjDc4=
-Date:   Sun, 12 Mar 2023 15:45:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 27/28] media: i2c: max9286: drop of_match_ptr for ID table
-Message-ID: <20230312134513.GD8229@pendragon.ideasonboard.com>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-27-krzysztof.kozlowski@linaro.org>
+        Sun, 12 Mar 2023 11:47:33 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047803251A
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Mar 2023 08:47:32 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id k10so39228423edk.13
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Mar 2023 08:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678636050;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v06rTjtysizk3dYCZcIUf1KvlS398ZKl4+/CAT/kS9s=;
+        b=iRISoVV8Bpkzo5XBe3YglS/r/o2V3CnHOgvfpYeVIqu47OH+39HRNimnWye5ZYxzGg
+         m2AesnWsr6oosg0kI7V/09MDBkT2vXH5t6mTK7wilMk4XTRpsEm7a2gHawrQny7GqmFi
+         Jd3cvvG5C01lsUtB/WMKusrwVdANlqthSUKmTBSFrGFeB7bI044lRfjFKZx4jHdTfTCl
+         0e6+UOVnI52EnESnl1iuLVj7r5jdxnxn9rSBViisqVgR/8jZyySWBkJbWPyB9Y8CEd2y
+         EqWifTcAxsoqnZONaO0sCov/Cw28N5Ox0HZCHz98W+e4V5WiWLscJjVdYlEoa8ddkKwq
+         IfTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678636050;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v06rTjtysizk3dYCZcIUf1KvlS398ZKl4+/CAT/kS9s=;
+        b=3/wPCOETMV1UG4pLp8SDwbO93E5jr5QUGg00vxPLCZKNj2M94G7k3Jo+KM7nl5DAzm
+         fZRVbYiUGYDDKwyR2y2khsGYrK/UmZ8jIu4Jh24qlUH0QFAu0sHhxieSPE/5BEQyHvt8
+         OngM6vigxtvB3/mwJohGd3OQfQSZ4zvBdwVheQdK0Ab+aoA+jzd5OzfzfTzfmVkUGZ6t
+         NQyHrjii/iPwBp6mTK/RejpHLKKasZVQ+TVPJIWCK70PPd7l95tzCWOz4cL9Qj8xtnKH
+         iG0FVmOk1rEvjVsjjWj4fkhjruiBzifBPVoeUSXPTHEV3kJIy22q3Ejg2dmFuH51xlwP
+         HqIA==
+X-Gm-Message-State: AO0yUKX29ePWH/zP+SnGe5YsVp1uIXaDxsdEZswkKIdpVSHKNOuoY5aw
+        qWhL+hwUrVrTpGK67t7qyPlsFw==
+X-Google-Smtp-Source: AK7set/8mnKxkBnVmeDGbrLKovb7mhQG1E1trFhSe8qzJNLReFB/XjWSIhrw/2G+mxb+U/KIS4YVkQ==
+X-Received: by 2002:a17:907:a686:b0:902:874:9c31 with SMTP id vv6-20020a170907a68600b0090208749c31mr7146528ejc.35.1678636050540;
+        Sun, 12 Mar 2023 08:47:30 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d9f6:3e61:beeb:295a? ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
+        by smtp.gmail.com with ESMTPSA id t7-20020a50ab47000000b004cbe45d2db5sm2302101edc.37.2023.03.12.08.47.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Mar 2023 08:47:30 -0700 (PDT)
+Message-ID: <f6d9c84a-1c75-d9b4-59ed-39d6c5b310a9@linaro.org>
+Date:   Sun, 12 Mar 2023 16:47:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230312131318.351173-27-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH V3 2/6] dt-bindings: timestamp: Add Tegra234 support
+Content-Language: en-US
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230310190634.5053-1-dipenp@nvidia.com>
+ <20230310190634.5053-3-dipenp@nvidia.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230310190634.5053-3-dipenp@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Sun, Mar 12, 2023 at 02:13:17PM +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+On 10/03/2023 20:06, Dipen Patel wrote:
+> Added timestamp provider support for the Tegra234 in devicetree
+> bindings. In addition, it addresses review comments from the
+> previous review round as follows:
+> - Removes nvidia,slices property. This was not necessary as it
+> is a constant value and can be hardcoded inside the driver code.
+> - Adds nvidia,gpio-controller property. This simplifies how GTE driver
+> retrieves GPIO controller instance, see below explanation.
 > 
->   drivers/media/i2c/max9286.c:1707:34: error: ‘max9286_dt_ids’ defined but not used [-Werror=unused-const-variable=]
+> Without this property code would look like:
+> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
+> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
+> 				   tegra_get_gpiochip_from_name);
+> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
+> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
+> 				   tegra_get_gpiochip_from_name);
+> else
+> 	return -ENODEV;
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> This means for every future addition of the compatible string, if else
+> condition statements have to be expanded.
+> 
+> With the property:
+> gpio_ctrl = of_parse_phandle(dev->of_node, "nvidia,gpio-controller", 0);
+> ....
+> hte_dev->c = gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_node);
+> 
+> We haven't technically started making use of these bindings, so
+> backwards-compatibility shouldn't be an issue yet.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Unfortunately, I don't understand this statement. The
+nvidia,tegra194-gte-aon with removed property is in a released kernel
+v6.2. What does it mean "technically"? It's a released kernel thus it is
+a released ABI.
 
+And since DTS always go to separate branch, your patch #4 breaks
+existing DTS (return -ENODEV;) - it is not bisectable.
+
+> 
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
 > ---
->  drivers/media/i2c/max9286.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 701038d6d19b..ed932ff9ec74 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1713,7 +1713,7 @@ MODULE_DEVICE_TABLE(of, max9286_dt_ids);
->  static struct i2c_driver max9286_i2c_driver = {
->  	.driver	= {
->  		.name		= "max9286",
-> -		.of_match_table	= of_match_ptr(max9286_dt_ids),
-> +		.of_match_table	= max9286_dt_ids,
->  	},
->  	.probe_new	= max9286_probe,
->  	.remove		= max9286_remove,
 
--- 
-Regards,
 
-Laurent Pinchart
+Best regards,
+Krzysztof
+
