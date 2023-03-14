@@ -2,100 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D292B6BE356
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Mar 2023 09:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96BD36BE572
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Mar 2023 10:22:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbjCQIXy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Mar 2023 04:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57686 "EHLO
+        id S230181AbjCQJWa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Mar 2023 05:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230337AbjCQIXZ (ORCPT
+        with ESMTP id S230337AbjCQJW3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Mar 2023 04:23:25 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60211457DE;
-        Fri, 17 Mar 2023 01:23:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 73794B824EC;
-        Fri, 17 Mar 2023 08:22:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF67C433AC;
-        Fri, 17 Mar 2023 08:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679041360;
-        bh=TTXOACgLSQFnl4K1HvxAX3eNv0Oie4ZJ9D8WDA/I0Ds=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AbD0bEafKOg+j81tmm9Cs2kmYjZ+XVHsanpQgZrPzJWe0ONoNQ9NtO0x7Pco0BuU/
-         Rv8xi9Hngx/nWLVZeIkZsogasnZY4948QlPJYzZ3VcSPlG1DV4gllutdIQpQCCsggO
-         IbqBDpWtF6sxu4FGUfqFdCZnSALNX3FASec4leYPY7go9rZr14YBLbJKyMxGDE0SiT
-         7s024WSOz+rx37noj6aplaBm0mEHkE0r3DF/d8hWbSklFkg/9VbW38Lk7F+sqJnSfU
-         r1PICp7gwWbp94aJAmx0tIGIgEuBL7MV8ig6qrXOo+vFV7oOFF+VP/sREO5oLpve+x
-         azsMVmQbaNr7A==
-From:   Lee Jones <lee@kernel.org>
-To:     lee@kernel.org, dri-devel@lists.freedesktop.org
-Cc:     linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 09/37] drm/tegra/dc: Remove set but unused variable 'state'
-Date:   Fri, 17 Mar 2023 08:16:50 +0000
-Message-Id: <20230317081718.2650744-10-lee@kernel.org>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
-References: <20230317081718.2650744-1-lee@kernel.org>
+        Fri, 17 Mar 2023 05:22:29 -0400
+Received: from sragenkab.go.id (mail.sragenkab.go.id [103.172.109.4])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 8E2ACB5B6B
+        for <linux-tegra@vger.kernel.org>; Fri, 17 Mar 2023 02:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sragenkab.go.id;
+         h=mime-version:content-type:content-transfer-encoding:date:from
+        :to:subject:reply-to:message-id; q=dns/txt; s=dkim1; bh=QGcIAmD5
+        O/Y9qXzDV8MxyimbsW3+rMaQ/kz75GzBHbk=; b=NgjrFH2NgfnuwjF1cBT9EXhC
+        u09zp5HgUjScF7qK7ByVP7bVvSnGUV8jJYqjC28Cl7vRGVc5oOkYe8NWTK0VsOgD
+        QqQkl3MQenkLPh5aptNw5Rayo6THKtizFZH1m2susHOu+L+wzif9KSE2x5OY2V31
+        g4SngqKsCf3zFkGPCGO+a6ilYsAAXf8j3ZKSmwOl5xr3m7dFsJLbnfEdnLnpBAa0
+        FDLhxdoYy4yhaEdfpttaRpBEF4BwHKqH/SYtiZJBXB1KIN3bYydU77y1F9vWulnk
+        VwI7hjdGvTzOiANE9EBU/jDEUuMP5/tATAEpIpZ3DZR4buTv+R1G3G9DQvGRSw==
+Received: (qmail 76845 invoked from network); 14 Mar 2023 20:37:22 -0000
+Received: from localhost (HELO mail2.sragenkab.go.id) (127.0.0.1)
+  by localhost with SMTP; 14 Mar 2023 20:37:22 -0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 14 Mar 2023 13:37:21 -0700
+From:   Ibrahim Tafa <jurnalsukowati@sragenkab.go.id>
+To:     undisclosed-recipients:;
+Subject: LOAN OPPORTUNITY AT LOW-INTEREST RATE
+Reply-To: <ibrahimtafa@abienceinvestmentsfze.com>
+Mail-Reply-To: <ibrahimtafa@abienceinvestmentsfze.com>
+Message-ID: <050017351939ff0cce2ed711eb1371b7@sragenkab.go.id>
+X-Sender: jurnalsukowati@sragenkab.go.id
+User-Agent: Roundcube Webmail/0.8.1
+X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,SUBJ_ALL_CAPS,UNDISC_MONEY,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/tegra/dc.c: In function ‘tegra_crtc_calculate_memory_bandwidth’:
- drivers/gpu/drm/tegra/dc.c:2384:38: warning: variable ‘old_state’ set but not used [-Wunused-but-set-variable]
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/gpu/drm/tegra/dc.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index a67453cee8832..cafa1720026cc 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2381,7 +2381,6 @@ static int tegra_crtc_calculate_memory_bandwidth(struct drm_crtc *crtc,
- 	const struct tegra_plane_state *tegra_state;
- 	const struct drm_plane_state *plane_state;
- 	struct tegra_dc *dc = to_tegra_dc(crtc);
--	const struct drm_crtc_state *old_state;
- 	struct drm_crtc_state *new_state;
- 	struct tegra_plane *tegra;
- 	struct drm_plane *plane;
-@@ -2396,7 +2395,6 @@ static int tegra_crtc_calculate_memory_bandwidth(struct drm_crtc *crtc,
- 		return 0;
- 
- 	new_state = drm_atomic_get_new_crtc_state(state, crtc);
--	old_state = drm_atomic_get_old_crtc_state(state, crtc);
- 
- 	/*
- 	 * For overlapping planes pixel's data is fetched for each plane at
 -- 
-2.40.0.rc1.284.g88254d51c5-goog
+Greetings,
+   I am contacting you based on the Investment/Loan opportunity for 
+companies in need of financing a project/business, We have developed a 
+new method of financing that doesn't take long to receive financing from 
+our clients.
+    If you are looking for funds to finance your project/Business or if 
+you are willing to work as our agent in your country to find clients in 
+need of financing and earn commissions, then get back to me for more 
+details.
 
+Regards,
+Ibrahim Tafa
+ABIENCE INVESTMENT GROUP FZE, United Arab Emirates
