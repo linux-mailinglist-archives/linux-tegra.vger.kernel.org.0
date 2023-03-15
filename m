@@ -2,104 +2,699 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1B916BB036
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Mar 2023 13:16:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E6E06BB6F3
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Mar 2023 16:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbjCOMQc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Mar 2023 08:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39886 "EHLO
+        id S232655AbjCOPIj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Mar 2023 11:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231864AbjCOMQ0 (ORCPT
+        with ESMTP id S232182AbjCOPIh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Mar 2023 08:16:26 -0400
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D7A8F510
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Mar 2023 05:16:11 -0700 (PDT)
-Received: by mail-ua1-x92e.google.com with SMTP id s23so12577497uae.5
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Mar 2023 05:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112; t=1678882570;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PzgtuMSfYssFcR6AaTEq8LEPYe/fsdaQKwPpEYrgic4=;
-        b=k3Rp96Q41gIHkxWl46EzvcWsbg9XDbuPnEwhG1PjwX6Xr1s+nIM7LYjeM9B2UORuSW
-         VI+IpGXP8JadT0gZJHx6i86d+SVB/6zvk8f12f6vLgeXgooy/yAT5jecP3GtLuBXepJ0
-         ExKTOOQ4Ai6fyKLRkB8MirMRjkAWnQaD0Z+QTiigFQcd4pOX4F8wHUeRbscZJovG9PAp
-         pn/x4i30NMz802/Qe6pVcWg011WMldRe8NUQTDslX0drhhMrTJsjh+tKyf4+uqLGxKIt
-         OHakhlV/CKY+yb0Ypg2Q+pY9l9SC9/yXJjR8+8PWP678oiPOlKCtiLcVCNegFGmAeKnN
-         xe3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678882570;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PzgtuMSfYssFcR6AaTEq8LEPYe/fsdaQKwPpEYrgic4=;
-        b=BlW8xHg/iHXphMGRhkWBvsQhKWVEeIbMtKwvGckUAvwzbhBeRzPXlxaifFu3Oet5W+
-         3viObZKTsqSxVjEtl6gS1BCFYZAYtZEzyovUC0u9aC5V6yYWLmLeQco15gJnGLXfLayF
-         8FvC+Nwos2mKYFulNcykmFNydXsQW5H+EIa5HADPu+U9sbRfg+LCX25o+zLashDLY3c8
-         M8EqWJ4T1dKBxpUATKadVVW+YfkhwlyBPSphlOwxhf1W5LO31UYzts++sBbRkxQ88lW4
-         3I1kt5AV7WyMYgrypjyZ//U0Pho/jLh767wLBVfaZB+YFj4IKTVJsl6oGY7N570bqONo
-         sF4A==
-X-Gm-Message-State: AO0yUKWaPUTGu7W1uiVI29lFNfq4LBwdNUMpf0Pp3wpyZ8QFFtgr/M5g
-        8HbvwF84by8AdFroNfPrha8rR+dgiSZPnZ4N9qizAw==
-X-Google-Smtp-Source: AK7set/aG+bFALcuRIRUQTR6qqfdF0rarM40hOIYBqY24ynLEqKWSLA6YkzVNlk2cI4HcNeuGu1jAfrbV+hUwnjZZqo=
-X-Received: by 2002:ab0:5402:0:b0:68a:6c1e:1aab with SMTP id
- n2-20020ab05402000000b0068a6c1e1aabmr25631831uaa.2.1678882570399; Wed, 15 Mar
- 2023 05:16:10 -0700 (PDT)
+        Wed, 15 Mar 2023 11:08:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B9055BD
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Mar 2023 08:08:32 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pcSjP-00075R-T5; Wed, 15 Mar 2023 16:07:59 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pcSjN-004KTT-Nq; Wed, 15 Mar 2023 16:07:57 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pcSjM-0057br-Fi; Wed, 15 Mar 2023 16:07:56 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mohan Kumar <mkumard@nvidia.com>,
+        Geoff Levand <geoff@infradead.org>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        syed saba kareem <syed.sabakareem@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Meng Tang <tangmeng@uniontech.com>,
+        =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Peter Rosin <peda@axentia.se>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        James Schulman <james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Lucas Tanure <tanureal@opensource.cirrus.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
+        Zhang Qilong <zhangqilong3@huawei.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Liang He <windhl@126.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Akihiko Odaki <akihiko.odaki@gmail.com>,
+        =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= 
+        <amadeuszx.slawinski@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Moises Cardona <moisesmcardona@gmail.com>,
+        Zhen Ni <nizhen@uniontech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrey Turkin <andrey.turkin@gmail.com>,
+        Muralidhar Reddy <muralidhar.reddy@intel.com>,
+        Zhu Ning <zhuning0077@gmail.com>,
+        Gongjun Song <gongjun.song@intel.com>,
+        Shuming Fan <shumingf@realtek.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Lior Amsalem <alior@marvell.com>, Andrew Lunn <andrew@lunn.ch>,
+        Hezi Shahmoon <hezi@marvell.com>,
+        Neta Zur Hershkovits <neta@marvell.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Trevor Wu <trevor.wu@mediatek.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Linh Phung <linh.phung.jy@renesas.com>,
+        Shang XiaoJing <shangxiaojing@huawei.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Li Chen <lchen@ambarella.com>,
+        Ban Tao <fengzheng923@gmail.com>,
+        Sameer Pujar <spujar@nvidia.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Li kunyu <kunyu@nfschina.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Jarkko Nikula <jarkko.nikula@bitmer.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Max Filippov <jcmvbkbc@gmail.com>
+Cc:     alsa-devel@alsa-project.org, kernel@pengutronix.de,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        patches@opensource.cirrus.com, Fabio Estevam <festevam@gmail.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org
+Subject: [PATCH 000/173] ALSA/ASoC: Convert to platform remove callback returning void
+Date:   Wed, 15 Mar 2023 16:04:52 +0100
+Message-Id: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230310190634.5053-1-dipenp@nvidia.com> <20230310190634.5053-6-dipenp@nvidia.com>
-In-Reply-To: <20230310190634.5053-6-dipenp@nvidia.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Wed, 15 Mar 2023 13:15:59 +0100
-Message-ID: <CAMRc=MfG0de07p7nJMya5RfK6a_wQhrKSDZxGMk2L=vhw=_oUQ@mail.gmail.com>
-Subject: Re: [PATCH V3 5/6] gpio: tegra186: Add Tegra234 hte support
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org, timestamp@lists.linux.dev,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=25545; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=PMsdLl7+2srBgOkC/kKuNw6JdBSADxMVdeLzTSx01Yk=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkEd0lGWSf7mBiLMp2KinWd50LDXzl92rLl/GxV 0HA0b56vvCJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZBHdJQAKCRDB/BR4rcrs CaOTB/9SS0cNqV2Mcl90tkPZq4QGuch48aG/eLkNoTwCLq2HvWxRY6KYZjU/rV7iqunxoFM8z/K GgQi3jXV1zH9yq1qlQk3Y7pXyJm2NLOWDzVJGDCH/MV3xW383oxnWsWEwvPfbvGd+uNeccbeCNv rkPCga6gSPRM8ND5MbNvgWXtICHrrlHWEUxDGAXnSITKZfgroin+/YMW84N0nCDlEhwNjyDgHiX FaF3XBOQbBwjfwg+vcnUlQne7FqMmxX2QgvmDiEPRxsneo7/ToT/nP8VBN7DbaTg8B6yqKbbJW1 Wfho+4oLvjlarb13pJxbYj2ovfqjVXvTSnH279o45HmR+yhs
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 8:06=E2=80=AFPM Dipen Patel <dipenp@nvidia.com> wro=
-te:
->
-> To enable timestamp support for the Tegra234, has_gte variable needs
-> to be set true.
->
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/gpio/gpio-tegra186.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
-> index 14c872b6ad05..b904de0b1784 100644
-> --- a/drivers/gpio/gpio-tegra186.c
-> +++ b/drivers/gpio/gpio-tegra186.c
-> @@ -1134,6 +1134,7 @@ static const struct tegra_gpio_soc tegra234_aon_soc=
- =3D {
->         .name =3D "tegra234-gpio-aon",
->         .instance =3D 1,
->         .num_irqs_per_bank =3D 8,
-> +       .has_gte =3D true,
->  };
->
->  #define TEGRA241_MAIN_GPIO_PORT(_name, _bank, _port, _pins)    \
-> --
-> 2.17.1
->
+Hello,
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+this series adapts the platform drivers below sound/ to use the .remove_new()
+callback. Compared to the traditional .remove() callback .remove_new() returns
+no value. This is a good thing because the driver core doesn't (and cannot)
+cope for errors during remove. The only effect of a non-zero return value in
+.remove() is that the driver core emits a warning. The device is removed anyhow
+and an early return from .remove() usually yields a resource leak.
+
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
+
+The first two patches simplify a driver each to return zero unconditionally,
+and then all drivers are trivially converted to .remove_new().
+
+There are nearly no interdependencies in this patch set---only 1 <- 11 and
+2 <- 16. So even if some individual problems are found (I don't expect that),
+the other patches can (and from my POV should) still be applied.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (173):
+  ALSA: sh: aica: Drop if blocks with always false condition
+  ASoC: amd: acp: rembrandt: Drop if blocks with always false condition
+  ALSA: pxa2xx: Convert to platform remove callback returning void
+  ALSA: atmel: ac97: Convert to platform remove callback returning void
+  ALSA: mts64: Convert to platform remove callback returning void
+  ALSA: portman2x4: Convert to platform remove callback returning void
+  ALSA: mips/hal2: Convert to platform remove callback returning void
+  ALSA: mips/sgio2audio: Convert to platform remove callback returning
+    void
+  ALSA: hda/tegra: Convert to platform remove callback returning void
+  ALSA: ppc/powermac: Convert to platform remove callback returning void
+  ALSA: sh: aica: Convert to platform remove callback returning void
+  ALSA: sh_dac_audio: Convert to platform remove callback returning void
+  ASoC: adi: axi-i2s: Convert to platform remove callback returning void
+  ASoC: adi: axi-spdif: Convert to platform remove callback returning
+    void
+  ASoC: amd: acp-pcm-dma: Convert to platform remove callback returning
+    void
+  ASoC: amd: acp: rembrandt: Convert to platform remove callback
+    returning void
+  ASoC: amd: acp: renoir: Convert to platform remove callback returning
+    void
+  ASoC: amd: ps: Convert to platform remove callback returning void
+  ASoC: amd: raven: acp3x-pcm-dma: Convert to platform remove callback
+    returning void
+  ASoC: amd: raven: acp3x-pdm-dma: Convert to platform remove callback
+    returning void
+  ASoC: amd: vangogh: acp5x-pcm-dma: Convert to platform remove callback
+    returning void
+  ASoC: amd: yc: acp6x-pdm-dma: Convert to platform remove callback
+    returning void
+  ASoC: apple: mca: Convert to platform remove callback returning void
+  ASoC: atmel: atmel-i2s: Convert to platform remove callback returning
+    void
+  ASoC: atmel: atmel_wm8904: Convert to platform remove callback
+    returning void
+  ASoC: atmel: mchp-i2s-mcc: Convert to platform remove callback
+    returning void
+  ASoC: atmel: mchp-pdmc: Convert to platform remove callback returning
+    void
+  ASoC: atmel: mchp-spdifrx: Convert to platform remove callback
+    returning void
+  ASoC: atmel: mchp-spdiftx: Convert to platform remove callback
+    returning void
+  ASoC: atmel: mikroe-proto: Convert to platform remove callback
+    returning void
+  ASoC: atmel: sam9g20_wm8731: Convert to platform remove callback
+    returning void
+  ASoC: atmel: sam9x5_wm8731: Convert to platform remove callback
+    returning void
+  ASoC: atmel: tse850-pcm5142: Convert to platform remove callback
+    returning void
+  ASoC: au1x: ac97c: Convert to platform remove callback returning void
+  ASoC: au1x: i2sc: Convert to platform remove callback returning void
+  ASoC: au1x: psc-ac97: Convert to platform remove callback returning
+    void
+  ASoC: au1x: psc-i2s: Convert to platform remove callback returning
+    void
+  ASoC: bcm: bcm63xx-i2s-whistler: Convert to platform remove callback
+    returning void
+  ASoC: bcm: cygnus-ssp: Convert to platform remove callback returning
+    void
+  ASoC: cirrus: edb93xx: Convert to platform remove callback returning
+    void
+  ASoC: cirrus: ep93xx-i2s: Convert to platform remove callback
+    returning void
+  ASoC: codecs: cs47l15: Convert to platform remove callback returning
+    void
+  ASoC: codecs: cs47l24: Convert to platform remove callback returning
+    void
+  ASoC: codecs: cs47l35: Convert to platform remove callback returning
+    void
+  ASoC: codecs: cs47l85: Convert to platform remove callback returning
+    void
+  ASoC: codecs: cs47l90: Convert to platform remove callback returning
+    void
+  ASoC: codecs: cs47l92: Convert to platform remove callback returning
+    void
+  ASoC: codecs: inno_rk3036: Convert to platform remove callback
+    returning void
+  ASoC: codecs: lpass-rx-macro: Convert to platform remove callback
+    returning void
+  ASoC: codecs: lpass-tx-macro: Convert to platform remove callback
+    returning void
+  ASoC: codecs: lpass-va-macro: Convert to platform remove callback
+    returning void
+  ASoC: codecs: lpass-wsa-macro: Convert to platform remove callback
+    returning void
+  ASoC: codecs: msm8916-wcd-analog: Convert to platform remove callback
+    returning void
+  ASoC: codecs: msm8916-wcd-digital: Convert to platform remove callback
+    returning void
+  ASoC: codecs: rk817_codec: Convert to platform remove callback
+    returning void
+  ASoC: codecs: wcd938x: Convert to platform remove callback returning
+    void
+  ASoC: codecs: wm5102: Convert to platform remove callback returning
+    void
+  ASoC: codecs: wm5110: Convert to platform remove callback returning
+    void
+  ASoC: codecs: wm8994: Convert to platform remove callback returning
+    void
+  ASoC: codecs: wm8997: Convert to platform remove callback returning
+    void
+  ASoC: codecs: wm8998: Convert to platform remove callback returning
+    void
+  ASoC: dwc: dwc-i2s: Convert to platform remove callback returning void
+  ASoC: fsl: eukrea-tlv320: Convert to platform remove callback
+    returning void
+  ASoC: fsl: fsl_asrc: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_aud2htx: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_audmix: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_dma: Convert to platform remove callback returning void
+  ASoC: fsl: fsl_easrc: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_esai: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_mqs: Convert to platform remove callback returning void
+  ASoC: fsl: fsl_rpmsg: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_sai: Convert to platform remove callback returning void
+  ASoC: fsl: fsl_spdif: Convert to platform remove callback returning
+    void
+  ASoC: fsl: fsl_ssi: Convert to platform remove callback returning void
+  ASoC: fsl: fsl_xcvr: Convert to platform remove callback returning
+    void
+  ASoC: fsl: imx-audmux: Convert to platform remove callback returning
+    void
+  ASoC: fsl: imx-pcm-rpmsg: Convert to platform remove callback
+    returning void
+  ASoC: fsl: imx-sgtl5000: Convert to platform remove callback returning
+    void
+  ASoC: fsl: mpc5200_psc_ac97: Convert to platform remove callback
+    returning void
+  ASoC: fsl: mpc5200_psc_i2s: Convert to platform remove callback
+    returning void
+  ASoC: fsl: mpc8610_hpcd: Convert to platform remove callback returning
+    void
+  ASoC: fsl: p1022_ds: Convert to platform remove callback returning
+    void
+  ASoC: fsl: p1022_rdk: Convert to platform remove callback returning
+    void
+  ASoC: fsl: pcm030-audio-fabric: Convert to platform remove callback
+    returning void
+  ASoC: generic: test-component: Convert to platform remove callback
+    returning void
+  ASoC: img: img-i2s-in: Convert to platform remove callback returning
+    void
+  ASoC: img: img-i2s-out: Convert to platform remove callback returning
+    void
+  ASoC: img: img-parallel-out: Convert to platform remove callback
+    returning void
+  ASoC: img: img-spdif-in: Convert to platform remove callback returning
+    void
+  ASoC: img: img-spdif-out: Convert to platform remove callback
+    returning void
+  ASoC: img: pistachio-internal-dac: Convert to platform remove callback
+    returning void
+  ASoC: Intel: sst-mfld-platform-pcm: Convert to platform remove
+    callback returning void
+  ASoC: Intel: sst: Convert to platform remove callback returning void
+  ASoC: Intel: bytcht_es8316: Convert to platform remove callback
+    returning void
+  ASoC: Intel: bytcr_rt5640: Convert to platform remove callback
+    returning void
+  ASoC: Intel: boards: bytcr_rt5651: Convert to platform remove callback
+    returning void
+  ASoC: Intel: bytcr_wm5102: Convert to platform remove callback
+    returning void
+  ASoC: Intel: cht_bsw_max98090_ti: Convert to platform remove callback
+    returning void
+  ASoC: Intel: sof_es8336: Convert to platform remove callback returning
+    void
+  ASoC: Intel: sof_pcm512x: Convert to platform remove callback
+    returning void
+  ASoC: Intel: sof_sdw: Convert to platform remove callback returning
+    void
+  ASoC: Intel: sof_wm8804: Convert to platform remove callback returning
+    void
+  ASoC: Intel: catpt: Convert to platform remove callback returning void
+  ASoC: Intel: skl-ssp-clk: Convert to platform remove callback
+    returning void
+  ASoC: kirkwood: kirkwood-i2s: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mtk-btcvsd: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt2701-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt6797-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt8173-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt8183-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt8188-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt8192-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: mediatek: mt8195-afe-pcm: Convert to platform remove callback
+    returning void
+  ASoC: meson: aiu: Convert to platform remove callback returning void
+  ASoC: mxs: mxs-sgtl5000: Convert to platform remove callback returning
+    void
+  ASoC: pxa: mmp-sspa: Convert to platform remove callback returning
+    void
+  ASoC: pxa: pxa2xx-ac97: Convert to platform remove callback returning
+    void
+  ASoC: qcom: qdsp6: Convert to platform remove callback returning void
+  ASoC: rockchip: rockchip_i2s: Convert to platform remove callback
+    returning void
+  ASoC: rockchip: rockchip_i2s_tdm: Convert to platform remove callback
+    returning void
+  ASoC: rockchip: rockchip_pdm: Convert to platform remove callback
+    returning void
+  ASoC: rockchip: rockchip_rt5645: Convert to platform remove callback
+    returning void
+  ASoC: rockchip: rockchip_spdif: Convert to platform remove callback
+    returning void
+  ASoC: samsung: arndale: Convert to platform remove callback returning
+    void
+  ASoC: samsung: i2s: Convert to platform remove callback returning void
+  ASoC: samsung: odroid: Convert to platform remove callback returning
+    void
+  ASoC: samsung: pcm: Convert to platform remove callback returning void
+  ASoC: samsung: snow: Convert to platform remove callback returning
+    void
+  ASoC: samsung: spdif: Convert to platform remove callback returning
+    void
+  ASoC: sh: fsi: Convert to platform remove callback returning void
+  ASoC: sh: hac: Convert to platform remove callback returning void
+  ASoC: sh: rcar: Convert to platform remove callback returning void
+  ASoC: sh: rz-ssi: Convert to platform remove callback returning void
+  ASoC: sh: siu_dai: Convert to platform remove callback returning void
+  ASoC: sprd: sprd-mcdt: Convert to platform remove callback returning
+    void
+  ASoC: stm: stm32_adfsdm: Convert to platform remove callback returning
+    void
+  ASoC: stm: stm32_i2s: Convert to platform remove callback returning
+    void
+  ASoC: stm: stm32_sai_sub: Convert to platform remove callback
+    returning void
+  ASoC: stm: stm32_spdifrx: Convert to platform remove callback
+    returning void
+  ASoC: sunxi: sun4i-codec: Convert to platform remove callback
+    returning void
+  ASoC: sunxi: sun4i-i2s: Convert to platform remove callback returning
+    void
+  ASoC: sunxi: sun4i-spdif: Convert to platform remove callback
+    returning void
+  ASoC: sunxi: sun50i-dmic: Convert to platform remove callback
+    returning void
+  ASoC: sunxi: sun8i-codec: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra186_asrc: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra186_dspk: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra20_ac97: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra20_i2s: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_admaif: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_adx: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_ahub: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_amx: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_dmic: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_i2s: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_mixer: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_mvc: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_ope: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra210_sfc: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra30_ahub: Convert to platform remove callback
+    returning void
+  ASoC: tegra: tegra30_i2s: Convert to platform remove callback
+    returning void
+  ASoC: ti: ams-delta: Convert to platform remove callback returning
+    void
+  ASoC: ti: davinci-i2s: Convert to platform remove callback returning
+    void
+  ASoC: ti: davinci-mcasp: Convert to platform remove callback returning
+    void
+  ASoC: ti: omap-hdmi: Convert to platform remove callback returning
+    void
+  ASoC: ti: omap-mcbsp: Convert to platform remove callback returning
+    void
+  ASoC: uniphier: evea: Convert to platform remove callback returning
+    void
+  ASoC: ux500: mop500: Convert to platform remove callback returning
+    void
+  ASoC: ux500: ux500_msp_dai: Convert to platform remove callback
+    returning void
+  ASoC: xilinx: xlnx_formatter_pcm: Convert to platform remove callback
+    returning void
+  ASoC: xilinx: xlnx_spdif: Convert to platform remove callback
+    returning void
+  ASoC: xtensa: xtfpga-i2s: Convert to platform remove callback
+    returning void
+  ALSA: sparc/cs4231: Convert to platform remove callback returning void
+  ALSA: sparc/dbri: Convert to platform remove callback returning void
+
+ sound/arm/pxa2xx-ac97.c                      |  6 ++----
+ sound/atmel/ac97c.c                          |  6 ++----
+ sound/drivers/mts64.c                        |  6 ++----
+ sound/drivers/portman2x4.c                   |  6 ++----
+ sound/mips/hal2.c                            |  5 ++---
+ sound/mips/sgio2audio.c                      |  5 ++---
+ sound/pci/hda/hda_tegra.c                    |  6 ++----
+ sound/ppc/powermac.c                         |  5 ++---
+ sound/sh/aica.c                              |  7 ++-----
+ sound/sh/sh_dac_audio.c                      |  5 ++---
+ sound/soc/adi/axi-i2s.c                      |  6 ++----
+ sound/soc/adi/axi-spdif.c                    |  6 ++----
+ sound/soc/amd/acp-pcm-dma.c                  |  6 ++----
+ sound/soc/amd/acp/acp-rembrandt.c            | 13 +++----------
+ sound/soc/amd/acp/acp-renoir.c               |  5 ++---
+ sound/soc/amd/ps/ps-pdm-dma.c                |  5 ++---
+ sound/soc/amd/raven/acp3x-pcm-dma.c          |  5 ++---
+ sound/soc/amd/renoir/acp3x-pdm-dma.c         |  5 ++---
+ sound/soc/amd/vangogh/acp5x-pcm-dma.c        |  5 ++---
+ sound/soc/amd/yc/acp6x-pdm-dma.c             |  5 ++---
+ sound/soc/apple/mca.c                        |  5 ++---
+ sound/soc/atmel/atmel-i2s.c                  |  6 ++----
+ sound/soc/atmel/atmel_wm8904.c               |  6 ++----
+ sound/soc/atmel/mchp-i2s-mcc.c               |  6 ++----
+ sound/soc/atmel/mchp-pdmc.c                  |  6 ++----
+ sound/soc/atmel/mchp-spdifrx.c               |  6 ++----
+ sound/soc/atmel/mchp-spdiftx.c               |  6 ++----
+ sound/soc/atmel/mikroe-proto.c               |  6 ++----
+ sound/soc/atmel/sam9g20_wm8731.c             |  6 ++----
+ sound/soc/atmel/sam9x5_wm8731.c              |  6 ++----
+ sound/soc/atmel/tse850-pcm5142.c             |  6 ++----
+ sound/soc/au1x/ac97c.c                       |  6 ++----
+ sound/soc/au1x/i2sc.c                        |  6 ++----
+ sound/soc/au1x/psc-ac97.c                    |  6 ++----
+ sound/soc/au1x/psc-i2s.c                     |  6 ++----
+ sound/soc/bcm/bcm63xx-i2s-whistler.c         |  5 ++---
+ sound/soc/bcm/cygnus-ssp.c                   |  6 ++----
+ sound/soc/cirrus/edb93xx.c                   |  6 ++----
+ sound/soc/cirrus/ep93xx-i2s.c                |  5 ++---
+ sound/soc/codecs/cs47l15.c                   |  6 ++----
+ sound/soc/codecs/cs47l24.c                   |  6 ++----
+ sound/soc/codecs/cs47l35.c                   |  6 ++----
+ sound/soc/codecs/cs47l85.c                   |  6 ++----
+ sound/soc/codecs/cs47l90.c                   |  6 ++----
+ sound/soc/codecs/cs47l92.c                   |  6 ++----
+ sound/soc/codecs/inno_rk3036.c               |  6 ++----
+ sound/soc/codecs/lpass-rx-macro.c            |  6 ++----
+ sound/soc/codecs/lpass-tx-macro.c            |  6 ++----
+ sound/soc/codecs/lpass-va-macro.c            |  6 ++----
+ sound/soc/codecs/lpass-wsa-macro.c           |  6 ++----
+ sound/soc/codecs/msm8916-wcd-analog.c        |  6 ++----
+ sound/soc/codecs/msm8916-wcd-digital.c       |  6 ++----
+ sound/soc/codecs/rk817_codec.c               |  6 ++----
+ sound/soc/codecs/wcd938x.c                   |  6 ++----
+ sound/soc/codecs/wm5102.c                    |  6 ++----
+ sound/soc/codecs/wm5110.c                    |  6 ++----
+ sound/soc/codecs/wm8994.c                    |  6 ++----
+ sound/soc/codecs/wm8997.c                    |  6 ++----
+ sound/soc/codecs/wm8998.c                    |  6 ++----
+ sound/soc/dwc/dwc-i2s.c                      |  5 ++---
+ sound/soc/fsl/eukrea-tlv320.c                |  6 ++----
+ sound/soc/fsl/fsl_asrc.c                     |  6 ++----
+ sound/soc/fsl/fsl_aud2htx.c                  |  6 ++----
+ sound/soc/fsl/fsl_audmix.c                   |  6 ++----
+ sound/soc/fsl/fsl_dma.c                      |  6 ++----
+ sound/soc/fsl/fsl_easrc.c                    |  6 ++----
+ sound/soc/fsl/fsl_esai.c                     |  6 ++----
+ sound/soc/fsl/fsl_mqs.c                      |  5 ++---
+ sound/soc/fsl/fsl_rpmsg.c                    |  6 ++----
+ sound/soc/fsl/fsl_sai.c                      |  6 ++----
+ sound/soc/fsl/fsl_spdif.c                    |  6 ++----
+ sound/soc/fsl/fsl_ssi.c                      |  6 ++----
+ sound/soc/fsl/fsl_xcvr.c                     |  5 ++---
+ sound/soc/fsl/imx-audmux.c                   |  6 ++----
+ sound/soc/fsl/imx-pcm-rpmsg.c                |  6 ++----
+ sound/soc/fsl/imx-sgtl5000.c                 |  6 ++----
+ sound/soc/fsl/mpc5200_psc_ac97.c             |  5 ++---
+ sound/soc/fsl/mpc5200_psc_i2s.c              |  5 ++---
+ sound/soc/fsl/mpc8610_hpcd.c                 |  6 ++----
+ sound/soc/fsl/p1022_ds.c                     |  6 ++----
+ sound/soc/fsl/p1022_rdk.c                    |  6 ++----
+ sound/soc/fsl/pcm030-audio-fabric.c          |  6 ++----
+ sound/soc/generic/test-component.c           |  6 ++----
+ sound/soc/img/img-i2s-in.c                   |  6 ++----
+ sound/soc/img/img-i2s-out.c                  |  6 ++----
+ sound/soc/img/img-parallel-out.c             |  6 ++----
+ sound/soc/img/img-spdif-in.c                 |  6 ++----
+ sound/soc/img/img-spdif-out.c                |  6 ++----
+ sound/soc/img/pistachio-internal-dac.c       |  6 ++----
+ sound/soc/intel/atom/sst-mfld-platform-pcm.c |  5 ++---
+ sound/soc/intel/atom/sst/sst_acpi.c          |  5 ++---
+ sound/soc/intel/boards/bytcht_es8316.c       |  5 ++---
+ sound/soc/intel/boards/bytcr_rt5640.c        |  5 ++---
+ sound/soc/intel/boards/bytcr_rt5651.c        |  5 ++---
+ sound/soc/intel/boards/bytcr_wm5102.c        |  5 ++---
+ sound/soc/intel/boards/cht_bsw_max98090_ti.c |  6 ++----
+ sound/soc/intel/boards/sof_es8336.c          |  6 ++----
+ sound/soc/intel/boards/sof_pcm512x.c         |  6 ++----
+ sound/soc/intel/boards/sof_sdw.c             |  6 ++----
+ sound/soc/intel/boards/sof_wm8804.c          |  5 ++---
+ sound/soc/intel/catpt/device.c               |  6 ++----
+ sound/soc/intel/skylake/skl-ssp-clk.c        |  6 ++----
+ sound/soc/kirkwood/kirkwood-i2s.c            |  6 ++----
+ sound/soc/mediatek/common/mtk-btcvsd.c       |  5 ++---
+ sound/soc/mediatek/mt2701/mt2701-afe-pcm.c   |  6 ++----
+ sound/soc/mediatek/mt6797/mt6797-afe-pcm.c   |  6 ++----
+ sound/soc/mediatek/mt8173/mt8173-afe-pcm.c   |  5 ++---
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c   |  6 ++----
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c   |  6 ++----
+ sound/soc/mediatek/mt8192/mt8192-afe-pcm.c   |  5 ++---
+ sound/soc/mediatek/mt8195/mt8195-afe-pcm.c   |  5 ++---
+ sound/soc/meson/aiu.c                        |  6 ++----
+ sound/soc/mxs/mxs-sgtl5000.c                 |  6 ++----
+ sound/soc/pxa/mmp-sspa.c                     |  7 +++----
+ sound/soc/pxa/pxa2xx-ac97.c                  |  5 ++---
+ sound/soc/qcom/qdsp6/q6routing.c             |  6 ++----
+ sound/soc/rockchip/rockchip_i2s.c            |  6 ++----
+ sound/soc/rockchip/rockchip_i2s_tdm.c        |  6 ++----
+ sound/soc/rockchip/rockchip_pdm.c            |  6 ++----
+ sound/soc/rockchip/rockchip_rt5645.c         |  6 ++----
+ sound/soc/rockchip/rockchip_spdif.c          |  6 ++----
+ sound/soc/samsung/arndale.c                  |  5 ++---
+ sound/soc/samsung/i2s.c                      |  8 +++-----
+ sound/soc/samsung/odroid.c                   |  6 ++----
+ sound/soc/samsung/pcm.c                      |  6 ++----
+ sound/soc/samsung/snow.c                     |  6 ++----
+ sound/soc/samsung/spdif.c                    |  6 ++----
+ sound/soc/sh/fsi.c                           |  6 ++----
+ sound/soc/sh/hac.c                           |  5 ++---
+ sound/soc/sh/rcar/core.c                     |  6 ++----
+ sound/soc/sh/rz-ssi.c                        |  6 ++----
+ sound/soc/sh/siu_dai.c                       |  5 ++---
+ sound/soc/sprd/sprd-mcdt.c                   |  6 ++----
+ sound/soc/stm/stm32_adfsdm.c                 |  6 ++----
+ sound/soc/stm/stm32_i2s.c                    |  6 ++----
+ sound/soc/stm/stm32_sai_sub.c                |  6 ++----
+ sound/soc/stm/stm32_spdifrx.c                |  6 ++----
+ sound/soc/sunxi/sun4i-codec.c                |  6 ++----
+ sound/soc/sunxi/sun4i-i2s.c                  |  6 ++----
+ sound/soc/sunxi/sun4i-spdif.c                |  6 ++----
+ sound/soc/sunxi/sun50i-dmic.c                |  6 ++----
+ sound/soc/sunxi/sun8i-codec.c                |  6 ++----
+ sound/soc/tegra/tegra186_asrc.c              |  6 ++----
+ sound/soc/tegra/tegra186_dspk.c              |  6 ++----
+ sound/soc/tegra/tegra20_ac97.c               |  6 ++----
+ sound/soc/tegra/tegra20_i2s.c                |  6 ++----
+ sound/soc/tegra/tegra210_admaif.c            |  6 ++----
+ sound/soc/tegra/tegra210_adx.c               |  6 ++----
+ sound/soc/tegra/tegra210_ahub.c              |  6 ++----
+ sound/soc/tegra/tegra210_amx.c               |  6 ++----
+ sound/soc/tegra/tegra210_dmic.c              |  6 ++----
+ sound/soc/tegra/tegra210_i2s.c               |  6 ++----
+ sound/soc/tegra/tegra210_mixer.c             |  6 ++----
+ sound/soc/tegra/tegra210_mvc.c               |  6 ++----
+ sound/soc/tegra/tegra210_ope.c               |  6 ++----
+ sound/soc/tegra/tegra210_sfc.c               |  6 ++----
+ sound/soc/tegra/tegra30_ahub.c               |  6 ++----
+ sound/soc/tegra/tegra30_i2s.c                |  6 ++----
+ sound/soc/ti/ams-delta.c                     |  5 ++---
+ sound/soc/ti/davinci-i2s.c                   |  6 ++----
+ sound/soc/ti/davinci-mcasp.c                 |  6 ++----
+ sound/soc/ti/omap-hdmi.c                     |  5 ++---
+ sound/soc/ti/omap-mcbsp.c                    |  6 ++----
+ sound/soc/uniphier/evea.c                    |  6 ++----
+ sound/soc/ux500/mop500.c                     |  6 ++----
+ sound/soc/ux500/ux500_msp_dai.c              |  6 ++----
+ sound/soc/xilinx/xlnx_formatter_pcm.c        |  5 ++---
+ sound/soc/xilinx/xlnx_spdif.c                |  5 ++---
+ sound/soc/xtensa/xtfpga-i2s.c                |  5 ++---
+ sound/sparc/cs4231.c                         |  6 ++----
+ sound/sparc/dbri.c                           |  6 ++----
+ 171 files changed, 345 insertions(+), 654 deletions(-)
+
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
+
