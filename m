@@ -2,31 +2,31 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF266BB6FD
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Mar 2023 16:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1296BB708
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Mar 2023 16:09:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232848AbjCOPIx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Mar 2023 11:08:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38268 "EHLO
+        id S231452AbjCOPJB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Mar 2023 11:09:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232770AbjCOPIw (ORCPT
+        with ESMTP id S232731AbjCOPIy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Mar 2023 11:08:52 -0400
+        Wed, 15 Mar 2023 11:08:54 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296811C595
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Mar 2023 08:08:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C334AB77D
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Mar 2023 08:08:50 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pcSjz-0000Tm-CO; Wed, 15 Mar 2023 16:08:35 +0100
+        id 1pcSjz-0000UO-JE; Wed, 15 Mar 2023 16:08:35 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pcSju-004KfJ-On; Wed, 15 Mar 2023 16:08:30 +0100
+        id 1pcSju-004KfN-T2; Wed, 15 Mar 2023 16:08:30 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pcSjt-0057lS-Ts; Wed, 15 Mar 2023 16:08:29 +0100
+        id 1pcSju-0057lZ-4W; Wed, 15 Mar 2023 16:08:30 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Liam Girdwood <lgirdwood@gmail.com>,
@@ -35,18 +35,18 @@ To:     Liam Girdwood <lgirdwood@gmail.com>,
         Takashi Iwai <tiwai@suse.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Li kunyu <kunyu@nfschina.com>
+        Sameer Pujar <spujar@nvidia.com>
 Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
         kernel@pengutronix.de
-Subject: [PATCH 150/173] ASoC: tegra: tegra210_adx: Convert to platform remove callback returning void
-Date:   Wed, 15 Mar 2023 16:07:22 +0100
-Message-Id: <20230315150745.67084-151-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 151/173] ASoC: tegra: tegra210_ahub: Convert to platform remove callback returning void
+Date:   Wed, 15 Mar 2023 16:07:23 +0100
+Message-Id: <20230315150745.67084-152-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
 References: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1614; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=5DZ4sS6m7IgbpNzhmpYuDG7oZZU4jta77aCtnCaMOuw=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkEd72flUouur1pZDdxJ5BHrJTMVBG65d19+eVD U26c1/kLECJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZBHe9gAKCRDB/BR4rcrs CXylCACEz2RHn9L3FCYLOBfjnq2eQjxm8lzSLX4LyO97KYTa2/FakX+dKQ3grU5tz1XMbXx2lWC GSmolBoJhnIvxMW1cSGV/+XpGySBA20l0THFUAwH1I183rchmqDAaBJQqIAcm3lYQ3WnxC9G3bM ujlxpO8a+x8uX46KEutscK1Q3wM9P5arDoY0rafwYtOfvdk1eDwTTrazrV3vT8VlQcM9dyXJaG3 sFEteNVofWoOekHLc0XmfC9LXIf++jVJrAjRj/uftgkHp+/PnKZOmx24PSzU5jUUMdabyX4XPnK H8jIAF/PgM2s5JaRN4DUcmd2D3KZhgVwZrI0unVrAiWXsfOv
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1605; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=+PSIk5ytlBUkrF6SL8Drk1L0HNHB7Ho/Dh/SUxPwpUA=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkEd75ftcPaSuLnJ9+1IvdMR8p4/+b9/mO5BFmr MosQaXvBV+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZBHe+QAKCRDB/BR4rcrs CYBJB/wOwkLOw2nY3YYlL5u79nTvlbUZeyEVcksJX5FegoYVbEcVdRnQPGTMMC3Uw2724XPIZQg lrXSvMMaWx5OueJthb4/iP4HYesWanIw6vGV8WoJ4iN/ZSwRJhUP54uKg2q63EX4yO++JNnaBct 6cby1DXBd3ayURnhXPI+rW97LOK1pWt+dsX39ZRoY4V7zlQwIYdoNBpI6O9kRnFy0VDXoefI8Aw uP0nIbZbB6oXdbCfvmRyzMvRQHQ7hO6WkhTnShQOalB1ZVd1Z+VMhg3rjWZBx2PEADF61zANOIw cbV9Sdajns9et19G1kH998oQ3wlFqAgA6OzU3uUjH49dJJu0
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -74,35 +74,35 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- sound/soc/tegra/tegra210_adx.c | 6 ++----
+ sound/soc/tegra/tegra210_ahub.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
-index 49691d2cce50..41117c1d61fb 100644
---- a/sound/soc/tegra/tegra210_adx.c
-+++ b/sound/soc/tegra/tegra210_adx.c
-@@ -504,11 +504,9 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
+diff --git a/sound/soc/tegra/tegra210_ahub.c b/sound/soc/tegra/tegra210_ahub.c
+index b38d205b69cc..8c00c09eeefb 100644
+--- a/sound/soc/tegra/tegra210_ahub.c
++++ b/sound/soc/tegra/tegra210_ahub.c
+@@ -1410,11 +1410,9 @@ static int tegra_ahub_probe(struct platform_device *pdev)
  	return 0;
  }
  
--static int tegra210_adx_platform_remove(struct platform_device *pdev)
-+static void tegra210_adx_platform_remove(struct platform_device *pdev)
+-static int tegra_ahub_remove(struct platform_device *pdev)
++static void tegra_ahub_remove(struct platform_device *pdev)
  {
  	pm_runtime_disable(&pdev->dev);
 -
 -	return 0;
  }
  
- static const struct dev_pm_ops tegra210_adx_pm_ops = {
-@@ -525,7 +523,7 @@ static struct platform_driver tegra210_adx_driver = {
- 		.pm = &tegra210_adx_pm_ops,
- 	},
- 	.probe = tegra210_adx_platform_probe,
--	.remove = tegra210_adx_platform_remove,
-+	.remove_new = tegra210_adx_platform_remove,
- };
- module_platform_driver(tegra210_adx_driver);
+ static const struct dev_pm_ops tegra_ahub_pm_ops = {
+@@ -1426,7 +1424,7 @@ static const struct dev_pm_ops tegra_ahub_pm_ops = {
  
+ static struct platform_driver tegra_ahub_driver = {
+ 	.probe = tegra_ahub_probe,
+-	.remove = tegra_ahub_remove,
++	.remove_new = tegra_ahub_remove,
+ 	.driver = {
+ 		.name = "tegra210-ahub",
+ 		.of_match_table = tegra_ahub_of_match,
 -- 
 2.39.2
 
