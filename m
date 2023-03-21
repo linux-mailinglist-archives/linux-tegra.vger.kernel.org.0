@@ -2,150 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F976C2C74
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Mar 2023 09:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3815B6C2C30
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Mar 2023 09:21:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbjCUIcd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Mar 2023 04:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
+        id S230247AbjCUIVw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Mar 2023 04:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230167AbjCUIcQ (ORCPT
+        with ESMTP id S230368AbjCUIVj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Mar 2023 04:32:16 -0400
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAD1460A7;
-        Tue, 21 Mar 2023 01:31:32 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 052262B0769F;
-        Tue, 21 Mar 2023 04:12:03 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Tue, 21 Mar 2023 04:12:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :content-transfer-encoding:content-type:content-type:date:date
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1679386323; x=1679393523; bh=p6c5VTiMv6AfZVBMNz3DxVLxCSIdNaJFVMc
-        Qk71zPTY=; b=uVCWvJx6nGWx/5u3VSJfVJjj/h5Ng2P2Yhqie0BJHMjvjzYTE1H
-        S3000Ce0+mrEAYEo+fTrrkOwrGIyGM/RtSIJpIl+AMe3IaZe/M9yfHnG9yQfEsGB
-        osDTshQUiWc3Ls9qw2Zw7uWeyKKv9pZtQgUyAYyK61kK6H6zm7ZRw1iyIFDATAh6
-        bngnkf2pqjCtTHy18W2iC0jMSPclRhXy7pawiFxq3uFJa37/Dw0UOVfoCTYIxNid
-        kVhGUwaRgeQY4B8o9mWH+SDBN77zX5XpwykUHuqV16i9fCmBftgO42riFzH6w1Ei
-        GyD4hF/a4GlUL9X/bR9I68HXVhkZhUlJJ3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1679386323; x=
-        1679393523; bh=p6c5VTiMv6AfZVBMNz3DxVLxCSIdNaJFVMcQk71zPTY=; b=s
-        1KchFhGt52dzXyN5O79HxuLj6FqmtaoRirc8tC8IgABafDJR6lWnVdeusmW3YgwN
-        FJAf+yx/n1aoiR0A753RChyEfaoIpIQzkZeE9GElnDfGMGVe4oIkqtFw9qR7h1WP
-        zxqQpmzCduK4QJMEm9wue/7sWeCfuf6P6YHLtFguSITKE6rIm8h05WV74PgknMBG
-        2bAxDrbC+Le26NytxoV2l9iQeICkXFr8qbpiOdPcrl+yCtPjEeppm+ecm6oJOczI
-        x/6d20UEibueIHsAvJp1EBg4CLfe3Tl1BSAVsdcOQAbqRbpMjYLiXHNTVklS4axM
-        ckago2w0Vsl5TtYiY3MpQ==
-X-ME-Sender: <xms:0GYZZJjZT4P_yV-Mx_Quzl7wy0YQtEhKnVKu2qt6FAe5g0Nu5umXIw>
-    <xme:0GYZZOBRlFaFGXG_FQkcgQEutyw7RZhEAYkiTJLcbFTaKAx0oZHJTkyPwuMSM-9_n
-    _kFQQURc5ACQt9CvsA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefledguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffkedtffejkeeihedtffevtedvhfdvhfehfffgleekgffgveeftdefgeek
-    vedvjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:0GYZZJF0ltCZr-3PUVxWiK0aO1a98gJRJ1RIE6_3xBjMQmp3OqMi_Q>
-    <xmx:0GYZZORTWXWGlKctJD6dpm53uhz2MzndLAhOFP-b7JCl5028QMmYHA>
-    <xmx:0GYZZGxU24J2mJwqKURxfuq2oxh3zplPa2ump9UmR_oOSDgOlsWU1w>
-    <xmx:02YZZGNbMwV1BEbfQ41yDSjvKrVTgq4nxJ1za-0qfoPrs4jKp0pJRPjrGNk>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id B3F8BB60086; Tue, 21 Mar 2023 04:12:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-221-gec32977366-fm-20230306.001-gec329773
-Mime-Version: 1.0
-Message-Id: <86431868-488b-4a72-944b-231b6d0382b0@app.fastmail.com>
-In-Reply-To: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
-Date:   Tue, 21 Mar 2023 09:11:36 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Joe Tessler" <jrt@google.com>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Neil Armstrong" <neil.armstrong@linaro.org>,
-        "Kevin Hilman" <khilman@baylibre.com>,
-        "Jerome Brunet" <jbrunet@baylibre.com>,
-        "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        "Jon Hunter" <jonathanh@nvidia.com>,
-        "Manivannan Sadhasivam" <mani@kernel.org>,
-        "Michael Tretter" <m.tretter@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        "Jacopo Mondi" <jacopo+renesas@jmondi.org>,
-        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
-        "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        Tue, 21 Mar 2023 04:21:39 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFFE52E82D
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Mar 2023 01:21:26 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id eh3so56368372edb.11
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Mar 2023 01:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679386885;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4gU5Ul5Pqtj2Zu4ilRhyv356GMLxKXORyaaNIGSfEx4=;
+        b=KCVpYwy5GslZcg2w/pnsd8XD8fl9oI4gTI7eu3h/7VXuqpW8TQdXNDAK+sPofcAMdl
+         ycbY9Xr/ULZro8rx4v9I3OHqiWPEUuAMOvfc2ZyO39n8Zrbsiky3tXod+YDFqwsXWgC3
+         S34BMx+RCcIQ9vdtol3bHFe6wb5qZ+7vjw052gIrZbJob9mArZMAiHiPax3LRCNw/xgS
+         jZjPnQylzihCDnVoOw4tPskB7fZD8ZKLiWh6LEyly9tD9N3Qf1s8y+TqjFVXBP2AGm9q
+         mL31sS6a0lGd7StHZXAe3czDWmrdc3pwltw6CGcsCP8GUZPrcJffasoCBbGwipL5+2/s
+         U3rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679386885;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4gU5Ul5Pqtj2Zu4ilRhyv356GMLxKXORyaaNIGSfEx4=;
+        b=oWDSG1XMlAdxmW2u2fvISGZ/Zg6K/hSHeCsHXE6NgQAUUOMKJDlojQfWrqrzbEvMSQ
+         INwfBCj/3eWm9l9i281Y04yEOd4Qa+bXCIHJKTWAT0n08lQEgkSSkY6eGkv/7ndAaLkl
+         FGviqOMOW/921JpcMsjH7Tug9WeceJKoCna87d/PdybMxQSbiYD5KCxPRI0KqDjJbOLx
+         synovGqaACVdCzyAy1wZ3cUacSz1x9pOWWA7ekxc1O026lKv1EGb32iaqtEnbaDAEpLE
+         YXObBNub2dsPRu2GG5H0hCQ2E7ATe1dJh1GYk0m8Ktj75O2ykQQmYGtFXi8bKIrB+VWM
+         1Wpw==
+X-Gm-Message-State: AO0yUKX2+YXZzyTCpVvlVUaXx8Hzz8vmsrTcCCVpDAs1J2KoTZGWHaJQ
+        /F3eQbe0OgIajZhOEf6GdMgl8A==
+X-Google-Smtp-Source: AK7set+6Sf7lskRnCtVXZF0F+OgifgUKEDMmWXjnbQFKwSnk5FABspDdYivaIjgEpa8Ajasi1pfhJA==
+X-Received: by 2002:a05:6402:55a:b0:4fa:ada1:796d with SMTP id i26-20020a056402055a00b004faada1796dmr2339969edx.10.1679386885235;
+        Tue, 21 Mar 2023 01:21:25 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:2142:d8da:5ae4:d817? ([2a02:810d:15c0:828:2142:d8da:5ae4:d817])
+        by smtp.gmail.com with ESMTPSA id s29-20020a50d49d000000b004fc2a75c6b3sm5865294edi.23.2023.03.21.01.21.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 01:21:24 -0700 (PDT)
+Message-ID: <8b7816b0-1daa-1c49-6f9d-40769d228a39@linaro.org>
+Date:   Tue, 21 Mar 2023 09:21:22 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 20/28] media: platform: jpeg: always reference OF data
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>, Joe Tessler <jrt@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
-        "Rui Miguel Silva" <rmfrfs@gmail.com>,
-        "Wenyou Yang" <wenyou.yang@microchip.com>,
-        "Bin Liu" <bin.liu@mediatek.com>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        "AngeloGioacchino Del Regno" 
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        "Minghsiu Tsai" <minghsiu.tsai@mediatek.com>,
-        "Houlong Wei" <houlong.wei@mediatek.com>,
-        "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>,
-        "Andrzej Pietrasiewicz" <andrzejtp2010@gmail.com>,
-        "Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
-        "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
-        "Patrice Chotard" <patrice.chotard@foss.st.com>,
-        "Yong Deng" <yong.deng@magewell.com>,
-        "Paul Kocialkowski" <paul.kocialkowski@bootlin.com>,
-        "Chen-Yu Tsai" <wens@csie.org>,
-        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
-        "Samuel Holland" <samuel@sholland.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        "Sean Young" <sean@mess.org>, linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org,
         oushixiong <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 20/28] media: platform: jpeg: always reference OF data
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+ <86431868-488b-4a72-944b-231b6d0382b0@app.fastmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <86431868-488b-4a72-944b-231b6d0382b0@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Mar 12, 2023, at 14:13, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be alwa=
-ys
-> used and the of_match_ptr does not have any sense (this also allows AC=
-PI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
->
->   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: error:=20
-> =E2=80=98mtk8195_jpegdec_drvdata=E2=80=99 defined but not used=20
-> [-Werror=3Dunused-const-variable=3D]
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 21/03/2023 09:11, Arnd Bergmann wrote:
+> On Sun, Mar 12, 2023, at 14:13, Krzysztof Kozlowski wrote:
+>> The driver can match only via the DT table so the table should be always
+>> used and the of_match_ptr does not have any sense (this also allows ACPI
+>> matching via PRP0001, even though it might not be relevant here).  This
+>> also fixes !CONFIG_OF error:
+>>
+>>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: error: 
+>> ‘mtk8195_jpegdec_drvdata’ defined but not used 
+>> [-Werror=unused-const-variable=]
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> I see now that we both submitted the same patch, but now Hans
 
-I see now that we both submitted the same patch, but now Hans
-merged a worse fix [1] without a changelog text.
+We as you and me? I cannot find your patch on lore:
+https://lore.kernel.org/all/?q=f%3Aarnd%40arndb.de
 
-    Arnd
+> merged a worse fix [1] without a changelog text.
+> 
+>     Arnd
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=4ae47770d57bff01
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/comm=
-it/?h=3D4ae47770d57bff01
+Uh, I can rebase my patchset.
+
+Best regards,
+Krzysztof
+
