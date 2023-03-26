@@ -2,83 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17706C9428
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Mar 2023 14:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 166526C9527
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Mar 2023 16:32:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbjCZMUG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Mar 2023 08:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48192 "EHLO
+        id S230227AbjCZOck (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Mar 2023 10:32:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230312AbjCZMUF (ORCPT
+        with ESMTP id S232329AbjCZOcj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Mar 2023 08:20:05 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83819729F
-        for <linux-tegra@vger.kernel.org>; Sun, 26 Mar 2023 05:19:48 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id y4so25170616edo.2
-        for <linux-tegra@vger.kernel.org>; Sun, 26 Mar 2023 05:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679833187;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5IfSw2r9l6b89lopg9LLMNXb7FdQOCZOmyoAvbxtqm4=;
-        b=ICgUV56vJG7JvicQ1to2mtKiPShhd0VBIO0jiWPe2V3YS/q3rol+M1E1zzGXk/XPNP
-         +W1qo4xda1Lzl4nPbMJVO5Hhw/HP9QrgJEhZGek4acCxCZmg5+wmt0tqSHTgSXUBidk+
-         cJFFpDy7WYYw1gtHrufleBzx5Id6xgsu9xDtMzOiPWjV50ZrD1Z8F76MGBjzSlya3X6F
-         XeJUKCrBAkiz9z3C8j1tmZVY63B/u3Lim3OlHt4qNTcxBEghauXDqNj+DJhE2IHofTxQ
-         N/yNC/PmdtDcbAOpQJO+XMjjPPj8GCAFAAwGW+CK2+k7X2wTMs0qJvglfC++etLedY9T
-         fz4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679833187;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5IfSw2r9l6b89lopg9LLMNXb7FdQOCZOmyoAvbxtqm4=;
-        b=pyLEEcj0yyXcViVr5tsaRtR8zYZCUGN3yDvT4oCr1LZl74/tzC6PKbBRdJCx8g0pTa
-         tOgmyrqsZCyHC78w9UW1e0ix5VKd2ebMd3fT697R3fGDTyVwr+N+OQ/E3jUZBXai/6Kr
-         Nr2ncEA6UtGQ0gBE7d//PHt7JrcnnZnqEZiU0rdxv6hZ/8GXOuizvdFu6MUo9ypgB4+1
-         5F3UdL6hJ69YR4rcyqc26GeitWIZRqu+sIsyDyASaubc+PO+onT3YTU4IdUjMTwy2Dfv
-         k/8ZAcXOabjfuVZ8QxE7UYgRkWwjbvQyh3eARJnirjk4X6sgVFi+rZNvXq7LqksphQvq
-         9Ang==
-X-Gm-Message-State: AAQBX9cgm7+sTAbs1lCSsQ2j29Q7QOyIu4svEXqXnvS55f0JI/hf2OSz
-        zB9YBt9I0H7iLucfIMJ4DBgGL8A5vaMeJ6nqGkU=
-X-Google-Smtp-Source: AKy350a1XLCkbinF5XRxjdf3OkRhCOO6OmHKr8keL9ZpWl+WeR/eP/VXicf+cpUc0OZlO78BUWT3zA==
-X-Received: by 2002:a17:907:1c21:b0:8dd:5710:a017 with SMTP id nc33-20020a1709071c2100b008dd5710a017mr11870314ejc.4.1679833187018;
-        Sun, 26 Mar 2023 05:19:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:6cac:926d:a4f2:aa09? ([2a02:810d:15c0:828:6cac:926d:a4f2:aa09])
-        by smtp.gmail.com with ESMTPSA id k7-20020a1709062a4700b008b176df2899sm12856711eje.160.2023.03.26.05.19.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Mar 2023 05:19:46 -0700 (PDT)
-Message-ID: <e06977ab-8112-1e45-4392-df36e358e772@linaro.org>
-Date:   Sun, 26 Mar 2023 14:19:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: tegra234: Add DT binding doc
-Content-Language: en-US
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Prathamesh Shete <pshete@nvidia.com>,
+        Sun, 26 Mar 2023 10:32:39 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6126E6EA9
+        for <linux-tegra@vger.kernel.org>; Sun, 26 Mar 2023 07:32:37 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRQ4-0007kg-Gp; Sun, 26 Mar 2023 16:32:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRQ2-006rYc-7C; Sun, 26 Mar 2023 16:32:26 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRQ1-0088Th-32; Sun, 26 Mar 2023 16:32:25 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
+        Rory Liu <hellojacky0226@hotmail.com>,
+        Scott Chao <scott_chao@wistron.corp-partner.google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Sean Young <sean@mess.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Suresh Mangipudi <smangipudi@nvidia.com>
-References: <20230207115617.12088-1-pshete@nvidia.com>
- <a1395eb2-da3a-e080-fa6b-50f20d879655@linaro.org> <Y+OGdMFQkL9Dtaq/@orome>
- <9e7e1762-1c2e-28cd-c7a7-b0577addf51e@linaro.org>
- <DM5PR12MB24066CE3175B74150235FE55B7B49@DM5PR12MB2406.namprd12.prod.outlook.com>
- <3b9d4177-ebd9-e341-294d-41860fa8c5ac@linaro.org> <ZBxeLIXJDbM2ebyt@orome>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZBxeLIXJDbM2ebyt@orome>
+        Antti Palosaari <crope@iki.fi>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Eddie James <eajames@linux.ibm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Qiheng Lin <linqiheng@huawei.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        =?utf-8?q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
+        Guenter Roeck <groeck@chromium.org>,
+        chrome-platform@lists.linux.dev,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-sunxi@lists.linux.dev,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH 000/117] media: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:30:25 +0200
+Message-Id: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-Developer-Signature: v=1; a=openpgp-sha256; l=17060; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=R8JEVMooI/UfNqow28CHlf2dkvNbbdnM7oZhwsOv/Hk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFZtV3UxdfOKZxR3JuBPhyseFtriLtuq2rjef c5xbUtn61CJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWbQAKCRCPgPtYfRL+ Ton3B/9Emj2J7A7FbG3XeXfbXDRYJLuUenGjQKgVUX197T3GYrPBaHRlqJdMQdaDQ6pw0JoZVNI rvtuLyDyWyqbvbGbyWt4tkuusZ2AGpDR1EfpiPjzHafb5zfDIr+1qkROEh3lBOUWU/pC6eRbSXs lk5P4k72UW5GmudDrb66F+/OGIGCwJhr6JXVI2uAaHAKsYqWnOL6stOh8UEpk6OO4VTd445r4xQ YlcpYDM93N2MFOs1gEucUoAxMpO+ZSqMkHajHe/6jdhJj7Hwp3qC1wByPUNzHodLMFO3kVk0FJZ 1wsm2ov8oAUlDIriIN7ezncuntIthEokyQGTGnc5+Yo5+wK5
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -87,97 +168,294 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 23/03/2023 15:11, Thierry Reding wrote:
-> On Wed, Mar 08, 2023 at 01:24:04PM +0100, Krzysztof Kozlowski wrote:
->> On 08/03/2023 12:45, Prathamesh Shete wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> Sent: Wednesday, February 8, 2023 5:28 PM
->>>> To: Thierry Reding <thierry.reding@gmail.com>
->>>> Cc: Prathamesh Shete <pshete@nvidia.com>; Jonathan Hunter
->>>> <jonathanh@nvidia.com>; linus.walleij@linaro.org; robh+dt@kernel.org;
->>>> krzysztof.kozlowski+dt@linaro.org; devicetree@vger.kernel.org; linux-
->>>> tegra@vger.kernel.org; linux-gpio@vger.kernel.org; Suresh Mangipudi
->>>> <smangipudi@nvidia.com>
->>>> Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: tegra234: Add DT binding doc
->>>>
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> On 08/02/2023 12:24, Thierry Reding wrote:
->>>>> On Tue, Feb 07, 2023 at 04:33:08PM +0100, Krzysztof Kozlowski wrote:
->>>>
->>>>
->>>>>>> +          type: object
->>>>>>> +          additionalProperties:
->>>>>>> +            properties:
->>>>>>> +              nvidia,pins:
->>>>>>> +                description: An array of strings. Each string contains the name
->>>>>>> +                  of a pin or group. Valid values for these names are listed
->>>>>>> +                  below.
->>>>>>
->>>>>> Define properties in top level, which points to the complexity of
->>>>>> your if-else, thus probably this should be split into two bindings.
->>>>>> Dunno, your other bindings repeat this pattern :(
->>>>>
->>>>> The property itself is already defined in the common schema found in
->>>>> nvidia,tegra-pinmux-common.yaml and we're overriding this here for
->>>>> each instance since each has its own set of pins.
->>>>>
->>>>> This was a compromise to avoid too many bindings. Originally I
->>>>> attempted to roll all Tegra pinctrl bindings into a single dt-schema,
->>>>> but that turned out truly horrible =) Splitting this into per-SoC
->>>>> bindings is already causing a lot of duplication in these files,
->>>>
->>>> What would be duplicated? Almost eveerything should be coming from
->>>> shared binding, so you will have only compatible,
->>>> patternProperties(pinmux) and nvidia,pins. And an example. Maybe I miss
->>>> something but I would say this would create many but very easy to read
->>>> bindings, referencing common pieces.
->>>>
->>>>> though splitting
->>>>> off the common bits into nvidi,tegra-pinmux-common.yaml helps a bit
->>>>> with that already. Splitting this into per-instance bindings would
->>>>> effectively duplicate everything but the pin array here, so we kind of
->>>>> settled on this compromise for Tegra194.
->>>>
->>>> OK, but are you sure it is now readable? You have if:then: with
->>>> patternProperties: with additionalProperties: with properties: with
->>>> nvidia,pins.
->>> This is inline with the existing bindings and I think this is the compromise that was reached during review when the bindings were submitted,
->>
->> So the code might be totally unreadable, but it is inline with existing
->> code, thus it should stay unreadable. Great.
-> 
-> I'd say this is very subjective. I personally don't find the current
-> version hard to read, but that's maybe because I wrote it... =)
-> 
->>> offer to rework if a better alternative can be found, but that only makes sense if all the other bindings get changed as well, so I think it'd be good if we can merge in the same format as the existing bindings for now and change all of them later on.
->>
->> Cleanup should happen before adding new bindings.
-> 
-> I don't recall the exact problems that I ran into last time, but I do
-> remember that pulling out the common bindings to the very top-level was
-> the main issue.
-> 
-> If I understand correctly what you're saying, the main problem that
-> makes this hard to read is the if and else constructs for AON/MAIN
-> variants on Tegra194/Tegra234. These should be quite easy to pull out
-> into separate bindings. I'll do that first and then see if there's
-> anything that could be done to further improve things.
+Hello,
 
-One problem is allowing characters here which are not allowed. Second
-problem is reluctance to change it with argument "existing bindings also
-have this problem". It's explanation like "there is already bug like
-this, so I am allowed to add similar one".
+this series adapts the platform drivers below drivers/pci to use the
+.remove_new() callback. Compared to the traditional .remove() callback
+.remove_new() returns no value. This is a good thing because the driver core
+doesn't (and cannot) cope for errors during remove. The only effect of a
+non-zero return value in .remove() is that the driver core emits a warning. The
+device is removed anyhow and an early return from .remove() usually yields a
+resource leak.
 
-Now third is that defining properties in allOf is not the style we want
-to have, because it does not work with additionalProperties and is
-difficult to read. Again using argument "existing code also does like
-this" is a very poor argument.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-Best regards,
-Krzysztof
+Only three drivers needed some preparation first to make sure they
+return 0 unconditionally in their remove callback. Then all drivers
+could be trivially converted without side effects to .remove_new().
+
+The changes to the individual drivers are all orthogonal. If I need to
+resend some patches because of some review feedback, I'd like to only
+send the patches that actually needed changes, so please pick up the
+remaining patches that don't need changing to reduce the amount of mail.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (117):
+  media: cec-gpio: Convert to platform remove callback returning void
+  media: cros-ec-cec: Don't exit early in .remove() callback
+  media: cros-ec-cec: Convert to platform remove callback returning void
+  media: ao-cec-g12a: Convert to platform remove callback returning void
+  media: ao-cec: Convert to platform remove callback returning void
+  media: s5p_cec: Convert to platform remove callback returning void
+  media: seco-cec: Convert to platform remove callback returning void
+  media: stih-cec: Convert to platform remove callback returning void
+  media: stm32-cec: Convert to platform remove callback returning void
+  media: tegra_cec: Convert to platform remove callback returning void
+  media: rtl2832_sdr: Convert to platform remove callback returning void
+  media: zd1301_demod: Convert to platform remove callback returning
+    void
+  media: allegro-core: Convert to platform remove callback returning
+    void
+  media: ge2d: Convert to platform remove callback returning void
+  media: vpu_core: Convert to platform remove callback returning void
+  media: vpu_drv: Convert to platform remove callback returning void
+  media: aspeed-video: Convert to platform remove callback returning
+    void
+  media: atmel-isi: Convert to platform remove callback returning void
+  media: cdns-csi2rx: Convert to platform remove callback returning void
+  media: cdns-csi2tx: Convert to platform remove callback returning void
+  media: coda-common: Convert to platform remove callback returning void
+  media: pxa_camera: Convert to platform remove callback returning void
+  media: m2m-deinterlace: Convert to platform remove callback returning
+    void
+  media: marvell: Simplify remove callback
+  media: marvell: Convert to platform remove callback returning void
+  media: mtk_jpeg_core: Convert to platform remove callback returning
+    void
+  media: mtk_mdp_core: Convert to platform remove callback returning
+    void
+  media: mtk-mdp3-core: Convert to platform remove callback returning
+    void
+  media: mtk_vcodec_dec_drv: Convert to platform remove callback
+    returning void
+  media: mtk_vcodec_enc_drv: Convert to platform remove callback
+    returning void
+  media: mtk_vpu: Convert to platform remove callback returning void
+  media: microchip-csi2dc: Convert to platform remove callback returning
+    void
+  media: microchip-sama5d2-isc: Convert to platform remove callback
+    returning void
+  media: microchip-sama7g5-isc: Convert to platform remove callback
+    returning void
+  media: vde: Convert to platform remove callback returning void
+  media: dw100: Convert to platform remove callback returning void
+  media: mxc-jpeg: Convert to platform remove callback returning void
+  media: imx-mipi-csis: Convert to platform remove callback returning
+    void
+  media: imx-pxp: Convert to platform remove callback returning void
+  media: imx7-media-csi: Convert to platform remove callback returning
+    void
+  media: mx2_emmaprp: Convert to platform remove callback returning void
+  media: camss: Convert to platform remove callback returning void
+  media: venus: Warn only once about problems in .remove()
+  media: venus: Convert to platform remove callback returning void
+  media: vdec: Convert to platform remove callback returning void
+  media: venc: Convert to platform remove callback returning void
+  media: rcar-fcp: Convert to platform remove callback returning void
+  media: rcar-isp: Convert to platform remove callback returning void
+  media: rcar-core: Convert to platform remove callback returning void
+  media: rcar-csi2: Convert to platform remove callback returning void
+  media: rcar_drif: Convert to platform remove callback returning void
+  media: rcar_fdp1: Convert to platform remove callback returning void
+  media: rcar_jpu: Convert to platform remove callback returning void
+  media: renesas-ceu: Convert to platform remove callback returning void
+  media: rzg2l-core: Convert to platform remove callback returning void
+  media: rzg2l-csi2: Convert to platform remove callback returning void
+  media: sh_vou: Convert to platform remove callback returning void
+  media: vsp1_drv: Convert to platform remove callback returning void
+  media: rga: Convert to platform remove callback returning void
+  media: rkisp1-dev: Convert to platform remove callback returning void
+  media: gsc-core: Convert to platform remove callback returning void
+  media: fimc-core: Convert to platform remove callback returning void
+  media: fimc-is-i2c: Convert to platform remove callback returning void
+  media: fimc-is: Convert to platform remove callback returning void
+  media: fimc-lite: Convert to platform remove callback returning void
+  media: media-dev: Convert to platform remove callback returning void
+  media: mipi-csis: Convert to platform remove callback returning void
+  media: camif-core: Convert to platform remove callback returning void
+  media: g2d: Convert to platform remove callback returning void
+  media: jpeg-core: Convert to platform remove callback returning void
+  media: s5p_mfc: Convert to platform remove callback returning void
+  media: bdisp-v4l2: Convert to platform remove callback returning void
+  media: c8sectpfe-core: Convert to platform remove callback returning
+    void
+  media: delta-v4l2: Convert to platform remove callback returning void
+  media: hva-v4l2: Convert to platform remove callback returning void
+  media: dma2d: Convert to platform remove callback returning void
+  media: stm32-dcmi: Convert to platform remove callback returning void
+  media: sun4i_csi: Convert to platform remove callback returning void
+  media: sun6i_csi: Convert to platform remove callback returning void
+  media: sun6i_mipi_csi2: Convert to platform remove callback returning
+    void
+  media: sun8i_a83t_mipi_csi2: Convert to platform remove callback
+    returning void
+  media: sun8i-di: Convert to platform remove callback returning void
+  media: sun8i_rotate: Convert to platform remove callback returning
+    void
+  media: am437x-vpfe: Convert to platform remove callback returning void
+  media: cal: Convert to platform remove callback returning void
+  media: vpif: Convert to platform remove callback returning void
+  media: vpif_capture: Convert to platform remove callback returning
+    void
+  media: vpif_display: Convert to platform remove callback returning
+    void
+  media: omap_vout: Convert to platform remove callback returning void
+  media: isp: Convert to platform remove callback returning void
+  media: vpe: Convert to platform remove callback returning void
+  media: hantro_drv: Convert to platform remove callback returning void
+  media: via-camera: Convert to platform remove callback returning void
+  media: video-mux: Convert to platform remove callback returning void
+  media: xilinx-csi2rxss: Convert to platform remove callback returning
+    void
+  media: xilinx-tpg: Convert to platform remove callback returning void
+  media: xilinx-vipp: Convert to platform remove callback returning void
+  media: xilinx-vtc: Convert to platform remove callback returning void
+  media: radio-si476x: Convert to platform remove callback returning
+    void
+  media: radio-timb: Convert to platform remove callback returning void
+  media: radio-wl1273: Convert to platform remove callback returning
+    void
+  media: radio-platform-si4713: Convert to platform remove callback
+    returning void
+  media: gpio-ir-recv: Convert to platform remove callback returning
+    void
+  media: img-ir-core: Convert to platform remove callback returning void
+  media: ir-hix5hd2: Convert to platform remove callback returning void
+  media: meson-ir-tx: Convert to platform remove callback returning void
+  media: meson-ir: Convert to platform remove callback returning void
+  media: mtk-cir: Convert to platform remove callback returning void
+  media: st_rc: Convert to platform remove callback returning void
+  media: sunxi-cir: Convert to platform remove callback returning void
+  media: vicodec-core: Convert to platform remove callback returning
+    void
+  media: vidtv_bridge: Convert to platform remove callback returning
+    void
+  media: vim2m: Convert to platform remove callback returning void
+  media: vimc-core: Convert to platform remove callback returning void
+  media: visl-core: Convert to platform remove callback returning void
+  media: vivid-core: Convert to platform remove callback returning void
+  media: it913x: Convert to platform remove callback returning void
+
+ drivers/media/cec/platform/cec-gpio/cec-gpio.c   |  5 ++---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 16 ++++++++--------
+ drivers/media/cec/platform/meson/ao-cec-g12a.c   |  6 ++----
+ drivers/media/cec/platform/meson/ao-cec.c        |  6 ++----
+ drivers/media/cec/platform/s5p/s5p_cec.c         |  5 ++---
+ drivers/media/cec/platform/seco/seco-cec.c       |  6 ++----
+ drivers/media/cec/platform/sti/stih-cec.c        |  6 ++----
+ drivers/media/cec/platform/stm32/stm32-cec.c     |  6 ++----
+ drivers/media/cec/platform/tegra/tegra_cec.c     |  6 ++----
+ drivers/media/dvb-frontends/rtl2832_sdr.c        |  6 ++----
+ drivers/media/dvb-frontends/zd1301_demod.c       |  6 ++----
+ .../media/platform/allegro-dvt/allegro-core.c    |  6 ++----
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c |  6 ++----
+ drivers/media/platform/amphion/vpu_core.c        |  6 ++----
+ drivers/media/platform/amphion/vpu_drv.c         |  6 ++----
+ drivers/media/platform/aspeed/aspeed-video.c     |  6 ++----
+ drivers/media/platform/atmel/atmel-isi.c         |  6 ++----
+ drivers/media/platform/cadence/cdns-csi2rx.c     |  6 ++----
+ drivers/media/platform/cadence/cdns-csi2tx.c     |  6 ++----
+ drivers/media/platform/chips-media/coda-common.c |  5 ++---
+ drivers/media/platform/intel/pxa_camera.c        |  6 ++----
+ drivers/media/platform/m2m-deinterlace.c         |  6 ++----
+ drivers/media/platform/marvell/mmp-driver.c      | 16 +++-------------
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.c |  6 ++----
+ .../media/platform/mediatek/mdp/mtk_mdp_core.c   |  5 ++---
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c |  5 ++---
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c         |  5 ++---
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c         |  5 ++---
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c    |  6 ++----
+ .../media/platform/microchip/microchip-csi2dc.c  |  6 ++----
+ .../platform/microchip/microchip-sama5d2-isc.c   |  6 ++----
+ .../platform/microchip/microchip-sama7g5-isc.c   |  6 ++----
+ drivers/media/platform/nvidia/tegra-vde/vde.c    |  6 ++----
+ drivers/media/platform/nxp/dw100/dw100.c         |  6 ++----
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c   |  6 ++----
+ drivers/media/platform/nxp/imx-mipi-csis.c       |  6 ++----
+ drivers/media/platform/nxp/imx-pxp.c             |  6 ++----
+ drivers/media/platform/nxp/imx7-media-csi.c      |  6 ++----
+ drivers/media/platform/nxp/mx2_emmaprp.c         |  6 ++----
+ drivers/media/platform/qcom/camss/camss.c        |  6 ++----
+ drivers/media/platform/qcom/venus/core.c         |  6 ++----
+ drivers/media/platform/qcom/venus/vdec.c         |  6 ++----
+ drivers/media/platform/qcom/venus/venc.c         |  6 ++----
+ drivers/media/platform/renesas/rcar-fcp.c        |  6 ++----
+ drivers/media/platform/renesas/rcar-isp.c        |  6 ++----
+ .../media/platform/renesas/rcar-vin/rcar-core.c  |  6 ++----
+ .../media/platform/renesas/rcar-vin/rcar-csi2.c  |  6 ++----
+ drivers/media/platform/renesas/rcar_drif.c       |  8 +++-----
+ drivers/media/platform/renesas/rcar_fdp1.c       |  6 ++----
+ drivers/media/platform/renesas/rcar_jpu.c        |  6 ++----
+ drivers/media/platform/renesas/renesas-ceu.c     |  6 ++----
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c      |  6 ++----
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c      |  6 ++----
+ drivers/media/platform/renesas/sh_vou.c          |  5 ++---
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  6 ++----
+ drivers/media/platform/rockchip/rga/rga.c        |  6 ++----
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c  |  6 ++----
+ .../media/platform/samsung/exynos-gsc/gsc-core.c |  5 ++---
+ .../platform/samsung/exynos4-is/fimc-core.c      |  5 ++---
+ .../platform/samsung/exynos4-is/fimc-is-i2c.c    |  6 ++----
+ .../media/platform/samsung/exynos4-is/fimc-is.c  |  6 ++----
+ .../platform/samsung/exynos4-is/fimc-lite.c      |  5 ++---
+ .../platform/samsung/exynos4-is/media-dev.c      |  8 +++-----
+ .../platform/samsung/exynos4-is/mipi-csis.c      |  6 ++----
+ .../platform/samsung/s3c-camif/camif-core.c      |  6 ++----
+ drivers/media/platform/samsung/s5p-g2d/g2d.c     |  5 ++---
+ .../media/platform/samsung/s5p-jpeg/jpeg-core.c  |  6 ++----
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c |  5 ++---
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c |  6 ++----
+ .../platform/st/sti/c8sectpfe/c8sectpfe-core.c   |  6 ++----
+ drivers/media/platform/st/sti/delta/delta-v4l2.c |  6 ++----
+ drivers/media/platform/st/sti/hva/hva-v4l2.c     |  6 ++----
+ drivers/media/platform/st/stm32/dma2d/dma2d.c    |  6 ++----
+ drivers/media/platform/st/stm32/stm32-dcmi.c     |  6 ++----
+ .../media/platform/sunxi/sun4i-csi/sun4i_csi.c   |  6 ++----
+ .../media/platform/sunxi/sun6i-csi/sun6i_csi.c   |  6 ++----
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c      |  6 ++----
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c  |  6 ++----
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c |  6 ++----
+ .../platform/sunxi/sun8i-rotate/sun8i_rotate.c   |  6 ++----
+ drivers/media/platform/ti/am437x/am437x-vpfe.c   |  6 ++----
+ drivers/media/platform/ti/cal/cal.c              |  6 ++----
+ drivers/media/platform/ti/davinci/vpif.c         |  6 ++----
+ drivers/media/platform/ti/davinci/vpif_capture.c |  5 ++---
+ drivers/media/platform/ti/davinci/vpif_display.c |  6 ++----
+ drivers/media/platform/ti/omap/omap_vout.c       |  5 ++---
+ drivers/media/platform/ti/omap3isp/isp.c         |  6 ++----
+ drivers/media/platform/ti/vpe/vpe.c              |  6 ++----
+ drivers/media/platform/verisilicon/hantro_drv.c  |  5 ++---
+ drivers/media/platform/via/via-camera.c          |  5 ++---
+ drivers/media/platform/video-mux.c               |  6 ++----
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c  |  6 ++----
+ drivers/media/platform/xilinx/xilinx-tpg.c       |  6 ++----
+ drivers/media/platform/xilinx/xilinx-vipp.c      |  6 ++----
+ drivers/media/platform/xilinx/xilinx-vtc.c       |  6 ++----
+ drivers/media/radio/radio-si476x.c               |  6 ++----
+ drivers/media/radio/radio-timb.c                 |  5 ++---
+ drivers/media/radio/radio-wl1273.c               |  6 ++----
+ .../media/radio/si4713/radio-platform-si4713.c   |  6 ++----
+ drivers/media/rc/gpio-ir-recv.c                  |  6 ++----
+ drivers/media/rc/img-ir/img-ir-core.c            |  5 ++---
+ drivers/media/rc/ir-hix5hd2.c                    |  5 ++---
+ drivers/media/rc/meson-ir-tx.c                   |  6 ++----
+ drivers/media/rc/meson-ir.c                      |  6 ++----
+ drivers/media/rc/mtk-cir.c                       |  6 ++----
+ drivers/media/rc/st_rc.c                         |  5 ++---
+ drivers/media/rc/sunxi-cir.c                     |  6 ++----
+ .../media/test-drivers/vicodec/vicodec-core.c    |  6 ++----
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c  |  6 ++----
+ drivers/media/test-drivers/vim2m.c               |  6 ++----
+ drivers/media/test-drivers/vimc/vimc-core.c      |  6 ++----
+ drivers/media/test-drivers/visl/visl-core.c      |  6 ++----
+ drivers/media/test-drivers/vivid/vivid-core.c    |  5 ++---
+ drivers/media/tuners/it913x.c                    |  6 ++----
+ 114 files changed, 237 insertions(+), 449 deletions(-)
+
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
