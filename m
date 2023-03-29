@@ -2,63 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF58F6CEC5C
+	by mail.lfdr.de (Postfix) with ESMTP id 101E16CEC5A
 	for <lists+linux-tegra@lfdr.de>; Wed, 29 Mar 2023 17:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230361AbjC2PHY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Mar 2023 11:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50234 "EHLO
+        id S230360AbjC2PHX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Mar 2023 11:07:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230350AbjC2PHW (ORCPT
+        with ESMTP id S229854AbjC2PHW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Wed, 29 Mar 2023 11:07:22 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1F31BC1;
-        Wed, 29 Mar 2023 08:07:16 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id er13so23628949edb.9;
-        Wed, 29 Mar 2023 08:07:16 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D9735B7;
+        Wed, 29 Mar 2023 08:07:17 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id b20so64678335edd.1;
+        Wed, 29 Mar 2023 08:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680102435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YUaRoxoy/mAkwWz2HlijC5NpBR7GQ7Zq08lefa01oKY=;
-        b=OBJSG982Qlt9bYB9ulPeZ27JYRQgjK2Q4S/AFpXsdvSfvdqp6K8TYKeBNkrOuHL4/u
-         lAVuKlEbTyC4TjLXkrTO9u1Wvax0lJwAyHvHNdKhzRPtIXfj0AW47R2qlurq2M8Vrvcc
-         tNmG0DjOICH0zcs1mSDmKnTmH+dZIR8bikyEwnRnbCQaWGxM+svLAK6Ud58NXuH6bC3q
-         WTkAqkfO2DJNJZl6gb9luc7B37r4NSnWMSAcxxO9wWQwz8cOFD2igyIk2Ta5AatRNhkw
-         +cYf3yxaQkF5+YP6ajawHB15F2g9+b3jHgi8u80pv9ocGt+/zOisJsSgGQL0zPehaZoe
-         6yeA==
+        d=gmail.com; s=20210112; t=1680102436;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=urzvodPCAGhfqi2EGiuZIZ1TFiaE63Fj1P+4W8yWfH0=;
+        b=BVgP6rm8w4s7YwaUxETfy06Z70rwJtlhSAN63afhCWK0MGSl0Un7qF7vDEcv9cC8Lu
+         AzvBYlTOS6sdhEcWl5l9+23NmOO9EivxMfEiGeuDKP4uBXjtznFNSCW65Xf/Ln03i1iI
+         2dLnp41PgnW7s5ETRv1wW2eVnEXrmGTRSntT4IDLDLjLMfOkrJ+9AAyILgQ5uI56q6Xr
+         2MTp27y8TGSi38CBwoaawUYpLs63B0CQHw9ZFDWeN2q3w0uIGk2k0hJB99kczklkRXvw
+         4xS2i5EDp6fNp40/AyDyevJN07G+ldYdMV8a6BOz1NqcsifHliNTMCs4YUEEX5UJR/Uj
+         9BRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680102435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YUaRoxoy/mAkwWz2HlijC5NpBR7GQ7Zq08lefa01oKY=;
-        b=xfwVrxDUyn8rL93ZefB5tFXViVA/qF6aN8zaFhwvrAUMUhJJQIdBEKku1g6q1khfiX
-         e8LtbXKL77YDCGYHH7jemOz1d993IIgLdwVUJeajqURRWEaFBO5VsFjc0Rjf+WNjFQsj
-         fKDZ9XEYuVkx3j1VTQWIuqetQBd+uZK0snlNm1/gH6w2TrT7vQWqjHZS8n9LjlKiFaCb
-         +784ngPZ8EifO7Nh0D1AqzgipHvoTt8dGj5NF7bGirp9UVD8sSoDJJPqIfbT5HA51UtU
-         7TuvALOgBzzREFFSIDTy5NigzraZTne5QtumO57IkvdEADKYxe9dwAyblXZ+ZQjucuRX
-         65Zw==
-X-Gm-Message-State: AAQBX9eFv0MnkWBzpxofhybYZPEO+uImBdPKX49/jg097ca4wPWM9lZC
-        BtNzMI/tTS4GjIYxpYXFpn8=
-X-Google-Smtp-Source: AKy350ZbAbqxheX2cvCQxM1gA5xPFlaM9mWYXQfOGA0pf1XIv8K+ZdHRoMPONR1Vc3v7j992XtaPww==
-X-Received: by 2002:a05:6402:1002:b0:501:c547:2135 with SMTP id c2-20020a056402100200b00501c5472135mr17940872edu.36.1680102434716;
-        Wed, 29 Mar 2023 08:07:14 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680102436;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=urzvodPCAGhfqi2EGiuZIZ1TFiaE63Fj1P+4W8yWfH0=;
+        b=vckFnZ+yER9Hra0QmlcoAsBwmyJ4p/eVUyfZawwmAHHYsGOt9ysaUr5NtmhUjcVWAM
+         wLlTiEiCsDespJMqDT9r5yQhP0/CVzesvvKDlQoz4Fslc6xm/UHQzCuFLCQl2TFX0sL2
+         /t7xj0qDBR435hm4Iz1IYiUlioU6aaALpZYO2z3ppbUsVGGoAvcb6KpXkssexKNCEiTk
+         dHYVxTkqbQom7Qma9OFDZmiNK0WFJLcKoMDWKu+waoHluzt4NdsGjpNa8zjFDXH7yQKz
+         whK76X/b5SY9b5IKBLQsr5iT7wg+ZGVHaCQbVKj3SyiOt6Ivwc0Yf87PrdeVoSDVD8NB
+         W7xA==
+X-Gm-Message-State: AAQBX9cFUOtI1ENIq0HCJYd0ffRffgAGYGpBv2AO4NfFTY7SUEgQUS9y
+        gQ3S9dTL0e6gQaGMplehN7M=
+X-Google-Smtp-Source: AKy350bzcLeDJRyj3EN5E96/6HGU6AakMYtGGCS7Cx4i2tyCnQRYAMqCe11gcOrfM4+8X/Xzf+04tQ==
+X-Received: by 2002:a17:907:77d3:b0:92b:f019:d5eb with SMTP id kz19-20020a17090777d300b0092bf019d5ebmr18846498ejc.44.1680102435738;
+        Wed, 29 Mar 2023 08:07:15 -0700 (PDT)
 Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a18-20020a50c312000000b004c06f786602sm17162435edb.85.2023.03.29.08.07.14
+        by smtp.gmail.com with ESMTPSA id p23-20020a1709066a9700b008d53ea69227sm16540890ejr.224.2023.03.29.08.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:07:14 -0700 (PDT)
+        Wed, 29 Mar 2023 08:07:15 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 0/4] arm64: tegra: Add Jetson Orin NX support
-Date:   Wed, 29 Mar 2023 17:07:06 +0200
-Message-Id: <20230329150710.773441-1-thierry.reding@gmail.com>
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/4] dt-bindings: tegra: Document Jetson Orin NX
+Date:   Wed, 29 Mar 2023 17:07:07 +0200
+Message-Id: <20230329150710.773441-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230329150710.773441-1-thierry.reding@gmail.com>
+References: <20230329150710.773441-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -73,32 +77,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi,
+The Jetson Orin NX is the latest iteration in the NX family of Jetson
+products. Document the compatible strings used for these devices.
 
-these patches introduce support for the Jetson Orin NX module (P3767)
-and the corresponding internal reference carrier (P3768).
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ Documentation/devicetree/bindings/arm/tegra.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v2:
-- add a few nodes that UEFI requires
-- fix system EEPROM I2C address
-- enable HDA
-
-Thierry Reding (4):
-  dt-bindings: tegra: Document Jetson Orin NX
-  dt-bindings: tegra: Document P3768+P3767 reference platform
-  arm64: tegra: Add Jetson Orin NX support
-  arm64: tegra: Add support for P3768+P3767
-
- .../devicetree/bindings/arm/tegra.yaml        |   8 +
- arch/arm64/boot/dts/nvidia/Makefile           |   1 +
- .../boot/dts/nvidia/tegra234-p3767-0000.dtsi  | 193 ++++++++++++++++++
- .../nvidia/tegra234-p3768-0000+p3767-0000.dts | 133 ++++++++++++
- .../boot/dts/nvidia/tegra234-p3768-0000.dtsi  | 133 ++++++++++++
- 5 files changed, 468 insertions(+)
- create mode 100644 arch/arm64/boot/dts/nvidia/tegra234-p3767-0000.dtsi
- create mode 100644 arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
- create mode 100644 arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
-
+diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
+index 1f62253f9410..c1a62eb1b925 100644
+--- a/Documentation/devicetree/bindings/arm/tegra.yaml
++++ b/Documentation/devicetree/bindings/arm/tegra.yaml
+@@ -167,5 +167,9 @@ properties:
+           - const: nvidia,p3737-0000+p3701-0000
+           - const: nvidia,p3701-0000
+           - const: nvidia,tegra234
++      - description: Jetson Orin NX
++        items:
++          - const: nvidia,p3767-0000
++          - const: nvidia,tegra234
+ 
+ additionalProperties: true
 -- 
 2.40.0
 
