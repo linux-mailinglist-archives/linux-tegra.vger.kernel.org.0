@@ -2,58 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF766CFE6E
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Mar 2023 10:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2A06CFE71
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Mar 2023 10:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjC3IgQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Mar 2023 04:36:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
+        id S229966AbjC3IgS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Mar 2023 04:36:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjC3IgL (ORCPT
+        with ESMTP id S230200AbjC3IgM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Mar 2023 04:36:11 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF51B6EB4
-        for <linux-tegra@vger.kernel.org>; Thu, 30 Mar 2023 01:36:09 -0700 (PDT)
+        Thu, 30 Mar 2023 04:36:12 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44DF26199
+        for <linux-tegra@vger.kernel.org>; Thu, 30 Mar 2023 01:36:10 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id AC85F219FE;
+        by smtp-out2.suse.de (Postfix) with ESMTPS id E034C1FE3F;
         Thu, 30 Mar 2023 08:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
         t=1680165368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=prc8SEhYyhNSt3X1QSGKo4Ub8nWmTh1lDEZAJiIba/0=;
-        b=QgNsjpM8BLb9BdHCw4LFvX6aBdBwPBh5sHRDQmxHUnZVCdgoEgu7CINgR8mVvBwitYIRfy
-        VfA8ewwEliLWAbSRtMZA+N8kmKiOuQcTgeiefy20FR81fwZUWDFAgOmZVXOMZCMvRzaRgF
-        HJpxkqDeuc7fKyhNGEVbx/Uh5tOMY14=
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8LJhYdSttK0TcaPL/eKycs9QEmV9BoB+aTOFq1uIB8U=;
+        b=HOZKS6QgaKLvRegakVC+lQ6QRwllpFcPjaAWMzpr9Ckt8zkcbay78A3HY4m86dfrFlN0mE
+        pmUnq29EPBdr6Kr1dWquljsO3V23rCmoeuWZtux0tHhSNttGFD6SNSt5M0U/qD7DU+TWQE
+        YcucFqfkzryTlTwtaoBaoIoM3F0D2AU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
         s=susede2_ed25519; t=1680165368;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=prc8SEhYyhNSt3X1QSGKo4Ub8nWmTh1lDEZAJiIba/0=;
-        b=cZunbX0Ux6PY4cO9SCwLIP1JGVolY1+QZpLhPdjEgMJbJbUeMajZv6YpxDIeLHfgqm87YC
-        z+rmjqgbo6nG8tBA==
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8LJhYdSttK0TcaPL/eKycs9QEmV9BoB+aTOFq1uIB8U=;
+        b=EgJbgSuQhh4bJ5nqkh/yY1vpaMu6Sc8ML29CLmCvEypvXI88xvGc2mSgNn07wHJQkR6pZ9
+        1IrPC0+N7KLnskDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7D44A138FF;
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0EC11390D;
         Thu, 30 Mar 2023 08:36:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id d4NYHfhJJWQHHAAAMHmgww
+        id AIVQKvhJJWQHHAAAMHmgww
         (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 08:36:08 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     thierry.reding@gmail.com, jonathanh@nvidia.com, javierm@redhat.com,
         airlied@gmail.com, daniel@ffwll.ch
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/7] drm/tegra: Convert fbdev to DRM client
-Date:   Thu, 30 Mar 2023 10:36:00 +0200
-Message-Id: <20230330083607.12834-1-tzimmermann@suse.de>
+Subject: [PATCH 1/7] drm/tegra: Include <linux/of.h>
+Date:   Thu, 30 Mar 2023 10:36:01 +0200
+Message-Id: <20230330083607.12834-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230330083607.12834-1-tzimmermann@suse.de>
+References: <20230330083607.12834-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -65,38 +71,40 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Convert tegra's fbdev code to struct drm_client. Replaces the current
-ad-hoc integration. The conversion includes a number of cleanups. As
-with most other drivers' fbdev emulation, fbdev in tegra is now just
-another DRM client that runs after the DRM device has been registered.
+Include <linux/of.h> to get the contained declarations. No functional
+changes.
 
-Once all drivers' fbdev emulation has been converted to struct drm_client,
-we can attempt to add additional in-kernel clients. A DRM-based dmesg
-log or a bootsplash are commonly mentioned. DRM can then switch easily
-among the existing clients if/when required.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/tegra/output.c | 2 ++
+ drivers/gpu/drm/tegra/rgb.c    | 1 +
+ 2 files changed, 3 insertions(+)
 
-I did the conversion from similar experience with other drivers. But I
-don't have the hardware to test this. Any testing is welcome.
-
-Thomas Zimmermann (7):
-  drm/tegra: Include <linux/of.h>
-  drm/tegra: Include <linux/i2c.h>
-  drm/tegra: Removed fb from struct tegra_fbdev
-  drm/tegra: Remove struct tegra_fbdev
-  drm/tegra: Hide fbdev support behind config option
-  drm/tegra: Initialize fbdev DRM client
-  drm/tegra: Implement fbdev emulation as in-kernel client
-
- drivers/gpu/drm/tegra/Makefile |   2 +
- drivers/gpu/drm/tegra/drm.c    |  23 +---
- drivers/gpu/drm/tegra/drm.h    |  27 ++--
- drivers/gpu/drm/tegra/fb.c     | 242 +--------------------------------
- drivers/gpu/drm/tegra/fbdev.c  | 240 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/output.c |   3 +
- drivers/gpu/drm/tegra/rgb.c    |   1 +
- 7 files changed, 265 insertions(+), 273 deletions(-)
- create mode 100644 drivers/gpu/drm/tegra/fbdev.c
-
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index a8925dcd7edd..d31c87f48da0 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -4,6 +4,8 @@
+  * Copyright (C) 2012 NVIDIA CORPORATION.  All rights reserved.
+  */
+ 
++#include <linux/of.h>
++
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+index ff8fce36d2aa..3f060282cd8d 100644
+--- a/drivers/gpu/drm/tegra/rgb.c
++++ b/drivers/gpu/drm/tegra/rgb.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/of.h>
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge_connector.h>
 -- 
 2.40.0
 
