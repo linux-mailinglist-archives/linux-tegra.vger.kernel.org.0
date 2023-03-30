@@ -2,63 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4647F6D00A3
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Mar 2023 12:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FBF86D03BB
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Mar 2023 13:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjC3KG2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Mar 2023 06:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        id S231725AbjC3LqH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Mar 2023 07:46:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbjC3KG1 (ORCPT
+        with ESMTP id S231757AbjC3Lps (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Mar 2023 06:06:27 -0400
-X-Greylist: delayed 1009 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Mar 2023 03:06:26 PDT
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6495110DD;
-        Thu, 30 Mar 2023 03:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-        s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6FbbQ2ARgg8AsSn+bHuiJ5XTJvM+84zfBTQ14KGT7uk=; b=x3pPtY5rtNGer+M7TdN8dXoPQV
-        +kUlAL2SpciFvZArogkDfRLz3bepXG26F6HaEdLwTaR0NxsslLOWTvX43HLG7757HcSeXNzHhYZ0y
-        CBGwmLV99sqQ0bYRXh5wNtfYy33ai+0sz7XPDtcqhRPivrXG/BQC/LVtl1u/iMQQS17rQPoc2+4j/
-        6/gw3aFthMu2UibfE21zY8r8/F7RAyT+o4uTG7fM6CPiSK1q1A4yJsZqi2JhrPcc1yG5+gt1ilhgF
-        lVn/g68TltXJlPgx23LhH+cY/XrDrhW4NjJYXx/t2F5BDP/qTRVBstMgyjkQS9q2OxmgiV5jYRaZn
-        EhRL4aKw==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1phpAW-000Bjr-Kj; Thu, 30 Mar 2023 13:06:08 +0300
-Message-ID: <204e0435-c544-8727-e892-9fc69b8d691d@kapsi.fi>
-Date:   Thu, 30 Mar 2023 13:06:06 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] thermal: tegra-bpmp: Handle offline zones
-Content-Language: en-US
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
+        Thu, 30 Mar 2023 07:45:48 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98FDBB84
+        for <linux-tegra@vger.kernel.org>; Thu, 30 Mar 2023 04:45:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680176726; x=1711712726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=k/mv4rPn58080aiy/VkVwoYKI4gFKfYIxJEtnNThHLM=;
+  b=E0zRsWn7KUpUVODCDBLqUkCAiUBPsTDLEhBt8GxnP9sfFF5DFJUYXpck
+   DNcYdPvKud8vUH62/jujwa0sQrPLAgBDa79dOLv0y2aryFZJnp680ZAKC
+   69NasHTgo1UCYC6d+MsETbZrFRgVj8NuvJ+9S080YV/7r3Z2LpgzD+GWm
+   5IUUDhhQlGKSXqfLY0/zUrwHfFTminAs7gh8bn4qWDJk/Ut/6CPUFe1AK
+   foyUgdMxIuUwPntwujQQqzLBJ3W7Xb5T84jMPo7j1n/ncb+jCtTL77Pde
+   M40aSqKxCgBMvSb1lYkXSOA76HsjofTtw2ZmF9OpS+qdP9T3FKJD1+7PX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427419852"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="427419852"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:45:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="858890300"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="858890300"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+  by orsmga005.jf.intel.com with SMTP; 30 Mar 2023 04:45:03 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 30 Mar 2023 14:45:02 +0300
+Date:   Thu, 30 Mar 2023 14:45:02 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     dri-devel@lists.freedesktop.org,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     Mikko Perttunen <mperttunen@nvidia.com>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230330094904.2589428-1-cyndis@kapsi.fi>
- <a09d8edf-9db1-0037-15a4-7ce329b82bf2@linaro.org>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <a09d8edf-9db1-0037-15a4-7ce329b82bf2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Emma Anholt <emma@anholt.net>, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] drm/scdc-helper: Pimp SCDC debugs
+Message-ID: <ZCV2Pge2+wdB5HEI@intel.com>
+References: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
+ <20230330084404.5uku6p42rorcuhv2@penduick>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <20230330084404.5uku6p42rorcuhv2@penduick>
+X-Patchwork-Hint: comment
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,69 +72,60 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 3/30/23 13:03, Daniel Lezcano wrote:
-> On 30/03/2023 11:49, Mikko Perttunen wrote:
->> From: Mikko Perttunen <mperttunen@nvidia.com>
->>
->> Thermal zones located in power domains may not be accessible when
->> the domain is powergated. In this situation, reading the temperature
->> will return -BPMP_EFAULT. When evaluating trips, BPMP will internally
->> use -256C as the temperature for offline zones.
+On Thu, Mar 30, 2023 at 10:44:04AM +0200, Maxime Ripard wrote:
+> Hi,
 > 
->> For smooth operation, for offline zones, return -EAGAIN when reading
->> the temperature and allow registration of zones even if they are
->> offline during probe.
+> On Wed, Mar 29, 2023 at 08:14:02PM +0300, Ville Syrjala wrote:
+> > diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
+> > index c3ad4ab2b456..2b124152384c 100644
+> > --- a/drivers/gpu/drm/display/drm_scdc_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+> > @@ -26,6 +26,8 @@
+> >  #include <linux/delay.h>
+> >  
+> >  #include <drm/display/drm_scdc_helper.h>
+> > +#include <drm/drm_connector.h>
+> > +#include <drm/drm_device.h>
+> >  #include <drm/drm_print.h>
+> >  
+> >  /**
+> > @@ -140,6 +142,7 @@ EXPORT_SYMBOL(drm_scdc_write);
+> >  
+> >  /**
+> >   * drm_scdc_get_scrambling_status - what is status of scrambling?
+> > + * @connector: connector
+> >   * @adapter: I2C adapter for DDC channel
+> >   *
+> >   * Reads the scrambler status over SCDC, and checks the
+> > @@ -148,14 +151,17 @@ EXPORT_SYMBOL(drm_scdc_write);
+> >   * Returns:
+> >   * True if the scrambling is enabled, false otherwise.
+> >   */
+> > -bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
+> > +bool drm_scdc_get_scrambling_status(struct drm_connector *connector,
+> > +				    struct i2c_adapter *adapter)
 > 
-> I think it makes more sense to check if the power domain associated with 
-> the device is powered up and if not return -EPROBE_DEFER.
+> Is there any driver where adapter isn't equal to connector->ddc?
 
-The power domains in question are related to computer vision engines 
-that only get powered on when in use, possibly never if the user doesn't 
-run a computer vision workload on the system. We still want other 
-thermal zones to be available.
+I figured most of them since they all maintain their own ddc
+pointer elsewhere. But looks like the drivers using the scdc
+helper might all be setting connector->ddc for their HDMI
+connectors despite that.
 
-Mikko
+Even i915 does that apparently. My recollection was otherwise
+since I have a branch waiting somewhere that changes the whole
+driver to use connector->ddc.
+
+I guess someone took a bunch of shortcuts to get connector->ddc
+populated but then didn't finish the job by clearing out the
+old pointers.
 
 > 
-> 
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v2:
->> * Adjusted commit message.
->> * Patch 2/2 dropped for now since it is more controversial,
->>    and this patch is more critical.
->>
->>   drivers/thermal/tegra/tegra-bpmp-thermal.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/thermal/tegra/tegra-bpmp-thermal.c 
->> b/drivers/thermal/tegra/tegra-bpmp-thermal.c
->> index f5fd4018f72f..4ffc3bb3bf35 100644
->> --- a/drivers/thermal/tegra/tegra-bpmp-thermal.c
->> +++ b/drivers/thermal/tegra/tegra-bpmp-thermal.c
->> @@ -52,6 +52,8 @@ static int __tegra_bpmp_thermal_get_temp(struct 
->> tegra_bpmp_thermal_zone *zone,
->>       err = tegra_bpmp_transfer(zone->tegra->bpmp, &msg);
->>       if (err)
->>           return err;
->> +    if (msg.rx.ret == -BPMP_EFAULT)
->> +        return -EAGAIN;
->>       if (msg.rx.ret)
->>           return -EINVAL;
->> @@ -259,7 +261,12 @@ static int tegra_bpmp_thermal_probe(struct 
->> platform_device *pdev)
->>           zone->tegra = tegra;
->>           err = __tegra_bpmp_thermal_get_temp(zone, &temp);
->> -        if (err < 0) {
->> +
->> +        /*
->> +         * Sensors in powergated domains may temporarily fail to be read
->> +         * (-EAGAIN), but will become accessible when the domain is 
->> powered on.
->> +         */
->> +        if (err < 0 && err != -EAGAIN) {
->>               devm_kfree(&pdev->dev, zone);
->>               continue;
->>           }
-> 
+> If not, there's no reason to pass both
 
+Yeah, that did cross my mind. But left it out with in
+the belief that it can't be done yet.
+
+-- 
+Ville Syrj�l�
+Intel
