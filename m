@@ -2,63 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC86A6D25B7
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Mar 2023 18:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78F596D25BB
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Mar 2023 18:35:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbjCaQfu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Mar 2023 12:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46956 "EHLO
+        id S232035AbjCaQfw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Mar 2023 12:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231751AbjCaQf1 (ORCPT
+        with ESMTP id S231950AbjCaQf2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Mar 2023 12:35:27 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8FDF77A;
+        Fri, 31 Mar 2023 12:35:28 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E126A25577;
         Fri, 31 Mar 2023 09:32:02 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id eg48so91748419edb.13;
+Received: by mail-ed1-x529.google.com with SMTP id i5so92053266eda.0;
         Fri, 31 Mar 2023 09:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680280320;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eSWFOZ9lVtzfA35QEC6o3gmLZRctPuEzmtHrF4TPjVQ=;
-        b=DxKJPXMCXQcZCUv71XrXJxHCRJh7geIndMPJkn/4wQ+dLIhPtda+8N3gy6mXXHZLjW
-         PaDJPPenfsO1A+bwmumlN/GDFcjd1hk1o4vAn1bzOQmvHFf5wfTQfvS1cDYreXPpaD5M
-         NpAn1MXQdTiKwkyNuSnzCIMoBkiJujdelIo6UB5OBLR3zeN3VgsehQJRd10lwi60sFeE
-         m8oP7CJaCo+mvfjQdfOe0IHOc4oT30QNzRYiubC3nUCDEdjARJf/AWtHTlgSNTn3B5nV
-         RuUuxS46eQTDxXmQ4UYZUkR494hM/PPs2nG0urjOGuwwWqkfz9eV/huCSI/ab5WwY+Xa
-         8N7A==
+        d=gmail.com; s=20210112; t=1680280321;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pSQIKLKXiF7LRmMa7I/PipsMIQk9s4rxRc1/n8fch/g=;
+        b=MAZIIJC61MnAcCkhSAozC0jndvjPSx8WuhnIn3xnnOxXsUvIQnYQVErZ9jIBeCExET
+         XVbE5Pc8QiJQZ9VG9UV2nrOvAPFhDUhvQ6jj1GDwWBdV0TxuNcO8tCYnbzF1rVDvbcjx
+         449iW4yo9oiusLNmGeanQpyleyOJn+Y/2EmzeK3OWURdT32WB8r41dwFmGmbnBeKjPi2
+         VESvYMPw9tIh4FOeFp//Lay+3hAJzBzNfEkDKhEPITprJspVIbElQTkXH4Fi78Si6e3B
+         jom3FK3YgehACv6RBwpeFDidWa0tPNBWwxIKIzurqA/0WAgQ0mPjOfG4IMoWJbJKQOPz
+         4rXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680280320;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eSWFOZ9lVtzfA35QEC6o3gmLZRctPuEzmtHrF4TPjVQ=;
-        b=IIf1AaxJsWTs1n6mpVv15m8yQkZfx8JRiOakXDQISAP54PM1ldGOyvO8LD6H0V3TX0
-         aTTTBhNh8TcqiUxBQN+uOa7S44t4Fp3voDltOYHJ1G8XmUU3N+U1OAefarvinB3boANR
-         QrD3zjHskP8SB4oo+Iv+B7heY3VZaaNGKlD7sRaMjO4inaGsPbdQ+jCfbF6SVjcbiK3s
-         QhAKLFyKpzGIHQ98GVavfxJHNewQpO2abcUZ0DEp272xwrPK5fw2HZd4czTkpKXrEMD3
-         9shwW/GvGq+AwDBIBNOZv5o1YrGFuQE+OAAGKJtYh/MWsVct1Q10aApUvyAyzqvyNi+y
-         Uj9Q==
-X-Gm-Message-State: AAQBX9f06kH0FAJXR/jKPXTLOwvIruihg0aoffbJfExmFKypJjAJSL1w
-        2luXjs4raulJPZ7n2OQmpTc=
-X-Google-Smtp-Source: AKy350bJb8GHgNAgQ78MqbG2WlrPKgolIg4zAUs5D0Vt2ROuuUuXfbGMF2ctK1ITmM1praBklnYddA==
-X-Received: by 2002:a17:906:f29a:b0:933:816c:abb9 with SMTP id gu26-20020a170906f29a00b00933816cabb9mr8892069ejb.36.1680280320499;
-        Fri, 31 Mar 2023 09:32:00 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680280321;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pSQIKLKXiF7LRmMa7I/PipsMIQk9s4rxRc1/n8fch/g=;
+        b=IkySNTVfUrtAbBymXB5X8p3SjQ6XVNdJuAKVzxP9cOjw9Tnv5UBkvGf7GiKM1GVJsv
+         L7n43jBEgQkHeRI+ArxbzjiK7DhVKp3DTDJ9Ocb2Wame+fwh7+2UeLW5fpDLllrIJ2XU
+         gPl9ct1BV+puzfCO6daFbXs2b+ZKhJH/08fsvnq6cQe710vjHYWpofeRYzMhBT/uqcHF
+         8SgHs/vbqhw1NF2I9kv0OHHINog5rboDIGNlVNwzBCp4JRhgIP5dNJfgFct4uOh62bZP
+         DFUbE5hfMYPvm1RIal9JhQ+PyOXfGgrqpytXzyPkNS0hMwT9sdbqrQib5asdclEPzP1g
+         X7Ug==
+X-Gm-Message-State: AAQBX9fEqfHnrh35qIb9MUkPVA0y1qFWhGd3QKg2jG10pqNqxWpPv7ZB
+        BsxYM7iiUkBaCEJ9lGq4Ps4=
+X-Google-Smtp-Source: AKy350arCGnQu7/WifGjz4ey+VQ4rV3YVC/QibabcRim7stpZFsrc97KOfZxc24vl84rrBhlG16CRQ==
+X-Received: by 2002:a05:6402:1486:b0:501:cced:9c6c with SMTP id e6-20020a056402148600b00501cced9c6cmr25678100edv.7.1680280321424;
+        Fri, 31 Mar 2023 09:32:01 -0700 (PDT)
 Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id g3-20020a056402090300b005024459f431sm1213248edz.70.2023.03.31.09.32.00
+        by smtp.gmail.com with ESMTPSA id i5-20020a50d745000000b004fa19f5ba99sm1227871edj.79.2023.03.31.09.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 09:32:00 -0700 (PDT)
+        Fri, 31 Mar 2023 09:32:01 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/4] dt-bindings: Document additional Jetson Orin NX SKUs
-Date:   Fri, 31 Mar 2023 18:31:56 +0200
-Message-Id: <20230331163159.17145-1-thierry.reding@gmail.com>
+Subject: [PATCH 2/4] dt-bindings: tegra: Document Jetson Orin Nano
+Date:   Fri, 31 Mar 2023 18:31:57 +0200
+Message-Id: <20230331163159.17145-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230331163159.17145-1-thierry.reding@gmail.com>
+References: <20230331163159.17145-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -73,31 +76,32 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Beyond the original 16 GiB SKU (0), additional SKUs exist, such as the 8
-GiB SKU (1) and an internal-only SKU (2) that comes with an equipeed SD
-card slot.
+The Jetson Orin Nano is the little sibling of the Jetson Orin NX.
+Document the corresponding compatible strings for these devices.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- Documentation/devicetree/bindings/arm/tegra.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/arm/tegra.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
-index aa71236f93ce..61e638c9cad7 100644
+index 61e638c9cad7..60c151da5e06 100644
 --- a/Documentation/devicetree/bindings/arm/tegra.yaml
 +++ b/Documentation/devicetree/bindings/arm/tegra.yaml
-@@ -215,7 +215,10 @@ properties:
+@@ -220,6 +220,13 @@ properties:
+               - nvidia,p3767-0001
+               - nvidia,p3767-0002
            - const: nvidia,tegra234
-       - description: Jetson Orin NX
-         items:
--          - const: nvidia,p3767-0000
++      - description: Jetson Orin Nano
++        items:
 +          - enum:
-+              - nvidia,p3767-0000
-+              - nvidia,p3767-0001
-+              - nvidia,p3767-0002
-           - const: nvidia,tegra234
++              - nvidia,p3767-0003
++              - nvidia,p3767-0004
++              - nvidia,p3767-0005
++          - const: nvidia,tegra234
        - description: Jetson Orin NX Engineering Reference Developer Kit
          items:
+           - const: nvidia,p3768-0000+p3767-0000
 -- 
 2.40.0
 
