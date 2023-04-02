@@ -2,115 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 960476D3866
-	for <lists+linux-tegra@lfdr.de>; Sun,  2 Apr 2023 16:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 108C36D3920
+	for <lists+linux-tegra@lfdr.de>; Sun,  2 Apr 2023 18:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231143AbjDBObV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 2 Apr 2023 10:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
+        id S230405AbjDBQtQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 2 Apr 2023 12:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbjDBObL (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Apr 2023 10:31:11 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0636D11E82
-        for <linux-tegra@vger.kernel.org>; Sun,  2 Apr 2023 07:31:08 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1piyjH-0002u0-6X; Sun, 02 Apr 2023 16:30:47 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1piyjF-008TR2-GS; Sun, 02 Apr 2023 16:30:45 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1piyjE-009zBw-S8; Sun, 02 Apr 2023 16:30:44 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        with ESMTP id S229459AbjDBQtP (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Apr 2023 12:49:15 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58963DBD0;
+        Sun,  2 Apr 2023 09:49:14 -0700 (PDT)
+Received: from workpc.. (109-252-124-32.nat.spd-mgts.ru [109.252.124.32])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 55288660209A;
+        Sun,  2 Apr 2023 17:49:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680454152;
+        bh=kjTtuZafxqQ//qonolfaG0xTHClDJ/0hYqwWpo1/w0k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PM3m6hysogG6uCz7g8USUVA1IMYM+iGZA6+yIjQgSO72di64cd3XcPWbSoQK4u17A
+         NF5dj16eH5qZED1KNKFanlRxxAm33kiySG/ZCfeQQZSLmMavJo8DDfRdGdUvPbwQz9
+         3nGTOktieV1US0uEoj0ZjpqwQ+9Ar6n/VfJlqv0TI7F33tXQfLmGOs0QruTBvHrey4
+         QVLQZR5Vhn6IF2ASDNZtrHeH/7STOxqrfwrMOLISeiNaNhPDHttDYeIQoC1TTNGYIr
+         cf2lOEToXQJSC39ChYTfcECrx5g5hpr1s3eW8kQ/gWWgcrTeAi4enC2cynT8Psd2kT
+         yJwrl4uuH9k8Q==
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH net-next 11/11] net: stmmac: dwmac-tegra: Convert to platform remove callback returning void
-Date:   Sun,  2 Apr 2023 16:30:25 +0200
-Message-Id: <20230402143025.2524443-12-u.kleine-koenig@pengutronix.de>
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel@collabora.com
+Subject: [PATCH v1 0/7] Move dma-buf mmap() reservation locking down to exporters
+Date:   Sun,  2 Apr 2023 19:48:19 +0300
+Message-Id: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
-References: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1839; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=uHRt5tyID3sy+YzsWmQL2tOBQyY0bRA4sv5Z8ygAGyI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKZF6OE52KDsYV5Xv4yliz34sJ3jBSH6VKfon7 qZzKvPQ5e2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCmRegAKCRCPgPtYfRL+ TqCkB/9hKeMJ3O43PWdOHFqnTLSpwqfROPoS7HtPBbrTtAwRh/OwtyTpBNmMH52FjwQGw4tKLt6 d9eAz6u+JGxYCqfzn3KZ2t1mSIg6HmEgSoyYADzwN3/ar0BvYOHrU25/0qzf6WuW6s/MdYbzfNV VrFBKNO2Eq65hLFEA0hvrVpmq5h8Aj3aayg9LuaGAJX1C4b5z2193DEl7BVs96WjZzprOcym8yD FYOcIpvJzL4dVQOcdquOMH422VFn/jr0FyHWuEV0QQMLflKPNrOEVVL13pmV9NoEUmhvdeqqojq bYQTjC2zTKV+ibEsMoIIAkMm8kwO1peDBNPtqJ/8PChmbyhC
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+This patchset makes dma-buf exporters responisble for taking care of
+the reservation lock. I also included patch that moves drm-shmem to use
+reservation lock, to let CI test the whole set. I'm going to take all
+the patches via the drm-misc tree, please give an ack.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Previous policy stated that dma-buf core takes the lock around mmap()
+callback. Which meant that both importers and exporters shouldn't touch
+the reservation lock in the mmap() code path. This worked well until
+Intel-CI found a deadlock problem in a case of self-imported dma-buf [1].
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+The problem happens when userpace mmaps a self-imported dma-buf, i.e.
+mmaps the dma-buf FD. DRM core treats self-imported dma-bufs as own GEMs
+[2]. There is no way to differentiate a prime GEM from a normal GEM for
+drm-shmem in drm_gem_shmem_mmap(), which resulted in a deadlock problem
+for drm-shmem mmap() code path once it's switched to use reservation lock.
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-index bdf990cf2f31..f8367c5b490b 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
-@@ -353,15 +353,13 @@ static int tegra_mgbe_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static int tegra_mgbe_remove(struct platform_device *pdev)
-+static void tegra_mgbe_remove(struct platform_device *pdev)
- {
- 	struct tegra_mgbe *mgbe = get_stmmac_bsp_priv(&pdev->dev);
- 
- 	clk_bulk_disable_unprepare(ARRAY_SIZE(mgbe_clks), mgbe->clks);
- 
- 	stmmac_pltfr_remove(pdev);
--
--	return 0;
- }
- 
- static const struct of_device_id tegra_mgbe_match[] = {
-@@ -374,7 +372,7 @@ static SIMPLE_DEV_PM_OPS(tegra_mgbe_pm_ops, tegra_mgbe_suspend, tegra_mgbe_resum
- 
- static struct platform_driver tegra_mgbe_driver = {
- 	.probe = tegra_mgbe_probe,
--	.remove = tegra_mgbe_remove,
-+	.remove_new = tegra_mgbe_remove,
- 	.driver = {
- 		.name = "tegra-mgbe",
- 		.pm		= &tegra_mgbe_pm_ops,
+It was difficult to fix the drm-shmem problem without adjusting dma-buf
+locking policy. In parctice not much changed from importers perspective
+because previosly dma-buf was taking the lock in between of importers
+and exporters. Now this lock is shifted down to exporters.
+
+[1] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
+[2] https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/drm_prime.c#L924
+
+Dmitry Osipenko (7):
+  Revert "media: videobuf2: Assert held reservation lock for dma-buf
+    mmapping"
+  Revert "dma-buf/heaps: Assert held reservation lock for dma-buf
+    mmapping"
+  Revert "udmabuf: Assert held reservation lock for dma-buf mmapping"
+  Revert "fastrpc: Assert held reservation lock for dma-buf mmapping"
+  Revert "drm: Assert held reservation lock for dma-buf mmapping"
+  dma-buf: Change locking policy for mmap()
+  drm/shmem-helper: Switch to reservation lock
+
+ drivers/dma-buf/dma-buf.c                     |  17 +-
+ drivers/dma-buf/heaps/cma_heap.c              |   3 -
+ drivers/dma-buf/heaps/system_heap.c           |   3 -
+ drivers/dma-buf/udmabuf.c                     |   2 -
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 217 ++++++++----------
+ drivers/gpu/drm/drm_prime.c                   |   2 -
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 -
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   2 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+ drivers/gpu/drm/tegra/gem.c                   |   2 -
+ .../common/videobuf2/videobuf2-dma-contig.c   |   3 -
+ .../media/common/videobuf2/videobuf2-dma-sg.c |   3 -
+ .../common/videobuf2/videobuf2-vmalloc.c      |   3 -
+ drivers/misc/fastrpc.c                        |   3 -
+ include/drm/drm_gem_shmem_helper.h            |  14 +-
+ 18 files changed, 123 insertions(+), 193 deletions(-)
+
 -- 
 2.39.2
 
