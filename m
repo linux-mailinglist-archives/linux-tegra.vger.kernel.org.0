@@ -2,107 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4E76D4C22
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A92AB6D4C3C
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbjDCPk2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Apr 2023 11:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
+        id S231878AbjDCPoX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Apr 2023 11:44:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232946AbjDCPk1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:40:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62ABE26A5
-        for <linux-tegra@vger.kernel.org>; Mon,  3 Apr 2023 08:40:26 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pjMIB-0004mf-Lo; Mon, 03 Apr 2023 17:40:23 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pjMIA-008ic4-A8; Mon, 03 Apr 2023 17:40:22 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI8-00AHxo-QQ; Mon, 03 Apr 2023 17:40:20 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Marc Dietrich <marvin24@gmx.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-        linux-staging@lists.linux.dev, kernel@pengutronix.de
-Subject: [PATCH 21/24] staging: nvec_ps2: Convert to platform remove callback returning void
-Date:   Mon,  3 Apr 2023 17:40:11 +0200
-Message-Id: <20230403154014.2564054-22-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
-References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S231783AbjDCPoX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:44:23 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DEBDE8;
+        Mon,  3 Apr 2023 08:44:22 -0700 (PDT)
+Received: from [192.168.2.163] (109-252-124-32.nat.spd-mgts.ru [109.252.124.32])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A99E6660312D;
+        Mon,  3 Apr 2023 16:44:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680536660;
+        bh=h906dX4/iwoBMkK5p++Mkpnuq0YPw75gIWeGHov8PcE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=f7h6y51iyU9x9BJVmQM570DlR1t+AbYsIjlhM/UUKIHEkjwhG6wOnhYpyWYzfDfbx
+         LswAR3pQN1VypwRg1NAyjrKw1dsJfFhbxUqNQGsdbKHImnrsFoF8GBj9a4ze1xjzf+
+         ikn/6tGwqYgt4wo0ezuYyD5qJcAcJ/vH8+nBkR/CblyBav3CqdshxpKe9aMZE9VkmI
+         X1rnTyVohHNlEKXfBPKvYgF4i7WqDddJCvTD1mpOcSwDopAt2C66uyMnmPrW3nje0c
+         20tLWPEaOhzwHskP5QBbGgGhgxiIABeljiPrwu0xg4nG9Kg/aH+xqJLbC09Ys9uomg
+         mR/H5SFIh8a4g==
+Message-ID: <ab4d8e1e-d378-85d2-34aa-404ff178c49f@collabora.com>
+Date:   Mon, 3 Apr 2023 18:44:16 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 4/4] mfd: tps6586x: register restart handler
+Content-Language: en-US
+To:     Benjamin Bara <bbara93@gmail.com>
+Cc:     benjamin.bara@skidata.com, jonathanh@nvidia.com, lee@kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, rafael.j.wysocki@intel.com,
+        richard.leitner@linux.dev, treding@nvidia.com, wsa@kernel.org
+References: <6abaa803-1639-b949-3af5-05a341f9b459@collabora.com>
+ <20230403065013.520339-1-bbara93@gmail.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230403065013.520339-1-bbara93@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1813; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=JK9FEMBfl3k51Ko0yHrTYJMW3StOB3wg2Jo6t8OBwUY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNNvTUbO2c2qI9jR+mqC9qIh6IDDgpQNg4pW xlnyrSN9P+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzTQAKCRCPgPtYfRL+ Tmu0B/0cuwc2hpE0Vsww/JTbugRMQt1xrcCY7TQZ6vtT+xgNTaSQLOsUBmddN0Br3ccYljBIIs7 aEJRvunuD+IKVYk/3p3hD+lyOv/xdx6Vc624zCG8d6trjOmAQ0pdasZuEflGW1MHQismMqE6ri0 FESQLcUO48iGt5+ehLxNuwGBPwgsyCjHw6gaHXr9GWuNvskjb3Zsb15EHJo9xDqeejOwcenyuUT Qo0WMcuGbvTrzgszfQ83m4ElIClB5m8wNN7zKWTRJAOPSH17ixbm5FnK/wrukmZQOBOg0uX3rwJ T1XJKsEKBJrhzaQSm6WOhBXI6jXY2FuzuraO83Ni7pVMgqLV
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SORTED_RECIPS,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On 4/3/23 09:50, Benjamin Bara wrote:
+> Thanks for the feedback!
+> 
+> The DS states: "When the reboot request state is set an internal timer TWAIT
+> (10ms typ) is started. The reboot request ends when t > TWAIT."
+> 
+> Therefore, my intention was to wait a little bit before starting the next
+> handler in the chain. I can do some tests without the mdelay, but otherwise
+> will reduce it to 15ms in the next patch. What do you think about it?
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Sounds good. Please add a clarifying comment for the delay to the code.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/nvec/nvec_ps2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
-index 06041c7f7d4f..cb6d71b8dc83 100644
---- a/drivers/staging/nvec/nvec_ps2.c
-+++ b/drivers/staging/nvec/nvec_ps2.c
-@@ -125,7 +125,7 @@ static int nvec_mouse_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int nvec_mouse_remove(struct platform_device *pdev)
-+static void nvec_mouse_remove(struct platform_device *pdev)
- {
- 	struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
- 
-@@ -133,8 +133,6 @@ static int nvec_mouse_remove(struct platform_device *pdev)
- 	ps2_stopstreaming(ps2_dev.ser_dev);
- 	nvec_unregister_notifier(nvec, &ps2_dev.notifier);
- 	serio_unregister_port(ps2_dev.ser_dev);
--
--	return 0;
- }
- 
- #ifdef CONFIG_PM_SLEEP
-@@ -166,7 +164,7 @@ static SIMPLE_DEV_PM_OPS(nvec_mouse_pm_ops, nvec_mouse_suspend,
- 
- static struct platform_driver nvec_mouse_driver = {
- 	.probe  = nvec_mouse_probe,
--	.remove = nvec_mouse_remove,
-+	.remove_new = nvec_mouse_remove,
- 	.driver = {
- 		.name = "nvec-mouse",
- 		.pm = &nvec_mouse_pm_ops,
 -- 
-2.39.2
+Best regards,
+Dmitry
 
