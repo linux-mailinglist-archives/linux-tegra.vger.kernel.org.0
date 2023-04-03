@@ -2,91 +2,45 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 810CC6D4C32
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69EB46D4C1E
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230120AbjDCPl5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Apr 2023 11:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46090 "EHLO
+        id S232947AbjDCPk1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Apr 2023 11:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232531AbjDCPl4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:41:56 -0400
+        with ESMTP id S232937AbjDCPk0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:40:26 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2812703
-        for <linux-tegra@vger.kernel.org>; Mon,  3 Apr 2023 08:41:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2860426B3
+        for <linux-tegra@vger.kernel.org>; Mon,  3 Apr 2023 08:40:25 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMIC-0004b4-3b; Mon, 03 Apr 2023 17:40:24 +0200
+        id 1pjMIA-0004gX-3j; Mon, 03 Apr 2023 17:40:22 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI6-008iaO-0i; Mon, 03 Apr 2023 17:40:18 +0200
+        id 1pjMI9-008ibf-2I; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI5-00AHwO-5x; Mon, 03 Apr 2023 17:40:17 +0200
+        id 1pjMI8-00AHxb-9K; Mon, 03 Apr 2023 17:40:20 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Deepak R Varma <drv@mailo.com>,
-        Yuan Can <yuancan@huawei.com>,
-        Simon Horman <horms@verge.net.au>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Christian Gromm <christian.gromm@microchip.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Marc Dietrich <marvin24@gmx.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Jakob Koschel <jakobkoschel@gmail.com>
-Cc:     linux-staging@lists.linux.dev, kernel@pengutronix.de,
-        greybus-dev@lists.linaro.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH 00/24] staging: Convert to platform remove callback returning void
-Date:   Mon,  3 Apr 2023 17:39:50 +0200
-Message-Id: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+To:     Marc Dietrich <marvin24@gmx.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, kernel@pengutronix.de
+Subject: [PATCH 18/24] staging: nvec: Convert to platform remove callback returning void
+Date:   Mon,  3 Apr 2023 17:40:08 +0200
+Message-Id: <20230403154014.2564054-19-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5012; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=QcqVobs2IGjtDB50UkJ1/XzbU0MSF7u4i5A5EQTdJQg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM0O0Tc0pjx/M/6GF+i1BCxRCmy/MPnr7RU1 yFBMKjXOfaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzNAAKCRCPgPtYfRL+ Tpy2CACy6x0vU06fdXyxll9SO1keGvUJwPKWx+3c3iql31e1Lm+qBWx4HjLGWAH1BCBwe3626DH lDN1BYh6O1PbPw6fq7eefH5DBIAVGnQSOsyyOFUmo5y3kXQn60JKzxX7xSKuHzUxXXkaj6BYFEl dl3VmQyiYF0+g1PGODFTQSeX9kxjPWoD5g9e11a2P8dLs8Iu1lwVEIyHyEyjcsrYsB3Wj23JY5E t8/rn6+663fTt7WDV/oQ0q40Q54RNHtq2Ou/9xwLL/Jm63tGZ6gAnvbnQcFoAji4hrf+apNVsp/ aW4zaDe6809yWD3o9ofDidHCWNev/88M0ILROQDh07UCEMyG
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1756; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=v4zy4HCqWC6d6NtkhHPv4ftLRwyDuBoR4dXO01W0udY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNKRqCZFANcwOrFlRNMDzoMEmhGOWfXirNy/ Kh1Mrq+N2uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzSgAKCRCPgPtYfRL+ TiGLB/0YjYWJuDGyqFasGbLZPITvSfXxuodpZ/XCDtiwM+qRt5DD8z2RWcgIdQRP+C1INlLRP31 jJR7FCk81xUDh/z2G0VGnDUTlaC5Sbv+cYfL67fTENL8r+3Fj/rRECB6i2s2LNmEPk7eIV9uhTb YVAHMebWHcfW0ExEYo5pkRZ0U0t9Mova+/Jyc17FZ6842ybgPqY56QQn1DbaFcxOVfTeKMOvZ1W J1VHSfXWesMLfR7P+knpL3nMPb7A47Kb4BMju7xXEAMkUqRswCJWGYRnlCd30xKkuFUvwoPw5ma mpNK+MhcEF6Vg0dQ6oP15LTcjpmP7lned3y/veEJC8dHqaqU
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -102,104 +56,53 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-this series adapts the platform drivers below drivers/staging to use the
-.remove_new() callback. Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver
-core doesn't (and cannot) cope for errors during remove. The only effect
-of a non-zero return value in .remove() is that the driver core emits a
-warning. The device is removed anyhow and an early return from .remove()
-usually yields a resource leak.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-By changing the remove callback to return void driver authors cannot
-reasonably assume any more that there is some kind of cleanup later.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/nvec/nvec.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-All drivers in staging already return zero in their remove callback, so
-they can be trivially converted.
-
-The changes to the individual drivers are all orthogonal. If I need to
-resend some patches because of some review feedback, I'd like to only
-send the patches that actually needed changes, so please pick up the
-remaining patches that don't need changing to reduce the amount of mail.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (24):
-  staging: axis-fifo: Convert to platform remove callback returning void
-  staging: emxx_udc: Convert to platform remove callback returning void
-  staging: fieldbus: arcx-anybus: Convert to platform remove callback
-    returning void
-  staging: greybus: arche-apb-ctrl: Convert to platform remove callback
-    returning void
-  staging: greybus: arche: Convert to platform remove callback returning
-    void
-  staging: media: atmel-sama5d2-isc: Convert to platform remove callback
-    returning void
-  staging: media: atmel-sama7g5-isc: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-csi: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-dev: Convert to platform remove callback
-    returning void
-  staging: media: imx6-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: imx8mq-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: meson: vdec: Convert to platform remove callback
-    returning void
-  staging: media: omap4iss: Convert to platform remove callback
-    returning void
-  staging: media: rkvdec: Convert to platform remove callback returning
-    void
-  staging: media: sunxi: cedrus: Convert to platform remove callback
-    returning void
-  staging: media: sun6i-isp: Convert to platform remove callback
-    returning void
-  staging: most: dim2: Convert to platform remove callback returning
-    void
-  staging: nvec: Convert to platform remove callback returning void
-  staging: nvec: nvec_kbd: Convert to platform remove callback returning
-    void
-  staging: nvec_power: Convert to platform remove callback returning
-    void
-  staging: nvec_ps2: Convert to platform remove callback returning void
-  staging: octeon: ethernet: Convert to platform remove callback
-    returning void
-  staging: vc04_services: bcm2835-camera: Convert to platform remove
-    callback returning void
-  staging: vc04_services: vchiq_arm: Convert to platform remove callback
-    returning void
-
- drivers/staging/axis-fifo/axis-fifo.c                       | 6 ++----
- drivers/staging/emxx_udc/emxx_udc.c                         | 6 ++----
- drivers/staging/fieldbus/anybuss/arcx-anybus.c              | 5 ++---
- drivers/staging/greybus/arche-apb-ctrl.c                    | 6 ++----
- drivers/staging/greybus/arche-platform.c                    | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c  | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c  | 6 ++----
- drivers/staging/media/imx/imx-media-csi.c                   | 6 ++----
- drivers/staging/media/imx/imx-media-dev.c                   | 6 ++----
- drivers/staging/media/imx/imx6-mipi-csi2.c                  | 6 ++----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c                | 6 ++----
- drivers/staging/media/meson/vdec/vdec.c                     | 6 ++----
- drivers/staging/media/omap4iss/iss.c                        | 6 ++----
- drivers/staging/media/rkvdec/rkvdec.c                       | 5 ++---
- drivers/staging/media/sunxi/cedrus/cedrus.c                 | 6 ++----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c           | 6 ++----
- drivers/staging/most/dim2/dim2.c                            | 6 ++----
- drivers/staging/nvec/nvec.c                                 | 6 ++----
- drivers/staging/nvec/nvec_kbd.c                             | 6 ++----
- drivers/staging/nvec/nvec_power.c                           | 6 ++----
- drivers/staging/nvec/nvec_ps2.c                             | 6 ++----
- drivers/staging/octeon/ethernet.c                           | 5 ++---
- .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c   | 6 ++----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
- 24 files changed, 48 insertions(+), 93 deletions(-)
-
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index b3f114cb00dc..2823cacde130 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -882,7 +882,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int tegra_nvec_remove(struct platform_device *pdev)
++static void tegra_nvec_remove(struct platform_device *pdev)
+ {
+ 	struct nvec_chip *nvec = platform_get_drvdata(pdev);
+ 
+@@ -893,8 +893,6 @@ static int tegra_nvec_remove(struct platform_device *pdev)
+ 	cancel_work_sync(&nvec->tx_work);
+ 	/* FIXME: needs check whether nvec is responsible for power off */
+ 	pm_power_off = NULL;
+-
+-	return 0;
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -942,7 +940,7 @@ MODULE_DEVICE_TABLE(of, nvidia_nvec_of_match);
+ 
+ static struct platform_driver nvec_device_driver = {
+ 	.probe   = tegra_nvec_probe,
+-	.remove  = tegra_nvec_remove,
++	.remove_new = tegra_nvec_remove,
+ 	.driver  = {
+ 		.name = "nvec",
+ 		.pm = &nvec_pm_ops,
 -- 
 2.39.2
 
