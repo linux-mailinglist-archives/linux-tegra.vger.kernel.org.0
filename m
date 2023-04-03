@@ -2,45 +2,45 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 152776D4C1D
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B776D4C20
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Apr 2023 17:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232943AbjDCPk0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Apr 2023 11:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44810 "EHLO
+        id S232929AbjDCPk2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Apr 2023 11:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232478AbjDCPkZ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:40:25 -0400
+        with ESMTP id S232921AbjDCPk0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Apr 2023 11:40:26 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD86F26AF
-        for <linux-tegra@vger.kernel.org>; Mon,  3 Apr 2023 08:40:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680CE26B7
+        for <linux-tegra@vger.kernel.org>; Mon,  3 Apr 2023 08:40:25 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMIA-0004hP-8O; Mon, 03 Apr 2023 17:40:22 +0200
+        id 1pjMIA-0004iZ-FE; Mon, 03 Apr 2023 17:40:22 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI9-008ibl-D5; Mon, 03 Apr 2023 17:40:21 +0200
+        id 1pjMI9-008ibq-IG; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI8-00AHxf-EN; Mon, 03 Apr 2023 17:40:20 +0200
+        id 1pjMI8-00AHxj-LM; Mon, 03 Apr 2023 17:40:20 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Marc Dietrich <marvin24@gmx.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
         linux-staging@lists.linux.dev, kernel@pengutronix.de
-Subject: [PATCH 19/24] staging: nvec: nvec_kbd: Convert to platform remove callback returning void
-Date:   Mon,  3 Apr 2023 17:40:09 +0200
-Message-Id: <20230403154014.2564054-20-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 20/24] staging: nvec_power: Convert to platform remove callback returning void
+Date:   Mon,  3 Apr 2023 17:40:10 +0200
+Message-Id: <20230403154014.2564054-21-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1727; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=h3iYOOce/hlI5unnrRhU7LMtUkqxy2SzA/i+n5Ep0kI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNLT2xJRv/9lFucdGxy7QLNx+fua077qiMz4 RlEccHZQNyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzSwAKCRCPgPtYfRL+ TrtTB/4yIRls7uGdZUAFUCQtf3bDzgLPLer6bHn1rBJCSRZJraXOsLcwFi7qR8O7vQLCqVTmkUO PDSqB81l5RFKrdOpBb2ZYQR2E6YubocWg0Krf990hWoUcIwlZxdi8FmNIBIKxKKhub7/F0qX++X uteRbxMhZB2KwxeIQ44E1SRUF6OMhNORibkmeAkgbNSFqL3vWlXGCVBvII1CAasE2NJfUJBNOFX 0b5hvUIXfmWuBbLiiJj5fpnAlkR8TA2pMmzFXMOGlh+oKxd1tzRy0V85iwQPeDrc19KQoKe/S4a A9RWawZnYSv3WxYTGZojY43+/r7FzC0ico3jMg5+VobvzLR6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1629; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3eBUNo45vjxvrBmmVKCpUHSK66vNsaxQ36fJe1/a9to=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNM6PtFor8y59/Ocn0av359hfYdhT6dBy3R+ e/HNoGRaA6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzTAAKCRCPgPtYfRL+ Tga9CACSCr4vj3XnYT2TpK8WO0w9xvHUfCl3hcMcy0GFM+w8f5XWBzG/oipaaEapdXtEklrF0Ld C4RXSYk/zHMYAPNcS+641HKRyAcjoXmUYwfBOJC9HuqSDJ/aO3qB8JOL6B7jxW7/eDr2JDqh5f0 DUaL2qZ31PP35jF8Bm/F9hqguinhqxSIO73luvzOsiPhRaEC8d3FPXxqHoxAxtpR/ZBq4xRQ0lf 4rwBQxQGtbjxBu/JD6uXHh+SoWh/FZxalIexnxCMSnO79cvH6pOSY/rIbJStXM7f+ZtimigKNTN oxa6v+nu5JMLm/rCNqlxKXdpQDtu79IPlY6mUB9MUcJYCECY
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -69,37 +69,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/nvec/nvec_kbd.c | 6 ++----
+ drivers/staging/nvec/nvec_power.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec_kbd.c b/drivers/staging/nvec/nvec_kbd.c
-index 386d619e3ee9..f9a1da952c0a 100644
---- a/drivers/staging/nvec/nvec_kbd.c
-+++ b/drivers/staging/nvec/nvec_kbd.c
-@@ -161,7 +161,7 @@ static int nvec_kbd_probe(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
+index b1ef196e1cfe..9943b1fff190 100644
+--- a/drivers/staging/nvec/nvec_power.c
++++ b/drivers/staging/nvec/nvec_power.c
+@@ -416,7 +416,7 @@ static int nvec_power_probe(struct platform_device *pdev)
+ 	return PTR_ERR_OR_ZERO(*psy);
  }
  
--static int nvec_kbd_remove(struct platform_device *pdev)
-+static void nvec_kbd_remove(struct platform_device *pdev)
+-static int nvec_power_remove(struct platform_device *pdev)
++static void nvec_power_remove(struct platform_device *pdev)
  {
- 	struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
- 	char disable_kbd[] = { NVEC_KBD, DISABLE_KBD },
-@@ -170,13 +170,11 @@ static int nvec_kbd_remove(struct platform_device *pdev)
- 	nvec_write_async(nvec, uncnfg_wake_key_reporting, 3);
- 	nvec_write_async(nvec, disable_kbd, 2);
- 	nvec_unregister_notifier(nvec, &keys_dev.notifier);
+ 	struct nvec_power *power = platform_get_drvdata(pdev);
+ 
+@@ -429,13 +429,11 @@ static int nvec_power_remove(struct platform_device *pdev)
+ 	case BAT:
+ 		power_supply_unregister(nvec_bat_psy);
+ 	}
 -
 -	return 0;
  }
  
- static struct platform_driver nvec_kbd_driver = {
- 	.probe  = nvec_kbd_probe,
--	.remove = nvec_kbd_remove,
-+	.remove_new = nvec_kbd_remove,
+ static struct platform_driver nvec_power_driver = {
+ 	.probe = nvec_power_probe,
+-	.remove = nvec_power_remove,
++	.remove_new = nvec_power_remove,
  	.driver = {
- 		.name = "nvec-kbd",
- 	},
+ 		   .name = "nvec-power",
+ 	}
 -- 
 2.39.2
 
