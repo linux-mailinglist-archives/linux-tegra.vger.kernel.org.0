@@ -2,417 +2,146 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 655176D5CAF
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Apr 2023 12:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B2C96D5CB4
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Apr 2023 12:10:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234360AbjDDKIr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Apr 2023 06:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
+        id S234371AbjDDKKw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Apr 2023 06:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234350AbjDDKIr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Apr 2023 06:08:47 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E5A910C7;
-        Tue,  4 Apr 2023 03:08:45 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50100D75;
-        Tue,  4 Apr 2023 03:09:29 -0700 (PDT)
-Received: from [10.57.58.41] (unknown [10.57.58.41])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A0463F6C4;
-        Tue,  4 Apr 2023 03:08:42 -0700 (PDT)
-Message-ID: <3f8147b6-3362-c35b-3605-45e63cb2ddc6@arm.com>
-Date:   Tue, 4 Apr 2023 11:08:41 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] perf: arm_cspmu: Separate Arm and vendor module
-To:     Besar Wicaksono <bwicaksono@nvidia.com>, catalin.marinas@arm.com,
-        will@kernel.org, mark.rutland@arm.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, treding@nvidia.com,
-        jonathanh@nvidia.com, vsethi@nvidia.com, rwiley@nvidia.com,
-        efunsten@nvidia.com
-References: <20230403163905.20354-1-bwicaksono@nvidia.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20230403163905.20354-1-bwicaksono@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        with ESMTP id S234351AbjDDKKv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Apr 2023 06:10:51 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD5310C7;
+        Tue,  4 Apr 2023 03:10:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AWfAk3s3gxNYjcHw8skYy4M+x1ay9E1cpGSw7s6lnV74/22P1XK1wGZ1q+DslJyJzdvCkk57j8qbmzh6zxjuLnq7Oc6lnWDaODFcbZTINUdm3lU4iz0JMctjVL+vFNFQOmf/pUoGDzpPuIWpzeGhpy2c0C7JT72xsLrzic7jr2nGMlE0r7QSA2Vh1arwa/gbcIscmseGhsFG6Hz/pAkq4gm/EXuOuQgdaUPZuTUumfy0hvl+HjVMo7qSzttbSiirssWHVpRGZxE5nn4vbPXQDUqMmKbW1wqx4tcEcWvRMbuoeSxwXDonagyGNawwv3U90svVjQQ3Td3brxnfO90+7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6VLKlnHuDUlQavj00Er5kvYpj+BDkGEUHBj2AgdmhiY=;
+ b=McYl6tkCxJVIoCKB7MSD7c6yhGJKCSO/dHhmGbMD6ACjKr/Ne69YKF2gGLzKH08OeWpJ5cGuQFA2bIYmstwKNUCtm0kqczwLesevdEBeqjRtfnLFUTlRmCwc3rIY7nPaNQvdC0KE4+urSG7C38+YdWjZFW68l8uGikZ2Z4NzjiG80DvXZQFTB8hDNqPMnDXNImn6U3wq5Qb3/BpSYIgh9IcpOpKVSCoJYgXzQehAzBZxWL2OakUbH3HT9Fu6ykKlkrJonE1PQ0P7NQavPwR3NsrMGXQ55qIqZMi6bCda9qzdGZ+IjAwcQeT6CsX0lJDh4tpzLwipxeH1gjN5khTx7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6VLKlnHuDUlQavj00Er5kvYpj+BDkGEUHBj2AgdmhiY=;
+ b=cgKiQwo0usC3bJf6bblPGT5/d4YThCVSFcFmHkpS5NtBR6+PrUhEnnGzKB8VzY0nHvZesBPg+vHx1O3/hPO2xoXpmguXIcFO4Q9pbDr4fFH4vuBdBiTsDXgEfABjp7VnYatUK5M8JmWBq/YHU0eT9EZNm2+JtZ5E00fxx+7D0TbPiYVerNSsKNJUrGjVuTRXPOoy5oLraa3NEBpckMvmDYB69r/ZBtYdGpBLJ0OACwWfIBsBIcbv/l6/tiRv1eafc6eEYduPQkm2O0ajJXSaFic0NNH8NksEIV2PORBG9TaMDe1GkQPMqAT8gdNL51PMUD/XK/my1P597Vl0TkkTVw==
+Received: from CY5PR15CA0030.namprd15.prod.outlook.com (2603:10b6:930:14::28)
+ by MW3PR12MB4460.namprd12.prod.outlook.com (2603:10b6:303:2f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 4 Apr
+ 2023 10:10:48 +0000
+Received: from CY4PEPF0000C97D.namprd02.prod.outlook.com
+ (2603:10b6:930:14:cafe::51) by CY5PR15CA0030.outlook.office365.com
+ (2603:10b6:930:14::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.22 via Frontend
+ Transport; Tue, 4 Apr 2023 10:10:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CY4PEPF0000C97D.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.30 via Frontend Transport; Tue, 4 Apr 2023 10:10:48 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 4 Apr 2023
+ 03:10:37 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Tue, 4 Apr 2023 03:10:37 -0700
+Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37 via Frontend
+ Transport; Tue, 4 Apr 2023 03:10:37 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
+        <rwarsow@gmx.de>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.10 000/173] 5.10.177-rc1 review
+In-Reply-To: <20230403140414.174516815@linuxfoundation.org>
+References: <20230403140414.174516815@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Message-ID: <2ec1b951-8b21-4897-9724-9a82dd24a0c5@drhqmail201.nvidia.com>
+Date:   Tue, 4 Apr 2023 03:10:37 -0700
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97D:EE_|MW3PR12MB4460:EE_
+X-MS-Office365-Filtering-Correlation-Id: b71bcd16-5b1a-400d-d4dc-08db34f4dcdd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: arBV02q+RfSIln7pe5bGLAoGr0ZsDLNxFIGDfkEn5iT/39CY1ENJHANd6QvtUkkqFGBdPgGVLuXqwuwLbgKxWu5DWxE0GGyr8VwS52K6w0XTXaXhN+mvKv2m5YCo04m/u0z87OBwbhovj5ykCAiWyXbVLfl9p0iRNhnW6mbGkuD3pl112kr0YE6Ib90lTrXv18J6YnW0jVIu7rm8IAXqzjFHHNZuDy84t33JH7n7uPRDh2wBsHYSZZRqy+atp6/nbgzd3V3zKR10HzeYn3mVjlAC7OM5JGp373C40+u6ADVhFnifpWBuQEDdUoB34ihzynnvq8LYrV4b1g7Iex1WFCP0JSBk0bdefZO2BFpw0okP1cIziuF0UtdyOpheXtWSW4I4B2jZMstcyHUmO/1zSMrw5iIHvLVPewUrfS7VNEufhwPkJnfxWElP/gVGb3RoCDJTs3LvDMzFBJnAkVfZuRYTqpSYIriWAjq6B7KXiKm+IvQ4CU7/swf/sEn8hl4qpWZXMCYcQy3vU/2j8K/suPcQyv7hU8T4IC8M1ilGi0gHQDJZbBqm70DBzMk2eJjTXNm1IYExlkYITOdvixvN2Q23RWMo+ZMwwg6h5BMNb3PpWi9bTbQYiJnrwrOVsFQm069DPXOOX7MZp9q7+YTZzGN318gC4guTt/9ny+8Af9uwLvAPhlHzSXBVK4QqHGmBYduP1MBiR2Z5C4j7mTOnevWYgYor70FX0vcgZ7bN/1gynnkKHm+yEbQUWNo0Gw9+ZXjIUltdD2XfxvfrpkH3gitWhwqkcUVfrMPYYWDU4q8=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(136003)(396003)(346002)(451199021)(40470700004)(46966006)(36840700001)(82740400003)(356005)(7636003)(36860700001)(40480700001)(31696002)(86362001)(40460700003)(82310400005)(2906002)(966005)(26005)(70206006)(70586007)(8676002)(4326008)(6916009)(41300700001)(54906003)(478600001)(7416002)(5660300002)(31686004)(8936002)(316002)(47076005)(186003)(426003)(336012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 10:10:48.3997
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b71bcd16-5b1a-400d-d4dc-08db34f4dcdd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C97D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4460
+X-Spam-Status: No, score=0.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Besar
-
-
-On 03/04/2023 17:39, Besar Wicaksono wrote:
-> Arm Coresight PMU driver consists of main standard code and vendor
-> backend code. Both are currently built as a single module.
-> This patch adds vendor registration API to separate the two to
-> keep things modular. Vendor module shall register to the main
-> module on loading and trigger device reprobe.
-
-Thanks for working on this.
-
+On Mon, 03 Apr 2023 16:06:55 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.10.177 release.
+> There are 173 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Signed-off-by: Besar Wicaksono <bwicaksono@nvidia.com>
-> ---
->   drivers/perf/arm_cspmu/Makefile       |   3 +-
->   drivers/perf/arm_cspmu/arm_cspmu.c    | 113 +++++++++++++++++++++-----
->   drivers/perf/arm_cspmu/arm_cspmu.h    |  10 ++-
->   drivers/perf/arm_cspmu/nvidia_cspmu.c |  24 +++++-
->   drivers/perf/arm_cspmu/nvidia_cspmu.h |  17 ----
->   5 files changed, 124 insertions(+), 43 deletions(-)
->   delete mode 100644 drivers/perf/arm_cspmu/nvidia_cspmu.h
+> Responses should be made by Wed, 05 Apr 2023 14:03:18 +0000.
+> Anything received after that time might be too late.
 > 
-> diff --git a/drivers/perf/arm_cspmu/Makefile b/drivers/perf/arm_cspmu/Makefile
-> index fedb17df982d..2514ad34aaf0 100644
-> --- a/drivers/perf/arm_cspmu/Makefile
-> +++ b/drivers/perf/arm_cspmu/Makefile
-> @@ -2,5 +2,4 @@
->   #
->   # SPDX-License-Identifier: GPL-2.0
->   
-> -obj-$(CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU) += arm_cspmu_module.o
-> -arm_cspmu_module-y := arm_cspmu.o nvidia_cspmu.o
-> +obj-$(CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU) += arm_cspmu.o nvidia_cspmu.o
-
-Now that we have a mechanism to add the NVIDIA CSPMU driver, please 
-could we make it a separate Kconfig ?
-
-> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
-> index e31302ab7e37..6dbcd46d9fdf 100644
-> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
-> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
-> @@ -16,7 +16,7 @@
->    * The user should refer to the vendor technical documentation to get details
->    * about the supported events.
->    *
-> - * Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> + * Copyright (c) 2022-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
->    *
->    */
->   
-> @@ -25,13 +25,13 @@
->   #include <linux/ctype.h>
->   #include <linux/interrupt.h>
->   #include <linux/io-64-nonatomic-lo-hi.h>
-> +#include <linux/list.h>
->   #include <linux/module.h>
->   #include <linux/perf_event.h>
->   #include <linux/platform_device.h>
->   #include <acpi/processor.h>
->   
->   #include "arm_cspmu.h"
-> -#include "nvidia_cspmu.h"
->   
->   #define PMUNAME "arm_cspmu"
->   #define DRVNAME "arm-cs-arch-pmu"
-> @@ -117,11 +117,14 @@
->    */
->   #define HILOHI_MAX_POLL	1000
->   
-> -/* JEDEC-assigned JEP106 identification code */
-> -#define ARM_CSPMU_IMPL_ID_NVIDIA		0x36B
-> -
->   static unsigned long arm_cspmu_cpuhp_state;
->   
-> +/* List of Coresight PMU instances in the system. */
-> +static LIST_HEAD(cspmus);
-> +
-> +/* List of registered vendor backends. */
-> +static LIST_HEAD(cspmu_impls);
-> +
->   /*
->    * In CoreSight PMU architecture, all of the MMIO registers are 32-bit except
->    * counter register. The counter register can be implemented as 32-bit or 64-bit
-> @@ -380,26 +383,94 @@ static struct attribute_group arm_cspmu_cpumask_attr_group = {
->   };
->   
->   struct impl_match {
-> -	u32 pmiidr;
-> -	u32 mask;
-> +	struct list_head next;
-> +	u32 pmiidr_impl;
-
-Do we need something more flexible here ? i.e.,
-
-u32 pmiidr_val;
-u32 pmiidr_mask;
-
-So that, a single backend could support multiple/reduced
-set of devices.
-
-
->   	int (*impl_init_ops)(struct arm_cspmu *cspmu); >   };
->   
-> -static const struct impl_match impl_match[] = {
-> -	{
-> -	  .pmiidr = ARM_CSPMU_IMPL_ID_NVIDIA,
-> -	  .mask = ARM_CSPMU_PMIIDR_IMPLEMENTER,
-> -	  .impl_init_ops = nv_cspmu_init_ops
-> -	},
-> -	{}
-> -};
-> +static struct impl_match *arm_cspmu_get_impl_match(u32 pmiidr_impl)
-> +{
-> +	struct impl_match *impl_match;
-> +
-> +	list_for_each_entry(impl_match, &cspmu_impls, next) {
-> +		if (impl_match->pmiidr_impl == pmiidr_impl)
-
-And this could be:
-	((pmiidr_impl & impl_match->pmiidr_mask) == match->pmiidr_val)
-> +			return impl_match;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static int arm_cspmu_device_reprobe(u32 pmiidr_impl)
-> +{
-> +	int ret;
-> +	struct arm_cspmu *cspmu, *temp;
-> +
-> +	/* Reprobe all arm_cspmu devices associated with implementer id. */
-> +	list_for_each_entry_safe(cspmu, temp, &cspmus, next) {
-> +		const u32 impl_id = FIELD_GET(ARM_CSPMU_PMIIDR_IMPLEMENTER,
-> +					cspmu->impl.pmiidr);
-> +
-> +		if (pmiidr_impl == impl_id) {
-> +			ret = device_reprobe(cspmu->dev);
-> +			if (ret) {
-> +				dev_err(cspmu->dev, "Failed reprobe %s\n",
-> +					cspmu->name);
-> +				return ret;
-> +			}
-
-			break here  ?
-
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int arm_cspmu_impl_register(u32 pmiidr_impl,
-> +	int (*impl_init_ops)(struct arm_cspmu *cspmu))
-> +{
-> +	struct impl_match *impl;
-> +
-> +	if (arm_cspmu_get_impl_match(pmiidr_impl)) {
-> +		pr_err("ARM CSPMU implementer: 0x%x is already registered\n",
-> +			pmiidr_impl);
-> +		return -EEXIST;
-> +	}
-> +
-> +	impl = kzalloc(sizeof(struct impl_match), GFP_KERNEL);
-> +
-> +	list_add(&impl->next, &cspmu_impls);
-
-Don't we need a lock protect this one ?
-
-> +
-> +	impl->pmiidr_impl = pmiidr_impl;
-> +	impl->impl_init_ops = impl_init_ops;
-
-Would be good to do these steps before we actually add it to the
-list. Anyways, the lock is still needed to prevent races.
-
-> +
-> +	return arm_cspmu_device_reprobe(pmiidr_impl);
-> +}
-> +EXPORT_SYMBOL_GPL(arm_cspmu_impl_register);
-> +
-> +void arm_cspmu_impl_unregister(u32 pmiidr_impl)
-> +{
-> +	struct impl_match *impl;
-> +
-> +	impl = arm_cspmu_get_impl_match(pmiidr_impl);
-> +	if (!impl) {
-> +		pr_err("Unable to find ARM CSPMU implementer: 0x%x\n",
-> +			pmiidr_impl);
-> +		return;
-> +	}
-> +
-> +	list_del(&impl->next);
-> +	kfree(impl);
-> +
-> +	if (arm_cspmu_device_reprobe(pmiidr_impl))
-> +		pr_err("ARM CSPMU failed reprobe implementer: 0x%x\n",
-> +			pmiidr_impl);
-
-Is this for falling back to the generic driver ?
-
-> +}
-> +EXPORT_SYMBOL_GPL(arm_cspmu_impl_unregister);
->   
->   static int arm_cspmu_init_impl_ops(struct arm_cspmu *cspmu)
->   {
->   	int ret;
->   	struct acpi_apmt_node *apmt_node = cspmu->apmt_node;
->   	struct arm_cspmu_impl_ops *impl_ops = &cspmu->impl.ops;
-> -	const struct impl_match *match = impl_match;
-> +	const struct impl_match *match;
->   
->   	/*
->   	 * Get PMU implementer and product id from APMT node.
-> @@ -411,10 +482,11 @@ static int arm_cspmu_init_impl_ops(struct arm_cspmu *cspmu)
->   				       readl(cspmu->base0 + PMIIDR);
->   
->   	/* Find implementer specific attribute ops. */
-> -	for (; match->pmiidr; match++) {
-> -		const u32 mask = match->mask;
-> +	list_for_each_entry(match, &cspmu_impls, next) {
-> +		const u32 impl_id = FIELD_GET(ARM_CSPMU_PMIIDR_IMPLEMENTER,
-> +						cspmu->impl.pmiidr);
->   
-> -		if ((match->pmiidr & mask) == (cspmu->impl.pmiidr & mask)) {
-> +		if (match->pmiidr_impl == impl_id) {
-
-match = arm_cspmu_get_impl_match(); ?
-
->   			ret = match->impl_init_ops(cspmu);
->   			if (ret)
->   				return ret;
-> @@ -924,6 +996,8 @@ static struct arm_cspmu *arm_cspmu_alloc(struct platform_device *pdev)
->   	if (!cspmu)
->   		return NULL;
->   
-> +	list_add(&cspmu->next, &cspmus);
-> +
->   	cspmu->dev = dev;
->   	cspmu->apmt_node = apmt_node;
->   
-> @@ -1214,6 +1288,7 @@ static int arm_cspmu_device_remove(struct platform_device *pdev)
->   
->   	perf_pmu_unregister(&cspmu->pmu);
->   	cpuhp_state_remove_instance(arm_cspmu_cpuhp_state, &cspmu->cpuhp_node);
-> +	list_del(&cspmu->next);
->   
->   	return 0;
->   }
-> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
-> index 51323b175a4a..64c3b565f1b1 100644
-> --- a/drivers/perf/arm_cspmu/arm_cspmu.h
-> +++ b/drivers/perf/arm_cspmu/arm_cspmu.h
-> @@ -1,7 +1,7 @@
->   /* SPDX-License-Identifier: GPL-2.0
->    *
->    * ARM CoreSight Architecture PMU driver.
-> - * Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> + * Copyright (c) 2022-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
->    *
->    */
->   
-> @@ -116,6 +116,7 @@ struct arm_cspmu_impl {
->   
->   /* Coresight PMU descriptor. */
->   struct arm_cspmu {
-> +	struct list_head next;
->   	struct pmu pmu;
->   	struct device *dev;
->   	struct acpi_apmt_node *apmt_node;
-> @@ -148,4 +149,11 @@ ssize_t arm_cspmu_sysfs_format_show(struct device *dev,
->   				    struct device_attribute *attr,
->   				    char *buf);
->   
-> +/* Register vendor backend. */
-> +int arm_cspmu_impl_register(u32 pmiidr_impl,
-> +	int (*impl_init_ops)(struct arm_cspmu *cspmu));
-
-May be pack it in the structure ?
-
-
-Suzuki
-
-> +
-> +/* Unregister vendor backend. */
-> +void arm_cspmu_impl_unregister(u32 pmiidr_impl);
-> +
->   #endif /* __ARM_CSPMU_H__ */
-> diff --git a/drivers/perf/arm_cspmu/nvidia_cspmu.c b/drivers/perf/arm_cspmu/nvidia_cspmu.c
-> index 72ef80caa3c8..d7083fed135d 100644
-> --- a/drivers/perf/arm_cspmu/nvidia_cspmu.c
-> +++ b/drivers/perf/arm_cspmu/nvidia_cspmu.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*
-> - * Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> + * Copyright (c) 2022-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
->    *
->    */
->   
-> @@ -8,7 +8,10 @@
->   
->   #include <linux/topology.h>
->   
-> -#include "nvidia_cspmu.h"
-> +#include "arm_cspmu.h"
-> +
-> +/* JEDEC-assigned JEP106 identification code */
-> +#define ARM_CSPMU_IMPL_ID_NVIDIA     0x36B
->   
->   #define NV_PCIE_PORT_COUNT           10ULL
->   #define NV_PCIE_FILTER_ID_MASK       GENMASK_ULL(NV_PCIE_PORT_COUNT - 1, 0)
-> @@ -351,7 +354,7 @@ static char *nv_cspmu_format_name(const struct arm_cspmu *cspmu,
->   	return name;
->   }
->   
-> -int nv_cspmu_init_ops(struct arm_cspmu *cspmu)
-> +static int nv_cspmu_init_ops(struct arm_cspmu *cspmu)
->   {
->   	u32 prodid;
->   	struct nv_cspmu_ctx *ctx;
-> @@ -395,6 +398,19 @@ int nv_cspmu_init_ops(struct arm_cspmu *cspmu)
->   
->   	return 0;
->   }
-> -EXPORT_SYMBOL_GPL(nv_cspmu_init_ops);
-> +
-> +static int __init nvidia_cspmu_init(void)
-> +{
-> +	return arm_cspmu_impl_register(ARM_CSPMU_IMPL_ID_NVIDIA,
-> +		nv_cspmu_init_ops);
-> +}
-> +
-> +static void __exit nvidia_cspmu_exit(void)
-> +{
-> +	arm_cspmu_impl_unregister(ARM_CSPMU_IMPL_ID_NVIDIA);
-> +}
-> +
-> +module_init(nvidia_cspmu_init);
-> +module_exit(nvidia_cspmu_exit);
->   
->   MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/perf/arm_cspmu/nvidia_cspmu.h b/drivers/perf/arm_cspmu/nvidia_cspmu.h
-> deleted file mode 100644
-> index 71e18f0dc50b..000000000000
-> --- a/drivers/perf/arm_cspmu/nvidia_cspmu.h
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0
-> - *
-> - * Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> - *
-> - */
-> -
-> -/* Support for NVIDIA specific attributes. */
-> -
-> -#ifndef __NVIDIA_CSPMU_H__
-> -#define __NVIDIA_CSPMU_H__
-> -
-> -#include "arm_cspmu.h"
-> -
-> -/* Allocate NVIDIA descriptor. */
-> -int nv_cspmu_init_ops(struct arm_cspmu *cspmu);
-> -
-> -#endif /* __NVIDIA_CSPMU_H__ */
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.177-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+> and the diffstat can be found below.
 > 
-> base-commit: 73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
-> prerequisite-patch-id: fb691dc01d87597bcbaa4d352073304287c20f73
+> thanks,
+> 
+> greg k-h
 
+All tests passing for Tegra ...
+
+Test results for stable-v5.10:
+    11 builds:	11 pass, 0 fail
+    28 boots:	28 pass, 0 fail
+    75 tests:	75 pass, 0 fail
+
+Linux version:	5.10.177-rc1-g7d617ad89b61
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
+                tegra20-ventana, tegra210-p2371-2180,
+                tegra210-p3450-0000, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
