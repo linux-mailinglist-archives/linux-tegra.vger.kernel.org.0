@@ -2,64 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5086D600D
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Apr 2023 14:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DDBE6D6012
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Apr 2023 14:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234427AbjDDMTx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Apr 2023 08:19:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51440 "EHLO
+        id S234192AbjDDMU0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Apr 2023 08:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234752AbjDDMTZ (ORCPT
+        with ESMTP id S234758AbjDDMTZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Apr 2023 08:19:25 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3857440C1
-        for <linux-tegra@vger.kernel.org>; Tue,  4 Apr 2023 05:14:56 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id r11so129748007edd.5
-        for <linux-tegra@vger.kernel.org>; Tue, 04 Apr 2023 05:14:56 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CD040C4;
+        Tue,  4 Apr 2023 05:14:57 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id eh3so129662355edb.11;
+        Tue, 04 Apr 2023 05:14:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680610495;
+        d=gmail.com; s=20210112; t=1680610496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ghmTYqJOyZOn2MTihV4T6tw9iNwJh1T6pNKtc6GlOxE=;
-        b=h1PzQUMXt2Uk/Ldc2XTLIZtB3WPQOEdRjphdDOBgAEcm1KmHS76fpTq5BoiDONEemN
-         mBisOKtJ8ujURSQl5crnW6uhdg3juvp/K9EysVzMQ9nUO6H5kxdkq6ZY0Fi9LhrgBpC4
-         c8E5273o0S9gIzLnlWjV/z2CbRntYc4r0Xr+Aa1T47YEgCnjPkZD9AKFv3F/vAZdJLHb
-         9AXxhgMCsrDibV+Bz7Tt+Ic/a8QU9bsmhvrpL1e+y6H6mT6YJRsRL6LNQuQxxUf+Z3Mx
-         uoDrk5agmiPHcZ6RyPcdrRFk8TxNjwVeU7jRj699oW3TBJCHeAg9+D7u8qimvVdFQ/+0
-         nrIg==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sWpcdu+p0/E6sUTGVtKHFSC5GsGqtN7SMwVz/gyGBzk=;
+        b=EaLkr8nP/08C55ln4iwIgp4kUL8ORZeCB7UHmYZ38ILW6MfyOhPVNxEbMUrkTgJsYj
+         icEEZA1Uk3CytZZuFI4YLdrC/6NUFNWBgWW1BX0Ur8eK4r2u8c6HVCCqBv5Y4qOZXYuP
+         /bfoGBfIkqjUHKNsMa/cko8I3GhKZ2XCp9DdwDTUTmARBm0kn3rcDOD/JTbr9KUW0XW9
+         7/e7ON39d5Ypc41FLkrZ6HgZFmYbm0gtjdqV3eKntfQ8acj6ly2HVXNzq0HbglZVIK48
+         a5WXone5j4gQx3rNfDP6uyoVcoraCzUPTQVES9zZNEwSEGWuYi6zd47w/bq7flUhefkB
+         Fkcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680610495;
+        d=1e100.net; s=20210112; t=1680610496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ghmTYqJOyZOn2MTihV4T6tw9iNwJh1T6pNKtc6GlOxE=;
-        b=YNlHji39OgXKQw+plqSIKBESpmoU0AlsTsB/NsAnuf7PusuTtWRaHL488Ts54so6yd
-         1qmj38HTsVP2H3PCullf3zryRMFloX1F4d6gX9qj5PpW7Xwf8Z/E2vK8hXUxUiweoMh5
-         dHxeQy3g8Y/hPHBakzdk1qZfry+eC6MV48VGGHFDCFUihuQKL9b8T8oC+zi3pnIkpVJM
-         1SbY4xDT5r5SNHtZ40pWf7JbMY3zAfzzRVSt/XB3VL+tJmq/Nz3d+bHxR9Hv/DlbakCF
-         GVW31ajWTnCGpZSE1rVU4/+zaSpDaBtzdc3YcIN7Lk3DtOGu7rjaCh/c5UfU0o67u4c0
-         BvqQ==
-X-Gm-Message-State: AAQBX9eS6mZlvdctZjur8TKcODY0OAScDlsQb1/x44i/FFNIGmwUqsiK
-        m5zOdNfGfpdDtc/kIVUSxbj0SG3l2uA=
-X-Google-Smtp-Source: AKy350ZfGorSMIPnJg72IcXpSjnoQ7lSIoJ5Al8iPen06Hp6G0tNLsCirKTEXy26ryySRml3WIgiVw==
-X-Received: by 2002:a17:906:13c2:b0:8b1:fc1a:7d21 with SMTP id g2-20020a17090613c200b008b1fc1a7d21mr1724192ejc.5.1680610494608;
-        Tue, 04 Apr 2023 05:14:54 -0700 (PDT)
+        bh=sWpcdu+p0/E6sUTGVtKHFSC5GsGqtN7SMwVz/gyGBzk=;
+        b=7JkeVFxt0i45w5LHwfExTB+w6Yk959rt+GHgtKS8sc5UKPpQVVe1NzibydWCVVpHtC
+         F8plez0U/f0k0m2kyljbpNBDT5r08nuIy8RYEVdCacTb+NpsDmXFweoI3r6JMOOsyHcc
+         6ZQ35x7jYYugXxl+jXBp+z6azv3XO8m0CKY6kzLt/rAzSB9uTVYf9FL3RgQok94Fc39C
+         pRBF9rCraB3DpMSA9A9zog6oxZRkoEJsOeRZ6D9S0VKQMLKjI5raB7KVbqTZvYtONhfZ
+         VcwvoFB6gcJIzy1hvBMA4W5UlvtxTRui2ExoH/477oo7JtMbiA74T5h+3ffwSHRNm3HV
+         qLPA==
+X-Gm-Message-State: AAQBX9cR2+PArdcFsSx+otR2K+uaoMSbpXEAvWUdHnZ+l83bO41R2P8l
+        g/TRCUaBxq1SKJj9UhBJD2Y=
+X-Google-Smtp-Source: AKy350YQdHuwC3/O3osGuzHIwHh+ZY6uPeVw68YRZlwwXBjBJLPXqU9IgqyL7LmE+ZofbSvbnFoPMQ==
+X-Received: by 2002:a17:906:5a5e:b0:92c:138e:ff1f with SMTP id my30-20020a1709065a5e00b0092c138eff1fmr1860634ejc.18.1680610495847;
+        Tue, 04 Apr 2023 05:14:55 -0700 (PDT)
 Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id u25-20020a1709060b1900b0093e39b921c8sm5850341ejg.164.2023.04.04.05.14.54
+        by smtp.gmail.com with ESMTPSA id g17-20020a17090669d100b009334a6ef3e8sm5963490ejs.141.2023.04.04.05.14.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 05:14:54 -0700 (PDT)
+        Tue, 04 Apr 2023 05:14:55 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, thierry.reding@gmail.com
-Subject: Re: [PATCH] drm/tegra: allow compile test on !ARM v2
-Date:   Tue,  4 Apr 2023 14:14:45 +0200
-Message-Id: <168061024447.2054665.2842597656281966346.b4-ty@nvidia.com>
+To:     Lee Jones <lee@kernel.org>, dri-devel@lists.freedesktop.org
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, David Airlie <airlied@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 09/37] drm/tegra/dc: Remove set but unused variable 'state'
+Date:   Tue,  4 Apr 2023 14:14:46 +0200
+Message-Id: <168061024449.2054665.1446031361966014884.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230322103915.376533-1-christian.koenig@amd.com>
-References: <20230322103915.376533-1-christian.koenig@amd.com>
+In-Reply-To: <20230317081718.2650744-10-lee@kernel.org>
+References: <20230317081718.2650744-1-lee@kernel.org> <20230317081718.2650744-10-lee@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -75,17 +78,18 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-On Wed, 22 Mar 2023 11:39:15 +0100, Christian König wrote:
-> This compile tests on x86 just perfectly fine.
+On Fri, 17 Mar 2023 08:16:50 +0000, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
 > 
-> v2: fix missing include complained by kernel test robot
+>  drivers/gpu/drm/tegra/dc.c: In function ‘tegra_crtc_calculate_memory_bandwidth’:
+>  drivers/gpu/drm/tegra/dc.c:2384:38: warning: variable ‘old_state’ set but not used [-Wunused-but-set-variable]
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/tegra: allow compile test on !ARM v2
-      commit: 224718f4e59442e205524c7307815f09148f051b
+[09/37] drm/tegra/dc: Remove set but unused variable 'state'
+        commit: 42d364ad88ee81356f0417170bafbdc894594914
 
 Best regards,
 -- 
