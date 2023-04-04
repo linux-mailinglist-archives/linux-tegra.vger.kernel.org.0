@@ -2,143 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C95EB6D7C80
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Apr 2023 14:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A88E96D5D73
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Apr 2023 12:28:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237881AbjDEM0D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Apr 2023 08:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
+        id S234009AbjDDK2y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Apr 2023 06:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237766AbjDEM0A (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Apr 2023 08:26:00 -0400
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AFA5FF7;
-        Wed,  5 Apr 2023 05:25:49 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id 256102B06760;
-        Wed,  5 Apr 2023 08:25:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 05 Apr 2023 08:25:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-        1680697538; x=1680704738; bh=ra217NNN+jZc6KJRT2qXuBOUmYWZS9orj2z
-        niOS1IkI=; b=f7hReTkfeIxIdbCk6LMUEmXNh/8Un3OoNbvXdGfZwalPOkSxwXE
-        b4T9znyrJefq22Y2syTGRRXP+3ut/i8xDpAdE4b51L9ZbNYm5Y2aRPEFrfyqxy5i
-        ie5E5EVdbdhN6GAMM2MIeC2V8SH9O/mslf/tpPoVx5muluKo2+BId3XC/hcoANAl
-        VF086V81bir4bMdX5HhPQ7OLtmkrqNHLKWMrM/LeQqSGwouIoEQGYCUS75DnrfLH
-        vx123sEMDQxpXn7myhbTnrkj8tP70yqZUY/BvosTHDP5BUeCWgm17EjNmQ2Kil0l
-        JmHKW7/vtUl/vJpO/BiBXY4NQRjcBVGHY4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1680697538; x=1680704738; bh=ra217NNN+jZc6KJRT2qXuBOUmYWZS9orj2z
-        niOS1IkI=; b=Eim1X+gGxDfIWkCW7Tu5hodpLwxyZV3fw5bO8fVQfObPq5yImdv
-        E9nt5ngwZJYRn2FirXOFtNxCbu4lsxNPe456qH2p/npjmTHqf/vZ9mKp42FIHXEF
-        Rv0mVKSA963ybvNuNHuyYfx7ZnrX9V1ZHNdlsrLokArgktO6+T0yrQ5f0vgvLovr
-        Ggfg0SB2ZbMxJff8THPl5WdIuBoLU4HALQzDsbgq4xCgmc6P49r4dkThPVpoFnKf
-        hseTtyMmmJCho8Cm3L0wEPBfHyZUAwTB5T1ZExzX4R6f0+UkS5b1+CcqKLHs6ePZ
-        dIJ53ErJYK4t5pbatdQJ+mYeHrdaeAeI86g==
-X-ME-Sender: <xms:wWgtZCVvNuzoDATnIqnPPZXDjjLtbBQn11FfSb9jNuuRe3VQdPwqBg>
-    <xme:wWgtZOmsGk_zcpcmWFJhtSudZeYeszviK9185WaBD-VQA4q0cXhbc-t_poQSNr5YK
-    Swm9kfilzSVZjd-WGw>
-X-ME-Received: <xmr:wWgtZGZN4RGfzrewOBgiOxerhwx4mH3MWfUNAelq6cx9Y72km-E2LE1Dob137xcIZ3sSAEMCkzuVw8XIdtD0Q1TH3iLkh2Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
-    teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:wmgtZJUEYxuFlBgW5ITTIodg67Ti-qBLF0Y9epmePlLZwTnUwYWeEA>
-    <xmx:wmgtZMmV5koPoxWHeBPBXtosWwtAX1DogWRnjHZUOD87ETtarU0bwg>
-    <xmx:wmgtZOf48vIy5Q2_TKt9QYUHJIN2OxO6T1aVeuWGjaxJUcCK--j8Rw>
-    <xmx:wmgtZJSqFTTvKdFpzl7BoRLbqCl6x7h04wN1HmJjswCZkYWSrenRyGvGOPQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Apr 2023 08:25:36 -0400 (EDT)
-From:   Maxime Ripard <maxime@cerno.tech>
-Date:   Tue, 04 Apr 2023 12:11:55 +0200
-Subject: [PATCH v3 65/65] clk: Forbid to register a mux without
- determine_rate
+        with ESMTP id S233184AbjDDK2y (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Apr 2023 06:28:54 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2181A1731;
+        Tue,  4 Apr 2023 03:28:53 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id y4so128612963edo.2;
+        Tue, 04 Apr 2023 03:28:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680604131;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lFnhjOVDQ3ItCxmop4qZbHatGDWaTPywjSlabLzg9LE=;
+        b=cMcc5XGY1xYe2xnDmZxzicNPkAs+dVgKdBYDr5K9dUg0d0aXC3jj5+8Z8xpZ8SF+N7
+         bkFYUuUy6ug0qNFeVg84AQ7fYIphC/bZlNkFGbAHvRlyCwhKNP3x9mLUpxQd+tJad9VV
+         PqbIZbmpmlYWRj0SydPCJgOLXceOw36xGF23j2TVWYnGBegVL/c55WwWYaHkemZ6M2PD
+         R/RgsALUZsOLobzxV20mYQSM2wIENBm1WImLKXLoS3rwSBrmnNk2Zh49P+zRc4aTX8Xh
+         xmqgYmD1kF1x5x/zu4fXYqnDpKTUDS7t4w8sXpn4Y+ZjRsVzYd3WjQCV4Qt8Nvtz7eUP
+         zQOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680604131;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lFnhjOVDQ3ItCxmop4qZbHatGDWaTPywjSlabLzg9LE=;
+        b=USKqJ7foDlZ1agF51xzg6YEMzjFdibthpIhTw07Eqla/oK1MgYr4eAIpdw9HNqLK3G
+         eoTHJd/SMkNl7YDtrPs7D0VrrUTpVCqB+BdgwbC1QWPeYzf+aTGUm43seztziFARKK5C
+         igHZ23E5KqJ/wzmCA0aV3w8tP4Xx+V4ZhSpWYFt/KR6PV3QCCXQ8gY233MuNzUHYM9Ym
+         LwNikRzPNNVEjSKEijTkbn8A4gzjzH1AwWCoNenkgXLVFDiKYEGWyybIFaQEHVGrtsuL
+         O+r0XYjIR54Ra/ie36l4V0D7Oxvl1vR0OFDG8rbEcEi6wrwaXPmK1G3Ws6jyyPUDzlK8
+         7l9w==
+X-Gm-Message-State: AAQBX9e3jOE4aHzhca/CeGWJZ/e6mFmzyRuxpZ0l8P9y1OfZZ7FhcpUd
+        Zflt1R28cb0mFK3s05hVR59HK2rKpD8=
+X-Google-Smtp-Source: AKy350YTuwR0WdZcRmjxnBolJRplJ7pURoZBpPDv4DaQCLQi6MZav3gLAUxpI2FqWwmGPOf6tN1xIQ==
+X-Received: by 2002:a17:906:841a:b0:947:c09f:3a5d with SMTP id n26-20020a170906841a00b00947c09f3a5dmr1582176ejx.75.1680604131452;
+        Tue, 04 Apr 2023 03:28:51 -0700 (PDT)
+Received: from orome (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id x5-20020a170906b08500b0093dfd62f9dasm5745572ejy.35.2023.04.04.03.28.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 03:28:51 -0700 (PDT)
+Date:   Tue, 4 Apr 2023 12:28:49 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
+ nvidia,gpio-controller
+Message-ID: <ZCv74dMMucY24L9m@orome>
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-5-dipenp@nvidia.com>
+ <20230324171329.GA2062332-robh@kernel.org>
+ <7f2dc5cf-78b5-81c6-0012-26b1adce1c86@nvidia.com>
+ <19b71fef-614a-d678-2e73-95db8f226e61@linaro.org>
+ <df00404e-96a8-bf33-cbc7-25dbb09c89c7@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221018-clk-range-checks-fixes-v3-65-9a1358472d52@cerno.tech>
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        David Lechner <david@lechnology.com>,
-        Sekhar Nori <nsekhar@ti.com>, Abel Vesa <abelvesa@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>
-Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, patches@opensource.cirrus.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-        linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org,
-        Maxime Ripard <maxime@cerno.tech>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1910; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=LyE1v2/6bw3jiL0YUNQzMPdf0mqkUEJDhu2UMUH0hgk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCna33f4dR+sur5t2oLAT7/2VNx6M2HrBH+Tg1uVdd37n858
- W3LPp6OUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATKa9gZHhz2dG0eXeJWfTy68FR+v
- uPfdVV3ST/46S/w9cNDzc1L/7ByPCytvXxqVdd9zg3H2l1Xlpx8Vt/lEXQDqPCk3eWsOksW8IMAA==
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
-X-Spam-Status: No, score=-0.4 required=5.0 tests=DATE_IN_PAST_24_48,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="j4v+jpU4YnL3mitN"
+Content-Disposition: inline
+In-Reply-To: <df00404e-96a8-bf33-cbc7-25dbb09c89c7@nvidia.com>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -146,55 +84,79 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The determine_rate hook allows to select the proper parent and its rate
-for a given clock configuration. On another hand, set_parent is there to
-change the parent of a mux.
 
-Some clocks provide a set_parent hook but don't implement
-determine_rate. In such a case, set_parent is pretty much useless since
-the clock framework will always assume the current parent is to be used,
-and we will thus never change it.
+--j4v+jpU4YnL3mitN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This situation can be solved in two ways:
-  - either we don't need to change the parent, and we thus shouldn't
-    implement set_parent;
-  - or we don't want to change the parent, in this case we should set
-    CLK_SET_RATE_NO_REPARENT;
-  - or we're missing a determine_rate implementation.
+On Mon, Apr 03, 2023 at 09:24:17PM -0700, Dipen Patel wrote:
+> On 3/25/23 4:09 AM, Krzysztof Kozlowski wrote:
+> > On 24/03/2023 19:51, Dipen Patel wrote:
+> >> On 3/24/23 10:13 AM, Rob Herring wrote:
+> >>> On Wed, Mar 22, 2023 at 06:29:23PM -0700, Dipen Patel wrote:
+> >>>> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwar=
+ds.
+> >>>> This is done to help below case.
+> >>>>
+> >>>> Without this property code would look like:
+> >>>> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
+> >>>> 	hte_dev->c =3D gpiochip_find("tegra194-gpio-aon",
+> >>>> 				   tegra_get_gpiochip_from_name);
+> >>>> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-=
+aon"))
+> >>>> 	hte_dev->c =3D gpiochip_find("tegra234-gpio-aon",
+> >>>> 				   tegra_get_gpiochip_from_name);
+> >>>> else
+> >>>> 	return -ENODEV;
+> >>>
+> >>> Or you just put the name in match data.
+> >>
+> >> Not sure I have understood this comment, but "name" the first argument=
+ is
+> >> already there to supply to callback to match data. Also, this if else =
+is
+> >> needed to know which "name" to provide.
+> >=20
+> > The point is that of_device_is_compatible() do not really scale and make
+> > code more difficult to read. Your variant-customization should in
+> > general entirely come from match/driver data.
+>=20
+> Perhaps I should not have mentioned driver related details here about how
+> this property will help, that detail will go in driver patch. In the next
+> patch series I will remove this commit and just focus on what this proper=
+ty
+> is.
 
-The latter is probably just an oversight from the driver's author, and
-we should thus raise their awareness about the fact that the current
-state of the driver is confusing.
+I think the point that Rob and Krzysztof are trying to make that rather
+than adding a new property for this, we can add a const char *gpio field
+to struct tegra_hte_data and then set that to the compatible string of
+the GPIO controller that we need this for.
 
-All the drivers in-tree have been converted by now, so let's prevent any
-clock with set_parent but without determine_rate to register so that it
-can't sneak in again in the future.
+To be honest, I slightly prefer the explicit phandle reference, but it
+also complicates things a bit and looking up by compatible string isn't
+all that bad.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/clk/clk.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thierry
 
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index f9fc8730ed17..4c1f28fb8c1f 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -3746,6 +3746,13 @@ static int __clk_core_init(struct clk_core *core)
- 		goto out;
- 	}
- 
-+	if (core->ops->set_parent && !core->ops->determine_rate) {
-+		pr_err("%s: %s must implement .set_parent & .determine_rate\n",
-+			__func__, core->name);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
- 	if (core->num_parents > 1 && !core->ops->get_parent) {
- 		pr_err("%s: %s must implement .get_parent as it has multi parents\n",
- 		       __func__, core->name);
+--j4v+jpU4YnL3mitN
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-2.39.2
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmQr+94ACgkQ3SOs138+
+s6FuTg//RaYWUCY1EIVK5FtyolJck7DDm1TQXL5ILgE2I9QFBGSGMptLVzAvGKDa
+OlqURt08FlaVKMGrdfW6KB4d9eIUt2GI7mFBftFfFa7jB0YDRvrF1HLtUJ80xQmZ
+vcLHKiWXfOPBxK8Z1m47MUoWOnhlbbPX2asdk+kF6Zy4c1XvADfKEIckN3LDTv7z
+guxioGkdf4/yfbQrIbqxrQ0sxiOU9wQJg9ZqxMObBLtMnMPvylNN9/oP7XsuAMfD
+0+hhaM9MSQKa+/XucaqqmiHqCfoP1GoRBl6DvJezrZx4TIoI7FlGJ1QIxuecOI2G
+JDelTvifSpzlfC5giaR6GS3cQXvyvKuAG5kQfodHhyV1JdV1wVP4YguEdXFPDRoG
+mWrRImkogPPvWvy20wCaqZRor8riz8r8jYTXZBUbL8CnpGeB/7EMG7KU4X7IICTa
+yhlqAMN734OzI4EMzp/s+tZCa/QaPaE1nlPHSOBvyp+Pv2xjjzDdbDyN3vzSX1A/
+WZTWOooXjbPkvhXcxC2+toMdSGJuvqsEn5emfcnpAw3mNUYuJRF500phzK8sQoVv
+G6NetMfFRKcTTzDQznnK3gomRb6EVrKw1cRy3ZOP52s+cSILZXZKLX0aV6l8hppx
+rnEDotFl9tti4UbRn+sX2eA7IqB+ftwAQyu1f2dNCPSw0V3m3cY=
+=Zelo
+-----END PGP SIGNATURE-----
+
+--j4v+jpU4YnL3mitN--
