@@ -2,130 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF866D85BD
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Apr 2023 20:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 643286D85D6
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Apr 2023 20:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbjDESMI convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 5 Apr 2023 14:12:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
+        id S233171AbjDESTY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Apr 2023 14:19:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjDESMH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Apr 2023 14:12:07 -0400
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728A71A8;
-        Wed,  5 Apr 2023 11:12:06 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id eh3so143194259edb.11;
-        Wed, 05 Apr 2023 11:12:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680718325;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y/h1wnReky+bpZGjcFPhU9qtus+mzxkSsVtUudoN3sc=;
-        b=vQX4/PwL95AZ9I2LZTH0RXnvpskQLWjMiVIwVIlOgJDMFZaLBx3GotY7TD7NMwE/ZY
-         Ntzi3VKCSf3O5VOXPgiBdkcGTAu088fjmifg58YQ4QZaSh1vJfKA8t5ggQRWxxTPazIi
-         1VF08eMwU6WUtv7ROFZCyt8Gu6XLzVE88hue+w33pfID8UlqvqlN1LgfWKfjpw4IrQdB
-         3GtAOOKf6u1r5tv8LfpCH/irngvcgCQpaltb/Vrw09D3RJH+v6rDHF4n18zZRz3xDzfu
-         qgbqWmThrgHBgIg56BsSM3oGsM2S7q33RekU5iZxBDfANOGKQ3T0nbnDUGEZOLAX/kaT
-         xuZg==
-X-Gm-Message-State: AAQBX9dCS+FCM2foabbPmfJZ1VypqnfyEdsC63/BWQrfYKH+tUc8dxwF
-        Nv6yPSBtrNmY+maFNJBhGIXDtKVb7tOgBrsjpfQ=
-X-Google-Smtp-Source: AKy350a4/1UgQtuZi96LdxsX2CgTr+CU3hxhJSZ5/OXGn3TAfH7X6v13QHnOxtyoiPa1CwRyJPG+X/O/1zQCiXxYReY=
-X-Received: by 2002:a17:906:6d55:b0:947:c623:2c84 with SMTP id
- a21-20020a1709066d5500b00947c6232c84mr2032299ejt.2.1680718324772; Wed, 05 Apr
- 2023 11:12:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230329-acpi-header-cleanup-v1-0-8dc5cd3c610e@kernel.org>
- <20230329-acpi-header-cleanup-v1-5-8dc5cd3c610e@kernel.org>
- <CAJZ5v0h8pEq4Tx-Q=VPT-XR73NRk=_XQg6vgr-wA-CFesuuSLg@mail.gmail.com> <CAL_JsqKVg_1T2SkMRryDFyYho1Kz+ppNkqozPdyyX_t4EFBJpg@mail.gmail.com>
-In-Reply-To: <CAL_JsqKVg_1T2SkMRryDFyYho1Kz+ppNkqozPdyyX_t4EFBJpg@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 5 Apr 2023 20:11:53 +0200
-Message-ID: <CAJZ5v0gjJsEe4hUgTcCUXghKkWd+0ChPfDndPavioj2XMC_gMQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] ACPI: Replace irqdomain.h include with struct declarations
-To:     Rob Herring <robh@kernel.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
+        with ESMTP id S229507AbjDESTX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Apr 2023 14:19:23 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9EC6A5B;
+        Wed,  5 Apr 2023 11:19:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mVWL4wSnX/bJ8Tk7EpLw/fxSPC3YHvMGqp0II5nToZEaZvFFp7iGI1nWRRkOByIQWWuoiJYKCLxe/na2mYW3hNP/0GtsozcbheLa4QyIc6OCnpesTWeK9qBLhbZl/zB3uYeU7kzQrjUhVKUMIUh4do3GyPzUEffxzxKA5htGRLr+wrs2KyufZbYQFDjPWf+s4+KbAOulE75cjBitfC1uvFlmMv4V6PuwPnpGgGGaVeTWgE7pVT/MAv0A26Qiy/kjDRfbYwcJi/3KPvbIqY/sjFyo+JsnR13LLdsvIC/mePsUjihFxT4m61nJDGHPImrIT0MSpulFgv8xFjV4dNshnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NUHIqL9GG/MqckcICY8cpcEz4mrhQ1ioutInGCeqUlI=;
+ b=JNBXK7/XG1JVSrbuZwy0l6jByR8aANpN4/+0ALozbogZ56sV8t87NXwOva4WQfLEE/LutsbG9mkzd0HbfML0XLFNzhzRGvEoniAbnTh7215PJlTVwXhCxHV9ybEJ/5L4bwgxS56owdoH49OUijjtuG82ngc0JUnPSiklKXVMGT2kEiOYMdcRvtIZqG6t+n+Exy78tbazY85LGuB7sFWqVkHDklR9rwvhdk5pijfH2JdfYcwdzYVJ5qY500DiSuscQXv5Z61yBhKXX6+9qnJOYkevDegb2ycVBCJd9T26sRivZVDJ4efzx9hanrfbEI5oLmKbcx3HMjcjL+E9ZF85cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NUHIqL9GG/MqckcICY8cpcEz4mrhQ1ioutInGCeqUlI=;
+ b=Mt3p53sKVL63Y7GN/db/+4uCpMQVYfD9PeN3AkzfLWsWtMqZCdkdHrKtlaftzqvMbQ0CBXOal2wgXOtLJj2GhclQf+saEhDTWri7qvOCv9WOevObsWB1cV/+v0EOL9Ngk1RLwSch7mbPOFiwBldBs5F4lIoO1MmYP2aN8MbmcUfBUCh/kmgnwTRFAO+NX7lQenKGtBRhrVpjPe6azt00fQ1MmHEWx950mU4HEkN4S7TZlzQBKfW84eUlu0OHsWdSbpBoR1+xfjddvPYE8W7ltoSCI+HzN1IvjSjsbF8yTrC0JTUEeei/lHMOK42xbAJR3AvZFkL9lEMvEj1vsvf9pQ==
+Received: from BN9PR03CA0638.namprd03.prod.outlook.com (2603:10b6:408:13b::13)
+ by CY5PR12MB6624.namprd12.prod.outlook.com (2603:10b6:930:40::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.30; Wed, 5 Apr
+ 2023 18:19:16 +0000
+Received: from BL02EPF000145B9.namprd05.prod.outlook.com
+ (2603:10b6:408:13b:cafe::71) by BN9PR03CA0638.outlook.office365.com
+ (2603:10b6:408:13b::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.22 via Frontend
+ Transport; Wed, 5 Apr 2023 18:19:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BL02EPF000145B9.mail.protection.outlook.com (10.167.241.209) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6222.35 via Frontend Transport; Wed, 5 Apr 2023 18:19:15 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Wed, 5 Apr 2023
+ 11:19:06 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Wed, 5 Apr 2023 11:19:05 -0700
+Received: from moonraker.nvidia.com (10.127.8.13) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Wed, 5 Apr 2023 11:19:04 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Marc Zyngier <maz@kernel.org>, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        Nagarjuna Kristam <nkristam@nvidia.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 1/2] usb: gadget: tegra-xudc: Fix crash in vbus_draw
+Date:   Wed, 5 Apr 2023 19:18:53 +0100
+Message-ID: <20230405181854.42355-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF000145B9:EE_|CY5PR12MB6624:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5b4c462-5b88-4dd3-3acd-08db360243fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sBQJxGXCQ9ACw28xtH16W0UYpsOwDdAITVq/zg0eRkn77bX1uExuFlkRqai9wvkL+7NozdGHhBvxU3d8U9/mGCHRq+RZqEU3B42xY1H2FrES3UeOKWDe+VkLwzoNyhFefQrVuQYjHoVXuyWo088qSxU/vv/T2k+zYT6IdLMr7S5ZQZu70yIiQ67T72jzBh+XrfGZi1Jq8Z2dqKlbhcuh2xXKf1NOrEaTzOwb7SzEpuMqrrUIxQh2y0rsqZ0oJCzd/PZjNpaSudOY0LmC/AcH35t1rIEZczC5qxeNKlLX68IR0diqYKCnGegr+e7IKeg3CbnaqXsvVgJpYuswRtbt0BeEnOoKUKCsi5bRt2J2m47Fe/HeuE8NVVFWdOo+osl5zN0Nfx/FPNpc1OM5GJ90U5uzW35uO+K71WvmCr5qMFEc08HEDTGbxzaaBWcBSKCR9mxN61j03MGk5hTW05nA1WwLfOGJ0Od+ZigNykmXxUKfvMqQl2NeruSE5IrJdtKgytW4bWXWukhSSRwazk6qKos4aMceRI2MVdA0QRgT8m6B8ehrQGtk5jPUgKrintcGYuTPgYNUqAbTKqpWxcgAAzXlWTS9KvNYFHS3WIcDGq8Qyfrd8zA5sUV3tZy/ji6Jd/GFh1VkJV8bLDTuQxOGWK45IG3l7V1UzJxo5SHsftFvVBhO9xVc9yZ1skmCOXt/GZ67KZNQzmwyde5G1H9C/Thu4angtyhZR/RKQz0UHddT98uEZNOiXUNfes13T+vb
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(376002)(346002)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(5660300002)(41300700001)(8936002)(2906002)(8676002)(4326008)(316002)(110136005)(478600001)(7696005)(1076003)(26005)(2616005)(6666004)(107886003)(70586007)(70206006)(426003)(336012)(186003)(83380400001)(47076005)(356005)(7636003)(54906003)(82740400003)(6636002)(40460700003)(82310400005)(36756003)(36860700001)(40480700001)(86362001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 18:19:15.9529
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5b4c462-5b88-4dd3-3acd-08db360243fd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF000145B9.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6624
+X-Spam-Status: No, score=0.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Apr 5, 2023 at 6:48 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Apr 5, 2023 at 9:59 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > Hi Rob,
-> >
-> > On Wed, Mar 29, 2023 at 11:21 PM Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > linux/acpi.h includes irqdomain.h which includes of.h. Break the include
-> > > chain by replacing the irqdomain include with forward declarations for
-> > > struct irq_domain and irq_domain_ops which is sufficient for acpi.h.
-> > >
-> > > Cc: Marc Zyngier <maz@kernel.org>
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  include/linux/acpi.h | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-> > > index efff750f326d..169c17c0b0dc 100644
-> > > --- a/include/linux/acpi.h
-> > > +++ b/include/linux/acpi.h
-> > > @@ -10,12 +10,14 @@
-> > >
-> > >  #include <linux/errno.h>
-> > >  #include <linux/ioport.h>      /* for struct resource */
-> > > -#include <linux/irqdomain.h>
-> > >  #include <linux/resource_ext.h>
-> > >  #include <linux/device.h>
-> > >  #include <linux/property.h>
-> > >  #include <linux/uuid.h>
-> > >
-> > > +struct irq_domain;
-> > > +struct irq_domain_ops;
-> > > +
-> > >  #ifndef _LINUX
-> > >  #define _LINUX
-> > >  #endif
-> > >
-> > > --
-> >
-> > This causes build issues in linux-next, so I've dropped the series.  I
-> > will be happy to pick it up again when the build issues are addressed,
-> > though.
->
-> Is it just the one in pata_macio.c or are there others you are aware of?
+Commit ac82b56bda5f ("usb: gadget: tegra-xudc: Add vbus_draw support")
+populated the vbus_draw callback for the Tegra XUDC driver. The function
+tegra_xudc_gadget_vbus_draw(), that was added by this commit, assumes
+that the pointer 'curr_usbphy' has been initialised, which is not always
+the case because this is only initialised when the USB role is updated.
+Fix this crash, by checking that the 'curr_usbphy' is valid before
+dereferencing.
 
-I'm aware of a few:
+Fixes: ac82b56bda5f ("usb: gadget: tegra-xudc: Add vbus_draw support")
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/usb/gadget/udc/tegra-xudc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://lore.kernel.org/lkml/20230403201801.02839c9a@canb.auug.org.au/
-https://lore.kernel.org/lkml/20230403112514.47ff91bb@canb.auug.org.au/
-https://lore.kernel.org/lkml/20230403111605.7658ec62@canb.auug.org.au/
-https://lore.kernel.org/lkml/20230403110650.6b13cb71@canb.auug.org.au/
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 2b71b33725f1..5bccd64847ff 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -2167,7 +2167,7 @@ static int tegra_xudc_gadget_vbus_draw(struct usb_gadget *gadget,
+ 
+ 	dev_dbg(xudc->dev, "%s: %u mA\n", __func__, m_a);
+ 
+-	if (xudc->curr_usbphy->chg_type == SDP_TYPE)
++	if (xudc->curr_usbphy && xudc->curr_usbphy->chg_type == SDP_TYPE)
+ 		ret = usb_phy_set_power(xudc->curr_usbphy, m_a);
+ 
+ 	return ret;
+-- 
+2.34.1
+
