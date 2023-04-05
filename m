@@ -2,68 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D746D920F
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Apr 2023 10:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A43146D76F7
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Apr 2023 10:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjDFIzT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Apr 2023 04:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
+        id S237515AbjDEIbn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Apr 2023 04:31:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233624AbjDFIzS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Apr 2023 04:55:18 -0400
-X-Greylist: delayed 87426 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Apr 2023 01:55:14 PDT
-Received: from mail.feshiecree.pl (mail.feshiecree.pl [89.40.114.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF964EFD
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Apr 2023 01:55:14 -0700 (PDT)
-Received: by mail.feshiecree.pl (Postfix, from userid 1001)
-        id D621383B45; Wed,  5 Apr 2023 09:27:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
-        s=mail; t=1680683281;
-        bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
-        h=Date:From:To:Subject:From;
-        b=XgyxZFPGh5Y6wJtyrJ2hDDXQGbpKzr5PKq0eZbIUrJN800wvhaAyA1i71OplN5kEZ
-         XDGuL2VhwdZSEnigkI1CXFCLBCnTKR/lYGmgQqqo33ZS0YMkaJC+7SHJVnIEC4Snnt
-         4el5nxStS8Sz4cshmWsdu+S/gnJs86AtcCdDjSd77rlIv1vuyRdGmWmoGvs2jeB9Nj
-         ZUdVj03Rz9PY90C3tKwrkDSrzkWgubIetDHjgkqUF0TELLChAf/VHPSeZryQdbXiOP
-         Bo0JEhDpMSzxEY0dTDQIfuQrX4BAgEQANbK46ef4RJDWP/iHXJF/TKnDmxaYdZiiWL
-         FFHvCRhwM3+nA==
-Received: by feshiecree.pl for <linux-tegra@vger.kernel.org>; Wed,  5 Apr 2023 08:27:41 GMT
-Message-ID: <20230405084211-0.1.1u.6hnt.0.u5iw85hcji@feshiecree.pl>
-Date:   Wed,  5 Apr 2023 08:27:41 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
-To:     <linux-tegra@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.feshiecree.pl
+        with ESMTP id S230163AbjDEIbm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Apr 2023 04:31:42 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D731FF6;
+        Wed,  5 Apr 2023 01:31:39 -0700 (PDT)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5E4551BF20E;
+        Wed,  5 Apr 2023 08:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1680683498;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dfpX8n3KjmDuOMM79pUj2UNu0NextAFw1gDVBnHMLw4=;
+        b=bCcuC7sWRQhfy48p+yKdWbEIRlhTIKVTe01b/RtLxDpwYXkNTNSsthBgWlrM5AyYCFAD9V
+        bPZAeDNTSMUdLU6TH3O9/wHuQedepqeKZFAePw42KIr3UlWGLsObQHIx8FRA/Yzo/Hpwas
+        1oMfM22Ru1auoLd8ys6PHjyeEs1k+RTPAgcCt6EDnt1ohR6x/rMuXDzlORw7UkENAYfwpS
+        Bgqu7CtMjURcHeXgjEMd0FKRfuuPeaa635UVKIvKX9q7NrF+b0gicCAXGtd9tGp3oRRUos
+        YgHaBQkht/RyoSHfYHY0w8lMSHHsAAkY1nM7AiJntPvjMh+FRmG6op0Q0JlDlQ==
+Date:   Wed, 5 Apr 2023 10:31:34 +0200
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
+ .vidioc_enum_fmt_vid_cap to return all formats
+Message-ID: <20230405103134.2ae10766@booty>
+In-Reply-To: <20230405023048.GD9915@pendragon.ideasonboard.com>
+References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
+        <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
+        <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+        <20230404161251.272cc78b@booty>
+        <20230405023048.GD9915@pendragon.ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_DUL,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Laurent,
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+On Wed, 5 Apr 2023 05:30:48 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+> Hi Luca,
+> 
+> On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
+> > On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
+> >   
+> > > Hi Luca,
+> > > 
+> > > I finally found the time to test this series. It looks OK, except for this patch.  
+> > 
+> > Thank you very much for taking the time!
+> >   
+> > > The list of supported formats really has to be the intersection of what the tegra
+> > > supports and what the sensor supports.
+> > > 
+> > > Otherwise you would advertise pixelformats that cannot be used, and the application
+> > > would have no way of knowing that.  
+> > 
+> > As far as I understand, I think we should rather make this driver fully
+> > behave as an MC-centric device. It is already using MC quite
+> > successfully after all.
+> > 
+> > Do you think this is correct?  
+> 
+> Given the use cases for this driver, I agree.
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
+Ok, thanks for the feedback. I will send a v5 with this change.
 
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+Best regards,
+Luca
 
-
-Pozdrawiam
-Krystian Wieczorek
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
