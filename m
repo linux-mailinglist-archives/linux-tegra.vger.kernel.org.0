@@ -2,61 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 973476D9743
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Apr 2023 14:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B1CE6D9748
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Apr 2023 14:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237363AbjDFMsI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Apr 2023 08:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45982 "EHLO
+        id S237949AbjDFMsn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Apr 2023 08:48:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjDFMsH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Apr 2023 08:48:07 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF8411C
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Apr 2023 05:48:06 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-50299ceefa4so1272558a12.2
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Apr 2023 05:48:06 -0700 (PDT)
+        with ESMTP id S237404AbjDFMsI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Apr 2023 08:48:08 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48E3C180
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Apr 2023 05:48:07 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id lj25so1092613ejb.11
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Apr 2023 05:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680785285;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rAvv/otmGc3hwMXwQhQHoUuaDflO8xWMjxGu4buYhBU=;
-        b=UYFWuwtQZE6dbI/L901jI2OuT9Agu1VXY2EejSe+o6TS7XLyjvoSWvDKcswwOjC+ae
-         cyDDXDCmwHn6bMpkeUTzVFVaRnm3MTvUDi5n2jR7j0mc7w9M9XohOcQxoHRN8xt74wdg
-         8pxGPiPLt2bBrOI65/sXwNQS6wpL7vSfl+UNJ57iOdrir3FNjkBAt2bMDYeGucin0a8h
-         00IYrM1ypuEDqFqK4ngforUGZ+1nO82xDabjQUetehEC7fYmrDmlFpx8wJA+a79OD2HX
-         gVjmDzZ6QlHbfViR+TSQTykseB/NGyAqLHRiAzgldDT3wI/DOr01d3fz0DZ2p7ot+pOG
-         ah+g==
+        d=gmail.com; s=20210112; t=1680785286;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C/oNPSXF4DEXkM4iJ7WzDu31Vha4rpo63BbtWEOYdL4=;
+        b=B3OhMfX5OZYNer0C9NNK+6rM1YKacqHCOa2H7QCFZAui3hQe59xMIAsZxWTDdTi2T9
+         +sPauCztyvgty/T7zEbnstVmr2ZUxadFhGT9PC2csPtE7NtV/9WlB2p0HSA+uUzpouK8
+         2cKbTwzshxRH0lhe/v9z4q14bT9XlN11NjJCRgKGBW9m5d0QLM9gJ2KCcE8VcdHCYaMg
+         B7pMf520mzhvX7Ex3nJO/R6Y+dzfIHUY+b5YDkp/uQbmIrI0jXWvzRVxMReGWe4Ephfu
+         m/mmmFHmDNZ60zKxkIFP0pSQcQZYG83GkhjVSEOaDeApJImsrlB5wfTKic49QQDhjruC
+         j7NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680785285;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rAvv/otmGc3hwMXwQhQHoUuaDflO8xWMjxGu4buYhBU=;
-        b=IphvoRgFjbMTKmyf1XHc/0SpkaG69cYpLcUPDwqmixKwXHMC/qcjsuAuvSlbDEQEHt
-         b0x1zMZwGmxg2l27sUmWHIADNpTg2MDSYKepnn121Dlogi8PNdzl1K13SaazRiznxSE6
-         1FU+nwl1YB+rem48Vl35WaGxaqI58q2Qfk8KeWM/yda0JpfHOgIGk5YZIF7POQbykaBz
-         tAmg2FL+haADqAzlsq1+93kGFRbqP2zSiutlxTKO1syK0aCIO0AchDa8RkJV3V+x74on
-         R4b/2QQa8fTEO9eQirUMmpx/XEnwZQTmYzBybqbUieUeXbe3gXETKzB6q38lqHC4HHW8
-         Qp0g==
-X-Gm-Message-State: AAQBX9fGfbAhzEGAc1FslZUO2xM9EE40LzdJdMgr2ssmh/xdGyF+DDb+
-        di6qJuSaYrGtIPtp6yD8xhE=
-X-Google-Smtp-Source: AKy350Z5ATxSZlSfguG4OpymE0cvmmmtJXCnwNBQv9rv/Ol+ovzictkZq8tSc3aSPoqP/5qlntn56w==
-X-Received: by 2002:aa7:c50b:0:b0:4fa:e129:31cf with SMTP id o11-20020aa7c50b000000b004fae12931cfmr5437923edq.23.1680785284856;
-        Thu, 06 Apr 2023 05:48:04 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680785286;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C/oNPSXF4DEXkM4iJ7WzDu31Vha4rpo63BbtWEOYdL4=;
+        b=h5axGXE5jSDkBfvoMiIw/b2MW8gcyWCniOakO/oFKJdZ6HBRK84wfdhepWK7Mtk9qe
+         e0GPHYJXEbRxBpYP5XWSAXPUJDy3SpcB7aVKzigggKDVQDvFUmLKqaVLvRsTJ+va6jhD
+         fi+EKj7X9ezE7AOPe8StgyPcabotfM34eC00GyEGwFgtoaiESDyplGjE3WjrZLedcAwM
+         eUPQ3om+yfe2c7YQNzLqVAgkoXzx5bfz7RX7zhaYfpQhRBlgbRyJAyQzgZU7ETBUorO3
+         9oNWd6ybtpP/TYWkrF5VCad3AvHc+8r92VNbaK0SHzuknCS8pAhj2yIJN5hpC/J0wvMI
+         JRwg==
+X-Gm-Message-State: AAQBX9dewceqZUO+lJhr1nSEfxFbHYwgHYdQUVqxTBYmwz2PVwv7xsqH
+        bZCEA/J6yaNfGzWl2AM+sXY=
+X-Google-Smtp-Source: AKy350bHCWjsKOT+HSqtRAOm/6ukLHpkAF0MU8QVFPLej0KBruxegYeGUhznE2/zgUMPjUEjZLozjg==
+X-Received: by 2002:a17:907:77c1:b0:889:58bd:86f1 with SMTP id kz1-20020a17090777c100b0088958bd86f1mr6586345ejc.14.1680785285785;
+        Thu, 06 Apr 2023 05:48:05 -0700 (PDT)
 Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id y40-20020a50bb2b000000b004c2158e87e6sm697255ede.97.2023.04.06.05.48.04
+        by smtp.gmail.com with ESMTPSA id qp4-20020a170907206400b0093048a8bd31sm784093ejb.68.2023.04.06.05.48.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 05:48:04 -0700 (PDT)
+        Thu, 06 Apr 2023 05:48:05 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 1/7] ARM: tegra: Core changes for v6.4-rc1
-Date:   Thu,  6 Apr 2023 14:47:58 +0200
-Message-Id: <20230406124804.970394-1-thierry.reding@gmail.com>
+Subject: [GIT PULL 2/7] soc/tegra: Changes for v6.4-rc1
+Date:   Thu,  6 Apr 2023 14:47:59 +0200
+Message-Id: <20230406124804.970394-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230406124804.970394-1-thierry.reding@gmail.com>
+References: <20230406124804.970394-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -78,24 +81,57 @@ The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.4-arm-core
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.4-soc
 
-for you to fetch changes up to e8476011f04b1ee4360f755ed19cbbddf12dc83e:
+for you to fetch changes up to 821d96e3a006d09ca9aa3d982c50f3d86fa55500:
 
-  ARM: tegra: Remove MODULE_LICENSE in non-modules (2023-04-05 15:03:17 +0200)
+  soc/tegra: fuse: Remove nvmem root only access (2023-04-05 17:10:40 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Core changes for v6.4-rc1
+soc/tegra: Changes for v6.4-rc1
 
-This contains a single commit to drop MODULE_LICENSE() from a driver
-that can't be built as a module since that can now confuse tooling.
+Contains various minor cleanups and fixes as well as support for several
+more wake events on Tegra234.
 
 ----------------------------------------------------------------
-Nick Alcock (1):
-      ARM: tegra: Remove MODULE_LICENSE in non-modules
+Jon Hunter (1):
+      soc/tegra: pmc: Add the PMIC wake event for Tegra234
 
- drivers/amba/tegra-ahb.c | 1 -
- 1 file changed, 1 deletion(-)
+Kartik (1):
+      soc/tegra: fuse: Remove nvmem root only access
+
+Mikko Perttunen (1):
+      soc/tegra: bpmp: Actually free memory on error path
+
+Muhammad Usama Anjum (1):
+      soc/tegra: cbb: remove linux/version.h
+
+Nick Alcock (1):
+      soc/tegra: cbb: Remove MODULE_LICENSE in non-modules
+
+Petlozu Pravareshwar (1):
+      soc/tegra: pmc: Support software wake-up for SPE
+
+Sushil Singh (1):
+      soc/tegra: pmc: Add wake source interrupt for MGBE
+
+Uwe Kleine-König (1):
+      soc: tegra: cbb: Drop empty platform remove function
+
+Yang Yingliang (1):
+      soc/tegra: cbb: tegra194: Use of_address_count() helper
+
+Ye Xingchen (1):
+      soc/tegra: flowctrl: Use devm_platform_get_and_ioremap_resource()
+
+ drivers/soc/tegra/cbb/tegra-cbb.c    |  1 -
+ drivers/soc/tegra/cbb/tegra194-cbb.c |  6 +-----
+ drivers/soc/tegra/cbb/tegra234-cbb.c |  8 --------
+ drivers/soc/tegra/flowctrl.c         |  4 +---
+ drivers/soc/tegra/fuse/fuse-tegra.c  |  4 ++--
+ drivers/soc/tegra/pmc.c              | 26 +++++++++++++++++++++++++-
+ drivers/soc/tegra/powergate-bpmp.c   |  2 +-
+ 7 files changed, 30 insertions(+), 21 deletions(-)
