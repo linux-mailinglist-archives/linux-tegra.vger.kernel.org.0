@@ -2,61 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B1CE6D9748
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Apr 2023 14:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C05F36D9747
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Apr 2023 14:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237949AbjDFMsn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Apr 2023 08:48:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
+        id S238032AbjDFMsm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Apr 2023 08:48:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237404AbjDFMsI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Apr 2023 08:48:08 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48E3C180
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Apr 2023 05:48:07 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id lj25so1092613ejb.11
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Apr 2023 05:48:07 -0700 (PDT)
+        with ESMTP id S237645AbjDFMsJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Apr 2023 08:48:09 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C6B11C
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Apr 2023 05:48:08 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id l15so1094258ejq.10
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Apr 2023 05:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680785286;
+        d=gmail.com; s=20210112; t=1680785287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C/oNPSXF4DEXkM4iJ7WzDu31Vha4rpo63BbtWEOYdL4=;
-        b=B3OhMfX5OZYNer0C9NNK+6rM1YKacqHCOa2H7QCFZAui3hQe59xMIAsZxWTDdTi2T9
-         +sPauCztyvgty/T7zEbnstVmr2ZUxadFhGT9PC2csPtE7NtV/9WlB2p0HSA+uUzpouK8
-         2cKbTwzshxRH0lhe/v9z4q14bT9XlN11NjJCRgKGBW9m5d0QLM9gJ2KCcE8VcdHCYaMg
-         B7pMf520mzhvX7Ex3nJO/R6Y+dzfIHUY+b5YDkp/uQbmIrI0jXWvzRVxMReGWe4Ephfu
-         m/mmmFHmDNZ60zKxkIFP0pSQcQZYG83GkhjVSEOaDeApJImsrlB5wfTKic49QQDhjruC
-         j7NA==
+        bh=EP3pWoThzxNHvqPa+xfASwdPg7dot4xq5Kg3CfDSY8o=;
+        b=b5ZFEB2OJgUR3afX1uEmCBWj9H8BCyx/vbkn3JTjzU7lMKWXz8uvG12uoV4X7IZx2a
+         f4MCqfZi0Z+Tm7qRn8FyIT7U5qI2R2jaI/BUrB3SXYCv6qqZvewlktPlwQSsMOO+GT9t
+         I+bTw1o6FZmez2RteHa7ox8HqDjgLJrVMfrS9o8tMGmrRHh3ZQfKKE4O1Ev7UJ0aso2i
+         PkC7HUHE+cmEiKxVmzOoWuNxJCY2+Bbp5J+BeDuA76y1knKfrQUf4Jb4YDbo0C7UPQoU
+         Buay7IGYg2ve9yKeYpqFol4An9jCFch9ULHpxS97ZuSnq14NgrgjMn15sIouflOlFKgC
+         fT+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680785286;
+        d=1e100.net; s=20210112; t=1680785287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C/oNPSXF4DEXkM4iJ7WzDu31Vha4rpo63BbtWEOYdL4=;
-        b=h5axGXE5jSDkBfvoMiIw/b2MW8gcyWCniOakO/oFKJdZ6HBRK84wfdhepWK7Mtk9qe
-         e0GPHYJXEbRxBpYP5XWSAXPUJDy3SpcB7aVKzigggKDVQDvFUmLKqaVLvRsTJ+va6jhD
-         fi+EKj7X9ezE7AOPe8StgyPcabotfM34eC00GyEGwFgtoaiESDyplGjE3WjrZLedcAwM
-         eUPQ3om+yfe2c7YQNzLqVAgkoXzx5bfz7RX7zhaYfpQhRBlgbRyJAyQzgZU7ETBUorO3
-         9oNWd6ybtpP/TYWkrF5VCad3AvHc+8r92VNbaK0SHzuknCS8pAhj2yIJN5hpC/J0wvMI
-         JRwg==
-X-Gm-Message-State: AAQBX9dewceqZUO+lJhr1nSEfxFbHYwgHYdQUVqxTBYmwz2PVwv7xsqH
-        bZCEA/J6yaNfGzWl2AM+sXY=
-X-Google-Smtp-Source: AKy350bHCWjsKOT+HSqtRAOm/6ukLHpkAF0MU8QVFPLej0KBruxegYeGUhznE2/zgUMPjUEjZLozjg==
-X-Received: by 2002:a17:907:77c1:b0:889:58bd:86f1 with SMTP id kz1-20020a17090777c100b0088958bd86f1mr6586345ejc.14.1680785285785;
-        Thu, 06 Apr 2023 05:48:05 -0700 (PDT)
+        bh=EP3pWoThzxNHvqPa+xfASwdPg7dot4xq5Kg3CfDSY8o=;
+        b=EQmRnsRBzM6lTDfG+76yrC82eR3Q5IZXQr6gkG7Z4wC6SnCdBej4U0NYDzfoms9ycE
+         m84p26LUt4eqzzakttSgiyTXAO1yRjuH0XdEmjG5Td0rQTAIstCAPcHDRySX1RbEkfg+
+         GBMhMlgeLyM2nW4sOzZ32fYE7CN+jA0rgqBj/+L0+DK1W/7EoGBerGisF8V4uCVSYXIL
+         j9CkUBsckIy3Fij05EpepOqIt3pEmeSXGyKjFiuN1IAI4qpmtSxfbicQWvnXEdCWhW2c
+         +fSeeJRWK5IzjDFJM9p9st1ZSMBzJebuqLf82zy4FHMh0MpvdEERE9fi7hUlasiwZHA4
+         eVVw==
+X-Gm-Message-State: AAQBX9fNBBk/uAf4vnBdhd19VxE3CAxXEjv5KeKXT7EJJ1bauLWfGVf/
+        xuYCScZrA/AImlllE+V3ql4=
+X-Google-Smtp-Source: AKy350YXQtNJ66qZW0DYBXxnghnb5q4N1dEGs04/9d/3jbwLyuWpNIV9ZakPEe1v49M4zU91KARp5g==
+X-Received: by 2002:a17:906:6851:b0:931:af6a:ad0f with SMTP id a17-20020a170906685100b00931af6aad0fmr5936423ejs.76.1680785286754;
+        Thu, 06 Apr 2023 05:48:06 -0700 (PDT)
 Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id qp4-20020a170907206400b0093048a8bd31sm784093ejb.68.2023.04.06.05.48.05
+        by smtp.gmail.com with ESMTPSA id jr3-20020a170906a98300b00933356c681esm771775ejb.150.2023.04.06.05.48.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 05:48:05 -0700 (PDT)
+        Thu, 06 Apr 2023 05:48:06 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 2/7] soc/tegra: Changes for v6.4-rc1
-Date:   Thu,  6 Apr 2023 14:47:59 +0200
-Message-Id: <20230406124804.970394-2-thierry.reding@gmail.com>
+Subject: [GIT PULL 3/7] soc/tegra: Changes for v6.4-rc1
+Date:   Thu,  6 Apr 2023 14:48:00 +0200
+Message-Id: <20230406124804.970394-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230406124804.970394-1-thierry.reding@gmail.com>
 References: <20230406124804.970394-1-thierry.reding@gmail.com>
@@ -81,11 +81,11 @@ The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.4-soc
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.4-firmware
 
-for you to fetch changes up to 821d96e3a006d09ca9aa3d982c50f3d86fa55500:
+for you to fetch changes up to 8c47b8253f4cfd8b4dbda8c9adc1d0b1d7f3009d:
 
-  soc/tegra: fuse: Remove nvmem root only access (2023-04-05 17:10:40 +0200)
+  firmware: Use of_property_present() for testing DT property presence (2023-04-04 21:51:23 +0200)
 
 Thanks,
 Thierry
@@ -93,45 +93,19 @@ Thierry
 ----------------------------------------------------------------
 soc/tegra: Changes for v6.4-rc1
 
-Contains various minor cleanups and fixes as well as support for several
-more wake events on Tegra234.
+This contains minor fixes and cleanups. Note that one of the patches
+here includes ARM firmware changes, but I picked that up after checking
+with Sudeep and Rob because it didn't seem worth splitting it up any
+further.
 
 ----------------------------------------------------------------
-Jon Hunter (1):
-      soc/tegra: pmc: Add the PMIC wake event for Tegra234
-
-Kartik (1):
-      soc/tegra: fuse: Remove nvmem root only access
-
 Mikko Perttunen (1):
-      soc/tegra: bpmp: Actually free memory on error path
+      firmware: tegra: bpmp: Fix error paths in debugfs
 
-Muhammad Usama Anjum (1):
-      soc/tegra: cbb: remove linux/version.h
+Rob Herring (1):
+      firmware: Use of_property_present() for testing DT property presence
 
-Nick Alcock (1):
-      soc/tegra: cbb: Remove MODULE_LICENSE in non-modules
-
-Petlozu Pravareshwar (1):
-      soc/tegra: pmc: Support software wake-up for SPE
-
-Sushil Singh (1):
-      soc/tegra: pmc: Add wake source interrupt for MGBE
-
-Uwe Kleine-König (1):
-      soc: tegra: cbb: Drop empty platform remove function
-
-Yang Yingliang (1):
-      soc/tegra: cbb: tegra194: Use of_address_count() helper
-
-Ye Xingchen (1):
-      soc/tegra: flowctrl: Use devm_platform_get_and_ioremap_resource()
-
- drivers/soc/tegra/cbb/tegra-cbb.c    |  1 -
- drivers/soc/tegra/cbb/tegra194-cbb.c |  6 +-----
- drivers/soc/tegra/cbb/tegra234-cbb.c |  8 --------
- drivers/soc/tegra/flowctrl.c         |  4 +---
- drivers/soc/tegra/fuse/fuse-tegra.c  |  4 ++--
- drivers/soc/tegra/pmc.c              | 26 +++++++++++++++++++++++++-
- drivers/soc/tegra/powergate-bpmp.c   |  2 +-
- 7 files changed, 30 insertions(+), 21 deletions(-)
+ drivers/firmware/arm_scmi/optee.c     |  2 +-
+ drivers/firmware/tegra/bpmp-debugfs.c | 12 ++++++++----
+ drivers/firmware/tegra/bpmp.c         |  6 +++---
+ 3 files changed, 12 insertions(+), 8 deletions(-)
