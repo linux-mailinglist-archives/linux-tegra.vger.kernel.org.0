@@ -2,152 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F2D16E081F
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Apr 2023 09:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59EAE6E084F
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Apr 2023 09:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbjDMHrO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Apr 2023 03:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        id S230272AbjDMHzT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Apr 2023 03:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbjDMHrM (ORCPT
+        with ESMTP id S230063AbjDMHzS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Apr 2023 03:47:12 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1548A78;
-        Thu, 13 Apr 2023 00:47:07 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id dm2so35280585ejc.8;
-        Thu, 13 Apr 2023 00:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681372026; x=1683964026;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gi1d/YjeLexKJcbgToDInYZzxIr8FRJ39DahrVUGeSc=;
-        b=nfH4WdCQMMdVZx/gPfjblfSFfD1zVmy7zCqRHWLdVSfNVGMhQ0mWxG6f4JZ5p3LPND
-         yAFNxbxc4kwiJp6sj4PYKJYGmsnCpWvMS6mwlb/8jouZR0MdvN54+++WXNWCDqjL3g+I
-         VO3Uk3j/v88BmzhVa4xfmTLo4zSsNoe206q0xhax4oi4bvAhiQKtc2qDUxT4YAat4UKT
-         45AFUsIew9mB4EUrM38/WZNAeru7t2gLCN0t+O+gA8o3BebuoKT4byUWwwhL2CDAgkfm
-         WrgDFX8qT25Njj51RFxr5td9P+3dYmqtqsOL7/XBVnP0ksTGhXywRYJUDR/niq+LFYD2
-         zAjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681372026; x=1683964026;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gi1d/YjeLexKJcbgToDInYZzxIr8FRJ39DahrVUGeSc=;
-        b=PRk5zXEjxlboNGAZBQ67eisOGxjktoHHRBPFTLxH8DFwK36riSAl135sZ3kLtLfoOg
-         MlahxnAjf7DtcCxL/dRVmRIAJtvTwCwKS4Cxfd8TUxiTDfg/Y0mH5XdvX8S/OKLu3eJN
-         sGwh98uTzukoRCzrllYvVA56lXMszm8Fx77rFTZqgPNkYA6yCFZ0kUO0tUKOxsv1UMsz
-         EvJ3n3isyr0+ZB9V8xSkxKPsveP5B60Y6atyl2F87YGvFDrEa9QD2XbES2x8QbD3mG/+
-         8vExk5vIgV9l+JxmoHGK5BK851gEgXPpcKTgvPxS41ikgA6xXiie+kxE9RWh3BSzXYsw
-         +iog==
-X-Gm-Message-State: AAQBX9dNoyzK80Jtk9D1onT8y/FbPIVyruCP6Yt+wN94IlL/SfBjy5jC
-        AzN72AulaWar8QklErV12VX0RQyDdjVnWQ==
-X-Google-Smtp-Source: AKy350a045OqV+ZEjYV8npQxGwumhviRukmrC30BjZ/b+Y+5EmO8Fzz6nxHlrRjwZLuiuCpa3a2jMQ==
-X-Received: by 2002:a17:906:9486:b0:94e:509b:c5a6 with SMTP id t6-20020a170906948600b0094e509bc5a6mr1740152ejx.75.1681372026086;
-        Thu, 13 Apr 2023 00:47:06 -0700 (PDT)
-Received: from [127.0.1.1] ([91.230.2.244])
-        by smtp.gmail.com with ESMTPSA id q16-20020a1709060f9000b0094e954fd015sm565620ejj.175.2023.04.13.00.47.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 00:47:05 -0700 (PDT)
-From:   Benjamin Bara <bbara93@gmail.com>
-Date:   Thu, 13 Apr 2023 09:46:42 +0200
-Subject: [PATCH v4 4/4] mfd: tps6586x: register restart handler
+        Thu, 13 Apr 2023 03:55:18 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AABB1FFE
+        for <linux-tegra@vger.kernel.org>; Thu, 13 Apr 2023 00:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+        s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3MrNiM6Co7SAlia0PRof8UP/p7I/0R+gyTV/4SbexN0=; b=yAoq8MrH3a3XzLiOpJtO8T07K+
+        Hp3vNIloMVUdiExCi+Sr8ZQ58+k2KQgQtbFICxmRYVsmJmV6kXQzJ5PolZkOkmDRMX1BQjwHfrb6q
+        x0SSGZ9+NGXbsYZB+fU+/4XvkYihD6cOD1ycdylkQeewhbgrevGjIzged3g3yQN9DQFjgA3uujkoe
+        8BoFXxIW9GfXirv9qVyn3CFJzbpVZmqe78zPQg7LLe4fZ6BibJk3YmEi0ioLNKmyJEGfxvNt4+Mat
+        XBI/8JisR/ZFMrStXw9qLfbNWax8pCcOxCN4TNur+BFWKsH3QmpVHoxX2K03vH8MJxIGpXT4POBe4
+        /eVBiTGA==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1pmrnW-008hr5-DO; Thu, 13 Apr 2023 10:55:14 +0300
+Message-ID: <03228379-8d49-9ccd-b0cc-e93ecd0d76cb@kapsi.fi>
+Date:   Thu, 13 Apr 2023 10:55:13 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [bug report] drm/tegra: Add NVDEC driver
+Content-Language: en-US
+To:     Dan Carpenter <error27@gmail.com>, mperttunen@nvidia.com
+Cc:     linux-tegra@vger.kernel.org
+References: <29294990-de08-4806-b71d-66b769126c5e@kili.mountain>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <29294990-de08-4806-b71d-66b769126c5e@kili.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230327-tegra-pmic-reboot-v4-4-b24af219fb47@skidata.com>
-References: <20230327-tegra-pmic-reboot-v4-0-b24af219fb47@skidata.com>
-In-Reply-To: <20230327-tegra-pmic-reboot-v4-0-b24af219fb47@skidata.com>
-To:     Wolfram Sang <wsa@kernel.org>, Lee Jones <lee@kernel.org>,
-        rafael.j.wysocki@intel.com
-Cc:     dmitry.osipenko@collabora.com, peterz@infradead.org,
-        jonathanh@nvidia.com, richard.leitner@linux.dev,
-        treding@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+On 4/7/23 12:19, Dan Carpenter wrote:
+> Hello Mikko Perttunen,
+> 
+> The patch 46f226c93d35: "drm/tegra: Add NVDEC driver" from Sep 16,
+> 2021, leads to the following Smatch static checker warning:
+> 
+> 	drivers/gpu/drm/tegra/nvdec.c:282 nvdec_load_falcon_firmware()
+> 	error: uninitialized symbol 'iova'.
+> 
+> drivers/gpu/drm/tegra/nvdec.c
+>      253 static int nvdec_load_falcon_firmware(struct nvdec *nvdec)
+>      254 {
+>      255         struct host1x_client *client = &nvdec->client.base;
+>      256         struct tegra_drm *tegra = nvdec->client.drm;
+>      257         dma_addr_t iova;
+>      258         size_t size;
+>      259         void *virt;
+>      260         int err;
+>      261
+>      262         if (nvdec->falcon.firmware.virt)
+>      263                 return 0;
+>      264
+>      265         err = falcon_read_firmware(&nvdec->falcon, nvdec->config->firmware);
+>      266         if (err < 0)
+>      267                 return err;
+>      268
+>      269         size = nvdec->falcon.firmware.size;
+>      270
+>      271         if (!client->group) {
+>      272                 virt = dma_alloc_coherent(nvdec->dev, size, &iova, GFP_KERNEL);
+>      273
+>      274                 err = dma_mapping_error(nvdec->dev, iova);
+>      275                 if (err < 0)
+>      276                         return err;
+>      277         } else {
+>      278                 virt = tegra_drm_alloc(tegra, size, &iova);
+>                                                               ^^^^
+> Needs an if (IS_ERR(virt)) {
+> 
+> No idea why this warning is only just showing up now after two years...
+> 
+>      279         }
+>      280
+>      281         nvdec->falcon.firmware.virt = virt;
+> --> 282         nvdec->falcon.firmware.iova = iova;
+>      283
+> 
+> regards,
+> dan carpenter
 
-There are a couple of boards which use a tps6586x as
-"ti,system-power-controller", e.g. the tegra20-tamonten.dtsi.
-For these, the only registered restart handler is the warm reboot via
-tegra's PMC. As the bootloader of the tegra20 requires the VDE, it must
-be ensured that VDE is enabled (which is the case after a cold reboot).
-For the "normal reboot", this is basically the case since 8f0c714ad9be.
-However, this workaround is not executed in case of an emergency restart.
-In case of an emergency restart, the system now simply hangs in the
-bootloader, as VDE is not enabled (because it is not used).
+Thanks, I'll take a look at this and the other issue in host1x you reported.
 
-The TPS658629-Q1 (unfortunately the only TPS6586x with public data sheet)
-provides a SOFT RST bit in the SUPPLYENE reg to request a (cold) reboot,
-which takes at least 10ms (as the data sheet states).
-This avoids the hang-up.
-
-Tested on a TPS658640.
-
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
----
- drivers/mfd/tps6586x.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/drivers/mfd/tps6586x.c b/drivers/mfd/tps6586x.c
-index 93f1bf440191..91754f30e26b 100644
---- a/drivers/mfd/tps6586x.c
-+++ b/drivers/mfd/tps6586x.c
-@@ -30,6 +30,7 @@
- #include <linux/mfd/tps6586x.h>
- 
- #define TPS6586X_SUPPLYENE	0x14
-+#define SOFT_RST_BIT		BIT(0)
- #define EXITSLREQ_BIT		BIT(1)
- #define SLEEP_MODE_BIT		BIT(3)
- 
-@@ -470,6 +471,19 @@ static int tps6586x_power_off_handler(struct sys_off_data *data)
- 	return tps6586x_set_bits(tps6586x_dev, TPS6586X_SUPPLYENE, SLEEP_MODE_BIT);
- }
- 
-+static int tps6586x_restart_handler(struct sys_off_data *data)
-+{
-+	struct device *tps6586x_dev = data->cb_data;
-+	int ret;
-+
-+	/* bring pmic into HARD REBOOT state. this takes at least 10ms. */
-+	ret = tps6586x_set_bits(tps6586x_dev, TPS6586X_SUPPLYENE, SOFT_RST_BIT);
-+	mdelay(15);
-+
-+	dev_err(tps6586x_dev, "restart failed: timeout\n");
-+	return ret;
-+}
-+
- static void tps6586x_print_version(struct i2c_client *client, int version)
- {
- 	const char *name;
-@@ -570,6 +584,13 @@ static int tps6586x_i2c_probe(struct i2c_client *client)
- 			dev_err(&client->dev, "register power off handler failed: %d\n", ret);
- 			goto err_add_devs;
- 		}
-+
-+		ret = devm_register_restart_handler(&client->dev, &tps6586x_restart_handler,
-+						    &client->dev);
-+		if (ret) {
-+			dev_err(&client->dev, "register restart handler failed: %d\n", ret);
-+			goto err_add_devs;
-+		}
- 	}
- 
- 	return 0;
-
--- 
-2.34.1
+Cheers,
+Mikko
 
