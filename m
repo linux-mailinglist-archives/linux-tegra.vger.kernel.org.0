@@ -2,84 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B526E15F6
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Apr 2023 22:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66ADD6E1927
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Apr 2023 02:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjDMUhK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Apr 2023 16:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35038 "EHLO
+        id S229772AbjDNApP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Apr 2023 20:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjDMUhK (ORCPT
+        with ESMTP id S229709AbjDNApM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Apr 2023 16:37:10 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE224EDE;
-        Thu, 13 Apr 2023 13:37:06 -0700 (PDT)
-Received: from [192.168.2.90] (109-252-119-170.nat.spd-mgts.ru [109.252.119.170])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C865660321C;
-        Thu, 13 Apr 2023 21:37:02 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681418224;
-        bh=JYou/upPsTWTi2mO280E/Fj7pMcfP3hcdjqr6bkXksg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kmYPb5E77nAg+/FHO4VVWar0Dy0Kh8V/cOreEgC+SvI9k8nlkPj8uDq0c7vWhvf4o
-         i4AVdGEkxBWj17e9JLmJSZJOOfiGrvspDo83iRx+jqmHNo6eh8cxBevfcsH95nZlHh
-         ZllYQkWyIyZkwe4Hz4QWlPfTCiDLnVSfjuNrsd4Wa3Yavz3AqsULPsvjQfchBGsd3R
-         EDVNpjPj6fKnv7qSdUqDKdQHxgHCUpxpglOBxyOtBBtupjlKs3I0qKEXK9Z5x3ybpO
-         EAPjrcyPorP2Ce7KANEowPx5kiB/OJ0K3aXdYYIDClmvAUA0iNxZ0PWYIXA8nZXdiQ
-         95yGQRGjtdeZw==
-Message-ID: <2df6f002-dcf8-1073-d0b5-a9843103096a@collabora.com>
-Date:   Thu, 13 Apr 2023 23:36:59 +0300
+        Thu, 13 Apr 2023 20:45:12 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02hn2227.outbound.protection.outlook.com [52.100.158.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7390726B6;
+        Thu, 13 Apr 2023 17:45:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J5x3rH9NeLocugEPPPJqmIkIrP81i6Ml7Kd2HG7eoIU5nUw2kfogx+91d0Oau2aVAH4FCwbnDhXaTTTM8y2M+ElK6vR2s0ww0fcljD5ouHIvnBKQWHanPNvyBONCC75mukBcp7+M22ObFHgqVkZwrFr/pND2S6duP9rEH0DExoHupWGsFTy7P+YrzEiXtxTEinfikpZ9L/FBxL/4HQDddRK4xo9J05zP4PCsH1IxNDzSgdRqrUjnzARdtiz8S+MsbWe1bZob7nNW18japA4x0MgoEPcfdv4IbfOwzaZEEsT8Yvw7tukIkjRdrOYVV06NNNEtTwSwAKlrmotHS7JhSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=omwkqvUwEyAzx4/hKV/H5bIpSRNXRePI6OnY2pwvpjM=;
+ b=iex74tR296KolFcwL276xh9qp+KVgJjh8hZGptOgmL7xNB8uzmOFyj32vGLAD2cBF2GCw6sLYppddw7Ba9Nv3wGooj33xZnlZqBVSog35iBKTbjgLgAdDA8+GXC27i5LEaFRVkhfj061PZuR10OqWesjptJBJNHlH3qEYZgm/35lOvtjt4RjmRPae+bCPGBorjeErTkpFOZdXInJyDHpBsY98BLoXLS8dF6Btu3YVnM77aX03dIdAaRLQCKvsQxr5KHFH2jC0o+MU3LhpRe6ngkAEUvZANv3ZpVVMNa1r1j/wKMCkK7mcO7Ae23mhJkXGRW4yNvkg4V4z5usQd0sdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=omwkqvUwEyAzx4/hKV/H5bIpSRNXRePI6OnY2pwvpjM=;
+ b=T37mkAF1iA8Qwmoi4tdRXs2LJtcqqTboJ//rxU/nND+dQ00pAimvxtmjtMrYIyWvZopT76hBz/j4mnrBSPOCiHOEwjRLYbrT3iWPQ6V8BdXDQOXQS5F7PVxZZveFBx3sfiDs+4mI3/3K4gdFR7CaVpCXcNAKG5qnwYOHqgvrOYgVKq1jOFBiQk0+tKCtaLObLBtZKPGevjVukJT/ZDC5QTccONCLDzcwa774lPe1oIkNqATAtU6x11oxVPkAWIL8p1IB2UC40lGk4IZUVshu8tgwwqRgc1PGIV3YMpwgmc5TS5swHqiuuzWZy/2qn5B58DOF5vvJZEmaPmvfCsiVYg==
+Received: from MW4PR04CA0138.namprd04.prod.outlook.com (2603:10b6:303:84::23)
+ by MN2PR12MB4391.namprd12.prod.outlook.com (2603:10b6:208:269::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Fri, 14 Apr
+ 2023 00:45:04 +0000
+Received: from CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:84:cafe::7f) by MW4PR04CA0138.outlook.office365.com
+ (2603:10b6:303:84::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.32 via Frontend
+ Transport; Fri, 14 Apr 2023 00:45:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1NAM11FT028.mail.protection.outlook.com (10.13.175.214) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6298.30 via Frontend Transport; Fri, 14 Apr 2023 00:45:04 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 13 Apr 2023
+ 17:44:57 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 13 Apr
+ 2023 17:44:57 -0700
+Received: from dipenp.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Thu, 13 Apr 2023 17:44:57 -0700
+From:   Dipen Patel <dipenp@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh+dt@kernel.org>, <timestamp@lists.linux.dev>,
+        <krzysztof.kozlowski+dt@linaro.org>, <brgl@bgdev.pl>,
+        <corbet@lwn.net>, <gregkh@linuxfoundation.org>
+CC:     Dipen Patel <dipenp@nvidia.com>
+Subject: [V6 0/9] Add Tegra234 HTE support
+Date:   Thu, 13 Apr 2023 17:44:46 -0700
+Message-ID: <20230414004455.19275-1-dipenp@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 3/4] mfd: tps6586x: use devm-based power off handler
-Content-Language: en-US
-To:     Benjamin Bara <bbara93@gmail.com>, Wolfram Sang <wsa@kernel.org>,
-        Lee Jones <lee@kernel.org>, rafael.j.wysocki@intel.com
-Cc:     peterz@infradead.org, jonathanh@nvidia.com,
-        richard.leitner@linux.dev, treding@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-References: <20230327-tegra-pmic-reboot-v4-0-b24af219fb47@skidata.com>
- <20230327-tegra-pmic-reboot-v4-3-b24af219fb47@skidata.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230327-tegra-pmic-reboot-v4-3-b24af219fb47@skidata.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT028:EE_|MN2PR12MB4391:EE_
+X-MS-Office365-Filtering-Correlation-Id: af9d6247-5865-4074-4e09-08db3c817c9f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nrpCHDn7HYDJEtfsZEkm2Gde2MIhZoTib3XskT61w9nmeOCrWzrqlyorrUIUixRGyZV9Q9/vMNuWM9ul3gghC+dKOblqLFOoqivV7fE3F7QHGqM7xIvIfQdVafn9Ge7rMlWwJAmzmMFZU39ANI2Y2LqFHyjYh0+ENaLSP2x2qE6iPuvC6xP0rdUQlHRgNtVZu+7CmiHKySThTkBvHUkY+Z6pg/9U48by5h6yM7G6GZfz3Jp9yuxY9yCsdCd08GpK03aG+//oduNOgxUbT7Pd2GxTQn00is17TGTN2mdnYyOTN7CFa3/jch7qXWriliDXbdyJrqrpYcmWIm0CGNQtyBnEZsJ6qdri70MQmTI3X/RNs0v0u03eG2ECxE8OFM9rjQC76kZP4Fi5Csdi6U1HGXL0QyzIUydqvbutG4WWmpIVH1n+2DJF/60FPVmoTg6lLeKuGsZRuPtQUadsct61Bm5HlyDAKc2PKQIeRJNp1G+1kUj94AWgiG10M7ZVlk5VUDU2nikVYdqnPvL2l8rj7T0tFdbafJ7C17Y6Nm/xg3q2V5EtiiUCEZtbFfnI9MgDp9Mg1dquYdfRIDAxz6D5Ms+gZWjiG5fp64o9sM8M+YJ3yahWt7OwF6sRDyluBi6i2Dya86egRdfTOCRIwKx934LFN1jOVRfXdeYHz1Do2sIDhcN+Q7sNLyXmxeIbZJYyHmYu3AocFp9YqTEUAnrmaLKvhDSVSrzP3N/Oyq+vHkM0/Fr01qd3A0/1cbooROguBVGf4Dz4mGYlCc6ktzglvmlo1wmgfP9vuhe8HSKcOmfEcj7Uzf5LG5r3+dpf979TS8drqNKi+oRKf8fYASIJzUanO1EhsxZARTtRe1vdf2B+wRUkBUS98+0QTsjdzvVI
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199021)(5400799015)(36840700001)(40470700004)(46966006)(1076003)(26005)(34020700004)(921005)(186003)(40460700003)(4326008)(7636003)(478600001)(316002)(70206006)(110136005)(36860700001)(5660300002)(36756003)(8936002)(7696005)(86362001)(7416002)(41300700001)(82740400003)(356005)(8676002)(70586007)(82310400005)(40480700001)(2906002)(6666004)(107886003)(336012)(83380400001)(426003)(2616005)(47076005)(83996005)(2101003)(12100799027);DIR:OUT;SFP:1501;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 00:45:04.1382
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: af9d6247-5865-4074-4e09-08db3c817c9f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4391
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 4/13/23 10:46, Benjamin Bara wrote:
-> +static int tps6586x_power_off_handler(struct sys_off_data *data)
->  {
-> -	if (tps6586x_clr_bits(tps6586x_dev, TPS6586X_SUPPLYENE, EXITSLREQ_BIT))
-> -		return;
-> +	struct device *tps6586x_dev = data->cb_data;
-> +	int ret;
-> +
-> +	ret = tps6586x_clr_bits(tps6586x_dev, TPS6586X_SUPPLYENE, EXITSLREQ_BIT);
-> +	if (ret)
-> +		return ret;
->  
-> -	tps6586x_set_bits(tps6586x_dev, TPS6586X_SUPPLYENE, SLEEP_MODE_BIT);
-> +	return tps6586x_set_bits(tps6586x_dev, TPS6586X_SUPPLYENE, SLEEP_MODE_BIT);
+This patch series mainly adds support for the Tegra234 HTE provider. In
+addition, it addresses dt binding comments which prompted code
+changes in the existing HTE provider driver without breaking the
+Tegra194 provider. The comments raised concern how existing code
+retrieves gpio controller node
+(the node is used to help namespace conversion between HTE and GPIOLIB).
+To help simplify that process, new DT property is suggested which adds
+gpio controller node in the HTE provider binding as phandle property. To
+conlude this patch series:
+- adds Tegra234 HTE provider
+- modifies existing provider code to address new dt binding for Tegra234
+without breaking it for the Tegra194 chip.
 
-Handlers must return NOTIFY_DONE or notifier_from_errno(). Sorry for
-missing this previously.
+The V1 patch series:
+- Adds tegra Tegra234 HTE(timestamp) provider supports.
+- Updates MAINTAINERS file for git tree, mail list fields.
+- Updates devicetree and API documentations.
+- Enables HTE subsystem, Tegra194 and Tegra234 HTE providers
+by default in arm64 defconfig and dts files.
 
+The V2 patch series:
+- Changes in dt bindings to remove slices property
+- Adds nvidia,gpio-controller dt property
+- Add GTE node for the Tegra234
+
+The V3 patch series:
+- Re-arranged patches to have dt bindings first before its usage
+- Addressed review comments regarding dt bindings
+
+The V4 patch series:
+- Logically divides dt binding and tegra HTE provider patches from v3
+- Maintains backward compatibilty for the Tegra194
+
+The V5 patch series:
+- Reflect review comments for the patch
+"dt-bindings: timestamp: Add nvidia,gpio-controller"
+- Documentation changes including renaming of the file
+
+The V6 patch series:
+- Merges patch
+"dt-bindings: timestamp: Add nvidia,gpio-controller" with the patch
+"dt-bindings: timestamp: Add Tegra234 support"
+
+Dipen Patel (9):
+  MAINTAINERS: Add HTE/timestamp subsystem details
+  dt-bindings: timestamp: Add Tegra234 support
+  dt-bindings: timestamp: Deprecate nvidia,slices property
+  arm64: tegra: Add Tegra234 GTE nodes
+  hte: Re-phrase tegra API document
+  hte: Add Tegra234 provider
+  hte: Deprecate nvidia,slices property
+  hte: handle nvidia,gpio-controller property
+  gpio: tegra186: Add Tegra234 hte support
+
+ .../timestamp/nvidia,tegra194-hte.yaml        |  66 ++++++-
+ Documentation/driver-api/hte/index.rst        |   2 +-
+ .../hte/{tegra194-hte.rst => tegra-hte.rst}   |  33 ++--
+ MAINTAINERS                                   |   3 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  17 ++
+ drivers/gpio/gpio-tegra186.c                  |   1 +
+ drivers/hte/hte-tegra194-test.c               |   2 +-
+ drivers/hte/hte-tegra194.c                    | 167 ++++++++++++++++--
+ 8 files changed, 252 insertions(+), 39 deletions(-)
+ rename Documentation/driver-api/hte/{tegra194-hte.rst => tegra-hte.rst} (50%)
+
+
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
-Best regards,
-Dmitry
+2.17.1
 
