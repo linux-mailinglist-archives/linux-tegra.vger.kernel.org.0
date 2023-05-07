@@ -2,54 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB8E6F99C1
-	for <lists+linux-tegra@lfdr.de>; Sun,  7 May 2023 18:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C2766F9CC5
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 May 2023 01:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230399AbjEGQ0u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 May 2023 12:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
+        id S231738AbjEGXiw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 7 May 2023 19:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231615AbjEGQ0s (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 May 2023 12:26:48 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA57218855
-        for <linux-tegra@vger.kernel.org>; Sun,  7 May 2023 09:26:44 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pvhDc-0002Jh-FM; Sun, 07 May 2023 18:26:40 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pvhDb-001nEg-NA; Sun, 07 May 2023 18:26:39 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pvhDb-002AiV-2v; Sun, 07 May 2023 18:26:39 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 44/53] drm/tegra: Convert to platform remove callback returning void
-Date:   Sun,  7 May 2023 18:26:07 +0200
-Message-Id: <20230507162616.1368908-45-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229507AbjEGXiv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 May 2023 19:38:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763CA1BF7;
+        Sun,  7 May 2023 16:38:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 04D1161017;
+        Sun,  7 May 2023 23:38:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13EC8C433EF;
+        Sun,  7 May 2023 23:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683502729;
+        bh=WmmGaEaDKGwBE2JtCM7J4OMGZbrbtEfQo53Aio6mxLw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lKufYhEJvGRZrv9rtyK9CX6lt1XhzPJ0jCW+mBWu0ovohMHGsODOuJ4PeypDLyXm1
+         yF8ENUuOXKaDuLTzTjU+0OICsRkc1OaFrhc1J/ZALBvYiOSh+l2nl4cBH0PF3fcmQ/
+         ZTaLJjzxeCoixomjbRL2/209wSiK/bQlGUnmfa+i+gEWCEJrZqZFdMQNbvkscaYT/+
+         kNaV/T1mWTUzp9aaztyA7PH/0FnL/+Pcr3atssBwDYwlJb55HsaxO8A48xZQPEVx/W
+         Xs+t3r27Snzf0Y5KGdQeMa/TAIrXl+oNv5bUsn6EymPU3w4ViMdpebLAnmUogHHhAO
+         c4Xm+TmjOkU8Q==
+Date:   Mon, 8 May 2023 08:38:44 +0900
+From:   Mark Brown <broonie@kernel.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Svyatoslav Ryhel <clamor95@gmail.com>, lgirdwood@gmail.com,
+        perex@perex.cz, tiwai@suse.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, jiapeng.chong@linux.alibaba.com,
+        ion@agorria.com, robh@kernel.org, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.3 06/24] ASoC: tegra: Support coupled mic-hp
+ detection
+Message-ID: <ZFg2hP9ed1hz+tAl@finisterre.sirena.org.uk>
+References: <20230507003022.4070535-1-sashal@kernel.org>
+ <20230507003022.4070535-6-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1761; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=6Tyw8Au9KpeTmv6RYa0mwqi6I44JPDfcpUHMvWx+Rmc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9EXNwL7pp3dWiytKFnM4XC2oa/JVP0OTwaHl urBYj6kcB+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRFwAKCRCPgPtYfRL+ Tu6VB/0cqMnaIjWL2FW5NonzbDFKrECGuIwQ3qn45j3OKE0whwo0lp1k46AMAfmx7z6OboLwqI8 mzMh9APc426bSrFJJjIEIi5/WEn4AZTGwR4olk2MzNYgujWL0m+xElanH1f5z6A/wW/i16x90E/ il/5AGzjeKGC7G4BXG7GvmJdDDGtdNqmcJ3l7vYf5Z0rzvZZcxQwIab9GdVsuq3RgcaOUARKRvH bvtDbWVWGhzfG6raSRcv5YE61xiDLkrReAtlX4ViDN+5DFSg/N4lLx4BVNh3iI+HPr2jDPWy70o wu3kTtwHiN5f/rB54kd3dnLru9QaI+kZ817JAemu8bWKu0vj
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="y59NH35YlGEIWGGV"
+Content-Disposition: inline
+In-Reply-To: <20230507003022.4070535-6-sashal@kernel.org>
+X-Cookie: Avoid contact with eyes.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,53 +61,37 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+--y59NH35YlGEIWGGV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/tegra/dpaux.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Sat, May 06, 2023 at 08:30:02PM -0400, Sasha Levin wrote:
+> From: Svyatoslav Ryhel <clamor95@gmail.com>
+>=20
+> [ Upstream commit eb0b8481c2e03a5ae01f6bea60b42109bd12b6fe ]
+>=20
+> This quirk is used for cases when there is GPIO which detects
+> any type of 3.5 Jack insertion and actual type of jack is defined
+> by other GPIO. 3.5 Jack GPIO generates interrupt and MIC GPIO
+> indicates type of Jack only if 3.5 Jack GPIO is active.
 
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 3c84e73d5051..4d2677dcd831 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -579,7 +579,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int tegra_dpaux_remove(struct platform_device *pdev)
-+static void tegra_dpaux_remove(struct platform_device *pdev)
- {
- 	struct tegra_dpaux *dpaux = platform_get_drvdata(pdev);
- 
-@@ -594,8 +594,6 @@ static int tegra_dpaux_remove(struct platform_device *pdev)
- 	mutex_lock(&dpaux_lock);
- 	list_del(&dpaux->list);
- 	mutex_unlock(&dpaux_lock);
--
--	return 0;
- }
- 
- static int tegra_dpaux_suspend(struct device *dev)
-@@ -695,7 +693,7 @@ struct platform_driver tegra_dpaux_driver = {
- 		.pm = pm_ptr(&tegra_dpaux_pm_ops),
- 	},
- 	.probe = tegra_dpaux_probe,
--	.remove = tegra_dpaux_remove,
-+	.remove_new = tegra_dpaux_remove,
- };
- 
- struct drm_dp_aux *drm_dp_aux_find_by_of_node(struct device_node *np)
--- 
-2.39.2
+This is also a new feature and obviously out of scope for stable.
 
+--y59NH35YlGEIWGGV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRYNoQACgkQJNaLcl1U
+h9DUfAf/fJSrvAFvB2PEgnbZ7+HVKFhP+DVHDcWAPVfRTxH65rP2P7zHxSCvw2bl
+io/USGxVZvTVnbsIp/rn/SLjv0SuLrazlhSuWED4ejyX9OsZQa4H0bRHOqRPmVjw
+001Af8uWmnAScDqUc/aL7H90QpkEqeLA+K/QKn0xS4hIdTp22mW+fY3YV2J72EMc
+VYb6vlxT9Pf0lLKYYUrKmUXsodwPiG0kggfdRlNg6iTR65+ZKI/JcuZAR9p7jAyf
+jn4JxG34aEhZ8p9dqA/OxJx/KQPik76KZKE/ECDGRzYDbBPdQgSSkxqUve9y/dwI
+oplIizRdi8O8D6jw+CbfEH6UjCXvZA==
+=rKBH
+-----END PGP SIGNATURE-----
+
+--y59NH35YlGEIWGGV--
