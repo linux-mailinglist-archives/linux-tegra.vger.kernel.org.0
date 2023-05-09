@@ -2,109 +2,230 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 555446FB8EC
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 May 2023 22:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E48CB6FC415
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 May 2023 12:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233884AbjEHUyV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 May 2023 16:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46758 "EHLO
+        id S233995AbjEIKjR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 May 2023 06:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233899AbjEHUyM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 May 2023 16:54:12 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B9E83E4
-        for <linux-tegra@vger.kernel.org>; Mon,  8 May 2023 13:53:54 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pw7rQ-0003zp-6b; Mon, 08 May 2023 22:53:32 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pw7rP-0024ut-DP; Mon, 08 May 2023 22:53:31 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pw7rO-002YZX-NV; Mon, 08 May 2023 22:53:30 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Wolfram Sang <wsa@kernel.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 74/89] i2c: tegra: Convert to platform remove callback returning void
-Date:   Mon,  8 May 2023 22:52:51 +0200
-Message-Id: <20230508205306.1474415-75-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
-References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S234756AbjEIKjQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 May 2023 06:39:16 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DC310F5;
+        Tue,  9 May 2023 03:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683628754; x=1715164754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X/VcwT3gh20/W0MqnD+XABS3TW1iESZBIie/mj3ztgA=;
+  b=lr++nF2wawlMJDrO0PpY6A8wTT5+zUfseKNu0uIKGkv9pVgCfzZCooaL
+   E81bYHsuV1PpqHZdGyDF5+qdoMO/BV0K39zebsqWboLmJloQ4hH/CKdpJ
+   up2DXXVxo6zRNW+HQIrPlNZNHcNxmeX/eHI+voZdDHKIOHBzPPIZ7T9BW
+   /OQ3ExqNzGoMrF3R1J5BNqtLI2PjeHkc58T1oMO4uPIkU9+bo4f1rPt3/
+   CP7nk8ER58JZn7pr5JKqs4JjXvGq2y8zqX892NvQfaAs6hydMdkwGdNLw
+   2Z6GgEgWAe7kSVBM297lIzalk0rWBWxz9LF1+pfIAIzoUMVQJ+e481rvX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="348724196"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="348724196"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 03:39:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="810624736"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="810624736"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 09 May 2023 03:39:03 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pwKkI-00025b-1O;
+        Tue, 09 May 2023 10:39:02 +0000
+Date:   Tue, 9 May 2023 18:38:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mperttunen@nvidia.com
+Cc:     oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+        talho@nvidia.com, robh@kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stefank@nvidia.com
+Subject: Re: [PATCH 5/5] firmware: tegra: bpmp: Add support for DRAM MRQ GSCs
+Message-ID: <202305091826.DCKDo0L8-lkp@intel.com>
+References: <20230508122048.99953-6-pdeschrijver@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1791; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=5dFdtDxPSfyfuGguJwfFyjoSnal/WyVbr1/iYYRvHJE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkWWEKbro222TdA0Vaa6dp7WNuvJO9dROS643Yd t8omfvm6ImJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFlhCgAKCRCPgPtYfRL+ TuyXB/9IMBegMT+wpccs19c9Dd7Y9npNPXsWi7yoBKFUzsAvwSSBSk5H6Vs1UQTl2RidctMPB3O XAuZyanUS8Hgxv77PYiVJrRXRA3Wyan0sdHhDA11srgQpPZOV8tFW+dDD1r5dMYwAWtc+khgq61 uTPCd/Y6MXTvIUDv0lO0CdovLbA44ZUMbCuB+ILaRhEQbt4b4j1xvKz+L/+xpztdE7Xg2pLKzvv J123QhZNCrEtOCMoj7aevQ8K7yOOlx1CLVV/PR1otY4aAAfNGuXUV9loVV8n5fTlvfZ+nuo/mvR PunFX4Xf3Upd4kGDc1C5NcRLqProAgvCDF96yj7RkAei2lVe
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230508122048.99953-6-pdeschrijver@nvidia.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hi Peter,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/i2c/busses/i2c-tegra.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on robh/for-next linus/master v6.4-rc1 next-20230509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 157066f06a32..a82d264bf73d 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -1868,7 +1868,7 @@ static int tegra_i2c_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static int tegra_i2c_remove(struct platform_device *pdev)
-+static void tegra_i2c_remove(struct platform_device *pdev)
- {
- 	struct tegra_i2c_dev *i2c_dev = platform_get_drvdata(pdev);
- 
-@@ -1877,8 +1877,6 @@ static int tegra_i2c_remove(struct platform_device *pdev)
- 
- 	tegra_i2c_release_dma(i2c_dev);
- 	tegra_i2c_release_clocks(i2c_dev);
--
--	return 0;
- }
- 
- static int __maybe_unused tegra_i2c_runtime_resume(struct device *dev)
-@@ -1987,7 +1985,7 @@ MODULE_DEVICE_TABLE(acpi, tegra_i2c_acpi_match);
- 
- static struct platform_driver tegra_i2c_driver = {
- 	.probe = tegra_i2c_probe,
--	.remove = tegra_i2c_remove,
-+	.remove_new = tegra_i2c_remove,
- 	.driver = {
- 		.name = "tegra-i2c",
- 		.of_match_table = tegra_i2c_of_match,
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-De-Schrijver/dt-bindings-mailbox-tegra-Document-Tegra264-HSP/20230508-203107
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230508122048.99953-6-pdeschrijver%40nvidia.com
+patch subject: [PATCH 5/5] firmware: tegra: bpmp: Add support for DRAM MRQ GSCs
+config: arm64-randconfig-s032-20230507 (https://download.01.org/0day-ci/archive/20230509/202305091826.DCKDo0L8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/37f37c8af4622908dd3a8ca43d23c4e2310bdc20
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Peter-De-Schrijver/dt-bindings-mailbox-tegra-Document-Tegra264-HSP/20230508-203107
+        git checkout 37f37c8af4622908dd3a8ca43d23c4e2310bdc20
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/firmware/tegra/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091826.DCKDo0L8-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/tegra/bpmp-tegra186.c:190:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *virt @@
+   drivers/firmware/tegra/bpmp-tegra186.c:190:34: sparse:     expected void *addr
+   drivers/firmware/tegra/bpmp-tegra186.c:190:34: sparse:     got void [noderef] __iomem *virt
+>> drivers/firmware/tegra/bpmp-tegra186.c:248:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void * @@
+   drivers/firmware/tegra/bpmp-tegra186.c:248:23: sparse:     expected void [noderef] __iomem *virt
+   drivers/firmware/tegra/bpmp-tegra186.c:248:23: sparse:     got void *
+   drivers/firmware/tegra/bpmp-tegra186.c:261:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void * @@
+   drivers/firmware/tegra/bpmp-tegra186.c:261:23: sparse:     expected void [noderef] __iomem *virt
+   drivers/firmware/tegra/bpmp-tegra186.c:261:23: sparse:     got void *
+   drivers/firmware/tegra/bpmp-tegra186.c:303:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void * @@
+   drivers/firmware/tegra/bpmp-tegra186.c:303:23: sparse:     expected void [noderef] __iomem *virt
+   drivers/firmware/tegra/bpmp-tegra186.c:303:23: sparse:     got void *
+
+vim +190 drivers/firmware/tegra/bpmp-tegra186.c
+
+   170	
+   171	static void tegra186_bpmp_channel_deinit(struct tegra_bpmp *bpmp)
+   172	{
+   173		int i;
+   174		struct tegra186_bpmp *priv = bpmp->priv;
+   175	
+   176		for (i = 0; i < bpmp->threaded.count; i++) {
+   177			if (!bpmp->threaded_channels[i].bpmp)
+   178				continue;
+   179	
+   180			tegra186_bpmp_channel_cleanup(&bpmp->threaded_channels[i]);
+   181		}
+   182	
+   183		tegra186_bpmp_channel_cleanup(bpmp->rx_channel);
+   184		tegra186_bpmp_channel_cleanup(bpmp->tx_channel);
+   185	
+   186		if (priv->type == TEGRA_SRAM) {
+   187			gen_pool_free(priv->sram.tx, (unsigned long)priv->tx.virt, 4096);
+   188			gen_pool_free(priv->sram.rx, (unsigned long)priv->rx.virt, 4096);
+   189		} else if (priv->type == TEGRA_RMEM) {
+ > 190			memunmap(priv->tx.virt);
+   191		}
+   192	}
+   193	
+   194	static int tegra186_bpmp_channel_setup(struct tegra_bpmp *bpmp)
+   195	{
+   196		unsigned int i;
+   197		int err;
+   198	
+   199		err = tegra186_bpmp_channel_init(bpmp->tx_channel, bpmp,
+   200						 bpmp->soc->channels.cpu_tx.offset);
+   201		if (err < 0)
+   202			return err;
+   203	
+   204		err = tegra186_bpmp_channel_init(bpmp->rx_channel, bpmp,
+   205						 bpmp->soc->channels.cpu_rx.offset);
+   206		if (err < 0) {
+   207			tegra186_bpmp_channel_cleanup(bpmp->tx_channel);
+   208			return err;
+   209		}
+   210	
+   211		for (i = 0; i < bpmp->threaded.count; i++) {
+   212			unsigned int index = bpmp->soc->channels.thread.offset + i;
+   213	
+   214			err = tegra186_bpmp_channel_init(&bpmp->threaded_channels[i],
+   215							 bpmp, index);
+   216			if (err < 0)
+   217				break;
+   218		}
+   219	
+   220		if (err < 0)
+   221			tegra186_bpmp_channel_deinit(bpmp);
+   222	
+   223		return err;
+   224	}
+   225	
+   226	static void tegra186_bpmp_reset_channels(struct tegra_bpmp *bpmp)
+   227	{
+   228		unsigned int i;
+   229	
+   230		tegra186_bpmp_channel_reset(bpmp->tx_channel);
+   231		tegra186_bpmp_channel_reset(bpmp->rx_channel);
+   232	
+   233		for (i = 0; i < bpmp->threaded.count; i++)
+   234			tegra186_bpmp_channel_reset(&bpmp->threaded_channels[i]);
+   235	}
+   236	
+   237	static int tegra186_bpmp_sram_init(struct tegra_bpmp *bpmp)
+   238	{
+   239		int err;
+   240		struct tegra186_bpmp *priv = bpmp->priv;
+   241	
+   242		priv->sram.tx = of_gen_pool_get(bpmp->dev->of_node, "shmem", 0);
+   243		if (!priv->sram.tx) {
+   244			dev_err(bpmp->dev, "TX shmem pool not found\n");
+   245			return -EPROBE_DEFER;
+   246		}
+   247	
+ > 248		priv->tx.virt = gen_pool_dma_alloc(priv->sram.tx, 4096, &priv->tx.phys);
+   249		if (!priv->tx.virt) {
+   250			dev_err(bpmp->dev, "failed to allocate from TX pool\n");
+   251			return -ENOMEM;
+   252		}
+   253	
+   254		priv->sram.rx = of_gen_pool_get(bpmp->dev->of_node, "shmem", 1);
+   255		if (!priv->sram.rx) {
+   256			dev_err(bpmp->dev, "RX shmem pool not found\n");
+   257			err = -EPROBE_DEFER;
+   258			goto free_tx;
+   259		}
+   260	
+   261		priv->rx.virt = gen_pool_dma_alloc(priv->sram.rx, 4096, &priv->rx.phys);
+   262		if (!priv->rx.virt) {
+   263			dev_err(bpmp->dev, "failed to allocate from RX pool\n");
+   264			err = -ENOMEM;
+   265			goto free_tx;
+   266		}
+   267	
+   268		priv->type = TEGRA_SRAM;
+   269	
+   270		return 0;
+   271	
+   272	free_tx:
+   273		gen_pool_free(priv->sram.tx, (unsigned long)priv->tx.virt, 4096);
+   274	
+   275		return err;
+   276	}
+   277	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
