@@ -2,40 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92381702D15
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 May 2023 14:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE8B702D93
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 May 2023 15:08:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241281AbjEOMtz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 May 2023 08:49:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39708 "EHLO
+        id S242183AbjEONI2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 May 2023 09:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242029AbjEOMts (ORCPT
+        with ESMTP id S242288AbjEONIL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 May 2023 08:49:48 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC255E49
-        for <linux-tegra@vger.kernel.org>; Mon, 15 May 2023 05:49:42 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1200D2F4;
-        Mon, 15 May 2023 05:50:27 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.40])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5E17E3F67D;
-        Mon, 15 May 2023 05:49:41 -0700 (PDT)
-From:   Robin Murphy <robin.murphy@arm.com>
-To:     joro@8bytes.org
-Cc:     iommu@lists.linux.dev, will@kernel.org, jgg@nvidia.com,
-        digetx@gmail.com, thierry.reding@gmail.com,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 4/4] iommu: Clean up force_aperture confusion
-Date:   Mon, 15 May 2023 13:49:32 +0100
-Message-Id: <ed26ed3213bf07ab4977211702dc0898680524cd.1684154219.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
-In-Reply-To: <cover.1684154219.git.robin.murphy@arm.com>
-References: <cover.1684154219.git.robin.murphy@arm.com>
+        Mon, 15 May 2023 09:08:11 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C11E2107
+        for <linux-tegra@vger.kernel.org>; Mon, 15 May 2023 06:07:39 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-3f4de077aaaso60900391cf.1
+        for <linux-tegra@vger.kernel.org>; Mon, 15 May 2023 06:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1684156049; x=1686748049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r52VsGt7pCD5MqwU7Iz5hhf7etBKNWqtKNN+QQL4Wbs=;
+        b=c+5jOYw/nbV0ulxcZUPP/BwmGfGabE0GudFc4Pxot2MDSxnZOMjQBHanidAXv8AN4s
+         wCtL4vKPT/NQuQtyRosfY1v+Cc4PX94PKhH/K4vGQkh8BXrOSCykMzDtIWTaHdinMTlL
+         GTd1vPbd7jdhMb9Xp18vHEaSJ5oykF8Q18Co+JrFWfrSsGa06ytgp5MPhg2lAuMcBHY9
+         +cXuTSEKaaD6FCDHfVc+wlq2TFUxcMNkM8xdx//DfRqBb1wXlbXwUaZ0w2XcKKmJCXYm
+         rNhNdyMFvde5Wj2WqbjDnUEci9/JLzGroYUlyOEdGT2Q14DOTFUq69HjSZo3vkt1aQ7q
+         pxiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684156049; x=1686748049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r52VsGt7pCD5MqwU7Iz5hhf7etBKNWqtKNN+QQL4Wbs=;
+        b=TeNXnAhEZeHa2Z559wmDgn8Ooc9yI1e6r5T8zLHk+arSWpIh5r14GpF8e2eJ3YsFCh
+         nUB0nc15U3/qjkZAuG9XnKguftIOAUjidTcjdxuyO3YchWm/Pr5KdHBQxI4wLUNJJIT6
+         tkp8Piddbsu9XKuOuC5SVVJoHwx1XD9jSFDEpj2cqomJiWWQz78+wQtE43VVmHBLYpQH
+         E4wb/89YkJcUAIJZbmXtZA1iuixvhhgieiVyna+40h0EojF6g4BoJmMovSQhmfROQkji
+         WSu3ZZnmFFsuOaU1qpH3pGFGQJQ5s/fKPtvJe99QMXuw9TQIIHpOEW5k5mdO941ktTH8
+         tV2g==
+X-Gm-Message-State: AC+VfDybue/p4A/RbzcaliblFgENgGR8ERSImz6NkhXZWBMIuf+m+XLt
+        smNHnI56LN/8tDMa6LpYPpbHCw==
+X-Google-Smtp-Source: ACHHUZ6oq1rgsxAhha/L8rTgUYSyK7wV0xG3BSAlCLbWHRWP4j4vcs+gZ2cT74Vr/sFz2mlpsmeCpA==
+X-Received: by 2002:ac8:7f44:0:b0:3f3:928a:eae2 with SMTP id g4-20020ac87f44000000b003f3928aeae2mr42158943qtk.4.1684156049337;
+        Mon, 15 May 2023 06:07:29 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id n27-20020ac81e1b000000b003e388264753sm5328251qtl.65.2023.05.15.06.07.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 06:07:28 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1pyXvD-000xlt-MR;
+        Mon, 15 May 2023 10:07:27 -0300
+Date:   Mon, 15 May 2023 10:07:27 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 5/6] iommu/dma: Allow a single FQ in addition to
+ per-CPU FQs
+Message-ID: <ZGIuj2pRjOPffqZZ@ziepe.ca>
+References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
+ <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,109 +119,26 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-It was never entirely clear whether the force_aperture flag was supposed
-to be a hardware capability or a software policy. So far things seem to
-have leant towards the latter, given that the only drivers not setting
-the flag are ones where the aperture is seemingly a whole virtual
-address space such that accesses outside it wouldn't be possible, and
-the one driver which definitely can't enforce it in hardware *does*
-still set the flag.
+On Mon, May 15, 2023 at 11:15:55AM +0200, Niklas Schnelle wrote:
 
-On reflection, though, it makes little sense for drivers to dictate
-usage policy to callers, and the interpretation that a driver setting
-the flag might also translate addresses outside the given aperture but
-has for some reason chosen not to is not actually a useful one. It seems
-a lot more logical to treat the aperture as the absolute limit of what
-can be translated, and the flag to indicate what would happen if a
-device did try to access an address outside the aperture, i.e. whether
-the access would fault or pass through untranslated. As such, reframe
-the flag consistent with a hardware capability in the hope of clearing
-up the misconception.
+> +/**
+> + * struct dma_iommu_options - Options for dma-iommu
+> + *
+> + * @flags: Flag bits for enabling/disabling dma-iommu settings
+> + *
+> + * This structure is intended to provide IOMMU drivers a way to influence the
+> + * behavior of the dma-iommu DMA API implementation. This allows optimizing for
+> + * example for a virtualized environment with slow IOTLB flushes.
+> + */
+> +struct dma_iommu_options {
+> +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	(0L << 0)
+> +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	(1L << 0)
+> +	u64	flags;
+> +};
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/iommu/dma-iommu.c    | 19 +++++++------------
- drivers/iommu/mtk_iommu_v1.c |  4 ++++
- drivers/iommu/sprd-iommu.c   |  1 +
- drivers/iommu/tegra-gart.c   |  2 +-
- 4 files changed, 13 insertions(+), 13 deletions(-)
+You need to hash it out with robin if we do something like this or use
+more untyped caps as he put in this series:
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7a9f0b0bddbd..4693b021d54f 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -548,24 +548,19 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
- 		return -EINVAL;
- 
-+	/*
-+	 * If the IOMMU only offers a non-isolated GART-style translation
-+	 * aperture, just let the device use dma-direct.
-+	 */
-+	if (!domain->geometry.force_aperture)
-+		return -EINVAL;
-+
- 	iovad = &cookie->iovad;
- 
- 	/* Use the smallest supported page size for IOVA granularity */
- 	order = __ffs(domain->pgsize_bitmap);
- 	base_pfn = max_t(unsigned long, 1, base >> order);
- 
--	/* Check the domain allows at least some access to the device... */
--	if (domain->geometry.force_aperture) {
--		if (base > domain->geometry.aperture_end ||
--		    limit < domain->geometry.aperture_start) {
--			pr_warn("specified DMA range outside IOMMU capability\n");
--			return -EFAULT;
--		}
--		/* ...then finally give it a kicking to make sure it fits */
--		base_pfn = max_t(unsigned long, base_pfn,
--				domain->geometry.aperture_start >> order);
--	}
--
- 	/* start_pfn is always nonzero for an already-initialised domain */
- 	mutex_lock(&cookie->mutex);
- 	if (iovad->start_pfn) {
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 8a0a5e5d049f..3ca813919974 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -281,6 +281,10 @@ static struct iommu_domain *mtk_iommu_v1_domain_alloc(unsigned type)
- 	if (!dom)
- 		return NULL;
- 
-+	dom->domain.geometry.aperture_start = 0;
-+	dom->domain.geometry.aperture_end = SZ_4G - 1;
-+	dom->domain.geometry.force_aperture = true;
-+
- 	return &dom->domain;
- }
- 
-diff --git a/drivers/iommu/sprd-iommu.c b/drivers/iommu/sprd-iommu.c
-index 39e34fdeccda..eb684d8807ca 100644
---- a/drivers/iommu/sprd-iommu.c
-+++ b/drivers/iommu/sprd-iommu.c
-@@ -148,6 +148,7 @@ static struct iommu_domain *sprd_iommu_domain_alloc(unsigned int domain_type)
- 
- 	dom->domain.geometry.aperture_start = 0;
- 	dom->domain.geometry.aperture_end = SZ_256M - 1;
-+	dom->domain.geometry.force_aperture = true;
- 
- 	return &dom->domain;
- }
-diff --git a/drivers/iommu/tegra-gart.c b/drivers/iommu/tegra-gart.c
-index 0a121cbc17b8..c221af290798 100644
---- a/drivers/iommu/tegra-gart.c
-+++ b/drivers/iommu/tegra-gart.c
-@@ -160,7 +160,7 @@ static struct iommu_domain *gart_iommu_domain_alloc(unsigned type)
- 
- 	domain->domain.geometry.aperture_start = gart->iovmm_base;
- 	domain->domain.geometry.aperture_end = gart->iovmm_end - 1;
--	domain->domain.geometry.force_aperture = true;
-+	domain->domain.geometry.force_aperture = false;
- 
- 	num_pages = (gart->iovmm_end - gart->iovmm_base) / GART_PAGE_SIZE;
- 	domain->savedata = vcalloc(num_pages, sizeof(u32));
--- 
-2.39.2.101.g768bb238c484.dirty
+https://lore.kernel.org/linux-iommu/cover.1683233867.git.robin.murphy@arm.com/
 
+Jason
