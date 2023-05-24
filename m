@@ -2,98 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2F370EA43
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 May 2023 02:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB90F70F238
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 May 2023 11:22:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238701AbjEXA3g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 May 2023 20:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
+        id S240169AbjEXJWM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 May 2023 05:22:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjEXA3e (ORCPT
+        with ESMTP id S240086AbjEXJWL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 May 2023 20:29:34 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B791A1
-        for <linux-tegra@vger.kernel.org>; Tue, 23 May 2023 17:29:19 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1a950b982d4so8605ad.0
-        for <linux-tegra@vger.kernel.org>; Tue, 23 May 2023 17:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684888159; x=1687480159;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
-        b=oCPd/VMBzehzBIwxKD0CUQlcv9XnCqSIGnZFpfNhT9159UiXp4+4s0dt1T5T+r2N8u
-         ejdMVEW9GWrQK3u8D/R+OgCl4fi8an2VY0K+/eeCPWT2cGGSET/E3kHkr5iqimXeopNz
-         1LhLEfNIl9101bv8HdubYyq2hpbrF89XLwyNahFvZOtnckCP7CoEZsh2L+2+OK9q9Yjc
-         K9vC86dI9TWXu3/6r3ILFI/gvIY8hkiVXH1FcP052iNl13PiuUL4NAyi+n5JDzxUMMjc
-         YVmWP+V4GT0WZnv89R5QJMFswFGyufptXG7L83ZUIfYIL/yWyXKcEjeZvi21gEBg088G
-         o5Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684888159; x=1687480159;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
-        b=PR6q1wpvSDox5fsfu6LyX6tT7j4r9eDqc/Gf4C8rx13zIjJxr8AgcsekaMJSmIfszQ
-         Gv/bGvcI7Cn1VaJBz29f70SsjbuXsTo9m0GQkYU09LFC3jT3acHfyrdOvnP89ntAWhB0
-         ged+bs/uJfh+M+x/dLzOOW8oUCirfqcsOncAWEYPE4pxBQY9XCsa5ZEFWiJ3q2STsK0G
-         yMSzMkcrPBZFvOfxfnNdx+ZAFCNFQdUu5EI7vkSHjORC+D3uhznnHvfrXNfMK6s6r2eP
-         G+CJRZRqfy4Zsd7RzfntCAZNc83u3bH5J1Nom78wEBntSVdsF5zRNDfdhyK//j1QFMG2
-         5HqA==
-X-Gm-Message-State: AC+VfDzkQOQsS6T1GVu9Fu4vQMvKKFXvS+/T+2sm4ak0zIpaOc1IulUk
-        oJbepRx/xWMS2MPFkBBcR0ik4A==
-X-Google-Smtp-Source: ACHHUZ4WC86fv/HCojVq6Z7bo1LnEN2P8Qa/JJdhSbqAvm7x1JKXoIG4BePTyVsmdwlyiuzkRQj4Vw==
-X-Received: by 2002:a17:902:e847:b0:1af:90ce:5263 with SMTP id t7-20020a170902e84700b001af90ce5263mr107385plg.26.1684888158675;
-        Tue, 23 May 2023 17:29:18 -0700 (PDT)
-Received: from [2620:0:1008:11:c789:c1fb:6667:1766] ([2620:0:1008:11:c789:c1fb:6667:1766])
-        by smtp.gmail.com with ESMTPSA id n20-20020a17090a929400b0024de0de6ec8sm137193pjo.17.2023.05.23.17.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 17:29:18 -0700 (PDT)
-Date:   Tue, 23 May 2023 17:29:17 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/slab: rename CONFIG_SLAB to CONFIG_SLAB_DEPRECATED
-In-Reply-To: <20230523091139.21449-1-vbabka@suse.cz>
-Message-ID: <be109b49-8510-5887-72ae-738db9945619@google.com>
-References: <20230523091139.21449-1-vbabka@suse.cz>
+        Wed, 24 May 2023 05:22:11 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1691130;
+        Wed, 24 May 2023 02:21:54 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id A0A1D22490;
+        Wed, 24 May 2023 09:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1684920113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kgjLMqrLBzhR2hNsQlia0YYpadV31biLJMb7B+8R+hM=;
+        b=lh+cG2oyDJgKUGRrfCbMMcYIllL37HTBGeZ8PbecQuT0gAF0K1SZt3WMKI3l6fwsllCIxg
+        h/Zue4dS8D8B1oSorFDEoQmpOm/5jAOxckulu52T9//fEelOFHDFwfOr3SbBGxvaNBrqx5
+        Yt41Sspnahc2x4ke8fRWr0ulP1wSirA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1684920113;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kgjLMqrLBzhR2hNsQlia0YYpadV31biLJMb7B+8R+hM=;
+        b=4q46w3w0JlfgjmM9ar69b00LchDBlqnbkZSCXY8+fKyKsBovCWKZ6KPO1Cb1UgIqgSMjqo
+        jhQDZNlNty/XynCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5E41913425;
+        Wed, 24 May 2023 09:21:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id /gwvFjHXbWTHewAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:53 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@gmail.com,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        javierm@redhat.com, sam@ravnborg.org
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/13] drm/fbdev: Remove DRM's helpers for fbdev I/O
+Date:   Wed, 24 May 2023 11:21:37 +0200
+Message-Id: <20230524092150.11776-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,28 +74,92 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 23 May 2023, Vlastimil Babka wrote:
+DRM provides a number of wrappers around fbdev cfb_() sys_(), fb_io_()
+and fb_sys_() helpers. The DRM functions don't provide any additional
+functionality for most DRM drivers. So remove them and call the fbdev
+I/O helpers directly.
 
-> As discussed at LSF/MM [1] [2] and with no objections raised there,
-> deprecate the SLAB allocator. Rename the user-visible option so that
-> users with CONFIG_SLAB=y get a new prompt with explanation during make
-> oldconfig, while make olddefconfig will just switch to SLUB.
-> 
-> In all defconfigs with CONFIG_SLAB=y remove the line so those also
-> switch to SLUB. Regressions due to the switch should be reported to
-> linux-mm and slab maintainers.
-> 
-> [1] https://lore.kernel.org/all/4b9fc9c6-b48c-198f-5f80-811a44737e5f@suse.cz/
-> [2] https://lwn.net/Articles/932201/
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+The DRM fbdev I/O wrappers were originally added because <linux/fb.h>
+does not protect its content with CONFIG_FB. DRM fbdev emulation did
+not build if the config option had been disabled. This has been
+fixed. For fbdev-generic and i915, the wrappers added support for damage
+handling. But this is better handled within the two callers, as each
+is special in its damage handling.
 
-Acked-by: David Rientjes <rientjes@google.com>
+Patch 1 adds several internal Kconfig options that DRM drivers (and
+possibly other fbdev code) will use to select the correct set of I/O
+helpers. Patch 2 adds initializers for struct fb_ops and generator
+macros for the callback functions. These macros will simplify drivers.
+This patchset applies the new options and macros to DRM fbdev emulation,
+but regular fbdev drivers can use them as well.
 
-The Kconfig option says that SLAB will be removed in a few cycles.  I 
-think we should wait until at least the next LTS kernel is forked at the 
-end of the year so that users who upgrade to only the LTS releases can be 
-prompted for this change and surface any concerns.  Slab allocation is a 
-critical subsystem, so I presume this is the safest and most responsible 
-way to do the SLAB deprecation.  Hopefully that timeline works for 
-everybody.
+Patches 3 to 10 replace the DRM wrappers in a number of fbdev emulations.
+Patch 10 exports two helpers for damage handling. Patches 12 and 13
+update fbdev-generic and i915 with the help of the exported functions.
+The patches also remove DRM's fbdev I/O helpers, which are now unused.
+
+DRM's fbdev helpers had to select fbdev I/O helpers for I/O and for
+system memory. Each fbdev emulation now selects the correct helpers
+for itself. Depending on the selected DRM drivers, kernel builds will
+now only contain the necessary fbdev I/O helpers and might be slightly
+smaller in size.
+
+v4:
+	* use initializer and generator macros for struct fb_ops
+	* partially support damage handling in msm (Dmitri)
+v3:
+	* fix Kconfig options (Jingfeng)
+	* minimize changes to exynos (Sam)
+v2:
+	* simplify Kconfig handling (Sam)
+
+Thomas Zimmermann (13):
+  fbdev: Add Kconfig options to select different fb_ops helpers
+  fbdev: Add initializer macros for struct fb_ops
+  drm/armada: Use regular fbdev I/O helpers
+  drm/exynos: Use regular fbdev I/O helpers
+  drm/gma500: Use regular fbdev I/O helpers
+  drm/radeon: Use regular fbdev I/O helpers
+  drm/fbdev-dma: Use regular fbdev I/O helpers
+  drm/msm: Use regular fbdev I/O helpers
+  drm/omapdrm: Use regular fbdev I/O helpers
+  drm/tegra: Use regular fbdev I/O helpers
+  drm/fb-helper: Export helpers for marking damage areas
+  drm/fbdev-generic: Implement dedicated fbdev I/O helpers
+  drm/i915: Implement dedicated fbdev I/O helpers
+
+ drivers/gpu/drm/Kconfig                    |  10 +-
+ drivers/gpu/drm/armada/Kconfig             |   1 +
+ drivers/gpu/drm/armada/armada_fbdev.c      |   7 +-
+ drivers/gpu/drm/drm_fb_helper.c            | 236 ++-------------------
+ drivers/gpu/drm/drm_fbdev_dma.c            |  11 +-
+ drivers/gpu/drm/drm_fbdev_generic.c        |  11 +-
+ drivers/gpu/drm/exynos/Kconfig             |   1 +
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |   9 +-
+ drivers/gpu/drm/gma500/Kconfig             |   1 +
+ drivers/gpu/drm/gma500/fbdev.c             |   8 +-
+ drivers/gpu/drm/i915/Kconfig               |   1 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  14 +-
+ drivers/gpu/drm/msm/Kconfig                |   1 +
+ drivers/gpu/drm/msm/msm_fbdev.c            |  17 +-
+ drivers/gpu/drm/omapdrm/Kconfig            |   1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |  11 +-
+ drivers/gpu/drm/radeon/Kconfig             |   1 +
+ drivers/gpu/drm/radeon/radeon_fbdev.c      |   9 +-
+ drivers/gpu/drm/tegra/Kconfig              |   1 +
+ drivers/gpu/drm/tegra/fbdev.c              |   8 +-
+ drivers/video/fbdev/Kconfig                |  21 ++
+ include/drm/drm_fb_helper.h                |  83 +-------
+ include/linux/fb.h                         | 112 ++++++++++
+ 23 files changed, 212 insertions(+), 363 deletions(-)
+
+
+base-commit: 216281f91018b24567e59ae46ce7e96fb92063cf
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 8bff2b12862e44027a25837ea7510f633d40839e
+prerequisite-patch-id: 97ac107455aff4e0ec039d166ecdd2430d20f22e
+-- 
+2.40.1
+
