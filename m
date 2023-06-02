@@ -2,133 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2645E72041B
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Jun 2023 16:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE00720B0B
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Jun 2023 23:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234705AbjFBOO4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Jun 2023 10:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58092 "EHLO
+        id S236536AbjFBVhj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Jun 2023 17:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234948AbjFBOOz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Jun 2023 10:14:55 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325661A6;
-        Fri,  2 Jun 2023 07:14:54 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51640b9ed95so636271a12.2;
-        Fri, 02 Jun 2023 07:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685715292; x=1688307292;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K9Mq4zTWNZxgXmn77g79M7jiTcegyvnCqH1d/BABQRw=;
-        b=MdpnURFfo2xSF+LNcUy3EATrFiAxtU0Ahw+t6ngyOgs82v8O43y1D2rkwPxJPRNNNO
-         qm8FUF4k24oI2ns4mhAFnHUJgjqKhsPZejHQFRhPByrTXebetE0Lcfdxsch0usfXjLU5
-         MO0XhzLM+xS0rNlXnNLz+n5LX6DeVjrcCKq4EunC5uTNVFtG+JO7DFNeIxvLdFTcnF+r
-         C7MzPymNYRyLQF1rlvogwFB0mNPJyuhZu8+ni5/Z7J6fbKkOLnaJ/t41T/ws93VwEk6E
-         6oxyPBecocZ51JQxPQ32xZEJ8L1UYpKQXPHR4R8VlUedcGy60bMjOOXF03oeBuWgTpkE
-         rQ/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685715292; x=1688307292;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K9Mq4zTWNZxgXmn77g79M7jiTcegyvnCqH1d/BABQRw=;
-        b=N+arcyFiQZNJhs9o1/Aryzv/6WVyrmi1yQhzWHcdrA+0IefwyZo7QZ7mECFIBgvXBC
-         KqTkIicYYyxp3Ou/rblAVzstnzkoJEzW6oDUDm+BKk7vN+PsT1PtQ9Y1UNPNrOkITZ5O
-         hKKuqqVHcw21J78sT6xrjOZnmkyOfnuDWrAcPBcFs+bEjv4hNh2mbBQAp97mJ2mTDZTm
-         MhYlYUjcR6qCCaJdwRH5W7ubY5F7e0xSNXEAx5IdphUXJCGMgUaxkavvD5mQQDNFFRKh
-         r4YjSJvhhutK/X/ZCxy4NyiKi4NOTzNZk9PLJG70fdWcpt3UE668zpAVfgeojdicixkL
-         DDzw==
-X-Gm-Message-State: AC+VfDwqqAeC4PuT4RL130MATGrYAMWo6GWhsYsSrZFN72dN4Na4070A
-        dKpSOqqhTKBfZ0mY1A6EUMM=
-X-Google-Smtp-Source: ACHHUZ6RinDs3iE3gaXYXQ41Xcx4tyV6SOb7xP+HOV0ILLllQhHtK2pudfDmd6ipafJsmZ/CO4EhUA==
-X-Received: by 2002:aa7:c904:0:b0:510:db93:f034 with SMTP id b4-20020aa7c904000000b00510db93f034mr2127459edt.36.1685715292657;
-        Fri, 02 Jun 2023 07:14:52 -0700 (PDT)
-Received: from localhost (p200300e41f305300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f30:5300:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a25-20020aa7d919000000b005163008c6b7sm729828edr.27.2023.06.02.07.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 07:14:52 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        with ESMTP id S236246AbjFBVhi (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Jun 2023 17:37:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEC51B5;
+        Fri,  2 Jun 2023 14:37:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CE6BA61ED3;
+        Fri,  2 Jun 2023 21:37:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9ACC433D2;
+        Fri,  2 Jun 2023 21:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685741856;
+        bh=1FcV/MmMD469O1FQZ7KzmQXuisSwf/qS6Cx5HeBprRU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=G1SmzjFN1fwdTVy/JX+tcplLxTUjUTUxEYFqWy36jkRCY8CssArfmtY6hLyIJ+eEl
+         Bsh5696NyIdCrSPjt2TUjM0RFMQlO0wpybcSRG6UraTxRxGXt4VITakX9oYodhFdyh
+         rfKi2TNtnhoeQ1oqNFE8gfgG28MlI7yJP3b9ig8g9v5cVOy5x4enFGWy4eo4eOhL/D
+         t0558CmqNSsrs8MIMUgAirdzk2AkEhL549O1T9Ri7JyW34yBjFQ+ghpcI6WWPzIPLi
+         /OsVnvTW9zVJhYn0W1r/GVQ7YvbUz4DhG+Daqqs+lJJtWaWxaXh3OmZq4hyGtUOW+P
+         FAVYBtTinWEBw==
+Date:   Fri, 2 Jun 2023 16:37:34 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Joyce Ooi <joyce.ooi@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jim Quinlan <jim2101024@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Rahul Tanwar <rtanwar@maxlinear.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v4 3/3] arm64: tegra: Add Tegra234 pin controllers
-Date:   Fri,  2 Jun 2023 16:14:45 +0200
-Message-Id: <20230602141445.3012550-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230602141445.3012550-1-thierry.reding@gmail.com>
-References: <20230602141445.3012550-1-thierry.reding@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Miaoqian Lin <linmq006@gmail.com>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Jianjun Wang <jianjun.wang@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org, kernel@pengutronix.de,
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 00/15] PCI: Convert to platform remove callback returning
+ void
+Message-ID: <ZHphHkNLO4tEJIm/@bhelgaas>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230530140742.ebbrxmpieuphbmz3@pengutronix.de>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Prathamesh Shete <pshete@nvidia.com>
+On Tue, May 30, 2023 at 04:07:42PM +0200, Uwe Kleine-König wrote:
+> Hello Bjorn,
+> 
+> On Tue, Mar 21, 2023 at 08:31:53PM +0100, Uwe Kleine-König wrote:
+> > this series adapts the platform drivers below drivers/pci to use the
+> > .remove_new() callback. Compared to the traditional .remove() callback
+> > .remove_new() returns no value. This is a good thing because the driver core
+> > doesn't (and cannot) cope for errors during remove. The only effect of a
+> > non-zero return value in .remove() is that the driver core emits a warning. The
+> > device is removed anyhow and an early return from .remove() usually yields a
+> > resource leak.
+> > 
+> > By changing the remove callback to return void driver authors cannot
+> > reasonably assume any more that there is some kind of cleanup later.
+> > 
+> > All drivers were easy to convert as they all returned zero in their
+> > remove callback. Only for iproc the conversion wasn't trivial, the other
+> > were converted using coccinelle.
+> > 
+> > There are no interdependencies between these patches. So even if there
+> > are some concerns for individual patches, I ask you to apply the
+> > remaining set. Then I only have to care for the review feedback of the
+> > refused patches. (Having said that I don't expect any serious objection,
+> > just things like squashing or separating patches, or maybe I picked a
+> > wrong subject prefix.)
+> 
+> These patches wait for application for quite some time now. They apply
+> just fine to v6.4-rc1 and next/master. Would be great to get them in
+> during the next merge window and ideally give them some time in next
+> before.
 
-Add the device tree nodes for the MAIN and AON pin controllers found on
-the Tegra234 family of SoCs.
+Thanks, these seem fine to me, and Lorenzo normally takes care of
+drivers/pci/controller/.  Lorenzo, if it's easier to have me apply
+them, that's fine, too, just let me know.
 
-Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v3:
-- use correct value for #address-cells and #size-cells
-- correct gpio-ranges property name
+The only tweaks I would make would be:
 
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+  PCI: j721e: Convert to platform remove callback returning void
+  PCI: dwc: Convert to platform remove callback returning void
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index 133b2d32d19b..9dba05be03d2 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -109,6 +109,7 @@ gpio: gpio@2200000 {
- 			interrupt-controller;
- 			#gpio-cells = <2>;
- 			gpio-controller;
-+			gpio-ranges = <&pinmux 0 0 164>;
- 		};
- 
- 		ethernet@2310000 {
-@@ -147,6 +148,11 @@ codec@242c000 {
- 			status = "disabled";
- 		};
- 
-+		pinmux: pinmux@2430000 {
-+			compatible = "nvidia,tegra234-pinmux";
-+			reg = <0x0 0x2430000 0x0 0x19100>;
-+		};
-+
- 		gpcdma: dma-controller@2600000 {
- 			compatible = "nvidia,tegra234-gpcdma",
- 				     "nvidia,tegra186-gpcdma";
-@@ -1805,6 +1811,12 @@ gpio_aon: gpio@c2f0000 {
- 			interrupt-controller;
- 			#gpio-cells = <2>;
- 			gpio-controller;
-+			gpio-ranges = <&pinmux_aon 0 0 32>;
-+		};
-+
-+		pinmux_aon: pinmux@c300000 {
-+			compatible = "nvidia,tegra234-pinmux-aon";
-+			reg = <0x0 0xc300000 0x0 0x4000>;
- 		};
- 
- 		pwm4: pwm@c340000 {
--- 
-2.40.1
-
+to match the git history.
