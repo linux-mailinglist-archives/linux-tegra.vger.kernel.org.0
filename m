@@ -2,173 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6518072721F
-	for <lists+linux-tegra@lfdr.de>; Thu,  8 Jun 2023 00:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557737276A6
+	for <lists+linux-tegra@lfdr.de>; Thu,  8 Jun 2023 07:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbjFGWyl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 7 Jun 2023 18:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53812 "EHLO
+        id S234197AbjFHF1f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 8 Jun 2023 01:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233049AbjFGWyj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Jun 2023 18:54:39 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75EB91FEA
-        for <linux-tegra@vger.kernel.org>; Wed,  7 Jun 2023 15:54:36 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-973f78329e3so694066b.3
-        for <linux-tegra@vger.kernel.org>; Wed, 07 Jun 2023 15:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686178475; x=1688770475;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=WeqXDhOYObEU4Q4S3JxL3bEVQtplVvNKCfakhFkSuiLBGZe/ef388CiKUayAOmbEOV
-         ZR0I5GAxPbS54gQ7Fi+hG72GeTokI+noW1OPwtavsLtjymUzaeyKWDDpDiOtNBnLq40U
-         hKN8QzuE3yuzJvRNnur8tzVGd/WDVGu93YT1PuP86BcJTXG/Q3+EyiY1Ov5Itgxf9sfV
-         puzj8gFJzfO5zpoPQ0K3fO44i5t5qr504eako4ZleNRX8Z/LIaI8UL0On16+KpM6t7Hk
-         P05xDxotWEktWnY1d5dyENuc5li2l9dXU7CCPzvtyNY2IFMeysO2qVasevOMBOewfS/V
-         nc1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686178475; x=1688770475;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=QHtqJewnS5fxfs3K3zUdRc6bK/+8IikINgyg/b1uUQaOKbzRjyBSyJfwpUXjkgbNC8
-         r8gOuDXN7fz/9FvYVNMrlaa1RMagwr8tYA1tfaGHg2qDdlyzAVoC9TKkM9mx35wRsgHV
-         sPsRHGcDiKCo4mUa6Oh+gR2Lj1slKQ0+e6VHIRlIuSAoaN6dL4sKgGVaLLjLWclEW+3l
-         eDe9Ut6IZatY+fwx6+Q4gZCjIiAle/Rvu42iYBYSut3V1/28RSezv9tVJjcyvnmUzaPB
-         e/8rl6LPZ7Fktv5gtWq78zj1Evx9LO21so+SKfHPvX+MgrwOFWjtrDlqKGxkIwFxy9H7
-         cqJQ==
-X-Gm-Message-State: AC+VfDwSOVpkLhZkA3hy05er+1Y1COisASkfy9Ed3D2NXVcXeN6PPOjz
-        I8LcVrfYEMESaxq3qeHbjiqlVp2Vckr5IsnyeoI=
-X-Google-Smtp-Source: ACHHUZ7J0yv2Uy0Ff3URHHllMh6dn7geAOftATdUjaOMCSCEm6sdR3gpAsqx+SgrMGXj3gnAhFPKaDZy027dlMN9Xtw=
-X-Received: by 2002:a17:907:783:b0:94a:6de2:ba9 with SMTP id
- xd3-20020a170907078300b0094a6de20ba9mr6600647ejb.68.1686178474547; Wed, 07
- Jun 2023 15:54:34 -0700 (PDT)
+        with ESMTP id S233603AbjFHF1d (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 8 Jun 2023 01:27:33 -0400
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB6C26B6
+        for <linux-tegra@vger.kernel.org>; Wed,  7 Jun 2023 22:27:29 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 78BAqQV8E5y9n78BAqmbdj; Thu, 08 Jun 2023 07:27:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1686202046;
+        bh=NC7exZWD31sFeAwipTt4OgnGAif/dXKMSn2/zIDOEiQ=;
+        h=From:To:Cc:Subject:Date;
+        b=Lg2L8LSFWbJeuTvjlyjI7VHKdR4+wJ2HclIeWo3/25PD6YibOWY2yYSUShhHI1oWf
+         sa8/rcyF2vvXwO7SzG8DxnsSyf6H/GhxIN2SA10AsHw5b8W517fKLASoy0REEGghXt
+         NqBs3z5eXSIsEnKjA3O7cGa9Eg4wT5a/FW8b1P6qF87R7dTPE6EmCf1E/xEvjEFglQ
+         wCUwwY8oP6iBpl4s8SCWBRfW5f3jIo72jTdCW5ToXjY7tun/qA8co4TvDA8eYRvYsD
+         vilvFZG9NqFNXK2ijn8QKcUsmFogds4Lc3VXEIfvhq+6lBYJMU50Y2QRHmrrZVngqX
+         O8hBytCNDkVHg==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 08 Jun 2023 07:27:26 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] ASoC: tegra: Simplify code around clk_get_rate() handling
+Date:   Thu,  8 Jun 2023 07:27:22 +0200
+Message-Id: <53f928290f08f50ff43031e17fe1d88443c2c441.1686202022.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a54:2409:0:b0:217:72a9:f646 with HTTP; Wed, 7 Jun 2023
- 15:54:33 -0700 (PDT)
-Reply-To: unitednationcompensationcoordinatortreasury@hotmail.com
-From:   "UNITED NATION DEPUTY SECRETARY-GENERAL (U.N)" 
-        <successikolo@gmail.com>
-Date:   Wed, 7 Jun 2023 15:54:33 -0700
-Message-ID: <CADFNGJ9M60ti_yHcUzQD8BP2Qji_qiW+6MK-iYxt_qf8B830+w@mail.gmail.com>
-Subject: CONTACT DHL OFFICE IMMEDIATELY FOR YOUR ATM MASTER CARD 1.5 MILLION,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FORM_FRAUD_5,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_LOAN,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:630 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [successikolo[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  0.2 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-UNITED NATION DEPUTY SECRETARY-GENERAL.
+clk_get_rate() returns an unsigned long, so there is no point in storing it
+in a long, and test for negative values.
 
-This is to official inform you that we have been having meetings for
-the past three (3) weeks which ended two days ago with MR. JIM YONG
-KIM the world bank president and other seven continent presidents on
-the congress we treated on solution to scam victim problems.
+So, turn 'parent_rate' into an unsigned long, simplify the sanity check,
+the error message and the return value, in case of error (i.e. 0).
 
- Note: we have decided to contact you following the reports we
-received from anti-fraud international monitoring group your
-name/email has been submitted to us therefore the united nations have
-agreed to compensate you with the sum of (USD$ 1.5 Million) this
-compensation is also including international business that failed you
-in the past due to government problems etc.
+Doing so also turns 'i' and 'valid_rates' into unsigned long, but it is
+fine and harmless.
 
- We have arranged your payment through our ATM Master Card and
-deposited it in DHL Office to deliver it to you which is the latest
-instruction from the World Bank president MR. JIM YONG KIM, For your
-information=E2=80=99s, the delivery charges already paid by U.N treasury, t=
-he
-only money you will send to DHL office south Korea is
-($500). for security keeping fee, U.N coordinator already paid for
-others charges fees for delivery except the security keeping fee, the
-director of DHL refused to collect the security keeping fee from U.N
-coordinator, the Director of DHL office said that they don=E2=80=99t know
-exactly time you will contact them to reconfirm your details to avoid
-counting demur-rage that is why they refused collecting the ($500) .
-for security keeping fee.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ sound/soc/tegra/tegra20_i2s.c   | 9 ++++-----
+ sound/soc/tegra/tegra20_spdif.c | 9 ++++-----
+ 2 files changed, 8 insertions(+), 10 deletions(-)
 
- Therefore be advice to contact DHL Office agent south Korea. Rev:John
-Lee Tae-seok
-who is in position to deliver your ATM
-Master Card to your location address, contact DHL Office immediately
-with the bellow email & phone number as listed below.
+diff --git a/sound/soc/tegra/tegra20_i2s.c b/sound/soc/tegra/tegra20_i2s.c
+index e1a0f50969c1..d38b58305c6b 100644
+--- a/sound/soc/tegra/tegra20_i2s.c
++++ b/sound/soc/tegra/tegra20_i2s.c
+@@ -273,13 +273,12 @@ static int tegra20_i2s_filter_rates(struct snd_pcm_hw_params *params,
+ 	struct snd_soc_dai *dai = rule->private;
+ 	struct tegra20_i2s *i2s = dev_get_drvdata(dai->dev);
+ 	struct clk *parent = clk_get_parent(i2s->clk_i2s);
+-	long i, parent_rate, valid_rates = 0;
++	unsigned long i, parent_rate, valid_rates = 0;
+ 
+ 	parent_rate = clk_get_rate(parent);
+-	if (parent_rate <= 0) {
+-		dev_err(dai->dev, "Can't get parent clock rate: %ld\n",
+-			parent_rate);
+-		return parent_rate ?: -EINVAL;
++	if (!parent_rate) {
++		dev_err(dai->dev, "Can't get parent clock rate\n");
++		return -EINVAL;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(tegra20_i2s_rates); i++) {
+diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
+index 86bef54dfdf2..d034803695a0 100644
+--- a/sound/soc/tegra/tegra20_spdif.c
++++ b/sound/soc/tegra/tegra20_spdif.c
+@@ -187,13 +187,12 @@ static int tegra20_spdif_filter_rates(struct snd_pcm_hw_params *params,
+ 	struct tegra20_spdif *spdif = dev_get_drvdata(dai->dev);
+ 	struct clk *parent = clk_get_parent(spdif->clk_spdif_out);
+ 	static const unsigned int rates[] = { 32000, 44100, 48000 };
+-	long i, parent_rate, valid_rates = 0;
++	unsigned long i, parent_rate, valid_rates = 0;
+ 
+ 	parent_rate = clk_get_rate(parent);
+-	if (parent_rate <= 0) {
+-		dev_err(dai->dev, "Can't get parent clock rate: %ld\n",
+-			parent_rate);
+-		return parent_rate ?: -EINVAL;
++	if (!parent_rate) {
++		dev_err(dai->dev, "Can't get parent clock rate\n");
++		return -EINVAL;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(rates); i++) {
+-- 
+2.34.1
 
- Contact name: John Lee Tae-seok
-
- Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Do not hesitate to Contact Rev: John Lee Tae-seok, as soon as you
-
- read this message. Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Make sure you reconfirmed DHL Office your details ASAP as stated
-below to avoid wrong delivery.
-
- Your full name..........
-
- Home address:.........
-
- Your country...........
-
- Your city..............
-
- Telephone......
-
- Occupation:.......
-
- Age:=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6..
-
- Let us know as soon as possible you receive your ATM MasterCard
-for proper verification.
-
- Regards,
-
- Mrs Vivian kakadu.
-
- DEPUTY SECRETARY-GENERAL (U.N)
