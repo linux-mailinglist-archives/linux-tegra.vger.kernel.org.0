@@ -2,114 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB169729B54
-	for <lists+linux-tegra@lfdr.de>; Fri,  9 Jun 2023 15:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8C5729C4A
+	for <lists+linux-tegra@lfdr.de>; Fri,  9 Jun 2023 16:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240414AbjFINR3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 9 Jun 2023 09:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41086 "EHLO
+        id S240442AbjFIOH5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 9 Jun 2023 10:07:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241344AbjFINR1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 9 Jun 2023 09:17:27 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADA430FA
-        for <linux-tegra@vger.kernel.org>; Fri,  9 Jun 2023 06:17:19 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-977c8423dccso611732666b.1
-        for <linux-tegra@vger.kernel.org>; Fri, 09 Jun 2023 06:17:19 -0700 (PDT)
+        with ESMTP id S240765AbjFIOHn (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 9 Jun 2023 10:07:43 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457513C28
+        for <linux-tegra@vger.kernel.org>; Fri,  9 Jun 2023 07:07:26 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-977d02931d1so274100666b.0
+        for <linux-tegra@vger.kernel.org>; Fri, 09 Jun 2023 07:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686316638; x=1688908638;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9ZC+83IQO3tDZMU/hWCwdjKY5MKgqfTZ0+ZA7DpdIrU=;
-        b=qMssm9puo1o75pg9F23DYqWlv0d1oJJMi36KjsU8Xlf+XbustpNOvfTacAMqQa9kS3
-         Dc0Fw8obOCj5bBsWXX8suCcBQDnXaSzryO/tpcbBnKoBIf4aytXxmfJEoj9l4vaur55g
-         fNZAmkYs0lCbBb6/WRFPdep1aExQ3GZr0klb+JALeacHTVr2PWHcpE2KrgH2eG6cFaCx
-         ibDg1fa4S4I3PSie7fHhdDN2lxzfJtQp0HvfbZ4kWfc+X+wsOfuKKLcswvVeSOxek3/V
-         Mb/Yu3vk9eaToxeyFSt2KjbAxBQFTB+/tazANFFzrNtSAFYA06Lonb2zkd9+OKUbCvfQ
-         DtQw==
+        d=linaro.org; s=google; t=1686319644; x=1688911644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R1yU3QubXEzlvIVqe0FBrqWJQ2xtPQAVemT5Khnt0wM=;
+        b=LNfP72yCmAwQ/v0U2ueBWosYZjMzKusItqlpre9t4oVzkDZL+BX7y5K9cViTetyZy1
+         Nd2aLjrwSdkWn+lRyJgH6On1a9v517mhhB/vmSnHFEUZ5GL5NJ93F61e5NfkYfG3iGPf
+         rBE4WGGRtkLC/WI5J4/uPXzMM/kBctua1vKSnKxCuTKMThA/4mcLYO3R1f3h8tYtH199
+         vE8WSpt3wadApdUMtXqgosLMN+Vyhcsdne8siY9Va+9hxGCxk8JkAPwMelGt7R1h7Z/H
+         DV7n766ucmb/Q1viv5C2G0x61eHgaeVBs6v0N6hhtMF6jABd429SNp4J2VJfxhr2R5xA
+         aUEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686316638; x=1688908638;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9ZC+83IQO3tDZMU/hWCwdjKY5MKgqfTZ0+ZA7DpdIrU=;
-        b=b/+9ZKRrue7tMXMJgoeZ19W0qCqmt44mwc4VsxjrrWtfGDaFwnSg+M2dvSqt1z8+AE
-         ZyRVsfoUIXCeyF8Ji6kYJocFN9ODh8duA/HV0rkuNF2C8XDiiXp6vvsfy8LI+XPGI5GA
-         BEhuhEXGht/NWT01FWu4tgtPvgqPKfZzslwr10oGJoTfVyugaILRsfwV+7K20iylU1pA
-         knyvwiNbMlDjzJCWJ6mUF9fXd8HVEr3imYiV2uDGxHWlwVD04+Da2lFYQ8BMoe1mmVnY
-         pEEyujMpI6EOKu/aDG9ZktteigLr+mWMZUVc54Lm7wnC4vVw6BLuChZkoOGdsHf+fSDR
-         dPpA==
-X-Gm-Message-State: AC+VfDwpD48AYQtP48Fm9XnnZ1DPyH1R/nCu+0kjYMZlAsaas8HHeO5g
-        1Haegf/LXlxIyH40NWUGITk=
-X-Google-Smtp-Source: ACHHUZ4KEOpk7BhaDINZT6G+VtByluz6b9BSkystW9LxtzXosN/M+oBkSxtHnoeX46RT62YlreGiDw==
-X-Received: by 2002:a17:907:3ea9:b0:977:d55a:6946 with SMTP id hs41-20020a1709073ea900b00977d55a6946mr1610614ejc.36.1686316638221;
-        Fri, 09 Jun 2023 06:17:18 -0700 (PDT)
-Received: from localhost (p200300e41f305300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f30:5300:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id i8-20020a17090671c800b009659fa6eeddsm1269796ejk.196.2023.06.09.06.17.17
+        d=1e100.net; s=20221208; t=1686319644; x=1688911644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R1yU3QubXEzlvIVqe0FBrqWJQ2xtPQAVemT5Khnt0wM=;
+        b=gs8A1heRgz3yqT7lQTJu2Kf6Hgncokk1OxkPNs0DwnBLZPCbUwApzZPdYu6v00FdjQ
+         lv2med6Rg8xqET0A1PVexilW5eycMXj7Tu+N9JOmGJVC7pAvMxicqGmGlI2FaH9LomAD
+         mCcYmTzkB5t81bxa2EHfvZ9hzj9KRgwcTzfv4obUYcJaXr2yVqmrF37b7N12CR7jOpSc
+         CoY9N8c74lDBx/83QZo6R7QtUmEZUxfDw4n0aN1brJOapHRzeZMo04yg97DaQiqXLZTe
+         ZgXRZdAgqptYAIIxSyMFrQ4eE3cxnH8sAd+z9K38U4WuZcw4W2YZ6/JivtoEO1hrmn7t
+         qAmQ==
+X-Gm-Message-State: AC+VfDxlaj118cbCCosQe8GMjL8dy+IoYtzJuuIqLoLVQiIabV4b0IcK
+        Jt+4cn6ZusnqiBoD4TXT7MtroQ==
+X-Google-Smtp-Source: ACHHUZ5PiCvWmVfl3y4Z9+jGF1gDaeU+xAsLZ75ziXqJ08jJgC3hSe1sysIuVF/zrCK6HemswyKQ8Q==
+X-Received: by 2002:a17:907:1626:b0:977:95f4:5cca with SMTP id hb38-20020a170907162600b0097795f45ccamr1762811ejc.54.1686319644668;
+        Fri, 09 Jun 2023 07:07:24 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id ce14-20020a170906b24e00b00977cc3d37a2sm1318150ejb.133.2023.06.09.07.07.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 06:17:17 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, Yi-Wei Wang <yiweiw@nvidia.com>,
+        Fri, 09 Jun 2023 07:07:24 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH 4/4] arm64: tegra: Enable thermal support on Jetson Orin Nano
-Date:   Fri,  9 Jun 2023 15:17:11 +0200
-Message-Id: <20230609131711.3826912-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230609131711.3826912-1-thierry.reding@gmail.com>
-References: <20230609131711.3826912-1-thierry.reding@gmail.com>
+Subject: [PATCH] dt-bindings: memory-controllers: drop unneeded quotes
+Date:   Fri,  9 Jun 2023 16:07:20 +0200
+Message-Id: <20230609140720.64743-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+checking for this can be enabled in yamllint.
 
-Enable the TJ thermal zone and hook up cooling maps for the PWM-
-controlled fan and two trip points.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../nvidia/tegra234-p3768-0000+p3767-0005.dts | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../bindings/memory-controllers/nvidia,tegra20-emc.yaml         | 2 +-
+ .../devicetree/bindings/memory-controllers/ti,gpmc.yaml         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-index ba66c1845f75..9b86aa6f7dbe 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-@@ -10,4 +10,24 @@
- / {
- 	compatible = "nvidia,p3768-0000+p3767-0005", "nvidia,p3767-0005", "nvidia,tegra234";
- 	model = "NVIDIA Jetson Orin Nano Developer Kit";
-+
-+	pwm-fan {
-+		cooling-levels = <0 187 255>;
-+	};
-+
-+	thermal-zones {
-+		tj-thermal {
-+			cooling-maps {
-+				map-active-0 {
-+					cooling-device = <&fan 0 1>;
-+					trip = <&tj_trip_active0>;
-+				};
-+
-+				map-active-1 {
-+					cooling-device = <&fan 1 2>;
-+					trip = <&tj_trip_active1>;
-+				};
-+			};
-+		};
-+	};
- };
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
+index 2fa44951cfde..f54e553e6c0e 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
+@@ -165,7 +165,7 @@ patternProperties:
+         const: 0
+ 
+       lpddr2:
+-        $ref: "ddr/jedec,lpddr2.yaml#"
++        $ref: ddr/jedec,lpddr2.yaml#
+         type: object
+ 
+     patternProperties:
+diff --git a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
+index bc9406929f6c..b049837ee669 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
+@@ -129,7 +129,7 @@ patternProperties:
+       The child device node represents the device connected to the GPMC
+       bus. The device can be a NAND chip, SRAM device, NOR device
+       or an ASIC.
+-    $ref: "ti,gpmc-child.yaml"
++    $ref: ti,gpmc-child.yaml
+ 
+ 
+ required:
 -- 
-2.40.1
+2.34.1
 
