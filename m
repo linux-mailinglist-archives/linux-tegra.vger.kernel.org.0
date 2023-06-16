@@ -2,195 +2,321 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E2173364D
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jun 2023 18:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3468C733927
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jun 2023 21:04:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345295AbjFPQll (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 16 Jun 2023 12:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59536 "EHLO
+        id S1345902AbjFPTER (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 16 Jun 2023 15:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345302AbjFPQlk (ORCPT
+        with ESMTP id S232180AbjFPTDy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 16 Jun 2023 12:41:40 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 090A32D4E
-        for <linux-tegra@vger.kernel.org>; Fri, 16 Jun 2023 09:41:39 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qACVe-0007RG-0w; Fri, 16 Jun 2023 18:41:14 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qACVb-007rTD-Jq; Fri, 16 Jun 2023 18:41:11 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qACVb-00EopP-1G; Fri, 16 Jun 2023 18:41:11 +0200
-Date:   Fri, 16 Jun 2023 18:41:10 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Artur Weber <aweber.kernel@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Andy Gross <agross@kernel.org>,
+        Fri, 16 Jun 2023 15:03:54 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BE13C16;
+        Fri, 16 Jun 2023 12:03:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gl3WHa+exFa1nbk+BHGXk48UdahCGctlNKLLC6QKqGbBpGLuBNG7nZk00/sryUJ1lggIQpFN9S/BTp980lc4Ucp28O/hAdfOuoNp4/jZAkt51qWFZ+ic6DMczJzWBvQ5yE3Khe1AnNvHoS6QLjtSjFEYZBTZXb35jlkHCQq0CiWLF5UX5NEEvBbTtEVd3VWmM7xTwjLSPGiQZNng5pzqXtVZxNdI8eVOTZ5WR5shtI47w28wJK1S9KKDXlbfCizlKqSI0xJ8Q9z9/8Wj9VhsGfFrYiRI65y12aAB8uiBVIHIZPtVSqYFb4xvNpEXgz4Pz+YgflzCJ+/9Sdq17bueaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zlxmJQaMSbD2/ecErvFE0S9HE2J8Pt99TWUP5WDzlHs=;
+ b=JnlvoL95oe4SanRQc+VTQfr7S4cafmxtHtM7JedO1k1dp9kRmRWR1+j+1NnDUX//8fuvp6pI+SeS37hvYzeCBWpYvSST7xzqEfRwaAE/EeaZasBJF4H7TGJoCuIuV2pnzMfvf9nqBXT8TnWkkhSl8KVHHJk5Yklflp5teXP+zWhyWdJLQx3fXrUzsnr0B/qNtiVJ0cF6LYOmF6Rl5PMhZuWGd+0RES5CpILvb3APvv54CkC71V3L1Ewt1YCdIIddXLp9X4Bu1MVw4XnQDjZlyen1G6dktJCIQQWmEWdEXu5jGSrtW/ZQCud+rXVwHi3TbUFZ6APFDtcAZ5lt6YOEpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zlxmJQaMSbD2/ecErvFE0S9HE2J8Pt99TWUP5WDzlHs=;
+ b=s/loTbzjUsWghybafNiVMG9W/7ZznsXR09YsYw6YqsEur6yd61UtDUKF7UQd82UB3tRCawmSfBrN3Lfb1+ONCbW0K+0G6m4WvfyTa2i6+In7WMnlq+4zU07ocPTjEcMarh/C34RKC3QyWjoSQU2hC4HUrQ1a4WT8ZGszuOAAjY06NERjvY+hAKZZsbGuQMVCkaPknOBiwv0iPZpTysfdr97sWilyBMcskCYB9hEYVskmC4oAw9lY6Z2q0fylruovp+joY0Yd0VyyQP5Sc+BuO3l8lQWRL/xzkBpeD0lwi+ZFK1ZaeUmjsr/vmhY0nWI4uJVGmrWbNyvg38QiKgMkcg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Fri, 16 Jun
+ 2023 19:03:08 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab%7]) with mapi id 15.20.6477.037; Fri, 16 Jun 2023
+ 19:03:08 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Andy Gross <agross@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-pwm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 2/4] video: backlight: lp855x: get PWM for PWM mode
- during probe
-Message-ID: <20230616164110.euw6n7mmubmav63l@pengutronix.de>
-References: <20230429104534.28943-1-aweber.kernel@gmail.com>
- <20230429104534.28943-3-aweber.kernel@gmail.com>
- <20230614083953.e4kkweddjz7wztby@pengutronix.de>
- <23f9f004-3e20-67b0-bddc-ab9700968c53@gmail.com>
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linuxppc-dev@lists.ozlabs.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>
+Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Steven Price <steven.price@arm.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: [PATCH v4 00/25] iommu: Make default_domain's mandatory
+Date:   Fri, 16 Jun 2023 16:02:29 -0300
+Message-Id: <0-v4-874277bde66e+1a9f6-iommu_all_defdom_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1P221CA0007.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c5::33) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4mqeubzcqronq6sk"
-Content-Disposition: inline
-In-Reply-To: <23f9f004-3e20-67b0-bddc-ab9700968c53@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ1PR12MB6051:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8d7d999-dc78-424b-9c22-08db6e9c4bfc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9Jl/9JSHoCU4z+9ER/rdjXGsG2WARs6yhJpiE/yn8TBSO+Jucw8xgPlDT72mTB0OadJ36rINwwFzX1CDCM/xB5a+xt3+L4u4PlOs0duGlRAKQppEj8ZdZuaINyX4GTNXq2519UI1EVHsHtfXjlwNGpObOz0fJHOghE5HOx8rBHrSdnIZFCCX6c8GJjLD/VsLytDGOCQAyCxl50DYjTQFwLwveKW/BKHyZq2138djHd5is9PMLGes7dTTAvjS7CTj48+/TyMP1ogssVZubivSIjozsdqAkoO4CVyal2MIlOI85cK9WM24P38C/omUrIls6lRkyglEBSOCKQWxbBM0rDQqAqYfcwgCJAlCn8xU+IFmBJfK13EKBl8e7z8CnOlCk8gl+O6+6gAr9E31nq8FSOQM1nXZeDc5lWrOtY3k/hF0aHr0V+P55DjrgwIU/l+gKMKHZd23zv9hipzw/bVZabSIlfaQKiOSdApYcj4ZEq+/3j95if5XaxIFHWuVghqF2UUoIBJBy+TjoPSkzfenQPaLf9HLE5kcNgfhGs+JrQTHB3s4FfUI52gPTJEFZIfeTuAT09a+c+v+FyGjBpOjfo1f94LOx+kpOErrf2moMgTI5GE3GIaeNh7r4AJMJOvfsEvcOl8MbaXyid111dvekXjRtixVGdGyLCG767CkL32ujMgLBdR0w8v7M/Bpb09sZ97psHu7eB8W+x5DnR5IZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(346002)(39860400002)(136003)(376002)(451199021)(2906002)(83380400001)(2616005)(36756003)(86362001)(921005)(38100700002)(8676002)(8936002)(5660300002)(107886003)(66556008)(966005)(316002)(478600001)(66476007)(66946007)(4326008)(6666004)(6486002)(186003)(7416002)(6506007)(54906003)(7406005)(110136005)(41300700001)(26005)(6512007)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xT4GD1FJeyCtReaPngD19pgCqQfHpd+92CwOwXudjCBbzG3/9C6JhrSSw29o?=
+ =?us-ascii?Q?bAjwca8F7XOJGsg96yk3jn6cWV4pfIGF1QmwM6hQUHfZsZUbLauHQqq788FI?=
+ =?us-ascii?Q?zSlvvLXgrBzAsLOWg5t6FsH8xbFomvV1/gp86tWMl+rJIqnI7/S92rjy+X71?=
+ =?us-ascii?Q?SDYPIxv5idZdcwjJe8501wSljfpwOo+oVIXdo6AQmkqbXijr+jhK6yyKWJVh?=
+ =?us-ascii?Q?khVpJ+tS6S3Q09TOQ6n/NtIV2TWTSToOXPLtTPGiynvzr6vQWjmODiAhvWqP?=
+ =?us-ascii?Q?ZxpdxTC/K9aroDZkDtX9Ad5iKJVblTpiBUdN44EPBx+SEmx1ERoA9e+t49xK?=
+ =?us-ascii?Q?BCIz8MJoEhZbpNxpPMFEYE3dWzEKSlhGppK27/g6cJ1zbxouANrg1PH8Fl6/?=
+ =?us-ascii?Q?v4dd/IJNIU5voSmVU7HM6KuKBAFtyTA1WfmpPREgkFNbtCUHZZVWgJ8I3nki?=
+ =?us-ascii?Q?Yiuqkt05a8thQ9axvj7rOnK+Y1X9dtneq9HX9zwATljbEPfP24bjEDZx53xD?=
+ =?us-ascii?Q?3Mydi2PZmsZBGcqYuGRwbi2PPeSSvhA1OOf41LxDGA7ovQxi4r5TVz9NEFGD?=
+ =?us-ascii?Q?CEclm6kXo7xw28earl3FDvc8obXSbroCtr258QqSqaicj3cxRbQV/yu3xxsR?=
+ =?us-ascii?Q?ochA9AcKISFGUlL4f73MDNEkHdmg1f8tPm3XKSppAk2607pHX/FSicE11eZb?=
+ =?us-ascii?Q?4yMdqCZBg9EnuXwaAdiQBgBF16GPxq4XuSCEmzNDOxsogSNaYRl22EkSIWF3?=
+ =?us-ascii?Q?q/dp3Eu66dkZSt24agCqlK1VZHxqUbJ001RigWXvR/Rfd/+FqAIYeSrX9coB?=
+ =?us-ascii?Q?FRTi5ZfPSIWSyrV6nier9v2lPi5/BW8hBm9xXsl+VMg9DiiMBR5f/0YTYjbD?=
+ =?us-ascii?Q?jll408PnJnT7Xf187gBALW7ctyeSn89HZSi+lD5XBsoc7C6zW1OxNQt8Bs1+?=
+ =?us-ascii?Q?7jVzGWixA+lY36RrUOTbCZiL72w5BNj/iLbDc8kUsKl3EwdtGO6lRPVJWdYN?=
+ =?us-ascii?Q?3rY8bN0w29aq8G3TtTpUtkUmzyMJ2DJEsvFz26aMXA3cSi00wdaDQS0bOLrD?=
+ =?us-ascii?Q?D0Nxb2yz46JsFbW+cSr3/ILCF55PfEDzkaenuul+RPquclNJyBOCuXS9o0P7?=
+ =?us-ascii?Q?HT6TF1NQT+3uLwy5OvhWtGTX7cpZcfjWZMyibTwesSibdOjdCW0dy5uqyj4z?=
+ =?us-ascii?Q?yGVqKuLTzlyQakuyu2hSPNUm4IDUeZIS2n/LkRO/UIlHQ2rGy++7mlzREq0y?=
+ =?us-ascii?Q?hVETLLJPcYDnQlh0O42J0xJqSl7ZyK/k0FCmqexDhYddzxfBrF20D2C++Kgg?=
+ =?us-ascii?Q?1faNgdouNEKjZQhj3LMs08ZmDUIVwU2fASVuWiodN6qx6ex4yleAym6YT6qQ?=
+ =?us-ascii?Q?0Sq30GLarXU/yL+kW1LxemZTmQSsGGzuZsNwVojpPDLXGPws5LPESDzobbi8?=
+ =?us-ascii?Q?Z9LOe+2waMKvxNFvibqnTRjQ+5CZ579GHvqRxjuOrsu82ShaBWh4kBzb7h8u?=
+ =?us-ascii?Q?Rf+ziEW/p/RMNIigUvuxQBY8BfvqUj/bc7hCTDczV/EBnmK7Y5CCpOjsFl2l?=
+ =?us-ascii?Q?xROSkMX1axtvP7jLsBf1OQ62qALBvMfrj1lUROmp?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d7d999-dc78-424b-9c22-08db6e9c4bfc
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 19:02:57.3755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0Lcsce1LR7xx9+mWY+AsTEY/51I9e6U9yadsTAIGdvWCaM71kc3GuZ8pRyiuN8uK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6051
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+[ It would be good to get this in linux-next, we have some good test
+coverage on the ARM side already, thanks! ]
 
---4mqeubzcqronq6sk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It has been a long time coming, this series completes the default_domain
+transition and makes it so that the core IOMMU code will always have a
+non-NULL default_domain for every driver on every
+platform. set_platform_dma_ops() turned out to be a bad idea, and so
+completely remove it.
 
-Hello,
+This is achieved by changing each driver to either:
 
-On Fri, Jun 16, 2023 at 05:29:08PM +0200, Artur Weber wrote:
-> On 14/06/2023 10:39, Uwe Kleine-K=F6nig wrote:
-> > On Sat, Apr 29, 2023 at 12:45:32PM +0200, Artur Weber wrote:
-> >> Also deprecate the pwm-period DT property, as it is now redundant
-> >> (pwms property already contains period value).
-> >>
-> >> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-> >> ---
-> >>  drivers/video/backlight/lp855x_bl.c | 48 ++++++++++++++++-------------
-> >>  1 file changed, 26 insertions(+), 22 deletions(-)
-> >>
-> >> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backl=
-ight/lp855x_bl.c
-> >> index 81012bf29baf..21eb4943ed56 100644
-> >> --- a/drivers/video/backlight/lp855x_bl.c
-> >> +++ b/drivers/video/backlight/lp855x_bl.c
-> >> ...
-> >> @@ -472,11 +456,31 @@ static int lp855x_probe(struct i2c_client *cl)
-> >>  	lp->enable =3D devm_regulator_get_optional(dev, "enable");
-> >>  	if (IS_ERR(lp->enable)) {
-> >>  		ret =3D PTR_ERR(lp->enable);
-> >> -		if (ret =3D=3D -ENODEV) {
-> >> +		if (ret =3D=3D -ENODEV)
-> >>  			lp->enable =3D NULL;
-> >> -		} else {
-> >> +		else
-> >>  			return dev_err_probe(dev, ret, "getting enable regulator\n");
-> >> -		}
-> >> +	}
-> >> +
-> >> +	lp->pwm =3D devm_pwm_get(lp->dev, lp->chipname);
-> >> +	if (IS_ERR(lp->pwm)) {
-> >> +		ret =3D PTR_ERR(lp->pwm);
-> >> +		if (ret =3D=3D -ENODEV || ret =3D=3D -EINVAL)
-> >=20
-> > Why would you ignore EINVAL?
->=20
-> EINVAL is returned when the pwms property is not found in the DT node
-> for the backlight. Not sure if there's a better way of separately
-> detecting whether it's present (especially when taking into
-> consideration non-DT platforms that might use the driver). Would be nice
-> to have something like devm_regulator_get_optional but for PWMs...
+1 - Convert the existing (or deleted) ops->detach_dev() into an
+    op->attach_dev() of an IDENTITY domain.
 
-Ah, that is because of_pwm_get() calls of_property_match_string(np,
-"pwm-names", con_id) which returns -EINVAL if there is no pwm-names
-property. This is different for clocks. I wonder if pwm should adapt
-accordingly? Thierry?
+    This is based on the theory that the ARM32 HW is able to function when
+    the iommu is turned off as so the turned off state is an IDENTITY
+    translation.
 
-> Still, someone who's setting up the driver could check the debug
-> messages to see if the backlight was set up in PWM mode or register mode.
->=20
-> > ...
-> >> +		pwm_init_state(lp->pwm, &pwmstate);
-> >> +		/* Legacy platform data compatibility */
-> >> +		if (lp->pdata->period_ns > 0)
-> >> +			pwmstate.period =3D lp->pdata->period_ns;
-> >> +		pwm_apply_state(lp->pwm, &pwmstate);
-> >=20
-> > This is a change in behaviour. Before lp855x_probe() didn't modify the
-> > state the bootloader left the backlight in. Now you're disabling it (I
-> > think). Is this intended?
->=20
-> I didn't really consider the implication of this in this way, as on the
-> device I was testing this on (Exynos4212-based tablet) the PWM state
-> would get reset during PWM chip initialization in the kernel anyways,
+2 - Use a new PLATFORM domain type. This is a hack to accommodate drivers
+    that we don't really know WTF they do. S390 is legitimately using this
+    to switch to it's platform dma_ops implementation, which is where the
+    name comes from.
 
-Which chip driver is in use here? That's a patch opportunity.
+3 - Do #1 and force the default domain to be IDENTITY, this corrects
+    the tegra-smmu case where even an ARM64 system would have a NULL
+    default_domain.
 
-> meaning that the state from the bootloader would be lost regardless of
-> this change. Either way, there's no guarantee that this would be the
-> same on other devices, though I'd assume that in most cases it's not
-> noticeable anyways as brightness is usually set somewhere in userspace
-> (or even earlier, in the driver, if the init-brt property is set).
-> Nonetheless, that's an oversight on my part.
->=20
-> As for the reasoning for this change in behavior - the previous behavior
-> was to silently fail if, while setting the brightness, the PWM could not
+Using this we can apply the rules:
 
-This sounds wrong.
+a) ARM_DMA_USE_IOMMU mode always uses either the driver's
+   ops->default_domain, ops->def_domain_type(), or an IDENTITY domain.
+   All ARM32 drivers provide one of these three options.
 
-> be set up. This seemed rather confusing to me (I encountered this while
-> I was initially working on the tablet, I added a "pwm" property instead
-> of "pwms" and was wondering why the backlight didn't work...)
->=20
-> Of course, that could be fixed by adding error detection in the
-> brightness set function, but since I was already working on it, it made
-> more sense to me for the PWM to be set up during the probing process,
-> given that this way we could 1. warn about errors early, and 2. catch
-> deferred probes and defer the backlight's probe if we're still waiting
-> for the PWM. That's why it's done the way it is in this patch.
->=20
-> If this is undesired behavior, let me know and I'll submit another patch
-> to revert it.
+b) dma-iommu.c mode uses either the driver's ops->default_domain,
+   ops->def_domain_type or the usual DMA API policy logic based on the
+   command line/etc to pick IDENTITY/DMA domain types
 
-Best regards
-Uwe
+c) All other arch's (PPC/S390) use ops->default_domain always.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+See the patch "Require a default_domain for all iommu drivers" for a
+per-driver breakdown.
 
---4mqeubzcqronq6sk
-Content-Type: application/pgp-signature; name="signature.asc"
+The conversion broadly teaches a bunch of ARM32 drivers that they can do
+IDENTITY domains. There is some educated guessing involved that these are
+actual IDENTITY domains. If this turns out to be wrong the driver can be
+trivially changed to use a BLOCKING domain type instead. Further, the
+domain type only matters for drivers using ARM64's dma-iommu.c mode as it
+will select IDENTITY based on the command line and expect IDENTITY to
+work. For ARM32 and other arch cases it is purely documentation.
 
------BEGIN PGP SIGNATURE-----
+Finally, based on all the analysis in this series, we can purge
+IOMMU_DOMAIN_UNMANAGED/DMA constants from most of the drivers. This
+greatly simplifies understanding the driver contract to the core
+code. IOMMU drivers should not be involved in policy for how the DMA API
+works, that should be a core core decision.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSMkKYACgkQj4D7WH0S
-/k5aIgf/SKGaRvfH39P++n5jjD+2vTiF6VAra1GFSjVbAemXWn/xObeuAuXttlyq
-CE+cFGFp+1eFFOLONWN81+8U63juiEjRTcL9N5WKbvZp8M4Pd5UkT416BdpWwS7L
-I95v5E6qX4+Khs9cm1j7VzR3u388P+I2RVJVQdW/PMZqVmgroxJDunEjCP5doSFf
-ZdWVdbFE2ouPLTk+iphxV3XDjNyFREESRjP9IVK7qu/GE1l6e6NGUNkw0yWySot/
-JvnVTvEMx8xv1AbKAHIRa1QtyXaUpx4C2k6GR9evEVRnHH1JB5G9TtuxKXsrU1lo
-Zgdg1fCGFoWkoczbrHsYFpyUXw2V2g==
-=eNSY
------END PGP SIGNATURE-----
+The main gain from this work is to remove alot of ARM_DMA_USE_IOMMU
+specific code and behaviors from drivers. All that remains in iommu
+drivers after this series is the calls to arm_iommu_create_mapping().
 
---4mqeubzcqronq6sk--
+This is a step toward removing ARM_DMA_USE_IOMMU.
+
+The IDENTITY domains added to the ARM64 supporting drivers can be tested
+by booting in ARM64 mode and enabling CONFIG_IOMMU_DEFAULT_PASSTHROUGH. If
+the system still boots then most likely the implementation is an IDENTITY
+domain. If not we can trivially change it to BLOCKING or at worst PLATFORM
+if there is no detail what is going on in the HW.
+
+I think this is pretty safe for the ARM32 drivers as they don't really
+change, the code that was in detach_dev continues to be called in the same
+places it was called before.
+
+This is on github: https://github.com/jgunthorpe/linux/commits/iommu_all_defdom
+
+v4:
+ - Fix rebasing typo missing ops->alloc_domain_paging check
+ - Rebase on latest Joerg tree
+v3: https://lore.kernel.org/r/0-v3-89830a6c7841+43d-iommu_all_defdom_jgg@nvidia.com
+ - FSL is back to a PLATFORM domain, with some fixing so it attach only
+   does something when leaving an UNMANAGED domain like it always was
+ - Rebase on Joerg's tree, adjust for "alloc_type" change
+ - Change the ARM32 untrusted check to a WARN_ON since no ARM32 system
+   can currently set trusted
+v2: https://lore.kernel.org/r/0-v2-8d1dc464eac9+10f-iommu_all_defdom_jgg@nvidia.com
+ - FSL is an IDENTITY domain
+ - Delete terga-gart instead of trying to carry it
+ - Use the policy determination from iommu_get_default_domain_type() to
+   drive the arm_iommu mode
+ - Reorganize and introduce new patches to do the above:
+    * Split the ops->identity_domain to an independent earlier patch
+    * Remove the UNMANAGED return from def_domain_type in mtk_v1 earlier
+      so the new iommu_get_default_domain_type() can work
+    * Make the driver's def_domain_type have higher policy priority than
+      untrusted
+    * Merge the set_platfom_dma_ops hunk from mtk_v1 along with rockchip
+      into the patch that forced IDENTITY on ARM32
+ - Revise sun50i to be cleaner and have a non-NULL internal domain
+ - Reword logging in exynos
+ - Remove the gdev from the group alloc path, instead add a new
+   function __iommu_group_domain_alloc() that takes in the group
+   and uses the first device. Split this to its own patch
+ - New patch to make iommufd's mock selftest into a real driver
+ - New patch to fix power's partial iommu driver
+v1: https://lore.kernel.org/r/0-v1-21cc72fcfb22+a7a-iommu_all_defdom_jgg@nvidia.com
+
+Jason Gunthorpe (25):
+  iommu: Add iommu_ops->identity_domain
+  iommu: Add IOMMU_DOMAIN_PLATFORM
+  powerpc/iommu: Setup a default domain and remove set_platform_dma_ops
+  iommu: Add IOMMU_DOMAIN_PLATFORM for S390
+  iommu/fsl_pamu: Implement a PLATFORM domain
+  iommu/tegra-gart: Remove tegra-gart
+  iommu/mtk_iommu_v1: Implement an IDENTITY domain
+  iommu: Reorganize iommu_get_default_domain_type() to respect
+    def_domain_type()
+  iommu: Allow an IDENTITY domain as the default_domain in ARM32
+  iommu/exynos: Implement an IDENTITY domain
+  iommu/tegra-smmu: Implement an IDENTITY domain
+  iommu/tegra-smmu: Support DMA domains in tegra
+  iommu/omap: Implement an IDENTITY domain
+  iommu/msm: Implement an IDENTITY domain
+  iommufd/selftest: Make the mock iommu driver into a real driver
+  iommu: Remove ops->set_platform_dma_ops()
+  iommu/qcom_iommu: Add an IOMMU_IDENTITIY_DOMAIN
+  iommu/ipmmu: Add an IOMMU_IDENTITIY_DOMAIN
+  iommu/mtk_iommu: Add an IOMMU_IDENTITIY_DOMAIN
+  iommu/sun50i: Add an IOMMU_IDENTITIY_DOMAIN
+  iommu: Require a default_domain for all iommu drivers
+  iommu: Add __iommu_group_domain_alloc()
+  iommu: Add ops->domain_alloc_paging()
+  iommu: Convert simple drivers with DOMAIN_DMA to domain_alloc_paging()
+  iommu: Convert remaining simple drivers to domain_alloc_paging()
+
+ arch/arm/configs/multi_v7_defconfig     |   1 -
+ arch/arm/configs/tegra_defconfig        |   1 -
+ arch/powerpc/kernel/iommu.c             |  38 ++-
+ drivers/iommu/Kconfig                   |  11 -
+ drivers/iommu/Makefile                  |   1 -
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c |  45 ++-
+ drivers/iommu/exynos-iommu.c            |  73 +++--
+ drivers/iommu/fsl_pamu_domain.c         |  41 ++-
+ drivers/iommu/iommu-priv.h              |  16 +
+ drivers/iommu/iommu.c                   | 248 ++++++++++------
+ drivers/iommu/iommufd/iommufd_private.h |   5 +-
+ drivers/iommu/iommufd/main.c            |   8 +-
+ drivers/iommu/iommufd/selftest.c        | 141 ++++-----
+ drivers/iommu/ipmmu-vmsa.c              |  50 +++-
+ drivers/iommu/msm_iommu.c               |  30 +-
+ drivers/iommu/mtk_iommu.c               |  30 +-
+ drivers/iommu/mtk_iommu_v1.c            |  28 +-
+ drivers/iommu/omap-iommu.c              |  28 +-
+ drivers/iommu/rockchip-iommu.c          |  26 +-
+ drivers/iommu/s390-iommu.c              |  28 +-
+ drivers/iommu/sprd-iommu.c              |   7 +-
+ drivers/iommu/sun50i-iommu.c            |  35 ++-
+ drivers/iommu/tegra-gart.c              | 371 ------------------------
+ drivers/iommu/tegra-smmu.c              |  50 +++-
+ drivers/memory/tegra/mc.c               |  34 ---
+ drivers/memory/tegra/tegra20.c          |  28 --
+ include/linux/iommu.h                   |  16 +-
+ include/soc/tegra/mc.h                  |  26 --
+ 28 files changed, 614 insertions(+), 802 deletions(-)
+ create mode 100644 drivers/iommu/iommu-priv.h
+ delete mode 100644 drivers/iommu/tegra-gart.c
+
+
+base-commit: fe420865bd74f5917ff0d8d38a46fbbbe5dd1ea6
+-- 
+2.40.1
+
