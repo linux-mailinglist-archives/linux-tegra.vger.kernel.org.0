@@ -2,293 +2,322 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B93C37338F3
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jun 2023 21:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3751734228
+	for <lists+linux-tegra@lfdr.de>; Sat, 17 Jun 2023 18:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345711AbjFPTDr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 16 Jun 2023 15:03:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        id S235937AbjFQQQK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 17 Jun 2023 12:16:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345852AbjFPTDm (ORCPT
+        with ESMTP id S232184AbjFQQQJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 16 Jun 2023 15:03:42 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21F83AB7;
-        Fri, 16 Jun 2023 12:03:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LH16qqhuu0/ONSdqsUApyTFzH2cfEMDtJKyQklBroQq4MHNt+o58gXzbhZMQO+bQ9kJsaYyy147LRk/JY33cbNNlW3n4j29RY0bXqoZnMLBb2gc5J607dUYfpA8NSVKfSHvC3agpj6e3QOupByExIFyRHkRBxfGTUIaVGvAvmGsyNu+4H93AwFzAYNHAxJjiz4eYCP48X7zLCSGHraaqsFs/zObuaUatbwyPuJYopKKaUNVKD6tTz3Y2sUUNopyQp+qGF6OLjblvlR7PJaDjiuZ8L2djv4JUzjOHMm3KiEj2c/TDPiZ3kLNK27LCT3YToI/MBim9Fg4F05fj8h+rhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QWCGzrTaqbrXMG5crzEf4pxvfNiTwQ928/5BOZsI094=;
- b=Hvue8rteNnv7jZl/8VVVXP9sOghKzCx5+xxisTpWQ1ly+YUwDqT/ef6tjx4iaMC4ejBZ70inTTOug+mQg8PMiJWBFooP11Yr1DBqtC4MDsNfUPgM5DhLK5kZ895T/jFNKO+NyIgedpSfr9ieksAj7Tpq97qR6/pPIjFASiR/5scxb/3IUVl3ChucbUDk5LKd2yD764tuyTKGBEHuDZ8W5GwsszoRBQSQJrIs+XzUgjq+0YXyRfrRS0aI1VmOl01YLy2GJ/4qaWULhx6rivMqWtEdKhWnyhpjBm7O4As1QU9U30cWt7uP8XGsDwzdvkDN6CbSU6MbI2ybmqJ03ANwuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QWCGzrTaqbrXMG5crzEf4pxvfNiTwQ928/5BOZsI094=;
- b=SXGzW5W13aWTGphgiDo4fqcLGPHnOMSNWBDn/AY+WhBwU7B7gFFIFs4fkZbCoiZ4REHKTNvAS1PKNLjUtS9fJYpgo0cYt94MxcC7F2ZHNOxLilbXubqT8w5Dhk6hJzP/9Wy3uQuM6sqoWu0q8ug+1p9Xj5eh+iQp3iiPAowZyl7pBFFrFoaYc69GuSyj0xJkjo9NebjtNSldEUEl6HS2e+fYefblYNtlc8ZLEmAbKJCowNiv/wxM/EkTyCe+eLDWAEWkhKI9JC+ByrGIuD87m62Z+lEv13cJ7ZixRbZVP0W0MzC9s2aokWfjUVKd0XgqcD8f+Q81soknHynNu1aGpg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Fri, 16 Jun
- 2023 19:03:02 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab%7]) with mapi id 15.20.6477.037; Fri, 16 Jun 2023
- 19:03:02 +0000
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Andy Gross <agross@kernel.org>,
+        Sat, 17 Jun 2023 12:16:09 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7761C10E0
+        for <linux-tegra@vger.kernel.org>; Sat, 17 Jun 2023 09:16:07 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qAYXl-0000MG-Vh; Sat, 17 Jun 2023 18:12:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qAYXI-0085VF-9t; Sat, 17 Jun 2023 18:12:24 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qAYXH-00F4tf-3X; Sat, 17 Jun 2023 18:12:23 +0200
+Date:   Sat, 17 Jun 2023 18:12:22 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        dri-devel@lists.freedesktop.org,
+        Russell King <linux@armlinux.org.uk>,
         Alim Akhtar <alim.akhtar@samsung.com>,
-        Bjorn Andersson <andersson@kernel.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Steven Price <steven.price@arm.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+        Karol Herbst <kherbst@redhat.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Kuogee Hsieh <quic_khsieh@quicinc.com>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Danilo Krummrich <dakr@redhat.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Miaoqian Lin <linmq006@gmail.com>, linux-sunxi@lists.linux.dev,
+        Rahul T R <r-ravikumar@ti.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+        Inki Dae <inki.dae@samsung.com>, Sean Paul <sean@poorly.run>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        kernel@pengutronix.de, Alex Deucher <alexander.deucher@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-aspeed@lists.ozlabs.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        John Stultz <jstultz@google.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Liang He <windhl@126.com>,
+        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Liu Ying <victor.liu@nxp.com>, linux-arm-msm@vger.kernel.org,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yuan Can <yuancan@huawei.com>, Stefan Agner <stefan@agner.ch>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-tegra@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        Joel Stanley <joel@jms.id.au>, nouveau@lists.freedesktop.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Lyude Paul <lyude@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Alison Wang <alison.wang@nxp.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Deepak R Varma <drv@mailo.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Emma Anholt <emma@anholt.net>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+        David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>,
+        linux-renesas-soc@vger.kernel.org,
+        Yongqin Liu <yongqin.liu@linaro.org>,
+        Jayshri Pawar <jpawar@cadence.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Rob Clark <robdclark@gmail.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Melissa Wen <mwen@igalia.com>,
+        linux-mediatek@lists.infradead.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linuxppc-dev@lists.ozlabs.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>
-Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Steven Price <steven.price@arm.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: [PATCH v4 25/25] iommu: Convert remaining simple drivers to domain_alloc_paging()
-Date:   Fri, 16 Jun 2023 16:02:54 -0300
-Message-Id: <25-v4-874277bde66e+1a9f6-iommu_all_defdom_jgg@nvidia.com>
-In-Reply-To: <0-v4-874277bde66e+1a9f6-iommu_all_defdom_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR0102CA0071.prod.exchangelabs.com
- (2603:10b6:208:25::48) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        Qiang Yu <yuq825@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jessica Zhang <quic_jesszhan@quicinc.com>,
+        Karol Wachowski <karol.wachowski@linux.intel.com>,
+        Laura Nao <laura.nao@collabora.com>,
+        Wang Jianzheng <wangjianzheng@vivo.com>,
+        Raymond Tan <raymond.tan@intel.com>,
+        Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
+ Convert to platform remove callback returning] void
+Message-ID: <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+ <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+ <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ1PR12MB6051:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0110fe4e-8987-48c5-fb2a-08db6e9c4b50
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yR0LWbemdZpFm68pzG/UvTAooMx2joI+AaliaDgIIy5t1YS9O2z2nY+UJsMXfFpni7PF8a4YRqzOX4xEnvaxCM7zjD3HTMzC0jRLk8FPqpX4PfJIik5aSKXZvHC6xveynqAuu8uCMMzxiYrLkuS4ZfdNZVEEwpMvN8IjfnQJ3M5PCcy5pauVv58nqL01CkNlMnu99TRMdWvlhFp5UAImosZmfWHVAE8RlgBeG+STZdjWGBXZFmcFczpIbntTVe8COjpcyLJtCQmGJAMHZnY+h6emjZpjJOV9Cib4oEGGW1PV2inpWXFRv0Md7gFX+K08B1rRUTxxo3S9JV2Q8q1jhfYH/IFtxR34uXRW6FjtGoJPgI/a7afEJl/a2lAcT5VXfLZtx12u+LQ7AMnO1qOjsoKhCvNJ9Ch2DpU5VhTRWprD0+KPecssfl0U0c/k4sAUXK+2xS7ntCg35JuM8xX131UVu853WLytB9TGR3x5NiRFqkTDniKEnF3q155vslzoIZwKbkMSv+3YkwHsWnLAK6pc9OI+183P9CM9TvYrvCvkI/FARDYIqiPm+JVeVe1eolFFqW0SJk5TbNjbXuG21e7Zu744H9UZfITcjnumSug=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(346002)(39860400002)(136003)(376002)(451199021)(2906002)(83380400001)(2616005)(36756003)(86362001)(921005)(38100700002)(8676002)(8936002)(5660300002)(107886003)(66556008)(316002)(478600001)(66476007)(66946007)(4326008)(6666004)(6486002)(186003)(7416002)(6506007)(54906003)(7406005)(110136005)(41300700001)(26005)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IOn58KqjfqGNeSIkK2ZEjKd5DP6tx58Cg85MaKY6viLqZLZzMpd247U9xQEt?=
- =?us-ascii?Q?dSRTnOaUq0quC8PNaaS0SiFXb/axS9KaOlUD0+HVYShQAWNue58oE7rGvfLi?=
- =?us-ascii?Q?5QtpfQ04nm1z6G70eVgp4x7OAi8ofEiyhCG1f5lITSD69h/ntYKtqTD33XN1?=
- =?us-ascii?Q?x9iGfBWImJN5xn6v4qSuCpuZMy42yn0XnZe47KXa8nvyM+NuXeMGlsXlS8Oz?=
- =?us-ascii?Q?65Nmln/Bv8uo/MsmaHA0thj/Kcm20ZCzwXQ0z9OJSy2amQ72C5k+aBQmP8iq?=
- =?us-ascii?Q?IhjDH2tY5AO3XfOnBCiI05MahSIyrYQHpt0wd/IhAI+s5XppGeI7KKdjsNS1?=
- =?us-ascii?Q?Um6SiKDA7KNcZfXJuCSv7CFHZGU4dHruuVWieUyLSSlMBCzKr+H39pOk9Ucp?=
- =?us-ascii?Q?QKdtXhpKhZNDGe/K/SBNZ5Ais/VSJ4/H5VkOl8FCtL+htrOEHsX8Qr/Dpkwd?=
- =?us-ascii?Q?siXKPPLglzGgggDfW4nmGKp8emXb229GCSYVvm3ybuzaP/pxcqDHZmuKub5W?=
- =?us-ascii?Q?EmQPPMK8JA4qYJolS/B5ya9ukwUed1ZMJCVr8MIctlrmEI32XwNZ5/7DuDoT?=
- =?us-ascii?Q?vQBy29vvTg4RauIU1CrHaM4Fw3tA3JcGxDXXqAN9d6nM7qe1zbU6bwNs5hI+?=
- =?us-ascii?Q?Hh1M1ykOz3OH+IWv7q+QV3nFSEkG/qjxddieQqFNZ2pMjs0XYPBlrssg/CDj?=
- =?us-ascii?Q?eGGHFvCbcfcE9BgsSTcAEyTHlmv89maTxe0+tTfQQwWCOXzUODzaFgGdBluQ?=
- =?us-ascii?Q?J8X612uTKJPHkm78RAwx3kIS7mdC/YIB6NP8fnLGGfrgrFtov/0vIUkvSvY8?=
- =?us-ascii?Q?eqEKx6VDn6tHs0JrLgl5i5ry0i3elREU/MwUMhL4lm/F9OoyXLhdqee8g7dJ?=
- =?us-ascii?Q?WT6snEhW51DhoTVa7ddAHd5bh1oZSLHMtO7Sw5lhXM0UbCouXkdDQXymtTnc?=
- =?us-ascii?Q?bOEWCmTib9aDWhP2tBjvORUd5k/9P8LWo4+FhaA+InlUgRI9iWR8Kd4D8z8U?=
- =?us-ascii?Q?MhWgntR4IOwh8pn9/pNfI2nHEOJASWAR/CzcJ1Lq3CIQHAutP2TLNGHQtLEm?=
- =?us-ascii?Q?BxA+tzu0LHtMgdXTSU6Yr+AHnLSvbxtvjCZcDdAEY73XJRTlIV/NLujEYi26?=
- =?us-ascii?Q?Z4O6FvAV6+VxArQi5vP6zWgZj2SW+b0wm0ZLsVfbHR42dLbvnrakLZA4XZzu?=
- =?us-ascii?Q?/70BZYHL9Um0/mGVGqknjIfjxvvthXsHoZ8GiRelnWsBjMvSA+h2Flhi0Hgi?=
- =?us-ascii?Q?mK5ACLUdey75WhPKWF6iACgv8NaMYUS9Qb3v7nNtQeQdJWfZkVtymoGOkc4A?=
- =?us-ascii?Q?pZsieoQlUWmEaIGD9TDeSizrjXvtwoX9PlL9aaKHWRWg/+Tlln5X2a68twRR?=
- =?us-ascii?Q?8wyKWVuVivCp1On5FVbOqxaYgpNJY29Bci8ckK852EoETK3cU6M1J9+Z+rmy?=
- =?us-ascii?Q?r/8cw4bb+yuWc/+6HBxvwIGY5fYDS+DVWJHu5LtQsoKupuvyIHFkAH5/UJuL?=
- =?us-ascii?Q?Ovy+3UKyIfYeq1jC6ZRmKVh67XGaFDBqIWyE+pKDkAKA2KYWc99hKeEPrilJ?=
- =?us-ascii?Q?8wS0g+o7SEp4klv2THP7Ny19ezS0yX0mDEd69doF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0110fe4e-8987-48c5-fb2a-08db6e9c4b50
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 19:02:56.2071
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IK26pWdshZuFg4GgDLtYSE6JNEK5MqpzSabcvCgbk5Xh8TT1qKM5NrT4/o+tKqvM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6051
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="57sfyizjoix7o42y"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-These drivers don't support IOMMU_DOMAIN_DMA, so this commit effectively
-allows them to support that mode.
 
-The prior work to require default_domains makes this safe because every
-one of these drivers is either compilation incompatible with dma-iommu.c,
-or already establishing a default_domain. In both cases alloc_domain()
-will never be called with IOMMU_DOMAIN_DMA for these drivers so it is safe
-to drop the test.
+--57sfyizjoix7o42y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Removing these tests clarifies that the domain allocation path is only
-about the functionality of a paging domain and has nothing to do with
-policy of how the paging domain is used for UNMANAGED/DMA/DMA_FQ.
+[expanding recipents by the other affected persons]
 
-Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Tested-by: Steven Price <steven.price@arm.com>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/iommu/msm_iommu.c    | 7 ++-----
- drivers/iommu/mtk_iommu_v1.c | 7 ++-----
- drivers/iommu/omap-iommu.c   | 7 ++-----
- drivers/iommu/s390-iommu.c   | 7 ++-----
- 4 files changed, 8 insertions(+), 20 deletions(-)
+On Thu, Jun 08, 2023 at 09:08:15AM -0700, Doug Anderson wrote:
+> On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > Hello,
+> >
+> > On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > > this patch series adapts the platform drivers below drivers/gpu/drm
+> > > to use the .remove_new() callback. Compared to the traditional .remov=
+e()
+> > > callback .remove_new() returns no value. This is a good thing because
+> > > the driver core doesn't (and cannot) cope for errors during remove. T=
+he
+> > > only effect of a non-zero return value in .remove() is that the driver
+> > > core emits a warning. The device is removed anyhow and an early return
+> > > from .remove() usually yields a resource leak.
+> > >
+> > > By changing the remove callback to return void driver authors cannot
+> > > reasonably (but wrongly) assume any more that there happens some kind=
+ of
+> > > cleanup later.
+> >
+> > I wonder if someone would volunteer to add the whole series to
+> > drm-misc-next?!
+>=20
+> It looks as if Neil applied quite a few of them already, so I looked
+> at what was left...
+>=20
+> I'm a little hesitant to just apply the whole kit-and-caboodle to
+> drm-misc-next since there are specific DRM trees for a bunch of them
+> and it would be better if they landed there. ...so I went through all
+> the patches that still applied to drm-misc-next, then used
+> 'scripts/get_maintainer.pl --scm' to check if they were maintained
+> through drm-misc. That still left quite a few patches. I've applied
+> those ones and pushed to drm-misc-next:
+>=20
+> 71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
+> callback returning void
+> 1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning void
+> b957812839f8 drm/v3d: Convert to platform remove callback returning void
+> e2fd3192e267 drm/tve200: Convert to platform remove callback returning vo=
+id
+> 84e6da7ad553 drm/tiny: Convert to platform remove callback returning void
+> 34cdd1f691ad drm/tidss: Convert to platform remove callback returning void
+> d665e3c9d37a drm/sun4i: Convert to platform remove callback returning void
+> 0c259ab19146 drm/stm: Convert to platform remove callback returning void
+> 9a865e45884a drm/sti: Convert to platform remove callback returning void
+> 3c855610840e drm/rockchip: Convert to platform remove callback returning =
+void
+> e41977a83b71 drm/panfrost: Convert to platform remove callback returning =
+void
+> cef3776d0b5a drm/panel: Convert to platform remove callback returning void
+> bd296a594e87 drm/mxsfb: Convert to platform remove callback returning void
+> 38ca2d93d323 drm/meson: Convert to platform remove callback returning void
+> fd1457d84bae drm/mcde: Convert to platform remove callback returning void
+> 41a56a18615c drm/logicvc: Convert to platform remove callback returning v=
+oid
+> 980ec6444372 drm/lima: Convert to platform remove callback returning void
+> 82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback returning=
+ void
+> c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returning v=
+oid
+> a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback returni=
+ng void
+> 9a32dd324c46 drm/aspeed: Convert to platform remove callback returning vo=
+id
+> 2c7d291c498c drm/arm/malidp: Convert to platform remove callback returnin=
+g void
+> a920028df679 drm/arm/hdlcd: Convert to platform remove callback returning=
+ void
+> 1bf3d76a7d15 drm/komeda: Convert to platform remove callback returning vo=
+id
 
-diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-index 26ed81cfeee897..a163cee0b7242d 100644
---- a/drivers/iommu/msm_iommu.c
-+++ b/drivers/iommu/msm_iommu.c
-@@ -302,13 +302,10 @@ static void __program_context(void __iomem *base, int ctx,
- 	SET_M(base, ctx, 1);
- }
- 
--static struct iommu_domain *msm_iommu_domain_alloc(unsigned type)
-+static struct iommu_domain *msm_iommu_domain_alloc_paging(struct device *dev)
- {
- 	struct msm_priv *priv;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
--		return NULL;
--
- 	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		goto fail_nomem;
-@@ -691,7 +688,7 @@ irqreturn_t msm_iommu_fault_handler(int irq, void *dev_id)
- 
- static struct iommu_ops msm_iommu_ops = {
- 	.identity_domain = &msm_iommu_identity_domain,
--	.domain_alloc = msm_iommu_domain_alloc,
-+	.domain_alloc_paging = msm_iommu_domain_alloc_paging,
- 	.probe_device = msm_iommu_probe_device,
- 	.device_group = generic_device_group,
- 	.pgsize_bitmap = MSM_IOMMU_PGSIZES,
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 7c0c1d50df5f75..67e044c1a7d93b 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -270,13 +270,10 @@ static int mtk_iommu_v1_domain_finalise(struct mtk_iommu_v1_data *data)
- 	return 0;
- }
- 
--static struct iommu_domain *mtk_iommu_v1_domain_alloc(unsigned type)
-+static struct iommu_domain *mtk_iommu_v1_domain_alloc_paging(struct device *dev)
- {
- 	struct mtk_iommu_v1_domain *dom;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
--		return NULL;
--
- 	dom = kzalloc(sizeof(*dom), GFP_KERNEL);
- 	if (!dom)
- 		return NULL;
-@@ -585,7 +582,7 @@ static int mtk_iommu_v1_hw_init(const struct mtk_iommu_v1_data *data)
- 
- static const struct iommu_ops mtk_iommu_v1_ops = {
- 	.identity_domain = &mtk_iommu_v1_identity_domain,
--	.domain_alloc	= mtk_iommu_v1_domain_alloc,
-+	.domain_alloc_paging = mtk_iommu_v1_domain_alloc_paging,
- 	.probe_device	= mtk_iommu_v1_probe_device,
- 	.probe_finalize = mtk_iommu_v1_probe_finalize,
- 	.release_device	= mtk_iommu_v1_release_device,
-diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-index 34340ef15241bc..fcf99bd195b32e 100644
---- a/drivers/iommu/omap-iommu.c
-+++ b/drivers/iommu/omap-iommu.c
-@@ -1580,13 +1580,10 @@ static struct iommu_domain omap_iommu_identity_domain = {
- 	.ops = &omap_iommu_identity_ops,
- };
- 
--static struct iommu_domain *omap_iommu_domain_alloc(unsigned type)
-+static struct iommu_domain *omap_iommu_domain_alloc_paging(struct device *dev)
- {
- 	struct omap_iommu_domain *omap_domain;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
--		return NULL;
--
- 	omap_domain = kzalloc(sizeof(*omap_domain), GFP_KERNEL);
- 	if (!omap_domain)
- 		return NULL;
-@@ -1748,7 +1745,7 @@ static struct iommu_group *omap_iommu_device_group(struct device *dev)
- 
- static const struct iommu_ops omap_iommu_ops = {
- 	.identity_domain = &omap_iommu_identity_domain,
--	.domain_alloc	= omap_iommu_domain_alloc,
-+	.domain_alloc_paging = omap_iommu_domain_alloc_paging,
- 	.probe_device	= omap_iommu_probe_device,
- 	.release_device	= omap_iommu_release_device,
- 	.device_group	= omap_iommu_device_group,
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index f0c867c57a5b9b..5695ad71d60e24 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -39,13 +39,10 @@ static bool s390_iommu_capable(struct device *dev, enum iommu_cap cap)
- 	}
- }
- 
--static struct iommu_domain *s390_domain_alloc(unsigned domain_type)
-+static struct iommu_domain *s390_domain_alloc_paging(struct device *dev)
- {
- 	struct s390_domain *s390_domain;
- 
--	if (domain_type != IOMMU_DOMAIN_UNMANAGED)
--		return NULL;
--
- 	s390_domain = kzalloc(sizeof(*s390_domain), GFP_KERNEL);
- 	if (!s390_domain)
- 		return NULL;
-@@ -447,7 +444,7 @@ void zpci_destroy_iommu(struct zpci_dev *zdev)
- static const struct iommu_ops s390_iommu_ops = {
- 	.default_domain = &s390_iommu_platform_domain,
- 	.capable = s390_iommu_capable,
--	.domain_alloc = s390_domain_alloc,
-+	.domain_alloc_paging = s390_domain_alloc_paging,
- 	.probe_device = s390_iommu_probe_device,
- 	.release_device = s390_iommu_release_device,
- 	.device_group = generic_device_group,
--- 
-2.40.1
+Together with the patches that were applied later the topmost commit
+=66rom this series is c2807ecb5290 ("drm/omap: Convert to platform remove
+callback returning void"). This commit was part for the following next
+tags:
 
+	$ git tag -l --contains c2807ecb5290
+	next-20230609
+	next-20230613
+	next-20230614
+	next-20230615
+
+However in next-20230616 they are missing. In next-20230616
+drm-misc/for-linux-next was cf683e8870bd4be0fd6b98639286700a35088660.
+Compared to c2807ecb5290 this adds 1149 patches but drops 37 (that are
+also not included with a different commit id). The 37 patches dropped
+are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290:
+
+	$ git shortlog -s 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290
+	     1  Christophe JAILLET
+	     2  Jessica Zhang
+	     5  Karol Wachowski
+	     1  Laura Nao
+	    27  Uwe Kleine-K=C3=B6nig
+	     1  Wang Jianzheng
+
+
+I guess this was done by mistake because nobody told me about dropping
+my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
+again?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--57sfyizjoix7o42y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSN22YACgkQj4D7WH0S
+/k4acwf9GPr1IWMMQ6HjlOCWYhOEksB+3DWauF61C+SdDvqLOvPu/hNGcgWuwYzV
+BhgtD4JwOuwoZ/zMLhOT+HdRBvqpsEyg0A44UMz9fwnqPDQ+mn1Gw7N/C9Z30JCo
+ncUw3rL4mH4QPXAVskP+YtAbPs+ZuiIYs89B9nBkm6NEcjNg4rISZlFHoxsUhs8B
+7ECcmnW76ezXSAdGrOHzGzJ+YCZJYEKqJdx9GgRcwJwHMF0KyYyoVxhEqXYODOJe
+v3SNgzxSS9K7/PSziTNotU7oZnrh9TlSAmoFVX6b7gYyDQv2EpcFDJ9zhsMJI6IJ
+tLKT6eARconsFWkjgb/fPWgMHMzjmw==
+=hehC
+-----END PGP SIGNATURE-----
+
+--57sfyizjoix7o42y--
