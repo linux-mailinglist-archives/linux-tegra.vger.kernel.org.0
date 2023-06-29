@@ -2,74 +2,212 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 030447427B4
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Jun 2023 15:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68F3742A2E
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Jun 2023 18:01:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbjF2NuK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Jun 2023 09:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49148 "EHLO
+        id S231933AbjF2QB6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Jun 2023 12:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231208AbjF2NuJ (ORCPT
+        with ESMTP id S231953AbjF2QBy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Jun 2023 09:50:09 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E24358A
-        for <linux-tegra@vger.kernel.org>; Thu, 29 Jun 2023 06:50:08 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id 6a1803df08f44-635de6776bdso5823446d6.2
-        for <linux-tegra@vger.kernel.org>; Thu, 29 Jun 2023 06:50:08 -0700 (PDT)
+        Thu, 29 Jun 2023 12:01:54 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232A83598;
+        Thu, 29 Jun 2023 09:01:38 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fbc41398ebso234825e9.2;
+        Thu, 29 Jun 2023 09:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688046608; x=1690638608;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JEkw1KmmzfmMdZjy2G/k2kJ9Rp06l3CUoffIihDDUro=;
-        b=I+l7OHIw73NwYClUW36DE/Rrfo4fY6jVN6Kt9U0osjx6iUI0+ASTMMdj24JYi0Xf9e
-         swPYcIeKvK1mFM7eVK4xYVrlvi6beXBvz3bC5mfHao/b3JGYpFZ/JekqUtv8mAB0d/Ml
-         MKYOmCYm519tzn39gwtoDFiH2nN6S6oJKouuyvrKWMaxMIcmu7uV7D6w6Lh96WCTr00U
-         Hfxj8OZqd5s3JtsoO4QgZoHD1CsO+mIuEb1axKG3/2JYC19e6J5OzrG8JtD37NDLn3Oy
-         kJtWFhFaouZVfi3GXGWTPmc91zlle/OHPJ6NRAKaHhENJPjj+wXu/x5N0JNJfb40cpbZ
-         Fehg==
+        d=gmail.com; s=20221208; t=1688054496; x=1690646496;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4gsmv6hf2525Hm87eytBpP6IhRhbC+0TTOWS/M346Fc=;
+        b=KQjpimQAniH1Yl2lpRpziQ7tpEh16m26TfOymSGWZEsEKeAvUtOcSE2fiS7n2lgGnR
+         a5lqwyqZeFOcT3/yx6tAV656jMDHnlXjIQletIgLVN+H2vzUHVgXwjRAmdNDstv7M7sV
+         ETHB//7pbMqUGrhb0t1BIhrIfWMIAgJ2touPpxkhYQPG6O7rJilToExMu+7I0yW/Aqpk
+         QVMC/ZXg7C/lq4le1FDke/pJdXh0R493AvuuSNy0X8r/DA3uY7Vj0zJl0MgyVKM7Fn4Z
+         viIuKtNH4oPguboU/OSSQPtvyL1h/ErGulOYypJ/tLW4Ei+Q8S9zT9hzqa/YQI+QRXZR
+         pi+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688046608; x=1690638608;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JEkw1KmmzfmMdZjy2G/k2kJ9Rp06l3CUoffIihDDUro=;
-        b=PzpRrkeN5L39Xtu6wfPEI4sUYqsKeMILiUXGCEJaPOdFVE3Borgb6bjqjPczoiJu60
-         ZCO0dpv58GSzRs6425Nm3ztgsVn9ISonj/w3W3lJgkhq74QZ8UqVtedI3t/LP3HXYIGk
-         ILLNxXx6s4E8VVMjrnMvKoUIqRdPOqYJhDzO8rDEPochttPn43NyKcqMaiG2Fz180oNM
-         TFpGVC/FNuJYT4YRhfYNjsn+dcsaH8K7+snc5DQ4A9oZAZQTXmTQ8vDDOsOIKRySOd//
-         BS2G5ROLO6IsOjhQzPSZUnhOJCjAZkzuZFem3OMDdOf3oPHyUxTiCL20s4oW0XEQlu9p
-         AGyw==
-X-Gm-Message-State: AC+VfDwMlJO+WzqaPnCgidM+UnmavBY/yVMiy8FHhjxHabozBRhivqdh
-        NVcce7lRJaR9UQQGUAm2WlOONKLFaOYsGXaDZcw=
-X-Google-Smtp-Source: ACHHUZ492CkMh71260s80yYHvmmy4MeTAy4qZaCtNhGmjTBJD4C8z9Zb8tIQr2rzpeCipF/f+3L4W9iH7KNy3+cXStk=
-X-Received: by 2002:a05:6214:2466:b0:635:eff8:2b4c with SMTP id
- im6-20020a056214246600b00635eff82b4cmr8995461qvb.31.1688046607391; Thu, 29
- Jun 2023 06:50:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688054496; x=1690646496;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4gsmv6hf2525Hm87eytBpP6IhRhbC+0TTOWS/M346Fc=;
+        b=LQ2k4HbvEZoRmvtfWLyOOP2hjBnTpqZ8Fn4wWaxLySHadAvf98uYsxOWj0jqb6nJxp
+         EmytM+XGLth7Bswm8sToa0drOlR4cdCzGdOoSSEJE/FQj8MvEej3Q+I6B0RyRfgnhXW4
+         2RHVEzY7eAzjP2i9y9QCXSfvnVtnYXWnSEFxo5C7dw7jsULb8tX+l16uHmLEfvLTsCO1
+         cQWxXGUcXS+/BjQljU31mARWit+QaQlq9XNrVC/Bjwaa8HQ8cgFGKX6m+OWSqSOM03pi
+         ikF/G9TPo+wnHhmN/07y7Td9sAVpGaXYZM7uohBnm+nQfpR/b8C6NUxGWlp9ryAUJBV9
+         DNzw==
+X-Gm-Message-State: AC+VfDwDgO0dsiZDuGfHc7ZMsKkg68YtQh9pFMTl9CuTsV/LbJiOwXfX
+        1wxTmajSEJjTZCUaR2CW+XU=
+X-Google-Smtp-Source: ACHHUZ5m6CveLPuWx+vITbqDaN1hglhEj52VjJ6Cap/PhCKCLqBy8GiJoOvTCovLqVJD3lKi7/Hm6A==
+X-Received: by 2002:a5d:4c49:0:b0:311:19f9:5824 with SMTP id n9-20020a5d4c49000000b0031119f95824mr26228985wrt.55.1688054496233;
+        Thu, 29 Jun 2023 09:01:36 -0700 (PDT)
+Received: from localhost (p200300e41f305300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f30:5300:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5-20020a05600c024500b003fbb00599e4sm5055826wmj.2.2023.06.29.09.01.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 09:01:35 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sumit Gupta <sumitg@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] memory: tegra: Add dummy implementation on Tegra194
+Date:   Thu, 29 Jun 2023 18:01:32 +0200
+Message-ID: <20230629160132.768940-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Sender: abusalam777667@gmail.com
-Received: by 2002:a05:6214:85:b0:635:52d9:3cfc with HTTP; Thu, 29 Jun 2023
- 06:50:06 -0700 (PDT)
-From:   AVA SMITH <avasmith1181@gmail.com>
-Date:   Thu, 29 Jun 2023 13:50:06 +0000
-X-Google-Sender-Auth: 8F8i3Dk8bCTYCkz3X0Yi23SEtMk
-Message-ID: <CALikq9gusWTMuUE139HRZYBRYezgdbBX46fAFvjocU3vc5LkDw@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
-My name is Dr Ava Smith,a medical doctor from United States.I have
-Dual citizenship which is English and French.I will share more details
-about me as soon as i get a response from you.
+From: Thierry Reding <treding@nvidia.com>
 
-Thanks
-Ava
+With the introduction of commit 9365bf006f53 ("PCI: tegra194: Add
+interconnect support in Tegra234"), the PCI driver on Tegra194 and later
+requires an interconnect provider. However, a provider is currently only
+exposed on Tegra234 and this causes PCI on Tegra194 to defer probe
+indefinitely.
+
+Fix this by adding a dummy implementation on Tegra194. This allows nodes
+to be provided to interconnect consumers, but doesn't do any bandwidth
+accounting or frequency scaling.
+
+Fixes: 9365bf006f53 ("PCI: tegra194: Add interconnect support in Tegra234")
+Reported-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/memory/tegra/mc.c       | 37 +++++++++++++++++++++++++++++++++
+ drivers/memory/tegra/tegra194.c |  1 +
+ drivers/memory/tegra/tegra234.c | 23 +-------------------
+ include/soc/tegra/mc.h          |  3 +++
+ 4 files changed, 42 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
+index 4a750da1c12a..deb6e65b59af 100644
+--- a/drivers/memory/tegra/mc.c
++++ b/drivers/memory/tegra/mc.c
+@@ -755,6 +755,43 @@ const char *const tegra_mc_error_names[8] = {
+ 	[6] = "SMMU translation error",
+ };
+ 
++struct icc_node *tegra_mc_icc_xlate(struct of_phandle_args *spec, void *data)
++{
++	struct tegra_mc *mc = icc_provider_to_tegra_mc(data);
++	struct icc_node *node;
++
++	list_for_each_entry(node, &mc->provider.nodes, node_list) {
++		if (node->id == spec->args[0])
++			return node;
++	}
++
++	/*
++	 * If a client driver calls devm_of_icc_get() before the MC driver
++	 * is probed, then return EPROBE_DEFER to the client driver.
++	 */
++	return ERR_PTR(-EPROBE_DEFER);
++}
++
++static int tegra_mc_icc_get(struct icc_node *node, u32 *average, u32 *peak)
++{
++	*average = 0;
++	*peak = 0;
++
++	return 0;
++}
++
++static int tegra_mc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	return 0;
++}
++
++const struct tegra_mc_icc_ops tegra_mc_icc_ops = {
++	.xlate = tegra_mc_icc_xlate,
++	.aggregate = icc_std_aggregate,
++	.get_bw = tegra_mc_icc_get,
++	.set = tegra_mc_icc_set,
++};
++
+ /*
+  * Memory Controller (MC) has few Memory Clients that are issuing memory
+  * bandwidth allocation requests to the MC interconnect provider. The MC
+diff --git a/drivers/memory/tegra/tegra194.c b/drivers/memory/tegra/tegra194.c
+index b2416ee3ac26..26035ac3a1eb 100644
+--- a/drivers/memory/tegra/tegra194.c
++++ b/drivers/memory/tegra/tegra194.c
+@@ -1355,6 +1355,7 @@ const struct tegra_mc_soc tegra194_mc_soc = {
+ 		   MC_INT_SECURITY_VIOLATION | MC_INT_DECERR_EMEM,
+ 	.has_addr_hi_reg = true,
+ 	.ops = &tegra186_mc_ops,
++	.icc_ops = &tegra_mc_icc_ops,
+ 	.ch_intmask = 0x00000f00,
+ 	.global_intstatus_channel_shift = 8,
+ };
+diff --git a/drivers/memory/tegra/tegra234.c b/drivers/memory/tegra/tegra234.c
+index 78daa61ccd46..2fe8a61928e6 100644
+--- a/drivers/memory/tegra/tegra234.c
++++ b/drivers/memory/tegra/tegra234.c
+@@ -909,27 +909,6 @@ static int tegra234_mc_icc_aggregate(struct icc_node *node, u32 tag, u32 avg_bw,
+ 	return 0;
+ }
+ 
+-static struct icc_node*
+-tegra234_mc_of_icc_xlate(struct of_phandle_args *spec, void *data)
+-{
+-	struct tegra_mc *mc = icc_provider_to_tegra_mc(data);
+-	unsigned int cl_id = spec->args[0];
+-	struct icc_node *node;
+-
+-	list_for_each_entry(node, &mc->provider.nodes, node_list) {
+-		if (node->id != cl_id)
+-			continue;
+-
+-		return node;
+-	}
+-
+-	/*
+-	 * If a client driver calls devm_of_icc_get() before the MC driver
+-	 * is probed, then return EPROBE_DEFER to the client driver.
+-	 */
+-	return ERR_PTR(-EPROBE_DEFER);
+-}
+-
+ static int tegra234_mc_icc_get_init_bw(struct icc_node *node, u32 *avg, u32 *peak)
+ {
+ 	*avg = 0;
+@@ -939,7 +918,7 @@ static int tegra234_mc_icc_get_init_bw(struct icc_node *node, u32 *avg, u32 *pea
+ }
+ 
+ static const struct tegra_mc_icc_ops tegra234_mc_icc_ops = {
+-	.xlate = tegra234_mc_of_icc_xlate,
++	.xlate = tegra_mc_icc_xlate,
+ 	.aggregate = tegra234_mc_icc_aggregate,
+ 	.get_bw = tegra234_mc_icc_get_init_bw,
+ 	.set = tegra234_mc_icc_set,
+diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
+index fc3001483e62..a5ef84944a06 100644
+--- a/include/soc/tegra/mc.h
++++ b/include/soc/tegra/mc.h
+@@ -175,6 +175,9 @@ struct tegra_mc_icc_ops {
+ 	int (*get_bw)(struct icc_node *node, u32 *avg, u32 *peak);
+ };
+ 
++struct icc_node *tegra_mc_icc_xlate(struct of_phandle_args *spec, void *data);
++extern const struct tegra_mc_icc_ops tegra_mc_icc_ops;
++
+ struct tegra_mc_ops {
+ 	/*
+ 	 * @probe: Callback to set up SoC-specific bits of the memory controller. This is called
+-- 
+2.41.0
+
