@@ -2,125 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95BE07473B6
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jul 2023 16:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1117475D8
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jul 2023 18:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjGDOJq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jul 2023 10:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39008 "EHLO
+        id S231432AbjGDQBk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jul 2023 12:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbjGDOJ2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jul 2023 10:09:28 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0425AE76
-        for <linux-tegra@vger.kernel.org>; Tue,  4 Jul 2023 07:09:17 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fbc77e769cso52926555e9.0
-        for <linux-tegra@vger.kernel.org>; Tue, 04 Jul 2023 07:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688479755; x=1691071755;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oIGU+ozIO3paTEyKxH3vTYeSNSxsHSAjxm+XkAQu3uI=;
-        b=Fkb+4Jr9U/QktwlkKJ89eVRmLLvj8654lI+8tNecV1clBvxMJXwSkvXWrnllZsL5Gu
-         NEi/KagGsXfAUxjO9maUCLd//SZUNIMEvLn3WXkDIPexnkq3vf4F96sHjMxNVPVHZ+aV
-         hplis3EQqCWJIyzSXxLDHnPf0vBot58rA/cLBeynhCCWyyHDk3Jy6vPMyEbJkLFtuYSE
-         9v50tl/Yoj+/NC5Ua5LWZ/Efo/f1jPPNzAFvGNmEA0gohCLS0U2gEB+EJ8SRcHNd5T+i
-         7WsWQ42xcC4h9FUGsA7MKfPUOFlbHZg6GT9PfnpVRZvZdNaz0IYMbZHVRKRd/p/RRlAN
-         0K6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688479755; x=1691071755;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oIGU+ozIO3paTEyKxH3vTYeSNSxsHSAjxm+XkAQu3uI=;
-        b=SzJZuugrGtz4etMrNFGYqr6sXKzLGxPSkPZIXkfzueddypu2CuAt5XCX2pDNZ3wrT7
-         blmqZAwVqN73ndok/vBKC4gFXMmQn8a1cYYSZBeU8QPy82kb/F+/67We3e7QuifC2Dve
-         1J+qbo5iQqwTNM3uEi03WiBXfMDvlquFRg9QY5jJosCET7+fnZiHCKtIk/1Mgr5/Svh1
-         fcEzPXgP9A0yXloxsqhn7YbQ/xEVcm4FmwvNF0s+N/tiyFCNUuQp9as/ebKmP7XIq6hG
-         Lz32kG3S34v0o/do50tSIU3UqNMcHoBXz3IWAG33si67hQdVk2FItWV9lwyZbELCwYnd
-         JTAg==
-X-Gm-Message-State: AC+VfDw7nEVWO7G8w1dka16xLyvPhCUPS5uuoBpgmcMEWFnzk2VZoBP7
-        r+T9Gp346U6BDOOK9e9dk2XkaA==
-X-Google-Smtp-Source: ACHHUZ6i0D1q3zY8REWtXtWMwnL+5jmpzWnT0HBZul57idM6AIrA7ojQBPv9vPsxPcb0FTlkr7nN6g==
-X-Received: by 2002:a7b:cd8f:0:b0:3fb:a1d0:a872 with SMTP id y15-20020a7bcd8f000000b003fba1d0a872mr11743025wmj.20.1688479755436;
-        Tue, 04 Jul 2023 07:09:15 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y23-20020a7bcd97000000b003fbb2c0fce5sm17707338wmj.25.2023.07.04.07.09.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 07:09:14 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 17:09:09 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Wayne Chang <waynec@nvidia.com>,
-        Sing-Han Chen <singhanc@nvidia.com>,
-        Jim Lin <jilin@nvidia.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 2/2] Revert "usb: gadget: tegra-xudc: Fix error check in
- tegra_xudc_powerdomain_init()"
-Message-ID: <ZKQoBa84U/ykEh3C@moroto>
+        with ESMTP id S230472AbjGDQBi (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jul 2023 12:01:38 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C781410D8;
+        Tue,  4 Jul 2023 09:01:36 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 308C21FDCD;
+        Tue,  4 Jul 2023 16:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1688486495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=q3o6HH10epfUBbyVpQ2BjTaq6/Z7q4pOKDMZHDJhhrk=;
+        b=W3dCjljN3niN6goKeJiHVZjW6m+M0xhxyiv3x7nxsgQvkvWZ2KJd0H2o7qU4eNv9Qt2yIK
+        x+KkxD9UE4m01BU5HHI/AXflTlw40YSrrZXn/3AR0nhrODhm624un8ct/w134s8MFG3pFc
+        W9TDrEwYKwYiBvfGun19kVFo9CHanuc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1688486495;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=q3o6HH10epfUBbyVpQ2BjTaq6/Z7q4pOKDMZHDJhhrk=;
+        b=rCPwnYlgRA+jYT0G3ht5V7WgaqmVR4hIt5yTlLtWfDk0ZMptYxxMUJ4V5yf00bI19BBpBD
+        77x/kr/CkBPjwdAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE42B133F7;
+        Tue,  4 Jul 2023 16:01:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id LMYvOV5CpGTzLwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 04 Jul 2023 16:01:34 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-fbdev@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/10] drm: Improve fbdev emulation for DMA-able framebuffers
+Date:   Tue,  4 Jul 2023 17:49:57 +0200
+Message-ID: <20230704160133.20261-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8baace8d-fb4b-41a4-ad5f-848ae643a23b@moroto.mountain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This reverts commit f08aa7c80dac27ee00fa6827f447597d2fba5465.
+Add fbdev helpers for framebuffers in DMA-able memory and update
+fbdev emulation in the respective DRM drivers. DMA memory used to
+handled as system memory. Improve this and prepare for possible
+future changes.
 
-The reverted commit was based on static analysis and a misunderstanding
-of how PTR_ERR() and NULLs are supposed to work.  When a function
-returns both pointer errors and NULL then normally the NULL means
-"continue operating without a feature because it was deliberately
-turned off".  The NULL should not be treated as a failure.  If a driver
-cannot work when that feature is disabled then the KConfig should
-enforce that the function cannot return NULL.  We should not need to
-test for it.
+Patch 1 adds initializer macros for struct fb_ops and a Kconfig
+token for framebuffers in DMA memory.
 
-In this driver, the bug means that probe cannot succeed when CONFIG_PM
-is disabled.
+Patches 2 to 4 update fbdev-dma and tegra. No functional changes
+are expected as both used system memory before.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-My patch also is based on static analysis and reviewing the code so,
-you know, probably best to be careful all round.
+Patches 5 and 6 update exynos to use DMA helpers. Exynos incorrectly
+used fbdev's I/O-memory helpers. Fix this.
 
- drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Patches 7 to 9 update omapdrm to use DMA helpers. Patch 7 first
+reworks the driver's mmap to current best practices. This also makes
+it suitable for use with fbdev, which patches 8 and 9 implement.
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 83eaa65ddde3..df6028f7b273 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3718,15 +3718,15 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 	int err;
- 
- 	xudc->genpd_dev_device = dev_pm_domain_attach_by_name(dev, "dev");
--	if (IS_ERR_OR_NULL(xudc->genpd_dev_device)) {
--		err = PTR_ERR(xudc->genpd_dev_device) ? : -ENODATA;
-+	if (IS_ERR(xudc->genpd_dev_device)) {
-+		err = PTR_ERR(xudc->genpd_dev_device);
- 		dev_err(dev, "failed to get device power domain: %d\n", err);
- 		return err;
- 	}
- 
- 	xudc->genpd_dev_ss = dev_pm_domain_attach_by_name(dev, "ss");
--	if (IS_ERR_OR_NULL(xudc->genpd_dev_ss)) {
--		err = PTR_ERR(xudc->genpd_dev_ss) ? : -ENODATA;
-+	if (IS_ERR(xudc->genpd_dev_ss)) {
-+		err = PTR_ERR(xudc->genpd_dev_ss);
- 		dev_err(dev, "failed to get SuperSpeed power domain: %d\n", err);
- 		return err;
- 	}
+Patch 10 removes some fbdev macros for system memory that are now
+unused.
+
+The patchset would ideally go through drm-misc-next. Future patches
+can build upon it and update fbdev drivers in similar ways.
+
+Thomas Zimmermann (10):
+  fbdev: Add fb_ops init macros for framebuffers in DMA-able memory
+  drm/fbdev-dma: Use fbdev DMA helpers
+  drm/tegra: Use fbdev DMA helpers
+  drm/tegra: Set fbdev flags
+  drm/exynos: Use fbdev DMA helpers
+  drm/exynos: Set fbdev flags
+  drm/omapdrm: Set VM flags in GEM-object mmap function
+  drm/omapdrm: Use GEM mmap for fbdev emulation
+  drm/omapdrm: Set fbdev flags
+  fbdev: Remove FB_DEFAULT_SYS_OPS
+
+ drivers/gpu/drm/Kconfig                   |  2 +-
+ drivers/gpu/drm/drm_fbdev_dma.c           |  4 ++--
+ drivers/gpu/drm/exynos/Kconfig            |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  6 ++++--
+ drivers/gpu/drm/omapdrm/Kconfig           |  2 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c        | 12 +-----------
+ drivers/gpu/drm/omapdrm/omap_fbdev.c      | 17 ++++++++++++++--
+ drivers/gpu/drm/omapdrm/omap_gem.c        | 24 ++++++-----------------
+ drivers/gpu/drm/omapdrm/omap_gem.h        |  3 ---
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c |  7 +------
+ drivers/gpu/drm/tegra/Kconfig             |  2 +-
+ drivers/gpu/drm/tegra/fbdev.c             |  7 +++++--
+ drivers/video/fbdev/Kconfig               |  8 ++++++++
+ include/linux/fb.h                        | 17 ++++++++++------
+ 14 files changed, 57 insertions(+), 56 deletions(-)
+
 -- 
-2.39.2
+2.41.0
+
