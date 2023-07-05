@@ -2,222 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48FE2748870
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jul 2023 17:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF1EE748A62
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jul 2023 19:30:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232744AbjGEPwd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jul 2023 11:52:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33006 "EHLO
+        id S231572AbjGERaf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jul 2023 13:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbjGEPwb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jul 2023 11:52:31 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBB6198A;
-        Wed,  5 Jul 2023 08:52:30 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fbc12181b6so77897345e9.2;
-        Wed, 05 Jul 2023 08:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688572348; x=1691164348;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KIQyRzBGzTzBZQL4IQeClCh6Kbl/cczJt9nqtjEwyIg=;
-        b=aInodbE9H0dvAhbNyLNsv8iCAwr/36wxk0tbKpqzUuXVXAiqWwqooeB1RsUc8SGCkQ
-         8+zJfiCxKIp99apg+Fb+O+x3nteolwXMjV/+C2+n5IUHIRknLBhrgetOHpTnxA08zj41
-         TNksZ64aoiP2oA89z+BdwhZ4exQFD2WcESINp7yF1nUkSvSMb6Z8lp77msQrpT4At5lt
-         F/hwzVZwkDlmsBLBH2LDxVuLLdSLj8RrFzKyzL8ZHtKOkVm2vGu4WTK8oZW8+FRXq2aa
-         EG/uExK389mszMuYgApcfNx4QMBnOhfReqPnzFukgVtjeURaPBolpAsmGtd3ByC/ueOt
-         kk9Q==
+        with ESMTP id S231799AbjGERa2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jul 2023 13:30:28 -0400
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C763B1990;
+        Wed,  5 Jul 2023 10:29:53 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3458a08310aso30399195ab.3;
+        Wed, 05 Jul 2023 10:29:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688572348; x=1691164348;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KIQyRzBGzTzBZQL4IQeClCh6Kbl/cczJt9nqtjEwyIg=;
-        b=GIIDgFdtOYsw9qNQp3NxJ5pUCF6k+bSA0j8+l4FE39LF6pcn9uMkmbQ4s2Th21mbPz
-         6pLo5RX7B/33a1pD4EF8Y4R9AoivJszZr22ObFdvHIch3kW9h9OumOIQweqCU7SoewYb
-         wPwWIh1FovNJOZjEhSE3KEY/GXTFT6j6nvoFThqfoFUYTQuFSP0b6ttCI+A1fd2rXCFM
-         qChLN77XFW81otRcfLlOBEqkm1Yy22bDGGzbRb+QgoNRZW4a0dmcSbfh7fQBZ3c6pzoR
-         LJbW5lhqsS6/qMW4PDmBH7VuEB4uDQzqRqyWJEPJ8ehh9J9vaxQKugfXE2BnMYXVjHK+
-         LJ2w==
-X-Gm-Message-State: AC+VfDy9iTw9lUr4pDw0osspJUJ63S2N8Mis2D46cqTPWD9AUFu5GN2i
-        wRIZ2m2dhXKUalq+19vTNE8=
-X-Google-Smtp-Source: ACHHUZ68n7kIULwsd4ifjIb4SHMy8bRmxOrsvSOtOeIc/hOIy3KXEBLZwihGjoXDTiZijSRXlW3pqA==
-X-Received: by 2002:a7b:cbc7:0:b0:3fb:c15c:698a with SMTP id n7-20020a7bcbc7000000b003fbc15c698amr14808926wmi.4.1688572348566;
-        Wed, 05 Jul 2023 08:52:28 -0700 (PDT)
-Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id p1-20020a05600c204100b003fa96fe2bebsm2455134wmg.41.2023.07.05.08.52.28
+        d=1e100.net; s=20221208; t=1688578182; x=1691170182;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iIkUXGDF7cJQPtOQc9W5fAR7XWPQ7kmXvuiGky/kf/E=;
+        b=f2my/2YKgJaR1dukc6pRJqjxfiN5z4IMIQT5FAmOMULjU8r7XKVHx270MIsaqpouP9
+         kl4NmUWyA/4veZwiihSMRjkIM6fbiKCo5gtMGeVENXHCY9vYpKYqasOH7DiCx++thRd/
+         Ae3D83kWyUp53/tfAkpp7OEuLHFutE2jWpjvjgGQdiprl0Qv/D4a4yIvaeU+nKqTmjNM
+         wmX3dmrA2oVQYoUKBpuEWUff/B3whSCR0+pF1xwqXGo8R6hgZN2tSPSb+VE0UNmsvA9C
+         0iO/rQDEZ1qcdHsoqAFcqOQ/qUSLYbpWbRgabPFoyGadGBDc00nndQWeT7GByS6dURnz
+         MMTw==
+X-Gm-Message-State: ABy/qLZKww/E6ZpztlHGmA/v7uuJFFSxLCqJnbY897lm2Jn+Ly9jjDam
+        XxC/UcNwCZBwO3iEcxUnUg==
+X-Google-Smtp-Source: APBJJlH/RKzl6RmIwgaz7MNvEOPO2bJWlFdhCsyZsPelPTyeiXiKVK1JEI8aYF+QS3zYaGTK9aDZfw==
+X-Received: by 2002:a92:d349:0:b0:345:8abb:5b2e with SMTP id a9-20020a92d349000000b003458abb5b2emr16366870ilh.20.1688578182075;
+        Wed, 05 Jul 2023 10:29:42 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id m7-20020a92cac7000000b00345d5fd85afsm4662693ilq.70.2023.07.05.10.29.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 08:52:28 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Marc Dietrich <marvin24@gmx.de>
-Subject: [PATCH v2 3/3] dt-bindings: arm: tegra: nvec: Convert to json-schema
-Date:   Wed,  5 Jul 2023 17:52:22 +0200
-Message-ID: <20230705155222.2519728-3-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230705155222.2519728-1-thierry.reding@gmail.com>
-References: <20230705155222.2519728-1-thierry.reding@gmail.com>
+        Wed, 05 Jul 2023 10:29:41 -0700 (PDT)
+Received: (nullmailer pid 1138244 invoked by uid 1000);
+        Wed, 05 Jul 2023 17:29:39 -0000
+Date:   Wed, 5 Jul 2023 11:29:39 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-serial@vger.kernel.org, Jon Hunter <jonathanh@nvidia.com>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: serial: tegra-hsuart: Convert to
+ json-schema
+Message-ID: <168857817923.1138059.11910851731139358305.robh@kernel.org>
+References: <20230705151802.2512186-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230705151802.2512186-1-thierry.reding@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Convert the NVIDIA embedded controller bindings from the free-form text
-format to json-schema.
+On Wed, 05 Jul 2023 17:18:02 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Convert the Tegra High-Speed UART bindings from the free-form text
+> format to json-schema.
+> 
+> While at it, also fix fix the example to reflect the correct compatible
+> string for Tegra30 chips.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v2:
+> - add note about the corrected example to commit message
+> - collate all single entry compatibles into an enum
+> 
+>  .../bindings/serial/nvidia,tegra20-hsuart.txt |  73 ----------
+>  .../serial/nvidia,tegra20-hsuart.yaml         | 125 ++++++++++++++++++
+>  2 files changed, 125 insertions(+), 73 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra20-hsuart.txt
+>  create mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra20-hsuart.yaml
+> 
 
-Acked-by: Marc Dietrich <marvin24@gmx.de>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v2:
-- drop $ref for standard clock-frequency property
-- use 4 spaces for indentation in example
-- move to soc/tegra directory
-
- .../bindings/arm/tegra/nvidia,nvec.txt        | 21 -----
- .../bindings/soc/tegra/nvidia,nvec.yaml       | 92 +++++++++++++++++++
- 2 files changed, 92 insertions(+), 21 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,nvec.txt
- create mode 100644 Documentation/devicetree/bindings/soc/tegra/nvidia,nvec.yaml
-
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,nvec.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,nvec.txt
-deleted file mode 100644
-index 5ae601e7f51f..000000000000
---- a/Documentation/devicetree/bindings/arm/tegra/nvidia,nvec.txt
-+++ /dev/null
-@@ -1,21 +0,0 @@
--NVIDIA compliant embedded controller
--
--Required properties:
--- compatible : should be "nvidia,nvec".
--- reg : the iomem of the i2c slave controller
--- interrupts : the interrupt line of the i2c slave controller
--- clock-frequency : the frequency of the i2c bus
--- gpios : the gpio used for ec request
--- slave-addr: the i2c address of the slave controller
--- clocks : Must contain an entry for each entry in clock-names.
--  See ../clocks/clock-bindings.txt for details.
--- clock-names : Must include the following entries:
--  Tegra20/Tegra30:
--  - div-clk
--  - fast-clk
--  Tegra114:
--  - div-clk
--- resets : Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names : Must include the following entries:
--  - i2c
-diff --git a/Documentation/devicetree/bindings/soc/tegra/nvidia,nvec.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,nvec.yaml
-new file mode 100644
-index 000000000000..0b4f898b2a1d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,nvec.yaml
-@@ -0,0 +1,92 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/soc/tegra/nvidia,nvec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA compliant embedded controller
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Jon Hunter <jonathanh@nvidia.com>
-+
-+properties:
-+  compatible:
-+    const: nvidia,nvec
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    items:
-+      - description: divider clock
-+      - description: fast clock
-+
-+  clock-names:
-+    minItems: 1
-+    items:
-+      - const: div-clk
-+      - const: fast-clk
-+
-+  resets:
-+    items:
-+      - description: module reset
-+
-+  reset-names:
-+    items:
-+      - const: i2c
-+
-+  clock-frequency: true
-+
-+  request-gpios:
-+    description: phandle to the GPIO used for EC request
-+
-+  slave-addr:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: I2C address of the slave controller
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - reset-names
-+  - clock-frequency
-+  - request-gpios
-+  - slave-addr
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra20-car.h>
-+    #include <dt-bindings/gpio/tegra-gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    nvec@7000c500 {
-+        compatible = "nvidia,nvec";
-+        reg = <0x7000c500 0x100>;
-+        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        clock-frequency = <80000>;
-+        request-gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_HIGH>;
-+        slave-addr = <138>;
-+        clocks = <&tegra_car TEGRA20_CLK_I2C3>,
-+                 <&tegra_car TEGRA20_CLK_PLL_P_OUT3>;
-+        clock-names = "div-clk", "fast-clk";
-+        resets = <&tegra_car 67>;
-+        reset-names = "i2c";
-+    };
--- 
-2.41.0
+Reviewed-by: Rob Herring <robh@kernel.org>
 
