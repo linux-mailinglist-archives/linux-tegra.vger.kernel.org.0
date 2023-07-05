@@ -2,52 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59E7474886D
+	by mail.lfdr.de (Postfix) with ESMTP id AC50974886E
 	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jul 2023 17:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231450AbjGEPwc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jul 2023 11:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33028 "EHLO
+        id S232789AbjGEPwd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jul 2023 11:52:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232726AbjGEPw3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jul 2023 11:52:29 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCC71980;
-        Wed,  5 Jul 2023 08:52:28 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fbc54cab6fso62542535e9.0;
-        Wed, 05 Jul 2023 08:52:28 -0700 (PDT)
+        with ESMTP id S232744AbjGEPwa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jul 2023 11:52:30 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402EC173E;
+        Wed,  5 Jul 2023 08:52:29 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-313e09a5b19so835617f8f.0;
+        Wed, 05 Jul 2023 08:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688572347; x=1691164347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y2/kSi53CG1eKE+d3z+4nF+Gv2i9Cq21A2aJTR7JHkU=;
-        b=pImisVolPnAJxmulJVOtxagCpwTDHMTpo4cDdsl0fIGTenfObqG61eoiBC90HhvTtq
-         odIIpVhSCC52rqx5bhbILZIQ/sc5kOufjVw3kK6APsbSVwPtzqZrJxoISAknXXcL9Bii
-         PvDFkdmH3PjXMqx+LUj0+4GuHgw8O3o4I26T3OM7MX/WvUSNj5nG6tQVOiq6qSbMi1T2
-         kscPdwEyDPYFNJFiNp0j5tNcEGBrVHX8z949ACGgMX52HKl2hQJEVnPEYUNVUICMhkFu
-         Wkv6bHZKGeN5smVXkmjXcX8HiVxyqTXSNNstN2v+8KkLpL2QW7R9bETNOZZNbEhd+e7e
-         ci0A==
+        d=gmail.com; s=20221208; t=1688572348; x=1691164348;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fABguDt96MTqNU6LI534/ldIxROywgL2RVsqvPcPS+g=;
+        b=XRIbNER4buof7DyC+vM63shCft46V7IxwhUeJvR9zFdvRZVCJAJwdvYTxG5ec+crDj
+         bQ+Hid9sYABqpygY9YWsadxaSxjMoZzX93YL0HnBCKqC30f/bSKL/ltyPQXDZF0OKkCE
+         RdKCiNZGQAwdobZRdhtNI+CzxJf9ecGqrmjD06V602yxiyX/doOtN10mqMpKl1fvBdiG
+         uEt9hm9HcLtTwHwLNH0vBg28DClCqX1fe0PskYHpEIzLpRshJDDDkvzlo4zzMoHr6WNA
+         SoIVEy/YJ1CZghoDVH2qbTKpo+5vxPt9tl+isPdqM9YJaaQnmm18/XmZqyuOx8ev7b0F
+         Tukg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688572347; x=1691164347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y2/kSi53CG1eKE+d3z+4nF+Gv2i9Cq21A2aJTR7JHkU=;
-        b=KvRudYt7zTPzgHn1XVJ6MXpKKmNi1vqWkm7/ZUJeC9cpjbzGQFaNm9UGBo4EOc0qrv
-         UAWprd3n5/V6J6mJ02crERszfq1rotjR0Gz9vrd/Bc/IgGBsTe2gkWoZ0IUselMC0vWW
-         vrI+RAn6pf2e4VnbmvVekf80Nt1dpcB+O0Y7cBhcaKEvUN39s3A2R5Eg0iBOICKhTWlE
-         Xi3FHGRwhwBiZJST4t1wbNmtSES0Md4sxBgI6yZToCsQWBVYQah4uGGJU2ZDNgwJxv5S
-         uCTDh2rvf6bYs9qDNrmEIUrQDOGcRcKc5ygYVh3UGRFqW63DPCsAyAL2PMOPtBwiAT4D
-         iVUA==
-X-Gm-Message-State: AC+VfDy4TTfa5oM1EiP75gsqz/CdMVSIvJwMcI32LB1XbpC3tpNCS0wc
-        FKj2Wlh6oKElQIfvEskd1gE=
-X-Google-Smtp-Source: ACHHUZ6+UpPe6OxvIrJMNJE0tCUOUJZvg3lL/rslPKUvg/TJFkGocLkCjJOx5rFoUN8w51+WkB+8ew==
-X-Received: by 2002:a05:600c:22c3:b0:3fb:a1d0:a882 with SMTP id 3-20020a05600c22c300b003fba1d0a882mr13279526wmg.20.1688572346479;
-        Wed, 05 Jul 2023 08:52:26 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688572348; x=1691164348;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fABguDt96MTqNU6LI534/ldIxROywgL2RVsqvPcPS+g=;
+        b=ba9Rm9kRjKF5McRyKQ7PhJrJlRYwCt4tP+PaCQNd6jtoIREqzWXqwEIlT95XM4Gz3S
+         g6fGlUpXE6b1OUNl1CBY+FLBe79Ddg+Xid8eWr5EShdZMZOOm2Q9jS1JI5+pJcq/Q1M5
+         g7kaWhqA8zTs5WjxkUEe3BmbIxh+AsuCt0wcYhQj8NjXQSensCpPhODkw4h+f1fqOp8F
+         xsLVWj81XD7lNmJWDl5byeBRx8Ti+Yvd7b/zuqUHuqRHn80tA65M+JaQqa828jdUgrHm
+         Z15FqLl9S/ZAiWjMaXgzL40mdyG/QOTmc7/W2UCSG8Ph1MjluueSILsDI9sUEt2k3wYV
+         +gqQ==
+X-Gm-Message-State: ABy/qLZWd0rXCpzr5vyIvE8nGsdVJYd4FL/LOkQ4IwL/aLA+BpyYckdR
+        u8pTUKwmR586Z99yOs0UwNj4LAiZPUk=
+X-Google-Smtp-Source: APBJJlHVOYXVL6U+T1n2B1fMz4asSKGfNVUR2HRgEej+n4ovAmDNNvs+BrwD+MuLCTYcaRKcZEjf8A==
+X-Received: by 2002:a5d:42c6:0:b0:314:98f:2495 with SMTP id t6-20020a5d42c6000000b00314098f2495mr2399171wrr.12.1688572347537;
+        Wed, 05 Jul 2023 08:52:27 -0700 (PDT)
 Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id n26-20020a7bcbda000000b003fbc30825fbsm2481820wmi.39.2023.07.05.08.52.26
+        by smtp.gmail.com with ESMTPSA id r3-20020adfda43000000b0030ae3a6be4asm31462132wrl.72.2023.07.05.08.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 08:52:26 -0700 (PDT)
+        Wed, 05 Jul 2023 08:52:27 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -55,10 +56,12 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v2 1/3] dt-bindings: arm: tegra: flowctrl: Convert to json-schema
-Date:   Wed,  5 Jul 2023 17:52:20 +0200
-Message-ID: <20230705155222.2519728-1-thierry.reding@gmail.com>
+Subject: [PATCH v2 2/3] dt-bindings: arm: tegra: ahb: Convert to json-schema
+Date:   Wed,  5 Jul 2023 17:52:21 +0200
+Message-ID: <20230705155222.2519728-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230705155222.2519728-1-thierry.reding@gmail.com>
+References: <20230705155222.2519728-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -73,90 +76,90 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Convert the Tegra flow controller bindings from the free-form text
-format to json-schema.
+Convert the NVIDIA Tegra AHB bindings from the free-form text format to
+json-schema.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
 Changes in v2:
-- move to soc/tegra directory (Krzysztof)
+- collate all single entry compatibles into an enum
+- use 4 spaces for indentation in example
+- move to soc/tegra directory
 
- .../arm/tegra/nvidia,tegra20-flowctrl.txt     | 18 --------
- .../soc/tegra/nvidia,tegra20-flowctrl.yaml    | 41 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 18 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-flowctrl.txt
- create mode 100644 Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-flowctrl.yaml
+ .../bindings/arm/tegra/nvidia,tegra20-ahb.txt | 17 --------
+ .../soc/tegra/nvidia,tegra20-ahb.yaml         | 40 +++++++++++++++++++
+ 2 files changed, 40 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-ahb.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-ahb.yaml
 
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-flowctrl.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-flowctrl.txt
+diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-ahb.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-ahb.txt
 deleted file mode 100644
-index a855c1bffc0f..000000000000
---- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-flowctrl.txt
+index 9a4295b54539..000000000000
+--- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-ahb.txt
 +++ /dev/null
-@@ -1,18 +0,0 @@
--NVIDIA Tegra Flow Controller
+@@ -1,17 +0,0 @@
+-NVIDIA Tegra AHB
 -
 -Required properties:
--- compatible: Should contain one of the following:
--  - "nvidia,tegra20-flowctrl": for Tegra20
--  - "nvidia,tegra30-flowctrl": for Tegra30
--  - "nvidia,tegra114-flowctrl": for Tegra114
--  - "nvidia,tegra124-flowctrl": for Tegra124
--  - "nvidia,tegra132-flowctrl", "nvidia,tegra124-flowctrl": for Tegra132
--  - "nvidia,tegra210-flowctrl": for Tegra210
--- reg: Should contain one register range (address and length)
+-- compatible : For Tegra20, must contain "nvidia,tegra20-ahb".  For
+-  Tegra30, must contain "nvidia,tegra30-ahb".  Otherwise, must contain
+-  '"nvidia,<chip>-ahb", "nvidia,tegra30-ahb"' where <chip> is tegra124,
+-  tegra132, or tegra210.
+-- reg : Should contain 1 register ranges(address and length).  For
+-  Tegra20, Tegra30, and Tegra114 chips, the value must be <0x6000c004
+-  0x10c>.  For Tegra124, Tegra132 and Tegra210 chips, the value should
+-  be be <0x6000c000 0x150>.
 -
--Example:
--
--	flow-controller@60007000 {
--		compatible = "nvidia,tegra20-flowctrl";
--		reg = <0x60007000 0x1000>;
+-Example (for a Tegra20 chip):
+-	ahb: ahb@6000c004 {
+-		compatible = "nvidia,tegra20-ahb";
+-		reg = <0x6000c004 0x10c>; /* AHB Arbitration + Gizmo Controller */
 -	};
-diff --git a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-flowctrl.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-flowctrl.yaml
+diff --git a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-ahb.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-ahb.yaml
 new file mode 100644
-index 000000000000..705544b7f98f
+index 000000000000..2f7269a26b8e
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-flowctrl.yaml
-@@ -0,0 +1,41 @@
++++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-ahb.yaml
+@@ -0,0 +1,40 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/soc/tegra/nvidia,tegra20-flowctrl.yaml#
++$id: http://devicetree.org/schemas/soc/tegra/nvidia,tegra20-ahb.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra Flow Controller
 +
 +maintainers:
 +  - Thierry Reding <thierry.reding@gmail.com>
 +  - Jon Hunter <jonathanh@nvidia.com>
 +
++title: NVIDIA Tegra AHB
++
 +properties:
 +  compatible:
 +    oneOf:
 +      - enum:
-+          - nvidia,tegra20-flowctrl
-+          - nvidia,tegra30-flowctrl
-+          - nvidia,tegra114-flowctrl
-+          - nvidia,tegra124-flowctrl
-+          - nvidia,tegra210-flowctrl
-+
++          - nvidia,tegra20-ahb
++          - nvidia,tegra30-ahb
 +      - items:
-+          - const: nvidia,tegra132-flowctrl
-+          - const: nvidia,tegra124-flowctrl
++          - enum:
++              - nvidia,tegra114-ahb
++              - nvidia,tegra124-ahb
++              - nvidia,tegra210-ahb
++          - const: nvidia,tegra30-ahb
 +
 +  reg:
 +    maxItems: 1
++
++additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
 +
-+additionalProperties: false
-+
 +examples:
 +  - |
-+    flow-controller@60007000 {
-+        compatible = "nvidia,tegra20-flowctrl";
-+        reg = <0x60007000 0x1000>;
++    ahb@6000c004 {
++        compatible = "nvidia,tegra20-ahb";
++        reg = <0x6000c004 0x10c>; /* AHB Arbitration + Gizmo Controller */
 +    };
 -- 
 2.41.0
