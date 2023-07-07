@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A77BF74B1A2
-	for <lists+linux-tegra@lfdr.de>; Fri,  7 Jul 2023 15:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF7474B1A5
+	for <lists+linux-tegra@lfdr.de>; Fri,  7 Jul 2023 15:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232055AbjGGNRZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 7 Jul 2023 09:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45562 "EHLO
+        id S229955AbjGGNR0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 7 Jul 2023 09:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbjGGNRX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 7 Jul 2023 09:17:23 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F501FEB;
-        Fri,  7 Jul 2023 06:17:21 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fbf1b82d9cso20041105e9.2;
-        Fri, 07 Jul 2023 06:17:21 -0700 (PDT)
+        with ESMTP id S231909AbjGGNRY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 7 Jul 2023 09:17:24 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3461FC9;
+        Fri,  7 Jul 2023 06:17:22 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fbc5d5742eso20426775e9.3;
+        Fri, 07 Jul 2023 06:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688735840; x=1691327840;
+        d=gmail.com; s=20221208; t=1688735841; x=1691327841;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xsrBAfCGVNelsA/PKAK3tw2obc1qEvMP8nTj/zVYfec=;
-        b=ALTfZxaV9Ay79vQgcqBUR7L/uoOwQZZ4jqPzkDebLybEhumAJeQuiitOiS3IFRdtNU
-         aEOugqyOK8dOAvaZcY8WbKor9ofD3qGJzWvneu5dMVaee2yuNwXmhO9CWGtg+dwwBEkP
-         cxbmvAApXjkTrOfP4surh6FfZ3B1QHvy4XP6TrIDlCKmIdNuPcudnDiDL35JV1HNkYpJ
-         ljUSmpHp0CUtuMGiP2nxGvHGxng1eW/FkhKI2Cbx7lNZ4u5+r0xDdisikVkZYiCHZZ3t
-         fihhUMZO1W0e75msALszFCHrYe+plKKFpa6lC4dPBx8LudzTOhvb3eRRmsCwaDSXnV93
-         qZYQ==
+        bh=Ck6fwpfDkUHjqvfaLifjQqp/JbwbuNDqeDY5YxFVtno=;
+        b=Hr7dr6H8CgN04ZCDpXvkJtdNI67ekD5iDH65Zp+JrZKoIxrNgz1y/H14NYlKHaqenP
+         gSqelmD9Vtk68qLJQz5luTq+V0FL3CCq7qg8jsRHYqgu2ELa5vFhqWg84XD7HTHuStab
+         FxBXw27vGrkYdOZJL85uolv5OM3okJe/OQRfmn4vmRwd6VR28XR7U+4T63MZe3+CXman
+         kSwLh+7+XgoUohLDMBj/jlVamyT4st5ZaVPGGaf9VwNhhvbSMEjKweRhy9V1+NNoIC67
+         yr1gnN5Kdl3ZnnZfajkmRj0ocjLfrsOR87m2iZHIzSTQxcgNR5WK5KN0OTepCp3/iK4w
+         jxSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688735840; x=1691327840;
+        d=1e100.net; s=20221208; t=1688735841; x=1691327841;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xsrBAfCGVNelsA/PKAK3tw2obc1qEvMP8nTj/zVYfec=;
-        b=C0/pIMLte5eEYeZ/MU7PUrsCzHDQSX7d3DjW9GkOl/UYhY8Qpmd44CYy5WcuNXJV8/
-         oct9M0I9uXQFZwtqrmtcapy3duOLokJ5OYQT3emWGLV3hJQUWKJAAka6IiUA2x1Bzc6L
-         nyH9DCXkxOAQMxKU+4GNjXp5Uz6Bfsz0dNsnH5VoE/FI450yok+bLa0mgFX99mCdKyau
-         zaI7U2h+NO5gIy0jSBXebXLWRvgGxSYT9WEAHlnJdbnuJEmzxTMIti6RATLmt7LWBCVy
-         Ukph+XEMql5qcG5W5sMYPZP+7H/JlC9e12rKuGOGhYmoLVykg4Ix+iZS4l3apIpLUQUd
-         JaAg==
-X-Gm-Message-State: ABy/qLZAx8PYwkC1WE05uJyNGq8a6rYZflzTw1cH5FHe6qeQYQ/X1kWB
-        S71ADIsHTRjPiDalM2BQ7sc=
-X-Google-Smtp-Source: APBJJlE3gF5ilMRMliA8OtVBdwST0BYBJ3/KBkBLZzNnt9HNDVx3SaSZ1l8cwBv7q6jQx63fSDAtAQ==
-X-Received: by 2002:adf:e504:0:b0:314:248d:d9df with SMTP id j4-20020adfe504000000b00314248dd9dfmr4260597wrm.13.1688735840197;
-        Fri, 07 Jul 2023 06:17:20 -0700 (PDT)
+        bh=Ck6fwpfDkUHjqvfaLifjQqp/JbwbuNDqeDY5YxFVtno=;
+        b=iorx/ZrRZRaWVfEUhVJq+5+Z35y37jrr9DIm22RJZpchPm+UhNGv09GuAWNXY1+V91
+         0FTj99+2+enlnDESmFW7TOUgdoH2wrz2bSc+ixpdr8E4bJ5Es9bVRWp49/5rqYe9dDzY
+         BVDJxgOElYXdU+VWpDBnJftTRyeKUhC6eYe5gatm61uuzaw7doZTPB9OJX4BKoKrkYqD
+         giQKiQNi9HCzvHqpfSuf/8zPjgsfiRhwyU8sBICbM5SzabQzn67L8bsOvdaY2/idazVd
+         NYAVE/LsTdJB3TOUjUL8TrgsQCSzWlNs2CmVEtkGuVrKsVJQhIDPEV+P2bW5YYgYzANp
+         NbZQ==
+X-Gm-Message-State: ABy/qLZW1SYmsdTOxE6oxOutw712obIStiGHUt6evqQOCBgVAl0/p+cy
+        r8ujd3S7jrJmPcIYMt75nqU=
+X-Google-Smtp-Source: APBJJlHWjUWB5rq0ypMUZGTx/eAJvRL1aGSAM4KiDATeZyMRJR/LpcmhvyVwBzQ92jaa0fkF2qucSg==
+X-Received: by 2002:a05:600c:c8:b0:3fb:ce46:c0b3 with SMTP id u8-20020a05600c00c800b003fbce46c0b3mr4474728wmm.35.1688735841015;
+        Fri, 07 Jul 2023 06:17:21 -0700 (PDT)
 Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a5-20020adffb85000000b00313e4d02be8sm4458268wrr.55.2023.07.07.06.17.19
+        by smtp.gmail.com with ESMTPSA id l11-20020a5d668b000000b003063db8f45bsm4444818wru.23.2023.07.07.06.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 06:17:19 -0700 (PDT)
+        Fri, 07 Jul 2023 06:17:20 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -56,9 +56,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH 6/7] dt-bindings: arm: tegra: pmc: Reformat example
-Date:   Fri,  7 Jul 2023 15:17:10 +0200
-Message-ID: <20230707131711.2997956-6-thierry.reding@gmail.com>
+Subject: [PATCH 7/7] dt-bindings: arm: tegra: pmc: Relicense and move into soc/tegra directory
+Date:   Fri,  7 Jul 2023 15:17:11 +0200
+Message-ID: <20230707131711.2997956-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230707131711.2997956-1-thierry.reding@gmail.com>
 References: <20230707131711.2997956-1-thierry.reding@gmail.com>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -76,103 +76,32 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Reformat the example using 4 spaces for indentation.
+Dual-license this binding for consistency with other Tegra bindings and
+move it into the soc/tegra directory.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../arm/tegra/nvidia,tegra20-pmc.yaml         | 77 +++++++++----------
- 1 file changed, 38 insertions(+), 39 deletions(-)
+ .../bindings/{arm => soc}/tegra/nvidia,tegra20-pmc.yaml       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/devicetree/bindings/{arm => soc}/tegra/nvidia,tegra20-pmc.yaml (99%)
 
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-index 271aa8f80a65..f709a4a0853c 100644
+diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
+similarity index 99%
+rename from Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
+rename to Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
+index f709a4a0853c..ef42f07e0572 100644
 --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-+++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-@@ -384,47 +384,46 @@ dependencies:
++++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
+@@ -1,7 +1,7 @@
+-# SPDX-License-Identifier: GPL-2.0
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/arm/tegra/nvidia,tegra20-pmc.yaml#
++$id: http://devicetree.org/schemas/soc/tegra/nvidia,tegra20-pmc.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- examples:
-   - |
--
-     #include <dt-bindings/clock/tegra210-car.h>
-     #include <dt-bindings/pinctrl/pinctrl-tegra-io-pad.h>
-     #include <dt-bindings/soc/tegra-pmc.h>
- 
--    tegra_pmc: pmc@7000e400 {
--              compatible = "nvidia,tegra210-pmc";
--              reg = <0x7000e400 0x400>;
--              core-supply = <&regulator>;
--              clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
--              clock-names = "pclk", "clk32k_in";
--              #clock-cells = <1>;
--
--              nvidia,invert-interrupt;
--              nvidia,suspend-mode = <0>;
--              nvidia,cpu-pwr-good-time = <0>;
--              nvidia,cpu-pwr-off-time = <0>;
--              nvidia,core-pwr-good-time = <4587 3876>;
--              nvidia,core-pwr-off-time = <39065>;
--              nvidia,core-power-req-active-high;
--              nvidia,sys-clock-req-active-high;
--
--              pd_core: core-domain {
--                      operating-points-v2 = <&core_opp_table>;
--                      #power-domain-cells = <0>;
--              };
--
--              powergates {
--                    pd_audio: aud {
--                            clocks = <&tegra_car TEGRA210_CLK_APE>,
--                                     <&tegra_car TEGRA210_CLK_APB2APE>;
--                            resets = <&tegra_car 198>;
--                            power-domains = <&pd_core>;
--                            #power-domain-cells = <0>;
--                    };
--
--                    pd_xusbss: xusba {
--                            clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
--                            resets = <&tegra_car TEGRA210_CLK_XUSB_SS>;
--                            power-domains = <&pd_core>;
--                            #power-domain-cells = <0>;
--                    };
--              };
-+    pmc@7000e400 {
-+        compatible = "nvidia,tegra210-pmc";
-+        reg = <0x7000e400 0x400>;
-+        core-supply = <&regulator>;
-+        clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
-+        clock-names = "pclk", "clk32k_in";
-+        #clock-cells = <1>;
-+
-+        nvidia,invert-interrupt;
-+        nvidia,suspend-mode = <0>;
-+        nvidia,cpu-pwr-good-time = <0>;
-+        nvidia,cpu-pwr-off-time = <0>;
-+        nvidia,core-pwr-good-time = <4587 3876>;
-+        nvidia,core-pwr-off-time = <39065>;
-+        nvidia,core-power-req-active-high;
-+        nvidia,sys-clock-req-active-high;
-+
-+        pd_core: core-domain {
-+            operating-points-v2 = <&core_opp_table>;
-+            #power-domain-cells = <0>;
-+        };
-+
-+        powergates {
-+            pd_audio: aud {
-+                clocks = <&tegra_car TEGRA210_CLK_APE>,
-+                         <&tegra_car TEGRA210_CLK_APB2APE>;
-+                resets = <&tegra_car 198>;
-+                power-domains = <&pd_core>;
-+                #power-domain-cells = <0>;
-+            };
-+
-+            pd_xusbss: xusba {
-+                clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-+                resets = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-+                power-domains = <&pd_core>;
-+                #power-domain-cells = <0>;
-+            };
-+        };
-     };
+ title: Tegra Power Management Controller (PMC)
 -- 
 2.41.0
 
