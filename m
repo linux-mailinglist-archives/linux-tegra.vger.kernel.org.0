@@ -2,70 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F5C752666
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jul 2023 17:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D4B7526B1
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jul 2023 17:23:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233516AbjGMPPG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jul 2023 11:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49138 "EHLO
+        id S232838AbjGMPXX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jul 2023 11:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233486AbjGMPPF (ORCPT
+        with ESMTP id S234203AbjGMPXX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jul 2023 11:15:05 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6E5106;
-        Thu, 13 Jul 2023 08:15:03 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9924ac01f98so123244966b.1;
-        Thu, 13 Jul 2023 08:15:02 -0700 (PDT)
+        Thu, 13 Jul 2023 11:23:23 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2B8B4;
+        Thu, 13 Jul 2023 08:23:20 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b701e1c80fso12860501fa.2;
+        Thu, 13 Jul 2023 08:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689261301; x=1691853301;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1689261798; x=1691853798;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ejWIQTJ8MrmjvLsNIW9S8vt55JHQjtyx46a8r32tq1g=;
-        b=kwu1l+2NxOFNYyFrFJ50wUPA5KuDc9reRIUJeO6GfB4hdFhvchS3utDFJnFdb9Dm3N
-         vlGKRDF1rgoIx9ZS9Fsc3DUV148QyeWpu/xdxUU5Xk9cGMMLcimPdlfeO1NHKIxKkBCW
-         e/Z9K5Th34uLR+N0YOi1JenYNinzkGOpDt+AqrA2GzAYYPnDtjCqlkXY7u4ZBAT1qQTk
-         qsMrPxfxVJJEjNUOcZFdftxBaHdHOBmv/MhmtLUJpX3r5++XKrbM/6BmFH5Hbgr19jRZ
-         TwE68jDuDk0SS+I5/HU/pjSVF0AMNMbKDxXoTbReRDa+iZ8FX5c2SNp44O/GhWboC5MF
-         gZHA==
+        bh=oDdZgOhDwUbK510C1X15KxW/EG5tgfWQIVz4txl1afI=;
+        b=aq15ubxvRNdsaCsSt+kBMeyxULatVGXhLV/oJNfEBNz4NH9P8UDfSfZNFWO759cuUQ
+         +AasouInhogNlRR1JHCjmUXxymnZm9IRn0aunfamqApmNTEWZnUGy3noDG28Hmvx8QSe
+         nkAHLpsqt0ezPyoSpUZerB3vedGgcXb9rDE+AOgJrqPxwaBFk3e5SIJHbf+BqstYcvAb
+         Yx2OMdqLY4bCXMlJLye35sn7xdpYFjM/4OyIAPMwTV3kfuin4nciqiHvcJwbFzpVOGDk
+         X248s0GTzW9BQuBxsB6pygWi5IaIrJVR+NKKGwtT02cwy7uZRiURAyG5JJ9K3yztqoqa
+         gejA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689261301; x=1691853301;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689261798; x=1691853798;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ejWIQTJ8MrmjvLsNIW9S8vt55JHQjtyx46a8r32tq1g=;
-        b=OU5K7mcTcz1s9r8boLXKNRSaZYQQTl31lAP9YxCdLDF159/cfE9mxuJ4z2KGryopbY
-         9APbCu+LRwU13mxkOhDcx0n011Rn9s+y7XBG3ur5OgJ+C3Q76DoeHHvGAr4hcbMbqhdM
-         jaxJ3sBdxH4pq3wAuGlHEDKnoD6L6OZtyCuNGA2ANlIx7Vv/ElChFB8CJ0h3dD6s9cfC
-         M+pUHNbG/XUl8gAlAgVPn2OQgzlu3WpPP14o4orjBnc+4SdIuKB7uxsj7DywrWBJFwz8
-         KK3xgnt3mf43DdQkpmVB5yx5H6b+svKeUlsUzEpfzneLBPGSKK9GT6mUwokhsCkMiOhq
-         daAQ==
-X-Gm-Message-State: ABy/qLYbP4/vUeArckR/4037s4vT0yX5SBwop7xvCQ7tkgE5LOt2Pdgx
-        rb6Yjt6LHotB3xw3pv44Wgw=
-X-Google-Smtp-Source: APBJJlEL0pC3JqIMQMikXRbZwitjsByBW5SfrCFuOY1Lr/Bl1Du4uLIo8HflRw+hJFgTQ5yz94uvjA==
-X-Received: by 2002:a17:906:2308:b0:98d:e7e3:5ab7 with SMTP id l8-20020a170906230800b0098de7e35ab7mr1781567eja.11.1689261301300;
-        Thu, 13 Jul 2023 08:15:01 -0700 (PDT)
-Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id hb24-20020a170906b89800b00977c7566ccbsm4043692ejb.164.2023.07.13.08.15.00
+        bh=oDdZgOhDwUbK510C1X15KxW/EG5tgfWQIVz4txl1afI=;
+        b=GmCKAFxZXkOdhNzBOlNhMygHzm+ZOA5/DiZhhFf6L4wu8NHvbHYgIML4dPbx9XSqta
+         E0Fj6WFOAP9/gCSyV9Gc++kgeoFi8gHBCkxouJPmTGEjJoyTcF48yQi5IH3fK/+ZQA2w
+         cZr/gMptZ7066g82lw6f4aomW4Z4bEx9N3Hd3fxfnc2pF+t2r/U1vWmkSJPVR54cNVkJ
+         p6YHKpud+kblIpqsXYC7L0qEfLw2t5Ya0V+wWE+2CnvG3Ho+Gtd4dHcxQHRvGAha02/M
+         23IlEusNBbXS+WMeLreU43MJE9y78n+04EOOHdhivyzotu7xjDXmlqvE04ps206gr73x
+         JxeQ==
+X-Gm-Message-State: ABy/qLYXz/qJJT2fr3VFIGra9TRwt21RBgm7jwG8x/PKjlJtxh9SPxyh
+        cCawAVBQfQxKYXWdGox4fAI=
+X-Google-Smtp-Source: APBJJlGtS2kjxCSUsa7LiR/rlP5gKiBaQi1jHjxIr+7psMeetmuzRa7ztrfPj7ELY+BkJUP5jG6Tew==
+X-Received: by 2002:a2e:9f48:0:b0:2b6:a841:e686 with SMTP id v8-20020a2e9f48000000b002b6a841e686mr1558356ljk.6.1689261798215;
+        Thu, 13 Jul 2023 08:23:18 -0700 (PDT)
+Received: from orome (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id w24-20020a1709064a1800b00993b381f808sm4144700eju.38.2023.07.13.08.23.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jul 2023 08:15:00 -0700 (PDT)
+        Thu, 13 Jul 2023 08:23:17 -0700 (PDT)
+Date:   Thu, 13 Jul 2023 17:23:16 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     broonie@kernel.org, robh+dt@kernel.org, krzk+dt@kernel.org,
-        thierry.reding@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-        tiwai@suse.com, Sameer Pujar <spujar@nvidia.com>
-Cc:     jonathanh@nvidia.com, mkumard@nvidia.com, sheetal@nvidia.com,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/5] Few audio fixes on Tegra platforms
-Date:   Thu, 13 Jul 2023 17:14:56 +0200
-Message-ID: <168926127035.2339191.6180837272583412024.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <1688015537-31682-1-git-send-email-spujar@nvidia.com>
-References: <1688015537-31682-1-git-send-email-spujar@nvidia.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFT PATCH 1/2] arm64: tegra: correct audio-codec interrupt flag
+ in P2972-0000
+Message-ID: <ZLAW5MbvvNDI5xVG@orome>
+References: <20230705064903.12690-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xksoUh4HTTxon0ro"
+Content-Disposition: inline
+In-Reply-To: <20230705064903.12690-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mutt/2.2.10 (2023-03-25)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -76,29 +80,69 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
+--xksoUh4HTTxon0ro
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Jun 2023 10:42:12 +0530, Sameer Pujar wrote:
-> This series fixes some of the issues which were observed during an attempt to
-> enhance automated test coverage on Jetson AGX Orin. Below is a short summary
-> of the issues and fixes:
-> 
->   * Sample rate coversion failures above 48kHz.
->   * AMX and ADX test cases failures due to incorrect byte mask.
->   * Atomic sleep in RT5640 codec which is present on Jetson AGX Orin.
->   * AHUB clock fixes on Tegra234 and previous chips.
->   * Minor cleanups in ASRC and AHUB driver.
-> 
-> [...]
+On Wed, Jul 05, 2023 at 08:49:02AM +0200, Krzysztof Kozlowski wrote:
+> GPIO_ACTIVE_x flags are not correct in the context of interrupt flags.
+> These are simple defines so they could be used in DTS but they will not
+> have the same meaning: GPIO_ACTIVE_HIGH =3D 0 =3D IRQ_TYPE_NONE.
+>=20
+> Correct the interrupt flags to a value used also in Tegra30 Beaver board
+> with this device.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks!
+Sameer,
 
-[4/5] arm64: tegra: Update AHUB clock parent and rate on Tegra234
-      commit: e483fe34adab3197558b7284044c1b26f5ede20e
-[5/5] arm64: tegra: Update AHUB clock parent and rate
-      commit: dc6d5d85ed3a3fe566314f388bce4c71a26b1677
+I can help test this if you're busy, but I don't know how to test
+whether this work correctly. Can you share how we can validate this?
 
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+Thierry
+
+>=20
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/ar=
+m64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> index 64a3398fe7a6..7c400e024332 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> @@ -2115,7 +2115,7 @@ rt5658: audio-codec@1a {
+>  				compatible =3D "realtek,rt5658";
+>  				reg =3D <0x1a>;
+>  				interrupt-parent =3D <&gpio>;
+> -				interrupts =3D <TEGRA194_MAIN_GPIO(S, 5) GPIO_ACTIVE_HIGH>;
+> +				interrupts =3D <TEGRA194_MAIN_GPIO(S, 5) IRQ_TYPE_EDGE_FALLING>;
+>  				clocks =3D <&bpmp TEGRA194_CLK_AUD_MCLK>;
+>  				clock-names =3D "mclk";
+>  				realtek,jd-src =3D <2>;
+> --=20
+> 2.34.1
+>=20
+
+--xksoUh4HTTxon0ro
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmSwFuQACgkQ3SOs138+
+s6EF8hAAu0zsCKA2Yrn6/fsfj3JiENpzFXVJ6Yp5vT6S1nGw3AT8rC0z0Ex0GQnJ
+/pFFGSRZxL5rvdEntN8p8vGiciXSe8Cq6GFVVY21nAhoBXRUtR/6P1gNQaXsOS8B
+xy/ItfGo1eb4/lFb4tfei3wYDHtn2LphlpI3vaS0eHLgccIm3qpQfC/dAB7VZ7Dl
+Kmup0EG9cbdMj/OOtRu8SDi05taM11mIafNIafY3qgVlSmb4myCfu4Na0ugoKfXE
+t+072lN2PXlaCwEWDYk0Njsl+HD7aYF3vFE9vTcGlblIftRfSIQslN88VZLQ2Gnd
+QAFYqRKsKr0zLWFqBMI5WXK/BZg2/JjvLld0apJ9G22JqumMETTEs66eLNWy37jn
+z5jU51ZfM9iqx7DzNdcC+YwEjQr99JFp4LDP0Xj+i5/0rpl7s8JothGdRgSSPIBu
+qYoNrQsl4OV65Vg3oZEye/bzhBz0XkuRX9IMqo9VWHZ1GfXpFqbpNhwphycqTiXh
+UGEOa6nw3+bXpLToP4/x+3ixnp6ktQixFbbTpVeqqDWlvYEJE9igUffMubtKUvS4
+J4N8ddNL5mnW1hy86F+csNnR9ubDUWtacaYOlasDRD2pWUn++EDaCMHqqt7yA3h0
+zzdr5z9ZjBUb5hNMPq0Z4kJu9VZhp86EggIZE7zvJeCodSG46Y0=
+=41Bt
+-----END PGP SIGNATURE-----
+
+--xksoUh4HTTxon0ro--
