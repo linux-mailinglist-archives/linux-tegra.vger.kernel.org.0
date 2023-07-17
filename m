@@ -2,61 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCF93756934
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jul 2023 18:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D63B756930
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jul 2023 18:32:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjGQQca (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jul 2023 12:32:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
+        id S229718AbjGQQc3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jul 2023 12:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232218AbjGQQcY (ORCPT
+        with ESMTP id S232221AbjGQQcY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Mon, 17 Jul 2023 12:32:24 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFDA0E60;
-        Mon, 17 Jul 2023 09:32:17 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4fbf09a9139so7430426e87.2;
-        Mon, 17 Jul 2023 09:32:17 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B4D10D5;
+        Mon, 17 Jul 2023 09:32:18 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9928abc11deso663910266b.1;
+        Mon, 17 Jul 2023 09:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1689611536; x=1692203536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BkMZYKcJMO3bzF3M5BPSas+elXF5SrDI7IstoXDRe7I=;
-        b=FLRaUCZzv7EJKdb1I18r3bgIGMxmK6lGQvGxc56SU16KfEt4xgWPRjEBy3B+v2MvQP
-         Pl6aiXlm4K81NCUxcgNQD9XhjpFYNTUT9yTCD3ubhdCpK0NYjBH/hGZIx82wuEwDVU2K
-         eBlpfrfMoAM0F/3D82cdqu4HpDEwt8BGBd5Yvy2umSXVv3exejAQDL6rKtAWtiqP+mWX
-         yJwG8uuUVssxHyAin96NYEVdmNjbXNBKia4Oa01PYeGtZ99L4uBsTWkcW55sbh5Vdkz6
-         D7FugbapuzSvilaUhyjWxB/Un/Yspg/YsxO1CqoAkdJHZ7srIYsXamMI5+Qz6MQjwh/X
-         Gm+w==
+        bh=/lahZGjzrtiFrb+CUs0WnOb8ILG7aeFxB4JGtkR884w=;
+        b=rhWOAyNlOK82+wjItYc/2UPL9BI95ZvE2Sky790P5Cq9nGGbB1Xl4oNV/BHZpKxfqo
+         bm4hfcNq23oOJsagPoYAWhDnS0qqP36fDcW08xiV7p3EBfFWgIjWVY0sNWOlHsisuOCP
+         Md1n6Kv7/kmIJzYFj8IAKEO7bm32Q5toxCWuxG40g2fhuOzfd8G9a7gNFTzDSwC7EU4n
+         Hykgqb/JE6xa/RFyhdTX3YwMh3wdTtKzQQg2TY1TyAvsTxZyo/eK2+7DDcCdP2k0vpiw
+         uuvzsRheIJmBBH42hYUx1A3LoP4Ncm+tRTRB1Hx+6VjV6OcCeIeMxcDkLIMJIO+rXp6F
+         dzPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1689611536; x=1692203536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BkMZYKcJMO3bzF3M5BPSas+elXF5SrDI7IstoXDRe7I=;
-        b=iljsCQ+yr610KVOnTFtVF85jte/oAlSxMFe+0Uf44o/sEEUlYMfU1QDRcO6MT7+Mo6
-         PhrGkYSJxWlQDAYzet6FPxq+zeXhigJbXXfPFGF/mZVA22qeEcMkyLzNOeNy5dCyf3eQ
-         2/lisC67dgjR+mxazfvEIFf+FnkKXbMeuPgPyEl4oXLIf4oE2CtTQC3B+u8rhq2zx4vT
-         /XkXr0c2QRY8KE/PKUy+ksNTtovptBalnIgYVJVOork2PcmwXSvfBUUTu+ACrOi1zIpi
-         VjcosdpBuL1Bft9t8k62jHYG3x3Um8Qr9GUPOY2Thp5Tr+7kWUJ4ZxsfuJESsZFnKv3C
-         64Cw==
-X-Gm-Message-State: ABy/qLZ9HLvwVbHHa+Zy7SUrAb5ZhAQM/02Z+ONFptqQd7HA2ktOOpu+
-        fDgdCJRgNUb1bYn4ttH5wYSz8tyRLzs=
-X-Google-Smtp-Source: APBJJlHDoou+J9vJDQS9FLu+Vy0VM05UD1eDD3ukcfBTyZD5shGrCY5aWB8zi7TCTLyGgqtAiQHdLw==
-X-Received: by 2002:ac2:48a8:0:b0:4f8:5717:e421 with SMTP id u8-20020ac248a8000000b004f85717e421mr7849928lfg.40.1689611535711;
-        Mon, 17 Jul 2023 09:32:15 -0700 (PDT)
+        bh=/lahZGjzrtiFrb+CUs0WnOb8ILG7aeFxB4JGtkR884w=;
+        b=e5WYlE1JfH/uV6rQErxFXE9GgqXnDQHzctHziUc6sNM6Jf5zqTA+k7u1vDA8UoFetG
+         hw0lejyEkBcCM5iHwt4kgrh3o4A/aVKlsng/RNKinM/aRcpFWUv37R+OYWH9i9AXosvD
+         OX6M2rX/Zb132/dqa+3Spk+jlkPl+Tz+XjJpnX6TIEf0LjxsgILCpMUfqcTuWS8MWbiB
+         SpzT28Gr8wsOcZMkwTtbEQHi+3HLnSIz/sjcfi2C+D1A2tc8faNkrbo2sp7aIA2GysOh
+         wqKZX+FT5XgYJR5n2hr/P+NUaCuaojNAeazvrNve50DCoPsxqHRniCbtHrs8fSvnEDB/
+         wG6A==
+X-Gm-Message-State: ABy/qLbhCFFkTJSru+PEJ5sqpPjiJGtV2XAvnuO8SsAfQWnAWCozs92R
+        tsQ5M+8QEya9j7GLl6Dp0XM=
+X-Google-Smtp-Source: APBJJlGgLiBDp4S+YzU4NL8etLceFEz/EukMJWMQkyzQdqEVKSX0hbZD6BUsf3jxceVOlkNDXeWkCw==
+X-Received: by 2002:a17:906:2213:b0:993:f996:52d4 with SMTP id s19-20020a170906221300b00993f99652d4mr11954493ejs.22.1689611536537;
+        Mon, 17 Jul 2023 09:32:16 -0700 (PDT)
 Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id l16-20020a056402125000b0051a4c1dc813sm10155894edw.82.2023.07.17.09.32.15
+        by smtp.gmail.com with ESMTPSA id pw20-20020a17090720b400b009786ae9ed50sm9385855ejb.194.2023.07.17.09.32.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 09:32:15 -0700 (PDT)
+        Mon, 17 Jul 2023 09:32:16 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH 2/4] arm64: tegra: smaug: Remove reg-shift for high-speed UART
-Date:   Mon, 17 Jul 2023 18:32:11 +0200
-Message-ID: <20230717163213.1033592-2-thierry.reding@gmail.com>
+Subject: [PATCH 3/4] arm64: tegra: Remove current-speed for SBSA UART
+Date:   Mon, 17 Jul 2023 18:32:12 +0200
+Message-ID: <20230717163213.1033592-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230717163213.1033592-1-thierry.reding@gmail.com>
 References: <20230717163213.1033592-1-thierry.reding@gmail.com>
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,26 +74,52 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The device tree bindings for the high-speed UART don't define a
-reg-shift property, so delete it.
+The SBSA UART device tree bindings don't define a current-speed
+property, so remove it.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts | 1 -
+ arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts | 1 -
+ arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi           | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-index 515a0e637cb7..53805555dd2d 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-@@ -1320,6 +1320,7 @@ serial@70006000 {
- 	uartd: serial@70006300 {
- 		compatible = "nvidia,tegra30-hsuart";
- 		reset-names = "serial";
-+		/delete-property/ reg-shift;
- 		status = "okay";
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
+index ca9a4e5e6a8e..21e6acd6e61c 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
+@@ -2106,7 +2106,6 @@ serial@3100000 {
+ 		};
  
- 		bluetooth {
+ 		serial@31d0000 {
+-			current-speed = <115200>;
+ 			status = "okay";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
+index 072e45ce2631..5659c76ba485 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
+@@ -113,7 +113,6 @@ framebuffer {
+ 
+ 	bus@0 {
+ 		serial@31d0000 {
+-			current-speed = <115200>;
+ 			status = "okay";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
+index 6101bc5808bc..0f15f7d4f01f 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
+@@ -31,7 +31,6 @@ eeprom@57 {
+ 		};
+ 
+ 		serial@31d0000 {
+-			current-speed = <115200>;
+ 			status = "okay";
+ 		};
+ 
 -- 
 2.41.0
 
