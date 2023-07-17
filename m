@@ -2,67 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF97475692B
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jul 2023 18:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29555756935
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jul 2023 18:32:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjGQQbZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jul 2023 12:31:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41656 "EHLO
+        id S231297AbjGQQcb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jul 2023 12:32:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232230AbjGQQbP (ORCPT
+        with ESMTP id S232201AbjGQQcW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jul 2023 12:31:15 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9636D10E6
-        for <linux-tegra@vger.kernel.org>; Mon, 17 Jul 2023 09:30:56 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-521662a6c9cso4787447a12.1
-        for <linux-tegra@vger.kernel.org>; Mon, 17 Jul 2023 09:30:56 -0700 (PDT)
+        Mon, 17 Jul 2023 12:32:22 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EFDE10CC;
+        Mon, 17 Jul 2023 09:32:16 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9936b3d0286so675492166b.0;
+        Mon, 17 Jul 2023 09:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689611441; x=1692203441;
+        d=gmail.com; s=20221208; t=1689611535; x=1692203535;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+6phzlyk9W/amav360WyGK5I/Ac9LQEydcq2azpQFI=;
-        b=cyOi6bq/P9v+9mvlyA7cXQtEOTddh49zWBu5X0Q6sM+CnY/6GOPBb4ZM/ubuxYTqLs
-         dPSuw/II+B84uYOm1FpNFdCoRMuug/z2t1Gq8va38hAIb5vSF/4Y5CEYS90oemGFqSNc
-         Cs+ahCtsQfITV7mBCs+FNvYk7lZUlUnKOGXktoAli6U0u2mgvHjQhG+DJSscP5NMfiz2
-         Bvo9jJYD20wWzA8nCbCNka58E2VVUzcrYwe947K2xSATyRGjB5us06VtOCDV71mQqxEJ
-         EGsLAWNkipMNyHkzYAzAoLaQ4SOeODXtpO7wdHrL6YxItFXG8Pfzh3TiAD7lUogLquRz
-         L3lw==
+        bh=QwmJ3yCNTCffdq4//w6fdOcgjZ1/3t3V+Qy6dQDsUO8=;
+        b=JQyoefJbnZhc9GPOFmzwe2Z+bDw9EHQ7Z5VwTp/otpSVy/PddtFLcl8+7d2zeJ0Lx/
+         F7tXrtgElYDTGnIC2Hr49UXf1ubMs0DPoik8V9LqNyBPcycwoGPY5DXcHF6gwvZRVOeF
+         tNTyVIzhmYx1IJS8aZ7N1VcK6oEmoZNgpF3DbrgMFXFtQ0cpMHcrGso7RpWzx7HIRmP0
+         v90PBfnimdyNKaaV1AJnQGy46rEJt8K9Id/25I+VV1fHy6aSthJaONMfzpD5tqu3H/gN
+         iNsKtJXrOUfbo+Y2cAPk2VkXWIgCOTDcCxuCkl9RaXzF8VECpCL2sqFdf13L3fjFcw6v
+         WBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689611441; x=1692203441;
+        d=1e100.net; s=20221208; t=1689611535; x=1692203535;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V+6phzlyk9W/amav360WyGK5I/Ac9LQEydcq2azpQFI=;
-        b=gbUrmDnTMP6XhXTnuyZ9bXHeu1UG4VO7J2V5yd4/SQqHaHUC9Ik/pXoMpoVazmknC3
-         CG4hlQ7bCIR3cHUc+hXr6vhSdQHxCiV7h7pDkt2qZ9PuQmzhaLu55t+wEAgKJSd1ax9B
-         v6kvEVrdw2SODDcapAA8aQ0J4l9GBP08vWNq68NwUxxClcLrykBwJWFlxdlAyVJJd5PC
-         jIKd/WGYhgOIHYAs7i8FPDBMEEhmbxRIyCz7RonyrydG98wbpAT7n9lhBNs1VQ73UlBJ
-         ZVFM4CCvGiu27Lvk7QP1czWLOZToDPxAlULbM+D0wb9a5gqMPI+LIdamfrpDHMSQCoji
-         vUyQ==
-X-Gm-Message-State: ABy/qLavn9WeFzOikHUAQdFqg7AzZVXyGKLMsHYVo9z1rvZaPFSIk35m
-        YpNHxo8YneBwburDeLvfuLti/tQR18M=
-X-Google-Smtp-Source: APBJJlHsgfVzUjL9ixP6IfKHeTwfiFE474jrClzdwHp8d66lPqkAEUCNtrUPIXrQlKV8Atb3ZUTApg==
-X-Received: by 2002:a17:906:5195:b0:973:daa0:2f6 with SMTP id y21-20020a170906519500b00973daa002f6mr11311825ejk.3.1689611441333;
-        Mon, 17 Jul 2023 09:30:41 -0700 (PDT)
+        bh=QwmJ3yCNTCffdq4//w6fdOcgjZ1/3t3V+Qy6dQDsUO8=;
+        b=aihhMNBwhrzVZoiWyFSK3rT2UxJaIG0QHhuVtnsmRF5/roESeKtA+YdGRxIsCKbEFJ
+         7DHeRYZfMrGbvw55i/tNWVxpHc4pqsVY7imsTKuqylTTPsBrG3TBMtvWhoVIuspheL7B
+         zQKpK/c6r1eJtXbm8On2VglXy62QXOrNOa/fY3EIvmS9qX8+iKARceVZtYz75EHCrNeR
+         7JwurKx3/zmh9M5fEE7gLzkpS3qnCCpwH5GF0UN3mPAnzjD5/foo1vhbfmFhyAy8ZF1j
+         4xPhaHUymtRYjDXHcNAh3cROzYy+mQm9rO0Wl7UYSn/NxDb74/WU1hAQmtt8LkgOA86T
+         No3Q==
+X-Gm-Message-State: ABy/qLY3vYAwSnHlKGVBaDfC0TBnN9szQX0n8lx8qIksFayfw8343cHI
+        qizi+cOQR0LAdlef0Fz1yb4=
+X-Google-Smtp-Source: APBJJlFO7FNcPt3ZvGbp/akaO6GeHf+QICxrDDUS1ywejfsEUPYjxrf5k1/ZMmd4h/mBw3xHcZbENQ==
+X-Received: by 2002:a17:906:b213:b0:992:a80e:e5bd with SMTP id p19-20020a170906b21300b00992a80ee5bdmr10234037ejz.48.1689611534628;
+        Mon, 17 Jul 2023 09:32:14 -0700 (PDT)
 Received: from localhost (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id qw5-20020a170906fca500b00992ed412c74sm9326908ejb.88.2023.07.17.09.30.41
+        by smtp.gmail.com with ESMTPSA id h19-20020a170906719300b00993cc1242d4sm9366116ejk.151.2023.07.17.09.32.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 09:30:41 -0700 (PDT)
+        Mon, 17 Jul 2023 09:32:14 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, Yi-Wei Wang <yiweiw@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] =?UTF-8?q?arm64:=20tegra:=20Add=2035=C2=B0C=20trip=20poin?= =?UTF-8?q?t=20for=20Jetson=20Orin=20NX/Nano?=
-Date:   Mon, 17 Jul 2023 18:30:37 +0200
-Message-ID: <20230717163037.1033429-1-thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 1/4] arm64: tegra: Remove dmas and dma-names for debug UART
+Date:   Mon, 17 Jul 2023 18:32:10 +0200
+Message-ID: <20230717163213.1033592-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,92 +71,111 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-It turns out that these devices can get quite hot to the touch with the
-standard cooling configuration, so add another trip point at 35°C along
-with a cooling map to help keep the system reasonably cool at very low
-system load.
+The debug UART doesn't support DMA and the DT bindings prohibit the use
+of the dmas and dma-names properties for it, so remove them.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi            | 8 +++++++-
- .../boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts    | 7 ++++++-
- .../boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts    | 7 ++++++-
- 3 files changed, 19 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra132-norrin.dts     | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi     | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi     | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi     | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      | 2 ++
+ arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts    | 2 ++
+ 7 files changed, 14 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi b/arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi
-index a8aa6e7d8fbc..5f592f1d81e2 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi
-@@ -106,12 +106,18 @@ tj-thermal {
- 
- 			trips {
- 				tj_trip_active0: active-0 {
--					temperature = <74000>;
-+					temperature = <35000>;
- 					hysteresis = <4000>;
- 					type = "active";
- 				};
- 
- 				tj_trip_active1: active-1 {
-+					temperature = <74000>;
-+					hysteresis = <4000>;
-+					type = "active";
-+				};
-+
-+				tj_trip_active2: active-2 {
- 					temperature = <95000>;
- 					hysteresis = <4000>;
- 					type = "active";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
-index 2de2f8ac640d..072e45ce2631 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dts
-@@ -205,7 +205,7 @@ key-suspend {
+diff --git a/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts b/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+index d4c034ac1244..bbc2e9bef08d 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+@@ -531,6 +531,8 @@ soc_warm_reset_l {
  	};
  
- 	pwm-fan {
--		cooling-levels = <0 187 255>;
-+		cooling-levels = <0 88 187 255>;
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
  	};
  
- 	vdd_3v3_pcie: regulator-vdd-3v3-pcie {
-@@ -233,6 +233,11 @@ map-active-1 {
- 					cooling-device = <&fan 1 2>;
- 					trip = <&tj_trip_active1>;
- 				};
-+
-+				map-active-2 {
-+					cooling-device = <&fan 2 3>;
-+					trip = <&tj_trip_active2>;
-+				};
- 			};
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+index 92163b680980..0ae5a44f7d07 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+@@ -28,6 +28,8 @@ gpu@57000000 {
+ 
+ 	/* debug port */
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi
+index 0a70daeffd85..f0d53f0b4117 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi
+@@ -21,6 +21,8 @@ memory@80000000 {
+ 
+ 	/* debug port */
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
+index 1f263fd32a7a..bbd6ff0564da 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
+@@ -1321,6 +1321,8 @@ shutdown {
+ 	};
+ 
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+index b4cc7d40911c..ac8c91f548e2 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -126,6 +126,8 @@ dvfs_pwm_pbb1 {
+ 
+ 	/* debug port */
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+index 9c9c269158db..515a0e637cb7 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+@@ -1312,6 +1312,8 @@ shutdown {
+ 	};
+ 
+ 	serial@70006000 {
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
+ 		status = "okay";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
+index 5804acfc428a..9f3e9f30c3f7 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
+@@ -19,6 +19,8 @@ chosen {
+ 
+ 	bus@0 {
+ 		serial@3100000 {
++			/delete-property/ dmas;
++			/delete-property/ dma-names;
+ 			status = "okay";
  		};
- 	};
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-index 9b86aa6f7dbe..9e9bb9ca8be4 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0005.dts
-@@ -12,7 +12,7 @@ / {
- 	model = "NVIDIA Jetson Orin Nano Developer Kit";
  
- 	pwm-fan {
--		cooling-levels = <0 187 255>;
-+		cooling-levels = <0 88 187 255>;
- 	};
- 
- 	thermal-zones {
-@@ -27,6 +27,11 @@ map-active-1 {
- 					cooling-device = <&fan 1 2>;
- 					trip = <&tj_trip_active1>;
- 				};
-+
-+				map-active-2 {
-+					cooling-device = <&fan 2 3>;
-+					trip = <&tj_trip_active2>;
-+				};
- 			};
- 		};
- 	};
 -- 
 2.41.0
 
