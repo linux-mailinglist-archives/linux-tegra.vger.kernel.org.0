@@ -2,101 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0B975DD48
-	for <lists+linux-tegra@lfdr.de>; Sat, 22 Jul 2023 17:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B7FC75DDDE
+	for <lists+linux-tegra@lfdr.de>; Sat, 22 Jul 2023 19:33:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbjGVPt3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 22 Jul 2023 11:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49284 "EHLO
+        id S229904AbjGVRdi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 22 Jul 2023 13:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbjGVPt2 (ORCPT
+        with ESMTP id S229805AbjGVRdf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 22 Jul 2023 11:49:28 -0400
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD06C1A7;
-        Sat, 22 Jul 2023 08:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1690040963;
-        bh=PNBFOjg7o3EsVn1+13sq+jz+GGQ7ZM8w4tTYDhjxZYo=;
-        h=From:To:Cc:Subject:Date;
-        b=RiOjgJXYjXTk/4Cdv/9cqhlA6q0RhfJzt8H25VE1XjHkQWepCUjzAgcCS/Y2Hs5cL
-         rM+Aaz7ugKtJmU+e7PlZ0TfW6xnREq7agfuLIWgMzr1BSc+DveEjUcim3DRGe5KPXu
-         qIWpiMn/suJp/ghpGMdiXjsgJO8KONmUMULLpFb0=
-Received: from localhost.localdomain ([220.243.131.5])
-        by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
-        id C4F0A816; Sat, 22 Jul 2023 23:49:15 +0800
-X-QQ-mid: xmsmtpt1690040955tzlo14pwo
-Message-ID: <tencent_71FC162D589E4788C2152AAC84CD8D5C6D06@qq.com>
-X-QQ-XMAILINFO: OZyNKfa8hWsKegdNMjRht8zBupmv5rz+fjyGdrH6G3cBWhYH6H6WXJlbSFGvHn
-         89H3NJtLTaVY+GVnsgQ7vtKLDppY4P5dU6hsbsogyavp3ZlciYpbgGP8p6Us7637iNX5ogmZGZuL
-         Nf7M+wlxG4vkYhJGALLPzU4fAg1SpJG1Wwy/jkt1ivsbVOvv2yPjcVlGs3S4TvJqsfm7Gro3MINL
-         yVajRMUanIsgylVsrh/A/6TG426FvD83WW46bXX7mw3d1BE8qCy8QmULuFwZKGDlfj0k8rlX2ejc
-         jhBliTTBJzS3h+m1Mbm9/WnlnGWeRtwfqPypmWbWkkLop3XDPfBfp8387ZMV0M3gf0IAgCrvgD3/
-         UUIACTP49iibKci/o92/ujiOqF+dDVrp1RUzhN338p9/dr36lPh2LjJwt2aC6FRtP/MDkp9y9and
-         2tt87FYVL1FbzsiCFTIDzD/LKP4VQD1dGiEmLbjHLOjdu4/8bWRi/KnNyMiBVljG7t4fOrAO2tNL
-         /NibwyXCM1rKtuVsR8KPTLoSYE+KaCJaTMhLAi5tsifbQiNbIYKGQvLzXvqWRqalEyMv4ws/M4k3
-         oVwPJwgVaO7eg3SxAb2Jv4u0OjjRpvaxJ4aQRHjGAHANa/+VQ2J69iNPNgKVrSLquLOLOUpsWnTF
-         gBtDW0dkjG55rjZlsmfjkfi1WoWvXqc/ypLgpvRhpEgfp1PJsc5zizrFev/Y80oxRlmH5dXKZRjz
-         3gFfR8wXON4IQFZl0BwmM9PTbOsz3NbVJeNDTbfwi4hwZtP2hn1P3NvcyDPGYjNzKFtuMRcPFUQN
-         2sZDG9G7GFC5JFUfdvuMjy57rANAN6XFXcrM9NZc5N64kVwdNOuEUE6Xm239kt/eqK+pZFN/uCU6
-         LkZ2zn4mvm67mC2Vd2CTBQrwK1bef4xc1D4zA8gKQ6nR3MFtDjwfryC9e1xByTK02mf3i6ZOHYlf
-         ZfYQCPJRs2kSBn3FvIc/tUNhlGMFICT+IlKFaVQ0Ne/nRW9vJMLoRz1cUjdyB/hTAt7dxL8FU7iL
-         dwwN8/hw904FXCQHQqYO+n4moQsos=
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From:   Zhang Shurong <zhang_shurong@foxmail.com>
-To:     thierry.reding@gmail.com
-Cc:     ldewangan@nvidia.com, broonie@kernel.org, jonathanh@nvidia.com,
-        p.zabel@pengutronix.de, linux-spi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Zhang Shurong <zhang_shurong@foxmail.com>
-Subject: [PATCH v2] spi: tegra20-sflash: fix to check return value of platform_get_irq() in tegra_sflash_probe()
-Date:   Sat, 22 Jul 2023 23:49:09 +0800
-X-OQ-MSGID: <20230722154909.22413-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.41.0
+        Sat, 22 Jul 2023 13:33:35 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7315A268E
+        for <linux-tegra@vger.kernel.org>; Sat, 22 Jul 2023 10:33:33 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-55b5a3915f5so1564160a12.0
+        for <linux-tegra@vger.kernel.org>; Sat, 22 Jul 2023 10:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690047213; x=1690652013;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
+        b=VgzZMptrmZ8TWZlxmL7uj46LqGTn5bcQsDytmauMeEb7890xlnF7daq2CEEGMnZ9/Z
+         2YeM29/AwkqHTH0jS1CpvSk9kZVtYGiyBT6f7RMo9cKuvHoe9kZi0PhVT9S16QwWl6IJ
+         hKylPvfYWtUMI1hzwsNnorESKbmngUKjbDcVWCqohrvzxnrnZ1diQfvsyNAPN33EhcDw
+         /D3WxcSxyY44lsDuJ+oKIB1HMNlws0smCwwol4ecOLZkv5tgkze8FDT79naNiVl3ANsv
+         u8OnTj2mk9bfWSZSexMMF0mPnUX8wekGS356PXJXTSnIGQioil1IOh0CHgMKRQ/Dc5vP
+         IDcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690047213; x=1690652013;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
+        b=bdqQZrjHCW/6CHqXmZU+9MibaVlpjusbex+neal/5xtWpWnrffRc7fgfHaSox6LM2h
+         hutLE6/tPVss1cP4y1z/JumJfL2D+IAU4ayVmvwsTmlNoQSqakjHK7Wqt7B43+BhGb1W
+         yrhS19boyUnWgZ0luEMyV9AxXGww1yo9SXEfAWVzVLdTYRPcEJQ0PLG9utJjIj6uSOun
+         RX+4KcQIzmLoq8ZCHkRx6SX1+Zih0+QEOEN2hm7/rDzKGQ2fqXt542KZLAO7pGAuKlGb
+         qNJ6uHW8zlj6tvf4W+hMkpKPO4+JnJLTs/B1L1/+y0M/bpsNqB8V2EXn0I4n5hzYJGgj
+         TSOA==
+X-Gm-Message-State: ABy/qLb+uZvCBf2tjo65U3gpHZK57eYMgi0FQLpiXStcAuV8KB260Qg7
+        BZjL3E6ZUIMRD6OruJOzRsuwrrPyxFCy7a4HKW4=
+X-Google-Smtp-Source: APBJJlGaafNiiHf9/1O0psWPRSU+7sNla2aMoOYF66iC/Xrx4mVCb4Rkkl5MrHBWY+m5yeh1LUIwdQAeleHpZGArl9Y=
+X-Received: by 2002:a17:90b:d8f:b0:250:6c76:fd9b with SMTP id
+ bg15-20020a17090b0d8f00b002506c76fd9bmr3433350pjb.38.1690047212899; Sat, 22
+ Jul 2023 10:33:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Received: by 2002:a05:6a20:556:b0:130:f967:83dc with HTTP; Sat, 22 Jul 2023
+ 10:33:32 -0700 (PDT)
+Reply-To: mrsvl06@gmail.com
+From:   Veronica Lee <barr.freemanukoh@gmail.com>
+Date:   Sat, 22 Jul 2023 19:33:32 +0200
+Message-ID: <CAB6WZPoaKVWPbmVCghccn8Ed=43UndtTt_gOWQ-F7rurprkDnQ@mail.gmail.com>
+Subject: re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The platform_get_irq might be failed and return a negative result. So
-there should have an error handling code.
-
-Fixed this by adding an error handling code.
-
-Fixes: 8528547bcc33 ("spi: tegra: add spi driver for sflash controller")
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
----
-Changes in v2:
-- reworded the commit message.
-
- drivers/spi/spi-tegra20-sflash.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/spi/spi-tegra20-sflash.c b/drivers/spi/spi-tegra20-sflash.c
-index 4286310628a2..0c5507473f97 100644
---- a/drivers/spi/spi-tegra20-sflash.c
-+++ b/drivers/spi/spi-tegra20-sflash.c
-@@ -455,7 +455,11 @@ static int tegra_sflash_probe(struct platform_device *pdev)
- 		goto exit_free_master;
- 	}
- 
--	tsd->irq = platform_get_irq(pdev, 0);
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0)
-+		goto exit_free_master;
-+	tsd->irq = ret;
-+
- 	ret = request_irq(tsd->irq, tegra_sflash_isr, 0,
- 			dev_name(&pdev->dev), tsd);
- 	if (ret < 0) {
--- 
-2.41.0
-
+16nXnNeV150g15nXp9eZ16jXmSwg15DXoNeZINek15XXoNeUINeQ15zXmdeaINec157XmdeT16Ig
+16nXkdeo16bXldeg15kg15zXl9ec15XXpyDXkNeZ16rXmiDXkNecINeq15TXodehINec15TXqdeZ
+15Eg15zXpNeo15jXmdedDQo=
