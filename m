@@ -2,71 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B258A75EF2C
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jul 2023 11:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E1375F3FA
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jul 2023 12:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjGXJdv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Jul 2023 05:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42686 "EHLO
+        id S233061AbjGXK4J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Jul 2023 06:56:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231458AbjGXJdu (ORCPT
+        with ESMTP id S233156AbjGXK4J (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Jul 2023 05:33:50 -0400
-X-Greylist: delayed 1690 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Jul 2023 02:33:49 PDT
-Received: from fluorez-com.cfd (fluorez-com.cfd [107.174.244.118])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681C412E
-        for <linux-tegra@vger.kernel.org>; Mon, 24 Jul 2023 02:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=re1; d=fluorez-com.cfd;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
- Content-Transfer-Encoding; i=info@fluorez-com.cfd;
- bh=LqAKS0rQcqRhfS2AomqosmxOtHjI8TSd2DPxtKmN8Fo=;
- b=eb25SUB604pyE2R3tryGGzM2ZSq8sDcb8QcIYEgf8bR3+0ewRHHGFOSKv/4F32wD5/NR0bkrDMvx
-   1co2NKq7LImN4us0ZgVWB7e3KNZkshvX8AjngPo+YHiZzSgiaQLS61dcHwNkhLZ4uIkxuy/AD5hH
-   SonpxtLDRtNkk1vvp+P05yXGOKMU/Aekv8YSY+mctSd9/Vq5cMxlz5U6iZBB5rZWTafPZVNfTEGQ
-   JPCyPj9Qz5gmINtxeWKgyZOoHVVpMpvsvH411Ct04GbEWQsbBRtqwbiOoTM7esOiNQ0H2neL5Z+l
-   YLio2K2jCG/drf7vqnDalzVeGeb1vNxBRVj1Dg==
-Reply-To: info@coinloansupport.online
-From:   Coinloan Support Center <info@fluorez-com.cfd>
-To:     linux-tegra@vger.kernel.org
-Subject: Low Interest loan opportunity
-Date:   24 Jul 2023 10:46:43 +0200
-Message-ID: <20230724104643.B0438D0C92519EBE@fluorez-com.cfd>
+        Mon, 24 Jul 2023 06:56:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85373F3;
+        Mon, 24 Jul 2023 03:56:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F28926108A;
+        Mon, 24 Jul 2023 10:56:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08952C433D9;
+        Mon, 24 Jul 2023 10:56:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690196167;
+        bh=EoRhPCwOhIgNGtTWNhayTE1OcOkV4Jof8HdiNSSHfPc=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=ngSQXJ7x44/0jmVK4kzF4Z/QSelxB/d+6mgKtdcMzfRWIgBw+6JLZzZ2nF1bWTaoY
+         YpmgxPo1PRjjbf+a+oDrRU2Q3JmxUcArnNQNVSMoBMIxepwLno/UDvF/weOHSAJL6F
+         CBDtBW/OQUseLrRv35YDzxLUN2W8HMdOm5/5Kig1vYDG4+CyYeNO86vQPGkic+6/hy
+         hEaBsVNAQLrVJfP8gGQHPwlCAMjShTyO5ZSEEB+42dfptJgKJbj/5ouFSzmRS8a46M
+         p0wFXTjmBmksjHSo4N9RxSGj8QLiZtwJQSuO1iaLV46lg4VvXBA77h+xnHILw5Jmzh
+         WjIm18P0zL29A==
+From:   Vinod Koul <vkoul@kernel.org>
+To:     jckuo@nvidia.com, Yang Li <yang.lee@linux.alibaba.com>
+Cc:     kishon@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-phy@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+In-Reply-To: <20230719003614.5506-1-yang.lee@linux.alibaba.com>
+References: <20230719003614.5506-1-yang.lee@linux.alibaba.com>
+Subject: Re: [PATCH -next] phy: Remove duplicated include in xusb.c
+Message-Id: <169019616467.466601.4012488093184234530.b4-ty@kernel.org>
+Date:   Mon, 24 Jul 2023 16:26:04 +0530
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=BAYES_80,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_PSBL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  2.7 RCVD_IN_PSBL RBL: Received via a relay in PSBL
-        *      [107.174.244.118 listed in psbl.surriel.com]
-        *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?107.174.244.118>]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.8264]
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
-        *      days
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: ******
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Are you looking for a loan to either increase your activity or to=20
-carry out a project.=20
-We offer Crypto Loans at 2-7% interest rate with or without a=20
-credit check.
-Please get back to us if you are interested in more details.
+
+On Wed, 19 Jul 2023 08:36:14 +0800, Yang Li wrote:
+> ./drivers/phy/tegra/xusb.c: linux/platform_device.h is included more than once.
+> 
+> 
+
+Applied, thanks!
+
+[1/1] phy: Remove duplicated include in xusb.c
+      commit: f5a8ecef3c6b840673d08342045c3014d674555f
+
+Best regards,
+-- 
+~Vinod
+
+
