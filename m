@@ -2,62 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BEE475E744
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jul 2023 03:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD4175E778
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jul 2023 03:28:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbjGXB0Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Jul 2023 21:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53000 "EHLO
+        id S231440AbjGXB23 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Jul 2023 21:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231197AbjGXBZ7 (ORCPT
+        with ESMTP id S231684AbjGXB2F (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:25:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF103A9B;
-        Sun, 23 Jul 2023 18:23:56 -0700 (PDT)
+        Sun, 23 Jul 2023 21:28:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C7249C7;
+        Sun, 23 Jul 2023 18:25:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7217F60EEE;
-        Mon, 24 Jul 2023 01:23:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85711C433C7;
-        Mon, 24 Jul 2023 01:23:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C2D8F60EF9;
+        Mon, 24 Jul 2023 01:24:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1015AC433C8;
+        Mon, 24 Jul 2023 01:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161824;
-        bh=uL2rN0ne+qRm7I+ih7jR60OsmA7MDjG3+PK+nxGqKWI=;
+        s=k20201202; t=1690161868;
+        bh=nB9sY8X/582vVWL2LbmgPFirUzquFq34/rstMIeanBI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mYYVPtycg75hQZz1dJ3E4AOPBxRWNv8XXVfX3xajHbcLyhZy/HLJMRMwsUtfyamEU
-         QzvFRm30dO6qhM3+CFTRplLto9legYwVyfAq4UeKlsUb3T1bQRcivxzXCjA+0wpgte
-         h5gYgRSXm8DDGL6Hp16+tKxo37brN1r7SkKx8y1ba7kn+IZ/rP+NTf13b0H3dls8tB
-         i97W/rq/4CaUtr/ArF5Tikc+FdhwmNM8yPLvFAde4myhWnBPENH0ovgWTc41htuB3K
-         GP29V5/BTPtE8tC1cUIEW7Fk99qeYBl5pl8+QeC2IMGooJWdixiquxCo9ENddIhI/A
-         /GYYirasJ575w==
+        b=QWZ6Sa56GIM6ggUgzJNm2e1v9LynMpjOCG3uIxU33Pirf5wDWkVPpXKq4OME7XKts
+         JbqXnU1Q3sq8dmbQFx8REbMY9/RzZOY9pA1YuDSyItDQrjb7M1I7MpfLuNu0V+W8nR
+         ZnUlIPi+KXFPmO5pPrYLYvfnqh3GAVVRsFQi4TNvx0P95e9nRlIPoY1hnQD89yan2x
+         M2W4GFrwVJzASz70NOYf6i8OTjgCz7YbVTclYSjYJXMFan3+QJxwMKMCBw/f+9ORVe
+         85tngEgdm3CFGlwOd3QHNv8bI/WHXNFFxCGpo/B95nqNe9pvEPU1EfRflFd9/GKjqf
+         a1a06JMkYxkMA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sumit Gupta <sumitg@nvidia.com>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, lorenzo.pieralisi@arm.com,
-        bhelgaas@google.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, vidyas@nvidia.com, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 03/23] PCI: tegra194: Fix possible array out of bounds access
-Date:   Sun, 23 Jul 2023 21:23:14 -0400
-Message-Id: <20230724012334.2317140-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, bhelgaas@google.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 05/22] PCI: tegra194: Fix possible array out of bounds access
+Date:   Sun, 23 Jul 2023 21:24:02 -0400
+Message-Id: <20230724012419.2317649-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724012334.2317140-1-sashal@kernel.org>
-References: <20230724012334.2317140-1-sashal@kernel.org>
+In-Reply-To: <20230724012419.2317649-1-sashal@kernel.org>
+References: <20230724012419.2317649-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.121
+X-stable-base: Linux 5.10.186
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -85,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index bdd84765e6460..765abe0732282 100644
+index 1222f5749bc67..a215777df96c7 100644
 --- a/drivers/pci/controller/dwc/pcie-tegra194.c
 +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
 @@ -239,6 +239,7 @@
@@ -96,7 +95,7 @@ index bdd84765e6460..765abe0732282 100644
  	GEN1_CORE_CLK_FREQ,
  	GEN2_CORE_CLK_FREQ,
  	GEN3_CORE_CLK_FREQ,
-@@ -452,7 +453,11 @@ static irqreturn_t tegra_pcie_ep_irq_thread(int irq, void *arg)
+@@ -470,7 +471,11 @@ static irqreturn_t tegra_pcie_ep_irq_thread(int irq, void *arg)
  
  	speed = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA) &
  		PCI_EXP_LNKSTA_CLS;
@@ -109,7 +108,7 @@ index bdd84765e6460..765abe0732282 100644
  
  	/* If EP doesn't advertise L1SS, just return */
  	val = dw_pcie_readl_dbi(pci, pcie->cfg_link_cap_l1sub);
-@@ -989,7 +994,11 @@ static int tegra_pcie_dw_start_link(struct dw_pcie *pci)
+@@ -973,7 +978,11 @@ static int tegra_pcie_dw_host_init(struct pcie_port *pp)
  
  	speed = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA) &
  		PCI_EXP_LNKSTA_CLS;
