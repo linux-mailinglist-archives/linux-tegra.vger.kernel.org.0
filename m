@@ -2,73 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9EF9763C76
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jul 2023 18:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C5B7763C83
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jul 2023 18:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbjGZQ2G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Jul 2023 12:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48846 "EHLO
+        id S229584AbjGZQaO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Jul 2023 12:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232448AbjGZQ15 (ORCPT
+        with ESMTP id S229550AbjGZQaN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Jul 2023 12:27:57 -0400
+        Wed, 26 Jul 2023 12:30:13 -0400
 Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CA9269E;
-        Wed, 26 Jul 2023 09:27:56 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99bcf2de59cso67489966b.0;
-        Wed, 26 Jul 2023 09:27:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D5F26A1;
+        Wed, 26 Jul 2023 09:30:12 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99357737980so1116764266b.2;
+        Wed, 26 Jul 2023 09:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690388875; x=1690993675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HxE0mMmcceNMvmRqlCAKAXjQ777wkTsSniDCsxrumrA=;
-        b=DvzrkwfKLgpwTnXAzk0wE2IdeIH3/6pXdpzgj70qYCTRINfTd5s/MhLdHsGPQfFka4
-         drNFNyszsh+rDAJ5G9JkF/uk80LE5kGNhOaTgsMSR6Sji9jnxV0W8JPXk5xCoXRLLoYE
-         u2az7U/UE51jKAl8B9myoHPH5s4P/7gQDNOl1fH/MUH1VqTeQqljQxSEBnqkIjD2zVK3
-         3xxDl21ydy//x8yytZeFRG2tQa61vIQ+ba+M28oMNcWRjhBltry3osRIgB5iS31yy0oc
-         W+GMLJYecwlI6PTs/krs9ouecCohkc8jR14si8yi8mLAU/E9aI4/rWdUdE9tb3jNusH0
-         HQIA==
+        d=gmail.com; s=20221208; t=1690389010; x=1690993810;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMUeN6i0AZIyMwOpXe7L0Fie2E3ehqc4AeXRJFKbSCo=;
+        b=jvVWT7f6q7gu4ON6FmOskAOKxKOH52airf9WH3efJKgmIIPzmBZM042AsQ86ji8Lkb
+         aHufa8cyT09Vp/F1om7VMgxYlm48xDFgjfG1gy/WWNkZoP7psLVCeDfKoSApLirFSeY3
+         MMkC4zX/PaP2jfTouyjSqUwQsxydZVzsaEIB0SyM+JLqzVgohy3itsoxQksAnDV8wG58
+         EdMetSH6Uy06P7JgMyUctDR5x2zCiEEuH7j0MPtI1i3lXRpr7yanAXvHr/5xugmhAuBl
+         8XIfA91L1oKoJ3rQUeJk+3LH+zKuQQK6j7wswEP6PkBesPEFYh2ASuA8AYohD3cuGz3V
+         rtBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690388875; x=1690993675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HxE0mMmcceNMvmRqlCAKAXjQ777wkTsSniDCsxrumrA=;
-        b=bk6dajjrS2Eoel1GjxH+7sFiFQCzDyeubvwonDCkvyh2YwjC0DalNQi2KZqgKJs5w+
-         lAuINTdiCvt/V4nXAoi8Rl+UQ8p4uCPScvUI2SAXcAcOGN9uZUoERLdcecFE+MQKSFW4
-         4G14Yct2yvT7I9tEJrz9oCKJbK0Kn9pOWsxiLop6BVrXxp3MUah23xG7KaKJa6kWbw/B
-         xqF1AhRsC63H+0g4UlRmwLFyN/rv2PnVjEv4HVDqCCaGYWcdq/ABGPF4jwV5ypm4ubjG
-         mzYUidkR1eYra2eXnhE0PaoHvAHrg613Fk2aL/tDHz8LMhskip2qScCpSfzfrjEn/JUl
-         ZjwA==
-X-Gm-Message-State: ABy/qLZOWkGCl5reIXb6ph6zQJhAlNG3HjkJ4kgVUVx8UijAFfBkkOIj
-        cGGBWbQaQQQzsUl/2NDNqGY=
-X-Google-Smtp-Source: APBJJlHSiDre1LQc7wFLk8jINl3pQChFCzNgNdoPt8p8z8W2eE61PfMb9TvBFrmSnGvh8OCNJ8r8fQ==
-X-Received: by 2002:a17:906:9bd4:b0:99b:cecf:dc4 with SMTP id de20-20020a1709069bd400b0099bcecf0dc4mr1038087ejc.48.1690388875302;
-        Wed, 26 Jul 2023 09:27:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690389010; x=1690993810;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uMUeN6i0AZIyMwOpXe7L0Fie2E3ehqc4AeXRJFKbSCo=;
+        b=TWsmrhpLKPmDGw3qJRVlfi5+KudDRXnLxOaWRkV1nRIFjyLtBhMFClu9uL6L1Xhnfh
+         2NRr27OZ7M4qVkxbEY+zT27bZXjGYq8A/Xfm1UhSoWklZSjGY/e5rbQghllyxWIN3xm9
+         yNmtW88MBKSbXiCr4qNi0TNetqAx67LWZjtaZTJ2Rj22eR8Y5RVtcGtBUQ1CrlkH2UxL
+         Iucv0mLnNMan2eg0R1QBhBdOgYLlzrB1BwASIHYzynPYnVQEL6eiXOUfCraEYsvTdM6Q
+         AuLnASDinbc0aIMeOqtZRo8rvU3KAovGKoLQLEDuwTjb59MTi6i9bTRKjyCJXqSKDKNt
+         D+zg==
+X-Gm-Message-State: ABy/qLZXQp+YhtXJvddO4nwYywTqpM3hB1FJLVzYZBSbWQOxVoBoy2nj
+        40W0IGSZ93jBwLFIFthocMBt3HKG4Hw=
+X-Google-Smtp-Source: APBJJlGXNp6lbqwFjpwUXVMV9wq9OJO+K/ClISnoUjsC8SV3glD5iHG9cTmS46PqFSIkfIrlw+Sbfg==
+X-Received: by 2002:a17:906:30d5:b0:98e:3b89:5dc6 with SMTP id b21-20020a17090630d500b0098e3b895dc6mr2232689ejb.48.1690389009587;
+        Wed, 26 Jul 2023 09:30:09 -0700 (PDT)
 Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id z5-20020a1709063ac500b009882e53a42csm9794261ejd.81.2023.07.26.09.27.54
+        by smtp.gmail.com with ESMTPSA id ks27-20020a170906f85b00b0097404f4a124sm9804152ejb.2.2023.07.26.09.30.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 09:27:55 -0700 (PDT)
+        Wed, 26 Jul 2023 09:30:09 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 7/7] dt-bindings: arm: tegra: pmc: Relicense and move into soc/tegra directory
-Date:   Wed, 26 Jul 2023 18:27:44 +0200
-Message-ID: <20230726162744.2113008-7-thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Marc Dietrich <marvin24@gmx.de>, Jon Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH] ARM: tegra: Reuse I2C3 for NVEC
+Date:   Wed, 26 Jul 2023 18:30:08 +0200
+Message-ID: <20230726163008.2129659-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230726162744.2113008-1-thierry.reding@gmail.com>
-References: <20230726162744.2113008-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -77,36 +71,51 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Dual-license this binding for consistency with other Tegra bindings and
-move it into the soc/tegra directory.
+Instead of duplicating the I2C3 node and adding NVEC specific
+properties, reuse the I2C3 node, extend it with NVEC specific properties
+and drop properties that are not needed by NVEC. This results in a DTB
+that is a bit cleaner and avoids accidentally using I2C3 and NVEC which
+would have them fight over the same hardware resources.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Changes in v2:
-- add Reviewed-by: from Rob
+ arch/arm/boot/dts/nvidia/tegra20-paz00.dts | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
- .../bindings/{arm => soc}/tegra/nvidia,tegra20-pmc.yaml       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/devicetree/bindings/{arm => soc}/tegra/nvidia,tegra20-pmc.yaml (99%)
-
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-similarity index 99%
-rename from Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-rename to Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-index a54b562e2a1c..b86f6f53ca95 100644
---- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-+++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-@@ -1,7 +1,7 @@
--# SPDX-License-Identifier: GPL-2.0
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/arm/tegra/nvidia,tegra20-pmc.yaml#
-+$id: http://devicetree.org/schemas/soc/tegra/nvidia,tegra20-pmc.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm/boot/dts/nvidia/tegra20-paz00.dts b/arch/arm/boot/dts/nvidia/tegra20-paz00.dts
+index 898b4ad3b427..afb922bd79a7 100644
+--- a/arch/arm/boot/dts/nvidia/tegra20-paz00.dts
++++ b/arch/arm/boot/dts/nvidia/tegra20-paz00.dts
+@@ -311,20 +311,19 @@ hdmi_ddc: i2c@7000c400 {
+ 		clock-frequency = <100000>;
+ 	};
  
- title: Tegra Power Management Controller (PMC)
+-	nvec@7000c500 {
++	i2c@7000c500 {
+ 		compatible = "nvidia,nvec";
+-		reg = <0x7000c500 0x100>;
+-		interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
++
++		/delete-property/ #address-cells;
++		/delete-property/ #size-cells;
++		/delete-property/ dmas;
++		/delete-property/ dma-names;
++
+ 		clock-frequency = <80000>;
+ 		request-gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_HIGH>;
+ 		slave-addr = <138>;
+-		clocks = <&tegra_car TEGRA20_CLK_I2C3>,
+-			 <&tegra_car TEGRA20_CLK_PLL_P_OUT3>;
+-		clock-names = "div-clk", "fast-clk";
+-		resets = <&tegra_car 67>;
+-		reset-names = "i2c";
++
++		status = "okay";
+ 	};
+ 
+ 	i2c@7000d000 {
 -- 
 2.41.0
 
