@@ -2,95 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 869FF76573C
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jul 2023 17:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4440765782
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jul 2023 17:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234510AbjG0PSM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Jul 2023 11:18:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
+        id S233144AbjG0P0v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Jul 2023 11:26:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234631AbjG0PSJ (ORCPT
+        with ESMTP id S234181AbjG0P0t (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Jul 2023 11:18:09 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BEB1BC6;
-        Thu, 27 Jul 2023 08:18:07 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-986d8332f50so146787666b.0;
-        Thu, 27 Jul 2023 08:18:07 -0700 (PDT)
+        Thu, 27 Jul 2023 11:26:49 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C39962D6A;
+        Thu, 27 Jul 2023 08:26:47 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-31786b71fdcso193632f8f.2;
+        Thu, 27 Jul 2023 08:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690471086; x=1691075886;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uqg1nc+MCuQ+eTAL4Wt6z2XnSkq+1XhClmAXNlVCUII=;
-        b=ncVcOxXcbBBX2ZB7gWEMIlvf4QuXo2ZPrFzkH4xx52/kDO7BxNpOtO0kabRnTwzzHy
-         sh/qDT1SffzkE1NwG6srMRsRyBcLos6Ii2G1Nzi+JQljnaUGtxkZFGcDE29hy5HNJykX
-         tMggrnsQ4TPmor7Mos+cJSPe8vrF5WL/mKOqXXF9FdZV+kiNU/NVdiVMQij+Y3ndBadS
-         0r0jWBA3z3QiNFZHtIMi2dKWz74P6nd0S/kydHZjpAP8DCdGcs23BbZBIQERpBQJT59p
-         ru0jbIw23ueewRfgVfpFVJxpc9qPK/LsBplolNxqv32qHCBgitCjTdlQvwaRg1Un3x3U
-         dNbg==
+        d=gmail.com; s=20221208; t=1690471606; x=1691076406;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GUQyuOtfNbWPvY5eKKHj+k484zL92SmCITGys5Zq2is=;
+        b=S5gVWoDdcvk+NvnLtoMM/XBJt3y/MmZuwC5G5oxghFxemupZ0CBfTN+v+UmMpmU0tl
+         zhEM8zPsQSCrKd5X3rY9BzOPoS1xVN3xyQzM11u3akp2ujSq7mK9DtTSO0zK01t+4PIp
+         sJZj7h5y9n+Rtq8KGcHURqbMdXo45mCcjaoizPKKHLfFogQ1/WSXgxrXrKlZxTdb2Oem
+         tGnsRynkAXv1m5tk4vKI3Zjq/iLf0dy3VUI2KLGCWxxzAe/N/WKqaQq57dgmcvzLTHIl
+         tZ/kxxIB4APH9XRitIjd7kN7pqWpcGUR84oWYorGPNY79Wfm/2wAB+gfdYK5Jkg2k6fI
+         yvkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690471086; x=1691075886;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uqg1nc+MCuQ+eTAL4Wt6z2XnSkq+1XhClmAXNlVCUII=;
-        b=GnAoX+cV2ZCAxZn1uVIpysyGtipO+A2qn3MA75Rkf49RqUJt0FdhOKfQ4vGR16e5Z4
-         0q4qxXFQEFPcn90lkQhKnwVDE17u5bt//R6xWs/VaHwI72d2QuPKqUvDD+NzbTxRtlqT
-         vI4FrxuR/kK6Fqv2C0gCqovQdkyGQkxXmjHhDq8/41X1IaS4qWFgnTpTgi7LpP1WM3oG
-         6+Bw7FhB6/MOmTTtfUqzPN8/gd+Q4TgjFVnd/zLhhnvbwzL35iZkqalpdVCgjRnopK+q
-         o1ezjTT+k7cTsmiv9ht/5+3VbjM2pkpumzXgdobcJXqKtfsLXez69mDl6/pghFDuOcdY
-         jLPg==
-X-Gm-Message-State: ABy/qLZ6ts4F9tuDnk7pzLqWdbzAgDPXNpb8Xa05LiZYRVdsyDz3RaRO
-        Bxy3X+gYXVS3UzeQB+35R8g=
-X-Google-Smtp-Source: APBJJlFU4SXTr4RUTNxRWUwOV3v2O5UfHPek4X/kvWiY1mwBGIWSG7AEHCu/3AhIAhSt/D7Lhz95og==
-X-Received: by 2002:a17:907:7759:b0:970:c9f:2db6 with SMTP id kx25-20020a170907775900b009700c9f2db6mr2250928ejc.63.1690471086233;
-        Thu, 27 Jul 2023 08:18:06 -0700 (PDT)
-Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id t19-20020a1709064f1300b00999bb1e01dfsm894832eju.52.2023.07.27.08.18.05
+        d=1e100.net; s=20221208; t=1690471606; x=1691076406;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GUQyuOtfNbWPvY5eKKHj+k484zL92SmCITGys5Zq2is=;
+        b=DPWNZHjtZoikXdICy9qTclcYuFjHYr6oyXVbGBLZRBxqIzGROKs87Uwx1dpO1HjNEs
+         McoRyy9G9822M8REYp9Jyc4p6rxkS0whAIMJK9t4oPbiuCTqonm++RXNTFScHIoW7HGn
+         +WUBR/vOYz3UKIsNhw7dB4+DrUtfjMy3Aayx1nay5+7D8wZxG5no2l9m7ujqPMuIuV9i
+         D7FyuZcVwumexCBwBUvDStB8cHhYW70faEzmfA4EX1R22z7giXNLDty6ZbPlmg9JYv9j
+         HiaR9Tt2N+305qwrOVKkNnlf8otsv7tgftmw35cmu5kQe9GHpgoUasZL09Zk4g8gGR5H
+         nqnw==
+X-Gm-Message-State: ABy/qLZ5D1MZnoIMSJJ9E8i/Qz6iQX8gSfZQT8XAuQ2JdR4KYW0k2yOG
+        uhCI1q6C5Qh6Y8JcXlcUJUI=
+X-Google-Smtp-Source: APBJJlHFzL6FoulKIhle8aYNwxrIqQJXRUpz53AOkn4fETi3AZ/P3ovRQGBkowuZ76zu/M+VYY4Tfw==
+X-Received: by 2002:a5d:658b:0:b0:317:6d9d:1250 with SMTP id q11-20020a5d658b000000b003176d9d1250mr1938309wru.61.1690471605833;
+        Thu, 27 Jul 2023 08:26:45 -0700 (PDT)
+Received: from [127.0.1.1] ([91.230.2.244])
+        by smtp.gmail.com with ESMTPSA id b17-20020adfde11000000b003143765e207sm2350622wrm.49.2023.07.27.08.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 08:18:05 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Marc Dietrich <marvin24@gmx.de>, Jon Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] ARM: tegra: Reuse I2C3 for NVEC
-Date:   Thu, 27 Jul 2023 17:18:01 +0200
-Message-ID: <169047096697.3031511.2779632884160633652.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230726163008.2129659-1-thierry.reding@gmail.com>
-References: <20230726163008.2129659-1-thierry.reding@gmail.com>
+        Thu, 27 Jul 2023 08:26:45 -0700 (PDT)
+From:   Benjamin Bara <bbara93@gmail.com>
+Subject: [PATCH 0/6] regulator: pca9450: register restart handlers
+Date:   Thu, 27 Jul 2023 17:26:35 +0200
+Message-Id: <20230727-pca9450-reboot-v1-0-c8edb27bf404@skidata.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKuMwmQC/x3MQQqAIBBA0avErBNsMqyuEi3UxpqNhkYE0t2Tl
+ m/xf4FMiSnD3BRIdHPmGCq6tgF3mLCT4K0aUGIvNSpxOjOpQYpENsZLSNsjdqN32iDU6Ezk+fm
+ Hy/q+H+CkDbhgAAAA
+To:     Lee Jones <lee@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Robin Gong <yibin.gong@nxp.com>,
+        Jerome Neanne <jneanne@baylibre.com>
+Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>
+X-Mailer: b4 0.12.3
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi!
 
+This series implements two restart handler registrations for the pca9450
+(6/6). As the pca9450 supports both, cold and warm resets, and there
+exist at least one other PMIC implementation which also implements a
+warm and a cold reset (tps65219), 1-5/6 should simplify/clarify the
+distinction process between warm/soft and cold/hard resets/restarts.
+Instead of deciding in the handler, this should be done during
+registration. The series is a follow-up to Dmitry's feedback, regarding
+checking the reboot_mode in the handler [1].
 
-On Wed, 26 Jul 2023 18:30:08 +0200, Thierry Reding wrote:
-> Instead of duplicating the I2C3 node and adding NVEC specific
-> properties, reuse the I2C3 node, extend it with NVEC specific properties
-> and drop properties that are not needed by NVEC. This results in a DTB
-> that is a bit cleaner and avoids accidentally using I2C3 and NVEC which
-> would have them fight over the same hardware resources.
-> 
-> 
-> [...]
+This series is based on linux-next and 6/6 depends on [2].
 
-Applied, thanks!
+Thanks & best regards,
+Benjamin
 
-[1/1] ARM: tegra: Reuse I2C3 for NVEC
-      commit: ba9858c53a797c018a1bbc93776e7baf3ec35ebf
+[1] https://lore.kernel.org/all/7eddaf8c-ab04-7670-fc45-15f0fce5eff2@collabora.com/
+[2] https://lore.kernel.org/all/20230327-tegra-pmic-reboot-v7-3-18699d5dcd76@skidata.com/
+
+---
+Benjamin Bara (6):
+      kernel/reboot: distinguish between cold and warm
+      mfd: rk8xx: Specify restart mode
+      soc/tegra: pmc: Specify restart mode
+      mfd: tps65219: Specify restart mode
+      kernel/reboot: remove generic restart mode
+      regulator: pca9450: register restart handlers
+
+ drivers/mfd/rk8xx-core.c              |  3 +-
+ drivers/mfd/tps65219.c                | 17 ++++++--
+ drivers/regulator/pca9450-regulator.c | 59 +++++++++++++++++++++++++
+ drivers/soc/tegra/pmc.c               |  2 +-
+ include/linux/reboot.h                | 23 +++++++---
+ include/linux/regulator/pca9450.h     |  7 +++
+ kernel/reboot.c                       | 82 +++++++++++++++++++++++++++++------
+ 7 files changed, 167 insertions(+), 26 deletions(-)
+---
+base-commit: 4d2c646ac07cf4a35ef1c4a935a1a4fd6c6b1a36
+change-id: 20230724-pca9450-reboot-0b32218fc7a2
 
 Best regards,
 -- 
-Thierry Reding <treding@nvidia.com>
+Benjamin Bara <benjamin.bara@skidata.com>
+
