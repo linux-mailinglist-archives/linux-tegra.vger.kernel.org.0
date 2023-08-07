@@ -2,75 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8FA7772554
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Aug 2023 15:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A2C7725D8
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Aug 2023 15:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231265AbjHGNTY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Aug 2023 09:19:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
+        id S229786AbjHGNeR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Aug 2023 09:34:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbjHGNTX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Aug 2023 09:19:23 -0400
-X-Greylist: delayed 598 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Aug 2023 06:19:22 PDT
-Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45243CF;
-        Mon,  7 Aug 2023 06:19:22 -0700 (PDT)
-Received: from 8bytes.org (pd9fe94eb.dip0.t-ipconnect.de [217.254.148.235])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id CB3112802C0;
-        Mon,  7 Aug 2023 15:00:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1691413215;
-        bh=7JkbUbcsQYDUm7+d1Qwf9eXdnSaQOoOuTXAnXPF6eXs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JPMPMNcXrYSDEc82SoNmtOqraBcGews6IPyM7KqoT53fWXP892yQrt6FntitNudOw
-         aIZudgFHjcWlsw8HCeSgY9qxqkdFRAgpuvTl753O1uV1Sp4cNTC71xOxvpmfH50yb7
-         0rsRVjsm3j1M2pQRDzFnq1Sq/Ez4f8w+eOaD5QrOdnAh0QTwXHdo3dFg68vtgetqmo
-         PraCiPeh53gllj0O0TljM9b6kC4EiPum0LZGv+qgFvl6qajCl0Eo5b1J9EzUkGrqRr
-         TvO9A7Nez2tJI3c5SbUT2557k5CxQlNq7XH7JrP7+PVM/M8cCYN9APgtwcNs9SN6ZH
-         LeUd395XfXWrQ==
-Date:   Mon, 7 Aug 2023 15:00:13 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH] iommu: Explicitly include correct DT includes
-Message-ID: <ZNDq3da76i13WuqA@8bytes.org>
-References: <20230714174640.4058404-1-robh@kernel.org>
+        with ESMTP id S233280AbjHGNeK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Aug 2023 09:34:10 -0400
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298411992;
+        Mon,  7 Aug 2023 06:33:54 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 8D8BA6001426;
+        Mon,  7 Aug 2023 14:33:23 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+        tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+        by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+        with LMTP id STvPeWNl-IzL; Mon,  7 Aug 2023 14:33:20 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+        by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id B8182600142A;
+        Mon,  7 Aug 2023 14:33:20 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+        s=mail; t=1691415200;
+        bh=ooWXrncGNgQ0pd99/KFiATYuY4KmdIUl5YVhzHGeVfE=;
+        h=From:To:Cc:Subject:Date;
+        b=qwGuGDNQ1Tu4jm7HjeaGm4sjEAimurq3v0ih345hiAXZecYt23/d2UefErvLKSzrr
+         +vHvUSgyzt8difQc/t23ibKCo/CWHBXuRUmct8kEQF1VJMv5GOzP4UGXC7r15pTPUV
+         isDC+FCBpoh/bJJs+IqfnD0NjpAMwTVkUHuN855g=
+Received: from diogo-gram.Home (unknown [IPv6:2001:8a0:fbe7:6700:e50a:b22:79be:5827])
+        (Authenticated sender: ist187313)
+        by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 55DE0360077;
+        Mon,  7 Aug 2023 14:33:19 +0100 (WEST)
+From:   Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To:     neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com,
+        daniel@ffwll.ch, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Cc:     Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH v3 0/5] Add JDI LPM102A188A display panel support
+Date:   Mon,  7 Aug 2023 14:33:00 +0100
+Message-ID: <20230807133307.27456-1-diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230714174640.4058404-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 11:46:39AM -0600, Rob Herring wrote:
->  drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c | 2 +-
->  drivers/iommu/arm/arm-smmu/arm-smmu.c            | 1 -
->  drivers/iommu/arm/arm-smmu/qcom_iommu.c          | 3 +--
->  drivers/iommu/ipmmu-vmsa.c                       | 1 -
->  drivers/iommu/sprd-iommu.c                       | 1 +
->  drivers/iommu/tegra-smmu.c                       | 2 +-
->  drivers/iommu/virtio-iommu.c                     | 2 +-
->  7 files changed, 5 insertions(+), 7 deletions(-)
+Hello,
 
-Applied, thanks.
+These patches add support for the JDI LPM102A188A display panel,
+found in the Google Pixel C.
+
+Patch 1 adds the DT bindings for the panel.
+
+Patch 2 adds the panel driver, which is based on the downstream
+kernel driver published by Google and developed by Sean Paul.
+
+Patches 3-5 add DT nodes for the regulator, backlight controller and
+display panel. 
+
+The first version of this patch series can be found at:
+https://lore.kernel.org/all/20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt/
+
+The first submission of v2 can be found at:
+https://lore.kernel.org/all/20221025153746.101278-1-diogo.ivo@tecnico.ulisboa.pt/
+
+Changes in v2:
+ - Patch 1: remove touchscreen reset gpio property
+ - Patch 2: clear register based on its value rather than a DT property
+ - Patch 3: tune backlight delay values
+ - Patch 4: add generic node names, remove underscores
+
+Changes in v3:
+ - Patch 1: add Reviewed-by
+ - Patch 2: fix error handling, remove enabled/prepared booleans, add
+   dc/dc setting
+ - Patches 3-5: Split previous patch 3 into three different patches,
+   each adding a separate node 
+ - removed previous patch 2 pertaining to Tegra DSI reset as it was upstreamed
+
+Diogo Ivo (5):
+  dt-bindings: display: Add bindings for JDI LPM102A188A
+  drm/panel: Add driver for JDI LPM102A188A
+  arm64: dts: smaug: Add DSI/CSI regulator
+  arm64: dts: smaug: Add backlight node
+  arm64: dts: smaug: Add display panel node
+
+ .../display/panel/jdi,lpm102a188a.yaml        |  94 +++
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts |  66 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 551 ++++++++++++++++++
+ 5 files changed, 723 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/jdi,lpm102a188a.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+
+-- 
+2.41.0
+
