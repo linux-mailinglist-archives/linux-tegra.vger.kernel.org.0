@@ -2,20 +2,20 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90570774223
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Aug 2023 19:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B8CD77422E
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Aug 2023 19:36:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232017AbjHHRfz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Aug 2023 13:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34614 "EHLO
+        id S232225AbjHHRg2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Aug 2023 13:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234802AbjHHRfB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Aug 2023 13:35:01 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F6D222EA
-        for <linux-tegra@vger.kernel.org>; Tue,  8 Aug 2023 09:15:14 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-d479d128596so4859023276.1
-        for <linux-tegra@vger.kernel.org>; Tue, 08 Aug 2023 09:15:14 -0700 (PDT)
+        with ESMTP id S234860AbjHHRfv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Aug 2023 13:35:51 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1223322907
+        for <linux-tegra@vger.kernel.org>; Tue,  8 Aug 2023 09:15:41 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d299ed34bacso9787643276.1
+        for <linux-tegra@vger.kernel.org>; Tue, 08 Aug 2023 09:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1691511301; x=1692116101;
         h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
@@ -60,17 +60,17 @@ X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DATE_IN_PAST_03_06,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_5,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
         *      DNSWL was blocked.  See
         *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
         *      for more information.
-        *      [2607:f8b0:4864:20:0:0:0:b2e listed in]
+        *      [2607:f8b0:4864:20:0:0:0:b2d listed in]
         [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
-        *      [aishaqaddafi808[at]gmail.com]
+        *      [hermanntriebschwolfgang[at]gmail.com]
         *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
         *  1.6 DATE_IN_PAST_03_06 Date: is 3 to 6 hours before Received: date
         * -0.0 SPF_PASS SPF: sender matches SPF record
