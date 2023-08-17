@@ -2,61 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BCD577F87C
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Aug 2023 16:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8E1F77F879
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Aug 2023 16:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351768AbjHQOOW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Aug 2023 10:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39634 "EHLO
+        id S1351762AbjHQOOV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Aug 2023 10:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351860AbjHQOOS (ORCPT
+        with ESMTP id S1351861AbjHQOOT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Aug 2023 10:14:18 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477B32D5F
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:17 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-99bccc9ec02so1076848566b.2
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:17 -0700 (PDT)
+        Thu, 17 Aug 2023 10:14:19 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4862D62
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:18 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99df431d4bfso215968866b.1
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692281656; x=1692886456;
+        d=gmail.com; s=20221208; t=1692281657; x=1692886457;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u2MC56X1arK1Dw8Cm4mCvKUQ1vvfwiBeKxieKUaU5fA=;
-        b=ratbWB+29zPV016eE5VJrgj5aNDJajI1deUdLWqKQCoY/YmLHjKKji2wEk31dsRHod
-         qHuhdzkXffNxim5f4ex/W3yPU3/lGV8IvLHeTFE4MCkJCqctVlwquiXAlCp1NyiCAMBC
-         ObPcw+W9+Gooj/eELNAQd//vW7fRkBHQuvjlN7CBI3yIUoF967RoL7/nlG7kQMgNYF5N
-         SmevWR5B+w8/DQlIy0MLkHgLbiZ8MdMg5i44SMWeBngLXUxKd5Y0RAdnSJ69sdx9xhLs
-         HC+glb1jYxyLScRSO2l7OPIBg3P0mvqjP8hrQOBXnKuuMkz1FnLjdlXyhJQrUeWUAq9t
-         e+bg==
+        bh=ENNpTWDc6lYkkbnsKJjWTnWpHMyiAwPlCSe44qUKvZk=;
+        b=Duk19O9u9umN0L9RpFTfPuhH+d/K5vUDZ6dle/b6nz49naVWxKKWCaW41TaFb/PnM8
+         /u0EJSum0DlGABwzSeIMcz0hOvijbF8WqTHGoQX74UArLLDx2qw6Mw9Cc2zkdV+FGw2w
+         cYZpP9j+ScE3O7Cimmjl1kL9NA9H0P2/zGsqdENADBlwKNStKtOQTaPsUDZjJ+OPEQPq
+         K8N5PCVE8JNF+auD1CHDyydB6T4o4M/hrfFHYuE/AZyU1gY6rvFyV4xUXRYG+lbzwLqf
+         CK6SqdorFTZN1Ho5KoYdR3HkodHI8pCga1VX6w2+m5b5vhh823EhL3HzUpERcljT97Xz
+         CFrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692281656; x=1692886456;
+        d=1e100.net; s=20221208; t=1692281657; x=1692886457;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u2MC56X1arK1Dw8Cm4mCvKUQ1vvfwiBeKxieKUaU5fA=;
-        b=heBGbJVbZ5ph7XfLuU8Sue3f26wnHAaWurg02Uy4N9Mhtu3PZhbELadr0xvxbbYlKi
-         e3AGsM1BiU0UeysKDAf+MLLqZJUalfvCy5HeIXmmJbmmgwUKgnNGDc9JttE1wmWcAQCK
-         cYzRmYB+/t45HhozLNRUITTkAw53VCOatGQZJle6NPJ3oJUDr8YOuO8d3x4ScQISnU83
-         n5tLaLUU5kQLaW+wbx6zRNnzKOj0YWdIWoYrjwxwBF9qP9pkOOiQS/VOvexfEkhvC1oH
-         CziBN+a4gvxji6SIBAQKr8gKTdNKLwlyTtL+sAWuT2nb3bAFFBL8JYnUb4ZjNU8CGeRF
-         6y1A==
-X-Gm-Message-State: AOJu0Yy2YVUpvwaii5qem+cPGW65OlEIMf471qaQH95K0xq2AtWLojR6
-        BYZz9nBmvyyp63roUQMQ9Mg=
-X-Google-Smtp-Source: AGHT+IHLkjb3PFQ1UF4Y3pEWlPq9/VZMnik+4h3PNh+kQnL6PMRCODbUeTEjVTB1Qr7mTljU94Xqog==
-X-Received: by 2002:a17:907:318b:b0:99b:cf57:11e3 with SMTP id xe11-20020a170907318b00b0099bcf5711e3mr4967689ejb.59.1692281655539;
-        Thu, 17 Aug 2023 07:14:15 -0700 (PDT)
+        bh=ENNpTWDc6lYkkbnsKJjWTnWpHMyiAwPlCSe44qUKvZk=;
+        b=fokhlo2B9gUosOyNmeFMnH+nPhp/KmKa3KfVGz6cdz4/fonGXSng1N+1LBkxHIWiyY
+         yyt65aD1xf2uMML4LAIMJu3pvp2lHERNkK4DEXHp6V6SAFwhtFbBrhNP24fhJ12u66s7
+         IPqlHUSxJ8g78Kxq6ct8HqR4rEicjfavfAq9sKjFjFTVU2hfgnR4R8byHesbW3fINY1Q
+         UEwhO6T6o3rZrNfkizHJrgjOQkSGJvPBqgiDcSREpM2NUQWtJdlRMQ0c7/aLNFsSuRsL
+         5mmfDBBvg2kdz9z74uEOrzCNMtFctkMgC55V3Uqm7SS+AL4nrB5JToHcaoaxRYSxLk25
+         L3Nw==
+X-Gm-Message-State: AOJu0Yw1YzgxbtXF77kjFhdYce+TXgaU5SSqqN0l5S+ukkelOdvH9xGw
+        JFHpr59MdbH3/aB8Ptp65mc=
+X-Google-Smtp-Source: AGHT+IHXVJdGMSppKQ/IvalpNpND5vxqkTCXGYyP4470DdscmV9AlhFYylJNxOizhz3n4/APT8X/8g==
+X-Received: by 2002:a17:906:27c8:b0:99d:ed5e:cc7f with SMTP id k8-20020a17090627c800b0099ded5ecc7fmr4082966ejc.13.1692281656799;
+        Thu, 17 Aug 2023 07:14:16 -0700 (PDT)
 Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id g11-20020a17090613cb00b00992d0de8762sm10136990ejc.216.2023.08.17.07.14.14
+        by smtp.gmail.com with ESMTPSA id ox11-20020a170907100b00b00989828a42e8sm10131727ejb.154.2023.08.17.07.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 07:14:14 -0700 (PDT)
+        Thu, 17 Aug 2023 07:14:16 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/5] arm64: tegra: Use correct format for clocks property
-Date:   Thu, 17 Aug 2023 16:14:05 +0200
-Message-ID: <20230817141407.3678613-4-thierry.reding@gmail.com>
+Subject: [PATCH 4/5] arm64: tegra: Add dmas and dma-names for Tegra234 UARTE
+Date:   Thu, 17 Aug 2023 16:14:06 +0200
+Message-ID: <20230817141407.3678613-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230817141407.3678613-1-thierry.reding@gmail.com>
 References: <20230817141407.3678613-1-thierry.reding@gmail.com>
@@ -74,106 +74,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-phandle and clock specifier pairs should be enclosed in angular
-brackets.
+Commit 940acdac99b2 ("arm64: tegra: Add UARTE device tree node on
+Tegra234") added the device tree node for the UARTE on Tegra234 but
+didn't include the "dmas" and "dma-names" properties required for this
+device when it's used in high-speed mode.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 32 ++++++++++++------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index 7bb5fc60699b..066b87ef7e41 100644
+index 066b87ef7e41..50db1b1e982b 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -743,8 +743,8 @@ gen1_i2c: i2c@3160000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			clock-frequency = <400000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C1
--				  &bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C1>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C1>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -762,8 +762,8 @@ cam_i2c: i2c@3180000 {
- 			#size-cells = <0>;
+@@ -732,6 +732,8 @@ uarte: serial@3140000 {
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&bpmp TEGRA234_CLK_UARTE>;
+ 			resets = <&bpmp TEGRA234_RESET_UARTE>;
++			dmas = <&gpcdma 20>, <&gpcdma 20>;
++			dma-names = "rx", "tx";
  			status = "disabled";
- 			clock-frequency = <400000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C3
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C3>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C3>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -781,8 +781,8 @@ dp_aux_ch1_i2c: i2c@3190000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <100000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C4
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C4>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C4>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -800,8 +800,8 @@ dp_aux_ch0_i2c: i2c@31b0000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <100000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C6
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C6>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C6>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -819,8 +819,8 @@ dp_aux_ch2_i2c: i2c@31c0000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <100000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C7
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C7>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C7>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -845,8 +845,8 @@ dp_aux_ch3_i2c: i2c@31e0000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <100000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C9
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C9>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C9>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
-@@ -1810,8 +1810,8 @@ gen2_i2c: i2c@c240000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <100000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C2
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C2>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C2>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
-@@ -1829,8 +1829,8 @@ gen8_i2c: i2c@c250000 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 			clock-frequency = <400000>;
--			clocks = <&bpmp TEGRA234_CLK_I2C8
--				&bpmp TEGRA234_CLK_PLLP_OUT0>;
-+			clocks = <&bpmp TEGRA234_CLK_I2C8>,
-+				 <&bpmp TEGRA234_CLK_PLLP_OUT0>;
- 			clock-names = "div-clk", "parent";
- 			assigned-clocks = <&bpmp TEGRA234_CLK_I2C8>;
- 			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
+ 		};
+ 
 -- 
 2.41.0
 
