@@ -2,77 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD9277F490
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Aug 2023 12:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 633D677F881
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Aug 2023 16:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346787AbjHQKzC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Aug 2023 06:55:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
+        id S1351775AbjHQOOY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Aug 2023 10:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350030AbjHQKye (ORCPT
+        with ESMTP id S1351857AbjHQOOP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Aug 2023 06:54:34 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 870342D4A;
-        Thu, 17 Aug 2023 03:54:33 -0700 (PDT)
-Received: from kwepemm600014.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RRMK30g7wzVjyN;
-        Thu, 17 Aug 2023 18:52:23 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.175.28) by
- kwepemm600014.china.huawei.com (7.193.23.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Thu, 17 Aug 2023 18:54:29 +0800
-From:   Yi Yang <yiyang13@huawei.com>
-To:     <ldewangan@nvidia.com>, <gregkh@linuxfoundation.org>,
-        <jirislaby@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <alan@linux.intel.com>, <swarren@nvidia.com>,
-        <linux-serial@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: [PATCH] serial: tegra: handle clk prepare error in tegra_uart_hw_init()
-Date:   Thu, 17 Aug 2023 18:54:06 +0800
-Message-ID: <20230817105406.228674-1-yiyang13@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 17 Aug 2023 10:14:15 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D082D76
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:13 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe8c3b5ca0so12551002e87.1
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692281652; x=1692886452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+tHknOI7JaVWjfYOmDwv/0ZujBFnzelCArtdey6TrU=;
+        b=KNnl5LKLT+Z0i0aqp/nfRxB0T7uKw+OqfMWnFZSoG8wnx6DTGMd2fllILz05oUdwGl
+         FDIovmZcpY3Ey6Vqmsbk4DJzoIPs5ZRx9VzI9kDMCqsPbs26kuRTqVHyt0xtWuyi+mnT
+         t4TwK8j5JdgjXGtahpe89s1ZoV0Tj5isLmK1Pu3kjzmGtPNJze8WKrq1rGka56YSRKhh
+         PMbdMle0SSNey4z7NlS5HPSpUvaLQhQJWjQWJC30vyvPO1RscW+17jl2uarGdGJZb0Zx
+         p69xYXiajnZWL9MBv+dJqU1ZF7+CvZapnhcwEclkvvcVYNIuMp0NDg6oJsAlYqhIug63
+         LFAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692281652; x=1692886452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s+tHknOI7JaVWjfYOmDwv/0ZujBFnzelCArtdey6TrU=;
+        b=j9MfPMfEz4NfvquRFWPtjcmzD6LzuYAkPfWf1o9xbDRIF2vNW8yY0fW4c51bYvdqMe
+         fGrXcR7+qLTpFRcgP7AvdwaZ4Oq+suODmhnS5VWlKzY7JcxnPNUz/g/TzOf7KyQ6yaZZ
+         k2B9+DjN5lHWLLs2gncAbNoy+gWrtQfuNTUHrhWlvZi13MP0ZI2+ZZfximjM8jHIWzmR
+         EzB3+O1eUWwR9fu0Y7/kkbZxYlGsCBPZmmZxH3TElVJvPv+SDmmYz50S1rDROpcpT1WK
+         6iFydggFW7DHndwCCbKQEZRzgNFCs87vUfYoepyAq9FHtkq35hNfGivetfe81WBK7Azj
+         sPQQ==
+X-Gm-Message-State: AOJu0Yx52bh+v8AFiKm8MUcjaV3ZfNXVYZAYv1zrggk5hal3UEKs3LD4
+        waKUTSOBEWi23btzvdrUxnEE/YR279s=
+X-Google-Smtp-Source: AGHT+IFbSiYz2DPLao11CwQ+7P9E2sUp/XGSvSwcMevl/SRXbo2umDztUVfTzLTMGIaXY+56w8gfwQ==
+X-Received: by 2002:a05:6512:3e1a:b0:4fe:19ef:8794 with SMTP id i26-20020a0565123e1a00b004fe19ef8794mr5335908lfv.28.1692281651828;
+        Thu, 17 Aug 2023 07:14:11 -0700 (PDT)
+Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id l26-20020aa7c31a000000b005224d15d3dfsm9787264edq.87.2023.08.17.07.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 07:14:11 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/5] arm64: tegra: Various minor device tree fixes
+Date:   Thu, 17 Aug 2023 16:14:02 +0200
+Message-ID: <20230817141407.3678613-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.28]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600014.china.huawei.com (7.193.23.54)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In tegra_uart_hw_init(), the return value of clk_prepare_enable() should
-be checked since it might fail.
+From: Thierry Reding <treding@nvidia.com>
 
-Fixes: e9ea096dd225 ("serial: tegra: add serial driver")
-Signed-off-by: Yi Yang <yiyang13@huawei.com>
----
- drivers/tty/serial/serial-tegra.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+This contains a number of minor fixes to various 64-bit Tegra device
+tree files that are required for proper DT validation.
 
-diff --git a/drivers/tty/serial/serial-tegra.c b/drivers/tty/serial/serial-tegra.c
-index 0b597b282fce..d4ec943cb8e9 100644
---- a/drivers/tty/serial/serial-tegra.c
-+++ b/drivers/tty/serial/serial-tegra.c
-@@ -996,7 +996,11 @@ static int tegra_uart_hw_init(struct tegra_uart_port *tup)
- 	tup->ier_shadow = 0;
- 	tup->current_baud = 0;
- 
--	clk_prepare_enable(tup->uart_clk);
-+	ret = clk_prepare_enable(tup->uart_clk);
-+	if (ret) {
-+		dev_err(tup->uport.dev, "could not enable clk\n");
-+		return ret;
-+	}
- 
- 	/* Reset the UART controller to clear all previous status.*/
- 	reset_control_assert(tup->rst);
+Thierry
+
+Thierry Reding (5):
+  arm64: tegra: Add missing current-speed for SBSA UART
+  arm64: tegra: Remove duplicate nodes on Jetson Orin NX
+  arm64: tegra: Use correct format for clocks property
+  arm64: tegra: Add dmas and dma-names for Tegra234 UARTE
+  arm64: tegra: Mark Tegra234 SPI as compatible with Tegra114
+
+ .../nvidia/tegra234-p3737-0000+p3701-0000.dts |  1 +
+ .../nvidia/tegra234-p3768-0000+p3767-0000.dts | 11 -----
+ .../boot/dts/nvidia/tegra234-p3768-0000.dtsi  |  1 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      | 40 ++++++++++---------
+ 4 files changed, 23 insertions(+), 30 deletions(-)
+
 -- 
-2.17.1
+2.41.0
 
