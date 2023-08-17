@@ -2,69 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52DBA77F878
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Aug 2023 16:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0981578021C
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Aug 2023 02:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351732AbjHQOOW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Aug 2023 10:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34408 "EHLO
+        id S1356325AbjHQX7f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Aug 2023 19:59:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351863AbjHQOOU (ORCPT
+        with ESMTP id S1356348AbjHQX7H (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Aug 2023 10:14:20 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56CC2D72
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:19 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe9c20f449so42867125e9.3
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 07:14:19 -0700 (PDT)
+        Thu, 17 Aug 2023 19:59:07 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF573A87
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-563f8e8a53dso296384a12.3
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692281658; x=1692886458;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YgLTYKqUbbPIFoT97Ps8s0NoPBV51v0xNI4lTrf+SuA=;
-        b=JKZWkeFAWuq/m12Q4epAb4vieDYkdPxUdVpqv6YCS8yrO6mPMPWr7GP/kHCUVl/4Sm
-         zm3YufF4u/eEiEjHmdb5AsffGrU1NLrnViLV/Q6300hfM0eqsT/7+x+NGROcvfgPOuon
-         R61lVFvzEoT8sC0eOUR2gRyW/HpDA+v7TOWXplwo1sg63CR9vpj4H+DJVYEkzXJZNGqF
-         XItoPNFmbbrd3ITbQsbHsUsYMr37nYT3Q/N7u9MWzAoYUaIgw3XczZnzSyMn/rdj20sH
-         E0DLEBsG4tXfGHM6i00QvQSNynm9hPaHdUZzEPA9W6WqJXjRFfV5RgCpWYIVgDfzKD7K
-         XJOg==
+        d=chromium.org; s=google; t=1692316743; x=1692921543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gLiCnBbyPzaic/GZ7z4G3P0cbvM2XGBwdo50oYhUApk=;
+        b=P5Pp0wwT5nzP3n43DVWzU0GTRLBYDoDSQDfCmbHmbAyHke8vM3wJwLlQCndFTYZ7KE
+         ZVi1VZoSjZdpJ+Cv7UQqBsqf+jX/87/JGb0fruxGutn29PXRZMDB9jPSZIrj3VxbaicZ
+         bNJeGzg/zR8SLlYCw17rI+RJwBXQBpyTYDPlo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692281658; x=1692886458;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YgLTYKqUbbPIFoT97Ps8s0NoPBV51v0xNI4lTrf+SuA=;
-        b=BRzw7bMQ+N6oLSlLenPwczCO3s+M5Vetk0KWvQOPlIqIdzehWHEtfrHCsp6s/jdhu3
-         XWfZ1NgxZaIXGW/RIqbXOBwa/a3aMwj/P7tjHlUqZ3YJ8/dOU74RxkEO89DXhHqHfCP+
-         pMzxct8GPEvCX6ArY6MHmf+pUWkDmljUH0nh0Xdg2XP7AUnzXzS4NZ/xV3zcWnHEcFmy
-         Zx8Y75lZWLjBTk3O+aDiI2HG9BTc39q/k7rZNHrNm4cOxvZRQu0j5peDIC6bh2cHlYn1
-         YXuaY34Y/cQst/MJKNZwk83pOAV7zwEVKvJ4lH5Dw0cP915Fi+TVRI6xqAzwB6K+0C2E
-         ob6g==
-X-Gm-Message-State: AOJu0YxXEBNVJPbFVJmWeEBcCyBC07Mi8DvjB04a1DIOSQ7UsG+BqQ7M
-        wYmbY3HtTDOzDkC4T17G1OQ=
-X-Google-Smtp-Source: AGHT+IF6oY68mVFiF98VxZqPO6h1qJBaG4adwf3uqofCzghKFN7WJ13Rrq3iMoQbyvJ3dIThySfMxw==
-X-Received: by 2002:a05:600c:21cd:b0:3fc:1bd:95a6 with SMTP id x13-20020a05600c21cd00b003fc01bd95a6mr3954934wmj.31.1692281657848;
-        Thu, 17 Aug 2023 07:14:17 -0700 (PDT)
-Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a23-20020a05600c225700b003fba6709c68sm3177042wmm.47.2023.08.17.07.14.17
+        d=1e100.net; s=20221208; t=1692316743; x=1692921543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gLiCnBbyPzaic/GZ7z4G3P0cbvM2XGBwdo50oYhUApk=;
+        b=gNFUx3XHrCUXQA837r+glbBw9sVO2OYLjvzY5JSs8mdsonfp7xTLf4fqRN2ILXxKbR
+         Mke3tPMYO3j1VQiI+NVLKdPnO1FyvXbMLmfUD5HFL7Q503aoVP6KJIom/p7eHQRg3rml
+         9S/tZ5diRioAAZ4p28f3s2sTKN+QAO+cvtE4zVzYDtZ6TFUfJO4F7lvCeCdsWWeNkvyM
+         UV+ZYcIF6D+75W0Eq1H5jqTuv7VqFeVOY++ttzVC0Va5HhtZgIDR7WMQmmCrAdEVFwWZ
+         o/+IWBFuO5ouLVrFvEWSFAhBToKb/vvs+OzGmwF+dnOoA2x/9HHQmJcxweh66sJDnxJ8
+         Y+uA==
+X-Gm-Message-State: AOJu0YwOstU0yEvlOGnudeWJdAbaX+d7jdeRReDcC43f8MDUVEt7D5JC
+        MHXcyGJsr8v0qBt4asC7Wp2e0g==
+X-Google-Smtp-Source: AGHT+IG7Ur7jvG1Cor78dTTxi94xoQ0HyBPagkNa35jw/ciTiPyRGRuVsIer724v3p+TKZGgt/zcZQ==
+X-Received: by 2002:a17:90a:7564:b0:262:d7db:2520 with SMTP id q91-20020a17090a756400b00262d7db2520mr994346pjk.26.1692316743403;
+        Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id s10-20020a17090a948a00b00263cca08d95sm2101254pjo.55.2023.08.17.16.58.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 07:14:17 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 5/5] arm64: tegra: Mark Tegra234 SPI as compatible with Tegra114
-Date:   Thu, 17 Aug 2023 16:14:07 +0200
-Message-ID: <20230817141407.3678613-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230817141407.3678613-1-thierry.reding@gmail.com>
-References: <20230817141407.3678613-1-thierry.reding@gmail.com>
+        Thu, 17 Aug 2023 16:59:00 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Jie Hai <haijie1@huawei.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Green Wan <green.wan@sifive.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Yu Kuai <yukuai3@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jordy Zomer <jordy@pwning.systems>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        dmaengine@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH 00/21] dmaengine: Annotate with __counted_by
+Date:   Thu, 17 Aug 2023 16:58:37 -0700
+Message-Id: <20230817235428.never.111-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2707; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=X+13aptrkzlZofkuldd+d07374jzvU5KMGSMFeBiQiA=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rQ/Y/4ffzo1IbZvWMUH7ld52PtnkCTORxyHK
+ CIS35jFSfGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60PwAKCRCJcvTf3G3A
+ Jmk6D/91xaM88OIg15Z+90cr21kEhBomkBw2kzWyeOFGSeWZfWBT9v5HW3rrVN64Q7kDB9XAJal
+ nI4M0KHJ8cUO6Y8Oww5+x4tmVhFS+/yiSYyxDNbGtiEP8zwAJazWBFG/VAIXoqJgr65f9N5MrMB
+ tpMNT5QDBa+NOdvwfEWIqptgdiUfftpp3/JCQpoUJZ4170WFUNdylNkOKOPlZWzpB/Z7GOnXskj
+ Y1F1IK0F8spqaHu/QGQTnrZa1o6gGjKYuxFrbZ4zlMZRP6cXwRZ0m6mDTeTaaItw3X13J97fgUo
+ +KCUF1tsNSs50HZwRVPdXjSJj7iidcnHdBsGgUJixBqnHI+eUuwI/fXIEDWrZi5f6nl8i+4okPg
+ VnbPoCI4gD1g9nfDtXklxQcCpgY6Jz519HM0b2UWNjQi8Nwc4DAovAEsCwLNvgdZtD+p832lPfn
+ YSpjXkaDWrfN2tgUC/YmPkkuGyybh/vqVuNhp78qD1aXxmydmnU5+5WL2AyRzmP6Y/xlHa5wO4g
+ b/PSScMBx7nKATYBufXnhc8uQfrucLW4+GkmubGiNp03RUxPh5cKo2hoJtIZWTZCsuMKQhS8gdD
+ YLlNjS9qafx1FicrUpVmxB5pFplJDCN/02onKYItefjjDduHSTMCC4tIJ//0yRQN+DfP5lzceR4
+ h6gsvBD jioTUffw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,48 +115,65 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi,
 
-According to the bindings, both Tegra210 and Tegra114 compatible strings
-need to be specified since the version of this hardware block found in
-Tegra210 is backwards-compatible.
+This annotates several structures with the coming __counted_by attribute
+for bounds checking of flexible arrays at run-time. For more details, see
+commit dd06e72e68bc ("Compiler Attributes: Add __counted_by macro").
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks!
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index 50db1b1e982b..7cf31862d68b 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -859,7 +859,7 @@ dp_aux_ch3_i2c: i2c@31e0000 {
- 		};
- 
- 		spi@3210000 {
--			compatible = "nvidia,tegra210-spi";
-+			compatible = "nvidia,tegra210-spi", "nvidia,tegra114-spi";
- 			reg = <0x0 0x03210000 0x0 0x1000>;
- 			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
- 			#address-cells = <1>;
-@@ -878,7 +878,7 @@ spi@3210000 {
- 		};
- 
- 		spi@3230000 {
--			compatible = "nvidia,tegra210-spi";
-+			compatible = "nvidia,tegra210-spi", "nvidia,tegra114-spi";
- 			reg = <0x0 0x03230000 0x0 0x1000>;
- 			interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
- 			#address-cells = <1>;
-@@ -1843,7 +1843,7 @@ gen8_i2c: i2c@c250000 {
- 		};
- 
- 		spi@c260000 {
--			compatible = "nvidia,tegra210-spi";
-+			compatible = "nvidia,tegra210-spi", "nvidia,tegra114-spi";
- 			reg = <0x0 0x0c260000 0x0 0x1000>;
- 			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
- 			#address-cells = <1>;
+-Kees
+
+Kees Cook (21):
+  dmaengine: apple-admac: Annotate struct admac_data with __counted_by
+  dmaengine: at_hdmac: Annotate struct at_desc with __counted_by
+  dmaengine: axi-dmac: Annotate struct axi_dmac_desc with __counted_by
+  dmaengine: fsl-edma: Annotate struct fsl_edma_desc with __counted_by
+  dmaengine: hisilicon: Annotate struct hisi_dma_dev with __counted_by
+  dmaengine: moxart-dma: Annotate struct moxart_desc with __counted_by
+  dmaengine: qcom: bam_dma: Annotate struct bam_async_desc with
+    __counted_by
+  dmaengine: sa11x0: Annotate struct sa11x0_dma_desc with __counted_by
+  dmaengine: sf-pdma: Annotate struct sf_pdma with __counted_by
+  dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
+  dmaengine: st_fdma: Annotate struct st_fdma_desc with __counted_by
+  dmaengine: stm32-dma: Annotate struct stm32_dma_desc with __counted_by
+  dmaengine: stm32-mdma: Annotate struct stm32_mdma_desc with
+    __counted_by
+  dmaengine: stm32-mdma: Annotate struct stm32_mdma_device with
+    __counted_by
+  dmaengine: tegra: Annotate struct tegra_dma_desc with __counted_by
+  dmaengine: tegra210-adma: Annotate struct tegra_adma with __counted_by
+  dmaengine: ti: edma: Annotate struct edma_desc with __counted_by
+  dmaengine: ti: omap-dma: Annotate struct omap_desc with __counted_by
+  dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_desc with
+    __counted_by
+  dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_device with
+    __counted_by
+  dmaengine: usb-dmac: Annotate struct usb_dmac_desc with __counted_by
+
+ drivers/dma/apple-admac.c      |  2 +-
+ drivers/dma/at_hdmac.c         |  2 +-
+ drivers/dma/dma-axi-dmac.c     |  5 ++---
+ drivers/dma/fsl-edma-common.h  |  2 +-
+ drivers/dma/hisi_dma.c         |  2 +-
+ drivers/dma/moxart-dma.c       |  5 ++---
+ drivers/dma/qcom/bam_dma.c     |  2 +-
+ drivers/dma/sa11x0-dma.c       |  6 +++---
+ drivers/dma/sf-pdma/sf-pdma.h  |  2 +-
+ drivers/dma/sh/usb-dmac.c      |  2 +-
+ drivers/dma/sprd-dma.c         |  2 +-
+ drivers/dma/st_fdma.h          |  2 +-
+ drivers/dma/stm32-dma.c        | 11 ++++-------
+ drivers/dma/stm32-mdma.c       |  9 ++++-----
+ drivers/dma/tegra186-gpc-dma.c |  2 +-
+ drivers/dma/tegra210-adma.c    |  2 +-
+ drivers/dma/ti/edma.c          |  2 +-
+ drivers/dma/ti/omap-dma.c      |  5 ++---
+ drivers/dma/uniphier-xdmac.c   |  8 ++++----
+ 19 files changed, 33 insertions(+), 40 deletions(-)
+
 -- 
-2.41.0
+2.34.1
 
