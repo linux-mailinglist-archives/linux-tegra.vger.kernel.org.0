@@ -2,26 +2,26 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D004783AB6
-	for <lists+linux-tegra@lfdr.de>; Tue, 22 Aug 2023 09:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99CB4783AEE
+	for <lists+linux-tegra@lfdr.de>; Tue, 22 Aug 2023 09:31:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232306AbjHVHRY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Aug 2023 03:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
+        id S232802AbjHVHbf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Aug 2023 03:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232167AbjHVHRX (ORCPT
+        with ESMTP id S233330AbjHVHbe (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Aug 2023 03:17:23 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B3A1711
-        for <linux-tegra@vger.kernel.org>; Tue, 22 Aug 2023 00:16:42 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RVLBB0NN1ztS2T;
-        Tue, 22 Aug 2023 15:11:46 +0800 (CST)
+        Tue, 22 Aug 2023 03:31:34 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1B9132
+        for <linux-tegra@vger.kernel.org>; Tue, 22 Aug 2023 00:31:32 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RVLDp4wqlz1L9F1;
+        Tue, 22 Aug 2023 15:14:02 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
  (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 15:15:28 +0800
+ 2023 15:15:29 +0800
 From:   Jinjie Ruan <ruanjinjie@huawei.com>
 To:     <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
         <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
@@ -30,9 +30,9 @@ To:     <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
         <mperttunen@nvidia.com>, <jonathanh@nvidia.com>,
         <dri-devel@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
 CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next 1/2] drm/bridge: Use PTR_ERR_OR_ZERO() to simplify code
-Date:   Tue, 22 Aug 2023 15:15:02 +0800
-Message-ID: <20230822071503.178000-2-ruanjinjie@huawei.com>
+Subject: [PATCH -next 2/2] drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code
+Date:   Tue, 22 Aug 2023 15:15:03 +0800
+Message-ID: <20230822071503.178000-3-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822071503.178000-1-ruanjinjie@huawei.com>
 References: <20230822071503.178000-1-ruanjinjie@huawei.com>
@@ -44,8 +44,8 @@ X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemi500008.china.huawei.com (7.221.188.139)
 X-CFilter-Loop: Reflected
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,52 +57,42 @@ simplify code.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/bridge/tc358762.c | 10 ++--------
- drivers/gpu/drm/bridge/tc358764.c |  5 +----
- 2 files changed, 3 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 5 +----
+ drivers/gpu/drm/tegra/gem.c | 5 +----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 46198af9eebb..49fd60a08c1c 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -240,19 +240,13 @@ static int tc358762_parse_dt(struct tc358762 *ctx)
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index ff36171c8fb7..4e29d76da1be 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -354,10 +354,7 @@ static int tegra_gem_create(struct drm_device *drm, void *data,
  
- 	/* Reset GPIO is optional */
- 	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
--	if (IS_ERR(ctx->reset_gpio))
--		return PTR_ERR(ctx->reset_gpio);
+ 	bo = tegra_bo_create_with_handle(file, drm, args->size, args->flags,
+ 					 &args->handle);
+-	if (IS_ERR(bo))
+-		return PTR_ERR(bo);
 -
 -	return 0;
-+	return PTR_ERR_OR_ZERO(ctx->reset_gpio);
++	return PTR_ERR_OR_ZERO(bo);
  }
  
- static int tc358762_configure_regulators(struct tc358762 *ctx)
- {
- 	ctx->regulator = devm_regulator_get(ctx->dev, "vddc");
--	if (IS_ERR(ctx->regulator))
--		return PTR_ERR(ctx->regulator);
+ static int tegra_gem_mmap(struct drm_device *drm, void *data,
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index a4023163493d..11ef0f8cb1e1 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -533,10 +533,7 @@ int tegra_bo_dumb_create(struct drm_file *file, struct drm_device *drm,
+ 
+ 	bo = tegra_bo_create_with_handle(file, drm, args->size, 0,
+ 					 &args->handle);
+-	if (IS_ERR(bo))
+-		return PTR_ERR(bo);
 -
 -	return 0;
-+	return PTR_ERR_OR_ZERO(ctx->regulator);
++	return PTR_ERR_OR_ZERO(bo);
  }
  
- static int tc358762_probe(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
-index deccb3995022..738ea6e11712 100644
---- a/drivers/gpu/drm/bridge/tc358764.c
-+++ b/drivers/gpu/drm/bridge/tc358764.c
-@@ -319,10 +319,7 @@ static int tc358764_parse_dt(struct tc358764 *ctx)
- 	}
- 
- 	ctx->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
--	if (IS_ERR(ctx->next_bridge))
--		return PTR_ERR(ctx->next_bridge);
--
--	return 0;
-+	return PTR_ERR_OR_ZERO(ctx->next_bridge);
- }
- 
- static int tc358764_configure_regulators(struct tc358764 *ctx)
+ static vm_fault_t tegra_bo_fault(struct vm_fault *vmf)
 -- 
 2.34.1
 
