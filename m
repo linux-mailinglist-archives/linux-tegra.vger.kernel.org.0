@@ -2,82 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D099D783AD9
-	for <lists+linux-tegra@lfdr.de>; Tue, 22 Aug 2023 09:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58574783B31
+	for <lists+linux-tegra@lfdr.de>; Tue, 22 Aug 2023 09:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233142AbjHVH2c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Aug 2023 03:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        id S233122AbjHVHwj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Aug 2023 03:52:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232958AbjHVH2c (ORCPT
+        with ESMTP id S233564AbjHVHwg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Aug 2023 03:28:32 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC14611C;
-        Tue, 22 Aug 2023 00:28:29 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9a18a4136a9so293926366b.2;
-        Tue, 22 Aug 2023 00:28:29 -0700 (PDT)
+        Tue, 22 Aug 2023 03:52:36 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51678193;
+        Tue, 22 Aug 2023 00:52:33 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-5259cf39154so5238994a12.2;
+        Tue, 22 Aug 2023 00:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692689308; x=1693294108;
+        d=gmail.com; s=20221208; t=1692690752; x=1693295552;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OoVq2aQG2PZ6wC1UnXS/aAZAjiDXppj1nzI2Mwf3CQQ=;
-        b=KRHQTn0Lw9fL4mG8PDwSBodFOaNZs6uqJ+qlwNRe2n5irl1bXTwy6nPt3KKOmlmZcQ
-         yoP8pDluiTyGH7Z1VM4WbDqj78Uw9jDQS0p0OwNEacSWCejeZ8jWf/f/AcUztyryOg82
-         ScCQdOhAQhbhE1CjGf1bEuMhDt8tJWu3Ru1ev2guofZBFTPqKOF+n/DuvC5iXxovjAYn
-         N5ZKWzSmnaIGBsjTi2B8/+2lX0ayZbVCZLXb0kwyxkSnpv+99RryxRrsXn9ZLlUac4qq
-         fHm+OHGm3kLqduEQR2Wp6iKa31kNVONu4MXaMwrSfJRARRPfA0tnmvvBCl1ZpfMHn/BP
-         VNnQ==
+        bh=0US/9vzbx+c8F2WOJrOOVtzNnNHMJoadK1FXJ0ylzVc=;
+        b=Nc0oOBn0CTXc0LVwa0AuE9FI24wT1the3uRU2Y75Eox0+gl4XNACh8ltYciU5eyFAy
+         eRG+klHKncENMLlN4KeVTRHpQ8/4a2GVnL6PK+i6ZBNvq58dq6SEia0B1sOu9zbJfmr/
+         wgBXw0k7dGPBcvBv1ti3kN4bqm1vQmD2SBZf9+KY8OMV+nPqeVAd1fG7uGFLXWX9USeL
+         5X+5CKmcW5Jw3VBkUg257Ph1d5HyYwoWdWLUITSi2NNCUdMCS9oP5y/UPpmi9lSr0A3m
+         pBRu1Zvw1yH/wGyArKD8dPDFWDYiNE/TiBH5j6jrGV9q0i0QKMGWrQf+8zr6eYcJbYsO
+         7gfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692689308; x=1693294108;
+        d=1e100.net; s=20221208; t=1692690752; x=1693295552;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OoVq2aQG2PZ6wC1UnXS/aAZAjiDXppj1nzI2Mwf3CQQ=;
-        b=a68h2AP9uuS2HRm6K2h4tzl8SYxs/vYZEa9KSQpPdTRR0STpd0GQrVC1zHVip9m0Fo
-         uj6O7QCto0Gw+3f1IXfXnvt09iBkpQSnKAsyPDJx/hVPqbOhAbYupIknrN8FaGv42f7W
-         ANR5Klc4+NOzXDuTcyJCqVxr2jUwl1dllTFKJkVT3NTDhJm856nJYWuYzm1RoBGpmVh8
-         SFU0UmHG82HTvFw/iCx3PE1NlGuHc9PI4z7uQ6vch5zuzl08cDEJiHmQmSzMliojp1BP
-         DRxn6XdNgbmr/XYaISxDo5XyDvWITcNzyVqJbJRZiEdMCaVUrvPVuENEXZ5Wra033+pO
-         N/Cg==
-X-Gm-Message-State: AOJu0YwfjWGmbSloYYXP4EJkrwsxMOiBU2+wlDKDkQKORWB9cTJfKrII
-        P2d0cvdcHg4iYPrVCCQE0bU=
-X-Google-Smtp-Source: AGHT+IGuCZUskIEAnTK1yBK8JvjWHA0h/ZsRkZiBDyyIrQMGbJhYCPi9BlOWE+x1YsXAUlJY+8x6Uw==
-X-Received: by 2002:a17:906:2011:b0:99c:56d1:7c71 with SMTP id 17-20020a170906201100b0099c56d17c71mr6647307ejo.26.1692689307966;
-        Tue, 22 Aug 2023 00:28:27 -0700 (PDT)
+        bh=0US/9vzbx+c8F2WOJrOOVtzNnNHMJoadK1FXJ0ylzVc=;
+        b=F5bj/BewEZwPTE6uLm8sqYkA2S9tAcbqweJ6V5ypVstkEEr2KP1hgJ+zN05x0EYSlD
+         OUBpzy8EYX2ILwrUgctluuNDeJDucD6QXYIU7bFqhlKzb/AtA4o8OjOyAW9ACO1LUF/9
+         sVYX4MRgGkASLBXRmAflsdDMuoBqfxi0I+t/IPJHX95EhsXe6cZXiFcMNJxHg2WGyp0g
+         Bk/4rs476izOQ+Ip0m3yGpBkvtkuMGFuWJHbaQx6gl7u0VWsEMgbikKeMBttdgzBOg2w
+         iL0nJMleDfLAVU2LuQy5QKPbHHGHI1O4qbXUTludD6HkVUWZ1TGcNdwbFi3zF9voVGpn
+         oRtg==
+X-Gm-Message-State: AOJu0YwjmZ+YyE8at9os5IGCSabXj+K3+8Mh5vZjqqiEVTdJsP4AysJI
+        jBfBgh7bIZUcbqNdkftdIFU=
+X-Google-Smtp-Source: AGHT+IEhOGZA7NHDv5ED8bUuE4okXlUJbiEMbWdIwcfIULbFUGXosC2Peqs4fbDpSHOEuhpTCX5VfQ==
+X-Received: by 2002:a05:6402:b29:b0:523:102f:3ce0 with SMTP id bo9-20020a0564020b2900b00523102f3ce0mr7071365edb.21.1692690751654;
+        Tue, 22 Aug 2023 00:52:31 -0700 (PDT)
 Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id k21-20020a1709063fd500b0099bcf1c07c6sm7797573ejj.138.2023.08.22.00.28.26
+        by smtp.gmail.com with ESMTPSA id p1-20020aa7cc81000000b00525c01f91b0sm7345294edt.42.2023.08.22.00.52.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 00:28:27 -0700 (PDT)
-Date:   Tue, 22 Aug 2023 09:28:25 +0200
+        Tue, 22 Aug 2023 00:52:31 -0700 (PDT)
+Date:   Tue, 22 Aug 2023 09:52:29 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Kartik <kkartik@nvidia.com>, arnd@arndb.de, digetx@gmail.com,
+        frank.li@vivo.com, jonathanh@nvidia.com,
         linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop 'phandle' properties
-Message-ID: <ZORjmR3QoYXCq18G@orome>
-References: <20230819010946.916772-1-robh@kernel.org>
+        pdeschrijver@nvidia.com, petlozup@nvidia.com, pshete@nvidia.com,
+        robh@kernel.org, stefank@nvidia.com, sumitg@nvidia.com,
+        windhl@126.com
+Subject: Re: [PATCH 1/6] soc/tegra: fuse: Add tegra_acpi_init_apbmisc()
+Message-ID: <ZORpPYYczxRN_wuI@orome>
+References: <ZN9wdTLK1rwnVK/e@smile.fi.intel.com>
+ <20230821113220.4255-1-kkartik@nvidia.com>
+ <ZONZaZ1QaWKBCMYj@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lgwtEg2EGBEaqI76"
+        protocol="application/pgp-signature"; boundary="3tebZ8yOd3fV2Qwz"
 Content-Disposition: inline
-In-Reply-To: <20230819010946.916772-1-robh@kernel.org>
+In-Reply-To: <ZONZaZ1QaWKBCMYj@smile.fi.intel.com>
 User-Agent: Mutt/2.2.10 (2023-03-25)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -90,58 +81,67 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---lgwtEg2EGBEaqI76
+--3tebZ8yOd3fV2Qwz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 18, 2023 at 08:09:44PM -0500, Rob Herring wrote:
-> 'phandle' properties are implicitly supported on all nodes, so it
-> shouldn't be listed in schemas.
+On Mon, Aug 21, 2023 at 03:32:41PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 21, 2023 at 05:02:20PM +0530, Kartik wrote:
+> > On Fri, 2023-08-18 at 16:21 +0300, Andy Shevchenko wrote:
 >=20
-> dtschema had a bug where 'phandle' and other implicit properties weren't
-> being added under 'additionalProperties' schemas. That was fixed in
-> v2023.07 release.
+> ...
 >=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/pinctrl/ingenic,pinctrl.yaml          | 4 ----
->  .../devicetree/bindings/pinctrl/nvidia,tegra114-pinmux.yaml   | 2 --
->  .../devicetree/bindings/pinctrl/nvidia,tegra124-pinmux.yaml   | 2 --
->  .../devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.yaml   | 2 --
->  .../devicetree/bindings/pinctrl/nvidia,tegra20-pinmux.yaml    | 2 --
->  .../devicetree/bindings/pinctrl/nvidia,tegra210-pinmux.yaml   | 2 --
->  .../devicetree/bindings/pinctrl/nvidia,tegra30-pinmux.yaml    | 2 --
->  Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml    | 4 ----
->  .../devicetree/bindings/pinctrl/renesas,rza1-ports.yaml       | 4 ----
->  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    | 4 ----
->  .../devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml     | 4 ----
->  .../devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml    | 4 ----
->  .../bindings/pinctrl/socionext,uniphier-pinctrl.yaml          | 2 --
->  13 files changed, 38 deletions(-)
+> > >>  void tegra_init_revision(void);
+> > >>  void tegra_init_apbmisc(void);
+> > >> +void tegra_acpi_init_apbmisc(void);
+> > >
+> > >Why do you  need a separate function?
+> >=20
+> > Function tegra_init_apbmisc() is called from tegra_init_fuse() which
+> > is invoked at early init and it also has `__init` keyword. If we use
+> > the same function for both ACPI/DT, then we will get init section
+> > mismatches when the Tegra Fuse driver probes using ACPI.
+> >=20
+> > We can use the same function by dropping the `init` keyword. But
+> > the way we are getting the resources for device-tree and on ACPI is
+> > slightly different. Hence, I kept a separate function for ACPI
+> > and move the common bits to a function shared between
+> > tegra_init_apbmisc() and tegra_acpi_init_apbmisc().
+>=20
+> So, you mean that behaviour is different for ACPI and DT cases.
+> Then obvious question why DT case can't be delayed to not so early
+> stage to be run? This requires some explanations, more than given
+> in the commit message and here.
 
-I see it's already applied, but for the record:
+We've done some experiments in the past to unify this and unfortunately
+we can't. The reason is that some of the old 32-bit ARM code needs some
+information from the APBMISC registers very early during boot (among
+other things for SMP support), so delaying this doesn't work.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+I agree that it would be good to put this into some comment for later
+reference.
 
---lgwtEg2EGBEaqI76
+Thierry
+
+--3tebZ8yOd3fV2Qwz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmTkY5YACgkQ3SOs138+
-s6G7Fw//YU/MCCwoCZGynV8zKCE3BWyMblDBfcf7bn/Uusn5hLVSEBbMGzBihBhC
-O0QO8tWasWfBLczIYRutySJdwL8s8ZPcF1c8RvahyFUi5BNxVwYu0GkTUzIIttmK
-ZIuLn5dklgi91TLUZrqctAMNmCWG1+4lJJybRkvByzs/6gIhwdzrpd5TlHZC/0zy
-A/UCgckYT0CS/WZKX6AQnPhHY4bm9bSL8keW0c0GbPHINefLftNx/IeDzUK/R5Nb
-secRLpgtIxrqsnNPz0rsJeI9CCaffjLeeSjujyrZeuQD7/seU9snLyXIuVr9Mygr
-KQTNfq0cm4iRuoIrVM3LXGp1P1lEmkWklMei4kGDR6JMeQbfftW1ppJr4PPKOUio
-qzC3xjy7sT+ysZIu3dZYHtYjFt7Ntyfxyhlv2TttDPpSlAU1II6jBIzuMYiTli14
-4vq+oG170nUmNoomfClWeSZZQTj3u74SrSiZISCYKHX+KZrh0pBFTXYpcHjo6Vfy
-GMzD8E0wrNlokSxg0S1LO3v4h0OFGf0Sjt0bFiMixqBednxTdWSjqKzDsu4jH1KC
-0Tr6VhJtgZNAdhyaZolLm/uS6/8s9JkXr+Ft27JS6UFxxyDG3coSNjqwN3NNxxt2
-bJN6TBKhoiyMyApb7XM8WWwysYGiI6bElL9Kf6lpEX5vJbarvd0=
-=PAJ0
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmTkaToACgkQ3SOs138+
+s6GJFA//bjlGLsSf/pP4BdoONw7NWXEk7RaSkK3HRBfiOFctHxyp+Gjl3qvTAbPM
+MRV9y/z6v0V7DIBNeRh1PFFGDTMNxcY+ikL7iwTX3gHcBdvgifxfAJWtsK4Q5Y5a
+DbFtpIEN58rbzGJkYCYOo54LGYeo7MSmKAMxXK0YtnPAc5DPY6beYyVY28ucE2gy
+RupL8CYRZ+dFGPkJosJpzNGhsYtb1iM234zST/hsRpqLxKVcbGc54ISv71Z2EiKQ
+xWAHQHl08BvmRQPYwtIPnbOkT0mSOOJISVoFx1vTFZW008RylNTcZZC9KZnJ0zX3
+p38yHo0OoTMu2YTU2VCmWoe9KJwyMaSn7mhA3xqIMJJ6YuOQVtOyglagh8kmx5XB
+2znXl4vq20xfQqujNYfrOqnmtG8Uw+gB+Wd8kwf3m3FLitF7T9wOi8Sm9O6veW1D
+O/WST8seudDBMX0ARCAMqtP0OZvmZ2V3oTFC13gTgP1IhH1wRuBrdSDTuqFDNcmF
+vJwOwV6KbBbDZfgdfPRBNZ10uqqHBKhThRMvRkkEPqmfCZAQU8RmPs1rU9vUn6ay
++W0hVrpvXvrYH2dfrkM6KVxDBANAVK73xryACAzd2W5nVtqvEk4DOOxqIhwGeImz
+ZmSwk9RkSegYOfCxM6r4W28BWEwRgvsv0Vmi6Ah5QGisb5IlrZk=
+=Xo4J
 -----END PGP SIGNATURE-----
 
---lgwtEg2EGBEaqI76--
+--3tebZ8yOd3fV2Qwz--
