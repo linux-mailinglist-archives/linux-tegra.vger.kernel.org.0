@@ -2,329 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3370C788468
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Aug 2023 12:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A2A5788485
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Aug 2023 12:15:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243368AbjHYKNh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 25 Aug 2023 06:13:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
+        id S244367AbjHYKPJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Aug 2023 06:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243707AbjHYKNa (ORCPT
+        with ESMTP id S243310AbjHYKOj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 25 Aug 2023 06:13:30 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD26D210C;
-        Fri, 25 Aug 2023 03:13:26 -0700 (PDT)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37PA6Pce004781;
-        Fri, 25 Aug 2023 10:12:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
- mime-version : content-type : content-transfer-encoding : message-id :
- references : in-reply-to : to : cc; s=pp1;
- bh=L12o8Ehc4HxuoKdiEuB+RaDxR46bsD0kundIR3VlH3I=;
- b=EeQIS8c9/D3jgTDtFJbNwCIAnLk54YiWAHRVO4wLnNUUxu6oJopGbe7U4rmKiteosJoV
- 7Xq/6RSugA2rUqvAaUJSH3qnIwTT4yxI4E+R99GCTttzMBv0Ow90z/cWKv90MJeuvXQL
- 0rqAhiW3ajMszYPQUZu3z3D9xnQ+YSrSBDYT/k4Ou3HGRI/gaNuTBH+c0WSraC80EKtR
- mNDn7kusl0f7XF8fwMdKynSaJos7hCvi29C69dkJe4lF7RZoUQdrOwwNnrrlFFRDUy8P
- TUqW87KV0doUifLyB3LBNVUnOaeZ7+DBdgqWcxlFAcTba9+5hvvgzpB30aFd6ehZm6h5 gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3spsw58ku3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 10:12:18 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37PA9Pvh013980;
-        Fri, 25 Aug 2023 10:12:17 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3spsw58kth-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 10:12:17 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37P8F81c018234;
-        Fri, 25 Aug 2023 10:12:16 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sn21sxqc8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 10:12:16 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37PACDBP42467998
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 25 Aug 2023 10:12:13 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6D3CB20067;
-        Fri, 25 Aug 2023 10:12:13 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 150D12006A;
-        Fri, 25 Aug 2023 10:12:12 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Fri, 25 Aug 2023 10:12:12 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-Date:   Fri, 25 Aug 2023 12:11:21 +0200
-Subject: [PATCH v12 6/6] iommu/dma: Use a large flush queue and timeout for
- shadow_on_flush
-MIME-Version: 1.0
+        Fri, 25 Aug 2023 06:14:39 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2077.outbound.protection.outlook.com [40.107.243.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378E42710;
+        Fri, 25 Aug 2023 03:14:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I9K35MYtodZALGuvMVhSM2y/2E65c7P+WDgeB8DE/V1eEzuwOhe83Rsq8UdcGW0xBGdszzua/7GQyxCl0erhwv8KxgLAvRnFXlUIZAFj9EqSROpSNVALFDwOFwSkG2nbRxAQ2mAzugmqhCrUNh7rx++wfQ8Bdg7lKysoXX0siJuf6yb2erHVvvarNxpFMLKb8qg12t3a8SAeMy4Af9VrfFmwiOZPvxhubwB2jVP2AVKsP3X8ivMLE1VRXoK9Vq52YcoBizk1+K7if8a1bi/Tr4uaf+TwmdjJaH6YXTaR242K+iRhZfx/0cOLEwYHcabwUeGzUr785apQglvS4V205A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iM2YM2TI4VmZsYnOh1TTMuQPAUygxSqB3z6n8qTN20M=;
+ b=FVbaNLDZnziaIcnLYgmkTFYNpgJTQmS7FomvMUm3duFegRCqPFtYU27ib2/ACvBOiaF+3X8AamUMOmKRuFGiWoyDLjbJ75bpck0twieId0Uq8BSDg1gLuCXTt+SotZFgV7sz59Mweb3QvhdYS+knXFE0mwlzuLOiWNYKz4bR0rr7bpz9A+ZLCBuRxow9Xi67BWHmkTd+ERVjeT5GftfNbphwd0rp1ycTA92VyYK1cxoxZ+JeWKbFNYu7ymZyqjIrH6/y6r9Ow1+nBReZb1Qh3dF8PLvUE8WW1qH/y9tlA67HziwkQfprcQ0V0zNPiYKBHErhWWyI6jZSMUPa7qKiBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iM2YM2TI4VmZsYnOh1TTMuQPAUygxSqB3z6n8qTN20M=;
+ b=C7bwVvNg9YLz/66a1/83MJzeRAQhDeXihkeFhHYfgXOtO2Nl63tzQzsa02p/oUY/dl1yAWbiyacTAyuFWskjXRKcVTbYeogkldFUJOhBdB2gejvtz8R8yXhlaoU5kFDlGaHQ455mHBxLkZQnEWsDE2QVvSi+amVDx4OgGOmAXStSTCJkFaRAKCcFyDNtqUA74eh0SjMgZn5aOrELFJYo2RObeVCXvTL5c5IcJOaMq23PC7a+H/baPoqHrw/kHkOaxhFpujSfbLCPGfvMZZr8PtpprdhofxPj8QUln1NmU/zSZJ95ZRELa3WjTuh3bq+8sgyYD/gWFT1hwyVbapFwsg==
+Received: from DS7PR05CA0012.namprd05.prod.outlook.com (2603:10b6:5:3b9::17)
+ by LV2PR12MB5848.namprd12.prod.outlook.com (2603:10b6:408:173::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Fri, 25 Aug
+ 2023 10:14:19 +0000
+Received: from CO1PEPF000044F1.namprd05.prod.outlook.com
+ (2603:10b6:5:3b9:cafe::3b) by DS7PR05CA0012.outlook.office365.com
+ (2603:10b6:5:3b9::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6723.19 via Frontend
+ Transport; Fri, 25 Aug 2023 10:14:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CO1PEPF000044F1.mail.protection.outlook.com (10.167.241.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.14 via Frontend Transport; Fri, 25 Aug 2023 10:14:18 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Fri, 25 Aug 2023
+ 03:14:04 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Fri, 25 Aug 2023 03:14:04 -0700
+Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37 via Frontend
+ Transport; Fri, 25 Aug 2023 03:14:04 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
+        <rwarsow@gmx.de>, <conor@kernel.org>,
+        <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH 5.10 000/135] 5.10.192-rc1 review
+In-Reply-To: <20230824170617.074557800@linuxfoundation.org>
+References: <20230824170617.074557800@linuxfoundation.org>
+X-NVConfidentiality: public
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230825-dma_iommu-v12-6-4134455994a7@linux.ibm.com>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-In-Reply-To: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-To:     Joerg Roedel <joro@8bytes.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6202;
- i=schnelle@linux.ibm.com; h=from:subject:message-id;
- bh=fiE9zFBOb3i7e30aILqxNsR0EGadcTeMJhp6cDgPcY0=;
- b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFJe1OW6ffpxsjKz8+OMAwEpGdO01z9gPP00tHrdiVuKr
- mFsDafLO0pZGMQ4GGTFFFkWdTn7rSuYYronqL8DZg4rE8gQBi5OAZjI9xSG/9GJ7Pn8qlUJajKr
- LsQHB2Yebzo6RWmH3eS7iZMEr27klmZkmHVMaXHrgveVfWzzv7f2nTp18/mhzLPGe7faFSdL87m
- fZQYA
-X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
- fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ENNf0qkSrBGinHHtLhO6KnovZeJTHT18
-X-Proofpoint-GUID: DoFOfLHZYGoezvtBy8TJxsJztezeiwm_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_08,2023-08-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 mlxscore=0 malwarescore=0 phishscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2308250087
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Message-ID: <826b587c-c622-4f30-b584-dc8cc3756313@drhqmail201.nvidia.com>
+Date:   Fri, 25 Aug 2023 03:14:04 -0700
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F1:EE_|LV2PR12MB5848:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63116770-ae9a-4ea4-59c0-08dba5540b30
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sUDfXm31JV7J6QT5pzjppQhOQoqR//E3mYvRn/Xyk6sMHU8uTY8khba+atJpDIhEo2EYgbgLhQUE8ShoT4jl3tjl3rW3G00AVApbr5ljtLRWUNUYDMHu2ctOqeNe3zKzRaoqWEvastLW7SCNpYvY8HVh6hIGND4XXVqdOByCFUTzrEusY3AGSxP2xfiF1R8B3ttLAS9ybRs4N9l0jPvNTdsCHFxgAR8S42zy5E2val763pjGav9cJN6nBFyNim7JgJp91S4dyrcpniQqpzOaUrYoxuXfXRWtiFBjUC9OErUxAMCV7mBNsZO1LLv2tXp5Pe8JWBZVDzUIozxVEKfpD8OGR2Hs2t0i0XWQxkRYm/rDIyi+59Cc68IQVTSRGZlX8rKGmqbg5QZjazytwqIRSdxfX13VJ1la2nVWGEIoHlzXD24m5y094jUEBGvLOzzxTyWgZsTWQe6eFcZR13r+xasSlY57kFBHi2CAD9nEOMGCo8HUb27L/uTBatTU0lPnPINETa7iuvaGLt4o8xuQgn2r4sdKrhysA0GpKpUF0QLt3sGkyJozbBo84MjfrNeTMmx1WQRZpXx4a1JW6EGETTNf4gI8r9qNssZzqpqlZUmHA21fNM6OGKMIgSPufesJq7Or+QPuSriOZdzPTN7fUiDEFtE0vKGYv0ryWb6yKunOsw7Qh/sdTA1ciPClMGRv8HzqGI0nUeBMTf0WnGX2KChnAgD1Yvh4drX/2q1epEfjYYW1SQfwFo54wZqgq0r7mXUqf+rIaoQnOTbUeJxBlrg3LHaUWgCkWNBnYnE34Ww=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(136003)(346002)(451199024)(82310400011)(1800799009)(186009)(46966006)(36840700001)(40470700004)(31686004)(356005)(31696002)(86362001)(82740400003)(7636003)(40460700003)(478600001)(966005)(5660300002)(70206006)(316002)(6916009)(2906002)(54906003)(4326008)(8676002)(8936002)(70586007)(40480700001)(426003)(336012)(26005)(36860700001)(47076005)(7416002)(41300700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2023 10:14:18.5829
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63116770-ae9a-4ea4-59c0-08dba5540b30
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5848
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Flush queues currently use a fixed compile time size of 256 entries.
-This being a power of 2 allows the compiler to use shift and mask
-instead of more expensive modulo operations. With per-CPU flush queues
-larger queue sizes would hit per-CPU allocation limits, with a single
-flush queue these limits do not apply however. Also with single queues
-being particularly suitable for virtualized environments with expensive
-IOTLB flushes these benefit especially from larger queues and thus fewer
-flushes.
+On Thu, 24 Aug 2023 19:07:52 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.10.192 release.
+> There are 135 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat, 26 Aug 2023 17:05:50 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.192-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-To this end re-order struct iova_fq so we can use a dynamic array and
-introduce the flush queue size and timeouts as new options in the
-iommu_dma_options struct. So as not to lose the shift and mask
-optimization, use a power of 2 for the length and use explicit shift and
-mask instead of letting the compiler optimize this.
+All tests passing for Tegra ...
 
-A large queue size and 1 second timeout is then set for the shadow on
-flush case set by s390 paged memory guests. This then brings performance
-on par with the previous s390 specific DMA API implementation.
+Test results for stable-v5.10:
+    11 builds:	11 pass, 0 fail
+    28 boots:	28 pass, 0 fail
+    75 tests:	75 pass, 0 fail
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/iommu/dma-iommu.c | 50 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+Linux version:	5.10.192-rc1-g78bdf347b342
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
+                tegra20-ventana, tegra210-p2371-2180,
+                tegra210-p3450-0000, tegra30-cardhu-a04
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 09660b0af130..9d9a5aefd53d 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -50,6 +50,8 @@ enum iommu_dma_queue_type {
- 
- struct iommu_dma_options {
- 	enum iommu_dma_queue_type qt;
-+	size_t		fq_size;
-+	unsigned int	fq_timeout;
- };
- 
- struct iommu_dma_cookie {
-@@ -98,10 +100,12 @@ static int __init iommu_dma_forcedac_setup(char *str)
- early_param("iommu.forcedac", iommu_dma_forcedac_setup);
- 
- /* Number of entries per flush queue */
--#define IOVA_FQ_SIZE	256
-+#define IOVA_DEFAULT_FQ_SIZE	256
-+#define IOVA_SINGLE_FQ_SIZE	32768
- 
- /* Timeout (in ms) after which entries are flushed from the queue */
--#define IOVA_FQ_TIMEOUT	10
-+#define IOVA_DEFAULT_FQ_TIMEOUT	10
-+#define IOVA_SINGLE_FQ_TIMEOUT	1000
- 
- /* Flush queue entry for deferred flushing */
- struct iova_fq_entry {
-@@ -113,18 +117,19 @@ struct iova_fq_entry {
- 
- /* Per-CPU flush queue structure */
- struct iova_fq {
--	struct iova_fq_entry entries[IOVA_FQ_SIZE];
--	unsigned int head, tail;
- 	spinlock_t lock;
-+	unsigned int head, tail;
-+	unsigned int mod_mask;
-+	struct iova_fq_entry entries[];
- };
- 
- #define fq_ring_for_each(i, fq) \
--	for ((i) = (fq)->head; (i) != (fq)->tail; (i) = ((i) + 1) % IOVA_FQ_SIZE)
-+	for ((i) = (fq)->head; (i) != (fq)->tail; (i) = ((i) + 1) & (fq)->mod_mask)
- 
- static inline bool fq_full(struct iova_fq *fq)
- {
- 	assert_spin_locked(&fq->lock);
--	return (((fq->tail + 1) % IOVA_FQ_SIZE) == fq->head);
-+	return (((fq->tail + 1) & fq->mod_mask) == fq->head);
- }
- 
- static inline unsigned int fq_ring_add(struct iova_fq *fq)
-@@ -133,7 +138,7 @@ static inline unsigned int fq_ring_add(struct iova_fq *fq)
- 
- 	assert_spin_locked(&fq->lock);
- 
--	fq->tail = (idx + 1) % IOVA_FQ_SIZE;
-+	fq->tail = (idx + 1) & fq->mod_mask;
- 
- 	return idx;
- }
-@@ -155,7 +160,7 @@ static void fq_ring_free_locked(struct iommu_dma_cookie *cookie, struct iova_fq
- 			       fq->entries[idx].iova_pfn,
- 			       fq->entries[idx].pages);
- 
--		fq->head = (fq->head + 1) % IOVA_FQ_SIZE;
-+		fq->head = (fq->head + 1) & fq->mod_mask;
- 	}
- }
- 
-@@ -240,7 +245,7 @@ static void queue_iova(struct iommu_dma_cookie *cookie,
- 	if (!atomic_read(&cookie->fq_timer_on) &&
- 	    !atomic_xchg(&cookie->fq_timer_on, 1))
- 		mod_timer(&cookie->fq_timer,
--			  jiffies + msecs_to_jiffies(IOVA_FQ_TIMEOUT));
-+			  jiffies + msecs_to_jiffies(cookie->options.fq_timeout));
- }
- 
- static void iommu_dma_free_fq_single(struct iova_fq *fq)
-@@ -279,27 +284,29 @@ static void iommu_dma_free_fq(struct iommu_dma_cookie *cookie)
- 		iommu_dma_free_fq_percpu(cookie->percpu_fq);
- }
- 
--static void iommu_dma_init_one_fq(struct iova_fq *fq)
-+static void iommu_dma_init_one_fq(struct iova_fq *fq, size_t fq_size)
- {
- 	int i;
- 
- 	fq->head = 0;
- 	fq->tail = 0;
-+	fq->mod_mask = fq_size - 1;
- 
- 	spin_lock_init(&fq->lock);
- 
--	for (i = 0; i < IOVA_FQ_SIZE; i++)
-+	for (i = 0; i < fq_size; i++)
- 		INIT_LIST_HEAD(&fq->entries[i].freelist);
- }
- 
- static int iommu_dma_init_fq_single(struct iommu_dma_cookie *cookie)
- {
-+	size_t fq_size = cookie->options.fq_size;
- 	struct iova_fq *queue;
- 
--	queue = vmalloc(sizeof(*queue));
-+	queue = vmalloc(struct_size(queue, entries, fq_size));
- 	if (!queue)
- 		return -ENOMEM;
--	iommu_dma_init_one_fq(queue);
-+	iommu_dma_init_one_fq(queue, fq_size);
- 	cookie->single_fq = queue;
- 
- 	return 0;
-@@ -307,15 +314,17 @@ static int iommu_dma_init_fq_single(struct iommu_dma_cookie *cookie)
- 
- static int iommu_dma_init_fq_percpu(struct iommu_dma_cookie *cookie)
- {
-+	size_t fq_size = cookie->options.fq_size;
- 	struct iova_fq __percpu *queue;
- 	int cpu;
- 
--	queue = alloc_percpu(struct iova_fq);
-+	queue = __alloc_percpu(struct_size(queue, entries, fq_size),
-+			       __alignof__(*queue));
- 	if (!queue)
- 		return -ENOMEM;
- 
- 	for_each_possible_cpu(cpu)
--		iommu_dma_init_one_fq(per_cpu_ptr(queue, cpu));
-+		iommu_dma_init_one_fq(per_cpu_ptr(queue, cpu), fq_size);
- 	cookie->percpu_fq = queue;
- 	return 0;
- }
-@@ -635,11 +644,16 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
- static void iommu_dma_init_options(struct iommu_dma_options *options,
- 				   struct device *dev)
- {
--	/* Shadowing IOTLB flushes do better with a single queue */
--	if (dev->iommu->shadow_on_flush)
-+	/* Shadowing IOTLB flushes do better with a single large queue */
-+	if (dev->iommu->shadow_on_flush) {
- 		options->qt = IOMMU_DMA_OPTS_SINGLE_QUEUE;
--	else
-+		options->fq_timeout = IOVA_SINGLE_FQ_TIMEOUT;
-+		options->fq_size = IOVA_SINGLE_FQ_SIZE;
-+	} else {
- 		options->qt = IOMMU_DMA_OPTS_PER_CPU_QUEUE;
-+		options->fq_size = IOVA_DEFAULT_FQ_SIZE;
-+		options->fq_timeout = IOVA_DEFAULT_FQ_TIMEOUT;
-+	}
- }
- 
- /**
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
--- 
-2.39.2
-
+Jon
