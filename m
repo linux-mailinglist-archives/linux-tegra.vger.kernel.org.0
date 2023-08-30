@@ -2,180 +2,263 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF5F78DD2D
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Aug 2023 20:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1439B78DD33
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Aug 2023 20:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243123AbjH3SsR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Aug 2023 14:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42390 "EHLO
+        id S243022AbjH3SsX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Aug 2023 14:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243466AbjH3LHH (ORCPT
+        with ESMTP id S243861AbjH3L6r (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Aug 2023 07:07:07 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2061.outbound.protection.outlook.com [40.107.212.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAA41BF;
-        Wed, 30 Aug 2023 04:07:00 -0700 (PDT)
+        Wed, 30 Aug 2023 07:58:47 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8911B0;
+        Wed, 30 Aug 2023 04:58:44 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KOLUKVhWMHRlKTDRdf+Aa3ae+rBnvDrjd46Gy7Y5HUhsBT0fv5B9Tm1xpOSopdHUZnuhJMEuYMqbP79kZDvPuQVaz9fPmHB0psh5dKtvSL+eyqr0DBPlBC15EV1ZPm/iTseHYHD5vrZIKnB2hQmNxEZB2ous2Y62odjNWdhfMG1HqTubRRG6GY0CvQKP3fBRJl1nfgbQJb0FnIkA5RiklWf4CVD8BIDktwy43MeYYTIW0vYWa38BN3Gywt0iv2u+y+drCbC6t5getS94PzmtLOpMNtVI/mT0Wskbm3r0UkCZowcPROBCf0vdbZpiEurViFFoKoSg9rS66x+OOuMOoA==
+ b=ZvDQeu86MpBjf8qBId14xgmVZ3hiS5+48/KLPKMLNmYLbt4hTxDNpqj6l2uHtMvSDn+gshtp/0GARe7fCT5ZHomDtExTCyd04RoVkkLH2CXRhqUGN3PG599KnktlNOJq9wDNX+9BhC4fkUr56IeZzhdpgsNjsXrdiZRSIIT7TmGfyo3chEeH3DdS3lQOv3FotMt2IGayiZpQjzs1DQ0RvQwoK47lxMyZK7Sh8ijg6VzVuX6zMRBhJPV2iF8xVAaSsHWIm9x/+MREVCvTY3XBOLEqrBkLpLmS9b83GT3y8eGtPwP+R/vYcFOjWYOG9nfeEY3OWr4eDlZHmgJP3ZUV5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2FZyxkndTsFwNtE4mF3Bsn7zW5ubTF4teOW+DY5a2OU=;
- b=HY5wFU6ZNwNLsSO82WPeAwOH5lmyiSZE1q1mQphO6oBEALlE+ateWoE0ISmVyTwOc9b05aEgczRyJlejhXZt81RW5UNFCJiwRGFKcZz2rnhZUP9SKTzOydSUKO/kcMfQErchwl2J6RX6Hk2GmFQAq/XqHP5yX/KUR4aHnYqtt9mZuxo4tsLR6yKBoqiMVOc8mnrp6jFzk9YScd/LAeKUrmoVXGUUYLr9u6YWJMObBAgh/5VAH4cX4bFOp5Ok2ahS4A2TfOqFLu5lZ89YU1ohc2ZNDis4JJznASWb9OXrRJylo5Vi4ur6OI+l4/AfIlF7dzlwf64waViGRMPCtRt5kQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=h+Sabd2z4EN9K5LGigJTA3hTk3qNf3pWhPH8nWmVAHI=;
+ b=FgUwMZkzSBfyUBm9BpjFi8ZMMbj4crKYiBhJHG1RqfLGk/ROtwdEP4dfh4maqBP/XbnidJMK3qHZ20UO8BhcPYRkPWvp+s8hTGbsubQ+ORNVS4ZzA2e+6k5+oX8YiVQFbOUi9xzcB49gZ37I1Ne/7NK+Pk83I9bZZKyZoU5A8YyxxRwpCM5w6mmAVCNyy5DHv2JnfGpfMCBsA77g15SLN8II9W/JCAOIKu/nab2jNpIwSAScefYxz/mfd2/zE3+RYQTub5MgdMQyJBZ5ALzbMv5bPqM7xDyxYvGNsD2hMU7XF9dH0aPEB1DLPNzpzmQ5kJ2gWZtYv53sTZHrsacZKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2FZyxkndTsFwNtE4mF3Bsn7zW5ubTF4teOW+DY5a2OU=;
- b=aOC+CMgTrd0VygjIF7arSh5SF8/KoFb/94FMMT8MURUmUA+6PGcMhTj+VH17kzhqFXVwB5B7WqY03P9JFDcC4NmwbDaF8XXr9hScuvh6lBpTfa1zXAT7WjBTk9ZQsxRAE4LQmLZGNjf2aOXv8iFfr1rIAFIFoCit32P3FA2f6k80p+m4LF1aBKYEVvjhgnOYmsUkSFNMARGf04JgPQCtKCKb98DTieoCeuxy1aqoFIatKbEc0LIACrlmAKn58mutK9iBtiGqVUdwB8UdcRSsJADOXFJk2uXsjmQ6FNUC89TK5uAlUI5BRlc1xfclI7yGp9FFQ7HymbVScgVGcjk5Yg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- MN2PR12MB4469.namprd12.prod.outlook.com (2603:10b6:208:268::22) with
+ bh=h+Sabd2z4EN9K5LGigJTA3hTk3qNf3pWhPH8nWmVAHI=;
+ b=dkoun+Sc20gAsRYaSatn9TwXdvtnCn+vNwF5MWeS547sOIuG1rB4KxyllZhGVThpS3Ol39rEwwMJs+kFaTdbZgyzWYz9HoqxzbCtGDD416rM8iDwrxB3e39zVSeB6fz+U+sYQc8RgaQZctQxpTRsYRzFDeGG0EBM07hE8vcPUuxRUONzn6VSg0FDZ3/LUW0qrJICwbGdK36vToDFG/IENdt1sjD4rJvOnZoTa9VI4NSMXC/mIMk45Aj+qYcgiJWALnBr/4ALdaXRi1mqxAFHdN32gq+lUTtpki32Oa8MdXOpQRmay2KwMk777hD8/GenaKikOI58sw58z/voUq610w==
+Received: from BY3PR04CA0014.namprd04.prod.outlook.com (2603:10b6:a03:217::19)
+ by PH7PR12MB9104.namprd12.prod.outlook.com (2603:10b6:510:2f3::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Wed, 30 Aug
- 2023 11:06:58 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::1d1b:2ca4:1600:a865]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::1d1b:2ca4:1600:a865%4]) with mapi id 15.20.6699.035; Wed, 30 Aug 2023
- 11:06:58 +0000
-Message-ID: <947f4170-f8ca-11db-15bc-aafdd1670fe9@nvidia.com>
-Date:   Wed, 30 Aug 2023 12:06:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 4.19 000/129] 4.19.293-rc1 review
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, pavel@denx.de, f.fainelli@gmail.com,
-        sudipm.mukherjee@gmail.com, srw@sladewatkins.net, rwarsow@gmx.de,
-        conor@kernel.org, linux-tegra@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20230828101153.030066927@linuxfoundation.org>
- <20604021-9f6c-4c11-9335-cc9fa10d7c63@rnnvmail204.nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20604021-9f6c-4c11-9335-cc9fa10d7c63@rnnvmail204.nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0592.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:295::9) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+ 2023 11:58:42 +0000
+Received: from MWH0EPF000971E3.namprd02.prod.outlook.com
+ (2603:10b6:a03:217:cafe::9c) by BY3PR04CA0014.outlook.office365.com
+ (2603:10b6:a03:217::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20 via Frontend
+ Transport; Wed, 30 Aug 2023 11:58:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ MWH0EPF000971E3.mail.protection.outlook.com (10.167.243.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6745.17 via Frontend Transport; Wed, 30 Aug 2023 11:58:42 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Wed, 30 Aug 2023
+ 04:58:34 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Wed, 30 Aug 2023 04:58:33 -0700
+Received: from sumitg-l4t.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Wed, 30 Aug 2023 04:58:31 -0700
+From:   Sumit Gupta <sumitg@nvidia.com>
+To:     <treding@nvidia.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <sivaramn@nvidia.com>, <talho@nvidia.com>, <bbasu@nvidia.com>,
+        <sumitg@nvidia.com>
+Subject: [Patch] firmware: tegra: reset BPMP IPC channels early during resume
+Date:   Wed, 30 Aug 2023 17:28:29 +0530
+Message-ID: <20230830115829.23977-1-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|MN2PR12MB4469:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f6a684d-1c6d-4bea-4a4e-08dba9493a60
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E3:EE_|PH7PR12MB9104:EE_
+X-MS-Office365-Filtering-Correlation-Id: da6e6d57-b820-4e89-41f0-08dba950748f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0tyEgvyjYfeP9at1WJIuxxQy1GhJje0GyzXOkJNlefqU/5leO51u86RPTrNf4n8imk1OiMKfCNdSFyKUNzVZ2XFVRLOm9Hp59MbWghRQf3HuozJkp11/KJdiPBqsS70iIk+kqISobvnvx1N6LC8zEqREQXn1xFeMgn/8SibtSgmzDHiP9ebNsqR1IYBtf24AXhL9Y36xkOO+cF8NUlLWpJUxi55Fcsd3T/0qDwxpIHMnMgxd5jS02CsLVkN+mhqiumZ9zbgjGE8UycnfRJayq/AM+rrvNoeOp1Bx3N4Seo8CTV0RTKq/nMNkWCsZMLFgOzaYMtGe9EqdFDEv0xypt5+zI5P03f7HRMhij/2XidnrGeEri23SK1Lj7UcMlJqN7iCR4F5b1bitaHolt2OSMziKGFGohqtulBkUb1OUHhDoHAFY+vRka4DBpbG6lmDc+DGGkXPfJD+cn6PdFKE5XXROM2DzK9Dwln40D+HWyzCofTHNoBLjvjyXP4ljaN8YG+K4WPT12kge5f5J3ygxEAHSD8ZQDclsnpb/Em0TqfV9iTXYBxns/BiU/wR2p5ISGva4qMk3L2ikY5hseFfirWbHx0+aS6/0RB7u/vKPUJBbgPcVKKvUxBpqUhziqVMrU3+qOMKbokoPj9OKZAuFU5/rsVT60wDdXe3RrWrjDlwg2kx/xU3NAZvpo363pFmi
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(376002)(366004)(39860400002)(346002)(1800799009)(186009)(451199024)(31686004)(2906002)(5660300002)(7416002)(31696002)(86362001)(36756003)(38100700002)(8676002)(4326008)(41300700001)(8936002)(83380400001)(66556008)(26005)(316002)(2616005)(6512007)(6916009)(55236004)(6506007)(53546011)(6486002)(6666004)(966005)(66476007)(478600001)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NktJU1QrTDJ0V1dFSFRzeXdLN2tieERJTEFFczZweGZSMUtKRlNWMW5BOUI5?=
- =?utf-8?B?ZzFGRHhpOU5FbjZVWjVqanpXKzZmNnEvNUdtK2hsM1dUbFhmejJkUUhtbXlj?=
- =?utf-8?B?Ym1qeWpYdDlxMmVJck03djdKQ21HQlNrMnRtRjNta2J4ZnhEang2ZHJsY0p1?=
- =?utf-8?B?b201SVhoSnVoRE1UMkEzZktkZGl1TWoySSt2dStoS2VTQytCL08yNWRWZnhr?=
- =?utf-8?B?eUdRYklVRExpcERWU0RrK3Z6ZmtnbzdwYTZwTWNoVlAxZG5lcUEvT1lpUFYr?=
- =?utf-8?B?SlBWTmZ3eExnVFZtZVJUQlNRU2FaenN0N1VITzdSOWt1NDVoOHJTVEl1dzYr?=
- =?utf-8?B?OUx5MVhQNW8vcTBPUlNQaFdQUG4yOE9zUCtNRi9LTDRERmJsQWM3WFM0WkZO?=
- =?utf-8?B?UUdWd08wdmVNcHpQN0ZzV3hRSkFNY2wyaExVR3dmWGw2WGFWZHM0NTZxNFRq?=
- =?utf-8?B?bHovY2dXMVZLMkMwY3hmRDZXZnFwVDUxVGJRd1ExaFU0Vk5YbWNkcVh0dGhK?=
- =?utf-8?B?SEcyalJVMHRGbElRbFhLOGF6K0RxakYxOTBCMk5CVVVLVnRtbmRTTkxhSjZk?=
- =?utf-8?B?dXo3bzVBM2w0a2UvSlVXMFhLdU8yQTc0ZVFYbG41QlRBdmJKajR5ZlowcHdz?=
- =?utf-8?B?czI2YkJpc2ZVa1o2bXdGL09oem9RWmVXa2d4N2creDRTdkNndXlWRFVOcVVm?=
- =?utf-8?B?a2xmMXVUbmdYZThQMTFMYWZub1dNSVNqdGZNMWk5bWg1RHlJMS9NNUJ1RTl3?=
- =?utf-8?B?Uk9Sc1B6M2NneCtQczh6UzNZZFRnY3NlMEhhS0dJRUk2UnZQLzBnM0Y3emFq?=
- =?utf-8?B?ckRibUlrempoRWUxQmtqcjNiSVIvb3dXdERoVm01M3VxVGhpTTJqNWRJZm56?=
- =?utf-8?B?TlN5Wm41VnNCUjNWbXlaa1F2M0xvWjBOZTB5M3ZjQ3FnTGRJZ1E1OSs1Um4r?=
- =?utf-8?B?NnkxQ2k1QTdOTnpXb2cyMmhDZkp0TzJCeXY2Y2xwcnU0YXlRRWt4bDlhV3pj?=
- =?utf-8?B?QWkyb3BCRHVNQ0xFQ29PTWZGSWxoMEtjaHpieHJYTDJyTTc5RGRZWVJMUTRl?=
- =?utf-8?B?M2NPb2pTSitlWDk5S244OFpHdHFKWk1jSVBlbSs3dXh5WGRLaUtQUjQzMit6?=
- =?utf-8?B?SlBDTkpsei9PQW1YTFRHSEt6UW9zMFV4MU1tQ0QrR2ZhNjdzeEVKUEhVY3lD?=
- =?utf-8?B?ZjVlYWNUZk9IWVc1RmJUNkNERE5DMVBwN3dMVEFhZzdMdXdPZ1laWU5DSFJi?=
- =?utf-8?B?anZOYmV0SkhDRUZrVzlReFZMS05pMjZhQklmdnM5RW5UWkpwSWlyMkRvQ0No?=
- =?utf-8?B?L3ZaM2xldjIrQWsxblJTc0tPUWpzb0N4S1BKaC96Ry80WENhNjZ5OGlxS29N?=
- =?utf-8?B?V0xQdXVhMlo0UFNPVjJweHRveGhLV3NIYWllVjR0TzJBbjR5ckJ4Rk5vVVhU?=
- =?utf-8?B?VDVVWkZZbmhadHFLamVidzZQbStWZ1FoSFlPVkxEZm1OK2tGdGtyRHo5cy9z?=
- =?utf-8?B?QUlzWTJYTDlVdERCNkZHL25vUkEybG9vY3J1SkFybnh0SUE3TDFjRWFkWVJS?=
- =?utf-8?B?S2ZZUXNOWXJYdXZ4clBjaEZFUTFFTmo4eVRxellPWFZ5K0orcVZOdjBxSmdB?=
- =?utf-8?B?cHFVaXlXWFBlcWV1aUQvY3RMaG5NNlpMZEJJUjlpZFJaM1RscHNJdVBpS0hn?=
- =?utf-8?B?VWtIcVNMcHBvN2FVakVrRk01Sm5zUDF0a3lDbEk1dmFwVW5XdU1idmJVdUhF?=
- =?utf-8?B?eldlbkZ4MVVDM2pSOENMZitvN3NkMk1pQzVPQXUwY1MzS3JKKzJlVXFFWXpB?=
- =?utf-8?B?VzE0M2NKTWxPTUdWN2EyNVFydVpJdW12bWZyVk9MNzQxR3dnUURXNDRqVm1N?=
- =?utf-8?B?MnMySC8zRVhoc2IzZ0E1THhEOExHVFFzV0dVeWdpWXFKYS9sei9CMHVSZUxN?=
- =?utf-8?B?UFYzZXhlckNrNm5hRFhBNWpMM1RCeUp4bWhiS1pGbUNJNG01cUI1N3ltZFkw?=
- =?utf-8?B?Q2ZpTVpIT1NWWjNWMWs2REFDWjRzelcxcDRQVkIySXpKMU5jNWYyREhsZ2FQ?=
- =?utf-8?B?MVZlZjNDMVR6aEVmbHNlQ3p5bU5Zc1Rzbm5rVlVPbzg4THl3a2dOMGM4M0hx?=
- =?utf-8?B?RlZxbGp4bUE5ajRIUHNyUFI5UUFaS01uY1kzck5HcUI2K204blRzbkZ2ZWEz?=
- =?utf-8?B?Vnc9PQ==?=
+X-Microsoft-Antispam-Message-Info: hYxUmMJHlSsVtwTzRkvnpAW7kTDkJQHGS6IuQ1qubzi5KZnVhwDy6xonadqgBe0ebMwrzuq1gwkk1pJrIwlv2xbocXKKZqUbTmlBIq5MIlDG3WhEaXMKvUdtryuQcgrT2tXQx5T5YF8yFhoe4bltYA4tMrG6KhIwC4objs5pHNEyZD8VBGB4s7jVBcN8YnF43r12vAWxeu9f/6B+qu+ht1ZxE4w+PVpKQ9e2CrsK5cBDCyH87VTpAEG8D0S4IGruNhUCVEC1Vmt7nYXqwxqjawuPxYvsC+JV/HOdSFbLp/eKWctVV8YhdnGuGnbLa2uW40ECTzdgMZgjiCzwk+TxqW8LnfNC4cEVZTaPdtvCQoeMBjx11HnXrt5TzdVxjc2u4Q0WY0O3JM0EiZj/7Pq2pQtlhDUcsPc7iib0l6hWdJBWQ6cfuUnKJtOzfcrTKi+P9GvVrfW/tyt9DNk3riaMted89DchEkPVqFM1cbcHIDXFEjqVjBUHBmELpjA2pMw+d227sCtUI0Qb1QZbXErvrhFlZFbP3IBlZLDx7Twk/QGtTYR3W6GUJsD90slS/r/te8bO+9SxUIWWGKxGEWlqBnZivBmbH+i1F4CvXrBNHgX0vXd2FSGJoLPx6u9tOaAoCECSvFIxsJ9mt8tuN+RLRLLc+lYkvDdgS/YFxfLTq5cvKCZeubEnuO8E+JTFrisc3QmKoMQByKxNXsWu2DohLt9IQoJau+o4clSNKSIGrYtydQ1s6Pt0LfiWFabTgDhd
+X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(376002)(396003)(346002)(186009)(82310400011)(1800799009)(451199024)(46966006)(40470700004)(36840700001)(40480700001)(40460700003)(7636003)(316002)(54906003)(70206006)(70586007)(356005)(478600001)(110136005)(82740400003)(2906002)(86362001)(8936002)(8676002)(450100002)(7696005)(41300700001)(5660300002)(4326008)(83380400001)(107886003)(36860700001)(47076005)(1076003)(26005)(426003)(2616005)(336012)(36756003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f6a684d-1c6d-4bea-4a4e-08dba9493a60
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 11:06:58.1399
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 11:58:42.0143
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: da6e6d57-b820-4e89-41f0-08dba950748f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pusiTWZMzekJupUh0KJCYA+CyB3s7P4iUEBbP3F6iVvGI8qX4JHUh8YgnEgjl1ENDxrf+XiPXN27xdhkQo49MQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4469
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E3.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9104
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Add 'tegra_bpmp_reset()' function to reset the IPC channels for BPMP
+on first call to tegra_bpmp_transfer() API after system resumes. This
+allows us to handle any requests that might be sent too soon as they
+can cause hang during system resume. One case where we see BPMP requests
+being sent before the BPMP driver has resumed is the memory bandwidth
+requests which are triggered by onlining the CPUs during system resume.
+The CPUs are onlined before the BPMP has resumed and we need to reset
+the BPMP IPC channels to handle these requests.
 
-On 30/08/2023 12:04, Jon Hunter wrote:
-> On Mon, 28 Aug 2023 12:11:34 +0200, Greg Kroah-Hartman wrote:
->> This is the start of the stable review cycle for the 4.19.293 release.
->> There are 129 patches in this series, all will be posted as a response
->> to this one.  If anyone has any issues with these being applied, please
->> let me know.
->>
->> Responses should be made by Wed, 30 Aug 2023 10:11:30 +0000.
->> Anything received after that time might be too late.
->>
->> The whole patch series can be found in one patch at:
->> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.293-rc1.gz
->> or in the git tree and branch at:
->> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
->> and the diffstat can be found below.
->>
->> thanks,
->>
->> greg k-h
-> 
-> Failures detected for Tegra ...
-> 
-> Test results for stable-v4.19:
->      11 builds:	6 pass, 5 fail
->      14 boots:	14 pass, 0 fail
->      24 tests:	24 pass, 0 fail
-> 
-> Linux version:	4.19.293-rc1-ga291d82603f3
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                  tegra194-p2972-0000, tegra20-ventana,
->                  tegra210-p2371-2180, tegra30-cardhu-a04
-> 
-> Builds failed:	aarch64+defconfig+jetson, arm+multi_v7
+Fixes: f41e1442ac5b ("cpufreq: tegra194: add OPP support and set bandwidth")
+Signed-off-by: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+---
+ drivers/firmware/tegra/bpmp-private.h  |  2 +-
+ drivers/firmware/tegra/bpmp-tegra186.c |  4 +--
+ drivers/firmware/tegra/bpmp.c          | 45 ++++++++++++++++++++++----
+ include/soc/tegra/bpmp.h               |  2 ++
+ 4 files changed, 44 insertions(+), 9 deletions(-)
 
-
-It is the same build issue everyone is reporting ...
-
-  kernel/drivers/bus/ti-sysc.c: In function ‘sysc_reset’:
-  kernel/drivers/bus/ti-sysc.c:982:8: error: implicit declaration of function ‘sysc_read_sysconfig’; did you mean ‘sysc_read_revision’? [-Werror=implicit-function-declaration]
-   val = sysc_read_sysconfig(ddata);
-         ^~~~~~~~~~~~~~~~~~~
-
-Jon
-
+diff --git a/drivers/firmware/tegra/bpmp-private.h b/drivers/firmware/tegra/bpmp-private.h
+index 182bfe396516..8f59bbe990dc 100644
+--- a/drivers/firmware/tegra/bpmp-private.h
++++ b/drivers/firmware/tegra/bpmp-private.h
+@@ -20,7 +20,7 @@ struct tegra_bpmp_ops {
+ 	int (*post_response)(struct tegra_bpmp_channel *channel);
+ 	int (*post_request)(struct tegra_bpmp_channel *channel);
+ 	int (*ring_doorbell)(struct tegra_bpmp *bpmp);
+-	int (*resume)(struct tegra_bpmp *bpmp);
++	int (*reset)(struct tegra_bpmp *bpmp);
+ };
+ 
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
+diff --git a/drivers/firmware/tegra/bpmp-tegra186.c b/drivers/firmware/tegra/bpmp-tegra186.c
+index 6f0d0511b486..122d0c630863 100644
+--- a/drivers/firmware/tegra/bpmp-tegra186.c
++++ b/drivers/firmware/tegra/bpmp-tegra186.c
+@@ -366,7 +366,7 @@ static void tegra186_bpmp_deinit(struct tegra_bpmp *bpmp)
+ 	tegra186_bpmp_teardown_channels(bpmp);
+ }
+ 
+-static int tegra186_bpmp_resume(struct tegra_bpmp *bpmp)
++static int tegra186_bpmp_reset(struct tegra_bpmp *bpmp)
+ {
+ 	tegra186_bpmp_reset_channels(bpmp);
+ 
+@@ -385,5 +385,5 @@ const struct tegra_bpmp_ops tegra186_bpmp_ops = {
+ 	.post_response = tegra186_bpmp_post_message,
+ 	.post_request = tegra186_bpmp_post_message,
+ 	.ring_doorbell = tegra186_bpmp_ring_doorbell,
+-	.resume = tegra186_bpmp_resume,
++	.reset = tegra186_bpmp_reset,
+ };
+diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+index 51d062e0c3f1..6a269a66175e 100644
+--- a/drivers/firmware/tegra/bpmp.c
++++ b/drivers/firmware/tegra/bpmp.c
+@@ -313,6 +313,14 @@ static ssize_t tegra_bpmp_channel_write(struct tegra_bpmp_channel *channel,
+ 	return __tegra_bpmp_channel_write(channel, mrq, flags, data, size);
+ }
+ 
++static int tegra_bpmp_reset(struct tegra_bpmp *bpmp)
++{
++	if (bpmp->soc->ops->reset)
++		return bpmp->soc->ops->reset(bpmp);
++
++	return 0;
++}
++
+ int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp,
+ 			       struct tegra_bpmp_message *msg)
+ {
+@@ -325,6 +333,15 @@ int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp,
+ 	if (!tegra_bpmp_message_valid(msg))
+ 		return -EINVAL;
+ 
++	if (bpmp->needs_reset) {
++		err = tegra_bpmp_reset(bpmp);
++		if (err < 0) {
++			dev_err(bpmp->dev, "Failed to reset the BPMP!\n");
++			return err;
++		}
++		bpmp->needs_reset = false;
++	}
++
+ 	channel = bpmp->tx_channel;
+ 
+ 	spin_lock(&bpmp->atomic_tx_lock);
+@@ -364,6 +381,15 @@ int tegra_bpmp_transfer(struct tegra_bpmp *bpmp,
+ 	if (!tegra_bpmp_message_valid(msg))
+ 		return -EINVAL;
+ 
++	if (bpmp->needs_reset) {
++		err = tegra_bpmp_reset(bpmp);
++		if (err < 0) {
++			dev_err(bpmp->dev, "Failed to reset the BPMP!\n");
++			return err;
++		}
++		bpmp->needs_reset = false;
++	}
++
+ 	channel = tegra_bpmp_write_threaded(bpmp, msg->mrq, msg->tx.data,
+ 					    msg->tx.size);
+ 	if (IS_ERR(channel))
+@@ -740,6 +766,8 @@ static int tegra_bpmp_probe(struct platform_device *pdev)
+ 	if (err < 0)
+ 		return err;
+ 
++	bpmp->needs_reset = false;
++
+ 	err = tegra_bpmp_request_mrq(bpmp, MRQ_PING,
+ 				     tegra_bpmp_mrq_handle_ping, bpmp);
+ 	if (err < 0)
+@@ -796,18 +824,23 @@ static int tegra_bpmp_probe(struct platform_device *pdev)
+ 	return err;
+ }
+ 
+-static int __maybe_unused tegra_bpmp_resume(struct device *dev)
++static int __maybe_unused tegra_bpmp_suspend(struct device *dev)
+ {
+ 	struct tegra_bpmp *bpmp = dev_get_drvdata(dev);
+ 
+-	if (bpmp->soc->ops->resume)
+-		return bpmp->soc->ops->resume(bpmp);
+-	else
+-		return 0;
++	/*
++	 * If the BPMP has a reset handler then mark as
++	 * not ready until on entry to suspend. This flag
++	 * is used to trigger the reset after resume.
++	 */
++	if (bpmp->soc->ops->reset)
++		bpmp->needs_reset = true;
++
++	return 0;
+ }
+ 
+ static const struct dev_pm_ops tegra_bpmp_pm_ops = {
+-	.resume_noirq = tegra_bpmp_resume,
++	.suspend_noirq = tegra_bpmp_suspend,
+ };
+ 
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
+diff --git a/include/soc/tegra/bpmp.h b/include/soc/tegra/bpmp.h
+index 5842e38bb288..932f7fd1edfb 100644
+--- a/include/soc/tegra/bpmp.h
++++ b/include/soc/tegra/bpmp.h
+@@ -102,6 +102,8 @@ struct tegra_bpmp {
+ #ifdef CONFIG_DEBUG_FS
+ 	struct dentry *debugfs_mirror;
+ #endif
++
++	bool needs_reset;
+ };
+ 
+ struct tegra_bpmp_message {
 -- 
-nvpublic
+2.17.1
+
