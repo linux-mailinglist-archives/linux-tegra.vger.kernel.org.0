@@ -2,52 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B53479087B
-	for <lists+linux-tegra@lfdr.de>; Sat,  2 Sep 2023 17:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451AD791218
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 Sep 2023 09:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233279AbjIBPWr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 2 Sep 2023 11:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S1346308AbjIDH2Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 Sep 2023 03:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233504AbjIBPWq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Sep 2023 11:22:46 -0400
-Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E121724
-        for <linux-tegra@vger.kernel.org>; Sat,  2 Sep 2023 08:22:41 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id cSRzqoXOCUaEwcSSNqaS2H; Sat, 02 Sep 2023 17:22:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1693668160;
-        bh=OK7xakYKxBr5OBglBORqhPQ35WeB7Etk6Y/hw78k0rE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=jfPDQufxycXowrFFVq4JYOWlEkF/8QLgYpiZySc4oG0V2m4I0AxBHEJI231g7/4yg
-         duJoGWf7WztP1GLXvCGDm6PTK5vBPIFkbgJ68not8KFy396X3SeL3fT4qkJIw6Imyh
-         gBu0Aanea3iOyzAOtYFjY82jbYwxpo/btRwcRonKhR7f9uNjSk7Sve90PWp1gxVyrk
-         SgpzheKRROj0H/thlOwHHPSzkAEtvyWKD6OpskQ064G3+O6GxHxd220zwr8U5ptwKP
-         90+XJnsDbvmRKO3YIWPh7XFAF2Z0yMfEPpkVGGHI3DmxscUybGRbJc5lQlgO7CKy6z
-         CGdpLyzy4UnQg==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 02 Sep 2023 17:22:40 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
-        daniel@ffwll.ch, jonathanh@nvidia.com, digetx@gmail.com
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 6/6] drm/tegra: output: Fix missing i2c_put_adapter() in the error handling paths of tegra_output_probe()
-Date:   Sat,  2 Sep 2023 17:22:13 +0200
-Message-Id: <b38604178991e1f08b2cda219103be266be2d680.1693667005.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1693667005.git.christophe.jaillet@wanadoo.fr>
-References: <cover.1693667005.git.christophe.jaillet@wanadoo.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        with ESMTP id S1348936AbjIDH2Q (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 Sep 2023 03:28:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C6411A;
+        Mon,  4 Sep 2023 00:28:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2D50CB80DB4;
+        Mon,  4 Sep 2023 07:28:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485B6C433C9;
+        Mon,  4 Sep 2023 07:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693812487;
+        bh=vv1R6EaW7tEtWylwxWVKrsPq//31aiakhEZ4nF2yOtk=;
+        h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+        b=OdVJ9D5h85L1MPnu9JSDK/8+2EPO4I3Z4kY1PMpn+97l/phlhuCh0rRgGQpbrU7S+
+         M4jES4FVTInTA2aWcZaO9EI5Cg2d2IUIow+IiL5B86wc0GM0NHIG8J2tRLiLGDvGON
+         M0jTxEjwM3tOvltgYidXVTdOhZH7larSXjaunRSL1V+dG05XysCG1zVj7nvUJzMRbX
+         uB+49/FrEhNisMhQVcXuENb2+yMolNGv/TyNDpmJKG6YOH2axEgxmPp9qM1TPAAiM0
+         +bhFRLomg7rWRNsmB72OuHE1+vhxK5qWd17AbHEgy9AlW2Jt/jEtJOrzOrb76HVKYb
+         BNecyVrO3XtBA==
+Message-ID: <45638a5a3ccc08a7f55036d15b75b7c3.mripard@kernel.org>
+Date:   Mon, 04 Sep 2023 07:28:04 +0000
+From:   "Maxime Ripard" <mripard@kernel.org>
+To:     "Douglas Anderson" <dianders@chromium.org>
+Subject: Re: [RFT PATCH 07/15] drm/tegra: Call drm_atomic_helper_shutdown()
+ at shutdown time
+In-Reply-To: <20230901164111.RFT.7.Ifb4450979b62976fd5a98847dade2e5b377d47c8@changeid>
+References: <20230901164111.RFT.7.Ifb4450979b62976fd5a98847dade2e5b377d47c8@changeid>
+Cc:     airlied@gmail.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        mperttunen@nvidia.com, thierry.reding@gmail.com,
+        "Maxime Ripard" <mripard@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,65 +56,16 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If an error occurs after a successful of_get_i2c_adapter_by_node() call, it
-should be undone by a corresponding i2c_put_adapter().
+On Fri, 1 Sep 2023 16:41:18 -0700, Douglas Anderson wrote:
+> Based on grepping through the source code this driver appears to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown
+> time. Among other things, this means that if a panel is in use that it
+> won't be cleanly powered off at system shutdown time.
+> 
+> 
+> [ ... ]
 
-Add the missing i2c_put_adapter() call.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-Fixes: 9be7d864cf07 ("drm/tegra: Implement panel support")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/gpu/drm/tegra/output.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index dc2dcb5ca1c8..d7d2389ac2f5 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -142,8 +142,10 @@ int tegra_output_probe(struct tegra_output *output)
- 					GPIOD_IN,
- 					"HDMI hotplug detect");
- 	if (IS_ERR(output->hpd_gpio)) {
--		if (PTR_ERR(output->hpd_gpio) != -ENOENT)
--			return PTR_ERR(output->hpd_gpio);
-+		if (PTR_ERR(output->hpd_gpio) != -ENOENT) {
-+			err = PTR_ERR(output->hpd_gpio);
-+			goto put_i2c;
-+		}
- 
- 		output->hpd_gpio = NULL;
- 	}
-@@ -152,7 +154,7 @@ int tegra_output_probe(struct tegra_output *output)
- 		err = gpiod_to_irq(output->hpd_gpio);
- 		if (err < 0) {
- 			dev_err(output->dev, "gpiod_to_irq(): %d\n", err);
--			return err;
-+			goto put_i2c;
- 		}
- 
- 		output->hpd_irq = err;
-@@ -165,7 +167,7 @@ int tegra_output_probe(struct tegra_output *output)
- 		if (err < 0) {
- 			dev_err(output->dev, "failed to request IRQ#%u: %d\n",
- 				output->hpd_irq, err);
--			return err;
-+			goto put_i2c;
- 		}
- 
- 		output->connector.polled = DRM_CONNECTOR_POLL_HPD;
-@@ -179,6 +181,12 @@ int tegra_output_probe(struct tegra_output *output)
- 	}
- 
- 	return 0;
-+
-+put_i2c:
-+	if (output->ddc)
-+		i2c_put_adapter(output->ddc);
-+
-+	return err;
- }
- 
- void tegra_output_remove(struct tegra_output *output)
--- 
-2.34.1
-
+Thanks!
+Maxime
