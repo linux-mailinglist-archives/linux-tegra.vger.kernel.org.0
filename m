@@ -2,114 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C07CB792A2D
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Sep 2023 18:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67E79792A28
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Sep 2023 18:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355092AbjIEQeK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Sep 2023 12:34:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55972 "EHLO
+        id S1355068AbjIEQeJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Sep 2023 12:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353851AbjIEIU6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Sep 2023 04:20:58 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487A7CF6
-        for <linux-tegra@vger.kernel.org>; Tue,  5 Sep 2023 01:20:53 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id 2adb3069b0e04-500a398cda5so3812751e87.0
-        for <linux-tegra@vger.kernel.org>; Tue, 05 Sep 2023 01:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693902051; x=1694506851; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=WyyvPMEfe4FOVqHOIWdr/B2P0p03RPzGq0eAy6olIuEmDr190DF60UMTUjSzD3ICzN
-         0WsAegs64/BiRqCpXkN1qURw3kJmTI2wMa8rTaukjr0/l9jhm+3ubCn9+y0oKw0Vf/Ks
-         YIRtHy/tktgd0JCbt9j66zUkqNxhaH1k0FzKmAu+yKNICqHvkjDH6q7yKGNLfZeY066C
-         rjUXbiHJ42XZriL2gTX15/F6y+Se4qD3ChTlmHmU/A+Bl1kzMG1cMn1BnC25iR+qjjlJ
-         Ikwy1nXebC5hCeU4AgcZQ4VZpVOWulwi6FywqPblj59NiPYUSn0tuU6Bbo6p4XZRvT/F
-         gtfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693902051; x=1694506851;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=CqfTtdU6NzLF91rzgQsGJ4FUsVhti/U8aZJqRcivCxA6Wd8efGJiK48mvIqwaU+eTP
-         WTCIUMb0Cdhlcp1kb5yewqPJel1Hz8cAEMJgmTYZH3nqOrK3IchhhMnChGge/XNGCHUy
-         CYNZK1uLSbGWbkLsBddHo3PPRVZjy+N35LTD3Yp4kL9WD836IPg1h2RrnfaTvvH6yyzb
-         W2G6Xy1KZl0tWb14OunrlCcJJibCoL2zSO1KecKH6ca/KUtCioQyFfaS9SWSj/W3PL3b
-         7ZfAV+EVEehCj2GY3jCrGmsdmrdcPHYRogAq+dqSPFjECqqTMWU2AVCHuWkspTHc/9nz
-         3xOQ==
-X-Gm-Message-State: AOJu0YzyiJZksoHWguCcRomYOejgRmGieadEgniWuZDOScGIEGrDohlY
-        1Um26XSAEihIrrzHkZYyT0QwQO8B6XsQuUIdwNU=
-X-Google-Smtp-Source: AGHT+IHc9ajH3Rii9UZwOOqLrsXanmcTWvKjiURPKmJK5D52sTkbD7l1BRzq/bCfrfUZjlWt/04s1jIBCk3z7CpHIFE=
-X-Received: by 2002:a19:6755:0:b0:501:bf37:1fc0 with SMTP id
- e21-20020a196755000000b00501bf371fc0mr624754lfj.33.1693902050884; Tue, 05 Sep
- 2023 01:20:50 -0700 (PDT)
+        with ESMTP id S1354375AbjIELIS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Sep 2023 07:08:18 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBDA1AB;
+        Tue,  5 Sep 2023 04:08:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ge2QYSjn57Lh9+dFcUov/pudprZeMInx+rEfu0if7iQ6zJQVp0go5hDWdCDwp7ci7XAmoy4jOP4p1WCUNDE6+dQOr8VW2rlgfn6/By150BDRlSDmfcTH4fUOECzSuMViMtSXWDYraFhEyZS8sy3cewPE2IsWiTQZtKVxDJK20S3LMz46QKXwwSU5Grskx1qk3dHLBLGRHTea+pwnEe8KArvPIpYkH+KOJroGA2xd57VrOq2hY/C6kAirMv5auZRMoZg+fFSwqbFoEGeODMn3ycWMiq6W+cxcb0KK8piRWIpHxXXBst6tDe5qx7sQtGrDas30jaOuHIYoT1uxcTRSFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0/63/5LI+OR2/Qe8suMLA2eR6JvsyVY3e8vCVfMr3D0=;
+ b=NMyVxa5M6TTtreLYmKORInCAQ/H1EDv3+NrgGHir+j1JZrZlNRUE9kcd74x6AbL5e1/Uk+S2tTcB45mbZ6T3IDsbj0ucAIoCmxRcIj0pSy8SmV+3FM2K7Pgts6Q2G+oQCZNzpKAxUBsxpMr4jknL4A4iUPGo8nqRqUnA93CkDPnur4pNrLCX3SPgu6eqYEQPAy2/tgQWU/yRoBNrRXVNVbXn8eT0gIfkZeVXIj1i+fKO39+EuZof3B7PhaEafVtEBCxRGoxl6rmrQQbx234gq3vi80b/n7Jbnt05Rw+lfwFWgyHPmokEvD6JjTOjUgdigUzJ1OfTLVqF4I0CkojlGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0/63/5LI+OR2/Qe8suMLA2eR6JvsyVY3e8vCVfMr3D0=;
+ b=HvWVQdL/4CZJZ5Lw10MWCLQx8ZwW/UIsE3irxfbI930S8n1M2OoFnwc5LOsWvrluKil7A5Z8gHAneDJnK8RxF/zbL+6h6UtBYfhoTZG4IU37K6Xa/i8aXH6+7crVOpv2pjnfrodQK9xfrTVRmw+XPYukfQtl5cBvr/cxseRRPYM0IyRh0h8nyz3SRRbccwUCg4wwwyIlyZ3/TvXOCl/d0XNs2B72Xb5mSDhoWHKTrwq/oQGEH4p1f1tGJxIj9/MRbPg1+zmxVcXEPQo8yiBCApF68LIilicjo2noFUDtmCjwXV+EwAo3LZDT23D4cOALYffvtQoUIF/vRhjgndiJtg==
+Received: from SA0PR11CA0193.namprd11.prod.outlook.com (2603:10b6:806:1bc::18)
+ by BY5PR12MB4099.namprd12.prod.outlook.com (2603:10b6:a03:20f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 11:08:08 +0000
+Received: from SA2PEPF000015CC.namprd03.prod.outlook.com
+ (2603:10b6:806:1bc:cafe::76) by SA0PR11CA0193.outlook.office365.com
+ (2603:10b6:806:1bc::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33 via Frontend
+ Transport; Tue, 5 Sep 2023 11:08:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ SA2PEPF000015CC.mail.protection.outlook.com (10.167.241.202) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.25 via Frontend Transport; Tue, 5 Sep 2023 11:08:08 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 5 Sep 2023
+ 04:08:03 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Tue, 5 Sep 2023 04:08:03 -0700
+Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37 via Frontend
+ Transport; Tue, 5 Sep 2023 04:08:03 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
+        <rwarsow@gmx.de>, <conor@kernel.org>,
+        <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH 5.15 00/28] 5.15.131-rc1 review
+In-Reply-To: <20230904182945.178705038@linuxfoundation.org>
+References: <20230904182945.178705038@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Received: by 2002:a54:3ac4:0:b0:22f:40f:e031 with HTTP; Tue, 5 Sep 2023
- 01:20:50 -0700 (PDT)
-Reply-To: wuwumoneytransfer5000@hotmail.com
-From:   "(IMF) SCAM VICTIMS" <mimichi4500@gmail.com>
-Date:   Tue, 5 Sep 2023 01:20:50 -0700
-Message-ID: <CAGhkD8USA9d9+1HDw3AKO0o45v_Z8cjdpcgnjTbVjdDUbiyg2w@mail.gmail.com>
-Subject: Betrugsopfer
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Message-ID: <4e9b3e34-640d-4048-983b-05410a8a6fe3@drhqmail201.nvidia.com>
+Date:   Tue, 5 Sep 2023 04:08:03 -0700
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015CC:EE_|BY5PR12MB4099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 786362ec-050c-453a-c864-08dbae0062c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 25lhQoLesUL8+/59rAXjsCjVKNEo6n4Ul9peECpEqMr38g9qqD4ShgF70pWQRE7JWgOz+luD9ZLl/Bsw1tarRKe3JSeVSFp75/wWliUpotpfgJomW/mr8yEAxDWnNBTxzwpVpZYEtKZsRFpn+4XPHkc+ZQEgA0CMDwIma2phmP1kSluevuPWRV7W5wSA0TX0C1rlncUG2cPAcAGZ2LZixS0jQ6ADgF7/mN3zKFlZFnHxhcXVDW/EFc9PBsgt15Ez3TvKEnkY/7qVygQHqz2Qq8elj46qx3CHNh5YZV/1i9C3U+pevqGow5g5QwNwkFjQR3qJJxlVdagVmcGmxL7z4s6hljV2w9ys9dIMoYdFbFeTXyPvvcAlPiUa2ZEL1zi2+wvnEX1QkQLbAmqUve6EOI0a4U4ghLDlzTS5QBlCoeDY4vLoICG853QkPcZg3qPDIoJkRAQ+ct2vizfp2D2/zKDf01RkFRDL+q6YbQVyFb/TzMiiVkRZ/EVQaVXq2kgwpL2kLn+wFLjF9Ffh9TCOvgK/nvX+obpNKihxhKAaWoL4a9lA+u2nVkh+KveQ0feD09XS7RDEu6YP2OMKOGni0Y1zhFIAZCNL4MN5g17bCPVO08e3EMDxJGxKcbX5t5eoS7vJOPSXj/PHAkaJ+Kc+UuRyZlYmsVm1Iysf51jAFinABunmTH7pQRHeoy0xk0KFVs2vxF4Zp4dqHuoM8Eyqlcl4mcmOF6z2sBNWwdpzPWbJIeduDKG/qFaW/H3Tt2eGRzgGNJ3M2gsYanNeqpo/YVkIPEa1us2uwU6wMK15uWU=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(376002)(136003)(346002)(82310400011)(1800799009)(451199024)(186009)(46966006)(36840700001)(40470700004)(40460700003)(40480700001)(82740400003)(7636003)(26005)(478600001)(356005)(316002)(6916009)(966005)(54906003)(70206006)(70586007)(41300700001)(47076005)(36860700001)(426003)(336012)(31686004)(7416002)(2906002)(31696002)(86362001)(5660300002)(4326008)(8676002)(8936002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:08:08.2365
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 786362ec-050c-453a-c864-08dbae0062c8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015CC.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4099
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Sehr geehrter E-Mail-Besitzer,
+On Mon, 04 Sep 2023 19:30:31 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.15.131 release.
+> There are 28 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 06 Sep 2023 18:29:29 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.15.131-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.15.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
+All tests passing for Tegra ...
 
+Test results for stable-v5.15:
+    11 builds:	11 pass, 0 fail
+    28 boots:	28 pass, 0 fail
+    102 tests:	102 pass, 0 fail
 
-Der Internationale W=C3=A4hrungsfonds (IWF) entsch=C3=A4digt alle Betrugsop=
-fer
-und Ihre E-Mail-Adresse wurde auf der Liste der Betrugsopfer gefunden.
+Linux version:	5.15.131-rc1-gbec292fb85c5
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
+                tegra20-ventana, tegra210-p2371-2180,
+                tegra210-p3450-0000, tegra30-cardhu-a04
 
-Dieses Western Union-B=C3=BCro wurde vom IWF beauftragt Ihnen Ihre
-Verg=C3=BCtung per Western Union Money Transfer zu =C3=BCberweisen.
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Wir haben uns jedoch entschieden Ihre eigene Zahlung =C3=BCber Geldtransfer
-der Westunion in H=C3=B6he von =E2=82=AC5,000, pro Tag vorzunehmen bis die
-Gesamtsumme von =E2=82=AC1,500.000.00, vollst=C3=A4ndig an Sie =C3=BCberwie=
-sen wurde.
-
-Wir k=C3=B6nnen die Zahlung m=C3=B6glicherweise nicht nur mit Ihrer
-E-Mail-Adresse senden daher ben=C3=B6tigen wir Ihre Informationen dar=C3=BC=
-ber
-wohin wir das Geld an Sie senden wie z. B.:
-
-
-Name des Adressaten ________________
-
-Adresse________________
-
-Land__________________
-
-Telefonnummer________________
-
-Angeh=C3=A4ngte Kopie Ihres Ausweises______________
-
-Das Alter ________________________
-
-
-Wir beginnen mit der =C3=9Cbertragung sobald wir Ihre Informationen
-erhalten haben: Kontakt E-Mail: ( wuwumoneytransfer5000@hotmail.com)
-
-
-Getreu,
-
-
-Herr Anthony Duru,
-
-Direktor von Geldtransfer der Westunion
+Jon
