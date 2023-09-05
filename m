@@ -2,147 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED910792DE6
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Sep 2023 20:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C053792FDF
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Sep 2023 22:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240822AbjIESz0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Sep 2023 14:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42908 "EHLO
+        id S243380AbjIEUXn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Sep 2023 16:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239011AbjIESzV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Sep 2023 14:55:21 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AE5CDC
-        for <linux-tegra@vger.kernel.org>; Tue,  5 Sep 2023 11:54:49 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-401da71b7faso28773935e9.2
-        for <linux-tegra@vger.kernel.org>; Tue, 05 Sep 2023 11:54:49 -0700 (PDT)
+        with ESMTP id S231629AbjIEUXm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Sep 2023 16:23:42 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1428E;
+        Tue,  5 Sep 2023 13:23:39 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-991c786369cso459288666b.1;
+        Tue, 05 Sep 2023 13:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1693940032; x=1694544832; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UrAFFOP3UXm+2vTLeazN1us+BKa1tnA/xN1dYjhLvHM=;
-        b=MQWbDF4rE965sDGpw+Z8xVUKRHWw3YwzcUYhTRpv6IjQmey/WoA0wHY8VDz3R0Gs38
-         ONt/xesxsRZkGk1oQAbVZ3/Xb76GeT7pfbvfb4yr9zqV/VjJ5K2WB6AlPVPvoo50v0VM
-         k8osQxqM9YtwOMW+1OwNpMmpWUQOpl+gVSuTgLVkExdc/SXvLBOJbw1sLo5ay63Ho/fb
-         YddhACrq0zNDPR8OLrpkxFlpuOCulETe0g8uTQKCP3PPXZZ52MdDVgn9LSEANBfDGdLV
-         nm2HV2DtdgVJ9nmvVVDfsHadpACFPjc9utovdDApP0UYgxae8AB0ZTtfWUDNP5Wf+vfS
-         eyUQ==
+        d=gmail.com; s=20221208; t=1693945417; x=1694550217; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=W7FEvRnQff1RFIy6G/Scp5VfoqVl8Fl9R26EpZ41ssQ=;
+        b=lWrFnxMWH56mAAYRBqSP80rEP7abc/BGdgchUTeroB66ZQO1qonI0wom7R1AWUsWa5
+         x+3YlFyh0k32JBmjrSqBLoDg8QFoGzsk+28ELUekaM28Ka1llyut0lzXjHxaqc/cGV3X
+         iFzT+0mMogIfBdvY17+qZS3u3/Glf5q0Je6H6mN+w1aq123H3UPuj7wlul70WX0A4bBj
+         MxXkRx4XmuePuFw26OU1qHTDCBhNYjTaEvCGEhqJu0sy+QgHhIeGWLae7clGHPyQS/J3
+         jITdYSo04bZYQPxFnm49UeJ1iWxVfn6XXj60YlAgoPi08nrKZI13MC29XQxhQcl9tkwI
+         ixEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693940032; x=1694544832;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UrAFFOP3UXm+2vTLeazN1us+BKa1tnA/xN1dYjhLvHM=;
-        b=XvCMEJrYJ6vbcjnqFCoNPcPKv1a65Ztnu/2tsyssy3WCXhGDPweiAw8pzXDSEsXp1i
-         xUSrzyvcEmxPrmz3qVPve3vT41bKIJLqKHtEsp9vdBz8wGPwa+W3b0Qs8/jD3EZ5vRbM
-         8gphG/XFINKLs4h4HUfnCSz5ewjan+KT7sYPFptWLPl1ScK2JrmpGm8vMUbI6QLfkZAV
-         QfDKZ7SdyV+LCrTQ5miAT6W8RLh6xmYU2W/oVNYH7E6tb3c5gqwA8+yjG7+unDZjyFLL
-         gOo6i4sRlXcg2zXFWfh1s/xfRt5cDDO/dWLWriE5KXkH/w3palQBol53jSq4m+Il/jZX
-         wXOQ==
-X-Gm-Message-State: AOJu0YzDyHfpHXOxW+bYDhhN96MfoW6YIhTJY7Xtln2dQ1dCFAvgXFVY
-        ijTLcB6Wv5jf4nD+uSwwcEU1Tw==
-X-Google-Smtp-Source: AGHT+IG5rvnvzkhR7zSqbm37o4SyQS5DF2Q3QExpMFHirbdRnNeCry1xvOOt3d5Fk7gOho9h35WBqA==
-X-Received: by 2002:a05:600c:11ce:b0:3fe:2011:a7ce with SMTP id b14-20020a05600c11ce00b003fe2011a7cemr453840wmi.6.1693940031710;
-        Tue, 05 Sep 2023 11:53:51 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:7a54:5dbc:6d09:48b7])
-        by smtp.gmail.com with ESMTPSA id 17-20020a05600c249100b003fbc30825fbsm17550010wms.39.2023.09.05.11.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 11:53:51 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Dipen Patel <dipenp@nvidia.com>,
+        d=1e100.net; s=20221208; t=1693945417; x=1694550217;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W7FEvRnQff1RFIy6G/Scp5VfoqVl8Fl9R26EpZ41ssQ=;
+        b=QsJMO1b/znkhmMmCeMQm6WA7987qkVqKn5btexOM3i5tA2jZViO16219urPVmkW2o3
+         JInlp+8hPwOHcmQ/+vACM06boWHN8RdHbZlgi8Gw5ZDSDNXaSp4Z6ZbYe9ycFBTgWTeG
+         Fm8p3GDrA6+ET/DqSdD0q2lAfaqykj1QVNumuyd45JKjIDK0U39/N3Av9vQbOz/6inMG
+         fmdIgCU4H51s7t1lrV8czmXhccqdZ3vfDRdxxYE2xFUf5iucJglj2kVA2XmtxTqC64q/
+         v7QXvVBydbkddPkRSae4O79WxJGwPv9CTloyGeJtRkhVdxOzwtew/RGXyFWXJciuS4RL
+         TEMg==
+X-Gm-Message-State: AOJu0YwJ70+pPW4ZQ2FtIU7MnXVc1O+cP3aVSrLO/1ugwTgJUvZXKIFU
+        WY+dsMwn9e0hfya6JyH2jVbgEdXRNBCSgA==
+X-Google-Smtp-Source: AGHT+IG2mFnmzU6dZ1Lll+hMk7JV4ZmDPpxt54hgKUw+BKq9w4jCarie89LEsaJFEj3D1lcN6wDTcA==
+X-Received: by 2002:a17:907:b0a:b0:9a1:b705:75d1 with SMTP id h10-20020a1709070b0a00b009a1b70575d1mr579098ejl.51.1693945417163;
+        Tue, 05 Sep 2023 13:23:37 -0700 (PDT)
+Received: from ?IPV6:2a02:908:8b3:1840:5b7b:492a:c913:71fb? ([2a02:908:8b3:1840:5b7b:492a:c913:71fb])
+        by smtp.gmail.com with ESMTPSA id l18-20020a1709066b9200b0099bc08862b6sm8166003ejr.171.2023.09.05.13.23.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Sep 2023 13:23:26 -0700 (PDT)
+Message-ID: <755a2be4-6947-d756-2eee-0ba14086d781@gmail.com>
+Date:   Tue, 5 Sep 2023 22:23:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+From:   Maxim Schwalm <maxim.schwalm@gmail.com>
+Subject: Re: [PATCH v3 2/5] dt-bindings: display: tegra: nvidia,tegra20-dc:
+ Add parallel RGB output port node
+To:     Rob Herring <robh@kernel.org>,
+        Svyatoslav Ryhel <clamor95@gmail.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
-        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH 21/21] gpiolib: remove gpiochip_find()
-Date:   Tue,  5 Sep 2023 20:53:09 +0200
-Message-Id: <20230905185309.131295-22-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230905185309.131295-1-brgl@bgdev.pl>
-References: <20230905185309.131295-1-brgl@bgdev.pl>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230807143515.7882-1-clamor95@gmail.com>
+ <20230807143515.7882-3-clamor95@gmail.com>
+ <20230821161441.GA1743870-robh@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20230821161441.GA1743870-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Rob,
 
-With all users of gpiochip_find() converted to using gpio_device_find(),
-we can now remove this function from the kernel.
+On 21.08.23 18:14, Rob Herring wrote:
+> On Mon, Aug 07, 2023 at 05:35:12PM +0300, Svyatoslav Ryhel wrote:
+>> From: Maxim Schwalm <maxim.schwalm@gmail.com>
+>>
+>> Either this node, which is optional, or the nvidia,panel property can be
+>> present.
+>>
+>> Signed-off-by: Maxim Schwalm <maxim.schwalm@gmail.com>
+>> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+>> ---
+>>  .../display/tegra/nvidia,tegra20-dc.yaml      | 31 +++++++++++++++++++
+>>  1 file changed, 31 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+>> index 69be95afd562..102304703062 100644
+>> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+>> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+>> @@ -127,6 +127,37 @@ allOf:
+>>                $ref: /schemas/types.yaml#/definitions/phandle
+>>                description: phandle of a display panel
+>>  
+>> +            port:
+>> +              $ref: /schemas/graph.yaml#/$defs/port-base
+>> +              description: Parallel RGB output port
+>> +
+>> +              properties:
+>> +                endpoint:
+>> +                  $ref: /schemas/media/video-interfaces.yaml#
+> 
+> Just to make sure, what properties are you using from this? Usually 
+> we'll list them though not a hard requirement. If none, then you just 
+> need to ref graph.yaml#/properties/port instead and can drop the rest.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/gpio/gpiolib.c      | 22 ----------------------
- include/linux/gpio/driver.h |  3 ---
- 2 files changed, 25 deletions(-)
+currently, just bus-width is used in devicetrees, but I don't think that
+it is needed at the moment. So perhaps the property can be dropped.
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 90e8c3d8b6f6..bd700fb4871e 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -1081,28 +1081,6 @@ void gpiochip_remove(struct gpio_chip *gc)
- }
- EXPORT_SYMBOL_GPL(gpiochip_remove);
- 
--/*
-- * FIXME: This will be removed soon.
-- *
-- * This function is depracated, don't use.
-- */
--struct gpio_chip *gpiochip_find(void *data,
--				int (*match)(struct gpio_chip *gc,
--					     void *data))
--{
--	struct gpio_device *gdev;
--	struct gpio_chip *gc = NULL;
--
--	gdev = gpio_device_find(data, match);
--	if (gdev) {
--		gc = gdev->chip;
--		gpio_device_put(gdev);
--	}
--
--	return gc;
--}
--EXPORT_SYMBOL_GPL(gpiochip_find);
--
- /**
-  * gpio_device_find() - find a specific GPIO device
-  * @data: data to pass to match function
-diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
-index bb9ec741bfda..7d2bf464478a 100644
---- a/include/linux/gpio/driver.h
-+++ b/include/linux/gpio/driver.h
-@@ -603,9 +603,6 @@ int devm_gpiochip_add_data_with_key(struct device *dev, struct gpio_chip *gc,
- 				    void *data, struct lock_class_key *lock_key,
- 				    struct lock_class_key *request_key);
- 
--struct gpio_chip *gpiochip_find(void *data,
--				int (*match)(struct gpio_chip *gc, void *data));
--
- struct gpio_device *gpio_device_find(void *data,
- 				     int (*match)(struct gpio_chip *gc,
- 						  void *data));
--- 
-2.39.2
+>> +                  unevaluatedProperties: false
+>> +
+>> +              unevaluatedProperties: false
+> 
+> In the indented cases, it's easier to read if this is before 
+> properties/patternProperties.
+> 
+>> +
+>> +          anyOf:
+>> +            - if:
+>> +                not:
+>> +                  properties:
+>> +                    nvidia,panel: false
+>> +              then:
+>> +                not:
+>> +                  properties:
+>> +                    port: true
+>> +            - if:
+>> +                not:
+>> +                  properties:
+>> +                    port: false
+>> +              then:
+>> +                not:
+>> +                  properties:
+>> +                    nvidia,panel: true
+> 
+> I would prefer to drop this and mark "nvidia,panel" as deprecated. 
+> Eventually I plan to add a mode to the tools to warn on using deprecated 
+> properties. Having both could be perfectly fine too. You have the 
+> "nvidia,panel" for compatibility with an old OS version and 'port' to 
+> work with newer users.
 
+The reason for adding this was that just one of them can be utilized at
+the same time. Having both could potentially break the display output.
+I think that all the other nvidia,* properties could marked as
+deprecated as well because they don't seem to be doing much since commit
+d9f980ebcd01 ("drm/tegra: output: rgb: Wrap directly-connected panel
+into DRM bridge").
+
+>> +
+>> +          additionalProperties: false
+> 
+> Move this up too.
+> 
+
+Best regards,
+Maxim
