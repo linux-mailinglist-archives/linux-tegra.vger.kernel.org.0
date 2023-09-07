@@ -2,97 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ACD2797640
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 18:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F09797738
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 18:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237296AbjIGQFE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Sep 2023 12:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39180 "EHLO
+        id S242054AbjIGQWk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Sep 2023 12:22:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231593AbjIGQEr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 12:04:47 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C477172A5;
-        Thu,  7 Sep 2023 08:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694102046; x=1725638046;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=fwMh7jGaSk7TxhZscMBGj1gykagFIBBeWuQIBEDbtjk=;
-  b=W4J7mW+GbYXPlCRHCTJKn7frTmZEdS0K80dG9kjpocbVpzofWtDe33im
-   Atn1s7S6EM6E4vDyRM6SOu6E+Tu5wTiRqyW5YCrFjDWxAwrx1xybC9tXU
-   Xralmr7qIr29v+/cWnoPaVaKDHjlHxzX1s798IdgJbdwgWg5RFPzY95Pq
-   vN+dx0agTSzz4i1fnNSrHc6WMeIIlZYtFEAPg+zRSK3yirsYUGoe2J3h1
-   h1lgkQvGM7XZDGhT15/hPJQwClZdIa5gP7ua9pjLSSGpo+1GqyWsgoEzG
-   J+Jtmcw+ntV4+HEErByG95CrIGEifSmTMeMAdbzneM0Tqk9+JPfQOTqZC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="356841205"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="356841205"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 07:25:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="718711806"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="718711806"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 07:25:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qeFx5-007Kdm-0y;
-        Thu, 07 Sep 2023 17:25:47 +0300
-Date:   Thu, 7 Sep 2023 17:25:47 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Kartik <kkartik@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, sumitg@nvidia.com,
-        arnd@arndb.de, pshete@nvidia.com, digetx@gmail.com,
-        petlozup@nvidia.com, windhl@126.com, frank.li@vivo.com,
-        robh@kernel.org, stefank@nvidia.com, pdeschrijver@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] soc/tegra: fuse: Refactor resource mapping
-Message-ID: <ZPnda7q0Af8ud74v@smile.fi.intel.com>
-References: <20230907071052.3906-1-kkartik@nvidia.com>
- <20230907071052.3906-2-kkartik@nvidia.com>
+        with ESMTP id S242278AbjIGQWC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 12:22:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBC1901C;
+        Thu,  7 Sep 2023 09:19:35 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23E2C32792;
+        Thu,  7 Sep 2023 14:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694097344;
+        bh=GY6/oA7SpWwIF/ML9jHKi31Aw6dDj+gK/Pfk0CzMgqw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=meYesdsY2uNTDb5EWe4281EIPUqP+ejVqDZt9LCkSfXPg4Irrz3V+aN6tNCzOlgc2
+         ahh8dLGQQAnbuiFUv6CfwEQdgMoQh2Us23Bv55rnXFCgCOLrOmRgckQmB49BCwBfNT
+         F3vJeT816sWqUt+PmdBvRs2D4bFdqQfjc1DO7pMD099Ku5mwQT/QLbNiAWJ/KW2x1x
+         2ft6mNiLln57pjQduAluykFZGPrhx+sfNSVVZRVaXjbIdi+4wugfRr70TqxfCMPe1l
+         Gbt/aytSPZ6Z7sQtswCgUTVlJunB/G6M+lsApHXzAaRfDmEyiemOTyTCnbq+vrNOO9
+         r6MAC/pLNbtjg==
+Date:   Thu, 7 Sep 2023 15:35:38 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: tegra: Fix redundant PLLA and PLLA_OUT0 updates
+Message-ID: <262708f6-d25c-4734-834e-6a3959ad6c07@sirena.org.uk>
+References: <1694069533-7832-1-git-send-email-spujar@nvidia.com>
+ <1694069533-7832-3-git-send-email-spujar@nvidia.com>
+ <2c3371b7-3dae-48d7-8cc8-1acfd5bd267c@sirena.org.uk>
+ <61ca531e-6138-7abe-74d1-357369134748@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="1d4+VEBxjo3mBMnm"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230907071052.3906-2-kkartik@nvidia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <61ca531e-6138-7abe-74d1-357369134748@nvidia.com>
+X-Cookie: In the next world, you're on your own.
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Sep 07, 2023 at 12:40:47PM +0530, Kartik wrote:
-> To prepare for adding ACPI support to the tegra-apbmisc driver,
-> relocate the code responsible for mapping memory resources from
-> the function ‘tegra_init_apbmisc’ to the function
-> ‘tegra_init_apbmisc_resources.’ This adjustment will allow the
-> code to be shared between ‘tegra_init_apbmisc’ and the upcoming
-> ‘tegra_acpi_init_apbmisc’ function.
 
-...
+--1d4+VEBxjo3mBMnm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> -void __init tegra_init_apbmisc(void)
-> +static void tegra_init_apbmisc_resources(struct resource *apbmisc,
-> +					 struct resource *straps)
->  {
+On Thu, Sep 07, 2023 at 07:51:13PM +0530, Sameer Pujar wrote:
+> On 07-09-2023 17:21, Mark Brown wrote:
+> > On Thu, Sep 07, 2023 at 12:22:13PM +0530, Sameer Pujar wrote:
 
-> +}
-> +
-> +void __init tegra_init_apbmisc(void)
+> > > Fixes: 202e2f774543 ("ASoC: tegra: Add audio graph based card driver")
+> > > Cc: stable@vger.kernel.org
 
-Looks like the patches can be improved by using --patience when you format
-patches before sending.
+> > This is just a performance improvement rather than a correctness fix as
+> > far as I can tell?
 
--- 
-With Best Regards,
-Andy Shevchenko
+> This was supposed to be a performance improvement. However this is found to
+> be resolving a DMIC clock discrepancy and suspect is it happens because of
+> back to back quick PLLA updates. Thought it would be safer to have this fix
+> in stable releases. May be I should mention these points to justify the
+> 'Fixes' and 'stable' tag?
 
+Yes, please - that does make sense as a fix.
 
+--1d4+VEBxjo3mBMnm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmT537kACgkQJNaLcl1U
+h9Aybwf+PTHcefnbcaqpdAilafzxlBkq71oJqgpR14bRtbQXU4jEgToFVRwoEe2r
+eh7710aUYzNQatW+EVTp6OlxujcL/CmTLyjzdmVZDRViDZvVTtq1BwnEMBPVoDnm
+VQd2uTPqMq05uopzbCnq2s3Mv5gEcw1PPMnqAYvGBOJ+e1XvlBC4h7t3svkcHHku
+Y8QCOwyGF+Akq3Dl7WFvenZ0rGJ7z2/NXP//rD2TXeKorRSID19tupKL+i4KJPFV
+9RLhqpX/8CpXvo2EwlOSuWvtvN1Waqego6zmQ511uj90I1K24+dY9sgXk8JEE/6L
+gsWaQE4XT7wbfut/xeALndmOVrDk0g==
+=Ei6H
+-----END PGP SIGNATURE-----
+
+--1d4+VEBxjo3mBMnm--
