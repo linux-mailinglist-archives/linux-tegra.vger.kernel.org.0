@@ -2,52 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F09797738
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 18:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C287E797C1A
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 20:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242054AbjIGQWk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Sep 2023 12:22:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57218 "EHLO
+        id S232847AbjIGSlG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Sep 2023 14:41:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242278AbjIGQWC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 12:22:02 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBC1901C;
-        Thu,  7 Sep 2023 09:19:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23E2C32792;
-        Thu,  7 Sep 2023 14:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694097344;
-        bh=GY6/oA7SpWwIF/ML9jHKi31Aw6dDj+gK/Pfk0CzMgqw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=meYesdsY2uNTDb5EWe4281EIPUqP+ejVqDZt9LCkSfXPg4Irrz3V+aN6tNCzOlgc2
-         ahh8dLGQQAnbuiFUv6CfwEQdgMoQh2Us23Bv55rnXFCgCOLrOmRgckQmB49BCwBfNT
-         F3vJeT816sWqUt+PmdBvRs2D4bFdqQfjc1DO7pMD099Ku5mwQT/QLbNiAWJ/KW2x1x
-         2ft6mNiLln57pjQduAluykFZGPrhx+sfNSVVZRVaXjbIdi+4wugfRr70TqxfCMPe1l
-         Gbt/aytSPZ6Z7sQtswCgUTVlJunB/G6M+lsApHXzAaRfDmEyiemOTyTCnbq+vrNOO9
-         r6MAC/pLNbtjg==
-Date:   Thu, 7 Sep 2023 15:35:38 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: tegra: Fix redundant PLLA and PLLA_OUT0 updates
-Message-ID: <262708f6-d25c-4734-834e-6a3959ad6c07@sirena.org.uk>
-References: <1694069533-7832-1-git-send-email-spujar@nvidia.com>
- <1694069533-7832-3-git-send-email-spujar@nvidia.com>
- <2c3371b7-3dae-48d7-8cc8-1acfd5bd267c@sirena.org.uk>
- <61ca531e-6138-7abe-74d1-357369134748@nvidia.com>
+        with ESMTP id S233935AbjIGSlG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 14:41:06 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABA390
+        for <linux-tegra@vger.kernel.org>; Thu,  7 Sep 2023 11:41:02 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1d53ab187e8so1009096fac.1
+        for <linux-tegra@vger.kernel.org>; Thu, 07 Sep 2023 11:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694112062; x=1694716862; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UdWsNUufxYU54d2v+3Wxi5MrfQGJIJLOBq5vhtohyVg=;
+        b=mKsjlVCvHJE2kCHUfcPT3M4uwZH4zidz28fSgnzdrs0ja3TAgqa2CYy5PEA0yUj21D
+         NbcwqiGInYa52ZHPi4X3i7e/4BTyKQa938MSXB1NoRzb67PaUJFrBfclxy5kTL/X61qU
+         WhB6MfQLGmSWisBHiRISiZOiond891rcUWEcchnJgYXeFooHdumPC8okZIOI3HogvUOU
+         5RwaXSpUVYfAga5Qi3fULdBxxCEc6FKIUoJs3nB1mh5vJWdGuIRwJMfrn/7qJBOGEbmN
+         fWESP2UOGtNwlWFv0g+RErjv7PYXJ2X/PxjZUBxvZ3dK7Zfj+w+E2Yit08e46aGWQAUl
+         YTEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694112062; x=1694716862;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UdWsNUufxYU54d2v+3Wxi5MrfQGJIJLOBq5vhtohyVg=;
+        b=hF60VnLuLJhDip9jnBviIwEnPrI2km5JtzXY+GrKkXhw5gGRjsoWOMWo5GB8natofo
+         O5fTgmLEoiBaTfST2HenbYMT/ACpRw/WTzth1O9dUROIWP+m91cngToXbBV/Iuiz76OL
+         JLLdzlhpYa4+nKnCoO3w/cQ2+Uq6aYjCqCPbL+lTMqQcfs+8CeF3I8eflWCWULhA1v9Y
+         LFYsxsLnSsVERsgms/EiXuQIgLJMGCAggqZpZ3msj9Sr9HDah54hoNtZyofZyTOTM99Y
+         4ZhOpn713oYAco6aoSnIZFSYPMhdmu3A/4oFTLrTuUHzV0GKHhYDOGUJglSgE4PtqWID
+         c6+w==
+X-Gm-Message-State: AOJu0YyvnbnlVJygzcfBMA3Efa0Ev6hx6lPeK/jPsJPjBX9Qvb9PdN3F
+        fB7YpZqbQwR0LDTAb9c6ICwWEpL65fdLYhJ5ObEqK1lFPHT0/I/Cg3w=
+X-Google-Smtp-Source: AGHT+IGMY/aPJYeBu1Pp0IzmGxqtgA0g7tRf3VGot5Pdq6hh1Y77T4EpHI+nXikBBcDxY/Os4mlIAHH2bnKyBxN7wMo=
+X-Received: by 2002:a25:258f:0:b0:d7a:edf3:f0a9 with SMTP id
+ l137-20020a25258f000000b00d7aedf3f0a9mr17868648ybl.50.1694070333187; Thu, 07
+ Sep 2023 00:05:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1d4+VEBxjo3mBMnm"
-Content-Disposition: inline
-In-Reply-To: <61ca531e-6138-7abe-74d1-357369134748@nvidia.com>
-X-Cookie: In the next world, you're on your own.
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20230905185309.131295-1-brgl@bgdev.pl> <20230905185309.131295-3-brgl@bgdev.pl>
+In-Reply-To: <20230905185309.131295-3-brgl@bgdev.pl>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 7 Sep 2023 09:05:22 +0200
+Message-ID: <CACRpkdZEphqvwpid7QzXuYX79q2==58eKT7wg9Cmr8m1FLOuRA@mail.gmail.com>
+Subject: Re: [PATCH 02/21] gpiolib: provide gpio_device_find()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
+        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,42 +82,25 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Sep 5, 2023 at 8:53=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl> =
+wrote:
 
---1d4+VEBxjo3mBMnm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> gpiochip_find() is wrong and its kernel doc is misleading as the
+> function doesn't return a reference to the gpio_chip but just a raw
+> pointer. The chip itself is not guaranteed to stay alive, in fact it can
+> be deleted at any point. Also: other than GPIO drivers themselves,
+> nobody else has any business accessing gpio_chip structs.
+>
+> Provide a new gpio_device_find() function that returns a real reference
+> to the opaque gpio_device structure that is guaranteed to stay alive for
+> as long as there are active users of it.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-On Thu, Sep 07, 2023 at 07:51:13PM +0530, Sameer Pujar wrote:
-> On 07-09-2023 17:21, Mark Brown wrote:
-> > On Thu, Sep 07, 2023 at 12:22:13PM +0530, Sameer Pujar wrote:
 
-> > > Fixes: 202e2f774543 ("ASoC: tegra: Add audio graph based card driver")
-> > > Cc: stable@vger.kernel.org
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> > This is just a performance improvement rather than a correctness fix as
-> > far as I can tell?
-
-> This was supposed to be a performance improvement. However this is found to
-> be resolving a DMIC clock discrepancy and suspect is it happens because of
-> back to back quick PLLA updates. Thought it would be safer to have this fix
-> in stable releases. May be I should mention these points to justify the
-> 'Fixes' and 'stable' tag?
-
-Yes, please - that does make sense as a fix.
-
---1d4+VEBxjo3mBMnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmT537kACgkQJNaLcl1U
-h9Aybwf+PTHcefnbcaqpdAilafzxlBkq71oJqgpR14bRtbQXU4jEgToFVRwoEe2r
-eh7710aUYzNQatW+EVTp6OlxujcL/CmTLyjzdmVZDRViDZvVTtq1BwnEMBPVoDnm
-VQd2uTPqMq05uopzbCnq2s3Mv5gEcw1PPMnqAYvGBOJ+e1XvlBC4h7t3svkcHHku
-Y8QCOwyGF+Akq3Dl7WFvenZ0rGJ7z2/NXP//rD2TXeKorRSID19tupKL+i4KJPFV
-9RLhqpX/8CpXvo2EwlOSuWvtvN1Waqego6zmQ511uj90I1K24+dY9sgXk8JEE/6L
-gsWaQE4XT7wbfut/xeALndmOVrDk0g==
-=Ei6H
------END PGP SIGNATURE-----
-
---1d4+VEBxjo3mBMnm--
+Yours,
+Linus Walleij
