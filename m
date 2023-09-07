@@ -2,74 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDCA97976F0
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 18:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF9B5797954
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Sep 2023 19:11:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236919AbjIGQSw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Sep 2023 12:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40032 "EHLO
+        id S241480AbjIGRLW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Sep 2023 13:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241560AbjIGQR7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 12:17:59 -0400
-Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C00A1401C
-        for <linux-tegra@vger.kernel.org>; Thu,  7 Sep 2023 09:04:21 -0700 (PDT)
-Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
-        id 2112C46A59; Thu,  7 Sep 2023 07:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
-        s=mail; t=1694072725;
-        bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
-        h=Date:From:To:Subject:From;
-        b=Oh3ByBzbHYL0qofbZV6RZFtXDGl+narDDQTcxoCEdMEhmNIwyByMreGpqyPVRgiRD
-         MFF14uu0PeQuHn+Y8zVmEXG5zdK6E+PRIYzKcTPOrTa5EzI71+E3AYg4cH8j8Q4q05
-         sjoIxRvHwrwyLP5LDnTHKtgfUTWY1R/Ib94g6K7+EwfCpacz+9BpttoY+QKRt4pPPf
-         gZH0AE2xrUVe3h58F7ePmgzgXqFdNI2dunAmi8l9HjfhHa3+ZwAP6dYDTpbnHkA+VA
-         5YG8jQyk6gN6X2RvRF/lshiM8/B0R4FGefCOgh296oi6uw5t9Bk+FWS9MnigpyJc7q
-         AaupPMz4PfO0A==
-Received: by mail.venturelinkbiz.com for <linux-tegra@vger.kernel.org>; Thu,  7 Sep 2023 07:45:24 GMT
-Message-ID: <20230907064500-0.1.29.62m0.0.cp01j65ohs@venturelinkbiz.com>
-Date:   Thu,  7 Sep 2023 07:45:24 GMT
-From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
-To:     <linux-tegra@vger.kernel.org>
-Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
-X-Mailer: mail.venturelinkbiz.com
+        with ESMTP id S241570AbjIGRLV (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Sep 2023 13:11:21 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 025551717
+        for <linux-tegra@vger.kernel.org>; Thu,  7 Sep 2023 10:10:54 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1ccc0d2e697so840887fac.0
+        for <linux-tegra@vger.kernel.org>; Thu, 07 Sep 2023 10:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1694106599; x=1694711399; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BYCw6MjcMH0VBXX64k2n7JI1Ap28j06fLMRRfYT33EM=;
+        b=jtl6zH6Zin8a3BQDiGyZm/45rVOjLeCk7lji4xFmhw4EtiFzz+PuGfogGoL45xX2Pf
+         3tBguL8qPbmuoAWdGL8TheYVPIRC8RLr9VL1uwMh0YNYPWZbNBXMOaCPsXPOtqWyNZXr
+         6GhQJvqgqIiewJf/lyh1XgkTqwuSUpDSZVtJtzGBXHSxmZ+DeDFCU2kiQONTgWJzbJNv
+         GWYZ7gOKuY+HdgOh/71CDrluFLloVyskmnHqd/ATbqpTMjo4Fx6y+TVH+eqTAusv9QWx
+         gaeSAg2tsqyUgENZklEZtJAYMxqW9HTPTyDQ48I1fn3C/ckfMPu/yw+uhyeqWJoclxnU
+         6RGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694106599; x=1694711399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BYCw6MjcMH0VBXX64k2n7JI1Ap28j06fLMRRfYT33EM=;
+        b=MF2LeISEvMrE8ES5Z38m4WTmnwoeKYpIZFFR+ln4pLNVudQCUt2dzp4RCgWLjwzrNc
+         fqvZOdJHPGdwyRCMxJql7lmVJyVdlrB7YWFDR2WH5f3FqQCGzAzRvekh+3axZXusgNBz
+         tEtB4hYP6xRIwaNiJcDnDR87ppMDLA39ilAaV82Pxm8k3ZRbnmDCotYpiClJZED6cT6Y
+         QQt1aIeNJhP6zvueCK5gfK8Jprr8izn40iG6py5McP2+ykBdEwr6AXTYTVyb8pUphtLI
+         9krn8tiyNu37A0SiCXTQO1TVwkjYeHXmnFfVvN1o2Jc+fweFqsy5QGWUUv7c3i+oJkIJ
+         wMsQ==
+X-Gm-Message-State: AOJu0YyHbe0nr/vc/OTDIOKMLGGJPF0nUETBEtxI6zdxsm9OFzGi4U3p
+        JytI/MM26bvOXUh7Ehy38MXfq4agKktXQb0inlrgtMI046YN2VAY
+X-Google-Smtp-Source: AGHT+IEKK3pIZHt2QRqcId7nWRc2DLGZhZ7BIVl+nPAXJnwX2Sf45+9R0pQFVmMx9pkduIAsjCSxAhDM52WNmcfhZPQ=
+X-Received: by 2002:a67:fa11:0:b0:44d:6290:e422 with SMTP id
+ i17-20020a67fa11000000b0044d6290e422mr4850316vsq.35.1694073434785; Thu, 07
+ Sep 2023 00:57:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230905185309.131295-1-brgl@bgdev.pl> <20230905185309.131295-8-brgl@bgdev.pl>
+ <CACRpkdbdcPv1LHL2W-enKBJ2OARpduoOJkQ64oL6GSOfmmD3qQ@mail.gmail.com>
+In-Reply-To: <CACRpkdbdcPv1LHL2W-enKBJ2OARpduoOJkQ64oL6GSOfmmD3qQ@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 7 Sep 2023 09:57:03 +0200
+Message-ID: <CAMRc=McSBBeHi5jDVYOF6s1etfQzYRNLo25LeY+DWG_2tEf7=w@mail.gmail.com>
+Subject: Re: [PATCH 07/21] gpiolib: provide gpio_device_get_base()
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Dipen Patel <dipenp@nvidia.com>
+Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
+        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,
-        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Thu, Sep 7, 2023 at 9:17=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> On Tue, Sep 5, 2023 at 8:53=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl=
+> wrote:
+>
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > Let's start adding getters for the opaque struct gpio_device. Start wit=
+h
+> > a function allowing to retrieve the base GPIO number.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> I guess you have a solid usecase for drivers needing to do this
+> crazy thing, because I suppose you feel as much as me that
+> this should rather be gpiolib-internal and confined to
+> drivers/gpio/gpiolib.h?
+>
+> If you add a valid reason for making this globally visible outside
+> of drivers/[gpio|pinctrl] to the commit message I guess I can live
+> with it because we need to think of the bigger picture:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> It brings to mind the now confusing "base" inside of
+> struct gpio_chip. We all know it should go away, but since it
+> is never used during the lifetime of the gpio_chip - or SHOULD
+> never be used - it should rather be an argument to
+> [devm_]gpiochip_add_data( .... int base);...
+>
+> Maybe something we should add to our TODO file.
+>
+> Yours,
+> Linus Walleij
 
-m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
-bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
-nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
-em telefonu?
+For this series it's the HTE driver that uses it and I don't have a
+good idea about how to change it. Dipen?
 
-Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
-=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
-rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
- stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
+I would also love to make pinctrl not use the internal GPIOLIB header
+so it'll be another user, unless you can figure out a way to not use
+gc->base? :)
 
-Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
-=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
- analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
-tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
-=ADl.
+I think we're stuck with it for now.
 
-C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
-a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
-vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
-=2E
-
-
-Pozdravy
-Michal Rmoutil
+Bart
