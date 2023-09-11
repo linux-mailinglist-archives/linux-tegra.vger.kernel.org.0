@@ -2,124 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E00E79B785
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Sep 2023 02:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4478579B877
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Sep 2023 02:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235865AbjIKVvP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Sep 2023 17:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51768 "EHLO
+        id S235883AbjIKV4a (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Sep 2023 17:56:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237211AbjIKMPc (ORCPT
+        with ESMTP id S237842AbjIKNO7 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 Sep 2023 08:15:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8B8198;
-        Mon, 11 Sep 2023 05:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694434527; x=1725970527;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tyR7vrTUqTU08Ju+QLeqb/DiAnQ3Ts82L5iKvQhwvII=;
-  b=bV5WlB9ZvMxsWQsgtYP7gvNwH3UjnuzfUXG0fG6wcatmUVta5eBekOeQ
-   Qn4lD1chojE+03q5a9mQHFxgaykDPcwugtnMo/pQ6jBZ9R2nUiJjWWnUt
-   bpM7fPAo/QxSYqmYb08ZZLFUwll5IlAdtP8qigOxTrYjGI8Ns+WHWuXuX
-   b4UPXsjZtRAKkD9Oh3OTDePlbXTra2MW/puG7dBl/g4jGTL0eYXsknFRH
-   jtrfJn5Rcuz55lUGyrY9hEgnbeocmjtFhGGmzreCOIvF23WkT6YTwTn3F
-   hJyTyj7sTdJoTrryhUGlGYH3pLXLu+td8PPgu1Y+O0On1XuhCJJjlENED
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381863531"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="381863531"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 05:15:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746383294"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="746383294"
-Received: from mzarkov-mobl3.ger.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.36.200])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 05:15:22 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Mon, 11 Sep 2023 09:14:59 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0EA2CD7
+        for <linux-tegra@vger.kernel.org>; Mon, 11 Sep 2023 06:14:54 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id ada2fe7eead31-44d4d997dcfso1733736137.0
+        for <linux-tegra@vger.kernel.org>; Mon, 11 Sep 2023 06:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1694438093; x=1695042893; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RmHlHXBKieO1ptu2ldznM8ZuZhTbj+/naN6JcvAFLCM=;
+        b=wMbspLXnU4SWJPP2pyiFS+UPFCNPGYLSf7ttzlXYAlHzDhVZW7HVGa2l9NwlellZJE
+         njOC3G16h+joZnmK7I9iIFB+fNBIjy4gsffff7BLFLKycGVnAhDL9SNDPFOKQVtPIyKL
+         KgvKxOKEeCpMKUx+LLmH4Kve69knsX4HPJjf0h5QaVBII8vQBPS4tD0JkrVZaqxhJisA
+         jnYS2/kGs69torDAx8w+jn0ySA4fIvj3s8mGyhCjeMldRAFv4+DiDllCXiYLIuZIky1Y
+         bi34YIU6PyRFd+MPjR5QGvsk+pqn/ffJoDFP2AXXlp/Bu18d3f+Mqsa5qSk/HAHiD5Mj
+         ZPEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694438093; x=1695042893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RmHlHXBKieO1ptu2ldznM8ZuZhTbj+/naN6JcvAFLCM=;
+        b=F2ZLeWtSfM+32uwGjVHtTZmevL/3PCTtGMYvkAajg+ZA4Axh2rC52HXbjUWLQeNHyJ
+         HvNGNaSEVGHuQlMquqLFT9FNg+8CUvhjeCDk9Pmz/g/btl98I/syqYdURG6YGeNez8DG
+         zzHe/aLG349CSoTUahHT0j5R4Nwt5pFOqJ/JZTX9QcoMEi9TcWKbPguxUL5RrGy7gQF0
+         lzjq4TwyVaM21njsBTjOFd2bJse+TAUc6Dys5+UctgmCN1M5pXhyoqf7/z/WAkXabQRb
+         ryti9G0hKm/qMWbfEdJ5D0R8a7W6+GKuvhfvIkxqsqJixDg/Kh+8S6+FKfaKuDDmSkfD
+         p1Lg==
+X-Gm-Message-State: AOJu0YzsfGMdSz7KmXMWRdDRbFUwxSNWDDSp1Ddd8L7dTZgSU6R2Wto5
+        sU1KGdB5I9oTtrQTOwbCy9g392POq8FkqPlt7Vj8OQ==
+X-Google-Smtp-Source: AGHT+IGbBUp7apcBf0Wo94rPuei/uMCOLdfymAUYtbXkWV6tuJHuzpKRqe3xeH+LKJOYB5mMHTLfbCwIf2IHKGe4l8I=
+X-Received: by 2002:a67:fe92:0:b0:44d:5a92:ec45 with SMTP id
+ b18-20020a67fe92000000b0044d5a92ec45mr8588355vsr.23.1694438093755; Mon, 11
+ Sep 2023 06:14:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230905185309.131295-1-brgl@bgdev.pl> <20230905185309.131295-3-brgl@bgdev.pl>
+ <ZPiISpLoVx35PuYc@smile.fi.intel.com>
+In-Reply-To: <ZPiISpLoVx35PuYc@smile.fi.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 11 Sep 2023 15:14:42 +0200
+Message-ID: <CAMRc=MfLGZNmQT55dtrLuqsKbfXjTn7kqOm029oJrOnH002wBw@mail.gmail.com>
+Subject: Re: [PATCH 02/21] gpiolib: provide gpio_device_find()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dipen Patel <dipenp@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 4/8] PCI: tegra194: Use FIELD_GET()/FIELD_PREP() with Link Width fields
-Date:   Mon, 11 Sep 2023 15:14:57 +0300
-Message-Id: <20230911121501.21910-5-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230911121501.21910-1-ilpo.jarvinen@linux.intel.com>
-References: <20230911121501.21910-1-ilpo.jarvinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
+        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use FIELD_GET() to extract PCIe Negotiated Link Width field instead of
-custom masking and shifting.
+On Wed, Sep 6, 2023 at 4:10=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Tue, Sep 05, 2023 at 08:52:50PM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > gpiochip_find() is wrong and its kernel doc is misleading as the
+> > function doesn't return a reference to the gpio_chip but just a raw
+> > pointer. The chip itself is not guaranteed to stay alive, in fact it ca=
+n
+> > be deleted at any point. Also: other than GPIO drivers themselves,
+> > nobody else has any business accessing gpio_chip structs.
+> >
+> > Provide a new gpio_device_find() function that returns a real reference
+> > to the opaque gpio_device structure that is guaranteed to stay alive fo=
+r
+> > as long as there are active users of it.
+>
+> ...
+>
+> > +/**
+> > + * gpio_device_find() - find a specific GPIO device
+> > + * @data: data to pass to match function
+> > + * @match: Callback function to check gpio_chip
+>
+> > + * Returns:
+> > + * New reference to struct gpio_device.
+>
+> I believe this is wrong location of the Return section.
+> AFAIU how kernel doc uses section markers, this entire description become=
+s
+> a Return(s) section. Have you tried to render man/html/pdf and see this?
+>
 
-Similarly, change custom code that misleadingly used
-PCI_EXP_LNKSTA_NLW_SHIFT to prepare value for PCI_EXP_LNKCAP write
-to use FIELD_PREP() with correct field define (PCI_EXP_LNKCAP_MLW).
+Yes, it works just fine. Try for yourself: scripts/kernel-doc -rst
+drivers/gpio/gpiolib.c
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/pci/controller/dwc/pcie-tegra194.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Bart
 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 4bba31502ce1..248cd9347e8f 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -9,6 +9,7 @@
-  * Author: Vidya Sagar <vidyas@nvidia.com>
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
-@@ -346,8 +347,7 @@ static void apply_bad_link_workaround(struct dw_pcie_rp *pp)
- 	 */
- 	val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA);
- 	if (val & PCI_EXP_LNKSTA_LBMS) {
--		current_link_width = (val & PCI_EXP_LNKSTA_NLW) >>
--				     PCI_EXP_LNKSTA_NLW_SHIFT;
-+		current_link_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val);
- 		if (pcie->init_link_width > current_link_width) {
- 			dev_warn(pci->dev, "PCIe link is bad, width reduced\n");
- 			val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-@@ -760,8 +760,7 @@ static void tegra_pcie_enable_system_interrupts(struct dw_pcie_rp *pp)
- 
- 	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
- 				  PCI_EXP_LNKSTA);
--	pcie->init_link_width = (val_w & PCI_EXP_LNKSTA_NLW) >>
--				PCI_EXP_LNKSTA_NLW_SHIFT;
-+	pcie->init_link_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val_w);
- 
- 	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
- 				  PCI_EXP_LNKCTL);
-@@ -920,7 +919,7 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
- 	/* Configure Max lane width from DT */
- 	val = dw_pcie_readl_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKCAP);
- 	val &= ~PCI_EXP_LNKCAP_MLW;
--	val |= (pcie->num_lanes << PCI_EXP_LNKSTA_NLW_SHIFT);
-+	val |= FIELD_PREP(PCI_EXP_LNKCAP_MLW, pcie->num_lanes);
- 	dw_pcie_writel_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKCAP, val);
- 
- 	/* Clear Slot Clock Configuration bit if SRNS configuration */
--- 
-2.30.2
-
+> > + * Similar to bus_find_device(). It returns a reference to a gpio_devi=
+ce as
+> > + * determined by a user supplied @match callback. The callback should =
+return
+> > + * 0 if the device doesn't match and non-zero if it does. If the callb=
+ack
+> > + * returns non-zero, this function will return to the caller and not i=
+terate
+> > + * over any more gpio_devices.
+> > + *
+> > + * The callback takes the GPIO chip structure as argument. During the =
+execution
+> > + * of the callback function the chip is protected from being freed. TO=
+DO: This
+> > + * actually has yet to be implemented.
+> > + *
+> > + * If the function returns non-NULL, the returned reference must be fr=
+eed by
+> > + * the caller using gpio_device_put().
+> > + */
+> > +struct gpio_device *gpio_device_find(void *data,
+>
+> > +                                  int (*match)(struct gpio_chip *gc,
+> > +                                               void *data))
+>
+> One line?
+> Or maybe a type for it? (gpio_match_fn, for example)
+>
+> > +{
+> > +     struct gpio_device *gdev;
+> > +
+> > +     guard(spinlock_irqsave)(&gpio_lock);
+> > +
+> > +     list_for_each_entry(gdev, &gpio_devices, list) {
+> > +             if (gdev->chip && match(gdev->chip, data))
+> > +                     return gpio_device_get(gdev);
+> > +     }
+> > +
+> > +     return NULL;
+> > +}
+>
+> ...
+>
+> > +struct gpio_device *gpio_device_find(void *data,
+> > +                                  int (*match)(struct gpio_chip *gc,
+> > +                                               void *data));
+>
+> Ditto.
+>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
