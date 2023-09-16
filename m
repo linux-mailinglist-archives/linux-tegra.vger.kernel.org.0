@@ -2,94 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 196AD7A27B1
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Sep 2023 22:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 108D77A2E92
+	for <lists+linux-tegra@lfdr.de>; Sat, 16 Sep 2023 10:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237024AbjIOUJo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Sep 2023 16:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
+        id S231354AbjIPILD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 16 Sep 2023 04:11:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237269AbjIOUJh (ORCPT
+        with ESMTP id S229617AbjIPIKg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:09:37 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0173630FD
-        for <linux-tegra@vger.kernel.org>; Fri, 15 Sep 2023 13:08:31 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c43fe0c0bfso6264955ad.1
-        for <linux-tegra@vger.kernel.org>; Fri, 15 Sep 2023 13:08:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694808511; x=1695413311; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=isVDFfcbmknUPWknowT7LS08Cb3UMEcuJeNo2USTgKI=;
-        b=oHfSCuFFJh5f43jjMmzxr2ye9i62r9gUIGZ+ltWgzVvO7QyIamMvsHjlgDy/QDihjg
-         79fpf7qy4YMzdkdPZDIoZuOmBNHctOy2AE83ufBXOrf+JZSzsMKRnCWi2/R9U89U/dZx
-         oTc457eSKeDC7WtLP5z1+w/Z3k6G8uaV6hEh4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694808511; x=1695413311;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=isVDFfcbmknUPWknowT7LS08Cb3UMEcuJeNo2USTgKI=;
-        b=kuto5luggg8ncqgXwFB66YbfEm4JZAWmCjZXbMb/TlRkkFyjF9mHkTKyLFjp9Oo0PV
-         CV5hY/v/TzGQm4AVD5TwGK3QIOEwpDmoCdBPGhEqaXwUiUwxYh86GaNQONEf0dHuebfu
-         qiivEoaGfp41SJ8RPNC02KuENLmn2JkCgAE2rBWi43nLrMezBMaace/1HbMNJhY0zgEt
-         2LoHCmMGF8jpS34rzuJMIaB6Y9xO30DtJzUTZfe4JhspvG0M/ZqRtwjGn45VXUfDE6oh
-         BHghypyv8B1xh1jdRd81Oz0xgNjkObIUePOlaL7Nhcw0wu1+F/0VxDNWSWBjZnlktjl4
-         fZnQ==
-X-Gm-Message-State: AOJu0YwgWsBSOn+mVlWmotxnssJ9S5+qLpHlsMbHuOtlTk9yFri53xQ1
-        QwZFQLEyGSox97Me6xDj8O2pEQ==
-X-Google-Smtp-Source: AGHT+IFm1+jtAdP9L1K8FAr0YTZKF7Q+zfhuSjHQY9X6olemmW7O/o5ALrmJsBZbi3qT/JSSHdFxlQ==
-X-Received: by 2002:a17:902:ce85:b0:1bc:5924:2da2 with SMTP id f5-20020a170902ce8500b001bc59242da2mr3104460plg.56.1694808511445;
-        Fri, 15 Sep 2023 13:08:31 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id a5-20020a1709027d8500b001b896686c78sm3845010plm.66.2023.09.15.13.08.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 13:08:30 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 13:08:30 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Jie Hai <haijie1@huawei.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Green Wan <green.wan@sifive.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Sat, 16 Sep 2023 04:10:36 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436F019A8
+        for <linux-tegra@vger.kernel.org>; Sat, 16 Sep 2023 01:10:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AE5EC433C8;
+        Sat, 16 Sep 2023 08:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694851830;
+        bh=Vn2DREJrAn8aRUxiz3WQryX63T4UuS6DU0+Ekb7wTm4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=n/BOcYygBC0G4RcSGiatuCr/r8q4kLlIb9Oibd9j78tGln5AE7VUXlKzUGv3oZoNe
+         yZkB2iu0/WGky4eM/U3qo0reTujDlH0LCjfJd6NKB1BztVhzQc/jTLP9JhYsCVNGB5
+         xc4hpPrN4FPCFKfdktUEMdT46R/j6pjWt9Eisaw4JQOs3thUJmzZQY3nrgKSEzYShd
+         AGDnPuV4q97Ka6oajzo+OnYG8rEjS/kKyl1ZvnR/ff6K7djRnbTC01GhRabGmls9I2
+         ST6JK+dDTWDbGe6jr2DkerJrghE3QC2l+ErthmzjWKTak7ZhGHgAr479NyhLAZFLR8
+         QctLBFjj0spCQ==
+From:   Jisheng Zhang <jszhang@kernel.org>
+To:     Giuseppe Cavallaro <peppe.cavallaro@st.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Yu Kuai <yukuai3@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jordy Zomer <jordy@pwning.systems>,
+        Jose Abreu <joabreu@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        dmaengine@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 00/21] dmaengine: Annotate with __counted_by
-Message-ID: <202309151307.F3341BD5A@keescook>
-References: <20230817235428.never.111-kees@kernel.org>
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Russell King <linux@armlinux.org.uk>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH net-next v2 00/22] convert to devm_stmmac_probe_config_dt
+Date:   Sat, 16 Sep 2023 15:58:06 +0800
+Message-Id: <20230916075829.1560-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230817235428.never.111-kees@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -100,79 +77,70 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+Russell pointed out there's a new devm_stmmac_probe_config_dt()
+helper now when reviewing my starfive gmac error handling patch[1].
+After greping the code, this nice helper was introduced by Bartosz in
+[2], I think it's time to convert all dwmac users to this helper and
+finally complete the TODO in [2] "but once all users of the old
+stmmac_pltfr_remove() are converted to the devres helper, it will be
+renamed back to stmmac_pltfr_remove() and the no_dt function removed."
 
-Just a ping on the series... how do these look to you, Vinod?
+Link: https://lore.kernel.org/netdev/ZOtWmedBsa6wQQ6+@shell.armlinux.org.uk/ [1]
+Link: https://lore.kernel.org/all/20230623100417.93592-1-brgl@bgdev.pl/  [2]
 
-If you want I can carry them in my tree. Please let me know.
+Since v1:
+ - rebase on new net-next
+ - add make stmmac_{probe|remove}_config_dt static as suggested by Russell.
 
-Thanks!
+Jisheng Zhang (23):
+  net: stmmac: dwmac-anarion: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-dwc-qos-eth: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-generic: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-generic: use devm_stmmac_pltfr_probe()
+  net: stmmac: dwmac-imx: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-ingenic: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-intel-plat: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-ipq806x: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-lpc18xx: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-mediatek: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-meson: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-meson8b: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-rk: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-socfpga: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-starfive: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sti: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-stm32: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sun8i: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sunxi: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-tegra: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-visconti: use devm_stmmac_probe_config_dt()
+  net: stmmac: rename stmmac_pltfr_remove_no_dt to stmmac_pltfr_remove
+  net: stmmac: make stmmac_{probe|remove}_config_dt static
 
--Kees
-
-On Thu, Aug 17, 2023 at 04:58:37PM -0700, Kees Cook wrote:
-> Hi,
-> 
-> This annotates several structures with the coming __counted_by attribute
-> for bounds checking of flexible arrays at run-time. For more details, see
-> commit dd06e72e68bc ("Compiler Attributes: Add __counted_by macro").
-> 
-> Thanks!
-> 
-> -Kees
-> 
-> Kees Cook (21):
->   dmaengine: apple-admac: Annotate struct admac_data with __counted_by
->   dmaengine: at_hdmac: Annotate struct at_desc with __counted_by
->   dmaengine: axi-dmac: Annotate struct axi_dmac_desc with __counted_by
->   dmaengine: fsl-edma: Annotate struct fsl_edma_desc with __counted_by
->   dmaengine: hisilicon: Annotate struct hisi_dma_dev with __counted_by
->   dmaengine: moxart-dma: Annotate struct moxart_desc with __counted_by
->   dmaengine: qcom: bam_dma: Annotate struct bam_async_desc with
->     __counted_by
->   dmaengine: sa11x0: Annotate struct sa11x0_dma_desc with __counted_by
->   dmaengine: sf-pdma: Annotate struct sf_pdma with __counted_by
->   dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
->   dmaengine: st_fdma: Annotate struct st_fdma_desc with __counted_by
->   dmaengine: stm32-dma: Annotate struct stm32_dma_desc with __counted_by
->   dmaengine: stm32-mdma: Annotate struct stm32_mdma_desc with
->     __counted_by
->   dmaengine: stm32-mdma: Annotate struct stm32_mdma_device with
->     __counted_by
->   dmaengine: tegra: Annotate struct tegra_dma_desc with __counted_by
->   dmaengine: tegra210-adma: Annotate struct tegra_adma with __counted_by
->   dmaengine: ti: edma: Annotate struct edma_desc with __counted_by
->   dmaengine: ti: omap-dma: Annotate struct omap_desc with __counted_by
->   dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_desc with
->     __counted_by
->   dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_device with
->     __counted_by
->   dmaengine: usb-dmac: Annotate struct usb_dmac_desc with __counted_by
-> 
->  drivers/dma/apple-admac.c      |  2 +-
->  drivers/dma/at_hdmac.c         |  2 +-
->  drivers/dma/dma-axi-dmac.c     |  5 ++---
->  drivers/dma/fsl-edma-common.h  |  2 +-
->  drivers/dma/hisi_dma.c         |  2 +-
->  drivers/dma/moxart-dma.c       |  5 ++---
->  drivers/dma/qcom/bam_dma.c     |  2 +-
->  drivers/dma/sa11x0-dma.c       |  6 +++---
->  drivers/dma/sf-pdma/sf-pdma.h  |  2 +-
->  drivers/dma/sh/usb-dmac.c      |  2 +-
->  drivers/dma/sprd-dma.c         |  2 +-
->  drivers/dma/st_fdma.h          |  2 +-
->  drivers/dma/stm32-dma.c        | 11 ++++-------
->  drivers/dma/stm32-mdma.c       |  9 ++++-----
->  drivers/dma/tegra186-gpc-dma.c |  2 +-
->  drivers/dma/tegra210-adma.c    |  2 +-
->  drivers/dma/ti/edma.c          |  2 +-
->  drivers/dma/ti/omap-dma.c      |  5 ++---
->  drivers/dma/uniphier-xdmac.c   |  8 ++++----
->  19 files changed, 33 insertions(+), 40 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
+ .../ethernet/stmicro/stmmac/dwmac-anarion.c   | 10 +--
+ .../stmicro/stmmac/dwmac-dwc-qos-eth.c        | 15 +---
+ .../ethernet/stmicro/stmmac/dwmac-generic.c   | 15 +---
+ .../net/ethernet/stmicro/stmmac/dwmac-imx.c   | 13 ++--
+ .../ethernet/stmicro/stmmac/dwmac-ingenic.c   | 33 +++------
+ .../stmicro/stmmac/dwmac-intel-plat.c         | 25 +++----
+ .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   | 27 +++----
+ .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   | 19 ++---
+ .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-meson.c | 25 ++-----
+ .../ethernet/stmicro/stmmac/dwmac-meson8b.c   | 53 +++++---------
+ .../net/ethernet/stmicro/stmmac/dwmac-rk.c    | 14 ++--
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   | 16 ++---
+ .../ethernet/stmicro/stmmac/dwmac-starfive.c  | 10 +--
+ .../net/ethernet/stmicro/stmmac/dwmac-sti.c   | 14 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-stm32.c | 17 ++---
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c | 23 +++---
+ .../net/ethernet/stmicro/stmmac/dwmac-tegra.c | 10 ++-
+ .../ethernet/stmicro/stmmac/dwmac-visconti.c  | 18 ++---
+ .../ethernet/stmicro/stmmac/stmmac_platform.c | 70 ++++++-------------
+ .../ethernet/stmicro/stmmac/stmmac_platform.h |  5 --
+ 22 files changed, 127 insertions(+), 317 deletions(-)
 
 -- 
-Kees Cook
+2.40.1
+
