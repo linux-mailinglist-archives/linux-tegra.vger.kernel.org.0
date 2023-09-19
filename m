@@ -2,112 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBB3C7A6519
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Sep 2023 15:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3647A65C2
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Sep 2023 15:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232434AbjISNcl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Sep 2023 09:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54922 "EHLO
+        id S231439AbjISNy3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 19 Sep 2023 09:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232442AbjISNck (ORCPT
+        with ESMTP id S232442AbjISNy2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Sep 2023 09:32:40 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409BE12F
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Sep 2023 06:32:33 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiaq0-0005IQ-2W; Tue, 19 Sep 2023 15:32:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiapy-007T5j-2b; Tue, 19 Sep 2023 15:32:22 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiapx-0030ge-KP; Tue, 19 Sep 2023 15:32:21 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 49/59] dma: tegra210-adma: Convert to platform remove callback returning void
-Date:   Tue, 19 Sep 2023 15:31:57 +0200
-Message-Id: <20230919133207.1400430-50-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
-References: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
+        Tue, 19 Sep 2023 09:54:28 -0400
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3691783;
+        Tue, 19 Sep 2023 06:54:22 -0700 (PDT)
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5711d5dac14so1416763eaf.0;
+        Tue, 19 Sep 2023 06:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695131661; x=1695736461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LGZwcNp/BDkTKowBUFhaDEFH4i6kTTCF8Ze198+CeFs=;
+        b=Efu8ZKIsTDMNR/N1Lv0RT8Vcl5iQbu6Dl2s+AETx4tzXfHtpYVfHvUUNi1i/R/26yz
+         ep/pbjbmunLL/V3fnd0Zu16GyBUuirrPN/taMe6KQbeNSm3XAnfSSG5l4B3sCppKEHEF
+         CsGnLokx+ZCZM05iuqoJiMad5DOmQmRLucHcRKAV+9OHVQ1qAUHnHIqd3K729Yo5oMNY
+         tqELaF/81UyCnutj7IE6CRPQ0g0HA7kODdb/4Jd4YD+eiFEMizJRo0DM+NcH1hgj8eJv
+         NPiWC16b+jUb7BznxStM6pPS30r4j5VCaH0LNZ57VTwF2vnjKgIKY+i9fQQcSrgQE52r
+         qNBg==
+X-Gm-Message-State: AOJu0Yws7G6dXw3lHdo/9AomrSBqwHZCC3GaRaGQ1jRy/l6ebOBb2p9K
+        w7ezPkqmExpLn/FvHJsm71f6MrjZzAEYC4PtejqyVgDz
+X-Google-Smtp-Source: AGHT+IFQB7YxuOS88mI54AX4AvOgSEg4or2jItYtcrjeKPDUXY02dmKR/Z7d/TdkCkis8oHfOuq35bTUnaTOZnZphFM=
+X-Received: by 2002:a4a:d88d:0:b0:573:2a32:6567 with SMTP id
+ b13-20020a4ad88d000000b005732a326567mr11216372oov.0.1695131661262; Tue, 19
+ Sep 2023 06:54:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1852; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=5+mecjlFKmd8TVrFW4MYCmacqxPAp/lAxa8imCO+1Hw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCaHn/+7xPNMV2n5nb3por5jxSDs8U3DxWFGf5 cEtaDrmksaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQmh5wAKCRCPgPtYfRL+ Tj7vB/sHCmK3Fhdtbl+g31xhTzCDBfHmUcq76KFXy5+rTG7NrzwlipfOr7hriY3Y/iiVnT8UVzL MHQ0rMLAQ+xrRL/RFAEygrNmxDjm+ze9KCvIfMjqYjUKalru9/G/i+QakerD4TszEoEWjpQ2VoV K4kcL7DNnfrhTehEmlfGD6IxK3nhHeybg9GQdDBkVrk45lJS5au+Ot5G3r9b5p4oS1A+Oqxo69O EBaDrPA2x4ROMkdyg/7XjtcUPa2xC1ER/ek1TEQqtZ20QBudCJNAyyCZE23UIJNxNsLQ9LJWncK 3RUjyA4cxUvBkNUGMosrqXbUzKyf0UxPyp+FRXFIVSrkQ6Eu
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230913164659.9345-3-sumitg@nvidia.com> <202309140915.2J9OzWIZ-lkp@intel.com>
+ <c180c1e9-c15c-b4e2-678a-35a388a4a613@nvidia.com>
+In-Reply-To: <c180c1e9-c15c-b4e2-678a-35a388a4a613@nvidia.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 19 Sep 2023 15:54:09 +0200
+Message-ID: <CAJZ5v0iJYb3cAq6VMY8s+AOmuMdCBY9KvshM8rcGnCT-tn8CmQ@mail.gmail.com>
+Subject: Re: [Patch v2 2/2] ACPI: processor: reduce CPUFREQ thermal reduction
+ pctg for Tegra241
+To:     Sumit Gupta <sumitg@nvidia.com>
+Cc:     kernel test robot <lkp@intel.com>, rafael@kernel.org,
+        rui.zhang@intel.com, lenb@kernel.org, treding@nvidia.com,
+        jonathanh@nvidia.com, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        oe-kbuild-all@lists.linux.dev, sanjayc@nvidia.com,
+        ksitaraman@nvidia.com, srikars@nvidia.com, jbrasen@nvidia.com,
+        bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new() which already returns void. Eventually after all drivers
-are converted, .remove_new() is renamed to .remove().
+On Tue, Sep 19, 2023 at 1:27 PM Sumit Gupta <sumitg@nvidia.com> wrote:
+>
+>
+>
+> > Hi Sumit,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on rafael-pm/linux-next]
+> > [also build test WARNING on linus/master v6.6-rc1 next-20230913]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-thermal-Add-Thermal-fast-Sampling-Period-_TFP-support/20230914-004929
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+> > patch link:    https://lore.kernel.org/r/20230913164659.9345-3-sumitg%40nvidia.com
+> > patch subject: [Patch v2 2/2] ACPI: processor: reduce CPUFREQ thermal reduction pctg for Tegra241
+> > config: i386-defconfig (https://download.01.org/0day-ci/archive/20230914/202309140915.2J9OzWIZ-lkp@intel.com/config)
+> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140915.2J9OzWIZ-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309140915.2J9OzWIZ-lkp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> drivers/acpi/processor_thermal.c:141:6: warning: no previous declaration for 'acpi_thermal_cpufreq_config_nvidia' [-Wmissing-declarations]
+> >      void acpi_thermal_cpufreq_config_nvidia(void)
+> >           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+>
+> Thank you for the report.
+> The below change fixes the warning for me.
+>
+>   -void acpi_thermal_cpufreq_config_nvidia(void)
+>   +static void acpi_thermal_cpufreq_config_nvidia(void)
+>
+>
+> Hi Rafael,
+> If there is no other comment. Could you please add the change while
+> applying or you prefer me sending new version ?
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Please update.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/dma/tegra210-adma.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Besides, I haven't said that I will apply it without changes yet.
 
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index e557bada1510..60111d40325e 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -949,7 +949,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int tegra_adma_remove(struct platform_device *pdev)
-+static void tegra_adma_remove(struct platform_device *pdev)
- {
- 	struct tegra_adma *tdma = platform_get_drvdata(pdev);
- 	int i;
-@@ -961,8 +961,6 @@ static int tegra_adma_remove(struct platform_device *pdev)
- 		irq_dispose_mapping(tdma->channels[i].irq);
- 
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct dev_pm_ops tegra_adma_dev_pm_ops = {
-@@ -979,7 +977,7 @@ static struct platform_driver tegra_admac_driver = {
- 		.of_match_table = tegra_adma_of_match,
- 	},
- 	.probe		= tegra_adma_probe,
--	.remove		= tegra_adma_remove,
-+	.remove_new	= tegra_adma_remove,
- };
- 
- module_platform_driver(tegra_admac_driver);
--- 
-2.40.1
-
+Thanks!
