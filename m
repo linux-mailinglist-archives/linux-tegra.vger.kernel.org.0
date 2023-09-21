@@ -2,278 +2,207 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D10F67A96E3
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Sep 2023 19:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62EFD7A9DBD
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Sep 2023 21:46:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbjIURCQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Sep 2023 13:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S230180AbjIUTqu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Sep 2023 15:46:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbjIURCE (ORCPT
+        with ESMTP id S230169AbjIUTqj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Sep 2023 13:02:04 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5EED19BE;
-        Thu, 21 Sep 2023 09:59:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UZAYgm82ntBfO+UUHZtnsZxysUtEZZmRWjx8Aqx0aZO84j/vNre7luLw/gexksNf4JCBvYMMrryfrIZMTEw1ZoDdZeZvZJZ5xEtkz5thUn3zdF9Ved98EzPptY7e42aCbSXXY6foQwWzBOyv/C/mSHPTGpZFKtyFxyHkN47XlaneopXWgY2KaRHccgrgYhoz6Ec6pltWt5/BeJJ4UbaBdymWfDyoQGjbUI2wtOwr77mZM9rSrQ+FrH9yyZdfpxAyfoN8BSQIZpRF333XEoveq6EWEpj/g3lI8JI6jRIqenZtJm8LiKJhpq3OFepKVBZOm+ahXeo4HSylpAnOqyCsBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4UkB9s5xBccRKqPVNLpA4gXzkA9jD0OZbiBOWe052aI=;
- b=CY55o5U9SGiMea63HfADC/V2w1Xc0WiefU+7HSRkOPtoKPr9Kby0x7H2fuWUqYH/Uu/kO5k+im2/VQE6Bmu/peo0wsQhbjl6pn6TeJO9KHHU+UPhb1xAVtN/eyOfneNEZ8X5ASWajep7pRdVjZNiM+7yWnZc5hGeoNSAaw8DBVZVZY9QRxLJTilgAJuu/EsmFLXUoazDzLzJ261EwNibRqpF9sF4sV1qSL1OkAUiz31hVxUHZ8l775mGhB2DVfStxexo8ukJk/EMpr9F8vryo7HFwj+3Duh2oOv5usuP/bVY/aOi8X0duY3UkC5TWG+yoa/nA1WhJ8so4PlVvS1brA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=suse.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4UkB9s5xBccRKqPVNLpA4gXzkA9jD0OZbiBOWe052aI=;
- b=e2vq3VYUhBSmqR8y9WrNnV8Ex0pxVBMWyq2FD5HdW1xDHPAnS70sTkfNT8trkdfHMLQ11EGG599ju1vCkaewl1eoXfPGzy8crkugE5FrW0ujA/8tUY5MsLg4rbA4H84h4hN9wrTSJGjr0zGGJiHYCsYz6KezugvyvGFOK0OsobFyvLwrOXebwj5JX0H8z/jrqGkuI+6WiXWSEO+zcgvs3hacE4tc4lyyPaDj2jdMwSCqwnv3+xVdU9B34v0qhhVPF81In3DFG0uOh3MLiucRxYoC+hgG+pF2GADtxnU00EM4sy0pPGAMTzWPB5NAiI5pKeP/9Vsb5D3i6XpJpdFI+Q==
-Received: from BY5PR04CA0022.namprd04.prod.outlook.com (2603:10b6:a03:1d0::32)
- by IA1PR12MB8538.namprd12.prod.outlook.com (2603:10b6:208:455::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Thu, 21 Sep
- 2023 13:11:56 +0000
-Received: from DS2PEPF0000343E.namprd02.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::86) by BY5PR04CA0022.outlook.office365.com
- (2603:10b6:a03:1d0::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.31 via Frontend
- Transport; Thu, 21 Sep 2023 13:11:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- DS2PEPF0000343E.mail.protection.outlook.com (10.167.18.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.20 via Frontend Transport; Thu, 21 Sep 2023 13:11:54 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 21 Sep
- 2023 06:11:41 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 21 Sep
- 2023 06:11:40 -0700
-Received: from moonraker.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Thu, 21 Sep 2023 06:11:38 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Ninad Malwade <nmalwade@nvidia.com>,
-        "Rajkumar Kasirajan" <rkasirajan@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH V3 3/4] hwmon: ina3221: Add support for channel summation disable
-Date:   Thu, 21 Sep 2023 14:08:17 +0100
-Message-ID: <20230921130818.21247-4-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230921130818.21247-1-jonathanh@nvidia.com>
-References: <20230921130818.21247-1-jonathanh@nvidia.com>
+        Thu, 21 Sep 2023 15:46:39 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625B4D8D75
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Sep 2023 12:28:15 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-690bfd4f3ebso1139831b3a.3
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Sep 2023 12:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695324495; x=1695929295; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TaaYKX/WzN2yAJiXuwCzXo10Y+Z2eYCI0rB7JbtaKbk=;
+        b=jtVmpnRIDN8TiFRUC7vxoAkApDBnuY+DFs1EZtRPnVdSQbWt0X1XuHm9VtOmjLG8zK
+         /E/Qr3pUtZLN6BJO0FVKBBCD5wmT1ceRfFbMQfDS98RknkOQWo7LmuO93spe61s0SKHs
+         K5IlxdqepbOYRS+AnEFxfEPdwVym6Kr4qrzHY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695324495; x=1695929295;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TaaYKX/WzN2yAJiXuwCzXo10Y+Z2eYCI0rB7JbtaKbk=;
+        b=THTR8tGrNW/lN0y6FICHjhnW8yf8pl2phpWiwF0hrvDSW1eyGs7M+usFA++/sv4Inx
+         phjs/vL2wVGBKKFHdiV6SejjQ4EojaCtHfooajmlTcmU2F1XZmWJ6qU7e4fqJyGm8cVY
+         Ssuswve+UUHtdjFIbKNS7uJc5O3bpDzLzyclSa04qywZMNADjKK/0UCbEaeziNqeQijp
+         Q78qfm/pWgpG6+OpsKsE2TslCkdw9eNRyZ0/S6waMs8qz38uMnuT7IGEEWGzyW0Ef0S2
+         ORCQlD2tFWLZTriUblyANIjGE092OC9vZMtPQ+shPtXQu/xAMWbpW6cd5CzgyjJ5yw36
+         DNlQ==
+X-Gm-Message-State: AOJu0YzvqR0o0hlTS+2w2kfYpzi/WJbWLp4qhMJbWlawU2WdEgsx5CR3
+        UkwFRwLxpfLx8xdSrjO8QaF2tg==
+X-Google-Smtp-Source: AGHT+IEMW+st7pK1ERCOwxwoalcSvIpW84hrr+4hW9zDszK+PkTuQiJ5+HlDQX/MBJ7tT52BBQ4d4g==
+X-Received: by 2002:a05:6a21:4985:b0:151:991c:84b6 with SMTP id ax5-20020a056a21498500b00151991c84b6mr6676548pzc.59.1695324494675;
+        Thu, 21 Sep 2023 12:28:14 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:e6ed:6d49:f262:8041])
+        by smtp.gmail.com with ESMTPSA id w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 12:28:13 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc:     Douglas Anderson <dianders@chromium.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Bokun.Zhang@amd.com, Hawking.Zhang@amd.com, James.Zhu@amd.com,
+        Sascha Hauer <s.hauer@pengutronix.de>, Victor.Zhao@amd.com,
+        Xinhui.Pan@amd.com, abrodkin@synopsys.com, airlied@gmail.com,
+        alexander.deucher@amd.com, alim.akhtar@samsung.com,
+        amd-gfx@lists.freedesktop.org,
+        angelogioacchino.delregno@collabora.com,
+        anitha.chrisanthus@intel.com, biju.das.jz@bp.renesas.com,
+        bskeggs@redhat.com, christian.koenig@amd.com,
+        chunkuang.hu@kernel.org, daniel@ffwll.ch, edmund.j.dea@intel.com,
+        felix.kuehling@amd.com, festevam@gmail.com,
+        geert+renesas@glider.be, inki.dae@samsung.com,
+        jim.cromie@gmail.com, jonathanh@nvidia.com, kernel@pengutronix.de,
+        kherbst@redhat.com, kieran.bingham+renesas@ideasonboard.com,
+        krzysztof.kozlowski@linaro.org, kyungmin.park@samsung.com,
+        l.stach@pengutronix.de, laurent.pinchart@ideasonboard.com,
+        laurentiu.palcu@oss.nxp.com, le.ma@amd.com, lijo.lazar@amd.com,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+        mario.limonciello@amd.com, matthias.bgg@gmail.com,
+        mdaenzer@redhat.com, mperttunen@nvidia.com,
+        nouveau@lists.freedesktop.org, orsonzhai@gmail.com,
+        p.zabel@pengutronix.de, patrik.r.jakobsson@gmail.com,
+        paul@crapouillou.net, robh@kernel.org, sam@ravnborg.org,
+        shawnguo@kernel.org, shiwu.zhang@amd.com,
+        srinivasan.shanmugam@amd.com, steven.price@arm.com,
+        sw0312.kim@samsung.com, thierry.reding@gmail.com,
+        tzimmermann@suse.de, zhang.lyra@gmail.com
+Subject: [RFT PATCH v2 00/12] drm: call drm_atomic_helper_shutdown() at the right times
+Date:   Thu, 21 Sep 2023 12:26:43 -0700
+Message-ID: <20230921192749.1542462-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 MIME-Version: 1.0
-X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343E:EE_|IA1PR12MB8538:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fb73dff-8491-4347-391c-08dbbaa453fe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JeMoSaBE7k4MnBjgx1X6QmBOihfrvIeEoZvObuOsUyzEk7CMVVAWR0rl0eRCGaSQM85irE9YZP6K9LKSfXRh6U0grlss1x0K4nCiNMj8UUc9GE2yfUmU18rhybVycU8ndCC2nQvmrccArxYNwVoFYIOTWCnyYNBwDjlQ1jzWqVHczHSEl59DXsev9DqJ174v1+z6PuuRzxv3mt73SrM6WslrC8RlnSaPxvbW2MEvvdBPLpAQqiJ08f4EHerTnfbUOTvhcZQRlMSQCrmA9DbZotPrzqz+EixKH4fScggrxGqa/xfs9kwilpn4Hl4Ym1W53Lmyf9UFJs3GNSx7+lFa3mPneQXEIaBWf+OWDNne5Ix9eLohD3Bx9+o7PUBLNDHjCe5xXw2JZn1YbVdp5jperL28viBfdEKHJ9S7xyoitGrcMFo5KPVYfy3/KGXItlsw1Y+DZeTh74PFNpYK5YsbQnamue6PQlVh+mGpkt5ba1xlgd2OYnE32zYU8ppHYlAFzTgKsPTU6URMeD+dhSBn1oKDzCbyb7pmn6box69Y9Q1wg5jYGJ0FOPWkSZNCVmS2zh4N/C/jJaoX+sLdYCh0OVOJeVI83Xwu/bruY+E+XInpD/xWANfZOXw+x3nOtZKFaUfD+icZOQ/mKLa5G7v/U1tlbP984N5BPPhUYGYBuB8ko81DWTv2Dl+KWARef+oDPLUKNreqJfTP4w3+ShYRTAlNW2lNscNZBYC3NOTnm0u4nWZ+4CkuL2reZsrpO/vN
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(136003)(346002)(82310400011)(1800799009)(186009)(451199024)(46966006)(40470700004)(36840700001)(7696005)(478600001)(6666004)(8936002)(8676002)(83380400001)(70206006)(70586007)(54906003)(110136005)(316002)(40460700003)(5660300002)(107886003)(2616005)(36860700001)(36756003)(4326008)(86362001)(82740400003)(40480700001)(26005)(47076005)(336012)(2906002)(426003)(1076003)(41300700001)(356005)(7636003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2023 13:11:54.8223
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fb73dff-8491-4347-391c-08dbbaa453fe
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8538
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Ninad Malwade <nmalwade@nvidia.com>
 
-The INA3221 allows the Critical alert pin to be controlled by the
-summation control function. This function adds the single
-shunt-voltage conversions for the desired channels in order to compare
-the combined sum to the programmed limit. The Shunt-Voltage Sum Limit
-register contains the programmed value that is compared to the value in
-the Shunt-Voltage Sum register in order to determine if the total summed
-limit is exceeded. If the shunt-voltage sum limit value is exceeded, the
-Critical alert pin pulls low.
+This patch series came about after a _long_ discussion between me and
+Maxime Ripard in response to a different patch I sent out [1]. As part
+of that discussion, we realized that it would be good if DRM drivers
+consistently called drm_atomic_helper_shutdown() properly at shutdown
+and driver remove time as it's documented that they should do. The
+eventual goal of this would be to enable removing some hacky code from
+panel drivers where they had to hook into shutdown themselves because
+the DRM driver wasn't calling them.
 
-For the summation limit to have a meaningful value, we have to use the
-same shunt-resistor value on all included channels. Unless equal
-shunt-resistor values are used for each channel, the summation control
-function cannot be used and it is not enabled by the driver.
+It turns out that quite a lot of drivers seemed to be missing
+drm_atomic_helper_shutdown() in one or both places that it was
+supposed to be. This patch series attempts to fix all the drivers that
+I was able to identify.
 
-To address this, add support to disable the summation of specific
-channels via device tree property "ti,summation-disable". The channel
-which has this property would be excluded from the calculation of
-summation control function.
+NOTE: fixing this wasn't exactly cookie cutter. Each driver has its
+own unique way of setting itself up and tearing itself down. Some
+drivers also use the component model, which adds extra fun. I've made
+my best guess at solving this and I've run a bunch of compile tests
+(specifically, allmodconfig for amd64, arm64, and powerpc). That being
+said, these code changes are not totally trivial and I've done zero
+real testing on them. Making these patches was also a little mind
+numbing and I'm certain my eyes glazed over at several points when
+writing them. What I'm trying to say is to please double-check that I
+didn't do anything too silly, like cast your driver's drvdata to the
+wrong type. Even better, test these patches!
 
-For example, summation control function calculates Shunt-Voltage Sum as:
+I've labeled this patch series as RFT (request for testing) to help
+call attention to the fact that I didn't personally test any of these
+patches.
 
-- input_shunt_voltage_summation = input_shunt_voltage_channel1
-                                + input_shunt_voltage_channel2
-                                + input_shunt_voltage_channel3
+I'd like to call out a few drivers that I _didn't_ fix in this series
+and why. If any of these drivers should be fixed then please yell.
+- DRM drivers backed by usb_driver (like gud, gm12u320, udl): I didn't
+  add the call to drm_atomic_helper_shutdown() at shutdown time
+  because there's no ".shutdown" callback for them USB drivers. Given
+  that USB is hotpluggable, I'm assuming that they are robust against
+  this and the special shutdown callback isn't needed.
+- ofdrm and simpledrm: These didn't have drm_atomic_helper_shutdown()
+  in either shutdown or remove, but I didn't add it. I think that's OK
+  since they're sorta special and not really directly controlling
+  hardware power sequencing.
+- virtio, vkms, vmwgfx, xen: I believe these are all virtual (thus
+  they wouldn't directly drive a panel) and adding the shutdown
+  didn't look straightforward, so I skipped them.
 
-If we want the summation to only use channel1 and channel3, we can add
-'ti,summation-disable' property in device tree node for channel2. Then
-the calculation will skip channel2.
+I've let each patch in the series get CCed straight from
+get_maintainer. That means not everyone will have received every patch
+but everyone should be on the cover letter. I know some people dislike
+this but when touching this many drivers there's not much
+choice. dri-devel and lkml have been CCed and lore/lei exist, so
+hopefully that's enough for folks. I'm happy to add people to the
+whole series for future posts.
 
-- input_shunt_voltage_summation = input_shunt_voltage_channel1
-                                + input_shunt_voltage_channel3
+NOTE: I landed everything I could from v1 of the patch series [2] [3]
+to drm-misc. This v2 is everyone that is still left. If you'd like me
+to land one of the patches here to drm-misc for you, please say
+so. Otherwise I will assume maintainers will pick patches for their
+particular driver and land them. There are no dependencies.
 
-Note that we only want the channel to be skipped for summation control
-function rather than completely disabled. Therefore, even if we add the
-property 'ti,summation-disable', the channel is still enabled and
-functional.
+[1] https://lore.kernel.org/lkml/20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid
+[2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
 
-Finally, create debugfs entries that display if summation is disabled
-for each of the channels.
+Changes in v2:
+- Rebased and resolved conflicts.
 
-Signed-off-by: Rajkumar Kasirajan <rkasirajan@nvidia.com>
-Signed-off-by: Ninad Malwade <nmalwade@nvidia.com>
-Co-developed-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/hwmon/ina3221.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+Douglas Anderson (12):
+  drm/imx/dcss: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/kmb: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/mediatek: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/nouveau: Call drm_atomic_helper_shutdown() or equiv at shutdown
+    time
+  drm/tegra: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/arcpgu: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/amdgpu: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/sprd: Call drm_atomic_helper_shutdown() at remove time
+  drm/exynos: Call drm_atomic_helper_shutdown() at shutdown/unbind time
+  drm/gma500: Call drm_helper_force_disable_all() at shutdown/remove
+    time
+  drm/radeon: Call drm_helper_force_disable_all() at shutdown/remove
+    time
+  drm/renesas/shmobile: Call drm_helper_force_disable_all() at
+    shutdown/remove time
 
-diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-index 5ab944056ec0..359b758e9f03 100644
---- a/drivers/hwmon/ina3221.c
-+++ b/drivers/hwmon/ina3221.c
-@@ -6,6 +6,7 @@
-  *	Andrew F. Davis <afd@ti.com>
-  */
- 
-+#include <linux/debugfs.h>
- #include <linux/hwmon.h>
- #include <linux/hwmon-sysfs.h>
- #include <linux/i2c.h>
-@@ -104,6 +105,7 @@ struct ina3221_input {
- 	const char *label;
- 	int shunt_resistor;
- 	bool disconnected;
-+	bool summation_disable;
- };
- 
- /**
-@@ -123,8 +125,10 @@ struct ina3221_data {
- 	struct regmap_field *fields[F_MAX_FIELDS];
- 	struct ina3221_input inputs[INA3221_NUM_CHANNELS];
- 	struct mutex lock;
-+	struct dentry *debugfs;
- 	u32 reg_config;
- 	int summation_shunt_resistor;
-+	u32 summation_channel_control;
- 
- 	bool single_shot;
- };
-@@ -154,7 +158,8 @@ static inline int ina3221_summation_shunt_resistor(struct ina3221_data *ina)
- 	int i, shunt_resistor = 0;
- 
- 	for (i = 0; i < INA3221_NUM_CHANNELS; i++) {
--		if (input[i].disconnected || !input[i].shunt_resistor)
-+		if (input[i].disconnected || !input[i].shunt_resistor ||
-+		    input[i].summation_disable)
- 			continue;
- 		if (!shunt_resistor) {
- 			/* Found the reference shunt resistor value */
-@@ -786,6 +791,9 @@ static int ina3221_probe_child_from_dt(struct device *dev,
- 	/* Save the connected input label if available */
- 	of_property_read_string(child, "label", &input->label);
- 
-+	/* summation channel control */
-+	input->summation_disable = of_property_read_bool(child, "ti,summation-disable");
-+
- 	/* Overwrite default shunt resistor value optionally */
- 	if (!of_property_read_u32(child, "shunt-resistor-micro-ohms", &val)) {
- 		if (val < 1 || val > INT_MAX) {
-@@ -827,6 +835,7 @@ static int ina3221_probe(struct i2c_client *client)
- 	struct device *dev = &client->dev;
- 	struct ina3221_data *ina;
- 	struct device *hwmon_dev;
-+	char name[32];
- 	int i, ret;
- 
- 	ina = devm_kzalloc(dev, sizeof(*ina), GFP_KERNEL);
-@@ -873,6 +882,10 @@ static int ina3221_probe(struct i2c_client *client)
- 
- 	/* Initialize summation_shunt_resistor for summation channel control */
- 	ina->summation_shunt_resistor = ina3221_summation_shunt_resistor(ina);
-+	for (i = 0; i < INA3221_NUM_CHANNELS; i++) {
-+		if (!ina->inputs[i].summation_disable)
-+			ina->summation_channel_control |= BIT(14 - i);
-+	}
- 
- 	ina->pm_dev = dev;
- 	mutex_init(&ina->lock);
-@@ -900,6 +913,15 @@ static int ina3221_probe(struct i2c_client *client)
- 		goto fail;
- 	}
- 
-+	scnprintf(name, sizeof(name), "%s-%s", INA3221_DRIVER_NAME, dev_name(dev));
-+	ina->debugfs = debugfs_create_dir(name, NULL);
-+
-+	for (i = 0; i < INA3221_NUM_CHANNELS; i++) {
-+		scnprintf(name, sizeof(name), "in%d_summation_disable", i);
-+		debugfs_create_bool(name, 0400, ina->debugfs,
-+				    &ina->inputs[i].summation_disable);
-+	}
-+
- 	return 0;
- 
- fail:
-@@ -918,6 +940,8 @@ static void ina3221_remove(struct i2c_client *client)
- 	struct ina3221_data *ina = dev_get_drvdata(&client->dev);
- 	int i;
- 
-+	debugfs_remove_recursive(ina->debugfs);
-+
- 	pm_runtime_disable(ina->pm_dev);
- 	pm_runtime_set_suspended(ina->pm_dev);
- 
-@@ -978,13 +1002,13 @@ static int ina3221_resume(struct device *dev)
- 	/* Initialize summation channel control */
- 	if (ina->summation_shunt_resistor) {
- 		/*
--		 * Take all three channels into summation by default
-+		 * Sum only channels that are not disabled for summation.
- 		 * Shunt measurements of disconnected channels should
- 		 * be 0, so it does not matter for summation.
- 		 */
- 		ret = regmap_update_bits(ina->regmap, INA3221_MASK_ENABLE,
- 					 INA3221_MASK_ENABLE_SCC_MASK,
--					 INA3221_MASK_ENABLE_SCC_MASK);
-+					 ina->summation_channel_control);
- 		if (ret) {
- 			dev_err(dev, "Unable to control summation channel\n");
- 			return ret;
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h              |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       | 10 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          |  2 ++
+ drivers/gpu/drm/exynos/exynos_drm_drv.c          | 11 +++++++++++
+ drivers/gpu/drm/gma500/psb_drv.c                 |  8 ++++++++
+ drivers/gpu/drm/imx/dcss/dcss-drv.c              |  8 ++++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.c              |  7 +++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.h              |  1 +
+ drivers/gpu/drm/kmb/kmb_drv.c                    |  6 ++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c           |  9 +++++++++
+ drivers/gpu/drm/nouveau/nouveau_display.c        |  9 +++++++++
+ drivers/gpu/drm/nouveau/nouveau_display.h        |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c            | 13 +++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_drv.h            |  1 +
+ drivers/gpu/drm/nouveau/nouveau_platform.c       |  6 ++++++
+ drivers/gpu/drm/radeon/radeon_drv.c              |  7 ++++++-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 10 ++++++++++
+ drivers/gpu/drm/sprd/sprd_drm.c                  |  4 +++-
+ drivers/gpu/drm/tegra/drm.c                      |  6 ++++++
+ drivers/gpu/drm/tiny/arcpgu.c                    |  6 ++++++
+ 20 files changed, 124 insertions(+), 2 deletions(-)
+
 -- 
-2.34.1
+2.42.0.515.g380fc7ccd1-goog
 
