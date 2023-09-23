@@ -2,81 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F5E47ABADD
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Sep 2023 23:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2798B7AC4F1
+	for <lists+linux-tegra@lfdr.de>; Sat, 23 Sep 2023 21:49:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbjIVVGk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Sep 2023 17:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53080 "EHLO
+        id S229666AbjIWTtf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 23 Sep 2023 15:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbjIVVGj (ORCPT
+        with ESMTP id S229590AbjIWTte (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Sep 2023 17:06:39 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E18AC;
-        Fri, 22 Sep 2023 14:06:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E40C433C8;
-        Fri, 22 Sep 2023 21:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695416793;
-        bh=oeSNGT5vCeLS0tK5r0KuFqwwS5mmgSj+Xv6+izXXJKY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eLt6MevgEBW3Z4+5Z8SmfiOWQovihSSaExBMeCLCIYBRWnlFSXQ5ShsVRjWDnK2hg
-         KuXc1TrMJAuofUqH7yW/NtIsN1z7C1m9SThRO3JHYN+9QBoITy5V+wFxvYLRsI2bDy
-         A8E+Lc4xe99m0HAYGVfrIvB71Ug+EiTj5j75YSX4RKFvU5p4iqnADSm6+2Sgek6tf3
-         e0ibQy0x4lUEuh7S7pIqA9jPgmwXL37y9cMSSpwkJHugxoP+MXQLsiabF87rsn0Lgk
-         z9qhVH/tM7x3hTcocBZso/tSXc53NLZ3/x5nR7iEcsOw4E0NTLpIHLEa1G7bZVgHmy
-         m0HonfAwQBSKQ==
-Received: (nullmailer pid 3599452 invoked by uid 1000);
-        Fri, 22 Sep 2023 21:06:31 -0000
-Date:   Fri, 22 Sep 2023 16:06:31 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Ninad Malwade <nmalwade@nvidia.com>
-Subject: Re: [PATCH V3 2/4] dt-bindings: hwmon: ina3221: Add
- ti,summation-disable
-Message-ID: <20230922210631.GA3569506-robh@kernel.org>
-References: <20230921130818.21247-1-jonathanh@nvidia.com>
- <20230921130818.21247-3-jonathanh@nvidia.com>
+        Sat, 23 Sep 2023 15:49:34 -0400
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDFD319A;
+        Sat, 23 Sep 2023 12:49:27 -0700 (PDT)
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4RtKJx541CzR;
+        Sat, 23 Sep 2023 21:41:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1695498115; bh=wp7EybNqxZPuaJseGNWMLajq/4TvZRIK+t8tPGl8NZA=;
+        h=Date:Subject:From:To:Cc:From;
+        b=qHzeJWgh89lusdHb6R07h2qNXYUd9Iuyp66mt4Cj0StxChiPqC8Qy9fWpFV2F5Fgk
+         G4GvlYrDbAaLyPq5J8gSVp/KybCxPRin8N49PROEFNY31RvN+H5MOMUXldP0bWx2vo
+         Px04kK3LJgU9vRDbBA8u8lm5KfFGlhYnzaEYnaTNpOQnOSrKerwmucLLciqwDRttXy
+         o7g4Fmnawa5/kRbCNb+3SIz0wZowYAkcF7Lq8YEPvUKXrA+94OCQ+RN5YPJJjHmQZ4
+         aW3SupWSgqL+8NB1YAEWpqpa5G3yS1PJDuPHaBN5nW+3w6tpK4ZWsjH2EWuSp2GCTl
+         /o3aJ/KDB/bzA==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.8 at mail
+Date:   Sat, 23 Sep 2023 21:41:52 +0200
+Message-Id: <cover.1695497666.git.mirq-linux@rere.qmqm.pl>
+Subject: [PATCH 0/3] usb: chipidea: Tegra USB DMA fix + cleanups
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230921130818.21247-3-jonathanh@nvidia.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+From:   =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Thierry Reding <treding@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Sep 21, 2023 at 02:08:16PM +0100, Jon Hunter wrote:
-> The INA3221 has a critical alert pin that can be controlled by the
-> summation control function. This function adds the single
-> shunt-voltage conversions for the desired channels in order to
-> compare the combined sum to the programmed limit. The Shunt-Voltage
-> Sum Limit register contains the programmed value that is compared
-> to the value in the Shunt-Voltage Sum register in order to
-> determine if the total summed limit is exceeded. If the
-> shunt-voltage sum limit value is exceeded, the critical alert pin
-> pulls low.
-> 
-> For the summation limit to have a meaningful value, it is necessary
-> to use the same shunt-resistor value on all included channels. Add a new
-> vendor specific property, 'ti,summation-disable', to allow specific
-> channels to be excluded from the summation control function if the shunt
-> resistor is different to other channels or the channel should not be
-> considered for triggering the critical alert pin.
+This series contains a fix for a DMA buffer overflow in Tegra USB driver
+followed by a cleanup of the DMA bounce buffer code and another cleanup
+to make probe() consistently use dev_err_probe() for error printk()s.
 
-You are adding this feature to the driver, but requiring a new property 
-to disable it. So what happens with an existing user (old DT) and a 
-kernel with the new feature?
+Michał Mirosław (3):
+  usb: chipidea: Fix DMA overwrite for Tegra
+  usb: chipidea: Simplify Tegra DMA alignment code
+  usb: chipidea: tegra: Consistently use dev_err_probe()
 
-Rob
+ drivers/usb/chipidea/ci_hdrc_tegra.c | 16 ++++------
+ drivers/usb/chipidea/host.c          | 48 ++++++++++++----------------
+ 2 files changed, 27 insertions(+), 37 deletions(-)
+
+-- 
+2.39.2
+
