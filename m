@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F4497C88DB
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Oct 2023 17:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A277C88D9
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Oct 2023 17:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjJMPhe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Oct 2023 11:37:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55820 "EHLO
+        id S232426AbjJMPhf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Oct 2023 11:37:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232435AbjJMPhd (ORCPT
+        with ESMTP id S232434AbjJMPhf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Oct 2023 11:37:33 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18FEBD
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:31 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso363755666b.1
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:31 -0700 (PDT)
+        Fri, 13 Oct 2023 11:37:35 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E98CE
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:32 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53da72739c3so3914178a12.3
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697211450; x=1697816250; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697211451; x=1697816251; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m+ZY1Eo+hGBgOwzkZ57/CG02BALJwavzrznNDKUJoBg=;
-        b=Y2PjxqOBweV/IKCKp3kBA9HocAqIcF6ZtDnCd1nsW2EYRKyXkmmu10W7ZYDIbtuDbg
-         q+e1HewVemG1Xp/NWQSEogC3+oII8odp2/vDzR9/+oLXkQWYeBeVmiailX7R99S9mq60
-         tnUoMVmD1V5Vn89xWDV+bZUcul8grerrgycpvouNBbZiTbhIHBy8Tqous2bv65DaoWVc
-         YgKAaPwIcRyLWZShJejplBUtiN/iVreDTrr5kuCp4sFSR/hdHIzKeT68OdV4nfqzrZDT
-         gN6UkvSyOyBKia60TPDxtclskzctZXUO9OKhtYRqpC2lMXfU/UnlsMocOq41EoGSwhzc
-         +tbw==
+        bh=CNAgka3FvOAsw8o3RYXySdSDUfmIIBBX4anYSnIwdp0=;
+        b=FMF6ivXptmWJeiIdykKSpkZy+IPovBbq1APykAaOvW0orpHRqdrf90oogPWzDFm2DX
+         W573NrPoWmaVCbnkF4KcnQXsXRACD43nfseTkBXmnXLzI4aeUan/m0hp0bPN0Xiobf+k
+         oVYokPgrQ5Tjg2K6KP3epcE3nN7PLuQbPodd/yeI/d4IG/zfs7DMurfOusaxd9vB5Qyr
+         El8LU7eeNcdOQIImQhOHQXBuW4D+AI+V/MVdbG72jmVgyxMWSnZiCY/TgNPGYXg7Z1HF
+         7ERt7X7sI0ZoyRvDoVyoLxVumIyGb4+Hm2kdKzV49U7ueQKjd3ZltcVt/ZmItrKPezi0
+         YmTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697211450; x=1697816250;
+        d=1e100.net; s=20230601; t=1697211451; x=1697816251;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m+ZY1Eo+hGBgOwzkZ57/CG02BALJwavzrznNDKUJoBg=;
-        b=DfSIoUtM5ywRjZ0uosy10eUbqkpa/n0a8AC8/iqb9DtNX9j3OKELcBIi5HAKoKnMrp
-         K9Y3b2V+W+3zyPYQHyJNghz0bv9fVdmWpZPZQ4jVncor+3vfzehAJ/brugRMmCJnpt1G
-         dpBVSjiCk1MFikWThkr5K9z/w93/IcYR4TeIaPfo/1c59EzaYmm2W3FrGqNTsgrCdd5L
-         HYGLkYtN4arVIJISwUz+xWjmoEIU9EBcSqiSSEa8VOm4+85pH119Eh1HB/sGwCUhYpaT
-         zwwcilWCzAf/3HS3O3acecQL9RKoPHtjZjlEhFBaxanW9c5rIxkgflMQHbRrOR5vh+7X
-         aKxw==
-X-Gm-Message-State: AOJu0YyGwbuaDnszERU4AVWljS8yGhhp+uJwmkRgvsClA10/HkllnZze
-        7V0WhCwBUUaXevFHwWpD62c=
-X-Google-Smtp-Source: AGHT+IHF39k1Gkjh3CL21FI3J5A3m1jhzhd1cVfiEnS0AlXW/MWrlPSiofKiUmdWkr5p+9m5gZAEIw==
-X-Received: by 2002:a17:906:7389:b0:9a5:b878:7336 with SMTP id f9-20020a170906738900b009a5b8787336mr28447343ejl.7.1697211450300;
-        Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
+        bh=CNAgka3FvOAsw8o3RYXySdSDUfmIIBBX4anYSnIwdp0=;
+        b=wNOy3Ozhzv7wAFDoyoFguc1D2VBKMUPLEKOiU//7Kh46MPwamf+bqJY7f/CHOcirmr
+         +qU5JoRk9dAa/s/WvTz2LjzQIBBBZIxUMdyXEM1kxaeFW9QplYOE9iKs66ew36yqIrZd
+         IMquZ8cbbH54DVSDWx3Mci64ACIUlzOEBACM2f7auEKz/yt8F57iESXdYOHJG4pMTmUh
+         ANHPMGBIyjvgTKqr8WbkXkMJZuTKfoY1CKSULriOaTiDGJqrSZRGTTcqw2ob9L86dBQB
+         6Ntac99x/KjT5OgsoZ4ZVdTC2mz2W1fYFLAs3NR5rtDjjqG2Gag2lLErqEyJbzfiWmia
+         9xAQ==
+X-Gm-Message-State: AOJu0Yzi2FNM3jj6cdwB8j3OPQlUgUdSvOXHHbrkdweDTV6LP+d8wzKW
+        8pfTuo+bQrPOC77cHBHZb/w=
+X-Google-Smtp-Source: AGHT+IH8I+K28mrFHIIHCAnqmELBv3ZkkWnfIipzfeY38HXq0bgTnkvoJtmdtdo2llbVApAGXvhvqQ==
+X-Received: by 2002:a05:6402:b58:b0:53d:d4a0:3154 with SMTP id bx24-20020a0564020b5800b0053dd4a03154mr6293896edb.31.1697211451101;
+        Fri, 13 Oct 2023 08:37:31 -0700 (PDT)
 Received: from localhost (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id h17-20020a1709063c1100b009b94a8150d8sm12605318ejg.199.2023.10.13.08.37.29
+        by smtp.gmail.com with ESMTPSA id s9-20020a05640217c900b0053d9a862e2csm4809094edy.56.2023.10.13.08.37.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
@@ -55,9 +55,9 @@ To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 5/6] ARM: tegra: Device tree changes for v6.7-rc1
-Date:   Fri, 13 Oct 2023 17:37:21 +0200
-Message-ID: <20231013153723.1729109-5-thierry.reding@gmail.com>
+Subject: [GIT PULL 6/6] arm64: tegra: Device tree changes for v6.7-rc1
+Date:   Fri, 13 Oct 2023 17:37:22 +0200
+Message-ID: <20231013153723.1729109-6-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231013153723.1729109-1-thierry.reding@gmail.com>
 References: <20231013153723.1729109-1-thierry.reding@gmail.com>
@@ -82,26 +82,56 @@ The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.7-arm-dt
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.7-arm64-dt
 
-for you to fetch changes up to 3c2508d3ce5764d1daea0a580cf11f35bd4f2801:
+for you to fetch changes up to c0b80988eb78d6423249ab530bfbc6b238790a26:
 
-  ARM: tegra: Drop unit-address from parallel RGB output port (2023-10-10 17:43:48 +0200)
+  arm64: tegra: Use correct interrupts for Tegra234 TKE (2023-10-13 14:43:05 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Device tree changes for v6.7-rc1
+arm64: tegra: Device tree changes for v6.7-rc1
 
-Contains a small fix that drops an unnecessary unit-address.
+This contains some fixes for Tegra234 boards as well as some cleanups
+that will help with json-schema validation.
+
+For older devices, there's now support for display on Smaug (a.k.a.
+Pixel C) and the IOMMU for host1x is enabled on Tegra132, which should
+help with large memory allocations for display and multimedia.
 
 ----------------------------------------------------------------
-Maxim Schwalm (1):
-      ARM: tegra: Drop unit-address from parallel RGB output port
+Brad Griffis (2):
+      arm64: tegra: Fix P3767 card detect polarity
+      arm64: tegra: Fix P3767 QSPI speed
 
- arch/arm/boot/dts/nvidia/tegra20-acer-a500-picasso.dts  | 2 +-
- arch/arm/boot/dts/nvidia/tegra20-asus-tf101.dts         | 2 +-
- arch/arm/boot/dts/nvidia/tegra30-asus-lvds-display.dtsi | 2 +-
- arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dts        | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Diogo Ivo (3):
+      arm64: tegra: Add DSI/CSI regulator on Smaug
+      arm64: tegra: Add backlight node on Smaug
+      arm64: tegra: Add display panel node on Smaug
+
+Jon Hunter (1):
+      arm64: tegra: Add power-sensors for Tegra234 boards
+
+Rayyan Ansari (1):
+      arm64: tegra: Enable IOMMU for host1x on Tegra132
+
+Thierry Reding (6):
+      arm64: tegra: Add missing current-speed for SBSA UART
+      arm64: tegra: Remove duplicate nodes on Jetson Orin NX
+      arm64: tegra: Use correct format for clocks property
+      arm64: tegra: Add dmas and dma-names for Tegra234 UARTE
+      arm64: tegra: Mark Tegra234 SPI as compatible with Tegra114
+      arm64: tegra: Use correct interrupts for Tegra234 TKE
+
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi           |  2 +
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      | 66 ++++++++++++++++++++++
+ .../arm64/boot/dts/nvidia/tegra234-p3701-0008.dtsi | 33 +++++++++++
+ arch/arm64/boot/dts/nvidia/tegra234-p3701.dtsi     | 53 +++++++++++++++++
+ .../dts/nvidia/tegra234-p3737-0000+p3701-0000.dts  |  1 +
+ arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi     | 33 ++++++++++-
+ .../dts/nvidia/tegra234-p3768-0000+p3767-0000.dts  | 13 -----
+ .../arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi |  1 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi           | 52 +++++++++--------
+ 9 files changed, 214 insertions(+), 40 deletions(-)
