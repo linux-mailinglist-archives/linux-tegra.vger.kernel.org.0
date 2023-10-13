@@ -2,62 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E769B7C88DC
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4497C88DB
 	for <lists+linux-tegra@lfdr.de>; Fri, 13 Oct 2023 17:39:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232428AbjJMPhd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Oct 2023 11:37:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
+        id S232374AbjJMPhe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Oct 2023 11:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232439AbjJMPhb (ORCPT
+        with ESMTP id S232435AbjJMPhd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Oct 2023 11:37:31 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37AED8
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9b9faf05f51so349156666b.2
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
+        Fri, 13 Oct 2023 11:37:33 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18FEBD
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:31 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso363755666b.1
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Oct 2023 08:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697211449; x=1697816249; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697211450; x=1697816250; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zdk4NvJbSMGfd0BIaU/OwOTGoubjjFd1QVukVbebO28=;
-        b=feGyU6ws5sjVgcyy7M16uf8tH+GrPMNVXC3deYXiybkpsmLHSKAzrxlBegtuv4wrX+
-         GMqvTaxpv8wpLlfJr8wZHXIvCBRnicp5+2YYj/hw62mPpTX13CmL6ibIcrZRdx8FItp1
-         cm7Zc6xAEV1SBK3Ta9BiKS+bDKvzVyqaCc5qciC1RoHnri3hjU0p5rzQ/+ITARoMRJI0
-         wKbfbvQ4A15qy2waO91+VpUsf6B2w6tZ9cJ4pII/4cPBx7Lhewknu/StclfnjPKwJyuD
-         MASJYEnCo2zkXBJc3Wd3XXxuBEfSMz5Noetkfh2x8fwq5ya97psQI1wwv0ZtLHe7IPGk
-         TAEg==
+        bh=m+ZY1Eo+hGBgOwzkZ57/CG02BALJwavzrznNDKUJoBg=;
+        b=Y2PjxqOBweV/IKCKp3kBA9HocAqIcF6ZtDnCd1nsW2EYRKyXkmmu10W7ZYDIbtuDbg
+         q+e1HewVemG1Xp/NWQSEogC3+oII8odp2/vDzR9/+oLXkQWYeBeVmiailX7R99S9mq60
+         tnUoMVmD1V5Vn89xWDV+bZUcul8grerrgycpvouNBbZiTbhIHBy8Tqous2bv65DaoWVc
+         YgKAaPwIcRyLWZShJejplBUtiN/iVreDTrr5kuCp4sFSR/hdHIzKeT68OdV4nfqzrZDT
+         gN6UkvSyOyBKia60TPDxtclskzctZXUO9OKhtYRqpC2lMXfU/UnlsMocOq41EoGSwhzc
+         +tbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697211449; x=1697816249;
+        d=1e100.net; s=20230601; t=1697211450; x=1697816250;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zdk4NvJbSMGfd0BIaU/OwOTGoubjjFd1QVukVbebO28=;
-        b=BdHvC+ZqjoSkvjlKwRNidM8FzC1dKnwJu7RGw+Js4ctKHZg0YAIbk2a6gyGH15cVNz
-         dZ618ltQ1SybrMC31sBQgGr5L8/892h4/l0o3PUFfC/sth7bNDErvfRjKSF0sM4DleC2
-         hXUeaZHZse7ioc4V2mHMju0hSxkxjh/9UJnWDak+5XGi1ji/S2Qwu9oFResPOgibKdQC
-         m+YcUaAlQxUQ1Ar6EqAUoByNO0tSm6DzC2k6EtPViWrvqAaF7MoN9IoazP/Dkf3QBK2r
-         asUjHqlDLBbsn7h85GjNeWZsijHBE53pLhLvc98Ij/mK/o9J3woFe8hL8KxhLShYSWHq
-         +/uQ==
-X-Gm-Message-State: AOJu0YzzF8MXrnne33Kjc2Hkw+W0VJC4Dx9rYda3YGJVDUYv/otlmBp7
-        ZyTuN5KTNpbYV4SERNG9EeY=
-X-Google-Smtp-Source: AGHT+IFYqC9tGqZnZhl1BWHxrEQ6EXrSviw9xGYIOiIjwt/Jf8wWQMwZrgXE4xHWoxXV8yVorBkenA==
-X-Received: by 2002:a17:907:7d90:b0:9bd:fa48:83c5 with SMTP id oz16-20020a1709077d9000b009bdfa4883c5mr852294ejc.70.1697211448948;
-        Fri, 13 Oct 2023 08:37:28 -0700 (PDT)
+        bh=m+ZY1Eo+hGBgOwzkZ57/CG02BALJwavzrznNDKUJoBg=;
+        b=DfSIoUtM5ywRjZ0uosy10eUbqkpa/n0a8AC8/iqb9DtNX9j3OKELcBIi5HAKoKnMrp
+         K9Y3b2V+W+3zyPYQHyJNghz0bv9fVdmWpZPZQ4jVncor+3vfzehAJ/brugRMmCJnpt1G
+         dpBVSjiCk1MFikWThkr5K9z/w93/IcYR4TeIaPfo/1c59EzaYmm2W3FrGqNTsgrCdd5L
+         HYGLkYtN4arVIJISwUz+xWjmoEIU9EBcSqiSSEa8VOm4+85pH119Eh1HB/sGwCUhYpaT
+         zwwcilWCzAf/3HS3O3acecQL9RKoPHtjZjlEhFBaxanW9c5rIxkgflMQHbRrOR5vh+7X
+         aKxw==
+X-Gm-Message-State: AOJu0YyGwbuaDnszERU4AVWljS8yGhhp+uJwmkRgvsClA10/HkllnZze
+        7V0WhCwBUUaXevFHwWpD62c=
+X-Google-Smtp-Source: AGHT+IHF39k1Gkjh3CL21FI3J5A3m1jhzhd1cVfiEnS0AlXW/MWrlPSiofKiUmdWkr5p+9m5gZAEIw==
+X-Received: by 2002:a17:906:7389:b0:9a5:b878:7336 with SMTP id f9-20020a170906738900b009a5b8787336mr28447343ejl.7.1697211450300;
+        Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
 Received: from localhost (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ca9-20020a170906a3c900b009ae587ce128sm12513281ejb.216.2023.10.13.08.37.28
+        by smtp.gmail.com with ESMTPSA id h17-20020a1709063c1100b009b94a8150d8sm12605318ejg.199.2023.10.13.08.37.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 08:37:28 -0700 (PDT)
+        Fri, 13 Oct 2023 08:37:30 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 4/6] memory: tegra: Changes for v6.7-rc1
-Date:   Fri, 13 Oct 2023 17:37:20 +0200
-Message-ID: <20231013153723.1729109-4-thierry.reding@gmail.com>
+Subject: [GIT PULL 5/6] ARM: tegra: Device tree changes for v6.7-rc1
+Date:   Fri, 13 Oct 2023 17:37:21 +0200
+Message-ID: <20231013153723.1729109-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231013153723.1729109-1-thierry.reding@gmail.com>
 References: <20231013153723.1729109-1-thierry.reding@gmail.com>
@@ -76,31 +76,32 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 Hi ARM SoC maintainers,
 
-The following changes since commit ea608a01d4ee66f8b51070e623f9adb8684c0dd4:
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 
-  firmware: tegra: Add suspend hook and reset BPMP IPC early on resume (2023-10-13 14:20:27 +0200)
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.7-memory
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-6.7-arm-dt
 
-for you to fetch changes up to f344675a34383ae26a8230f4b1cd99cbd0defebd:
+for you to fetch changes up to 3c2508d3ce5764d1daea0a580cf11f35bd4f2801:
 
-  memory: tegra: Set BPMP msg flags to reset IPC channels (2023-10-13 14:23:41 +0200)
+  ARM: tegra: Drop unit-address from parallel RGB output port (2023-10-10 17:43:48 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-memory: tegra: Changes for v6.7-rc1
+ARM: tegra: Device tree changes for v6.7-rc1
 
-Contains a fix for a long timeout that can make it seems like the system
-is hanging during early resume.
+Contains a small fix that drops an unnecessary unit-address.
 
 ----------------------------------------------------------------
-Thierry Reding (2):
-      Merge branch 'for-6.7/firmware' into for-6.7/memory
-      memory: tegra: Set BPMP msg flags to reset IPC channels
+Maxim Schwalm (1):
+      ARM: tegra: Drop unit-address from parallel RGB output port
 
- drivers/memory/tegra/tegra234.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm/boot/dts/nvidia/tegra20-acer-a500-picasso.dts  | 2 +-
+ arch/arm/boot/dts/nvidia/tegra20-asus-tf101.dts         | 2 +-
+ arch/arm/boot/dts/nvidia/tegra30-asus-lvds-display.dtsi | 2 +-
+ arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dts        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
