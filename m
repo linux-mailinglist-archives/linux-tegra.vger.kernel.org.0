@@ -2,54 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED80B7D2F13
+	by mail.lfdr.de (Postfix) with ESMTP id 97AC47D2F12
 	for <lists+linux-tegra@lfdr.de>; Mon, 23 Oct 2023 11:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233529AbjJWJzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Oct 2023 05:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57972 "EHLO
+        id S233624AbjJWJz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Oct 2023 05:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233437AbjJWJy7 (ORCPT
+        with ESMTP id S233477AbjJWJzN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Oct 2023 05:54:59 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9438610F6
-        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:52 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-32d9d8284abso2141674f8f.3
-        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:52 -0700 (PDT)
+        Mon, 23 Oct 2023 05:55:13 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F231719
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:55 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso23143095e9.0
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698054891; x=1698659691; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1698054893; x=1698659693; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9PvbddIvQlG0l/ZDn5njSVhrq4RgzTBlbX25/MYIgFc=;
-        b=QL3y9JEcLadLoCqVFZ81Hw0SF59gHlxSpxmeZjKjaxcnzAg4Ay57nfed9ds+wXaoCa
-         CXX6nVrSEHDEbQ+2wl7+sJr6ijlxjbdzBPc3uO/aY6qgiAEz1WZfl3cvrbUB3odjeBu/
-         bDPZrthuoGecsPKU9G3XJlQb5qYtYqBM9Ip+92a4dEV47oezPwEDSQDd197DJbwtKDgB
-         mpQvvoNTDA9tgqC9xbP2AzkdfYMnoplOQqx+ZPqzEUyg8+5VPTw/cDw2tVXHa1piqm8X
-         J3DhZRQu39hKSBi6tVKhOh7XLU7D2Px1CWCP8zBqSbgD5tTbracrkk0pEsDpNGV7Eewn
-         +svQ==
+        bh=iygGW2h2lVMWeGfG3UfW0SGTTyTrk1COvj9PMOD/Pf4=;
+        b=qUpXN0ILCi4LvFMINMaTf56b3r6pxUi8xiIVFHn6NjdTchBM/L0hxdfp9ZgbPsOMEr
+         bMQqww3Arug8O47iA5c00G777hjoX4vSly49WoLvATe6qW+JqpPE8aVsZ/HHLRGfYD9D
+         STpDO1D13bAeZT5UgJVBKhZ21o0jBxbXp0bZ19pEbhlDM+cwkmTHRg2JBotvzNQMqEqf
+         FBR7EqDniDJw19/OoWcQvddq/qNS+u2nqdZyfu6FYblWgKHhj+6HL/KrpjzyWXVGB3pg
+         dxFXOt1wFhm+sOqi234SpH0ek6MIAods1pffV4sRpi0SQILgnVoDiPa1kvzcpmY6ayar
+         vWXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698054891; x=1698659691;
+        d=1e100.net; s=20230601; t=1698054893; x=1698659693;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9PvbddIvQlG0l/ZDn5njSVhrq4RgzTBlbX25/MYIgFc=;
-        b=kABEYsfwx84oVWHlwoi1S/3TM4JV53ozC8Jx0/c9uqnRz9ShGyKiE0cm3aD4au7A0V
-         Qq/c99gDgZdtSfNwNum1aHOELRcTyAvSdwyXh3hZr4UCdhZa/PJP5zuq+gSvXTCnCoCq
-         KUThiktSzA1jIi8UWF8m4TGWUStEyLunmzabQ0RxSa/22vSFm1WALt8FT0ijDhkWmwTa
-         +9lgfgq3BJozAymAveLXBnTNnvtMPQS7KxNACh56athNZgVozKtBvLPAgrY+b5HrZ7zz
-         TeHpfBdHwRY7adshfqCGvmSU2+3s6Btu1GG8nkadvHQ3sbXSL5lchobsUZA0RAOX4rQw
-         6UqA==
-X-Gm-Message-State: AOJu0Yz43hnLtCg8WJH4Ixa70El66zY+CRlHBdZBL6NHPSfpgkKMwYaW
-        s6iv8CdVd3BGUOG7CUeChRdoAA==
-X-Google-Smtp-Source: AGHT+IEmmCcXMvV2AiWhQpKHX0IqP6/STlrOm+onc5uiN24/C1EAIXqoQxx+Ad9L+iK6N0Yq3GEInA==
-X-Received: by 2002:a5d:5709:0:b0:32d:9fd1:91f9 with SMTP id a9-20020a5d5709000000b0032d9fd191f9mr5739165wrv.60.1698054890848;
-        Mon, 23 Oct 2023 02:54:50 -0700 (PDT)
+        bh=iygGW2h2lVMWeGfG3UfW0SGTTyTrk1COvj9PMOD/Pf4=;
+        b=FOmKnAv2g8+GY7QtCkqDLJcrEmfLRXPga+IaNYQQjB7h7HmG5sGuIdDtbXNz00nvg8
+         UtSzDb8lThSkihcEAfiuQ8Z9bhlk+QR1jVyMK5lnV+TIURy9XBVp/o6S6vljpWSeNYBj
+         zY+4iYNK+bc7N1IMItvNKwh70iEzu8ukGGKPPjZ98R0Jo9Oce1L938X0OvYsu7FLEh8d
+         Y/EOmh8tIbcUUngHn+uu3HEv63mqiAP0PmrCdNdqENwpjdBWd58GNBX9g/2j4KoQcnAp
+         ay6l/BosMnd40gK5NZnvOFKFdxlBExYE1YiQcOF7TnBaJ7YM2OMBnNCiWBjiR+YUhzhu
+         oHRQ==
+X-Gm-Message-State: AOJu0YzU4oC5Mpuc/ZyW2h1Ww0lFdn0HeSztLCxsChu5whVi/6OPjc0z
+        owi2e7Al4p4YTvMRw86I+gF7Ow==
+X-Google-Smtp-Source: AGHT+IHTc2UW0PcRRtRg3EJmwXBDKZ0rRGICIe4tZ3tRk+SG6RlHUvnvHSIX5664+drOKrq+nZy8rg==
+X-Received: by 2002:a05:6000:92c:b0:32d:81f9:7712 with SMTP id cx12-20020a056000092c00b0032d81f97712mr8264026wrb.20.1698054893380;
+        Mon, 23 Oct 2023 02:54:53 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id u14-20020a5d468e000000b00323330edbc7sm7428801wrq.20.2023.10.23.02.54.48
+        by smtp.gmail.com with ESMTPSA id u14-20020a5d468e000000b00323330edbc7sm7428801wrq.20.2023.10.23.02.54.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 02:54:50 -0700 (PDT)
+        Mon, 23 Oct 2023 02:54:53 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
@@ -71,9 +71,9 @@ To:     Liam Girdwood <lgirdwood@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [RFT PATCH 08/17] ASoC: codecs: wcd9335: Handle component name prefix
-Date:   Mon, 23 Oct 2023 11:54:19 +0200
-Message-Id: <20231023095428.166563-9-krzysztof.kozlowski@linaro.org>
+Subject: [RFT PATCH 09/17] ASoC: codecs: wm8962: Handle component name prefix
+Date:   Mon, 23 Oct 2023 11:54:20 +0200
+Message-Id: <20231023095428.166563-10-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231023095428.166563-1-krzysztof.kozlowski@linaro.org>
 References: <20231023095428.166563-1-krzysztof.kozlowski@linaro.org>
@@ -93,53 +93,25 @@ to include also the component's name prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/wcd9335.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ sound/soc/codecs/wm8962.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
-index a05b553e6472..43c648efd0d9 100644
---- a/sound/soc/codecs/wcd9335.c
-+++ b/sound/soc/codecs/wcd9335.c
-@@ -3296,31 +3296,31 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
- 	int val;
- 	int offset_val = 0;
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index 83ce5dbecc45..fb90ae6a8a34 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -1854,10 +1854,10 @@ static int tp_event(struct snd_soc_dapm_widget *w,
  
--	if (!(strcmp(w->name, "RX INT0 INTERP"))) {
-+	if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT0 INTERP"))) {
- 		reg = WCD9335_CDC_RX0_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX0_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT1 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT1 INTERP"))) {
- 		reg = WCD9335_CDC_RX1_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX1_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT2 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT2 INTERP"))) {
- 		reg = WCD9335_CDC_RX2_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX2_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT3 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT3 INTERP"))) {
- 		reg = WCD9335_CDC_RX3_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX3_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT4 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT4 INTERP"))) {
- 		reg = WCD9335_CDC_RX4_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX4_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT5 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT5 INTERP"))) {
- 		reg = WCD9335_CDC_RX5_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX5_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT6 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT6 INTERP"))) {
- 		reg = WCD9335_CDC_RX6_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX6_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT7 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT7 INTERP"))) {
- 		reg = WCD9335_CDC_RX7_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX7_RX_VOL_CTL;
--	} else if (!(strcmp(w->name, "RX INT8 INTERP"))) {
-+	} else if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT8 INTERP"))) {
- 		reg = WCD9335_CDC_RX8_RX_PATH_CTL;
- 		gain_reg = WCD9335_CDC_RX8_RX_VOL_CTL;
+ 	reg = WM8962_ADDITIONAL_CONTROL_4;
+ 
+-	if (!strcmp(w->name, "TEMP_HP")) {
++	if (!snd_soc_dapm_widget_name_cmp(w, "TEMP_HP")) {
+ 		mask = WM8962_TEMP_ENA_HP_MASK;
+ 		val = WM8962_TEMP_ENA_HP;
+-	} else if (!strcmp(w->name, "TEMP_SPK")) {
++	} else if (!snd_soc_dapm_widget_name_cmp(w, "TEMP_SPK")) {
+ 		mask = WM8962_TEMP_ENA_SPK_MASK;
+ 		val = WM8962_TEMP_ENA_SPK;
  	} else {
 -- 
 2.34.1
