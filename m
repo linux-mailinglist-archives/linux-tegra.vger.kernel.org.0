@@ -2,54 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3977D2F04
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Oct 2023 11:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EA5C7D2F14
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Oct 2023 11:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233278AbjJWJzD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Oct 2023 05:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42410 "EHLO
+        id S233456AbjJWJzX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Oct 2023 05:55:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233381AbjJWJyy (ORCPT
+        with ESMTP id S233463AbjJWJzA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Oct 2023 05:54:54 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3547510C1
-        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:48 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-507b18cf2e1so4190596e87.3
-        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:48 -0700 (PDT)
+        Mon, 23 Oct 2023 05:55:00 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B111701
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:53 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-32daeed7771so2082525f8f.3
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Oct 2023 02:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698054886; x=1698659686; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1698054888; x=1698659688; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mg1xiJ4tpWrc01TGrYLaIzComQYv1hvzEAR610Ntv3U=;
-        b=JvPo8itjnZKIOL3UKj+h26Qsqnz1vIHwnQKAtfZbht61ULhSuht5nI6AGqtZeMKihV
-         +MdVA6scm4aoYbJPRY+ddPNe+Um0dLrSMB2M54HXv5g7zjV9U+UcgemyI/b0dM4Du3sz
-         cV8fFiQ7g0s9UKrkVurikbBmR7/nlOv0sZGbIkwvQ2r1iV0WD8t/ZDbsDCPS7tLqTLxE
-         CVBqJH8DSQQlaTj0Qi93iQxCeu4ElE4i2i0ljbv8NSNNPnf7TbnwG3yYpkjHru5A0eOl
-         jIgxsipz3FiEJR0pzuAMCjo48lahAxBWPWg9kS6BEecVnd/vgxeEEwBGZKzznkSCsNIm
-         EXFA==
+        bh=ohG7h5MVOd61zy+5ypL65RpxKjVv+oL8L5RUWwJJdI0=;
+        b=zt1WSV923YXZ9jiqUWxltIavwRi0qJrm3ZdsnmiGXDn4g5RzGRzoOKj2FcSIug+3G4
+         STQT703eYTQCjkO4vkkps4aAlLoMr/BNeRiz2wPmKhhzxXUL5ddUytw72iZlh9wH7nN4
+         5tiK8DcJGHzNBdNKD42B4jnU5r/J6nLE6cAaKcjnIL08Dvs8P5hQo7rhf5enpmkkt2We
+         F+eQomS9eoHDDxFMgBiRWYHhfdUa/vGg/yWsA2OGsy75n/YlfVGuy8D0sE3EI0jGisSN
+         j6Nb+myzHwdPy6PcSq3Ka/1mYSQiJnO0yjkZecqaQyIcjD0SutQZqjN4LirlWwV8PQkv
+         FTgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698054886; x=1698659686;
+        d=1e100.net; s=20230601; t=1698054888; x=1698659688;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mg1xiJ4tpWrc01TGrYLaIzComQYv1hvzEAR610Ntv3U=;
-        b=TczXBX7gGYn43aRUaoshC5rb4Lw1qG6dnJLxqkMd1XDgMjbu4ca3dBib/MEp38h5vo
-         0L9DTzMhEwV+daKDuJOQj4dsquShsoAE5KFo5T/TB0hZ+g0nh5QmOA/8dypIUb7ICfKR
-         V9EvKkPPcXv24+R/g9JnS8SqBl17E7YqQM8NX/LDeUj9sDMoIoomjhapLbZvcFWOVngt
-         u0W8fW15aC2vTb19uhCMa0KU2lJOcvcF+zRucHes361hnNKA/37jh9N4MjKZzCCy8kO4
-         Lr/n2rrFhpBgGS5xw8+SE7LXVifd6NI7eoXGRaIWyCbv3uASZSnjymPcPOa51xlv/S2c
-         ekoA==
-X-Gm-Message-State: AOJu0YzRqJ/JsD+qoJQZzqF1hh2dhiFq5CuNoukpCSxaJobdIBf8w4Yu
-        4hcxqne8LzAkNge8I5Flnc6GJw==
-X-Google-Smtp-Source: AGHT+IGVnDVUzhqtZG2Rxtx8SwcXnzeMCoNHkuKGJvqRY3jD0nxvOcWU8+AB175lzXv5OfVrm4BxmA==
-X-Received: by 2002:ac2:4430:0:b0:500:b7ed:105a with SMTP id w16-20020ac24430000000b00500b7ed105amr6312430lfl.29.1698054886439;
-        Mon, 23 Oct 2023 02:54:46 -0700 (PDT)
+        bh=ohG7h5MVOd61zy+5ypL65RpxKjVv+oL8L5RUWwJJdI0=;
+        b=JakY9ld2/4SqL5PzRR+k1oXr0i74EOo4rQYQ6LX4FjDw0Q3jbqftxudxkhRcpCLpV/
+         Yy88Cl1pckKtbE3JPS0sLrdZvbWI6/+E/wvq2Uc4NHJED1xHjCSsQNYqt1KyikY91ae3
+         eWVjFs4suDECMY4vg+JgnSvD6NaI/HZ/PxuM7nh4OxspWzPKaeAwDfa+kTVcypY+Mr0y
+         OiFmBPLYRpLy8hoA1Rm+/f76cP5x8RtaXbKN4YX3Gs6sIJygV7jA4JVkm2ELbx18xcIK
+         l7sqz2PSgTSjSjvJgQAIQQM0yagf/prV1Yggii7sN+936M9TnangaRQT/JRU/rAUXiO4
+         2zTA==
+X-Gm-Message-State: AOJu0Yy9nADevhIHnPDHQ+xUDGFf/nZRzGRDsEtg9+xPRE8/T0PN9bQa
+        LnISMPbqqtrYKgNw/GoiruJLnw==
+X-Google-Smtp-Source: AGHT+IF2XQ2NytyZKfSuKXcxhn8MgqaftjUTA3vcBEY0OG7GzuniO27qe9jeb7abDdumrFZMKzYUnQ==
+X-Received: by 2002:adf:fd90:0:b0:32d:8a32:3b2f with SMTP id d16-20020adffd90000000b0032d8a323b2fmr5871452wrr.16.1698054888606;
+        Mon, 23 Oct 2023 02:54:48 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id u14-20020a5d468e000000b00323330edbc7sm7428801wrq.20.2023.10.23.02.54.44
+        by smtp.gmail.com with ESMTPSA id u14-20020a5d468e000000b00323330edbc7sm7428801wrq.20.2023.10.23.02.54.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 02:54:46 -0700 (PDT)
+        Mon, 23 Oct 2023 02:54:48 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
@@ -71,9 +71,9 @@ To:     Liam Girdwood <lgirdwood@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [RFT PATCH 06/17] ASoC: codecs: rt5682s: Handle component name prefix
-Date:   Mon, 23 Oct 2023 11:54:17 +0200
-Message-Id: <20231023095428.166563-7-krzysztof.kozlowski@linaro.org>
+Subject: [RFT PATCH 07/17] ASoC: codecs: rtq9128: Handle component name prefix
+Date:   Mon, 23 Oct 2023 11:54:18 +0200
+Message-Id: <20231023095428.166563-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231023095428.166563-1-krzysztof.kozlowski@linaro.org>
 References: <20231023095428.166563-1-krzysztof.kozlowski@linaro.org>
@@ -81,7 +81,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -93,25 +94,28 @@ to include also the component's name prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/rt5682s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/rtq9128.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
-index 68ac5ea50396..c261c33c4be7 100644
---- a/sound/soc/codecs/rt5682s.c
-+++ b/sound/soc/codecs/rt5682s.c
-@@ -1323,9 +1323,9 @@ static int set_i2s_event(struct snd_soc_dapm_widget *w,
- 	if (SND_SOC_DAPM_EVENT_ON(event))
- 		on = 1;
+diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
+index 371d622c6214..c22b047115cc 100644
+--- a/sound/soc/codecs/rtq9128.c
++++ b/sound/soc/codecs/rtq9128.c
+@@ -291,11 +291,11 @@ static int rtq9128_dac_power_event(struct snd_soc_dapm_widget *w, struct snd_kco
  
--	if (!strcmp(w->name, "I2S1") && !rt5682s->wclk_enabled)
-+	if (!snd_soc_dapm_widget_name_cmp(w, "I2S1") && !rt5682s->wclk_enabled)
- 		rt5682s_set_i2s(rt5682s, RT5682S_AIF1, on);
--	else if (!strcmp(w->name, "I2S2"))
-+	else if (!snd_soc_dapm_widget_name_cmp(w, "I2S2"))
- 		rt5682s_set_i2s(rt5682s, RT5682S_AIF2, on);
+ 	dev_dbg(comp->dev, "%s: %s event %d\n", __func__, w->name, event);
  
- 	return 0;
+-	if (strcmp(w->name, "DAC1") == 0)
++	if (snd_soc_dapm_widget_name_cmp(w, "DAC1") == 0)
+ 		shift = 6;
+-	else if (strcmp(w->name, "DAC2") == 0)
++	else if (snd_soc_dapm_widget_name_cmp(w, "DAC2") == 0)
+ 		shift = 4;
+-	else if (strcmp(w->name, "DAC3") == 0)
++	else if (snd_soc_dapm_widget_name_cmp(w, "DAC3") == 0)
+ 		shift = 2;
+ 	else
+ 		shift = 0;
 -- 
 2.34.1
 
