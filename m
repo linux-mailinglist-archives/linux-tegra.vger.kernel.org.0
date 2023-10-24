@@ -2,123 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F427D5642
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Oct 2023 17:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 459717D5AE2
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Oct 2023 20:52:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234890AbjJXP1u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Oct 2023 11:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52714 "EHLO
+        id S233104AbjJXSwL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 24 Oct 2023 14:52:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234932AbjJXP1i (ORCPT
+        with ESMTP id S232357AbjJXSwK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Oct 2023 11:27:38 -0400
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7C901BFD;
-        Tue, 24 Oct 2023 08:27:35 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BDA5E40E0177;
-        Tue, 24 Oct 2023 15:27:33 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id O_JSFRhFDTp4; Tue, 24 Oct 2023 15:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1698161247; bh=/VWdzD9YqeMFT65D6FtCfwIaXeG447+7p1CdxoXwJIM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kxVNKjaESkPKWatKh8WeOOZKJ1ZfuaVgDgM5/UvVCoZlAhb/b4CbP8xsjt1HY2cc6
-         cPkTwoQYuFxjl+AdYlPC7hESHx+YK3oFQSBcgS+YlbDEQa+h4+0dCMg41ECN13GMYI
-         nH1Iz6JUmr85Y5GCdr/yhS8It5WFj+yININjan7rHmAbqjNzsbBYpms2MHGTnCcoAQ
-         BPbLKYuIhv/q0U/L1STtsox8pBhcEdGb8G7QGWTS5j5QUGDYC5I6dUE7AbDp70tAAB
-         36L1gEGMBqJJyOcSJ0ydPSRMUmH/giseiKlmic3b3803vyKw4XSvlYS8Scj9+kAe6N
-         7TlyQiZ8oBWEwlbxb67JD/OVMdj1IuaGZhZV+cqNOQjjLpAT1AAmHqo47HgyFL7QwJ
-         GijTGKb6VRCn1iu769UdbfYFnNL0eLTd1qGzH+Ovz3gYuJrYn71DRCCRkP+lsKUUax
-         DJ8TYDNQ8gXyo48Yo3pxa1VdknGw7lEcgJp9RdG9K+lvbYmQGs2Gf1RDqiWiLXBJAq
-         Md5zXKTrrrrqbJAPuGAhHAXm8E+aiv6h+R56fNBVnzLbl0/Lp6MW3skoeQ/lBx7kLE
-         wdW6TaKOdvztuK78ATMHsCHvQFylhc/OqHpKlMboJlm1GbEixaCMrgnuDCGz1Mp2yd
-         EjxWAJVMZVEuqWIKanOOmBEs=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 55E4240E014B;
-        Tue, 24 Oct 2023 15:27:14 +0000 (UTC)
-Date:   Tue, 24 Oct 2023 17:27:08 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jeshua Smith <jeshuas@nvidia.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gpiccoli@igalia.com" <gpiccoli@igalia.com>,
-        "lenb@kernel.org" <lenb@kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH V2] ACPI: APEI: Use ERST timeout for slow devices
-Message-ID: <20231024152708.GFZTfiTL9C6onZKn99@fat_crate.local>
-References: <20230712223448.145079-1-jeshuas@nvidia.com>
- <DM6PR12MB3371BA50E3B76D2266273901DB09A@DM6PR12MB3371.namprd12.prod.outlook.com>
- <SJ1PR11MB6083426D3C663F47E707CF1AFC09A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <DM6PR12MB3371D86F80417641B8479B28DB0EA@DM6PR12MB3371.namprd12.prod.outlook.com>
- <DM6PR12MB3371FA3AEEA4D17D94C889D5DB1BA@DM6PR12MB3371.namprd12.prod.outlook.com>
- <DM6PR12MB337153EE2DDDB427096446F0DBF2A@DM6PR12MB3371.namprd12.prod.outlook.com>
- <DM6PR12MB3371083F4E6BCE4A8D2389E7DBC5A@DM6PR12MB3371.namprd12.prod.outlook.com>
- <DM6PR12MB33710C8FE59EB3CB1404ABC0DBD8A@DM6PR12MB3371.namprd12.prod.outlook.com>
- <CAJZ5v0g2TsBo4hxsJBo5a-ggD2Cj65VS=tokpoRaNwzWbPoeNw@mail.gmail.com>
+        Tue, 24 Oct 2023 14:52:10 -0400
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C063BA6;
+        Tue, 24 Oct 2023 11:52:08 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1ea1742c1a5so1380458fac.0;
+        Tue, 24 Oct 2023 11:52:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698173528; x=1698778328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b47eW1W1ZA3iY9fGQWptMYQkO14e99bJy5u+/oy5i2Y=;
+        b=aZEwBny9h18y3Sexpm1gP6WTOHnyV+grEkCz6WuZVsCCwZ2JVuDM/GR3oH2n2MVgMD
+         LMBQCQfVWdV92nSSvAl2DZXuMIyxyToOV8EuiEVpohVVvZZQs0wIDl6ntkLK/jEWlva3
+         6IaMeyzOO0loI1COrMmRKa6SzTehfiZeOoRb9o6Blu6BNbO8iPIjX1rX81lZ2h/R6yQK
+         /YtksuEUYxoJM3KCIaW9z55oPKD1O5F1Hy8XmzvOgSxXYD/hBxQjZLeZiUqdr5cRlDV6
+         sBWjeBgQgbHpak/qLLWZ+7+6fbhI+pbyo9zyEbPFDDSXtrif6mpxwrR9gEt0qt4GYXSt
+         iVVA==
+X-Gm-Message-State: AOJu0Yw04wr7yV0HId29biuCd9JJWS9GVl7/RWdLVvMRccapd6clWVIQ
+        gL4fvXGmmZnXr4XK5ctYVGhDuJt0pUTfNjcawZg=
+X-Google-Smtp-Source: AGHT+IGEyL46Vaabh0PQgToQaEorF+rTwJ2e/VuAsoUSTFafddKjwzGKWYy/ed+ekhC8GDeNVIsCZEpkTFfXDb/+gKo=
+X-Received: by 2002:a05:6870:9a98:b0:1e9:9e04:1d24 with SMTP id
+ hp24-20020a0568709a9800b001e99e041d24mr16645138oab.5.1698173528060; Tue, 24
+ Oct 2023 11:52:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0g2TsBo4hxsJBo5a-ggD2Cj65VS=tokpoRaNwzWbPoeNw@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230712223448.145079-1-jeshuas@nvidia.com> <ZTfhpRRA4bga0qSI@agluck-desk3>
+In-Reply-To: <ZTfhpRRA4bga0qSI@agluck-desk3>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 24 Oct 2023 20:51:57 +0200
+Message-ID: <CAJZ5v0j2mbKOqDaL_31fL9ftTZRhUiURx3nubLmLUo3-R_w3gw@mail.gmail.com>
+Subject: Re: [PATCH V2] ACPI: APEI: Use ERST timeout for slow devices
+To:     Tony Luck <tony.luck@intel.com>, Jeshua Smith <jeshuas@nvidia.com>
+Cc:     keescook@chromium.org, gpiccoli@igalia.com, rafael@kernel.org,
+        lenb@kernel.org, james.morse@arm.com, bp@alien8.de,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-tegra@vger.kernel.org,
+        treding@nvidia.com, jonathanh@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Oct 24, 2023 at 04:32:48PM +0200, Rafael J. Wysocki wrote:
-> So there are 3 designated reviewers for APEI: Tony Luck, Borislav
-> Petkov and James Morse.  I need an ACK or Reviewed-by from one of
-> them, so I can proceed with an APEI patch.
+On Tue, Oct 24, 2023 at 5:27 PM Tony Luck <tony.luck@intel.com> wrote:
+>
+> On Wed, Jul 12, 2023 at 10:34:48PM +0000, Jeshua Smith wrote:
+> > Slow devices such as flash may not meet the default 1ms timeout value,
+> > so use the ERST max execution time value that they provide as the
+> > timeout if it is larger.
+> >
+> > Signed-off-by: Jeshua Smith <jeshuas@nvidia.com>
+>
+> > +/* ERST Exec max timings */
+> > +#define ERST_EXEC_TIMING_MAX_MASK      0xFFFFFFFF00000000
+> > +#define ERST_EXEC_TIMING_MAX_SHIFT     32
+>
+> I've recently become a fan of <linux/bitfield.h> I think this would
+> be easier on the eyes as:
+>
+> #define ERST_EXEC_TIMING_MAX    GENMASK_ULL(63, 32)
+>
+> > +static inline u64 erst_get_timeout(void)
+> > +{
+> > +     u64 timeout = FIRMWARE_TIMEOUT;
+> > +
+> > +     if (erst_erange.attr & ERST_RANGE_SLOW) {
+> > +             timeout = ((erst_erange.timings & ERST_EXEC_TIMING_MAX_MASK) >>
+> > +                     ERST_EXEC_TIMING_MAX_SHIFT) * NSEC_PER_MSEC;
+>
+> then this becomes:
+>
+>                 timeout = FIELD_GET(ERST_EXEC_TIMING_MAX, erst_erange.timings) *
+>                           NSEC_PER_MSEC;
+>
+> > +             if (timeout < FIRMWARE_TIMEOUT)
+> > +                     timeout = FIRMWARE_TIMEOUT;
+>
+> But that's just a matter of style.  Otherwise the patch looks fine.
+>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
 
-Here's what I see:
-
-cat /tmp/patch | ./scripts/get_maintainer.pl
-Kees Cook <keescook@chromium.org> (supporter:PSTORE FILESYSTEM)
-Tony Luck <tony.luck@intel.com> (reviewer:PSTORE FILESYSTEM)
-"Guilherme G. Piccoli" <gpiccoli@igalia.com> (reviewer:PSTORE FILESYSTEM)
-"Rafael J. Wysocki" <rafael@kernel.org> (unknown:ACPI APEI)
-Len Brown <lenb@kernel.org> (reviewer:ACPI APEI)
-James Morse <james.morse@arm.com> (reviewer:ACPI APEI)
-Borislav Petkov <bp@alien8.de> (reviewer:ACPI APEI)
-
-so I'm guessing Kees, Tony, Guilherme ...
-
-From what I can see, the change itself is making me ask more questions:
-
-When I see "may" in commit messages "Slow devices such as flash may not
-meet the default 1ms timeout value" then I wanna know what devices are
-those?
-
-What is the actual use case here?
-
-Upthread there's a question about the ACPI spec. That should be
-explained too. Because I have no clue what "the ERST max execution time
-value" is.
-
-And so on.
-
-HTH.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Applied as 6.7 material, thanks!
