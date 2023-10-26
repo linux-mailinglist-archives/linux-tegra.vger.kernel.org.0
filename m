@@ -2,108 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE8A7D7DD4
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Oct 2023 09:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BD47D7EE8
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Oct 2023 10:53:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344474AbjJZHxw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Oct 2023 03:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57690 "EHLO
+        id S1344712AbjJZIxI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Oct 2023 04:53:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344506AbjJZHxu (ORCPT
+        with ESMTP id S1344680AbjJZIxG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Oct 2023 03:53:50 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59854186;
-        Thu, 26 Oct 2023 00:53:47 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39Q36JS3006400;
-        Thu, 26 Oct 2023 07:53:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=g28l6GSOBmSfSFI3TH423xZ/It8yYFXLRt+Nab+zghw=;
- b=d03e/dsOUr5p8dyargQ+j7CnMsByuK4ZKE02Sw/xz4xIHp8yyNc1L83xCV9UG7d+qs1d
- AsNSCyc1CfTnXlFtRbC9GbOZ32GHg46gU9uZGnA9suE2MI20bz4V0HOjiNq+A2g01m2a
- 8nHB1XqsrK0+5KtAGL2GToV75SHyiGjBCi/GGk/05jsLayGjU7yUKUTy96PRcTQxdqpC
- l4yVjyZv7gN1/HZuNftM3nZlIIT2QD43mZX6Iu01isHd7Yktgcb2Z5xXfPryA7TTF4BJ
- waAajb165A79B631HBN1TYV3xKJEbQRGPaYTeSCN00kahmRGb4+4AyAieJimW5dHmSHL gQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tv581tcx7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Oct 2023 07:53:34 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 39Q7I1Zq031168;
-        Thu, 26 Oct 2023 07:53:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tv53eb0fp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Oct 2023 07:53:33 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39Q7rWde032431;
-        Thu, 26 Oct 2023 07:53:32 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3tv53eb0f5-1;
-        Thu, 26 Oct 2023 07:53:32 +0000
-From:   Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To:     Dipen Patel <dipenp@nvidia.com>,
+        Thu, 26 Oct 2023 04:53:06 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50A91189;
+        Thu, 26 Oct 2023 01:53:03 -0700 (PDT)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39Q8q7rb024330;
+        Thu, 26 Oct 2023 03:52:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=PODMain02222019; bh=kn7sxBhOsELqzoR
+        r18OgyCCml9vh04uG8hrPgCqczQ0=; b=MKALE7ZrCXsPHUH1Fy+AqpwPmFQvXAf
+        pkeTlz1XnubxSjk8xfnsMefeqKWtwxb+yIkANrJU+Ys+k7ry+02uzNUjyQ8NSNvr
+        z1ZHXmZ4zQqE4DPuyJKEH4gRI9TDiAFavMI04L2lTKVRgG6JFBeuLqCL0cvMi756
+        CnZBZqAeil4mucI8mvbFTPEiHsJcqrw06uWaYlvWFK6LSw/UGeOFx2wdLd8MofZ/
+        aoWFOPpabSDgKc267QG5WEGFJSkayW/Qk9SUgvhlQfZ6S+hd2RY8XpNDjv6JpTXh
+        BYh95dZC5z8FoK1sM5McR3xRgdFDW/chwVtqjYwee86QeU9NlpQuolw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3tvb2j6dr7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 26 Oct 2023 03:52:07 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Thu, 26 Oct
+ 2023 09:52:05 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.37 via Frontend
+ Transport; Thu, 26 Oct 2023 09:52:05 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 334922A1;
+        Thu, 26 Oct 2023 08:52:05 +0000 (UTC)
+Date:   Thu, 26 Oct 2023 08:52:05 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        "Lars-Peter Clausen" <lars@metafoo.de>,
+        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Oder Chiou <oder_chiou@realtek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        timestamp@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH] hte: tegra: Fix missing error code in tegra_hte_test_probe()
-Date:   Thu, 26 Oct 2023 00:53:28 -0700
-Message-ID: <20231026075328.996704-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [RFT PATCH 09/17] ASoC: codecs: wm8962: Handle component name
+ prefix
+Message-ID: <20231026085205.GY103419@ediswmail.ad.cirrus.com>
+References: <20231023095428.166563-1-krzysztof.kozlowski@linaro.org>
+ <20231023095428.166563-10-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-26_05,2023-10-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310170001
- definitions=main-2310260065
-X-Proofpoint-GUID: m44YvrSfAsxhxhvjoX4Wz3HA9NWhe5uk
-X-Proofpoint-ORIG-GUID: m44YvrSfAsxhxhvjoX4Wz3HA9NWhe5uk
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231023095428.166563-10-krzysztof.kozlowski@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: YA9XHH5fSQzaTnEZvx6NShHuGyet7YQj
+X-Proofpoint-ORIG-GUID: YA9XHH5fSQzaTnEZvx6NShHuGyet7YQj
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The value of 'ret' is zero when of_hte_req_count() fails to get number
-of entitties to timestamp. And returning success(zero) on this failure
-path is incorrect.
+On Mon, Oct 23, 2023 at 11:54:20AM +0200, Krzysztof Kozlowski wrote:
+> Use snd_soc_dapm_widget_name_cmp() helper when comparing widget names,
+> to include also the component's name prefix.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-Fixes: 9a75a7cd03c9 ("hte: Add Tegra HTE test driver")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is found using static analysis with smatch, only compile tested.
----
- drivers/hte/hte-tegra194-test.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Alas I don't have hardware of these CODECs to test, but looks
+fine to me:
 
-diff --git a/drivers/hte/hte-tegra194-test.c b/drivers/hte/hte-tegra194-test.c
-index ba37a5efbf82..ab2edff018eb 100644
---- a/drivers/hte/hte-tegra194-test.c
-+++ b/drivers/hte/hte-tegra194-test.c
-@@ -153,8 +153,10 @@ static int tegra_hte_test_probe(struct platform_device *pdev)
- 	}
- 
- 	cnt = of_hte_req_count(hte.pdev);
--	if (cnt < 0)
-+	if (cnt < 0) {
-+		ret = cnt;
- 		goto free_irq;
-+	}
- 
- 	dev_info(&pdev->dev, "Total requested lines:%d\n", cnt);
- 
--- 
-2.39.3
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
+Thanks,
+Charles
