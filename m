@@ -2,158 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD0FB7E15B0
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 Nov 2023 18:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD1707E1715
+	for <lists+linux-tegra@lfdr.de>; Sun,  5 Nov 2023 23:00:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbjKER42 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 Nov 2023 12:56:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
+        id S229865AbjKEWAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 Nov 2023 17:00:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjKER41 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Nov 2023 12:56:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D287DE
-        for <linux-tegra@vger.kernel.org>; Sun,  5 Nov 2023 09:55:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699206939;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fd/39Q+ldoVf5VWKnHQ/ghXrqcDy2syROa9KrYZuz/I=;
-        b=IqXVHE7tfpxVOeimPXn4vyvH7OY2t3kQqxvtrcPGQru73zPBo30S+fpExZk81iANyfk6tv
-        boEQWrMeaDpMj0U1KyE0BeObcS+QyzrEbIfSfyZeZh4N1wpGH4GP+kg0Dqdu8fPz5NfynA
-        LRW05RH0mhNQrWV3FT5v268dz1WrbPI=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-h91D2IHTN3upXpqo4sW8TQ-1; Sun, 05 Nov 2023 12:55:37 -0500
-X-MC-Unique: h91D2IHTN3upXpqo4sW8TQ-1
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-6bcefd3b248so3750944b3a.3
-        for <linux-tegra@vger.kernel.org>; Sun, 05 Nov 2023 09:55:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699206936; x=1699811736;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fd/39Q+ldoVf5VWKnHQ/ghXrqcDy2syROa9KrYZuz/I=;
-        b=Ia86gp+PGagnRqva3uqBxFFFpIvYT/cnVbtCfnO38anKqHZ0ADlykQllrVAxq/BCVx
-         2p66y0XmWdsCCjjZfz6PY/hM+j+6w7v9lQUXVq0f3kyhTZVwMGO/+miOrGfyWcmCK1MY
-         yVyEuCVSw4/rRl0Uf0G/ySmBJpIQ6ivFiCpdDoP1ENjPlIYsuXJgrWr/BLzs7QNrkTHs
-         ADL2zNKFQZTQP9HnuGQVFF8Gu+RppH5+yu94YGMKQuM2fAtwwQipWyreTlKTJqYKwbgf
-         utRyEHIIkqTA1OkKGaFjp7YAmAorkRPFZ0DLtYMo1GHsiHB2kfQz6KjyoeqlL4blYNWA
-         oRHQ==
-X-Gm-Message-State: AOJu0YzCQK+tugTL4P4FJOrdTTNEoiNaCgYIKuPjPPWc0QdEPoIWzRXa
-        PcX7waM5zLZ05hPh4whCQmt6hQX5/VwYzB+qfDF3EG+YI0jsZdYVNkKU35ghPn18X8nJ74xwrz1
-        oliAEzzfgzH1cQeP4yMueIVU=
-X-Received: by 2002:a05:6a00:14d6:b0:6be:4e6e:2a85 with SMTP id w22-20020a056a0014d600b006be4e6e2a85mr36240601pfu.30.1699206936709;
-        Sun, 05 Nov 2023 09:55:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFk2pBjd4CJ2rMONJoZ1WOco/rxQ9zWrHoyH1EeQbHLv9sJvLzIuEzeP3ARVcsr8N00dE/hMg==
-X-Received: by 2002:a05:6a00:14d6:b0:6be:4e6e:2a85 with SMTP id w22-20020a056a0014d600b006be4e6e2a85mr36240554pfu.30.1699206936324;
-        Sun, 05 Nov 2023 09:55:36 -0800 (PST)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id ff7-20020a056a002f4700b0068620bee456sm4312142pfb.209.2023.11.05.09.55.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Nov 2023 09:55:35 -0800 (PST)
-Date:   Sun, 5 Nov 2023 10:55:34 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     acpica-devel@lists.linuxfoundation.org,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-snps-arc@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hector Martin <marcan@marcan.st>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Sven Peter <sven@svenpeter.dev>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>,
-        Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Subject: Re: [PATCH RFC 04/17] acpi: Do not return struct iommu_ops from
- acpi_iommu_configure_id()
-Message-ID: <oe2b62jjtcki7ti4qw6ktzvat7eszrpm7vphgsdvfp5uwdoj3r@wc62cpauchw6>
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
- <4-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
- <xvgdxrlcpvafst6qypgwehtleaihsedgoiat6akv6au2j4xrjw@rk4dl4xbnq6o>
- <20231105132409.GA258408@nvidia.com>
+        with ESMTP id S229872AbjKEWAE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Nov 2023 17:00:04 -0500
+X-Greylist: delayed 5202 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 14:00:00 PST
+Received: from SMTP-HCRC-200.brggroup.vn (mail.hcrc.vn [42.112.212.144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE191FB;
+        Sun,  5 Nov 2023 14:00:00 -0800 (PST)
+Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 14EBC18FDE;
+        Mon,  6 Nov 2023 01:57:39 +0700 (+07)
+Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 0DD9D1907B;
+        Mon,  6 Nov 2023 01:57:39 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id 9FBD91B8250B;
+        Mon,  6 Nov 2023 01:57:40 +0700 (+07)
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id yBwndbhx4GbS; Mon,  6 Nov 2023 01:57:40 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id 6EFF71B8250F;
+        Mon,  6 Nov 2023 01:57:40 +0700 (+07)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn 6EFF71B8250F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
+        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210660;
+        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=kAPSiTcfELOHods7+bsGCgYd8nO07M/mOwUtdU0d4qzyKjc16EkYrgTPtHPcmTU7y
+         XgzVpUCoMtkT2U86Qk4N4C0fQ4+SbpFEu2FXO/j9JWefBSVP64qnZmg7wqHGlSENAg
+         DB9LHskp4fzFnPs92/aVpHJolkZzGFFJWk4Cz6MRQxAu75SjMOdGFElozH44mIQ1yk
+         zJ3fV9YpuHzWebAg5rq4nenJ9TKscld+elNrgZX0KUwA8W40XIQs9hyvvdPtAbeK/n
+         YbX2HWr7o23Ew4ZB1iv1FLe4BX+5UxonMBaUjaiEHJ+abUITS22bJ909PYPJx05Djl
+         jzTXJpusjo5og==
+X-Virus-Scanned: amavisd-new at hcrc.vn
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id BTk4ANiSyjCR; Mon,  6 Nov 2023 01:57:40 +0700 (+07)
+Received: from [192.168.1.152] (unknown [51.179.100.52])
+        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 302521B8250B;
+        Mon,  6 Nov 2023 01:57:33 +0700 (+07)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231105132409.GA258408@nvidia.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
+To:     Recipients <ch.31hamnghi@hcrc.vn>
+From:   ch.31hamnghi@hcrc.vn
+Date:   Sun, 05 Nov 2023 19:57:23 +0100
+Reply-To: joliushk@gmail.com
+Message-Id: <20231105185734.302521B8250B@zimbra.hcrc.vn>
+X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Nov 05, 2023 at 09:24:09AM -0400, Jason Gunthorpe wrote:
-> On Fri, Nov 03, 2023 at 05:48:01PM -0700, Jerry Snitselaar wrote:
-> > > @@ -1632,10 +1633,15 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
-> > >  
-> > >  	acpi_arch_dma_setup(dev);
-> > >  
-> > > -	iommu = acpi_iommu_configure_id(dev, input_id);
-> > > -	if (PTR_ERR(iommu) == -EPROBE_DEFER)
-> > > +	ret = acpi_iommu_configure_id(dev, input_id);
-> > > +	if (ret == -EPROBE_DEFER)
-> > >  		return -EPROBE_DEFER;
-> > >  
-> >                 return ret; ?
-> 
-> Maybe? Like this seemed to be a pattern in this code so I left it
+Goededag,
+Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
+Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
 
-Yeah, it is fine. I think it just caught my eye, because of this earlier
-bit in the patch:
 
-        if (err == -EPROBE_DEFER) {
--               return ERR_PTR(err);
-+               return err;
-
-which needed to get rid of the ERR_PTR.
-
-Regards,
-Jerry
-
-> 
-> > > +	/*
-> > > +	 * Historically this routine doesn't fail driver probing due to errors
-> > > +	 * in acpi_iommu_configure()
-> > 
-> >               acpi_iommu_configure_id()
-> 
-> Thanks
-> 
-> Jason
+Ik wacht op jullie reacties
+Met vriendelijke groeten
+mevrouw Joanna Liu
 
