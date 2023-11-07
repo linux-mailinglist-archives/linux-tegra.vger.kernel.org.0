@@ -2,30 +2,30 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2967B7E43E1
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Nov 2023 16:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 895FA7E4603
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Nov 2023 17:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344307AbjKGPsn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Nov 2023 10:48:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56646 "EHLO
+        id S235322AbjKGQb0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Nov 2023 11:31:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344240AbjKGPsH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Nov 2023 10:48:07 -0500
+        with ESMTP id S235327AbjKGQbJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Nov 2023 11:31:09 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2859310DF;
-        Tue,  7 Nov 2023 07:47:47 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19D40C433C8;
-        Tue,  7 Nov 2023 15:47:45 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5851734;
+        Tue,  7 Nov 2023 07:49:37 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285FDC433BA;
+        Tue,  7 Nov 2023 15:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372066;
-        bh=Vft5zt4tkxK+HO2WzMQ+5/jTjWMbm50LRNbAZea/0dc=;
+        s=k20201202; t=1699372176;
+        bh=H+WJmK5ts6VrNFEW8hzF571ahL4rflmJxgfJkLTP3Uo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GOUh/Dsm5teUdoE0N5EsXD6Kvk3Bnk9E0kfahvOgCSMrmoI0XADQcPTIrMjTLGORP
-         OI4xeALmLljB9LFs9B4UqvWa3gTOUOqJUlFsROJ2o8WztGOIrVb/xh5GSUt5D/X0tj
-         7MeMgCsTQTexygM3lZPe6uSJphmoA/L/JMTNhnqhoceb0mCoVNY8FRtj0gaM1Y9W69
-         mWGpCxWONWNPzManuMR+YehuxCnPpQrtZ60IUdoBZ57Hb77ZvhmxjIU8v0Go8nz8MW
-         Ptez6/EAAinZOjUyfRTXnASMEcRnq3OF0rSLBtw0CwIsyUAV6EsR6UEyeD3cyBrFgg
-         QBoKIPO8KOjog==
+        b=QnSmsQFhAxuTDgTJom87pELzSAcBdIg9c3jleVtylC5BcHWXV1Q+2VY5FFYB+Re/e
+         U9B9vQ1ae6G/8FMFTpZU0608i3h+xYbwVCEfht92L1TIFYs772lNRRJJqwRqmYW6Br
+         /yYFRKJwC6nvXDTRKW5lepmrduV/Ps7ap6m5q/LR95+ILAZf7q4/v+r4cxx8//9Tih
+         Sj51CuAx7ckvaRaQAlBMlkdyF/PC9iJNt0mPi5huPJubIPhDJlcfZ9skLI3PiE8DJD
+         h2xzLF83QfaBzA7GTRyNuRmPeTm7I2zDXJWcxHYSkmZ5ZUjoIfAayyF13U7pfzWO+8
+         v8D0HBHoY4PHw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
@@ -33,20 +33,20 @@ Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Sasha Levin <sashal@kernel.org>, lpieralisi@kernel.org,
         kw@linux.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        mani@kernel.org, vidyas@nvidia.com, sumitg@nvidia.com,
-        yoshihiro.shimoda.uh@renesas.com, u.kleine-koenig@pengutronix.de,
+        mani@kernel.org, sumitg@nvidia.com, u.kleine-koenig@pengutronix.de,
+        vidyas@nvidia.com, yoshihiro.shimoda.uh@renesas.com,
         linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 20/36] PCI: tegra194: Use FIELD_GET()/FIELD_PREP() with Link Width fields
-Date:   Tue,  7 Nov 2023 10:46:02 -0500
-Message-ID: <20231107154654.3765336-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 18/34] PCI: tegra194: Use FIELD_GET()/FIELD_PREP() with Link Width fields
+Date:   Tue,  7 Nov 2023 10:47:58 -0500
+Message-ID: <20231107154846.3766119-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107154654.3765336-1-sashal@kernel.org>
-References: <20231107154654.3765336-1-sashal@kernel.org>
+In-Reply-To: <20231107154846.3766119-1-sashal@kernel.org>
+References: <20231107154846.3766119-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6
+X-stable-base: Linux 6.5.10
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 4bba31502ce1d..248cd9347e8fd 100644
+index ccff8cde5cff6..07cb0818a5138 100644
 --- a/drivers/pci/controller/dwc/pcie-tegra194.c
 +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
 @@ -9,6 +9,7 @@
@@ -84,7 +84,7 @@ index 4bba31502ce1d..248cd9347e8fd 100644
  #include <linux/clk.h>
  #include <linux/debugfs.h>
  #include <linux/delay.h>
-@@ -346,8 +347,7 @@ static void apply_bad_link_workaround(struct dw_pcie_rp *pp)
+@@ -347,8 +348,7 @@ static void apply_bad_link_workaround(struct dw_pcie_rp *pp)
  	 */
  	val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA);
  	if (val & PCI_EXP_LNKSTA_LBMS) {
@@ -94,7 +94,7 @@ index 4bba31502ce1d..248cd9347e8fd 100644
  		if (pcie->init_link_width > current_link_width) {
  			dev_warn(pci->dev, "PCIe link is bad, width reduced\n");
  			val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-@@ -760,8 +760,7 @@ static void tegra_pcie_enable_system_interrupts(struct dw_pcie_rp *pp)
+@@ -761,8 +761,7 @@ static void tegra_pcie_enable_system_interrupts(struct dw_pcie_rp *pp)
  
  	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
  				  PCI_EXP_LNKSTA);
@@ -104,7 +104,7 @@ index 4bba31502ce1d..248cd9347e8fd 100644
  
  	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
  				  PCI_EXP_LNKCTL);
-@@ -920,7 +919,7 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
+@@ -921,7 +920,7 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
  	/* Configure Max lane width from DT */
  	val = dw_pcie_readl_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKCAP);
  	val &= ~PCI_EXP_LNKCAP_MLW;
