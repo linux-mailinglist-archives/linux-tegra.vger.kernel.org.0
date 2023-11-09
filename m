@@ -2,301 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 316147E7193
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Nov 2023 19:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 410037E72DA
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Nov 2023 21:30:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345018AbjKISeS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Nov 2023 13:34:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
+        id S1345200AbjKIUaf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Nov 2023 15:30:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345024AbjKISeQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Nov 2023 13:34:16 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40423C0E;
-        Thu,  9 Nov 2023 10:34:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U+65YvdJLD3qUQHZytCZJm2rB7bEmUz1ie37xy1LZYbaTvtV+hykfOQ7dHlhB53HX9lP/ryJnGDvoylHSikxrgQ34MBZ45ENTKKTSg0hyxHgNQaXuDGb9hhtYzfavZfw3dO8Nn5UWJgPd5VtkQKGH6nqltqy9gE0ffCG0CtkW7NgWFqzzKb2/SYQzX2JPIIkukPxkSwSDI8ZOFFYiRS0ujsivW2E3hikcux/WtGs6xlhki39Zb70mGtdShmefy0sd7ZZ5oNIfGqGDw1VHJoexY5muesEVWQtFzRIZRmcu9VpzcOLJqG/1cEkYKaALnXSn5jrv9cdfcxQ7THz7IQowA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=etdtFIyOVk+QHMyELQC4r6hMLBXvOLwaMROE9c6y4b0=;
- b=Qw3IDh2ioZ/fkdOOXaFSdb0AdYlSrDWZ/dcvfCqabECnEsaONH5pcoMOcJ3XacOmlSiqWLWWMGKkU8uVV6EsVmrmlnmZjvkrQbTddjCsHDGvtWGVxL9ElLAauU8RsDkG4+LOEGvVxWRzrPMtC68z0Vf21vWB0ySR04NwPPANx5CUG57sRmIzJ4HNYr/nQ2i99iVXzM6zbY2jS0+1gyASjsr9fJfl9KZn5+NtdKGF5MGKupcdp/YY++usDefCPTEMO08dhXWefrbBkSViqyCQ1tyMBQtJNcLGnF+Ws/Gvnszs2Ir0bczQvDzBQ8F1KoVzorZBW5kuPJZA0yoDl3yCmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=etdtFIyOVk+QHMyELQC4r6hMLBXvOLwaMROE9c6y4b0=;
- b=aUIw9kGgggIO3AebQVqQnimVq5xcioktROPa+7AozbsyHDRPSiVR3X2XfrFgViJZZpvz9vO3Zg7OwGH8oU1xrrGjX1JKQfhvOvFPNIXm0Yyq2QYdA7LptUbFnJBwVSIZ7eeGVljX95tU02i85KB0HNgVpml6pP8DivkyKQNZnyoAnEKDHtJeVIZwGjIPI1huiJyTFA5qrMx4uFm6Q+fipg+vvgyPyrPSMoUzrIMB949h6Z32gOdhjKGd+DpCcO9tT7VK9PjENRO/TE/4SpJh4MjO7JoAz7Ti4Ax2/KCrYkkro53OElDHAn8fRqcLtxCAGPwUYTwh4NCi0VGi3yaU6w==
-Received: from SJ0PR05CA0118.namprd05.prod.outlook.com (2603:10b6:a03:334::33)
- by DM4PR12MB6064.namprd12.prod.outlook.com (2603:10b6:8:af::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Thu, 9 Nov
- 2023 18:34:10 +0000
-Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
- (2603:10b6:a03:334:cafe::7e) by SJ0PR05CA0118.outlook.office365.com
- (2603:10b6:a03:334::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.19 via Frontend
- Transport; Thu, 9 Nov 2023 18:34:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.16 via Frontend Transport; Thu, 9 Nov 2023 18:34:10 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 9 Nov 2023
- 10:33:53 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 9 Nov 2023
- 10:33:53 -0800
-Received: from sumitg-l4t.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Thu, 9 Nov 2023 10:33:48 -0800
-From:   Sumit Gupta <sumitg@nvidia.com>
-To:     <rafael@kernel.org>, <rui.zhang@intel.com>, <lenb@kernel.org>,
-        <lpieralisi@kernel.org>, <guohanjun@huawei.com>,
-        <sudeep.holla@arm.com>, <linux-acpi@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     <treding@nvidia.com>, <jonathanh@nvidia.com>, <bbasu@nvidia.com>,
-        <sumitg@nvidia.com>, <sanjayc@nvidia.com>, <ksitaraman@nvidia.com>,
-        <srikars@nvidia.com>, <jbrasen@nvidia.com>
-Subject: [Patch v6 2/2] ACPI: processor: reduce CPUFREQ thermal reduction pctg for Tegra241
-Date:   Fri, 10 Nov 2023 00:03:22 +0530
-Message-ID: <20231109183322.28039-3-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231109183322.28039-1-sumitg@nvidia.com>
-References: <20231109183322.28039-1-sumitg@nvidia.com>
-X-NVConfidentiality: public
+        with ESMTP id S1345238AbjKIUaS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Nov 2023 15:30:18 -0500
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4892D4ECF
+        for <linux-tegra@vger.kernel.org>; Thu,  9 Nov 2023 12:29:41 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r1BeH-0002yL-0M; Thu, 09 Nov 2023 21:29:09 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r1BeC-007rWU-Et; Thu, 09 Nov 2023 21:29:04 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r1BeC-00GGtM-3f; Thu, 09 Nov 2023 21:29:04 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jay Fang <f.fangjian@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
+        Rob Herring <robh@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Tony Lindgren <tony@atomide.com>,
+        "Sicelo A. Mhlongo" <absicsz@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Liu Ying <victor.liu@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nick Alcock <nick.alcock@oracle.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Yangtao Li <frank.li@vivo.com>, Yuan Can <yuancan@huawei.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org
+Subject: [PATCH 00/12] bus: Convert to platform remove callback returning void
+Date:   Thu,  9 Nov 2023 21:28:30 +0100
+Message-ID: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|DM4PR12MB6064:EE_
-X-MS-Office365-Filtering-Correlation-Id: f39ea2ad-bfe0-42fd-777c-08dbe1527728
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I9P570LFQBf3PeDIKGJpl+vPJ8LhpTEvbgZtlEVjU7r50bq2PNwGC2Kw4YPgX9Gu1BpvP5/eZK9sE1evdRprQy1uFOMtbtztI5xOq8CxIPFVuMs2tSoLzlSn71sOXtU3mULN+qRGfv8jSxZVYaI75Wt4C2xoN/pwXWkCUMBAyDfe/bs/V+1bsMCzeObwYnNm+URiofC/ozdVIBGbS42UIqjoOOiHnuPDGJKgXQ2aWdm+TLE316fz49z1rd8ay369kD2fcm3qHAlOHlNuxaZI/Wnst9vFzLTyxhE5NGinSDHHKibI7RB+l/y31ODNBpno+/gX/RbLpNxLXhKMXq5XKo5HOlrocESHImtP5SD8GkqmBvsIBUbbjfmdsRdOsjnt4bvWObSux7Mxcw+j5cgbykIk62GAaegfSiCxKHrxqReT0FtuQYHOdt2sy2UzDk6EnVUxspaB0o17m7bdg8N6zo6VnL6UFgTKASPzd29TP0OPPYJ1hiRtQt8QtUZN7k+ATS0C3DsuBMusW6CClM1EHZetE7IfWCnRTaeFJAIYYdDS+pDRIC6zdMOJLCgScBfz1KfQzOKJOKRdCnC4uE5r5jv/0SwGOI3Ujr0zPYZHnuySasLDadnHtIBanKYivPhzvqefvVu8MJBQCgUrlIXMivxrBQd2N0v9UHMvabxSbbURk7v/HfR5QKv9HCUfMRE9tSetYPOQMmtIj6xWyq6p5aLM6jbF5DDdF8ExBCcpaJsJc8MuDe/xRAK11AnCYUVAj/b3rgHxqFXLc/X3fH8XYsdfWcFytGwqpflnSHLDYcLBf+ktvvQZS1XWxEFrum80
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(39860400002)(396003)(136003)(230922051799003)(451199024)(64100799003)(82310400011)(1800799009)(186009)(40470700004)(46966006)(36840700001)(478600001)(41300700001)(47076005)(7696005)(7416002)(6666004)(5660300002)(8676002)(426003)(336012)(4326008)(8936002)(83380400001)(36860700001)(2906002)(26005)(2616005)(316002)(1076003)(70206006)(70586007)(54906003)(110136005)(86362001)(107886003)(7636003)(82740400003)(356005)(36756003)(921008)(40480700001)(40460700003)(2101003)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 18:34:10.4203
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f39ea2ad-bfe0-42fd-777c-08dbe1527728
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6064
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2306; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=J6a3im7lNbnTqrSTHauek+j417sdu4W8300ivumT3qU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlTUDuVSwm6Dry76QAgY1MQyxgniK5Ur0yUy/Cg DW8XtvPhlCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZU1A7gAKCRCPgPtYfRL+ TonZB/4nfsBuFdJxCVjGRqREV3frv3i56Yi9aUTm3cZVViaDV6rrVzn83paMyvZOMcV+Qntq2tX 7WQ5SPanfT1NJ1AfbG/XwNxY6PS3hUii1I+bPm9FjxoxiyDrW0S2+D6+JEzITZZrJE7B8YHT0I2 Mf0d40VtdzK5EZ00R/it9N/7Pqn6lruK/C1HUU05s1WsFol+DMhIi62hlmt6UoLuPVZIoYHGZcu KtiwLuPKFLIuOikg/fK/+o/C+jl4BIv0TSXd6ezG6EL+9m0N1RQrTAAh6kI2ULO6AfQDkNbiMoF 1DoqM5OyvFMQd4GG4MjyGP6ulmlIBjWUtD4VZ5yBOlwjhO2c
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Srikar Srimath Tirumala <srikars@nvidia.com>
+Hello,
 
-Current implementation of processor_thermal performs software throttling
-in fixed steps of "20%" which can be too coarse for some platforms.
-We observed some performance gain after reducing the throttle percentage.
-Change the CPUFREQ thermal reduction percentage and maximum thermal steps
-to be configurable. Also, update the default values of both for Nvidia
-Tegra241 (Grace) SoC. The thermal reduction percentage is reduced to "5%"
-and accordingly the maximum number of thermal steps are increased as they
-are derived from the reduction percentage.
+this series converts all drivers below drivers/bus to struct
+platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+Provide a remove callback that returns no value") for an extended
+explanation and the eventual goal.
 
-Signed-off-by: Srikar Srimath Tirumala <srikars@nvidia.com>
-Co-developed-by: Sumit Gupta <sumitg@nvidia.com>
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- drivers/acpi/arm64/Makefile          |  1 +
- drivers/acpi/arm64/thermal_cpufreq.c | 22 +++++++++++++
- drivers/acpi/internal.h              |  9 +++++
- drivers/acpi/processor_thermal.c     | 49 +++++++++++++++++++++++-----
- 4 files changed, 72 insertions(+), 9 deletions(-)
- create mode 100644 drivers/acpi/arm64/thermal_cpufreq.c
+drivers/bus/fsl-mc was already addressed earlier with a separate
+series[1].
 
-diff --git a/drivers/acpi/arm64/Makefile b/drivers/acpi/arm64/Makefile
-index 143debc1ba4a..726944648c9b 100644
---- a/drivers/acpi/arm64/Makefile
-+++ b/drivers/acpi/arm64/Makefile
-@@ -5,3 +5,4 @@ obj-$(CONFIG_ACPI_GTDT) 	+= gtdt.o
- obj-$(CONFIG_ACPI_APMT) 	+= apmt.o
- obj-$(CONFIG_ARM_AMBA)		+= amba.o
- obj-y				+= dma.o init.o
-+obj-y				+= thermal_cpufreq.o
-diff --git a/drivers/acpi/arm64/thermal_cpufreq.c b/drivers/acpi/arm64/thermal_cpufreq.c
-new file mode 100644
-index 000000000000..40d5806ed528
---- /dev/null
-+++ b/drivers/acpi/arm64/thermal_cpufreq.c
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/acpi.h>
-+
-+#include "../internal.h"
-+
-+#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
-+#define SMCCC_SOC_ID_T241      0x036b0241
-+
-+int acpi_arch_thermal_cpufreq_pctg(void)
-+{
-+	s32 soc_id = arm_smccc_get_soc_id_version();
-+
-+	/*
-+	 * Check JEP106 code for NVIDIA Tegra241 chip (036b:0241) and
-+	 * reduce the CPUFREQ Thermal reduction percentage to 5%.
-+	 */
-+	if (soc_id == SMCCC_SOC_ID_T241)
-+		return 5;
-+
-+	return 0;
-+}
-+#endif
-diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-index 866c7c4ed233..ee213a8cddc5 100644
---- a/drivers/acpi/internal.h
-+++ b/drivers/acpi/internal.h
-@@ -85,6 +85,15 @@ bool acpi_scan_is_offline(struct acpi_device *adev, bool uevent);
- acpi_status acpi_sysfs_table_handler(u32 event, void *table, void *context);
- void acpi_scan_table_notify(void);
- 
-+#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
-+int acpi_arch_thermal_cpufreq_pctg(void);
-+#else
-+static inline int acpi_arch_thermal_cpufreq_pctg(void)
-+{
-+	return 0;
-+}
-+#endif
-+
- /* --------------------------------------------------------------------------
-                      Device Node Initialization / Removal
-    -------------------------------------------------------------------------- */
-diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_thermal.c
-index b7c6287eccca..1219adb11ab9 100644
---- a/drivers/acpi/processor_thermal.c
-+++ b/drivers/acpi/processor_thermal.c
-@@ -17,6 +17,8 @@
- #include <acpi/processor.h>
- #include <linux/uaccess.h>
- 
-+#include "internal.h"
-+
- #ifdef CONFIG_CPU_FREQ
- 
- /* If a passive cooling situation is detected, primarily CPUfreq is used, as it
-@@ -26,12 +28,21 @@
-  */
- 
- #define CPUFREQ_THERMAL_MIN_STEP 0
--#define CPUFREQ_THERMAL_MAX_STEP 3
- 
--static DEFINE_PER_CPU(unsigned int, cpufreq_thermal_reduction_pctg);
-+static int cpufreq_thermal_max_step __read_mostly = 3;
-+
-+/*
-+ * Minimum throttle percentage for processor_thermal cooling device.
-+ * The processor_thermal driver uses it to calculate the percentage amount by
-+ * which cpu frequency must be reduced for each cooling state. This is also used
-+ * to calculate the maximum number of throttling steps or cooling states.
-+ */
-+static int cpufreq_thermal_reduction_pctg __read_mostly = 20;
- 
--#define reduction_pctg(cpu) \
--	per_cpu(cpufreq_thermal_reduction_pctg, phys_package_first_cpu(cpu))
-+static DEFINE_PER_CPU(unsigned int, cpufreq_thermal_reduction_step);
-+
-+#define reduction_step(cpu) \
-+	per_cpu(cpufreq_thermal_reduction_step, phys_package_first_cpu(cpu))
- 
- /*
-  * Emulate "per package data" using per cpu data (which should really be
-@@ -71,7 +82,7 @@ static int cpufreq_get_max_state(unsigned int cpu)
- 	if (!cpu_has_cpufreq(cpu))
- 		return 0;
- 
--	return CPUFREQ_THERMAL_MAX_STEP;
-+	return cpufreq_thermal_max_step;
- }
- 
- static int cpufreq_get_cur_state(unsigned int cpu)
-@@ -79,7 +90,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
- 	if (!cpu_has_cpufreq(cpu))
- 		return 0;
- 
--	return reduction_pctg(cpu);
-+	return reduction_step(cpu);
- }
- 
- static int cpufreq_set_cur_state(unsigned int cpu, int state)
-@@ -92,7 +103,7 @@ static int cpufreq_set_cur_state(unsigned int cpu, int state)
- 	if (!cpu_has_cpufreq(cpu))
- 		return 0;
- 
--	reduction_pctg(cpu) = state;
-+	reduction_step(cpu) = state;
- 
- 	/*
- 	 * Update all the CPUs in the same package because they all
-@@ -113,7 +124,8 @@ static int cpufreq_set_cur_state(unsigned int cpu, int state)
- 		if (!policy)
- 			return -EINVAL;
- 
--		max_freq = (policy->cpuinfo.max_freq * (100 - reduction_pctg(i) * 20)) / 100;
-+		max_freq = (policy->cpuinfo.max_freq *
-+			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100;
- 
- 		cpufreq_cpu_put(policy);
- 
-@@ -126,10 +138,29 @@ static int cpufreq_set_cur_state(unsigned int cpu, int state)
- 	return 0;
- }
- 
-+static void acpi_thermal_cpufreq_config(void)
-+{
-+	int cpufreq_pctg = acpi_arch_thermal_cpufreq_pctg();
-+
-+	if (!cpufreq_pctg)
-+		return;
-+
-+	cpufreq_thermal_reduction_pctg = cpufreq_pctg;
-+
-+	/*
-+	 * Derive the MAX_STEP from minimum throttle percentage so that the reduction
-+	 * percentage doesn't end up becoming negative. Also, cap the MAX_STEP so that
-+	 * the CPU performance doesn't become 0.
-+	 */
-+	cpufreq_thermal_max_step = (100 / cpufreq_pctg) - 2;
-+}
-+
- void acpi_thermal_cpufreq_init(struct cpufreq_policy *policy)
- {
- 	unsigned int cpu;
- 
-+	acpi_thermal_cpufreq_config();
-+
- 	for_each_cpu(cpu, policy->related_cpus) {
- 		struct acpi_processor *pr = per_cpu(processors, cpu);
- 		int ret;
-@@ -190,7 +221,7 @@ static int acpi_processor_max_state(struct acpi_processor *pr)
- 
- 	/*
- 	 * There exists four states according to
--	 * cpufreq_thermal_reduction_pctg. 0, 1, 2, 3
-+	 * cpufreq_thermal_reduction_step. 0, 1, 2, 3
- 	 */
- 	max_state += cpufreq_get_max_state(pr->id);
- 	if (pr->flags.throttling)
+All conversations are trivial, because all .remove() callbacks returned
+zero unconditionally.
+
+Some of the drivers touched here don't have a maintainer and there is no
+maintainer for all of drivers/bus. It would be great if someone could pick up
+the whole series, maybe Arnd might do that?
+
+Best regards
+Uwe
+
+[1] https://lore.kernel.org/lkml/20231103230001.3652259-3-u.kleine-koenig@pengutronix.de
+
+Uwe Kleine-König (12):
+  bus: hisi_lpc: Convert to platform remove callback returning void
+  bus: omap-ocp2scp: Convert to platform remove callback returning void
+  bus: omap_l3_smx: Convert to platform remove callback returning void
+  bus: qcom-ssc-block-bus: Convert to platform remove callback returning
+    void
+  bus: simple-pm-bus: Convert to platform remove callback returning void
+  bus: sun50i-de2: Convert to platform remove callback returning void
+  bus: sunxi-rsb: Convert to platform remove callback returning void
+  bus: tegra-aconnect: Convert to platform remove callback returning
+    void
+  bus: tegra-gmi: Convert to platform remove callback returning void
+  bus: ti-pwmss: Convert to platform remove callback returning void
+  bus: ti-sysc: Convert to platform remove callback returning void
+  bus: ts-nbus: Convert to platform remove callback returning void
+
+ drivers/bus/hisi_lpc.c           | 6 ++----
+ drivers/bus/omap-ocp2scp.c       | 6 ++----
+ drivers/bus/omap_l3_smx.c        | 6 ++----
+ drivers/bus/qcom-ssc-block-bus.c | 6 ++----
+ drivers/bus/simple-pm-bus.c      | 7 +++----
+ drivers/bus/sun50i-de2.c         | 5 ++---
+ drivers/bus/sunxi-rsb.c          | 6 ++----
+ drivers/bus/tegra-aconnect.c     | 6 ++----
+ drivers/bus/tegra-gmi.c          | 6 ++----
+ drivers/bus/ti-pwmss.c           | 5 ++---
+ drivers/bus/ti-sysc.c            | 6 ++----
+ drivers/bus/ts-nbus.c            | 6 ++----
+ 12 files changed, 25 insertions(+), 46 deletions(-)
+
+base-commit: b622d91ca201bf97582e9b09ebbaab005ecee86f
 -- 
-2.17.1
+2.42.0
 
