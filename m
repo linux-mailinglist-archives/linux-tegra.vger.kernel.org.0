@@ -2,70 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 839B27E8637
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Nov 2023 00:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA35F7E8BE7
+	for <lists+linux-tegra@lfdr.de>; Sat, 11 Nov 2023 18:37:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbjKJXDP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Nov 2023 18:03:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33862 "EHLO
+        id S229454AbjKKRht (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 11 Nov 2023 12:37:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjKJXDO (ORCPT
+        with ESMTP id S229379AbjKKRht (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Nov 2023 18:03:14 -0500
-X-Greylist: delayed 899 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Nov 2023 15:03:10 PST
-Received: from mail.maprial.com (mail.maprial.com [190.181.35.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56027118;
-        Fri, 10 Nov 2023 15:03:10 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.maprial.com (Postfix) with ESMTP id 734B18FEA5FB;
-        Fri, 10 Nov 2023 18:55:22 -0400 (-04)
-Received: from mail.maprial.com ([127.0.0.1])
-        by localhost (mail.maprial.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RC3qTMFvpw-E; Fri, 10 Nov 2023 18:55:21 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.maprial.com (Postfix) with ESMTP id A4B4D86A7185;
-        Fri, 10 Nov 2023 17:46:26 -0400 (-04)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.maprial.com A4B4D86A7185
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maprial.com;
-        s=8A254412-65B9-11ED-A564-8B9C10001A2B; t=1699652787;
-        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=UX1AXnHPSthnkEiFa2xPZFSWlBx5hwyflK6VeM0DhDaRnjvXvdW5yu+HHzx5860J/
-         B+416CbkTr5PohT7QzEwqBdfKcVTs+Zk7uQlMXVyzYz6uKHAsSEAnmrwfFiAlXMjL3
-         FjM4cF16Vvu2mYwXjcUZM6GmFIayvmLjsbJEi03w=
-X-Virus-Scanned: amavisd-new at mail.maprial.com
-Received: from mail.maprial.com ([127.0.0.1])
-        by localhost (mail.maprial.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id RHZ6czJXUaYd; Fri, 10 Nov 2023 17:46:26 -0400 (-04)
-Received: from [192.168.1.152] (unknown [51.179.104.230])
-        by mail.maprial.com (Postfix) with ESMTPSA id 0476B81628E5;
-        Fri, 10 Nov 2023 17:03:51 -0400 (-04)
-Content-Type: text/plain; charset="utf-8"
+        Sat, 11 Nov 2023 12:37:49 -0500
+Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105DD3A82
+        for <linux-tegra@vger.kernel.org>; Sat, 11 Nov 2023 09:37:44 -0800 (PST)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 1rvQrNcO1Fh5i1rvRrEGB4; Sat, 11 Nov 2023 18:37:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1699724262;
+        bh=3p8y78zf3gHeF4GPQWXy2DVL3f5hRqnTpp31RIibFuo=;
+        h=From:To:Cc:Subject:Date;
+        b=Fxc8kV+G8Enn/8tu+igh6v6COk98EiwnJVmlpbcFYaZIrcxRrvynh6DZ/M/TkI5WN
+         3A7a+d14YAeGc7xAs2uR0D3HAM08xyed7ofWB6IIwvfauN0t2+IOUaKnT1mNwan4KN
+         HWXcmQ16uuwE3JsnQsbusDOocXQnvPED21hOTzCbu0Cm2atUzIRyM1uGjYzKUn93CS
+         9qbqJlemRNitnBTl+4CdDIRa+qP2P8XS968v7AlMsd3TwDYg867MdakUj9Gjr8TQVS
+         dih9KCXCwL4tovkOHhzUAnMQaAe5W5AEZJyiP3VXCavv7Awy7ePhx5WBiugdJE8dCG
+         HFzH7Q3UnW4Og==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 11 Nov 2023 18:37:42 +0100
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] ASoC: tegra: convert not to use dma_request_slave_channel()
+Date:   Sat, 11 Nov 2023 18:37:39 +0100
+Message-Id: <b78685e4103f12931ddb09c1654bc6b04b640868.1699724240.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
-To:     Recipients <gvalencia@maprial.com>
-From:   gvalencia@maprial.com
-Date:   Fri, 10 Nov 2023 22:03:43 +0100
-Reply-To: joliushk@gmail.com
-Message-Id: <20231110210352.0476B81628E5@mail.maprial.com>
-X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_REPLYTO,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Goededag,
-Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
-Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
+dma_request_slave_channel() is deprecated. dma_request_chan() should
+be used directly instead.
 
+Switch to the preferred function and update the error handling accordingly.
 
-Ik wacht op jullie reacties
-Met vriendelijke groeten
-mevrouw Joanna Liu
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ sound/soc/tegra/tegra_pcm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/tegra/tegra_pcm.c b/sound/soc/tegra/tegra_pcm.c
+index 142e8d4eefd5..42acb56543db 100644
+--- a/sound/soc/tegra/tegra_pcm.c
++++ b/sound/soc/tegra/tegra_pcm.c
+@@ -98,8 +98,8 @@ int tegra_pcm_open(struct snd_soc_component *component,
+ 		return ret;
+ 	}
+ 
+-	chan = dma_request_slave_channel(cpu_dai->dev, dmap->chan_name);
+-	if (!chan) {
++	chan = dma_request_chan(cpu_dai->dev, dmap->chan_name);
++	if (IS_ERR(chan)) {
+ 		dev_err(cpu_dai->dev,
+ 			"dmaengine request slave channel failed! (%s)\n",
+ 			dmap->chan_name);
+-- 
+2.34.1
+
