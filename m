@@ -2,60 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22FC97EC662
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Nov 2023 15:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 867527EC6C2
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Nov 2023 16:09:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234977AbjKOOyO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Nov 2023 09:54:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39538 "EHLO
+        id S1344320AbjKOPJo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Nov 2023 10:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234954AbjKOOyN (ORCPT
+        with ESMTP id S1344364AbjKOPJn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Nov 2023 09:54:13 -0500
+        Wed, 15 Nov 2023 10:09:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4275EB6
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Nov 2023 06:54:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4FFD19B
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Nov 2023 07:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1700060049;
+        s=mimecast20190719; t=1700060980;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=1FlIYAXhM/ERDubCadB5WwuUe+5s0MuhfY1IPTS1Qc0=;
-        b=JWHStGJM88jGe/q5f8vrrxlo4hUJlOjY8I/eoB+acUopDKN1/+AMqZ4ZqsyS6y+AJfOITp
-        Fhy/iyHy456Te5Sxw8yhfOhrDBRKkcvcdpsXOyIF8jDE75C0IK9zOqIdf9wA4k0fqiJEJ8
-        GJtLtt6OdkCMA0aiLCestTSWcRNva5M=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
+        b=TE0BjkblIJxd273sku6M5cmgSJahzXo0uMO76VlcnMw2mrREa9lW1byVg+lmXntCN9Ba+B
+        CNu/2AA/ohgSHKI7a8V5JTPA1wt2hfhjxhFbxED19csmQJ6Z0Dj+MOVSr0aDS1nOwSx9eg
+        SV67K9jIwuT5SQS5oQKoqZv13qx4XxA=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-564-lHhsH-4ZP2O51IW7oGcI4Q-1; Wed, 15 Nov 2023 09:54:08 -0500
-X-MC-Unique: lHhsH-4ZP2O51IW7oGcI4Q-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7789a691086so807351485a.0
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Nov 2023 06:54:08 -0800 (PST)
+ us-mta-228-UmwREaeMNcuhvPsfnTcuBw-1; Wed, 15 Nov 2023 10:09:38 -0500
+X-MC-Unique: UmwREaeMNcuhvPsfnTcuBw-1
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-421af801578so52975161cf.3
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Nov 2023 07:09:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700060047; x=1700664847;
+        d=1e100.net; s=20230601; t=1700060978; x=1700665778;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1FlIYAXhM/ERDubCadB5WwuUe+5s0MuhfY1IPTS1Qc0=;
-        b=vUO8oeHHBgThCrPo1t7gg3qheHVOoZ7YXwS8GZ93IrY7+oJYGtdQYMoRnW+phxZhAT
-         lBic8cf+q8gal8TmKg1ordIbb2CKvrHBGwGLqvSkoJZIiG1fLiwFdKd5HWfbpPPCEWXC
-         qYhgY6I0FNZ73PVO9MN/Fz6/Kp2vx9QWGHDy2JE/X+/9bdFSAFa6v+jeN2iDH9VgPpF2
-         qpxK+NZh9Ku54sAny0ylin7qv7Q5xkQmA+FXnx8lRpQSBNTOrD0OXSnCNh7LRiEebBnE
-         mWvB1X742gH2zesrvsLLeRy6H3UTFFAr4QhN3tQ7hTLgYWujTImYxIYlqMazfrHHIDqR
-         FYLQ==
-X-Gm-Message-State: AOJu0Yw67qmn9gqCPqa2kZotOGYHIHTfNZqEhbD3opVqLNVuILFzOXS7
-        m/BvEaQfzWesUfqiwUmvpIjDcK1mgnQrUed2HYDTnvPLkay5prOtriEaFkanbCpBPvFsSjZ2xAn
-        T0yUyEXWwaM82/Go52hF7PDw=
-X-Received: by 2002:a05:620a:560b:b0:77b:b34e:6262 with SMTP id vu11-20020a05620a560b00b0077bb34e6262mr6700754qkn.46.1700060047604;
-        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8Q+hB6LwGEOpBjf0tTy48HeUIb95APpcQR8cIO4M7kaLSCpN0/vvs5U/8Y5mL2TRIxjAUaQ==
-X-Received: by 2002:a05:620a:560b:b0:77b:b34e:6262 with SMTP id vu11-20020a05620a560b00b0077bb34e6262mr6700714qkn.46.1700060047365;
-        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
+        bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
+        b=mvZcupMRnXXx8ee0RE05wJPh8HeHDH2PrphNtG3q9zApiB8RNWEgZV1yL03CXyJZnR
+         8di6IsTnPZ+4SQ3nSXNUb6qALFrcl5yJ8cDTvxhMqbmHSEhP+8QjTawRHptByjL8XJni
+         0yrCvJFmXM1iXEKPerNxg9OlliDDmOYiVatFQLvOP+RUifKpcVRCX6Xg62S0jqLMZYNY
+         QrrVLsKWHH7USQIveZ7Qr1jNvW5CQyEEwo56YRIbbl7yX89UwJdx4k86FAVG5fQg3h+X
+         kOvfIcGNbznrBOhTfSLcUKZP8l+e0ML2Ws2KRt/Gvn15sZJkP9tSjjvOQkX0D6IRanJ5
+         9lGw==
+X-Gm-Message-State: AOJu0YzgVtDQzme8HL0nC5tXZFXhb1Tlsotw1DZgTSdMFsEVoqYYVBdn
+        KdAMMdFDVQM4niRXnKWEATK0YlZpAy0p20lNSzNo2azqmLxXiHkETY/TDAERHMI9FWeSHfVHkBq
+        B45uxPRGyA89k3hUNUXh1Zp4=
+X-Received: by 2002:ac8:570f:0:b0:418:a58:1cd2 with SMTP id 15-20020ac8570f000000b004180a581cd2mr6938294qtw.51.1700060978307;
+        Wed, 15 Nov 2023 07:09:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFJQ4sai83VgKMNcVk7LBkPO+lmGyR543b/SO2885Ys+XYhGZt/IKDco0l9338e20RsJ7UBFA==
+X-Received: by 2002:ac8:570f:0:b0:418:a58:1cd2 with SMTP id 15-20020ac8570f000000b004180a581cd2mr6938210qtw.51.1700060977944;
+        Wed, 15 Nov 2023 07:09:37 -0800 (PST)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id dx8-20020a05620a608800b0076cc0a6e127sm3521399qkb.116.2023.11.15.06.54.06
+        by smtp.gmail.com with ESMTPSA id b3-20020ac85403000000b0041ea59e639bsm3597148qtq.70.2023.11.15.07.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
-Date:   Wed, 15 Nov 2023 07:54:05 -0700
+        Wed, 15 Nov 2023 07:09:37 -0800 (PST)
+Date:   Wed, 15 Nov 2023 08:09:36 -0700
 From:   Jerry Snitselaar <jsnitsel@redhat.com>
 To:     Jason Gunthorpe <jgg@nvidia.com>
 Cc:     acpica-devel@lists.linux.dev,
@@ -101,26 +101,24 @@ Cc:     acpica-devel@lists.linux.dev,
         Zhenhua Huang <quic_zhenhuah@quicinc.com>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 00/17] Solve iommu probe races around iommu_fwspec
-Message-ID: <ah7jh6pi5o3s47mz5y4tms46fvpbmaisw6orom6tke2vdsqejm@qvjnxhejqs5i>
+Subject: Re: [PATCH v2 12/17] iommu: Make iommu_ops_from_fwnode() static
+Message-ID: <fc3a6krgqyi7awvm6dcjg5edbem5lead66b4tyi5ttetkcfdpp@iaya3ijkywwv>
 References: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+ <12-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+In-Reply-To: <12-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Did patch 12 v2 get sent? I'm not seeing it locally, nor in lore, and b4 doesn't find it when pulling then thread.
-
-Regards,
-Jerry
+Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
 
