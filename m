@@ -1,149 +1,242 @@
-Return-Path: <linux-tegra+bounces-281-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-283-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A75C811106
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 Dec 2023 13:22:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21089811867
+	for <lists+linux-tegra@lfdr.de>; Wed, 13 Dec 2023 16:53:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04C761F2130E
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 Dec 2023 12:22:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 453E0280FA1
+	for <lists+linux-tegra@lfdr.de>; Wed, 13 Dec 2023 15:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9305728E28;
-	Wed, 13 Dec 2023 12:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="me0OkCP+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01A4B85368;
+	Wed, 13 Dec 2023 15:53:53 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234E7120;
-	Wed, 13 Dec 2023 04:21:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LrFoCbuQnbYFhb/syTc+7iGfOn6RfqrtWbUwigtiqHT+V2jUoosmJtQ5maO4xgRfPolaHYCjsBQCMDV/YexLv3MMqijJ13zeBdwEzzifjjUE4qZkCLY1NLNc3rpRitom2Ub+dqB5pu2GlRvMFZAZlHnydkv5uzjnH7yItR7ArcVf+xPcVSMXy6WY/xAPVfAYSEmSWLsNadH9KLXTVx9Pf+nrO7gfB+WsxfoMDgAmL7BvJI9cfbhg7uBpEuZQrdS1JUS6fXuFQXTKoUyhMGxTLBkO0Yk+1OXCOccxNmJRljsANoOkZgsa4P4wmeoVgr4ZeY8NDU3fZBlczw+CLZhuOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5eMMog2MnMnqsmecZf7t0U1qGTG82j1sYnMIXXptBr0=;
- b=PTd6Nd3b9IXkVOnMgRPNTlAKnCDxK+8lerlKwx+/z97bPwykYKxWA55IRfnNlWY7siFZUNebSbqHv3yg2n/dlpP8jSsmeAKIW/0ypd66v65TNxLbPHP7UGPDCKVXrzIzU2lNSRVnSMLoKViNTTPQr/9ZtFdEKqPmIWDA0yuFcqTc6tu4xeM874AxXPIA3V086FnkMqSLgOtCKmVKZ9KpmJ4CP1iH/ScsnWRzPrNw492Mbd44rLZePTQqwl+lhne4y6Et6aYw2gOgR02y36s340HwZLvGqD4jICCQli9bG0oE27u0i2MdWbFkvG88kmZ7MzDCVrAlQR9n7cxOVuaryQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=gondor.apana.org.au
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5eMMog2MnMnqsmecZf7t0U1qGTG82j1sYnMIXXptBr0=;
- b=me0OkCP+jLVQWGK7dG1gBtXoy5KY12Mv3v7YeFzqm6saNpbInEffglBWLdOetuyeiJxALgaUOaqlzF7o0vIYldQZUYi5S7CVMiqRtnSadp3CeqxFTdQVeiLYYci4R9I1h3KkRHkqQ8ksDOu/j/WEFdrY40AWbkIbyPNpy7pO0shDkFde0CFr8nd5IZMSS4mEUOiQO5KNmfMzqtAuAeuM/oBCKTMhBycxI//fWhb679EYefvigY41KbyUZLfqUybBzU4VtW6f1i6m6NKh0cvwrJdyG9Eq2w6J1zI1RxwHIwCZbjztah01fd46/exLyqYno++iAj943BlTksyTmJhsKw==
-Received: from DS7PR03CA0223.namprd03.prod.outlook.com (2603:10b6:5:3ba::18)
- by CY5PR12MB6322.namprd12.prod.outlook.com (2603:10b6:930:21::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
- 2023 12:21:55 +0000
-Received: from DS2PEPF0000343C.namprd02.prod.outlook.com
- (2603:10b6:5:3ba:cafe::64) by DS7PR03CA0223.outlook.office365.com
- (2603:10b6:5:3ba::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26 via Frontend
- Transport; Wed, 13 Dec 2023 12:21:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- DS2PEPF0000343C.mail.protection.outlook.com (10.167.18.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7091.26 via Frontend Transport; Wed, 13 Dec 2023 12:21:52 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 13 Dec
- 2023 04:21:46 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Wed, 13 Dec 2023 04:21:46 -0800
-Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Wed, 13 Dec 2023 04:21:44 -0800
-From: Akhil R <akhilrajeev@nvidia.com>
-To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-	<linux-crypto@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<linux-tegra@vger.kernel.org>
-CC: Akhil R <akhilrajeev@nvidia.com>
-Subject: [PATCH 5/5] arm64: tegra: Add Tegra Security Engine DT nodes
-Date: Wed, 13 Dec 2023 17:50:30 +0530
-Message-ID: <20231213122030.11734-6-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231213122030.11734-1-akhilrajeev@nvidia.com>
-References: <20231213122030.11734-1-akhilrajeev@nvidia.com>
-X-NVConfidentiality: public
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D56B9
+	for <linux-tegra@vger.kernel.org>; Wed, 13 Dec 2023 07:53:49 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXd-0000t5-N4; Wed, 13 Dec 2023 16:52:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXZ-00FbSV-8h; Wed, 13 Dec 2023 16:52:53 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXY-002Mb8-UB; Wed, 13 Dec 2023 16:52:52 +0100
+Date: Wed, 13 Dec 2023 16:52:52 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	dri-devel@lists.freedesktop.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	David Airlie <airlied@gmail.com>, linux-clk@vger.kernel.org,
+	Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
+	Daniel Vetter <daniel@ffwll.ch>, linux-pm@vger.kernel.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Kyungmin Park <kyungmin.park@samsung.com>, kernel@pengutronix.de,
+	Georgi Djakov <djakov@kernel.org>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+ <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+ <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343C:EE_|CY5PR12MB6322:EE_
-X-MS-Office365-Filtering-Correlation-Id: f835d51b-cdd9-4419-af83-08dbfbd61702
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	nU/Se23nAcqTnLy+rKGob8BY05jVLxvsYrDyJ/15ChJRdHz/TkgBdByJ3iqSSPEbEMsU1uHJQMWficTWAOr7IfbzWJAFs0AwdVPv/fqUiobvmlQRFWnrbVKfGj3nk3U8i0M9HwPTOxZEZzfIbyyQVTvemqy7HlcahMZfugEVr2Lj704D+iPvqogcOneUN/aSSrxWNVWjbCxJysdAwGzsBJrNEDMsOIzcgU5scbzedVcEqzenBnM+HUcCU1dhl7Az0Ul6KtEj7EGbUAy9ocyzed2MhV6cis6ddKzEe7FeoI7PPECMf74uOqr2wgsaWDegRj1+XdUd+POwQsvvCX0k+BRiHgZnVT84y2W3Q7GwA56oXqH4X4Q3uuATNEjbKT7lC97ba3rhvNMukDACjRheUPOR42wVKxkCL0QohysohRUYkEC8MIHXj5XxzHya/JEWQPxOhyDtgR6v7VXQAMIIOV6C0iYF6OmOBS70ELZa3avXuNUslH8DR+nVWVtKbJ7ILJ5urKOlVI+tX0K2VIawZ2vxTBg/8pNDhtEok99LEyOl8HL6lM2A/bQLl1cpjy7JWmpq52GnF8+KtbjB204OFO1EI0Nf0orUzQfZBz5Gcs6pRzVR4wC/K80BJ7TitXYXZFSIF6igqWKrwqWUj0L7cUML3vpTVDrVB30P32pNfrR40fONRZWzkGF519j20HiyLLTfyexd/5rtrVsCHTZESrJCI2Pb3ITMxqSEqn6eog0=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(376002)(39860400002)(136003)(230922051799003)(186009)(64100799003)(1800799012)(82310400011)(451199024)(40470700004)(46966006)(36840700001)(2616005)(1076003)(40460700003)(426003)(26005)(336012)(107886003)(6666004)(7696005)(36860700001)(83380400001)(47076005)(5660300002)(4326008)(8676002)(8936002)(41300700001)(2906002)(4744005)(478600001)(316002)(70206006)(110136005)(70586007)(82740400003)(86362001)(7636003)(356005)(36756003)(40480700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 12:21:52.9275
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f835d51b-cdd9-4419-af83-08dbfbd61702
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS2PEPF0000343C.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6322
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4rnwsmpqrmgwol6u"
+Content-Disposition: inline
+In-Reply-To: <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 
-Add device tree nodes for Tegra AES and HASH engines.
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+--4rnwsmpqrmgwol6u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index 3f16595d099c..05da74d1c2f4 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -2304,6 +2304,22 @@
- 				 */
- 				status = "disabled";
- 			};
-+
-+			crypto@15820000 {
-+				compatible = "nvidia,tegra234-se2-aes";
-+				reg = <0x00 0x15820000 0x00 0x10000>;
-+				clocks = <&bpmp TEGRA234_CLK_SE>;
-+				iommus = <&smmu_niso1 TEGRA234_SID_SES_SE1>;
-+				dma-coherent;
-+			};
-+
-+			crypto@15840000 {
-+				compatible = "nvidia,tegra234-se4-hash";
-+				reg = <0x00 0x15840000 0x00 0x10000>;
-+				clocks = <&bpmp TEGRA234_CLK_SE>;
-+				iommus = <&smmu_niso1 TEGRA234_SID_SES_SE1>;
-+				dma-coherent;
-+			};
- 		};
- 
- 		pcie@140a0000 {
--- 
-2.17.1
+On Wed, Dec 13, 2023 at 12:54:14PM +0100, Maxime Ripard wrote:
+> On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> > > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrot=
+e:
+> > > > > > clk_rate_exclusive_get() returns zero unconditionally. Most use=
+rs "know"
+> > > > > > that and don't check the return value. This series fixes the fo=
+ur users
+> > > > > > that do error checking on the returned value and then makes fun=
+ction
+> > > > > > return void.
+> > > > > >=20
+> > > > > > Given that the changes to the drivers are simple and so merge c=
+onflicts
+> > > > > > (if any) should be easy to handle, I suggest to merge this comp=
+lete
+> > > > > > series via the clk tree.
+> > > > >=20
+> > > > > I don't think it's the right way to go about it.
+> > > > >=20
+> > > > > clk_rate_exclusive_get() should be expected to fail. For example =
+if
+> > > > > there's another user getting an exclusive rate on the same clock.
+> > > > >=20
+> > > > > If we're not checking for it right now, then it should probably be
+> > > > > fixed, but the callers checking for the error are right to do so =
+if they
+> > > > > rely on an exclusive rate. It's the ones that don't that should be
+> > > > > modified.
+> > > >=20
+> > > > If some other consumer has already "locked" a clock that I call
+> > > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I c=
+all
+> > > > this function because I don't want the rate to change e.g. because I
+> > > > setup some registers in the consuming device to provide a fixed UART
+> > > > baud rate or i2c bus frequency (and that works as expected).
+> > >=20
+> > > [a long text of mostly right things (Uwe's interpretation) that are
+> > > however totally unrelated to the patches under discussion.]
+>=20
+> I'm glad you consider it "mostly" right.
 
+there was no offense intended. I didn't agree to all points, but didn't
+think it was helpful to discuss that given that I considered them
+orthogonal to my suggested modifications.
+=20
+> > The clk API works with and without my patches in exactly the same way.
+> > It just makes more explicit that clk_rate_exclusive_get() cannot fail
+> > today and removes the error handling from consumers that is never used.
+>=20
+> Not really, no.
+
+What exactly do you oppose here? Both of my sentences are correct?!
+=20
+> An API is an interface, meant to provide an abstraction. The only
+> relevant thing is whether or not that function, from an abstract point
+> of view, can fail.
+
+What is the ideal API that you imagine? For me the ideal API is:
+
+A consumer might call clk_rate_exclusive_get() and after that returns
+all other consumers are prohibited to change the rate of the clock
+(directly and indirectly) until clk_rate_exclusive_put() is called. If
+this ends in a double lock (i.e. two different consumers locked the
+clock), then I cannot change the rate (and neither can anybody else).
+
+That is fine iff I don't need to change the rate and just want to rely
+on it to keep its current value (which is a valid use case). And if I
+want to change the rate but another consumer prevents that, I handle
+that in the same away as I handle all other failures to set the rate to
+the value I need. I have to prepare for that anyhow even if I have
+ensured that I'm the only one having exclusivity on that clock.
+
+Letting clk_rate_exclusive_get() fail in the assumption that the
+consumer also wants to modify the rate is wrong. The obvious point where
+to stop such consumers is when they call clk_rate_set(). And those who
+don't modify the rate then continue without interruption even if there
+are two lockers.
+
+This can easily be implemented without clk_rate_exclusive_get() ever
+failing.
+
+> Can you fail to get the exclusivity? Yes. On a theoretical basis, you
+> can, and the function was explicitly documented as such.
+
+Sure, you could modify the clk internals such that
+clk_rate_exclusive_get() needs to allocate memory. Or that it fails if
+another consumer already has called it. At least the latter is a change
+in semantics that requires to review (and maybe fix) all users. Also
+note that calling clk_rate_exclusive_get() essentially locks all parent
+clocks up to the root clock. So if clk_rate_exclusive_get() fails in the
+presence of another locker, you can only have one locker per clock
+hierarchy because it's impossible that both grab the lock on the root
+clock.
+
+> > Is there anyone working on improving the clk framework regarding how clk
+> > rate exclusivity works? I'd probably not notice, but I guess there is
+> > noone that I need to consider for.
+>=20
+> I started working on it.
+
+That is indeed a reason to postpone my patches. Feel free to Cc: me when
+you're done. And please mention if you need longer than (say) 6 months,
+then I'd argue that applying my patches now without caring for
+out-of-tree users is the way to go.
+
+My demand for such a rework would be that there is a function for=20
+consumers to call that don't have the requirement for a certain rate but
+only any fixed rate that results in locking the clock's rate to whatever
+it currently is. Today that function exists and is called
+clk_rate_exclusive_get(); this might not be the best name, so maybe
+rename it to something that you consider more sensible at the start of
+your rework?!
+
+Semantically that is similar to read_lock() (which never fails and
+still prevents any writers). And clk_set_rate() is like=20
+
+	try_upgrade_read_lock_to_write_lock();
+	actually_change_the_rate()
+	downgrade_write_lock_to_read_lock();
+
+where try_upgrade_read_lock_to_write_lock() fails if there are other
+readers. So maybe a sensible name for today's clk_rate_exclusive_get()
+is clk_rate_read_lock()?
+
+If your variant of clk_rate_exclusive_get() might fail, you can already
+prepare for me questioning why this is sensible and needed.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4rnwsmpqrmgwol6u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV501MACgkQj4D7WH0S
+/k51hQf8CRNymicQ4BgKO3Qz+szmXEUKIg8qmLZG6f+sJ77H3mvg7zlbvpI/W/hI
+rscYS06UjEHJM9ec8XTYACyQ1nJy98D8BxhawVTn+wrJa2z0tBDSg01HHBXZkVLe
+xG6BYa5Dx94GTfhTXr9H4zwiLgchRz6/FFp4H49wHQ8rHLX6YYwLBUMq258vYNN8
+Df1WULIGmruvRCkwWFyfhVC2OPyUy0FagJ5xsjJyRIavDaiFmuLEGg0avrbfEjN3
+CMcsnDtQD1pALNhIWwvovcLint4Iap8vDz6O3+MyEDj65AZf8DzO8TJZjTYwGnoI
+zj1/dV/j2h1+TK5lvLFOTKPzSD3u1Q==
+=Nnb7
+-----END PGP SIGNATURE-----
+
+--4rnwsmpqrmgwol6u--
 
