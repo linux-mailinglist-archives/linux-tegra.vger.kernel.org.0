@@ -1,118 +1,110 @@
-Return-Path: <linux-tegra+bounces-295-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-297-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DFA812F77
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 Dec 2023 12:53:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F95F813112
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 Dec 2023 14:15:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2127F2830DB
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 Dec 2023 11:53:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 317D01F2214D
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 Dec 2023 13:15:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED69405FD;
-	Thu, 14 Dec 2023 11:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB3D54BDD;
+	Thu, 14 Dec 2023 13:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dUcRY+xc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XY6n0fKP"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4280710A
-	for <linux-tegra@vger.kernel.org>; Thu, 14 Dec 2023 03:53:36 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-50bffb64178so9438983e87.2
-        for <linux-tegra@vger.kernel.org>; Thu, 14 Dec 2023 03:53:36 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C1C118
+	for <linux-tegra@vger.kernel.org>; Thu, 14 Dec 2023 05:15:45 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2cc3f5e7451so15426751fa.2
+        for <linux-tegra@vger.kernel.org>; Thu, 14 Dec 2023 05:15:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702554814; x=1703159614; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KttnO4PIiCaAGSytE92u74iuSMSOKJ5regNQ/EC5WuQ=;
-        b=dUcRY+xcez7rKlURdw2AFGWcNBBuRihJ9ggWBlAMEw9RizFwTpyX8PyDEezOXkPFub
-         Xkg/t2pA8rxDeWbxrP8RnPS5Y/2yre721nd1j/1cFbhQC+P3jrTx8ZuBn8+oeyT3NSkE
-         lxsBqMDvhPASxFGvS1IusI72EXuYJdFrSHeGhTv+cLyiPXLKZz+082IjfqZWVgxQczWa
-         Z1kx6ONvpsCF49wx1usk/VJmAMiDltXf1pn4Hh+idWI1V8CcGnQtO2s4uWwJVTnKu1XA
-         P6n8gakR5YKuPSTLNCNPqz+DUNA2XTktgPFzrhZqeTa8at/pER4a0RV4TWwBazoywj2x
-         MD8Q==
+        d=linaro.org; s=google; t=1702559743; x=1703164543; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hsy3l+28Wlzo8cXaOBVgUpQ+5XTYvjbT3bX9woEdBdk=;
+        b=XY6n0fKPFM4ylqgrT+DP76vnVBxqSarH7iMtVLY8BSDMOhHRf/hj2cgzV6Z2bP1q1S
+         pg4zff30ctvffBQbZbZ79zSc5B0zsQ9Tfek6gdPQiHRYWRrZsEl/SICIdfiF/7HAc104
+         o8YXB6BEiTotSUiemKqQf4I8rtO+lOeyP4fLIFKG7eZMl0i+IWrOWaC4iagqJED4ArC8
+         d1T4XMYTFKdjlPhIelCh0AkKgDD0TuseyDky/ByMBVxSidGIMeEz7wOaTfoz/B44Jwv7
+         FOHF61fDmfANI7mQD4HasB75MbTro1hmLI8BgjxRrb+6cQKm+oUU/BzZnIWFjBAMP8YV
+         52ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702554814; x=1703159614;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KttnO4PIiCaAGSytE92u74iuSMSOKJ5regNQ/EC5WuQ=;
-        b=cdl4KmL225HAonK9Z8Fv/t8/v/Tn1/2hL/Fo5l9qDdRR/n9GwLROs0nSL7zNOVznuJ
-         qEvlHLNESUocynLv6/zHYaNRbqyJT7VwdXNPsL3DSy1TrzGrfPwWA/7XwELOobAzqpY0
-         Ss10EmpIu03ZIA7WtMADfhmUapWViYDFea4MGX7LgLJckPlimSOCYTO4+fZ7cxV8s3MD
-         hYAVoUy1yYAwruYDeqNb8TPMcu9AT50piWNQ2QVGyka+80NwwG0YogGCn/G3DOXRM6Ig
-         mdJ6jyw2h0TOIiDDK7vEoWgkcyIUUZELiZAKTxoHgHWpCvV+Q5knJ3nL5jxBD0Gx/Toq
-         3trA==
-X-Gm-Message-State: AOJu0Yx1ItEJHBmY6GY9t47RHAEeu7pHqZkOQyJv2ZLwE/HAh9rMZ+tm
-	3o6RgqfxqUO1tiYDAGWVN+NmVA==
-X-Google-Smtp-Source: AGHT+IFKAUpNpfuAuwpUiHGvkKtTTxlNLOoY8GwwQiOzDKup6y8DvTMvl5/GS7Uobt3Q4SD5/EbY3A==
-X-Received: by 2002:ac2:4219:0:b0:50b:f305:7802 with SMTP id y25-20020ac24219000000b0050bf3057802mr3932763lfh.129.1702554814419;
-        Thu, 14 Dec 2023 03:53:34 -0800 (PST)
-Received: from [172.30.204.158] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id y14-20020ac2446e000000b0050e1633748dsm183444lfl.206.2023.12.14.03.53.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Dec 2023 03:53:34 -0800 (PST)
-Message-ID: <2890ae71-aed0-451d-a7fb-7db30c30b72b@linaro.org>
-Date: Thu, 14 Dec 2023 12:53:30 +0100
+        d=1e100.net; s=20230601; t=1702559743; x=1703164543;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hsy3l+28Wlzo8cXaOBVgUpQ+5XTYvjbT3bX9woEdBdk=;
+        b=vScjCOyUU+ruXNSxvNgwyq/qbPAn8BojX9ZP8xm2s8yZJlWzOTk+zi/9KqWrenjXLT
+         ZWFr/TqqC052qk2tvHQxzdhD/SJePkmcc/afwmM0jIKpwxnRqyNRKehKMikKB9Osq7hm
+         BDkayLf4itEqt7fiItlqDqkdkjRst36O0Y2Ec/rMmKQcP6/0hwyxYZHgHm5yAJ63p9HU
+         LRSmK1gjyKFdI/lgl5tAQ476vjxpEq3mrmynp1mCwLALPCVewMQtNfZaGJVNIPEitRbg
+         9T07TR4mzmabeVfsJFPwaUafi56U4A422XBrN91ORT5SCdfTs7boieT9TJpgRzHbTN7j
+         TVeQ==
+X-Gm-Message-State: AOJu0YxmAb9jvYad/so4m03JbGnEHHtWTOEvlw0JhggCMnXVfkKAT7fb
+	xMhVSfpMZTKwX6p9XEsznRbUJg==
+X-Google-Smtp-Source: AGHT+IGG2eNJ8YdSSOtikRyhfKzL54YiZt8kpDvWZmOdjaLZ+i16vshFSugATB9RNQ2q9+lT0N5dlA==
+X-Received: by 2002:a2e:8447:0:b0:2ca:31a:4e8 with SMTP id u7-20020a2e8447000000b002ca031a04e8mr4281616ljh.72.1702559743254;
+        Thu, 14 Dec 2023 05:15:43 -0800 (PST)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id p23-20020a2e93d7000000b002ca02ceae84sm2080478ljh.83.2023.12.14.05.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 05:15:42 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/4] GPIO inclusion fixes to misc sound drivers
+Date: Thu, 14 Dec 2023 14:15:41 +0100
+Message-Id: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/6] arm: arm64: dts: Enable cros-ec-spi as wake source
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Mark Hasemeyer <markhas@chromium.org>, LKML <linux-kernel@vger.kernel.org>
-Cc: Raul Rangel <rrangel@chromium.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Andre Przywara <andre.przywara@arm.com>,
- Andy Gross <agross@kernel.org>, Baruch Siach <baruch@tkos.co.il>,
- Bjorn Andersson <andersson@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Jesper Nilsson <jesper.nilsson@axis.com>, Jisheng Zhang
- <jszhang@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Michal Simek <michal.simek@amd.com>, Paul Barker <paul.barker@sancloud.com>,
- Rob Herring <robh+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20231213110009.v1.1.Ifd0903f1c351e84376d71dbdadbd43931197f5ea@changeid>
- <20231213110009.v1.2.I274b2d2255eb539cc9d251c9d65a385cc4014c79@changeid>
- <e5625051-e9e2-4a75-a11a-cf5b40606fa4@collabora.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <e5625051-e9e2-4a75-a11a-cf5b40606fa4@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: *
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP3/emUC/x3MwQqDMAwA0F+RnA0slQ3Zr4gHbdMuh7UlURHEf
+ 1/Z8V3eBcYqbPDuLlA+xKTkBuo78J8lJ0YJzeAebiBHDlOVgoHNq9StqKGVPQf8inkcV08vGp4
+ jR4I2VOUo53+f5vv+ASS6OIxtAAAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.4
 
+Mostly dropping unused headers, and a single driver rewrite.
 
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (4):
+      ASoC: hisilicon: Drop GPIO include
+      ASoC: qcom: sc7180: Drop GPIO include
+      ASoC: simple-card-utils: Drop GPIO include
+      ASoC: tegra: tegra20_ac97: Convert to use GPIO descriptors
 
-On 12/14/23 11:55, AngeloGioacchino Del Regno wrote:
-> Il 13/12/23 19:00, Mark Hasemeyer ha scritto:
->> The cros_ec driver currently assumes that cros-ec-spi compatible device
->> nodes are a wakeup-source even though the wakeup-source property is not
->> defined.
->>
->> Add the wakeup-source property to all cros-ec-spi compatible device
->> nodes to match expected behavior.
->>
->> Signed-off-by: Mark Hasemeyer <markhas@chromium.org>
-> 
-> I received only patch [2/6] - please send the entire series to the relevant
-> maintainers, as otherwise it's difficult to understand what's going on.
-> 
-> As for this patch alone:
->   1. arch/arm stuff goes to a different commit
->   2. I would prefer if you split per-arch and per-SoC.
-+1, otherwise *somebody* will get merge conflicts that - even
-if trivial - take additional time to resolve :(
+ arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi |  2 +-
+ sound/soc/generic/audio-graph-card.c          |  1 -
+ sound/soc/generic/audio-graph-card2.c         |  1 -
+ sound/soc/generic/simple-card-utils.c         |  1 -
+ sound/soc/hisilicon/hi6210-i2s.c              |  1 -
+ sound/soc/qcom/sc7180.c                       |  1 -
+ sound/soc/tegra/tegra20_ac97.c                | 55 +++++++++++++--------------
+ sound/soc/tegra/tegra20_ac97.h                |  4 +-
+ 8 files changed, 29 insertions(+), 37 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231212-gpio-descriptors-sound-misc-8bc161358ef1
 
-Konrad
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
 
