@@ -1,90 +1,93 @@
-Return-Path: <linux-tegra+bounces-919-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-917-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5617A85BC7C
-	for <lists+linux-tegra@lfdr.de>; Tue, 20 Feb 2024 13:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF785BC7A
+	for <lists+linux-tegra@lfdr.de>; Tue, 20 Feb 2024 13:45:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 625A61C21CC9
-	for <lists+linux-tegra@lfdr.de>; Tue, 20 Feb 2024 12:45:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F1F21C21ABD
+	for <lists+linux-tegra@lfdr.de>; Tue, 20 Feb 2024 12:45:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3483A69968;
-	Tue, 20 Feb 2024 12:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4991D69963;
+	Tue, 20 Feb 2024 12:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JaU6rT1+"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qA9Ydbbg"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7591569950
-	for <linux-tegra@vger.kernel.org>; Tue, 20 Feb 2024 12:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27A85B1F9
+	for <linux-tegra@vger.kernel.org>; Tue, 20 Feb 2024 12:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708433099; cv=fail; b=aG/LCT7cOfjr8nMIgLrH8sm9ms+q68m8xZZ92riUMaUmoq4Yt6Ef1XKi76AEql875dMCm567PxyRlP0QId1wQjM4LmyE/jk8QnJPr3CSCi+CtsRsUZw2QMSZ+pCuUfHrxaZkJc4xjI1uhTPjp/VnNpX2feV6jMuaDG+wjnPxe2A=
+	t=1708433095; cv=fail; b=R94OjKvb3ZYh6ZyjLyhW6p9g5IfKRE310C0FbQjtlyhPT+1Jbt//6PsDKfAagOUOVoYo8bpFzBwM0bU8r6RiiNCqxEBfziLRDBRXjU7A8fN0/YBHhnIvwzejzHry1FzC+aYwqW3Q5ryBC7230t+Tz6/KvkgOJAOMecJC1etNEcY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708433099; c=relaxed/simple;
-	bh=SPo1/ZhExEHQC50rJT00UGdXHNGHQ6iuQKBXGe3qLVM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=apAxI3TdeiEXw6juagP4urto7BEBVYx95uh0ugjYCkHDp5IlZJ3iQ/5uldoB9jSEXah5btK8SmIta1cW7g90ipMhuvCUrOjLGGw7HpJbstywCHbVRPaOHoYjM9zvYP8Bip4nYN+Wcqec5ybijIGn76/na5QztrwqnHuIOSX8cjM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JaU6rT1+; arc=fail smtp.client-ip=40.107.243.46
+	s=arc-20240116; t=1708433095; c=relaxed/simple;
+	bh=kdyS3/vYnHQIovQKMcdec9R8tLOkpG7PrFhDPcWg7fw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jxSKCzEtmUGDQajl/9/kPxdRl5Kfi1KaLhiAEDN+Jg4ouCLah50FdVxYkDNLRnu9t22e8+1xZS9zDA0YUsO/h89V2J4Z7lsU3ppBFw3dag7TcI4yv6IXEmSauX0SGMZM6iwlw1wKxpVYVdLxhyU/sruoJB3NAE/cP5I+NS5g+HQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qA9Ydbbg; arc=fail smtp.client-ip=40.107.223.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KVFI7jTqLp2o4aCWsm3A6xU6EU5CZ37r5HB7i/orReQOfEo0PAeXUk1CCL4pB5As4es0wv2rfMRLUkSHgmGpFJPU+DocDGmRqiJ7qhFTZJVeLzvMkTurf9be6xGT1x6I0qAus3xvyVPVucXf/TQCfpGTnVQxAC41ghXlNfB8TpDzpdu4+qMdLMZ9mgxXW6h1Fs5Hwp5JMReGFruyXldfS66B4da0iRhtCkNP7c4OlyV6pJSjZYXVj2oTwMFWQXg4hCXzqa+0c711bdHpfN0qkDHRI9Wojysf2AgyuSD5Sl5EySRgi7PoiIEZLU/3dNbDn541E+KU99fQ8ZxFvvOILA==
+ b=Tn20I+H72XRovqptEy1V0x+6IoLtSVZqtjNtC9IN8WUvgIFPWUUYKdNVP0Q8DrXZWgSnzv8jv3k79X+dMEZ72IL+6ihg0o13FyRW88p/fKCdtmoXyYnUHVOGvnZgVTI1tsylxcPCXTYi8zsZERndA6HfF8phI+RtoXH4HnE9klpCo5AUezskwtOfA+7xBpguthMo7g2XTjdjCHpPo3ziWTAYxerJzW7r6C/PyYD7zbd0mzVt1wBc9ZISAKdlQ7CtgZyNQkYYWwG4aDvD5LJKTaXPTKIa3IzyaqQ0KfAoOK/P6XI/cWI/59aFzol7rLmLxt5nU2VyvG3IjWX5hXNPFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K3T+7QDl81KhVEnPfS3R8S7qJuKP9mcKUZLHaiGkVCE=;
- b=U11M1Wl0XjQ28v1HYaijTXb34kQhz+jT1QBYCwfJSRyOKsBAdIAT1EWVQMKYie7EoXdmP6KBaU6RTs7+DF6N+qxsmIp1fHaCQdGOF4BRtsJz9vzHATcuv4o3cDUA9RCTHetKhZuQ8ZPNcvkcVaF2kbvjJCR2GOaLCrCMm89y8iRTwAk/FBsnXHhc/Rkt30cOa6Rf6he0a0sj3NwUL8GwqmJBi9TeXtn+z2gQygIPEb1eV1MN/m9I2zkYdKrGTkQGKaxAz2h2AJtfvFZ9tWr+fSJNW6WQgaNHDr509RoJlHozCZ+/1hE4XFA4uXrboQ9yIbkC5KSu6jZ9Pnsr1/zkWA==
+ bh=1D4W4pELPXou+unHqha6IGCc+JRIG2GZPU61BNMm/yk=;
+ b=iWBPjbYBLGvMP5Ch1Pke2P7MNez/p2SLdLI3utjrYyOrQ1qLi050BTDTUzZDY29BZT4L062NK24k7JwE/tHmWiyav2R2rbjbmObX4syjNCTg4+yyUr7Sxl1hJuf0ybZ516PvObe/XuewoN3Q/jnH2uoi+VliWiqS/dOLHLoI5LTX8dpl/Sj6bhoouXigljpANbmqSuI/VKY04oLBz+FYAp1v+06FUxgvlKb+kz2iM4Nj/qEBmkg38e958aX2vk4sZS91ViCPTJ3+E2Gldw68S594Mi0BYeHDWZnG1StJbcZhpUNPCY3hJ2KCgEGm6rPr58aeD+4y1bSF+ZbvWhVg1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
+ 216.228.117.161) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K3T+7QDl81KhVEnPfS3R8S7qJuKP9mcKUZLHaiGkVCE=;
- b=JaU6rT1+dIX2zVono0cr0FmAgVqZ9UTLSbuOaVFCGRXryt4UaBH8bN076MSTszrr2yqghkUkHZMo3pGgDIqQQBkIyReQO0O8FapATNONhcdfwbBbbaxpAqDL1FfDb12St1UlkIJOZt6ev5hSGlcxQSWyZ7xytPPSgQZ0/oKPSWtjrB/wxGaR05fNNG82lmLVPoaUh2gLJdptdYTetdkEBG7vsCRvbluizGtT1oaeJIzwkqz9jCIwz17ecUdyOWQsMEEpxXEK5wV+Ty772O1k8Tt2tyhJOElzhUYbSTiVXGrHfbjsJt+vUNRIxDWUy9O8nl0tdOqoGsZfXdnuoKqcUg==
-Received: from BN0PR04CA0092.namprd04.prod.outlook.com (2603:10b6:408:ec::7)
- by LV2PR12MB5942.namprd12.prod.outlook.com (2603:10b6:408:171::19) with
+ bh=1D4W4pELPXou+unHqha6IGCc+JRIG2GZPU61BNMm/yk=;
+ b=qA9YdbbgcLExlPoOMMU/ONofT0Y5r23RjYTeBmGSxpBiqXD9XHClM8vvAae+9eajR3HlpDyq4IpNoh1aaEp2DsR0jFXDdm/kpt07yi4A85WAnB5fl2LNJf52sE1LggvFKd65d3Rm9e5jpedDaFFY/9EzcDVFQj4xZ6ZFOghpcUAigo97jUYdFqbf8oq/hhDCddc+N26oonoFllT+eDEJZ9NPQcjBNygik6t6fENbRnK0CSVcZKtippJnuOfAdXEJTYTloD2PP7mtfwfDbnGQ29ux6M94AeoGIbrzNj6lOGnW/zjVxirLatm/3Nx6KUKKRt5xpEOSxn4dZG/qCXD9lQ==
+Received: from CYXPR03CA0068.namprd03.prod.outlook.com (2603:10b6:930:d1::17)
+ by MN0PR12MB6104.namprd12.prod.outlook.com (2603:10b6:208:3c8::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.20; Tue, 20 Feb
- 2024 12:44:54 +0000
-Received: from BN2PEPF0000449E.namprd02.prod.outlook.com
- (2603:10b6:408:ec:cafe::f3) by BN0PR04CA0092.outlook.office365.com
- (2603:10b6:408:ec::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Tue, 20 Feb
+ 2024 12:44:49 +0000
+Received: from CY4PEPF0000EE38.namprd03.prod.outlook.com
+ (2603:10b6:930:d1:cafe::df) by CYXPR03CA0068.outlook.office365.com
+ (2603:10b6:930:d1::17) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.40 via Frontend
- Transport; Tue, 20 Feb 2024 12:44:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ Transport; Tue, 20 Feb 2024 12:44:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF0000449E.mail.protection.outlook.com (10.167.243.149) with Microsoft
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000EE38.mail.protection.outlook.com (10.167.242.12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25 via Frontend Transport; Tue, 20 Feb 2024 12:44:54 +0000
+ 15.20.7249.19 via Frontend Transport; Tue, 20 Feb 2024 12:44:49 +0000
 Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 20 Feb
- 2024 04:44:33 -0800
+ 2024 04:44:35 -0800
 Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
  (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 20 Feb
- 2024 04:44:33 -0800
+ 2024 04:44:34 -0800
 Received: from moonraker.nvidia.com (10.127.8.9) by mail.nvidia.com
  (10.129.68.10) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Tue, 20 Feb 2024 04:44:32 -0800
+ Transport; Tue, 20 Feb 2024 04:44:33 -0800
 From: Jon Hunter <jonathanh@nvidia.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Thierry Reding
 	<thierry.reding@gmail.com>
 CC: <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH V2 1/3] memory: tegra: Correct DLA client names
-Date: Tue, 20 Feb 2024 12:44:28 +0000
-Message-ID: <20240220124430.19072-1-jonathanh@nvidia.com>
+Subject: [PATCH V2 2/3] memory: tegra: Add BPMP and ICC info for DLA clients
+Date: Tue, 20 Feb 2024 12:44:29 +0000
+Message-ID: <20240220124430.19072-2-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240220124430.19072-1-jonathanh@nvidia.com>
+References: <20240220124430.19072-1-jonathanh@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -97,121 +100,175 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000449E:EE_|LV2PR12MB5942:EE_
-X-MS-Office365-Filtering-Correlation-Id: b88ae6da-5b9a-4e96-d0b5-08dc3211bcd4
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE38:EE_|MN0PR12MB6104:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e3c40eb-0c6d-4e96-5ac0-08dc3211b9f8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	CXbw/ynhtQGBihXpCK6+JXtj/caHjj/XVzzQf31Aw7NtJYaiANXzCW+oCwwFBJhuS0n3DDP43MurXWqBHRc5DQeB3ycVKGC5ifXHt3ADlOApq7WoqmRBr38nbLT8rfGWvmLkjHyXyh/8YR0hyXUZLer9i7NYxfvvjf2e8tBiCUL44H03ZEDPvnSOB/36MXHotARNrj1dpVUTgTla7Ie0+7IIqtXTKztAGg5EmvKGhTmbaHRJmCICp+sOcv8stgwstuF0y/D8ef3KSZQMP1M39dolFVTkegmHlsL+0Zv04YcFNFszRnwueZ87Q+4jKxmuD6jUNx+ZXrxK+sBcTjQD3fRtyT4SRzokM5/kK6+ERQSKHksO2kAwMAE3jLF8vE443KVy6sXBS/VO7RaAU0egI0tPHLlWkhCEsX1YVyf+/Cz0V/bAE+1h7xh/NB6b60Re/Cec4i/qLmAixqRVC3i+54oVGZhGHgZ9mS0tUKtzyDG8PqhZpODtUW1yqVePVJvtAJZuAaQspthAtDJ9xPMe+5pVGDBIxnTP6JBZnmUgqW14yfTQS5yywjKxSHZwyIOlkkleMopjxe+KTXK1ZbWXp+n0CAQ9VuY8Hg/GBwcJysVUrqwrZd15Om5M91NNUlz6PNTS9VQqXqjQaucR3f+Lu1uRvO69TS8w+eMaIfOxvuE=
+	Ce5EjU+XYnpJ1o4c2xt1cwNa1A1CVpIA54smM4Ny53rURwLIuu+sru6evZ724i/d4Y0UeufwKYOtXNQ+mj2EepXPnlKymW8JrrjX25NmXIiOvEeodypgprKf67rQrjQEH138mRyB3o6xcds5ysA1GAaJWJHikbmQkIic08eBLbhIqD4wrDqNZPY1TR+OqNYL7Zasfha5jVAP4+8tZ0eClmfGU3FXvqrAHrsC3yr48OVqQ/X1LnVCJZtqfF8R7on9mYkIWrENePWJX1teKN9QIubbbHm1QT6miH3Te7ryANVJZAaQDfaTV088PSVanEnwfmQ3DlxZ136FkGTYqwXhb3Ae6SViGBHaUBkL1g84Aoj+rWSiUiISg/Vh16zmnGSkWTCY6S+whBDBn54tOXTXwOaUycZkcU0GJ+6Ock2/PT0pMuYfpEy1RTfRmVl+q5EuoijpKwtcR92C/rXWlla9l6ft0yDYNCTjFlNYHqOLObJGu6UwfUaN+ic/5zQ+d/TZjRdYwvNwLur+wPVvh16+rFzhd0th0Lff7WW6FF+G4t3aYbjOSK4S8gWt+/Bwb9EwnVQvJXxOukQvZ5drhtocoqtu4u10ERGaxHdgx9EwZHzpKc+Q1Nx2dEMU2+vKR3d99RctbxlAL7S9RxNP+aRihi6bHbMOk/ZUNWm4IftJUFM=
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(36860700004)(40470700004)(46966006);DIR:OUT;SFP:1101;
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(36860700004)(40470700004)(46966006);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 12:44:54.0383
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 12:44:49.3630
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b88ae6da-5b9a-4e96-d0b5-08dc3211bcd4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e3c40eb-0c6d-4e96-5ac0-08dc3211b9f8
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF0000449E.namprd02.prod.outlook.com
+	CY4PEPF0000EE38.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5942
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6104
 
-Some of the names for the Tegra234 DLA clients are not unique and do not
-align with the name of the client ID definitions. Therefore, it is not
-possible to determine the exact DLA client from messages that print the
-client name. Fix this by correcting the DLA memory client names for
-Tegra234 to align with the name of the corresponding memory client ID.
+Add the BPMP IDs and ICC type information for the Tegra234 DLA memory
+clients.
 
-Note that although the client names are also used by the interconnect
-framework, interconnect support for the DLA clients has not been added
-and so this issue does not impact the interconnect support.
-
-Fixes: 5cd24ca0985f ("memory: tegra: Add DLA clients for Tegra234")
 Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
 Changes since V1:
-- Updated commit message
-- Fixed fixes tag
+- None
 
- drivers/memory/tegra/tegra234.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/memory/tegra/tegra234.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/drivers/memory/tegra/tegra234.c b/drivers/memory/tegra/tegra234.c
-index abff87f917cb..b8a7af2d36c1 100644
+index b8a7af2d36c1..d9cfd2eb0d7f 100644
 --- a/drivers/memory/tegra/tegra234.c
 +++ b/drivers/memory/tegra/tegra234.c
-@@ -121,7 +121,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -92,6 +92,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0RDB,
+ 		.name = "dla0rdb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -102,6 +104,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0RDB1,
+ 		.name = "dla0rdb1",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -112,6 +116,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0WRB,
+ 		.name = "dla0wrb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -122,6 +128,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1RDB,
--		.name = "dla0rdb",
-+		.name = "dla1rdb",
+ 		.name = "dla1rdb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -407,7 +407,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -408,6 +416,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1RDB1,
--		.name = "dla0rdb1",
-+		.name = "dla1rdb1",
+ 		.name = "dla1rdb1",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -417,7 +417,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -418,6 +428,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1WRB,
--		.name = "dla0wrb",
-+		.name = "dla1wrb",
+ 		.name = "dla1wrb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -699,7 +699,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -660,6 +672,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0RDA,
+ 		.name = "dla0rda",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -670,6 +684,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0FALRDB,
+ 		.name = "dla0falrdb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -680,6 +696,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0WRA,
+ 		.name = "dla0wra",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -690,6 +708,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 	}, {
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0FALWRB,
+ 		.name = "dla0falwrb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
+ 		.regs = {
+ 			.sid = {
+@@ -700,6 +720,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1RDA,
--		.name = "dla0rda",
-+		.name = "dla1rda",
+ 		.name = "dla1rda",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -709,7 +709,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -710,6 +732,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1FALRDB,
--		.name = "dla0falrdb",
-+		.name = "dla1falrdb",
+ 		.name = "dla1falrdb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -719,7 +719,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -720,6 +744,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1WRA,
--		.name = "dla0wra",
-+		.name = "dla1wra",
+ 		.name = "dla1wra",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -729,7 +729,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -730,6 +756,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
  		.id = TEGRA234_MEMORY_CLIENT_DLA1FALWRB,
--		.name = "dla0falwrb",
-+		.name = "dla1falwrb",
+ 		.name = "dla1falwrb",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_1,
++		.type = TEGRA_ICC_NISO,
  		.sid = TEGRA234_SID_NVDLA1,
  		.regs = {
  			.sid = {
-@@ -917,7 +917,7 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
- 		},
+@@ -908,6 +936,8 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
  	}, {
- 		.id = TEGRA234_MEMORY_CLIENT_DLA1RDA1,
--		.name = "dla0rda1",
-+		.name = "dla1rda1",
- 		.sid = TEGRA234_SID_NVDLA1,
+ 		.id = TEGRA234_MEMORY_CLIENT_DLA0RDA1,
+ 		.name = "dla0rda1",
++		.bpmp_id = TEGRA_ICC_BPMP_DLA_0,
++		.type = TEGRA_ICC_NISO,
+ 		.sid = TEGRA234_SID_NVDLA0,
  		.regs = {
  			.sid = {
 -- 
