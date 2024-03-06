@@ -1,94 +1,102 @@
-Return-Path: <linux-tegra+bounces-1162-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1163-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341648729F5
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Mar 2024 23:10:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB187873783
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Mar 2024 14:14:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD6451F2B364
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Mar 2024 22:10:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 959D22815BF
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Mar 2024 13:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5017D12D1F4;
-	Tue,  5 Mar 2024 22:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 196AA131E3E;
+	Wed,  6 Mar 2024 13:13:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="az7C5Nbt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qrab2BIH"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E7812BEAE;
-	Tue,  5 Mar 2024 22:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A97130AEE;
+	Wed,  6 Mar 2024 13:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709676607; cv=none; b=gVIDA/nCHeziK5euY5XLrvrqdUQCaJqW0rc5OczGJNzUodGYT12knL3oR6WgX19aFyN74kEZrB8fHGzNPkAmqin2Z3Y5mQfMjrtZBaOhucdoMt2LyRX1ai0WiOBwYTRdnV46u7jLSrPxXV9vsWTcpvHG9q5V1GnSClao02QNTi8=
+	t=1709730791; cv=none; b=Qu1sb8RyuWPkLCqawJGil3bquXVfjHdVMENRqcu92Ya1cn/gNb8LJhbkXbH22Nhb4/SmAPIPJwH16xH8C5Rsf131TcVnvnXweoWgKemWUfbedWAeyZwedhkC/JKWn0xiiFLZlKnkQugIkeGn1ZaMAjf8p0Z52caIcBqSJ5nMoFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709676607; c=relaxed/simple;
-	bh=WDxMUNOyXV2FFp94ZE1OPJHosybU6j2MV9abgvJyXmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R6hQ2vZJWlnWu/difVF3nE4JSZwvh1FUmXXC2E9+xhxtz1A5NktaUmHpzOXYCnSMq21+9zIpqBCrtXTwaxs0vC522kHK4Jg8Ac6ZZUXV+fA6FxnBI7WLp6c9NmdSWA2DIN3NxdQOwWrGzzVxCFpZ/KbqunhthIZmbcRLTVBwNJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=az7C5Nbt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E995DC433F1;
-	Tue,  5 Mar 2024 22:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709676606;
-	bh=WDxMUNOyXV2FFp94ZE1OPJHosybU6j2MV9abgvJyXmQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=az7C5NbtIzHvbFY1k6RzXtyMA4G2ovT4iIuq2qGGFKzfSb8A466Xms9g9gAM91/Sd
-	 og+XcB2nHMHjZhAznjVov+MTzwoi9/bBPr2aPvdlImEjJpCzSsmqS81OJZpHu4k18B
-	 oVVNfNT/qh/v7X42qVgXBHRy8hmrEfNVHcSb+ZCs=
-Date: Tue, 5 Mar 2024 22:10:02 +0000
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wayne Chang <waynec@nvidia.com>
-Cc: jonathanh@nvidia.com, thierry.reding@gmail.com, jckuo@nvidia.com,
-	vkoul@kernel.org, kishon@kernel.org, linux-phy@lists.infradead.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: gadget: tegra-xudc: Fix USB3 PHY retrieval logic
-Message-ID: <2024030542-broker-promptly-de99@gregkh>
-References: <20240305161122.1254099-1-waynec@nvidia.com>
- <20240305161122.1254099-3-waynec@nvidia.com>
+	s=arc-20240116; t=1709730791; c=relaxed/simple;
+	bh=yOhwaGsC/lWPIb3ztljvxktWVaALdLmAgQMWRiXDiVQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WvTBVvWhYq0O5t3ldbR1EmXmIq6KHbTh01xUILo6fmpqlAv8Y/YEYlq6wUVy9sa8PzeKoleikBi78z9mqg7GQCsUuxE34paLz2Gzz36oUn4AwIAIWaebrmoV2IZh4o9oH72NM3CIZx9G6iCxPATwIuyH7rGvEPRODEz33w52mTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qrab2BIH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3036EC433C7;
+	Wed,  6 Mar 2024 13:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709730790;
+	bh=yOhwaGsC/lWPIb3ztljvxktWVaALdLmAgQMWRiXDiVQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qrab2BIH9agsK+zgozbu3so/KURHltrGzdqamvDwIvpJFy9Kj66mFnj045iQn0Pnv
+	 j5qnOiZ303sw3Wb+Wl4Vl1v7J0mqXG775UQd+YC9o3UJxZ6qatn9Q/lCNRzIzv0925
+	 ERJZhAgT04FA8cAHXCobdkHRRHG+RdZJHefe4/U6QLQRhw6CqLYP90hs9CHCFh3yLG
+	 /t20d3l/aiYHPbSLDB2GfHkJEWTZwsQ60z3jM69ISr3Bls559DNlGU7dBTZQQyHKZJ
+	 7HPSRfDpdiEgM3orDT3zluaCrEtmEqdubVbrI/kIYbxUQtNrUAuYReGmHfiOChKzqG
+	 IBHcDI/tX146w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240305152131.3424326-1-robh@kernel.org>
+References: <20240305152131.3424326-1-robh@kernel.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: nvidia: Fix 'lge' vendor prefix
+Message-Id: <170973078551.143235.16133167101955701655.b4-ty@kernel.org>
+Date: Wed, 06 Mar 2024 13:13:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305161122.1254099-3-waynec@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-a684c
 
-On Wed, Mar 06, 2024 at 12:11:22AM +0800, Wayne Chang wrote:
-> This commit resolves an issue in the tegra-xudc USB gadget driver that
-> incorrectly fetched USB3 PHY instances. The problem stemmed from the
-> assumption of a one-to-one correspondence between USB2 and USB3 PHY
-> names and their association with physical USB ports in the device tree.
+On Tue, 05 Mar 2024 09:21:31 -0600, Rob Herring wrote:
+> The documented vendor prefix for LG Electronics is 'lg' not 'lge'. Just
+> change the example to 'lg' as there doesn't appear to be any dependency
+> on the existing compatible string.
 > 
-> Previously, the driver associated USB3 PHY names directly with the USB3
-> instance number, leading to mismatches when mapping the physical USB
-> ports. For instance, if using USB3-1 PHY, the driver expect the
-> corresponding PHY name as 'usb3-1'. However, the physical USB ports in
-> the device tree were designated as USB2-0 and USB3-0 as we only have
-> one device controller, causing a misalignment.
 > 
-> This commit rectifies the issue by adjusting the PHY naming logic.
-> Now, the driver correctly correlates the USB2 and USB3 PHY instances,
-> allowing the USB2-0 and USB3-1 PHYs to form a physical USB port pair
-> while accurately reflecting their configuration in the device tree by
-> naming them USB2-0 and USB3-0, respectively.
-> 
-> The change ensures that the PHY and PHY names align appropriately,
-> resolving the mismatch between physical USB ports and their associated
-> names in the device tree.
-> 
-> Fixes: b4e19931c98a ("usb: gadget: tegra-xudc: Support multiple device modes")
-> Cc: stable@vger.kernel.org
 
-You mark patch 2/2 for stable, but not patch 1/2?  That's not going to
-work well, is it?  :(
+Applied to
 
-thanks,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-greg k-h
+Thanks!
+
+[1/1] ASoC: dt-bindings: nvidia: Fix 'lge' vendor prefix
+      commit: 482c9f3d42ba58a2ae1f69cbfbf3a9f3e251527d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
