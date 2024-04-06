@@ -1,110 +1,110 @@
-Return-Path: <linux-tegra+bounces-1498-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1501-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135089AABB
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 14:26:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E1189AAC0
+	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 14:31:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 721941C20CA1
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 12:26:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 071521C20FA0
+	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 12:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F8832C1A6;
-	Sat,  6 Apr 2024 12:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 222C22B9B8;
+	Sat,  6 Apr 2024 12:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="G1Dd23lE"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="rO/nwHUu"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B45D1EB48;
-	Sat,  6 Apr 2024 12:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4EF2C6AE;
+	Sat,  6 Apr 2024 12:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712406388; cv=none; b=FSUOfD8P6iFR7yxtUi6NFs+V2RHzYHdjN0ctQ18sVdT1cW1dUnHt5Sg6HeCnuF1AutiFEGXbQAUFf9oA1PtcJ4FgfiCx3E5PXChS6+a5HI/c1CAxNuonYSBPzQZXoiqKXCuwPgWeYOBd0v5ITioJ6YREho10R8632FzIopS2RBc=
+	t=1712406699; cv=none; b=gZVN6wxzSD7dTJmRg58w3ssrTUsfru9vLu5UICgUPwMrri1X+75e9fTnYkFkjnqXOOYwbtQl2jnqDWYVsCaeDnOh1k0HYFZK7pz/o5fusOmKRFyRoFT9wI0835eQIwfiAr2rDP3aR2XF2Wt69XY95EeHdHZg4cEdXd2S8XAafVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712406388; c=relaxed/simple;
-	bh=UmmuvzlY1/7ExxRj0Vu+cLk5bNP2bQaLzO4W9Zyjrf8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=fwBc1e+OZNAHHK3Uh1EYF5Cj77PmjSNYQvbQ7jj8fpd65L0FHaKwWJ6iHDEwQz8Sr3Jb+xcLcl4DVo1/2WscvQCeF1f/Jq0beBkRTd3HrnKuh9Q9K9LsZ7GE7ZAJudhhH7VPtjpRVk/y1Emm2qWQuiS/NjW8xr5TmpVOX0MJqUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=G1Dd23lE; arc=none smtp.client-ip=212.227.17.20
+	s=arc-20240116; t=1712406699; c=relaxed/simple;
+	bh=zVBv3x0RcPND3YUQlwrFydPZKJLoTFhFO3cFFQ5L1wE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tJDJZxvQ0o3h+IDlJ5nE5jIVIBVKTU5e2eKWUVI8zVTtztT6cR9J0rME9qrB+N9OvirOc90JNnKcOh6+MTFsCuaszpSbnHnqTetGaWuRbJqE3exabIcZbi8QMHdJSoUWwz4lLxCCHHusreefaWCNfqn+IjENUQkb9HVclsYcQPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=rO/nwHUu; arc=none smtp.client-ip=212.227.15.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1712406382; x=1713011182; i=marvin24@gmx.de;
-	bh=qJJJ7XZcAzYvRNvfKlTb0ONtJ/ycqEH3apwLhaKdujU=;
-	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:
-	 References;
-	b=G1Dd23lE4rvI5ri3AC5Nj9NnMbxpphkFOtfqNLQaHGif3hjZxnW+mlksimpGA6Gp
-	 PttHBIVX9Ezc1N1/mQ/i7NSVUl5reHhfQmXi1YZ5dC/5HFwbg3PQN81iyobB2lQA/
-	 427WBHxUGBDzBvbkEzu1HK2I/j7K+TSclTO+5aBzLlZ43UgWPXXu0Q8XRj0H5dI+q
-	 knD5QzPs8wv7jNwuwNpu48Z2BD4z8iNK5ETQkOOD0ZEz4jj025+5H4dkndNuun/70
-	 NKvbPVVxC3HI0lhxkC1jrOEff1uWmeHyWEGMKKuZaf9XuIP9NHi5I0PeEWiwS03nw
-	 H2cBYaifHNearob+5w==
+	s=s31663417; t=1712406691; x=1713011491; i=marvin24@gmx.de;
+	bh=H/aPyAk3HsmbeVDE4IKsiPkoFUrCDzARsncyuBKtwRU=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=rO/nwHUucvln90SShMm2CgxKr9cXOONXaWaAjTyPf/YNH/fIXUI8podisXycolNw
+	 hPT3ZTgpxAfK7sikU2WRW+XVoXAETEAmghR+XlLI8PLTA0K6Cp/+WyzrKlmnGJ1uy
+	 qHMGjCtncQz5n8vilyEKkbNXnVj5Rnjxi9Huno43QTe7klNkO0FmmiQX1vIzXWzV3
+	 RpnxRClP2woVSdYYLzZ+TvorGT0KgzYHpxfn2qcGD11SqC930TYMOICZ0rtnGSrVW
+	 Q19WsBdbcIKOCmAIRCOTLUXhQ8jmVo9GMcq5goHmtQVxQq4LiECiv1HP9C0USLSu1
+	 ZXy2R8BwkND7ZVHw+A==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from n5219w05.fritz.box ([109.250.53.83]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MIwz4-1sDUJw0xUQ-00KMiC; Sat, 06
- Apr 2024 14:26:22 +0200
-Date: Sat, 6 Apr 2024 14:26:21 +0200 (CEST)
+Received: from n5219w05.fritz.box ([109.250.53.83]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M7Jza-1rs0sh1chY-007nde; Sat, 06
+ Apr 2024 14:31:31 +0200
 From: Marc Dietrich <marvin24@gmx.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/4] staging: nvec: make keyboard init synchronous
-In-Reply-To: <0e0ee669-7b67-40b2-b46b-fa804a914e75@moroto.mountain>
-Message-ID: <e6c0587e-e608-2192-1d51-d0107db639bb@gmx.de>
-References: <20240405140906.77831-1-marvin24@gmx.de> <20240405140906.77831-2-marvin24@gmx.de> <144d1723-12d5-405e-b37b-498e261dbd90@moroto.mountain> <0e0ee669-7b67-40b2-b46b-fa804a914e75@moroto.mountain>
+To: linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	thierry.reding@gmail.com,
+	dan.carpenter@linaro.org,
+	Marc Dietrich <marvin24@gmx.de>
+Subject: [PATCH V2 0/4] staging: nvec: improve robustnes during initialization
+Date: Sat,  6 Apr 2024 14:31:18 +0200
+Message-ID: <20240406123123.37148-1-marvin24@gmx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Provags-ID: V03:K1:vUiANfDvkw9cjyXvrso7pe0hdB7Nd54kL6FPQ68UEOm1M0wlJ4q
- f79lDNSYYy9HbZ40pjESXgkJIaS8ypj+PRk2hQfKBnyEIDhucero02yuDpw+Aoo0TODtC74
- TYUUF7akcLrys5JtSR/ZC35pSIgZuFpHdtgQNgOUdFE7xf4zjpc1fy1t6LonMiK1YegLXZv
- ysWbAMDizO8X4p3HOwuWQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:6ibZVGV1iCo=;qTepHDtHgU2Gkv4qj5oRjMP4Tme
- IK1f9m8xhsskwCyem7VcAfRCehzhe4MJgvWNImM8Rv/4ew4HZkMZtpSv1a55LqNepWwRCrpW5
- Q9tPpU6YU+tLFX+KzZeeDXC8qc1+i3R7gflYztKci3qW51Akq+zmH0oNHW2wbaSJ6of/AHfVU
- 61FV+DjeMLY9FNrO/RiLM+MKtLqpOqFJG5lTXYyu4y4I5ngkzPScemcB0b2lVOsvuLZo6iV0y
- td+zt9sOY1a4V+qEsLmado8XKrP9b3eGBFTmPGpLafSut9dPBn5qK0WZblvS3cnvv8v9XoDqJ
- vZ61QWZGrztT88ympwpV5hp0/61y4mPvg6VMiG1SovSCebI5qyM1WBP4ZlfAWaN3IaGb6fIx+
- /5EFeqlS3nPo65We1yzWd3hhXSmRtl6fXGIxXIBpG1Cq8zmw6cmHZMYFqW+M9CBl6+Vno7CqB
- /iX5LnTP8jsR/otm+F5ulRPT/1dpgWKqkK7lzW/6cOT2CDIAwaHWodzUXd3s5ZaMs3dERSWXf
- F/uH/6mGTtG7WYR5paNbeAg4pz9JyZCbvQBqXEgGyTu9PTYS/AMvffi5GoMnjRNn+i699NEKn
- xsZPT+syKcyclJGmt7iDxs0rz+q7n2FhogkLtNGY8VgjCF0NpxJ5SEeqiFkv9rJNIDQVjedfJ
- gVRjKRy5QWV4vGE/85TYL9z1ppxnnWFm+CUiLyERpmx7YBsifnGjy0dkORYuI37DAk2Ef0snx
- DSv/8UI6M6NYs4yxiPO0KwiR7Zx58d3a6UriXYZ3jEyPaL8FtnqY6FrLVfbLFEXThkPA79uKh
- 43Z/c+sH7dehElmGf25mMTUDtEHqRPuLEY/F7nS+lOAUQ=
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:csW3Ohl4vYb9X6Cxq6WTOoX+behSmfj4H8r23SrRTkStY6fM+bb
+ 6vU1gNwsuQDjkE1tifNe0sBJ3ypahkez74um/f2+B9Eqb7dGPIfj9ciJfe7Zv6+6hcHiZuH
+ zlEkNqZVw8BSbiTGKC7iXzO5Y29xJtAgyX7KsQnDQrGliuOYADr4nRkcbVuONvSv2jbDBIl
+ Hfma2yZLrJSajWafgtThg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:DT30y2NJUVk=;tUJQLqgUu7cJWLh8tfHBV/fqt11
+ KLizMhD827bPqXcjneEr28GlpEIqIr3uq3/0VFCh4YQNhKBCbqkKH50a1kotsjCI7pa/SnI2F
+ RjlxEEVzilwC8K12hs1KiBOaysA4rJiReN1pThQD2qYDVYnlohvr/y7uZ8W0wzO29y1nT/fw+
+ 5eT+b2u1yVkjLNIezIBrDwBep0jIKHYIzOghgtMPdYUuyP87gaXBS5HPg6lzrze6CX0I6iT3q
+ 3CNcewOQSlNAMNSHnKKhhFYXSjoy7yRXhL7u5fDNgAmfglJJGh52unnJ/Oth9McLDGlq5BdJ9
+ i1OSWmzen6j+o3orGhOMpCLoN/7pKj0FlL1DfbkOz/GIpS6rdNlzecCDdNCbdYcuA0jHrG/h2
+ 1Fa50mf/uG/b2Pczq1go52xcD6ha5Iz8qsocwhDSGzD5MkNnrLNUFR0Szmys7enQcBjLvsLXf
+ /QhgvYEiAKGd65jhl7ocPnCipS6W/DTzPcj6Pd9wa1A7CUD22CETjptqWeDy++9sNq/0xYA3f
+ 80nPPxFXXYvLbVpGEBB2SFfby8UZYUrBwBx5mj9uDRHTFrSsPEB4p9HNwnIwn+OUrsQLPFO0p
+ aMLGavkopw8b1lpSoMGFgp65hv+/2WuawV/R+V9WOnyFlejbua7I6ZIOC0pTT9sd6T5IVfYQJ
+ X/EPbhmhyEp10ydz4qx+pubRrf/RgjSZf3gcBj75xvFIryQa9dymDv8TOMcGU1qabodebEnAg
+ uqI9xT51GZxdlh/IgUH5RLAdN37plJZXpJOAww+HK+n0UBHsvObkZvwPy+kaoGyxdIvP2ah/h
+ YYxK9tUJMoMW09suPJrKaaa6pZ6frGX/3Xbn0zJpTL0pM=
 
-Hi Dan,
+This series against 6.9-rc2 improves robustnes of the keyboard and
+touchpad initialization with the goal to eliminate the ugly delay
+in the I2C client controller ISR.
 
-On Fri, 5 Apr 2024, Dan Carpenter wrote:
+Changes since initial submission:
+- address comments from Dan regarding commit messages and function
+  documentation
+- address comments from Thierry by introducing responseless sync writes
 
-> On Fri, Apr 05, 2024 at 06:15:54PM +0300, Dan Carpenter wrote:
->> On Fri, Apr 05, 2024 at 04:09:03PM +0200, Marc Dietrich wrote:
->>> Improve initialization stability by waiting for command completion bef=
-ore
->>> sending the next one.
->>>
->>
->> Presumably you experienced an issue with this in real life.  Can you
->> describe what that looked like in your commit message?  Should this
->> commit be sent to stable?
->
-> Actually, some of this information is in the cover letter but the cover
-> letter isn't preserved in the git log so it's better to put it in the
-> commits themselves.
+Marc Dietrich (5):
+  staging: nvec: add ability to ignore EC responses in sync writes
+  staging: nvec: make keyboard init synchronous
+  staging: nvec: make touchpad init synchronous
+  staging: nvec: make i2c controller register writes robust
+  staging: nvec: update TODO
 
-ok, I'm going to send a new version of the series which hopefully
-addresses yous and Thierry's comments.
+ drivers/staging/nvec/TODO       |  1 -
+ drivers/staging/nvec/nvec.c     | 50 ++++++++++++++++++++-------------
+ drivers/staging/nvec/nvec_kbd.c |  9 +++---
+ drivers/staging/nvec/nvec_ps2.c | 31 +++++++++++++-------
+ 4 files changed, 57 insertions(+), 34 deletions(-)
 
-Best regards,
+=2D-
+2.43.0
 
-Marc
 
