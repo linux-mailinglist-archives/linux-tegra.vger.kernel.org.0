@@ -1,48 +1,50 @@
-Return-Path: <linux-tegra+bounces-1501-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1499-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E1189AAC0
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 14:31:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB14989AABE
+	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 14:31:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 071521C20FA0
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 12:31:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7933D1F21947
+	for <lists+linux-tegra@lfdr.de>; Sat,  6 Apr 2024 12:31:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 222C22B9B8;
-	Sat,  6 Apr 2024 12:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CDFBA55;
+	Sat,  6 Apr 2024 12:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="rO/nwHUu"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="XHcUZVa2"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4EF2C6AE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636122B9B1;
 	Sat,  6 Apr 2024 12:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712406699; cv=none; b=gZVN6wxzSD7dTJmRg58w3ssrTUsfru9vLu5UICgUPwMrri1X+75e9fTnYkFkjnqXOOYwbtQl2jnqDWYVsCaeDnOh1k0HYFZK7pz/o5fusOmKRFyRoFT9wI0835eQIwfiAr2rDP3aR2XF2Wt69XY95EeHdHZg4cEdXd2S8XAafVc=
+	t=1712406698; cv=none; b=VcMfSUvUkJHJWASBTZ7zgveuUPPZqY2UgA2LSRdEXJ0tJoTy/CElQSxzoefWPqQkXCsA+j/UOwiFWHfEENPWvXCSTZvVbud3VS5d35ycn9Y9jy7HLRwUGCTmsRRqQle9IXJ4CDStaK81wSnhCfmojKbgOHsQpVhGx3/5XHwoGwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712406699; c=relaxed/simple;
-	bh=zVBv3x0RcPND3YUQlwrFydPZKJLoTFhFO3cFFQ5L1wE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tJDJZxvQ0o3h+IDlJ5nE5jIVIBVKTU5e2eKWUVI8zVTtztT6cR9J0rME9qrB+N9OvirOc90JNnKcOh6+MTFsCuaszpSbnHnqTetGaWuRbJqE3exabIcZbi8QMHdJSoUWwz4lLxCCHHusreefaWCNfqn+IjENUQkb9HVclsYcQPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=rO/nwHUu; arc=none smtp.client-ip=212.227.15.18
+	s=arc-20240116; t=1712406698; c=relaxed/simple;
+	bh=7esloikEOlCjR6lSKP6kwfl6x7P4OR1CJJRXemyk9pA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Tcoa3WBq2GUFPxtEAUnd0cGBEz3hG+hmvoKAG98/mbMnOkV/5Io+ZkM1T+c2u+wgznwVXMLF/x2X/7ldGlDGV8dtaauQB11xCjq2Ks2eB3HEf/L+8VCtlhgnkYd4C9T1FhUBtmy01rDOfcXJZnd2qd8FW+jCAD6sM6wUh6G3rmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=XHcUZVa2; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
 	s=s31663417; t=1712406691; x=1713011491; i=marvin24@gmx.de;
-	bh=H/aPyAk3HsmbeVDE4IKsiPkoFUrCDzARsncyuBKtwRU=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=rO/nwHUucvln90SShMm2CgxKr9cXOONXaWaAjTyPf/YNH/fIXUI8podisXycolNw
-	 hPT3ZTgpxAfK7sikU2WRW+XVoXAETEAmghR+XlLI8PLTA0K6Cp/+WyzrKlmnGJ1uy
-	 qHMGjCtncQz5n8vilyEKkbNXnVj5Rnjxi9Huno43QTe7klNkO0FmmiQX1vIzXWzV3
-	 RpnxRClP2woVSdYYLzZ+TvorGT0KgzYHpxfn2qcGD11SqC930TYMOICZ0rtnGSrVW
-	 Q19WsBdbcIKOCmAIRCOTLUXhQ8jmVo9GMcq5goHmtQVxQq4LiECiv1HP9C0USLSu1
-	 ZXy2R8BwkND7ZVHw+A==
+	bh=y2Pd4sJ0wVJhVwOZ/lckuMsvsyUk7C/yT45pxyRJf+I=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=XHcUZVa2+JCuhoKxbM0EitpWlm+7ojuDcVuHGzsClCxBS4MN8A9K5M8t5cO0mQ/c
+	 9H9udv6eg+XSaZrsUerUXuybX21ViWaCnnShhC0cLIlzzBRBtM2A8VCwFhuHVLwXT
+	 f4RVtYsQhhjo92XNMvHBJqB+EtzRXz/eXBql4jFP1AAjJ5ZBYroM3IEf1bY1ypaKr
+	 QAKS0ZJJ1DzXyqonv26hKieOhIGSDPrJnWd1E477fp6SZkt1CWkOKcVT1tQiR5cFH
+	 r5IFK6ICazYUJcqhG9f3xu3vTEMaaAqupqkXPBgWrXQxn8uOnb/r8CLYh8HuP0WyV
+	 cq356qNjUCYrQr/nsg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from n5219w05.fritz.box ([109.250.53.83]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M7Jza-1rs0sh1chY-007nde; Sat, 06
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6sn7-1srzS82kcZ-018K6n; Sat, 06
  Apr 2024 14:31:31 +0200
 From: Marc Dietrich <marvin24@gmx.de>
 To: linux-staging@lists.linux.dev
@@ -51,58 +53,72 @@ Cc: linux-tegra@vger.kernel.org,
 	thierry.reding@gmail.com,
 	dan.carpenter@linaro.org,
 	Marc Dietrich <marvin24@gmx.de>
-Subject: [PATCH V2 0/4] staging: nvec: improve robustnes during initialization
-Date: Sat,  6 Apr 2024 14:31:18 +0200
-Message-ID: <20240406123123.37148-1-marvin24@gmx.de>
+Subject: [PATCH 1/5] staging: nvec: add ability to ignore EC responses in sync writes
+Date: Sat,  6 Apr 2024 14:31:19 +0200
+Message-ID: <20240406123123.37148-2-marvin24@gmx.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240406123123.37148-1-marvin24@gmx.de>
+References: <20240406123123.37148-1-marvin24@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:csW3Ohl4vYb9X6Cxq6WTOoX+behSmfj4H8r23SrRTkStY6fM+bb
- 6vU1gNwsuQDjkE1tifNe0sBJ3ypahkez74um/f2+B9Eqb7dGPIfj9ciJfe7Zv6+6hcHiZuH
- zlEkNqZVw8BSbiTGKC7iXzO5Y29xJtAgyX7KsQnDQrGliuOYADr4nRkcbVuONvSv2jbDBIl
- Hfma2yZLrJSajWafgtThg==
+X-Provags-ID: V03:K1:XS0aOK44tsPpKgaciXK7X20/Fq2UZNMTAXWB4jeKxS8c8txvDTy
+ knyW8evAq1IzLojR+Sfqj3cLp1EoVA9tm6RPUy9XEKG0SbF72U1Puf/NESQ8JASMjEZz1TV
+ rsAXA064P7LTpuC53WfI19kHpwH+GDvZx+xZBg74KphmfdBe/Rr9ZE7MVNhCsd1hcWfI92y
+ Kocc36RHjnCjGjEiRnnSQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DT30y2NJUVk=;tUJQLqgUu7cJWLh8tfHBV/fqt11
- KLizMhD827bPqXcjneEr28GlpEIqIr3uq3/0VFCh4YQNhKBCbqkKH50a1kotsjCI7pa/SnI2F
- RjlxEEVzilwC8K12hs1KiBOaysA4rJiReN1pThQD2qYDVYnlohvr/y7uZ8W0wzO29y1nT/fw+
- 5eT+b2u1yVkjLNIezIBrDwBep0jIKHYIzOghgtMPdYUuyP87gaXBS5HPg6lzrze6CX0I6iT3q
- 3CNcewOQSlNAMNSHnKKhhFYXSjoy7yRXhL7u5fDNgAmfglJJGh52unnJ/Oth9McLDGlq5BdJ9
- i1OSWmzen6j+o3orGhOMpCLoN/7pKj0FlL1DfbkOz/GIpS6rdNlzecCDdNCbdYcuA0jHrG/h2
- 1Fa50mf/uG/b2Pczq1go52xcD6ha5Iz8qsocwhDSGzD5MkNnrLNUFR0Szmys7enQcBjLvsLXf
- /QhgvYEiAKGd65jhl7ocPnCipS6W/DTzPcj6Pd9wa1A7CUD22CETjptqWeDy++9sNq/0xYA3f
- 80nPPxFXXYvLbVpGEBB2SFfby8UZYUrBwBx5mj9uDRHTFrSsPEB4p9HNwnIwn+OUrsQLPFO0p
- aMLGavkopw8b1lpSoMGFgp65hv+/2WuawV/R+V9WOnyFlejbua7I6ZIOC0pTT9sd6T5IVfYQJ
- X/EPbhmhyEp10ydz4qx+pubRrf/RgjSZf3gcBj75xvFIryQa9dymDv8TOMcGU1qabodebEnAg
- uqI9xT51GZxdlh/IgUH5RLAdN37plJZXpJOAww+HK+n0UBHsvObkZvwPy+kaoGyxdIvP2ah/h
- YYxK9tUJMoMW09suPJrKaaa6pZ6frGX/3Xbn0zJpTL0pM=
+UI-OutboundReport: notjunk:1;M01:P0:CHWLOaj5IYY=;75SixANPSCHxmHRDY7bO5FAPbpn
+ VDBtJxFnsENQvDz4NCRyS1VQAMA3npiLwZ3SpXRe1HU3ABqCVPlMjjCoTVKgXvzotbST+4lCH
+ 5MRgxPsu+hA1D1wCtpXmuW44dYzsTjRxYfyyEFFxPeHH+NJahaqnIiDkFbMpMi6jPd45hJUvg
+ crIXpcWo/KUY/BQtBj1AObSLd4wFldhB8x4Vx5vCnaJx8UrqNoKJldUdAT1Ay6lXax0X2cj+X
+ EdUmJcK/PtuwRrtS3s2JAKS3Vv0b4mE2+yAs8sHbDdcdcEa7x30sQ4z5Y/wbjnUoJBhDO2q4Y
+ U2s/ef4SL7Y60btSsjvvslsUo0xwtbb4avVuC4GvUYIMnTApCB1fuOlJyf34AwdIqllu1qiux
+ Al4KyJl1iwzQXVDrMNIy5JG1YN8+KCkeYaPttMdOyOZteQDPJlWAXE6EjzHbJuzvH2iDu3KaY
+ yJ0p3ERpmbIr7OR36jmEH1SVIaom+CuJUbfM7rDRQAvhp4Hozb0C+JuS106iFe/CGSKiysC1Y
+ YOi4oEQSzUk6rwN4z6rt+U6wRnPORl21JDRx5HmoHWlN3Lqf6dGZjDU/mcVEdgesTj0+Idg6v
+ yVFShN9Avu7DTivix5b9I6O3wgNO6MNHzu7h4kht8BdO9h+m8dmC/Rm/14lk2CCy7MC08oD09
+ U8VUMTtAUCmmqcZ2WrRw0Ad+tCPenWY8cYmEw2N5c115aunwtebwIwSkio490XH8pwTGXnddh
+ EaCVwbtekWm06TG3It64U/dy3iOe7JOGkNRB8V9Q8pM7Lo2EacEV/TjKgliZYFxOZ06DR2DCS
+ u01Jkn8+o7+10Cfi90ayzKqnntrVgghX99NImUys0B5ZE=
 
-This series against 6.9-rc2 improves robustnes of the keyboard and
-touchpad initialization with the goal to eliminate the ugly delay
-in the I2C client controller ISR.
+In case we just want to submit a message to the EC but are not
+interested in its response, we can free the response buffer early.
 
-Changes since initial submission:
-- address comments from Dan regarding commit messages and function
-  documentation
-- address comments from Thierry by introducing responseless sync writes
+Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+=2D--
+ drivers/staging/nvec/nvec.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Marc Dietrich (5):
-  staging: nvec: add ability to ignore EC responses in sync writes
-  staging: nvec: make keyboard init synchronous
-  staging: nvec: make touchpad init synchronous
-  staging: nvec: make i2c controller register writes robust
-  staging: nvec: update TODO
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 282a664c9176..45df190c2f94 100644
+=2D-- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -300,7 +300,9 @@ int nvec_write_sync(struct nvec_chip *nvec,
+ {
+ 	mutex_lock(&nvec->sync_write_mutex);
 
- drivers/staging/nvec/TODO       |  1 -
- drivers/staging/nvec/nvec.c     | 50 ++++++++++++++++++++-------------
- drivers/staging/nvec/nvec_kbd.c |  9 +++---
- drivers/staging/nvec/nvec_ps2.c | 31 +++++++++++++-------
- 4 files changed, 57 insertions(+), 34 deletions(-)
+-	*msg =3D NULL;
++	if (msg !=3D NULL)
++		*msg =3D NULL;
++
+ 	nvec->sync_write_pending =3D (data[1] << 8) + data[0];
+
+ 	if (nvec_write_async(nvec, data, size) < 0) {
+@@ -320,7 +322,10 @@ int nvec_write_sync(struct nvec_chip *nvec,
+
+ 	dev_dbg(nvec->dev, "nvec_sync_write: pong!\n");
+
+-	*msg =3D nvec->last_sync_msg;
++	if (msg !=3D NULL)
++		*msg =3D nvec->last_sync_msg;
++	else
++		nvec_msg_free(nvec, nvec->last_sync_msg);
+
+ 	mutex_unlock(&nvec->sync_write_mutex);
 
 =2D-
 2.43.0
