@@ -1,31 +1,31 @@
-Return-Path: <linux-tegra+bounces-1537-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1539-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A47D89E107
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 19:04:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DD989E123
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 19:11:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F2E21F221A4
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 17:04:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D29EB22C90
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 17:11:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606E11553B3;
-	Tue,  9 Apr 2024 17:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C651815539D;
+	Tue,  9 Apr 2024 17:10:52 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6740D153824
-	for <linux-tegra@vger.kernel.org>; Tue,  9 Apr 2024 17:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBCE15622C
+	for <linux-tegra@vger.kernel.org>; Tue,  9 Apr 2024 17:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712682192; cv=none; b=UhTrIxkboRE0fZLWcSyWiJVkjUhxYhhugmZ0nJqG2jkgow3wSaGGQF/0RSvp7eHZZW9VpoRqGoNkrws7Xku37d3lGpMXpLFdF6+yogd1LoCgpzohgfrwDSnhEg54t55Q1PaoO5i5FT8vnvw9XZpsfV/oHKwO0j5t8EMV1ztKHZk=
+	t=1712682652; cv=none; b=Vw+o66v12ZM3VnlhasnkBQjAekKRVqrusOW2CgeFhgx0hHifoNYIihp74NbjcrcGJGxBZyR+sUzxPCJtG9E5oUJ90kskxuMNWFtmbQYv8diCv4cGZx5zxCRb26OnUBADQSFshzjPFdmA31QHHpfYRVk3KetXe28BBP1VQq0isfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712682192; c=relaxed/simple;
-	bh=d+JCLobLbz8LzeA9bj7f36+VkqHhhgoup2ObWHc4L6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LXWgv4f37gkMcNr2h//2Wwpt039EX5X36cTZ1oQxZ8y/bfQjDVN94OGpWp8zER1zHHq2v8nqXsIV8bKAb+eKN6IpldKTv31MkghfZixNJshKDeHB3RG0+DIp+DHzs4o6ThlrjbeScD0cpypG7S0FRNRyfVhRfiROlHu1fhan90w=
+	s=arc-20240116; t=1712682652; c=relaxed/simple;
+	bh=//NYRKb9J4jh0dSOg7w2Vs50Sdc+5h5cLrGT0qMmio8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QcHpU49v4wtH4AXjcktOD1EN/nB9QbWSROoU/Asev0TJA1zagOppjaCrDzXKyvgLKoHQ4398BKyQwrZT6qy2gvKQeQao5YdwnS7PJm0RDh2yrNAm5ckrpkvUQHRlIndxB7e6n2J2dp3oxZ1aA8vV3Az5gCMJDkrDOneD4RCmFJM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,29 +33,31 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1ruEsD-0003vX-IE; Tue, 09 Apr 2024 19:03:05 +0200
+	id 1ruEzS-0008Pk-KN; Tue, 09 Apr 2024 19:10:34 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1ruEsC-00BKyG-UX; Tue, 09 Apr 2024 19:03:04 +0200
+	id 1ruEzR-00BLKD-3C; Tue, 09 Apr 2024 19:10:33 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1ruEsC-00H4tc-2m;
-	Tue, 09 Apr 2024 19:03:04 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] gpu: host1x: Convert to platform remove callback returning void
-Date: Tue,  9 Apr 2024 19:02:50 +0200
-Message-ID:  <7e31909b1e536f0ddbb060b1aaa0a9e943687c8a.1712681770.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
+	id 1ruEzQ-00H51y-3C;
+	Tue, 09 Apr 2024 19:10:33 +0200
+Date: Tue, 9 Apr 2024 19:10:32 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Frank Binns <frank.binns@imgtec.com>, 
+	Matt Coster <matt.coster@imgtec.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 0/4] gpu: Convert to platform remove callback returning
+ void
+Message-ID: <tlmlxgcsz27q2hm2z5hht7deiksp7lrpin3ju2sutc2higfhmo@bw3avnea6sac>
 References: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
@@ -63,65 +65,60 @@ List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1842; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=d+JCLobLbz8LzeA9bj7f36+VkqHhhgoup2ObWHc4L6g=; b=owGbwMvMwMXY3/A7olbonx/jabUkhjTRkt2NYWf5039772M/ZNqaeVP0RWnEVhNvPR29iH9HE /81lh7qZDRmYWDkYpAVU2Sxb1yTaVUlF9m59t9lmEGsTCBTGLg4BWAioY/Z/0rsjL2WOcPZt1C4 rNzs6k3F9LQEw/Sp5xSPHWj7x8Vk87vK5T/LiWfFnyvEVR89mCaeF1upJRa5RsI0wu2lH2O36UJ ppad23H9DLktceFZ7VUX7z9+MqikGa7buTNzwwfLjKc4jqemiT7k1erN4jFojjya2vr8Yrr5YPZ rTRjyi63S7/YvXtpcrnX5GWlU6VUddy/DL9FTN5749c9OKLTyX40PYMqwk2s5PDfneW6494VhVb aHVtNum707bHA534klYMvPRtQNbBIICnbYpPXr62uFxedEC/6p1e1qd3rv4m05zELNY5MW3Zipb Qtnb3bo+nzoyl011PDLz8fkGN7UfkXXKlhvPvys/cPwyAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wh4wffqp5vy4ayph"
+Content-Disposition: inline
+In-Reply-To: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+--wh4wffqp5vy4ayph
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+On Tue, Apr 09, 2024 at 07:02:47PM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> with some patches sent earlier[1], this series converts all platform
+> drivers below drivers/gpu to not use struct platform_device::remove()
+> any more.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/host1x/dev.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+I forgot to include footnote with the list of earlier patches. For
+completeness:
 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 89983d7d73ca..bc02aa28458b 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -653,7 +653,7 @@ static int host1x_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static int host1x_remove(struct platform_device *pdev)
-+static void host1x_remove(struct platform_device *pdev)
- {
- 	struct host1x *host = platform_get_drvdata(pdev);
- 
-@@ -668,8 +668,6 @@ static int host1x_remove(struct platform_device *pdev)
- 	host1x_channel_list_free(&host->channel_list);
- 	host1x_iommu_exit(host);
- 	host1x_bo_cache_destroy(&host->cache);
--
--	return 0;
- }
- 
- static int __maybe_unused host1x_runtime_suspend(struct device *dev)
-@@ -754,7 +752,7 @@ static struct platform_driver tegra_host1x_driver = {
- 		.pm = &host1x_pm_ops,
- 	},
- 	.probe = host1x_probe,
--	.remove = host1x_remove,
-+	.remove_new = host1x_remove,
- };
- 
- static struct platform_driver * const drivers[] = {
--- 
-2.43.0
+[1]:
+	https://lore.kernel.org/dri-devel/20240409165043.105137-2-u.kleine-koenig@=
+pengutronix.de
+	https://lore.kernel.org/dri-devel/20240304091005.717012-2-u.kleine-koenig@=
+pengutronix.de
+	https://lore.kernel.org/dri-devel/20240304090555.716327-2-u.kleine-koenig@=
+pengutronix.de
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--wh4wffqp5vy4ayph
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYVdocACgkQj4D7WH0S
+/k4NBQf/fGCO4C5nBz03r5cSavubMucd4IklIaLfyl262aXVhEoDky/JmF6J/iBK
+DH//l0VXopedb0iA1DoShtgQd0/4murtDOrKL8i6pZ8pIzkT4VeVxaftlnnLUtrS
+pi6ryVXU5kfczK9gx1c+VTbgl/sTzKmOTP7VUd7V5MctnmEE1l35kwlMwWwbLBHq
+VK7IkbRT+nIRuqDfmjpIJCMWAigeJAXIclmMT5z5W7TGfqGlbhGsoVL29gdL4PsK
+phXuywB6RFq0kpDbCBYBSau6ylBov/kaX5hlcGliWuxNxOjAXaXX1rbk6vghqatH
+HrmfYNmYaOg/oL5DdyZD4fqTUawBrA==
+=Mzy3
+-----END PGP SIGNATURE-----
+
+--wh4wffqp5vy4ayph--
 
