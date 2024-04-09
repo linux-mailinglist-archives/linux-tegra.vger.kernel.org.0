@@ -1,59 +1,59 @@
-Return-Path: <linux-tegra+bounces-1527-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1524-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A2A89D61A
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 11:57:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C789D617
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 11:57:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 331861F24389
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 09:57:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00D54283C46
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 09:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB8485628;
-	Tue,  9 Apr 2024 09:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C56B8528B;
+	Tue,  9 Apr 2024 09:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="cd5EAfkK"
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="CJjbHNSX"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8D684A3F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7E780BE7
 	for <linux-tegra@vger.kernel.org>; Tue,  9 Apr 2024 09:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712656620; cv=none; b=rvhPNzPxNuifRjZ32zsdN6dceVKGreZ7aW/mXF/APPkO7KYvvhpelSDbLpiyAhS++OL8l8tX9QUKkl39cMdbV7P3+N9xCsSqC+GZNGCWQ2sogQb5HtsL3emKXTE/jAn3JkN7A95kdM8W0F5PO6CmQWj2nbYO8yqEDe2QvqN6nkE=
+	t=1712656619; cv=none; b=Wx1Pf5rdnek0h0VA7D8ry2mB9xImimvHZ0l/ooV2ghrykFXolj8kcnBtdiZVm5tfqRh68AFXwv+7hqFzBDIi8NN83Xiu++wTe4wLFHFal67WBXgJ61Cn8VjVggSE9V+Pgrp8xmor3PPj8NlLMe0Jxst5pcXE+QYBJlSTRvhcbtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712656620; c=relaxed/simple;
-	bh=t174l/JpglhdMqyxF2apqNtKKKLEEIMQBAahDOBGZys=;
+	s=arc-20240116; t=1712656619; c=relaxed/simple;
+	bh=8NWOjYXGp6F23bnbuyT6TToyFdLWl5EDECnzDwdXpzM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nH+034dVYrvr57IbSJIYAoAYKFeNznuZ+v4cbmE+0BGVcX8gkYkU9od6VuyvY6FB+fICiPhdrQn1YZwtToxgc4rVhrStKCaKoEA+ne/PzTi+TF/slDJ3hbqsJDvWAXdKgYAJwvmxKAbr6GiLIQ6zwjYmeWv/ekmxarskY5gqf9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=cd5EAfkK; arc=none smtp.client-ip=193.136.128.21
+	 MIME-Version; b=ZcTIAEBzdhQ/LRYiwQLZpQVG+lg7leaNoSTZ9klfNLtKe4y45o4cT1kfPDZbBo7ZFb+yNd8+C0Ovd2Df9iMrnXczhgc8dfXyDcxEh5gT/7j785cqG0yT2T+MZHeglHwR02rhdKDtJMmHvvavSf9A+GzYgJyqhaFkEXmbfSeQDf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=CJjbHNSX; arc=none smtp.client-ip=193.136.128.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id BB1B26002308;
-	Tue,  9 Apr 2024 10:46:50 +0100 (WEST)
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 3366760022F1;
+	Tue,  9 Apr 2024 10:46:51 +0100 (WEST)
 X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
 Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
  by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id RkQJ_zzZb95P; Tue,  9 Apr 2024 10:46:48 +0100 (WEST)
+ with LMTP id PJF5D6lRUKaL; Tue,  9 Apr 2024 10:46:49 +0100 (WEST)
 Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 7CAAA60022F1;
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id EAF5660022E7;
 	Tue,  9 Apr 2024 10:46:48 +0100 (WEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1712656008;
+	s=mail; t=1712656009;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TJ5O89eTRxRXpUWL9Uwb+NLYgnko83YKIOLFy2ST9vU=;
-	b=cd5EAfkKiJR5GtJizYMTRBNZbGjMSD7E4L/11ORiPGFmTTxh5wqnJcoT1sfE7nxQd1olMn
-	BZe5gbAXmdNdAjk7kydsROQCntOmCvw3ATf2tiPMIucQqJmfHWPgmrn4boHLWEoEq2DR75
-	n3jepbc8XLUVBCzX56pxs18vlNDYLNU=
+	bh=LXA9O7J9Jra2JDryhxVIZp4cb5+WzCWkGEEda/NoRLw=;
+	b=CJjbHNSX3iHC/6jHB8sQsXYClwgaWYNFAnsGoVSdz764efu3F4nF8A/hcriRjP1Xb6E5f9
+	w+SQYlIjB96Jw48Ca2HR6+MsFdqlOFMd5mqWHUz+tshhhkP9FbVExJnh2lWeD4LWARwuCZ
+	lBNW6rjSgD3+/e0QqeXKbpBuvmQgwLc=
 Received: from diogo-gram.home (unknown [IPv6:2a01:14:8070:dc60:f4e6:62fe:d7f8:e109])
 	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 5E1C7360030;
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id CCB9C360083;
 	Tue,  9 Apr 2024 10:46:48 +0100 (WEST)
 From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 To: krzysztof.kozlowski@linaro.org,
@@ -61,9 +61,9 @@ To: krzysztof.kozlowski@linaro.org,
 	jonathanh@nvidia.com,
 	linux-tegra@vger.kernel.org
 Cc: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Subject: [PATCH 2/7] memory: tegra: Move DQSOSC measurement to common place
-Date: Tue,  9 Apr 2024 10:46:25 +0100
-Message-ID: <20240409094632.62916-3-diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH 3/7] memory: tegra: Reword and correct comments
+Date: Tue,  9 Apr 2024 10:46:26 +0100
+Message-ID: <20240409094632.62916-4-diogo.ivo@tecnico.ulisboa.pt>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240409094632.62916-1-diogo.ivo@tecnico.ulisboa.pt>
 References: <20240409094632.62916-1-diogo.ivo@tecnico.ulisboa.pt>
@@ -75,75 +75,42 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the calls that instruct the RAM to capture its clock tree delays
-to update_clock_tree_delay() in order to avoid code duplication.
+Fix incorrect comment on periodic_compensation_handler() as the call
+update_clock_tree_delay() with DVFS_UPDATE is responsible for dividing
+the samples accumulated up to that point and comparing the computed
+values with the currently programmed ones. While at it fix the
+indentation of a nearby comment.
 
 Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 ---
- drivers/memory/tegra/tegra210-emc-cc-r21021.c | 25 ++++++++-----------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ drivers/memory/tegra/tegra210-emc-cc-r21021.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-index 9ec49ced8f91..15048f542367 100644
+index 15048f542367..a80c3b575612 100644
 --- a/drivers/memory/tegra/tegra210-emc-cc-r21021.c
 +++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-@@ -123,10 +123,19 @@ static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
- 	bool dvfs_update = type == DVFS_UPDATE;
- 	s32 tdel = 0, tmdel = 0, adel = 0;
- 	bool dvfs_pt1 = type == DVFS_PT1;
-+	u32 temp[2][2], value, udelay;
- 	unsigned long cval = 0;
--	u32 temp[2][2], value;
- 	unsigned int i;
- 
-+	if (dvfs_pt1 || periodic_training_update) {
-+		udelay = tegra210_emc_actual_osc_clocks(last->run_clocks);
-+		udelay *= 1000;
-+		udelay = 2 + (udelay / last->rate);
-+
-+		tegra210_emc_start_periodic_compensation(emc);
-+		udelay(udelay);
-+	}
-+
- 	/*
- 	 * Dev0 MSB.
- 	 */
-@@ -409,11 +418,6 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
- 	   (nt)->ptfv_list[PTFV_DVFS_SAMPLES_INDEX]; })
- 
- 	u32 i, adel = 0, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
--	u32 delay;
--
--	delay = tegra210_emc_actual_osc_clocks(last->run_clocks);
--	delay *= 1000;
--	delay = 2 + (delay / last->rate);
- 
- 	if (!next->periodic_training)
- 		return 0;
-@@ -447,9 +451,6 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
+@@ -451,18 +451,12 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
  			__MOVAVG(next, C1D1U1) = 0;
  
  			for (i = 0; i < samples; i++) {
--				tegra210_emc_start_periodic_compensation(emc);
--				udelay(delay);
--
- 				/*
- 				 * Generate next sample of data.
- 				 */
-@@ -465,12 +466,8 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
+-				/*
+-				 * Generate next sample of data.
+-				 */
++				/* Generate next sample of data. */
+ 				adel = update_clock_tree_delay(emc, DVFS_PT1);
+ 			}
+ 		}
+ 
+-		/*
+-		 * Seems like it should be part of the
+-		 * 'if (last_timing->periodic_training)' conditional
+-		 * since is already done for the else clause.
+-		 */
++		/* Do the division part of the moving average */
  		adel = update_clock_tree_delay(emc, DVFS_UPDATE);
  	}
  
--	if (type == PERIODIC_TRAINING_SEQUENCE) {
--		tegra210_emc_start_periodic_compensation(emc);
--		udelay(delay);
--
-+	if (type == PERIODIC_TRAINING_SEQUENCE)
- 		adel = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
--	}
- 
- 	return adel;
- }
 -- 
 2.44.0
 
