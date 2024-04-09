@@ -1,72 +1,83 @@
-Return-Path: <linux-tegra+bounces-1522-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1528-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3F489D5E8
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 11:47:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33DB89D844
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 13:41:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 756CFB23DC1
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 09:47:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 447B21F218D4
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Apr 2024 11:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2506E80BF0;
-	Tue,  9 Apr 2024 09:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A549C12B176;
+	Tue,  9 Apr 2024 11:41:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="RNwm8SVn"
+	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="v3+SeUt0"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F8B7FBC7
-	for <linux-tegra@vger.kernel.org>; Tue,  9 Apr 2024 09:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385E812B14A
+	for <linux-tegra@vger.kernel.org>; Tue,  9 Apr 2024 11:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712656022; cv=none; b=Rj1tf3gs6nJWDNNRg1VEvND224SY/Lh/ryAw9JCuGgPoIvXMlzoismvNs6EHDZkGt6MLhHbO6km4qCOmO5c8qb3uwas+IogMHezfiw6MCL6JOnguxf7ktlcp+Lns7bT3lBMlXSVV7h6VPaOOv1XeoeZ1nGKJ/n/WzLAsQ4z98fc=
+	t=1712662861; cv=none; b=rbVr7RWCQpGR7II8cnQucAGBf9M/mpng8IxcOGLVGN1KKwFwX/Ic/411Au//c88izXPU2BBM/CRYT/mvjgSqFIpu4sITBpQ7P56ctJ6ZHSKxcwBgMGxX3ETsWFhPZnVsMW7wwRd6cDSwnVOs121cemsmeqCUxwdLMYmuqPAm/WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712656022; c=relaxed/simple;
-	bh=e7hZMxFbxsR6or8RmxdKiIBc7utKtXF5DAHxwBoNBvk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hrdeBc0Ljkk1IdCc/ssrZ3mRI2vizubdbWbNiMwG5tlRm10vwXKG597v/J0CHnR38RpUyPzmwYxq970LEwTUKTD4xZZP1K0A2g1JKC8GgOE7kAOGDp4r1Av/FyzAfFW9nq1hr8zUDq+NrVOSr2c5ueJAo5ITsAEtAWS9QFqZwdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=RNwm8SVn; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id DC93060022EA;
-	Tue,  9 Apr 2024 10:46:52 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id pjBAj26so4ie; Tue,  9 Apr 2024 10:46:50 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 9EAB46002300;
-	Tue,  9 Apr 2024 10:46:50 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1712656010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3To38VGphvmn11lQiT4H4kS+NeADS/ax4WCpEkhZim4=;
-	b=RNwm8SVnlfcdPPP4hnO8NTRMBtl/Fl5gRwnrl03IrbqGPnURDx2ZBOgtFVwnQz0zCyJ8Du
-	+T6hfFys4AZzvWSXGQFR7UpzwYLDcTxi1DFHckF00Oybc8oU/uHEV5MGuYtxgR/tHqyv0G
-	HJ4oRMlBFUVomqos1y4CVoNcQ3QVJ9g=
-Received: from diogo-gram.home (unknown [IPv6:2a01:14:8070:dc60:f4e6:62fe:d7f8:e109])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 7DFBE360030;
-	Tue,  9 Apr 2024 10:46:50 +0100 (WEST)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: krzysztof.kozlowski@linaro.org,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	linux-tegra@vger.kernel.org
-Cc: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Subject: [PATCH 7/7] memory: tegra: Rework update_clock_tree_delay()
-Date: Tue,  9 Apr 2024 10:46:30 +0100
-Message-ID: <20240409094632.62916-8-diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240409094632.62916-1-diogo.ivo@tecnico.ulisboa.pt>
-References: <20240409094632.62916-1-diogo.ivo@tecnico.ulisboa.pt>
+	s=arc-20240116; t=1712662861; c=relaxed/simple;
+	bh=rkgQpPAjwBulfGsgEC7S06810blh43cxTegTVfjicmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=knri40lku+tBZyEO909bJu/ODp5vIjXOf+VMTDOAfHf5LXg/5cSwUwH1IIq3GAoD8qJs2Q1k0Bl6w8XB9xHrdVpctiNbdpLttTYzXeg+t9tjgYAHgQ+UVuXTED2bpjwNuFFglLkaeTUf1ATguYfrMamky/0OoaF8JxFSWPX52eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ime.usp.br; spf=pass smtp.mailfrom=ime.usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=v3+SeUt0; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ime.usp.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ime.usp.br
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-1e0bec01232so44412165ad.3
+        for <linux-tegra@vger.kernel.org>; Tue, 09 Apr 2024 04:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=usp.br; s=usp-google; t=1712662858; x=1713267658; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nj69Gf9AC1113GLKMXeajOz51G86hh4wvGeZBblnNV0=;
+        b=v3+SeUt0tthzwOK2BfAl2qYleI0rlyIz9JEziQKb9bZIJINjVqJ90cbu5770NrwoGz
+         CkwDibUtqHp1s7W/HVIo9Aicd6IR0ejQOIqns1HDAq/9aXee7ve03ugofwvyUdfcbKYD
+         ZZnT//QzMJRwzMDgRilW+3SOgOQEjC3Qc8rfWZmETQz8PmZ/yGH+Zy4tX/w4XmWHPEJS
+         N3KTTNqIAJ/bdALZnj0XBA+KZ+TNCeyGD6SeFvjB+zuRt6Z5r4nbC0g3itm0oRNfK924
+         J6hYDqGLCYd7eEYsjSO4hDmJSabvY6RayFwS0JO9NppYnw8NSC4JuXIl/RZ4S7Nc+Yar
+         hwFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712662858; x=1713267658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nj69Gf9AC1113GLKMXeajOz51G86hh4wvGeZBblnNV0=;
+        b=SoYwzRWYDAS/TB9bmdGMHRYkFlfvxcstD5vt0rOAa8lxpW1BJvHzYqLK2QSdQ0kRBa
+         NoE4RYZXUCbPjoEzjI3/jAF2adXHlWrhZTlZw+qdLjs0DTYd8w7kHW48jXjnxuNYIOTD
+         CK2DiDPlsBkoDKDKN+k9jDW7c4h6KeakGw17WTcP3F6Oy6FHJdmME2stFm3B8u2wyqix
+         bid9S+djJRuN6bRE2ENzoGtcaX++IwqYm3MlxB5jloxUHnqQQA+9b9UTGqEW8OjaCjt7
+         Dx/2UFM6QbBGtyqYbzoJ1kYl6PvE7v11i3ZtQl0Fo7DepDUSwJSAkWvKH/T7hkFpqDD5
+         tP9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVr+MdGyStJe2PVAgI44/31W54JpJd6m3hI4WGITDFNaVNtcB/BP5XOaziYInt1PuPpNFJ3x//CQYG2f+huh/N81ybB9nxQzASlJLA=
+X-Gm-Message-State: AOJu0YxKubt3uwfAmIdkQ1eWgbfLnw4lPobzc1lOMd0wIDl1bDV5duyC
+	/igazGV7GUPYUXbqhTaxdUv3AKe4cvdm6M28IQgqHGsKunEpjm1RUx2psaib1pg=
+X-Google-Smtp-Source: AGHT+IEuUOF47jKaqXVe/uBd6Zq5NWnJYAKUjbTQwvwDQJ2Yh5Jgk6dEzXqV81OERcXTuKz1rxopmA==
+X-Received: by 2002:a17:902:d386:b0:1dd:6ce3:7442 with SMTP id e6-20020a170902d38600b001dd6ce37442mr9487167pld.39.1712662858534;
+        Tue, 09 Apr 2024 04:40:58 -0700 (PDT)
+Received: from localhost.localdomain ([2804:18:18bf:c025:fe8e:1e4e:c180:47a])
+        by smtp.gmail.com with ESMTPSA id kp4-20020a170903280400b001dddbb58d5esm8617530plb.109.2024.04.09.04.40.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 04:40:57 -0700 (PDT)
+From: topcat <bfonseca@ime.usp.br>
+X-Google-Original-From: topcat <bfonseca@ipt.br>
+To: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: topcat <bfonseca@ipt.br>,
+	ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Fixed spelling mistake
+Date: Tue,  9 Apr 2024 08:40:45 -0300
+Message-ID: <20240409114045.13872-1-bfonseca@ipt.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -75,193 +86,24 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Further streamline this function by moving the delay post-processing
-to the callers, leaving it only with the task of returing the measured
-delay values.
-
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 ---
- drivers/memory/tegra/tegra210-emc-cc-r21021.c | 120 +++++++-----------
- 1 file changed, 46 insertions(+), 74 deletions(-)
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-index ec2f84758d55..5e2c84fc835c 100644
---- a/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-+++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-@@ -105,7 +105,7 @@ enum {
- 			  next->ptfv_list[w])) /			\
- 			(next->ptfv_list[w] + 1);			\
- 									\
--		emc_dbg(emc, EMA_UPDATES, "%s: (s=%lu) EMA: %u\n",	\
-+		emc_dbg(emc, EMA_UPDATES, "%s: (s=%u) EMA: %u\n",	\
- 			__stringify(dev), nval, next->ptfv_list[dqs]);	\
- 	} while (0)
- 
-@@ -130,93 +130,51 @@ static bool tegra210_emc_compare_update_delay(struct tegra210_emc_timing *timing
- 	return false;
- }
- 
--static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
-+static void tegra210_emc_get_clktree_delay(struct tegra210_emc *emc,
-+					  u32 delay[DRAM_CLKTREE_NUM])
- {
--	bool periodic_training_update = type == PERIODIC_TRAINING_UPDATE;
--	struct tegra210_emc_timing *last = emc->last;
--	struct tegra210_emc_timing *next = emc->next;
--	u32 last_timing_rate_mhz = last->rate / 1000;
--	bool dvfs_update = type == DVFS_UPDATE;
--	bool dvfs_pt1 = type == DVFS_PT1;
--	u32 temp[2][2], value, udelay;
--	unsigned long cval = 0;
-+	struct tegra210_emc_timing *curr = emc->last;
-+	u32 rate_mhz = curr->rate / 1000;
-+	u32 msb, lsb, dqsosc, udelay;
-+	unsigned long clocks = 0;
- 	unsigned int c, d, idx;
--	bool over = false;
- 
--	if (dvfs_pt1 || periodic_training_update) {
--		udelay = tegra210_emc_actual_osc_clocks(last->run_clocks);
--		udelay *= 1000;
--		udelay = 2 + (udelay / last->rate);
-+	clocks = tegra210_emc_actual_osc_clocks(curr->run_clocks);
-+	udelay = 2 + (clocks / rate_mhz);
- 
--		tegra210_emc_start_periodic_compensation(emc);
--		udelay(udelay);
--	}
-+	tegra210_emc_start_periodic_compensation(emc);
-+	udelay(udelay);
- 
- 	for (d = 0; d < emc->num_devices; d++) {
--		if (dvfs_pt1 || periodic_training_update) {
--			/* Dev[d] MSB */
--			value = tegra210_emc_mrr_read(emc, 2 - d, 19);
--
--			for (c = 0; c < emc->num_channels; c++) {
--				temp[c][0] = (value & 0x00ff) << 8;
--				temp[c][1] = (value & 0xff00) << 0;
--				value >>= 16;
--			}
--
--			/* Dev[d] LSB */
--			value = tegra210_emc_mrr_read(emc, 2 - d, 18);
--
--			for (c = 0; c < emc->num_channels; c++) {
--				temp[c][0] |= (value & 0x00ff) >> 0;
--				temp[c][1] |= (value & 0xff00) >> 8;
--				value >>= 16;
--			}
--		}
-+		/* Read DQSOSC from MRR18/19 */
-+		msb = tegra210_emc_mrr_read(emc, 2 - d, 19);
-+		lsb = tegra210_emc_mrr_read(emc, 2 - d, 18);
- 
- 		for (c = 0; c < emc->num_channels; c++) {
- 			/* C[c]D[d]U[0] */
- 			idx = c * 4 + d * 2;
- 
--			if (dvfs_pt1 || periodic_training_update) {
--				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
--				cval *= 1000000;
--				cval /= last_timing_rate_mhz * 2 * temp[c][0];
--			}
--
--			if (dvfs_pt1)
--				__INCREMENT_PTFV(idx, cval);
--			else if (dvfs_update)
--				__AVERAGE_PTFV(idx);
--			else if (periodic_training_update)
--				__WEIGHTED_UPDATE_PTFV(idx, cval);
-+			dqsosc = (msb & 0x00ff) << 8;
-+			dqsosc |= (lsb & 0x00ff) >> 0;
- 
--			if (dvfs_update || periodic_training_update)
--				over |= tegra210_emc_compare_update_delay(next,
--							__MOVAVG_AC(next, idx), idx);
-+			/* Check for unpopulated channels */
-+			if (dqsosc)
-+				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
- 
- 			/* C[c]D[d]U[1] */
- 			idx++;
- 
--			if (dvfs_pt1 || periodic_training_update) {
--				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
--				cval *= 1000000;
--				cval /= last_timing_rate_mhz * 2 * temp[c][1];
--			}
-+			dqsosc = (msb & 0xff00) << 0;
-+			dqsosc |= (lsb & 0xff00) >> 8;
- 
--			if (dvfs_pt1)
--				__INCREMENT_PTFV(idx, cval);
--			else if (dvfs_update)
--				__AVERAGE_PTFV(idx);
--			else if (periodic_training_update)
--				__WEIGHTED_UPDATE_PTFV(idx, cval);
-+			/* Check for unpopulated channels */
-+			if (dqsosc)
-+				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
- 
--			if (dvfs_update || periodic_training_update)
--				over |= tegra210_emc_compare_update_delay(next,
--							__MOVAVG_AC(next, idx), idx);
-+			msb >>= 16;
-+			lsb >>= 16;
- 		}
- 	}
--
--	return over;
- }
- 
- static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
-@@ -228,7 +186,7 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
- 	   (nt)->ptfv_list[PTFV_DVFS_SAMPLES_INDEX]; })
- 
- 	u32 i, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
--	u32 idx;
-+	u32 delay[DRAM_CLKTREE_NUM], idx;
- 	bool over = false;
- 
- 	if (!next->periodic_training)
-@@ -252,16 +210,30 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
- 
- 			for (i = 0; i < samples; i++) {
- 				/* Generate next sample of data. */
--				update_clock_tree_delay(emc, DVFS_PT1);
-+				tegra210_emc_get_clktree_delay(emc, delay);
-+
-+				for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++)
-+					__INCREMENT_PTFV(idx, delay[idx]);
- 			}
- 		}
- 
--		/* Do the division part of the moving average */
--		over = update_clock_tree_delay(emc, DVFS_UPDATE);
-+		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
-+			/* Do the division part of the moving average */
-+			__AVERAGE_PTFV(idx);
-+			over |= tegra210_emc_compare_update_delay(next,
-+						__MOVAVG_AC(next, idx), idx);
-+		}
- 	}
- 
--	if (type == PERIODIC_TRAINING_SEQUENCE)
--		over = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
-+	if (type == PERIODIC_TRAINING_SEQUENCE) {
-+		tegra210_emc_get_clktree_delay(emc, delay);
-+
-+		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
-+			__WEIGHTED_UPDATE_PTFV(idx, delay[idx]);
-+			over |= tegra210_emc_compare_update_delay(next,
-+						__MOVAVG_AC(next, idx), idx);
-+		}
-+	}
- 
- 	return over;
- }
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 282a664c9176..b4485b10beb8 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	 * TODO: replace the udelay with a read back after each writel above
+ 	 * in order to work around a hardware issue, see i2c-tegra.c
+ 	 *
+-	 * Unfortunately, this change causes an intialisation issue with the
++	 * Unfortunately, this change causes an initialisation issue with the
+ 	 * touchpad, which needs to be fixed first.
+ 	 */
+ 	udelay(100);
 -- 
-2.44.0
+2.43.0
 
 
