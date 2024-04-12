@@ -1,137 +1,164 @@
-Return-Path: <linux-tegra+bounces-1568-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1570-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D258A2815
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Apr 2024 09:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAD98A28C5
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Apr 2024 10:04:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BBF81F25739
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Apr 2024 07:31:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0E921F22FCD
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Apr 2024 08:04:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83B350283;
-	Fri, 12 Apr 2024 07:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6F3502AA;
+	Fri, 12 Apr 2024 08:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="O1hK9mLX"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E10D4EB24;
-	Fri, 12 Apr 2024 07:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712907061; cv=none; b=nTi6hImbI/vPV7VtNFj8YuYUaXEcbW95Kl1MyVRskpvwGyz4iLv90zTdI8UYPbwL5BfG5TUiYrgw5uw27z0OV0uEJIPMoCoypoD/CkopsXO7fC3YXB/GC4hMY33djq4vBx8pZLQ4Kz2F0i0vnVPgYPhDUVaB42+piekfC75r11g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712907061; c=relaxed/simple;
-	bh=JzUBqVV2GtDa8Lur/NtFXs7KTrObWRaTEOv5fRP7nkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eo6eCuJTY1QmfCH6sxUjG3O7IvqeCazqduAu++JC0JJ7um2DdTYeggh8InFR9nYhDjFIqt/sh4DTP7JUYAytvRmQGvk/WomApr4Yo2+BE7962+vneCxENCLoLsjW5T0jIhLo0FbPQgYAm5VtV922tDy4q0zhJsog58PygaBxT84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1rvBMx-000lgX-Jc; Fri, 12 Apr 2024 15:30:44 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 12 Apr 2024 15:31:01 +0800
-Date: Fri, 12 Apr 2024 15:31:01 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Akhil R <akhilrajeev@nvidia.com>
-Cc: davem@davemloft.net, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-	catalin.marinas@arm.com, will@kernel.org, mperttunen@nvidia.com,
-	airlied@gmail.com, daniel@ffwll.ch, linux-crypto@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 0/5] Add Tegra Security Engine driver
-Message-ID: <ZhjjNWKexg8p8cJp@gondor.apana.org.au>
-References: <20240403100039.33146-1-akhilrajeev@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B914F20A;
+	Fri, 12 Apr 2024 08:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712909018; cv=fail; b=uv5StFwGYDf8sx80Pr4Rv8DpdC4O4pnqHl+ZihQBuaQFBh5NyuTjtOErsoXmjayVpMfI06sXVkYdCGwCjL0hfsrRGKiTGa9bQ8opOzb4pwWj2xpft+ujtXBgYIL6GzB3WeIhUMhJBDogFgK/tRQzMABA0mI4AC3uPQ5y44F/AoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712909018; c=relaxed/simple;
+	bh=396RMRtSjEYB/FdQJepVM1zKOYjS08bzLmymjY2oVNU=;
+	h=From:To:CC:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID:Date; b=ZWL+5JS8gNK1wgBTTEElYcXblH45PT5oj9dvrdM8RJuczKqvAERfEYy+wRiBV8B9qsopRiAokh/MICPi8uhcwu788pbc5MNYKfSwWit0LaOK12D/IkX79MI1eBIpo9NTBveK8e0Zr2txmYUAAmVipTRYK3prp5+CeUeqnvzPDms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=O1hK9mLX; arc=fail smtp.client-ip=40.107.243.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kBZnDOMycCS1/u+JuSoJqEiy7+NcAuL+h1TNabcwJ7cGgTtij/pwuc+VK+3gPNJMIqrwO6jzZnaLOtQLFJwNi+WyNcwbbeKEh6a1xNSNRQgpRC2Bk20w9/Nmpbp9ojTrVe2/doO4gwfGHIQIG/slO62nzDAh7MfhIRYl6hRmdfyEN0tquIha5eVE3EAdEoNvLOqdf6PCSjo/XAkBa4yDwxMsknruv7fMyX2A2kK743S5aoXz4tYGoJKruqejdswHLZfex+XQdwa1fKowcmkusR0uPOjrshxirH7oHxKYN/J2+A7KbONgDuDi/Ihnl5GduK+4gSTY//E++nCiXHBtWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XLyGhwNnNv8k8Bj7rSLwEZnIg/ongaviFkMc4FkS8xI=;
+ b=oZdg0UShLOBGhQQc555/aAuqM5/QlDnwUcUJFHSIYRoZVd4auhrPpV1mKJraWUFfCcARQN/JL+fZf5j++TRsVRmqeeyuf8DkqFzhXnGuzBGgHpl0x0RtxOkVYR83I4nM8Gi7lXGmDQrFzUfyEgcExipmNttbzCU601oUAdn+GeQFuWkwk4I6wt02vGMwmvxBPuJ7TfCO+Snnno09OC7/LMu33Vbj7V4uTkFXYqMcEszhq1hvo/jJ7//8A+0AkGXwvoNYUm3HfwiSfDFASkuCO6c3lB+GToVO6l0tZcFixmTDef62dNrrefn9nMNXC3QFXQprqRgR5f+SZIU0RWx6ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XLyGhwNnNv8k8Bj7rSLwEZnIg/ongaviFkMc4FkS8xI=;
+ b=O1hK9mLXunWs782l5xmPCKTawR1czlreMr5eB/8Ax7H0gJfszVwOMZu8tKUXxEuSgjF4N4fICJSZVqsckw4ows8TKC4sNlvRVvqzVj9InOS4OGcRWD+T+iiPTNoFVaP2ABhCNYxzLEHVG1+fZYJ+hG58bLnpOwUoOES1w4FHXbOFJ8exboZKdyXX473Lbb7AaN0CYC9S2O64meiIt11ofYJfA6cjGQduqEaQS/o6fY0sz90OFOiRT7Quk11sqZ9uhHpZHyQ7CElOW9Zpg1os4nVHVmQ2TPcyf0RvJR6OG1dklB5rNeB4bmNJFsIc5Uwm5QJcCXREfAIswiXKIKFmyw==
+Received: from BYAPR02CA0011.namprd02.prod.outlook.com (2603:10b6:a02:ee::24)
+ by BY5PR12MB4209.namprd12.prod.outlook.com (2603:10b6:a03:20d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Fri, 12 Apr
+ 2024 08:03:28 +0000
+Received: from CO1PEPF000044F5.namprd05.prod.outlook.com
+ (2603:10b6:a02:ee:cafe::6a) by BYAPR02CA0011.outlook.office365.com
+ (2603:10b6:a02:ee::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.26 via Frontend
+ Transport; Fri, 12 Apr 2024 08:03:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF000044F5.mail.protection.outlook.com (10.167.241.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Fri, 12 Apr 2024 08:03:28 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 12 Apr
+ 2024 01:03:13 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 12 Apr
+ 2024 01:03:13 -0700
+Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12 via Frontend
+ Transport; Fri, 12 Apr 2024 01:03:13 -0700
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	<patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+	<linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+	<lkft-triage@lists.linaro.org>, <pavel@denx.de>, <jonathanh@nvidia.com>,
+	<f.fainelli@gmail.com>, <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
+	<rwarsow@gmx.de>, <conor@kernel.org>, <allen.lkml@gmail.com>,
+	<broonie@kernel.org>, <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH 4.19 000/175] 4.19.312-rc1 review
+In-Reply-To: <20240411095419.532012976@linuxfoundation.org>
+References: <20240411095419.532012976@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403100039.33146-1-akhilrajeev@nvidia.com>
+Message-ID: <b7e396a1-5397-40bf-9755-1dd7de81c74e@rnnvmail203.nvidia.com>
+Date: Fri, 12 Apr 2024 01:03:13 -0700
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F5:EE_|BY5PR12MB4209:EE_
+X-MS-Office365-Filtering-Correlation-Id: a164c22f-b592-4f5c-3811-08dc5ac70977
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	5Gr2vjXERrcBkZ8xi0lLMAXU/YYOTO8ImMaLaLS1QkSXcYgyM7oDezIZAyRPFWo04h8Qq9BMKA9i5zHwPQI9UKa0W4Y0dHJXa/tG2IRlagNT+NyqTf4Nck0kJuUgZLDLW6btDqPn/e8F7vY1S9KMX4snlXXgMEruArbJqaH0kXy4jVPbNSHFmjeDKoELdTjuc0pRA7yazV29sqCnem9GOilh731gumwDe/AHd9PyHW4IQ4xBldFh/kvYVnmCdX34qvEGHR5rl2tpDZ0e3pYYEWrgP4/o3mqsmedevkWxc4yyCVuZ0+eLPMrRixFDj1N3R1Y0jql4Og1qWPf/ykP04KehsgQlvmLzCoCbP4wCJzdey1steKoqgXob55YPDIeSyB1k+8F5ohDToZgRvQxV+AgLsSnQFN4YXcd7Y/DlcOcC85GPyYyJBzkQXzCHjl10NnvXCGD5TP2wSykj1U3ZI+iIcV0HQLMBMJg2KdPmw/qY7bRpFFZeOIQfN+43f0x/wcWd/6BzaGC++Yzxaw6PaCe5he3e8EZPUSW1+SDdDP5MRbdkbpDvaiUpRDGSbMXDtiMEnVOOFOPI8MgJ6D9tHV/dzCY8Ipj4qm6HosY7Ha2kqv5OGe38vUUGulNBm8nAz1Jy2/xd0NKCcVkbJ1ap05YzC7k5CYpNGYwaHnK++yoGR8i0m0bgB6Cah+Jy1eQErEydR5/h11j1Us3zJicO2vPbOEIYbyYIjqLKvuH0imPkCZ88E8ThKZEBdgaPLTfH
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(376005)(36860700004)(7416005)(82310400014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2024 08:03:28.2630
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a164c22f-b592-4f5c-3811-08dc5ac70977
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F5.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4209
 
-On Wed, Apr 03, 2024 at 03:30:34PM +0530, Akhil R wrote:
-> Add support for Tegra Security Engine which can accelerates various
-> crypto algorithms. The Engine has two separate instances within for
-> AES and HASH algorithms respectively.
+On Thu, 11 Apr 2024 11:53:43 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.312 release.
+> There are 175 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> The driver registers two crypto engines - one for AES and another for
-> HASH algorithms and these operate independently and both uses the host1x
-> bus. Additionally, it provides  hardware-assisted key protection for up to
-> 15 symmetric keys which it can use for the cipher operations.
+> Responses should be made by Sat, 13 Apr 2024 09:53:55 +0000.
+> Anything received after that time might be too late.
 > 
-> v6->v7:
-> * Move fallback_tfm and fallback_req to end of struct
-> * Set reqsize and statesize based on fallback_tfm
-> * Remove ofb(aes)
-> v5->v6:
-> * Move copy/pase of intermediate results in export()/import() to
->   'update()' callback for CMAC as well.
-> * Check for rctx size when using fallback alg.
-> * Updated blocksizes to align with generic implementation
-> * Combined GCM and CCM init into aead_cra_init
-> * Updates to handle invalid cases better
-> * Reduce log levels for invalid cases to dev_dbg
-> v4->v5:
-> * Move copy/paste of intermediate results in export()/import() to
->   'update()' callback
-> v3->v4:
-> * Remove unused header in bindings doc.
-> * Update commit message in host1x change.
-> * Fix test bot warning.
-> v2->v3:
-> * Update compatible in driver and device trees.
-> * Remove extra new lines and symbols in binding doc.
-> v1->v2:
-> * Update probe errors with 'dev_err_probe'.
-> * Clean up function prototypes and redundant prints.
-> * Remove readl/writel wrappers.
-> * Fix test bot warnings.
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.312-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
 > 
+> thanks,
 > 
-> Akhil R (5):
->   dt-bindings: crypto: Add Tegra Security Engine
->   gpu: host1x: Add Tegra SE to SID table
->   crypto: tegra: Add Tegra Security Engine driver
->   arm64: defconfig: Enable Tegra Security Engine
->   arm64: tegra: Add Tegra Security Engine DT nodes
-> 
->  .../crypto/nvidia,tegra234-se-aes.yaml        |   52 +
->  .../crypto/nvidia,tegra234-se-hash.yaml       |   52 +
->  MAINTAINERS                                   |    5 +
->  arch/arm64/boot/dts/nvidia/tegra234.dtsi      |   16 +
->  arch/arm64/configs/defconfig                  |    1 +
->  drivers/crypto/Kconfig                        |    8 +
->  drivers/crypto/Makefile                       |    1 +
->  drivers/crypto/tegra/Makefile                 |    9 +
->  drivers/crypto/tegra/tegra-se-aes.c           | 1933 +++++++++++++++++
->  drivers/crypto/tegra/tegra-se-hash.c          | 1060 +++++++++
->  drivers/crypto/tegra/tegra-se-key.c           |  156 ++
->  drivers/crypto/tegra/tegra-se-main.c          |  439 ++++
->  drivers/crypto/tegra/tegra-se.h               |  560 +++++
->  drivers/gpu/host1x/dev.c                      |   24 +
->  14 files changed, 4316 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-aes.yaml
->  create mode 100644 Documentation/devicetree/bindings/crypto/nvidia,tegra234-se-hash.yaml
->  create mode 100644 drivers/crypto/tegra/Makefile
->  create mode 100644 drivers/crypto/tegra/tegra-se-aes.c
->  create mode 100644 drivers/crypto/tegra/tegra-se-hash.c
->  create mode 100644 drivers/crypto/tegra/tegra-se-key.c
->  create mode 100644 drivers/crypto/tegra/tegra-se-main.c
->  create mode 100644 drivers/crypto/tegra/tegra-se.h
-> 
-> -- 
-> 2.43.2
+> greg k-h
 
-All applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+All tests passing for Tegra ...
+
+Test results for stable-v4.19:
+    10 builds:	10 pass, 0 fail
+    20 boots:	20 pass, 0 fail
+    37 tests:	37 pass, 0 fail
+
+Linux version:	4.19.312-rc1-gf0cf5f6110a7
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
 
