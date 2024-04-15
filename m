@@ -1,150 +1,261 @@
-Return-Path: <linux-tegra+bounces-1653-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1655-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B60B8A5957
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Apr 2024 19:42:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 327318A5ABA
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Apr 2024 21:36:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E488CB21914
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Apr 2024 17:41:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 554F11C232D0
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Apr 2024 19:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CB212AAD4;
-	Mon, 15 Apr 2024 17:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CCB158DAE;
+	Mon, 15 Apr 2024 19:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ATeo5rCl"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="K0lumSqE"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E3385C7F
-	for <linux-tegra@vger.kernel.org>; Mon, 15 Apr 2024 17:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE139156893
+	for <linux-tegra@vger.kernel.org>; Mon, 15 Apr 2024 19:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713202912; cv=none; b=P+grRAjpKNLlz5aZgnw6gyCDsPC6Rb+UNEQTId4vkCwpIH0t2az++xe5JnBZ5e/oweyd/VUYz2k2yt+p6DcOxQZXilugDyJ1k8qj/J74k8HD7JcR1GPf4nx3OhAWtcdIqM6YHtBtRJ6B9YfALxskUwZ0qAsXT/e5dDSb9uT2Ob8=
+	t=1713209671; cv=none; b=bRmFcEzTEpK5PiAj7cAo4nUUJSMYG2gLrRXq/awlapOkJJr3MMScPteZC3WnuuXseYfcbCtluyTF8QrnppCgtQ6dI1yw9knyzEO15IC+CRlKxsR0P26uV8P1oRrywmFIlMNZScUjIMA0/FdT4AlILlELF+nmy6NdsU3Z1M3huew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713202912; c=relaxed/simple;
-	bh=xDzP8JtH++TeG6a490HKNdr4gYMBp0MXFefRWtUa87E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dF3sH//hwX3cRZHYaeFaZC+R/dbVB6gf25tI7nIfLPv5hHn+FxWp6BqILHSKyNBNiqX4U+s2kSFRxRxlvxzGK2La9IfEziBH1WffgPhCQqcTlk8MideP9ZYKb1NC2MPpaetSGvxVl56Gc9rIgVLdy/N99VZnT+ySt34NTR+Q23g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ATeo5rCl; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso3399555276.3
-        for <linux-tegra@vger.kernel.org>; Mon, 15 Apr 2024 10:41:49 -0700 (PDT)
+	s=arc-20240116; t=1713209671; c=relaxed/simple;
+	bh=UekzSX0SyrJbSpQih772GalO6UK9pV3IciKpVtRnL0A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IC1QWZi0n+WF1m67OSMJijlruo+Lyd5/IaYzIl9gyUd8TF9NcA05q8zmuyMw6V78ZkO9dP97vxKbfKX9E1LkGAndV/AqLen/7fbGTIhmt5JvGFwXtfKdWiJoLquHdwikHV+UA9RJX4olc5NjkeR/TMrAt05RWcGMP9NnvHC6ILY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=K0lumSqE; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78ebcfcd3abso296591285a.1
+        for <linux-tegra@vger.kernel.org>; Mon, 15 Apr 2024 12:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713202908; x=1713807708; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aYgIyvMvRWICpRScbQV/k/jY5uYOgDdkXOWDfquSjCo=;
-        b=ATeo5rClKw3FS7E6DymOTXcte5a7C45OqKGWyd6e8dONwLEwCz/K3oXTy9ighRjuyb
-         /EWaU+ANG8N0FjAh4xSL4jE/b6DyKGuqc/JEKMwCMDhQ1m4TAN6nH+s4xhebIdWii+Tj
-         736xA+AGi4CD1jCjE60s2Ofv5H5NXix9XXYEqveOMvhH0k989iVqpPcTEyUEJb3bdYsF
-         msR29IKkmevBqlFDs/NljGFHvC/K0+9pPjiTC6modLhyeROG3PqBk+stEQCDlHz0rsnS
-         U4XbnQnU+FNt6q187ERxC2ZVMwKP4TeCDc2Chrpe1K0KCDctKCkTw6rXzn/cJ6x4N80E
-         agdQ==
+        d=chromium.org; s=google; t=1713209667; x=1713814467; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLiSazBe5qq6aytzV8pgTe0eeceVkA2qBLGwhoGTF24=;
+        b=K0lumSqEqfauxh7HFSIY/Q9vKAf6kik/ehERB3KK9GULuJGphzr9vLk/5lvfFa6+TV
+         5CAYik1GuA60J1gqa291vYxMLvrJZ5ulOVtiKSICe13h7gkVJ3nXtTh5XRKjrcoXrwN6
+         kUyrSN4DKRUyLhlZklNxcRXWhRM1zC8RXTSm8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713202908; x=1713807708;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aYgIyvMvRWICpRScbQV/k/jY5uYOgDdkXOWDfquSjCo=;
-        b=Y4P3cgaPAHBVsN/ddL+ViJgK2qhIre2qt/KdJctKrdhCvDAD0FM4NR8u1Ve3Uk2Crh
-         CzlEXWDopUJ+yqxfhzzfPY8lMVhG3v/jkI0xLR67911OKMDD//LHyyumq/liFkd9fQXP
-         pni/+JJ84ZYqiBozMJxoS83b7yeTg8+gdaFCVinPX5BjnUsbHgZZdHH9TY/Uea55ne/Z
-         0Dc2XVYrw+OTRgg0OUlXO6jCdQ0NOLiTeK57Nl8M3+HD9RJ/y2xQ6rWbr0q1XgPldPHX
-         XoeX9gtJLJIBuPOiz7El2BkEJUkKL8RH3bKEq1+seX9DqYYVVXWOCZziyzlKgEcNVp2h
-         6pLA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6hb2YTszeC3TD996y6ZskqvAHwL+XQ93Wxnpv051cGWLq9yUox+Nt/k07g9t7jKD50O2vk4+3HOOxlAuhxKWoClQpb7vDU0CGzw4=
-X-Gm-Message-State: AOJu0YwR2B+Pq9skX2bA8y/xTjkbiwQIJxTXV8oLdJvoO3dregBFTzAW
-	ClwpndRHJlc2olxAAgaFQBYYR3gj+Hnl40/ez5tQay3WDispWeaTjlr2KGCvHeD5MW6vTSeSHYI
-	eNzN5vN5tcPuzE6PqAfM5dflecnTn/L34OcoaWw==
-X-Google-Smtp-Source: AGHT+IHKpNfr2TaUgVv6Ugvchn9mUOD77xP6+GIEtmI5RLKRLLZLr1EmobTo6CX82MQ9pJIWGNHcl6abRXCvRtZsfeM=
-X-Received: by 2002:a25:80c6:0:b0:dcb:aa26:50fe with SMTP id
- c6-20020a2580c6000000b00dcbaa2650femr10533953ybm.15.1713202908173; Mon, 15
- Apr 2024 10:41:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713209667; x=1713814467;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZLiSazBe5qq6aytzV8pgTe0eeceVkA2qBLGwhoGTF24=;
+        b=aDpjasDGpsjgIASF+cDOJH2KgkypC1/3aPPmr2mxLjEbz8slLRftMxTv0Eyb2i6SHf
+         2Gli76Xeg1vea0zWPrEC0S2rLuqNe0kyfW2TkA3rPJT/iJErNPUcvKpnECP+hRlLHeFP
+         zBWvRWGi5hXMnlQqpmJk+x7mFr4jaHcAnZS8dpiuX1agMaXEVjBJIbSOWx1oTiQiZVmu
+         2IhX5GaRGg1jH6nogPrsRwPzrKq6qVthemyAdJKRXxxpHuGRCt1Y3nLrR7Bp+O8W44Rj
+         ADu2piraai8v9rHQzV+JsvvV1Kq0VegBAQsvSe1vXmxzD4Qz57GgDEBs4GCMMwu22hSS
+         mnXw==
+X-Forwarded-Encrypted: i=1; AJvYcCVujzjx5c9VsHlPUZsWp0AEC51mSldsORNWY4N8NDPe/hPcQ5BbgHgLoYGevoclDsZ1rhuE+RpelPyGTIVZKf0T9aTbcvnPjCnp9QA=
+X-Gm-Message-State: AOJu0YzAHbZjNJGIurWqt6jJU9JjKc/r1BZv9lmxDPsugdEyHr+womnX
+	KJLDuELqjnj1IjmpRL+tVtgBCVDwIgFTWREVJGRtZ4ZQeeMxzwbqiFxtZIVRjQ==
+X-Google-Smtp-Source: AGHT+IGvWYgXqLe5y5GC/0+2akeF6DX70yb8YGk/07FW2C+kK/AaKQ5m7NmDH3z9fR+ddjVPeAolxA==
+X-Received: by 2002:a05:620a:8211:b0:78d:549a:c098 with SMTP id ow17-20020a05620a821100b0078d549ac098mr12303538qkn.19.1713209666868;
+        Mon, 15 Apr 2024 12:34:26 -0700 (PDT)
+Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 12:34:26 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 00/35] media: Fix coccinelle warning/errors
+Date: Mon, 15 Apr 2024 19:34:17 +0000
+Message-Id: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240412222857.3873079-1-robh@kernel.org> <Zh0vXinxy7woerJQ@hu-bjorande-lv.qualcomm.com>
- <CAA8EJpqL2T4bJZqtZ9KF=V2NLnFxUjouA6_Hu_H07DofifZaoQ@mail.gmail.com>
- <CAL_Jsq+q3OLEMT=d8=d9o1D9deKGQ5TAtZg_bgptDPQ1cWcctw@mail.gmail.com> <CAL_JsqKSz_WVTTi7+AgjgDzXAnAqaxXM3i2NUv93nZSpyuZK5g@mail.gmail.com>
-In-Reply-To: <CAL_JsqKSz_WVTTi7+AgjgDzXAnAqaxXM3i2NUv93nZSpyuZK5g@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 15 Apr 2024 20:41:36 +0300
-Message-ID: <CAA8EJporYZBfDoN6m0Wu2wGqq=Y+TskNCguMOHtDAz05eXS6LA@mail.gmail.com>
-Subject: Re: [PATCH] arm/arm64: dts: Drop "arm,armv8-pmuv3" compatible usage
-To: Rob Herring <robh@kernel.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>, soc@kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
-	Khuong Dinh <khuong@os.amperecomputing.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Robert Richter <rric@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, "Paul J. Murphy" <paul.j.murphy@intel.com>, 
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Jisheng Zhang <jszhang@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, linux-fsd@tesla.com, 
-	Michal Simek <michal.simek@amd.com>, devicetree@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-realtek-soc@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADqBHWYC/x2MQQqAIBAAvyJ7bkE3K+gr0UF0rb1oKEQg/T3pO
+ MwwDSoX4QqralD4lio5dTCDAn+6dDBK6AykyWprJozyoM/eC1KII0ciN8cFen8V7vJ/bfv7fpq
+ I9bZbAAAA
+To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, 
+ Abylay Ospan <aospan@netup.ru>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-On Mon, 15 Apr 2024 at 20:15, Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Apr 15, 2024 at 12:05=E2=80=AFPM Rob Herring <robh@kernel.org> wr=
-ote:
-> >
-> > On Mon, Apr 15, 2024 at 11:52=E2=80=AFAM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Mon, 15 Apr 2024 at 16:46, Bjorn Andersson <quic_bjorande@quicinc.=
-com> wrote:
-> > > >
-> > > > On Fri, Apr 12, 2024 at 05:28:51PM -0500, Rob Herring wrote:
-> > > > [..]
-> > > > >  arch/arm64/boot/dts/qcom/qcm2290.dtsi                | 2 +-
-> > > > >  arch/arm64/boot/dts/qcom/qdu1000.dtsi                | 2 +-
-> > > > >  arch/arm64/boot/dts/qcom/sdm630.dtsi                 | 2 +-
-> > > > >  arch/arm64/boot/dts/qcom/sdx75.dtsi                  | 2 +-
-> > > >
-> > > > Acked-by: Bjorn Andersson <andersson@kernel.org>
-> > >
-> > > Note, we'd need to override PMU compatibles in sdm636.dtsi and
-> > > sdm660.dtsi. Ideally it should come as the same patch.
-> >
-> > Uh, that's an A for reuse, but an F for readability... It's sdm632 as
-> > well. Will drop sdm630.
->
-> Actually, aren't those Kryo cores just Cortex-A53 derivatives? So the
-> A53 PMU compatible is an improvement over the generic one still. We
-> can't just add kryo260-pmu compatibles because that breaks
-> compatibility. We could have a fallback, but then that introduces a
-> pattern we don't want.
+After this set is applied, these are the only warnings left:
+drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
+drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
+drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
+drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
+drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-I think it is believed that Gold cores are A73-derivatives.
+CI tested:
+https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
 
---=20
-With best wishes
-Dmitry
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (35):
+      media: pci: mgb4: Refactor struct resources
+      media: stb0899: Remove unreacheable code
+      media: uvcvideo: Refactor iterators
+      media: uvcvideo: Use max() macro
+      media: go7007: Use min and max macros
+      media: stm32-dcmipp: Remove redundant printk
+      media: staging: sun6i-isp: Remove redundant printk
+      media: dvb-frontends: tda18271c2dd: Remove casting during div
+      media: v4l: async: refactor v4l2_async_create_ancillary_links
+      staging: media: tegra-video: Use swap macro
+      media: s2255: Use refcount_t instead of atomic_t for num_channels
+      media: platform: mtk-mdp3: Use refcount_t for job_count
+      media: common: saa7146: Use min macro
+      media: dvb-frontends: drx39xyj: Use min macro
+      media: netup_unidvb: Use min macro
+      media: au0828: Use min macro
+      media: flexcop-usb: Use min macro
+      media: gspca: cpia1: Use min macro
+      media: stk1160: Use min macro
+      media: tegra-vde: Refactor timeout handling
+      media: venus: Use div64_u64
+      media: i2c: st-mipid02: Use the correct div function
+      media: dvb-frontends: tda10048: Use the right div
+      media: tc358746: Use the correct div_ function
+      media: venus: Use the correct div_ function
+      media: venus: Refator return path
+      media: dib0700: Refator return path
+      media: usb: cx231xx: Refator return path
+      media: i2c: rdacm20: Refator return path
+      media: i2c: et8ek8: Refator return path
+      media: cx231xx: Refator return path
+      media: si4713: Refator return path
+      media: ttpci: Refator return path
+      media: hdpvr: Refator return path
+      media: venus: Refator return path
+
+ drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
+ drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
+ drivers/media/dvb-frontends/stb0899_drv.c          |  5 -----
+ drivers/media/dvb-frontends/tda10048.c             |  3 +--
+ drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
+ drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +++-
+ drivers/media/i2c/rdacm20.c                        |  5 ++++-
+ drivers/media/i2c/st-mipid02.c                     |  2 +-
+ drivers/media/i2c/tc358746.c                       |  3 +--
+ drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
+ drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
+ drivers/media/pci/ttpci/budget-core.c              |  5 ++++-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
+ drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
+ drivers/media/platform/qcom/venus/vdec.c           | 15 +++++++------
+ drivers/media/platform/qcom/venus/venc.c           | 19 +++++++++-------
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  5 +----
+ drivers/media/radio/si4713/radio-usb-si4713.c      |  8 +++++--
+ drivers/media/usb/au0828/au0828-video.c            |  5 +----
+ drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
+ drivers/media/usb/cx231xx/cx231xx-i2c.c            | 16 +++++++++----
+ drivers/media/usb/cx231xx/cx231xx-video.c          | 10 +++++++--
+ drivers/media/usb/dvb-usb/dib0700_core.c           |  4 +++-
+ drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
+ drivers/media/usb/gspca/cpia1.c                    |  6 ++---
+ drivers/media/usb/hdpvr/hdpvr-control.c            |  4 +++-
+ drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
+ drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
+ drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
+ drivers/media/v4l2-core/v4l2-async.c               |  8 +++----
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  1 -
+ drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
+ 36 files changed, 132 insertions(+), 129 deletions(-)
+---
+base-commit: 71b3ed53b08d87212fbbe51bdc3bf44eb8c462f8
+change-id: 20240415-fix-cocci-2df3ef22a6f7
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
 
