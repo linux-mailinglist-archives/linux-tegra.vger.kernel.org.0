@@ -1,69 +1,69 @@
-Return-Path: <linux-tegra+bounces-1799-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1801-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0DF8AAD0B
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Apr 2024 12:45:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768538AAD09
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Apr 2024 12:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CAC2DB2140B
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Apr 2024 10:45:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E20DF1F21EE2
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Apr 2024 10:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0113E7F7DB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD0E7F7F1;
 	Fri, 19 Apr 2024 10:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="VwNhk7gO"
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="BJ/CzqJg"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2027E7F47F
-	for <linux-tegra@vger.kernel.org>; Fri, 19 Apr 2024 10:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829C57F7D0
+	for <linux-tegra@vger.kernel.org>; Fri, 19 Apr 2024 10:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713523542; cv=none; b=peuq64U9ghnrvZ5Tr0n18x1OhRxx0AWmjlH7++D11AeHjBV5Xc1W5Yma9HZaAWSlOy4Z7DjdPcQdpXYwvByRDVEZMhrTEO11NfPI71s+WYMo5Mw3WFWoy1UzbU4IBrg3by5I/TxhmJowoS/+9GzxhG8+luZjtK96jXrhpZLAN+o=
+	t=1713523543; cv=none; b=MGsNq7dpAyt1xracWLgtCiGTxZqCpybwA4t2M3vzP0flHmE+cw+RK97Znw3sgfam5hYCZohwH3uo3+WuUUSJS97c/Rd6aAZxRZ9TQ49gmqL13EgilDo2IjK8ECpSpWswq+cfLXYoPXrdN/kydqVdjQdZ4Jzpygfbvf+A1ao/8oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713523542; c=relaxed/simple;
-	bh=PTCSil8/SxoNsfEImZjaEYfVbDMGgnn8ye9bAN0bkKs=;
+	s=arc-20240116; t=1713523543; c=relaxed/simple;
+	bh=fQJHKsxzEnvyHYVoLy469Ew8WlOfjH2KxbM5Zu4a5E0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EPPva0e3FOUQx8HJY9qo7ScJIESLIJlrBLR3ZF8kRoJr2/JItfGjma6NMPRHFm/jSG9J0Roi/z9MIY1lQWf+fEr0LszhRfaIumzU+w0wa4gcu0/8NwU7jc7WtqXC4/ZngJVs2fIQyMlSK1QWUFpfCXKH8CETjFLEb/DnFugNR+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=VwNhk7gO; arc=none smtp.client-ip=193.136.128.21
+	 MIME-Version; b=jZbDkXu1u4Xaf3isUtO/3ulkNm+zJVQxf1tWXNUZRU43/YNUT36BqsLA9jeblG6Yon4rl3dk+G3pt6XxE2UOurYlcI+laIxth4buCu8lb3FzcRXV46WkDB4EyaOUW+TR6YFXnftVUAD9Tx9UKL/ydXOcQY1JqdTBwoGucghpaJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=BJ/CzqJg; arc=none smtp.client-ip=193.136.128.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 8FA6C6005400;
-	Fri, 19 Apr 2024 11:45:31 +0100 (WEST)
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 8EE866005408;
+	Fri, 19 Apr 2024 11:45:32 +0100 (WEST)
 X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
 Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
  by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id t_GStKC43b0v; Fri, 19 Apr 2024 11:45:29 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id BC54D600540C;
-	Fri, 19 Apr 2024 11:45:26 +0100 (WEST)
+ with LMTP id roXFRWZFcsy7; Fri, 19 Apr 2024 11:45:30 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 53B156005415;
+	Fri, 19 Apr 2024 11:45:27 +0100 (WEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1713523526;
+	s=mail; t=1713523527;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zzf4Qj5Wo3tgV9hSnktdSFWwSLMM7493bkuuUEE5NCc=;
-	b=VwNhk7gOMlMzjHn5VhYCj8NveMWomMIze3ZTkV1GHTWgP62djl1MLVctCIXixlQsUqSSK6
-	PBJH7A1HJP1Kg9SOkfJ2dtujyKJdyh+pR2LaoYU4dJn+BSp7hsfoqGJ2wuTTaQf3avlJPt
-	8jtZLmW4NCTRHRM23Qlu96jmxhvk5l0=
+	bh=kux4E0YyOMHhNcXQz9XJeKNHT7wCdDkvtSAS2WBV4Ig=;
+	b=BJ/CzqJgKy/u9rTCHN6NdRzJLQSj7bOO8RB82RoJ2EQ8NHKtfK9UdK//LR0ByLYv/l01Q8
+	fgHrDe1LG9djhAjhikeyL1ePLD0kAWmCj8eQmGhy5lCB4gM12+g65Hw0QL1ffdWVlds19Z
+	9/KJNTLsyoGYJJgRsg8a2IiMbxmLMsQ=
 Received: from diogo-gram.home (unknown [IPv6:2a01:14:8070:dc60:4589:2164:1bc5:2670])
 	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 9F8B53600AC;
-	Fri, 19 Apr 2024 11:45:26 +0100 (WEST)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 320323600AC;
+	Fri, 19 Apr 2024 11:45:27 +0100 (WEST)
 From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 To: krzysztof.kozlowski@linaro.org,
 	thierry.reding@gmail.com,
 	jonathanh@nvidia.com,
 	linux-tegra@vger.kernel.org
 Cc: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Subject: [PATCH v2 6/7] memory: tegra: Move compare/update current delay values to a function
-Date: Fri, 19 Apr 2024 11:45:14 +0100
-Message-ID: <20240419104516.308975-7-diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH v2 7/7] memory: tegra: Rework update_clock_tree_delay()
+Date: Fri, 19 Apr 2024 11:45:15 +0100
+Message-ID: <20240419104516.308975-8-diogo.ivo@tecnico.ulisboa.pt>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240419104516.308975-1-diogo.ivo@tecnico.ulisboa.pt>
 References: <20240419104516.308975-1-diogo.ivo@tecnico.ulisboa.pt>
@@ -75,186 +75,193 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Separate the comparison/updating of the measured delay values with the
-values currently programmed into a separate function to simplify the
-code.
+Further streamline this function by moving the delay post-processing
+to the callers, leaving it only with the task of returing the measured
+delay values.
 
 Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 ---
-Changes in v2:
- - Correct return value of update_clock_tree_delay() to bool
-
- drivers/memory/tegra/tegra210-emc-cc-r21021.c | 86 +++++++++----------
- 1 file changed, 39 insertions(+), 47 deletions(-)
+ drivers/memory/tegra/tegra210-emc-cc-r21021.c | 120 +++++++-----------
+ 1 file changed, 46 insertions(+), 74 deletions(-)
 
 diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-index dc6e60c13cc8..338c9f3b1a66 100644
+index 338c9f3b1a66..1b1141e4b4d3 100644
 --- a/drivers/memory/tegra/tegra210-emc-cc-r21021.c
 +++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-@@ -113,19 +113,35 @@ enum {
- #define __MOVAVG(timing, dev)                      \
- 	((timing)->ptfv_list[(dev)])
+@@ -105,7 +105,7 @@ enum {
+ 			  next->ptfv_list[w])) /			\
+ 			(next->ptfv_list[w] + 1);			\
+ 									\
+-		emc_dbg(emc, EMA_UPDATES, "%s: (s=%lu) EMA: %u\n",	\
++		emc_dbg(emc, EMA_UPDATES, "%s: (s=%u) EMA: %u\n",	\
+ 			__stringify(dev), nval, next->ptfv_list[dqs]);	\
+ 	} while (0)
  
--static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
-+static bool tegra210_emc_compare_update_delay(struct tegra210_emc_timing *timing,
-+					      u32 measured, u32 idx)
-+{
-+	u32 *curr = &timing->current_dram_clktree[idx];
-+	u32 rate_mhz = timing->rate / 1000;
-+	u32 tmdel;
-+
-+	tmdel = abs(*curr - measured);
-+
-+	if (tmdel * 128 * rate_mhz / 1000000 > timing->tree_margin) {
-+		*curr = measured;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static bool update_clock_tree_delay(struct tegra210_emc *emc, int type)
+@@ -130,93 +130,51 @@ static bool tegra210_emc_compare_update_delay(struct tegra210_emc_timing *timing
+ 	return false;
+ }
+ 
+-static bool update_clock_tree_delay(struct tegra210_emc *emc, int type)
++static void tegra210_emc_get_clktree_delay(struct tegra210_emc *emc,
++					   u32 delay[DRAM_CLKTREE_NUM])
  {
- 	bool periodic_training_update = type == PERIODIC_TRAINING_UPDATE;
- 	struct tegra210_emc_timing *last = emc->last;
- 	struct tegra210_emc_timing *next = emc->next;
- 	u32 last_timing_rate_mhz = last->rate / 1000;
--	u32 next_timing_rate_mhz = next->rate / 1000;
- 	bool dvfs_update = type == DVFS_UPDATE;
--	s32 tdel = 0, tmdel = 0, adel = 0;
- 	bool dvfs_pt1 = type == DVFS_PT1;
- 	u32 temp[2][2], value, udelay;
- 	unsigned long cval = 0;
+-	bool periodic_training_update = type == PERIODIC_TRAINING_UPDATE;
+-	struct tegra210_emc_timing *last = emc->last;
+-	struct tegra210_emc_timing *next = emc->next;
+-	u32 last_timing_rate_mhz = last->rate / 1000;
+-	bool dvfs_update = type == DVFS_UPDATE;
+-	bool dvfs_pt1 = type == DVFS_PT1;
+-	u32 temp[2][2], value, udelay;
+-	unsigned long cval = 0;
++	struct tegra210_emc_timing *curr = emc->last;
++	u32 rate_mhz = curr->rate / 1000;
++	u32 msb, lsb, dqsosc, udelay;
++	unsigned long clocks = 0;
  	unsigned int c, d, idx;
-+	bool over = false;
+-	bool over = false;
  
- 	if (dvfs_pt1 || periodic_training_update) {
- 		udelay = tegra210_emc_actual_osc_clocks(last->run_clocks);
-@@ -174,17 +190,9 @@ static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
- 			else if (periodic_training_update)
- 				__WEIGHTED_UPDATE_PTFV(idx, cval);
+-	if (dvfs_pt1 || periodic_training_update) {
+-		udelay = tegra210_emc_actual_osc_clocks(last->run_clocks);
+-		udelay *= 1000;
+-		udelay = 2 + (udelay / last->rate);
++	clocks = tegra210_emc_actual_osc_clocks(curr->run_clocks);
++	udelay = 2 + (clocks / rate_mhz);
  
--			if (dvfs_update || periodic_training_update) {
--				tdel = next->current_dram_clktree[idx] -
--						__MOVAVG_AC(next, idx);
--				tmdel = (tdel < 0) ? -1 * tdel : tdel;
--				adel = tmdel;
+-		tegra210_emc_start_periodic_compensation(emc);
+-		udelay(udelay);
+-	}
++	tegra210_emc_start_periodic_compensation(emc);
++	udelay(udelay);
+ 
+ 	for (d = 0; d < emc->num_devices; d++) {
+-		if (dvfs_pt1 || periodic_training_update) {
+-			/* Dev[d] MSB */
+-			value = tegra210_emc_mrr_read(emc, 2 - d, 19);
 -
--				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
--				    next->tree_margin)
--					next->current_dram_clktree[idx] =
--						__MOVAVG_AC(next, idx);
+-			for (c = 0; c < emc->num_channels; c++) {
+-				temp[c][0] = (value & 0x00ff) << 8;
+-				temp[c][1] = (value & 0xff00) << 0;
+-				value >>= 16;
 -			}
-+			if (dvfs_update || periodic_training_update)
-+				over |= tegra210_emc_compare_update_delay(next,
-+							__MOVAVG_AC(next, idx), idx);
+-
+-			/* Dev[d] LSB */
+-			value = tegra210_emc_mrr_read(emc, 2 - d, 18);
+-
+-			for (c = 0; c < emc->num_channels; c++) {
+-				temp[c][0] |= (value & 0x00ff) >> 0;
+-				temp[c][1] |= (value & 0xff00) >> 8;
+-				value >>= 16;
+-			}
+-		}
++		/* Read DQSOSC from MRR18/19 */
++		msb = tegra210_emc_mrr_read(emc, 2 - d, 19);
++		lsb = tegra210_emc_mrr_read(emc, 2 - d, 18);
+ 
+ 		for (c = 0; c < emc->num_channels; c++) {
+ 			/* C[c]D[d]U[0] */
+ 			idx = c * 4 + d * 2;
+ 
+-			if (dvfs_pt1 || periodic_training_update) {
+-				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
+-				cval *= 1000000;
+-				cval /= last_timing_rate_mhz * 2 * temp[c][0];
+-			}
+-
+-			if (dvfs_pt1)
+-				__INCREMENT_PTFV(idx, cval);
+-			else if (dvfs_update)
+-				__AVERAGE_PTFV(idx);
+-			else if (periodic_training_update)
+-				__WEIGHTED_UPDATE_PTFV(idx, cval);
++			dqsosc = (msb & 0x00ff) << 8;
++			dqsosc |= (lsb & 0x00ff) >> 0;
+ 
+-			if (dvfs_update || periodic_training_update)
+-				over |= tegra210_emc_compare_update_delay(next,
+-							__MOVAVG_AC(next, idx), idx);
++			/* Check for unpopulated channels */
++			if (dqsosc)
++				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
  
  			/* C[c]D[d]U[1] */
  			idx++;
-@@ -202,34 +210,25 @@ static u32 update_clock_tree_delay(struct tegra210_emc *emc, int type)
- 			else if (periodic_training_update)
- 				__WEIGHTED_UPDATE_PTFV(idx, cval);
  
--			if (dvfs_update || periodic_training_update) {
--				tdel = next->current_dram_clktree[idx] -
--						__MOVAVG_AC(next, idx);
--				tmdel = (tdel < 0) ? -1 * tdel : tdel;
--
--				if (tmdel > adel)
--					adel = tmdel;
--
--				if (tmdel * 128 * next_timing_rate_mhz / 1000000 >
--				    next->tree_margin)
--					next->current_dram_clktree[idx] =
--						__MOVAVG_AC(next, idx);
+-			if (dvfs_pt1 || periodic_training_update) {
+-				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
+-				cval *= 1000000;
+-				cval /= last_timing_rate_mhz * 2 * temp[c][1];
 -			}
-+			if (dvfs_update || periodic_training_update)
-+				over |= tegra210_emc_compare_update_delay(next,
-+							__MOVAVG_AC(next, idx), idx);
++			dqsosc = (msb & 0xff00) << 0;
++			dqsosc |= (lsb & 0xff00) >> 8;
+ 
+-			if (dvfs_pt1)
+-				__INCREMENT_PTFV(idx, cval);
+-			else if (dvfs_update)
+-				__AVERAGE_PTFV(idx);
+-			else if (periodic_training_update)
+-				__WEIGHTED_UPDATE_PTFV(idx, cval);
++			/* Check for unpopulated channels */
++			if (dqsosc)
++				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
+ 
+-			if (dvfs_update || periodic_training_update)
+-				over |= tegra210_emc_compare_update_delay(next,
+-							__MOVAVG_AC(next, idx), idx);
++			msb >>= 16;
++			lsb >>= 16;
  		}
  	}
- 
--	return adel;
-+	return over;
+-
+-	return over;
  }
  
--static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
--					 struct tegra210_emc_timing *last,
--					 struct tegra210_emc_timing *next)
-+static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
-+					  struct tegra210_emc_timing *last,
-+					  struct tegra210_emc_timing *next)
- {
- #define __COPY_EMA(nt, lt, dev)						\
- 	({ __MOVAVG(nt, dev) = __MOVAVG(lt, dev) *			\
+ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
+@@ -228,8 +186,8 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
  	   (nt)->ptfv_list[PTFV_DVFS_SAMPLES_INDEX]; })
  
--	u32 i, adel = 0, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
-+	u32 i, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
-+	bool over = false;
- 	u32 idx;
+ 	u32 i, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
++	u32 delay[DRAM_CLKTREE_NUM], idx;
+ 	bool over = false;
+-	u32 idx;
  
  	if (!next->periodic_training)
-@@ -253,23 +252,23 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
+ 		return 0;
+@@ -252,16 +210,30 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
  
  			for (i = 0; i < samples; i++) {
  				/* Generate next sample of data. */
--				adel = update_clock_tree_delay(emc, DVFS_PT1);
-+				update_clock_tree_delay(emc, DVFS_PT1);
+-				update_clock_tree_delay(emc, DVFS_PT1);
++				tegra210_emc_get_clktree_delay(emc, delay);
++
++				for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++)
++					__INCREMENT_PTFV(idx, delay[idx]);
  			}
  		}
  
- 		/* Do the division part of the moving average */
--		adel = update_clock_tree_delay(emc, DVFS_UPDATE);
-+		over = update_clock_tree_delay(emc, DVFS_UPDATE);
+-		/* Do the division part of the moving average */
+-		over = update_clock_tree_delay(emc, DVFS_UPDATE);
++		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
++			/* Do the division part of the moving average */
++			__AVERAGE_PTFV(idx);
++			over |= tegra210_emc_compare_update_delay(next,
++						__MOVAVG_AC(next, idx), idx);
++		}
  	}
  
- 	if (type == PERIODIC_TRAINING_SEQUENCE)
--		adel = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
-+		over = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
+-	if (type == PERIODIC_TRAINING_SEQUENCE)
+-		over = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
++	if (type == PERIODIC_TRAINING_SEQUENCE) {
++		tegra210_emc_get_clktree_delay(emc, delay);
++
++		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
++			__WEIGHTED_UPDATE_PTFV(idx, delay[idx]);
++			over |= tegra210_emc_compare_update_delay(next,
++						__MOVAVG_AC(next, idx), idx);
++		}
++	}
  
--	return adel;
-+	return over;
+ 	return over;
  }
- 
- static u32 tegra210_emc_r21021_periodic_compensation(struct tegra210_emc *emc)
- {
--	u32 emc_cfg, emc_cfg_o, emc_cfg_update, del, value;
-+	u32 emc_cfg, emc_cfg_o, emc_cfg_update, value;
- 	static const u32 list[] = {
- 		EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_0,
- 		EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_1,
-@@ -327,15 +326,12 @@ static u32 tegra210_emc_r21021_periodic_compensation(struct tegra210_emc *emc)
- 		 * 4. Check delta wrt previous values (save value if margin
- 		 *    exceeds what is set in table).
- 		 */
--		del = periodic_compensation_handler(emc,
--						    PERIODIC_TRAINING_SEQUENCE,
--						    last, last);
--
-+		if (periodic_compensation_handler(emc, PERIODIC_TRAINING_SEQUENCE,
-+						  last, last)) {
- 		/*
- 		 * 5. Apply compensation w.r.t. trained values (if clock tree
- 		 *    has drifted more than the set margin).
- 		 */
--		if (last->tree_margin < ((del * 128 * (last->rate / 1000)) / 1000000)) {
- 			for (i = 0; i < items; i++) {
- 				value = tegra210_emc_compensate(last, list[i]);
- 				emc_dbg(emc, EMA_WRITES, "0x%08x <= 0x%08x\n",
-@@ -516,11 +512,7 @@ static void tegra210_emc_r21021_set_clock(struct tegra210_emc *emc, u32 clksrc)
- 						     EMC_EMC_STATUS_DRAM_IN_SELF_REFRESH_MASK,
- 						     0);
- 
--		value = periodic_compensation_handler(emc, DVFS_SEQUENCE, fake,
--						      next);
--		value = (value * 128 * next->rate / 1000) / 1000000;
--
--		if (next->periodic_training && value > next->tree_margin)
-+		if (periodic_compensation_handler(emc, DVFS_SEQUENCE, fake, next))
- 			compensate_trimmer_applicable = true;
- 	}
- 
 -- 
 2.44.0
 
