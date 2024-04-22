@@ -1,46 +1,46 @@
-Return-Path: <linux-tegra+bounces-1845-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1846-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF378ADABF
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 02:20:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C518ADADC
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 02:22:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1365D1F21E29
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 00:20:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6EB11C20B24
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 00:22:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6C211BF6E7;
-	Mon, 22 Apr 2024 23:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EBCD1C6896;
+	Mon, 22 Apr 2024 23:59:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0WSWj0S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MN9vH5OU"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7251BF6E2;
-	Mon, 22 Apr 2024 23:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CE61C6891;
+	Mon, 22 Apr 2024 23:59:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713830327; cv=none; b=DXsyrIJczcmm6k+TnMWkXy0NEZjCkACfXT1+4C++TacwcWWYKFHWrekSo0P5OIanb8MYfjFelmG6CsGF11azi64qkxCEn5EqhZ5JgAa39bf1ZM7Z05QpAntX3pwMR+v3g0PTKegT39zVHFI/bhHHpYTTz/3udgsvrtFtyynuiV8=
+	t=1713830350; cv=none; b=omM28ZuCerTvq3+lKfiTc+dWgb5zwS4VUZ7D+/8YSQ0S8LuDmdSp5peGF2x5F6tL3JBUMikHawlIx1tkkqq62sh5v0oGt+S9bpQ2jEfm6Qkgjyc0MUJozun8bhqcnzuPhsHkG4P3d9ETy/ekl5kP0DyIcTQj3+bjCNM0AcQVuCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713830327; c=relaxed/simple;
-	bh=JKVsaxJo/pKtxdhByvwKTlGoDkDpTOFdoHcj/OwxayA=;
+	s=arc-20240116; t=1713830350; c=relaxed/simple;
+	bh=r67qrCl5MZZldL87dF/H0Wd7C0fpUbYDKx3KNgX6cFo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HUuixBFHtk9g4NrQTVhe/N6nAUEqnCDrEzJ897h16coqX8lJNLbMUzBgzBPlWo3k0iLSoGLgNqwfNS/pI5/j0dJrWxShm0L87lZ1BDRd4mfYGbuLjQY5OoBn4T3yAuOg7HjG1kRRFkUBow9ip5Yl+b046H06te0JdT77w5dd56k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0WSWj0S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B6BC2BD11;
-	Mon, 22 Apr 2024 23:58:45 +0000 (UTC)
+	 MIME-Version; b=N/59cD5mtHULGnAgm9u05fC4WMfpXmFbUUNezYGqdF24zzTgNK4dumLSiRvbarQJsYHkzHH1VPyIMpefsEzA83Tx+9uBJFZqYOG+uFzx/ZkNAOcoZYeWlXX56iufeDfiaEyG3hA4N9uR3sDjQY32x9Iw02avyRDG0ubdqc9cm3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MN9vH5OU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D66FFC32782;
+	Mon, 22 Apr 2024 23:59:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713830327;
-	bh=JKVsaxJo/pKtxdhByvwKTlGoDkDpTOFdoHcj/OwxayA=;
+	s=k20201202; t=1713830350;
+	bh=r67qrCl5MZZldL87dF/H0Wd7C0fpUbYDKx3KNgX6cFo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a0WSWj0SW3qzA7D/RxuSId0O5pjTIEvISrvpCYI4wh1NF4+xWYv36pq3UsGxi3YRk
-	 HiYQ7aSqGYjYu7MC1Rj/FJsiLgNBiyqfuAJUrZDT2VOmVGnVYiXWd0n+IsNwX/zCh9
-	 tU7JnIEOYe73CEBQhgbvhjAfNZZso6h4hHP0QGsIT9ljcf8pFqsZtFDDvPpntMrEMe
-	 vqPkCtWUGSjsn4pdnQyyZdxi+smGz2hdUQb5T1MGZP/a/kj6it++Ge1VEl9Nd4JYt+
-	 FJUpJaHUFp2DokG9yekPsaMptkgiRNLvweuMTikigW48cPHvxR4rNf1xWbnPfIjtKr
-	 7eDkaFLR+IFWw==
+	b=MN9vH5OUCpHDV0WX9q5hRLdQYfDuWLvgs1YJbor7E9U++iBX5XPeiPvZXciTWMOTC
+	 R6JYU8JLuzYQ+oz9z18tGZzfn003k8uBzT/5hNIeHDR9nqFauYOwrqTplmgbsQ+cG+
+	 hOahwQ1Tw84cGSHsQNoExWyA84Al78opUPfRVXVSuH6xvITXvlpf6GHJoqqYZQzqSG
+	 sfiH5zNsJgMCUjahhfouy/b25VAzMC44TBupxHw2iGD7e1cDFIos7V4xx+Dg6SRsBu
+	 MOk1kyWb8CKqdOUSBAMCB7Y9gKnrVLgVRUki0g/69Z4OYKSnKlN6mBqMUgKtQ9JY+q
+	 DJuJ8fVtA3wPA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Thierry Reding <treding@nvidia.com>,
 	daniel@ffwll.ch,
 	dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 7/9] gpu: host1x: Do not setup DMA for virtual devices
-Date: Mon, 22 Apr 2024 19:19:48 -0400
-Message-ID: <20240422231955.1613650-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 6/9] gpu: host1x: Do not setup DMA for virtual devices
+Date: Mon, 22 Apr 2024 19:20:11 -0400
+Message-ID: <20240422232020.1615476-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240422231955.1613650-1-sashal@kernel.org>
-References: <20240422231955.1613650-1-sashal@kernel.org>
+In-Reply-To: <20240422232020.1615476-1-sashal@kernel.org>
+References: <20240422232020.1615476-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.215
+X-stable-base: Linux 5.4.274
 Content-Transfer-Encoding: 8bit
 
 From: Thierry Reding <treding@nvidia.com>
@@ -91,7 +91,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 deletions(-)
 
 diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 6e3b49d0de66d..b113c8e0acd02 100644
+index fcda8621ae6f9..5a1bf59be7341 100644
 --- a/drivers/gpu/host1x/bus.c
 +++ b/drivers/gpu/host1x/bus.c
 @@ -335,11 +335,6 @@ static int host1x_device_uevent(struct device *dev,
@@ -121,7 +121,7 @@ index 6e3b49d0de66d..b113c8e0acd02 100644
 -	of_dma_configure(&device->dev, host1x->dev->of_node, true);
 -
  	device->dev.dma_parms = &device->dma_parms;
- 	dma_set_max_seg_size(&device->dev, UINT_MAX);
+ 	dma_set_max_seg_size(&device->dev, SZ_4M);
  
 -- 
 2.43.0
