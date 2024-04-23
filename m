@@ -1,48 +1,48 @@
-Return-Path: <linux-tegra+bounces-1858-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1859-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1B48AE5A5
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 14:10:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8ED48AE5A8
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 14:10:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70C3B1C22F45
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 12:10:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 363601F21AA2
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Apr 2024 12:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B43085C65;
-	Tue, 23 Apr 2024 12:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C66E84A20;
+	Tue, 23 Apr 2024 12:10:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYpLS3wz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2DsS/eV"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D08485641;
-	Tue, 23 Apr 2024 12:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1082898;
+	Tue, 23 Apr 2024 12:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713874195; cv=none; b=goJaLMZ02mDrU+g0ztQTyh+FyoQhZp2Ly/DkJTMaujZn1k5erkFUD4pqDgA806LDYG6HBP2ujNgYlZ/A4I2eEvVSDmeeYEn4y+qy1LDNBv1W0IUytpLliJ5rH5w4ZZ9YNZulIopTb2z2xEuIyCFjuSuaezVyr6/ywh/C+5cutiQ=
+	t=1713874239; cv=none; b=jKgnW9qmri6e9ei9P3/AylythbH45hjmpIL3pXe4CVn1G3YUKOmqSXQctTNS+Mgf9JLKzMBbA4XTz0oVVUzt+ifE9c4mpy5m+ny30hMCupcAVSDXlrldubVWBTVDArb8hEbQNrWFu92BoLYbnrK3amWwkI2ifWyWhySnHdsatQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713874195; c=relaxed/simple;
-	bh=wQGV04jtFoo9duMK+Z2izwvtBmXXvKuZehgFQ3II4YY=;
+	s=arc-20240116; t=1713874239; c=relaxed/simple;
+	bh=57X0JJu/+mVaWcKCLO7Zhzink6AC/E+FmTys3gYEpX8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TEivLNGz/c6bITl+WC/q7hiwEnzUv/e28qE6eCtu0U8U0pCmfUwiVP/TR15/EpZMlFkk8H677iH4r809YKrEW7zeJL2fFJvCb1kx0pKT3fXjlNe6Ph2n3Ojip9NT1fEf4up6nkv+IGnZPT1ae0IYG+a0Ct+DUkX82HDtTgtgTQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYpLS3wz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DAAC32783;
-	Tue, 23 Apr 2024 12:09:51 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MnNJkcSCTlbgllv34p5Ycvu5mZq1FauFfjRfcX8EUjK8dPNXALhTbn8+E0OhJuBX72xzs67i/2tf5gCL6QuUZta7bb2Vf+v2tIPJLPuCwLwIwspE1983EhpVx64SDBuLAjOGN0ttD3x0BdPlfuQcf/YVriVTSdKkghqUAJdozV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2DsS/eV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE46C2BD11;
+	Tue, 23 Apr 2024 12:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713874194;
-	bh=wQGV04jtFoo9duMK+Z2izwvtBmXXvKuZehgFQ3II4YY=;
+	s=k20201202; t=1713874238;
+	bh=57X0JJu/+mVaWcKCLO7Zhzink6AC/E+FmTys3gYEpX8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZYpLS3wzNW1a254B45WOr3Bbm/tvzy321AY/VKjjPzmAl1ZLcV5rgO1hnHNrcAswG
-	 OnZQ2SvLkIf/wX+I0SNBvf3FOx6l0dxxB+CXoPCYyokg3a6OtkKB/wNYhaeExKcFBB
-	 ocrfplvv2D+wYqMw8QyahNL7q+XUG5xLB70WnzfE+S8yoyRn5w6v1+2n9wZir7/EiU
-	 dA/swK3dJM0kltfT+ZRVH3Ruo+tKKTtH41ImGj1usUPhQ4GgD/tNcZxk+oWzDeedqh
-	 NP/IXTNF1Qs/kv5/FgWG6Bk4SsmbzdGv96MOTTXlvhBYhiHohmMVMO04sArNejUskr
-	 0NLmiRVDUTT9Q==
-Message-ID: <a9569709-9b98-46de-9ad3-f507ff224c00@kernel.org>
-Date: Tue, 23 Apr 2024 14:09:49 +0200
+	b=b2DsS/eVXByCFce6qWc8zzqysTsk/FEJ87pzVex6XTw8Wv5vyp1/JiRVrjBYyib9E
+	 /rOf7lnc8Fq1PqVxmA3V1QxAHdBedqzc+q5mpwM+JJDUyyq5bcRTtELWTyTnWmqDwE
+	 7tAxl1iOAlIY0YNPkj2kEHplKWVYCAthlileX317gFlXoY5GmPW2sOYFGxi6GXDlDa
+	 uMamAtX5nP3v2NCuNKYbx4/t/08HF9NDDMdnv4mPzVe6n1HZtj7P22hiazSnyrPdy1
+	 pou/EwXwMr7ja5fbpqyfEcfW6Y0OUsIFtoKYHziZacnm1EWHoyN+hbBct+vDMznLcx
+	 NU2uThuG9gBVg==
+Message-ID: <e401ce93-091c-4733-ab95-1aa21996d54d@kernel.org>
+Date: Tue, 23 Apr 2024 14:10:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -50,14 +50,16 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARM: dts: tegra20-ac97: replace deprecated gpio suffix
+Subject: Re: [PATCH v3] ASoC: dt-bindings: tegra20-ac97: convert to dt schema
 To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
-Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240423120630.16974-1-sheharyaar48@gmail.com>
+References: <20240423115749.15786-1-sheharyaar48@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,16 +105,22 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240423120630.16974-1-sheharyaar48@gmail.com>
+In-Reply-To: <20240423115749.15786-1-sheharyaar48@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/04/2024 14:06, Mohammad Shehar Yaar Tausif wrote:
-> Replace "gpio" suffix with "gpios" for tegra20-ac97 dts as gpio
-> suffix is deprecated.
+On 23/04/2024 13:57, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra20 AC97 binding to DT schema.
+> Change -gpio to -gpios in schema as "gpio" suffix is deprecated.
 > 
 > Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 > ---
+>  .../bindings/sound/nvidia,tegra20-ac97.txt    | 36 --------
+>  .../bindings/sound/nvidia,tegra20-ac97.yaml   | 82 +++++++++++++++++++
+>  2 files changed, 82 insertions(+), 36 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,t
+
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
