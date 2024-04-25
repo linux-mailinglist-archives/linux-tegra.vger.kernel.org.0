@@ -1,62 +1,65 @@
-Return-Path: <linux-tegra+bounces-1912-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1914-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6465F8B1A21
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 07:03:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 265168B1A1D
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 07:03:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4C7C28387C
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 05:03:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B459A1F22A3B
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 05:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC5939FEC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EB0D3A1AC;
 	Thu, 25 Apr 2024 05:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="Lfk+m1ii"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="dEN3vj22"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315D139FD8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3158C39FD7
 	for <linux-tegra@vger.kernel.org>; Thu, 25 Apr 2024 05:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714021393; cv=none; b=l5G/DXmrBylxsGi76K8D7SilHC/6I8cn4jICDRC2fw2EK1EAaa76ZztVjETc/O9QJ8vrn8Y7Uo8IMcyEwl8yzewVhOEbfKtb0Dxc/txLcztOtnJXZSt2GCiED5eMj7vq3sw6UB99UWFKhYo5WRQ5A1dBOCPajzN3ZvgYL3ZWD7o=
+	t=1714021394; cv=none; b=P6Cy2BhEAEcy8aL4Pu8GYqIfuZZwY9LHffx/vOyFKnUOdMAyNo2uyg0t2hDjY4ULsTUEggjGAezBPoN6ye7VQTMdra72rHKrDtxYjb10UQUVtVzJlVii/p/jh4Gn3pw5kh0dANuYLzq5XRialFs9vNRbMN6v69bwgIWz2ZqQ2SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714021393; c=relaxed/simple;
-	bh=4LMatE/e96/w78B1lH+T1uUWbPMnNlUiLoXDZ+fgZbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e19FH24ENMWzIIA8xocgsdsuWr9hlT9Mx0TVas2Jvpd9B+a1h064Lv6hFRp4xh/yyCLqqb9AuDiFKkFMA3q/5pkvtA7wWMbK4/r/bGV6TnWay7izgFFBKcwNo/chjirZEp04Td4nXSP5sYXtmZrSGIzMFV2sNoleajb4259uu44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=Lfk+m1ii; arc=none smtp.client-ip=91.232.154.25
+	s=arc-20240116; t=1714021394; c=relaxed/simple;
+	bh=+bCiYkTayzPrq2odbezHfKcHWNVrV6mr9K4D73yU3tM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H7Qgxpszbw7CHWhUEIsW5ah99JasjMdUt4FNk8mraQ8ojhWTCwn7RI4Mu6SIrAenB0DwqRwkyg9WfO8OYxOytksrKE2XNSpnFF7TxVuYOjBduv60HGepXPkJ1gHwNMhcb5fk8tZFQmgv6dhGkelXLcyC7FDGSdAlfQalJCJKgU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=dEN3vj22; arc=none smtp.client-ip=91.232.154.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=AxK20Fe5cUhFubbOTeK5/1a5AJJBuw88+EhiESfmRa8=; b=Lfk+m1iiCAiflQUXzoAK/N1O7Z
-	hVpd46LSD8Y+7ezRVZ9JxxZlex2THwqHtV6feiS85lQJZdXuUhEJH/YgOPhuvM7iuA03EktDiTqro
-	kibGoRBeWFmG9AnFs7AqmfCcXiHUY1FC823clgv6+KMaKDNh0mRAwgZrM4EdhsISHAyEcVjw7yzv9
-	MCWqPp7UG0+bbX1oI5JDldXyIzqiO/HDs3FbjCZbUl8518DwXciNPV6lyvvDChqpNHYriailnhoBG
-	JwzNfCezOwCbTKVm4Zd82iJEXrz0KuFIL9Tj5cJZiT5g+cdTO7IPSR9A8vvUHGuvCeCJckJL0NZZ7
-	GG0/KCxQ==;
+	bh=ReeraV7ufn60/mkW2+TUO0nmEAQXtsBUw1AVORBcKCg=; b=dEN3vj22XsRRFc86Kry143Q83Y
+	kuNb/uVgYVubRVM6XqPqnwWG9fOBXAJSMFW1LXXone2PUhFCbot5mJV7UNmwXzrrSKFCx2RMNAwPj
+	PXr6CHiSsKBmj0LVAUSrvO1ncFhknLDn45uIlutkL5lkrdFZZzlaIIQuj00SFXkPbg9rxG1q4Ek+S
+	LKZ1fDDVBgWUD7CQm0/hTEM7BFQ3BwhOCxY1CLpvpSCgYYWVze/aulNxVpSZCx/cbfkecuTk4txsy
+	jCj28R7iJdQYp2YJnZ+wEyW8TisjgtZ4qyTQH9kxRshvhpJdtDfbvskPEA2d+7etyoX2ZaXv14nW6
+	6UX6Kp1A==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <cyndis@kapsi.fi>)
-	id 1rzrG6-00Fmla-36;
+	id 1rzrG7-00Fmla-0l;
 	Thu, 25 Apr 2024 08:02:59 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: Mikko Perttunen <mperttunen@nvidia.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 1/5] gpu: host1x: Fix _writel function declarations
-Date: Thu, 25 Apr 2024 08:02:33 +0300
-Message-ID: <20240425050238.2943404-1-cyndis@kapsi.fi>
+Subject: [PATCH 2/5] gpu: host1x: Handle CDMA wraparound when debug printing
+Date: Thu, 25 Apr 2024 08:02:34 +0300
+Message-ID: <20240425050238.2943404-2-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20240425050238.2943404-1-cyndis@kapsi.fi>
+References: <20240425050238.2943404-1-cyndis@kapsi.fi>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -70,33 +73,56 @@ X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Some of the _writel functions in dev.h had the r and v parameters
-swapped. Fix this to avoid confusion.
+During channel debug information dump, when printing CDMA
+opcodes, the circular nature of the CDMA pushbuffer wasn't being
+taken into account, sometimes accessing past the end. Change
+the printing to take this into account.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/dev.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/host1x/hw/debug_hw.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index 925a118db23f..53af0334c6e1 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -173,11 +173,11 @@ struct host1x {
- };
+diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
+index 54e31d81517b..4c32aa1b95e8 100644
+--- a/drivers/gpu/host1x/hw/debug_hw.c
++++ b/drivers/gpu/host1x/hw/debug_hw.c
+@@ -177,7 +177,16 @@ static void show_gather(struct output *o, dma_addr_t phys_addr,
  
- void host1x_common_writel(struct host1x *host1x, u32 v, u32 r);
--void host1x_hypervisor_writel(struct host1x *host1x, u32 r, u32 v);
-+void host1x_hypervisor_writel(struct host1x *host1x, u32 v, u32 r);
- u32 host1x_hypervisor_readl(struct host1x *host1x, u32 r);
--void host1x_sync_writel(struct host1x *host1x, u32 r, u32 v);
-+void host1x_sync_writel(struct host1x *host1x, u32 v, u32 r);
- u32 host1x_sync_readl(struct host1x *host1x, u32 r);
--void host1x_ch_writel(struct host1x_channel *ch, u32 r, u32 v);
-+void host1x_ch_writel(struct host1x_channel *ch, u32 v, u32 r);
- u32 host1x_ch_readl(struct host1x_channel *ch, u32 r);
+ 	for (i = 0; i < words; i++) {
+ 		dma_addr_t addr = phys_addr + i * 4;
+-		u32 val = *(map_addr + offset / 4 + i);
++		u32 voffset = offset + i * 4;
++		u32 val;
++
++		/* If we reach the RESTART opcode, continue at the beginning of pushbuffer */
++		if (cdma && voffset >= cdma->push_buffer.size) {
++			addr -= cdma->push_buffer.size;
++			voffset -= cdma->push_buffer.size;
++		}
++
++		val = *(map_addr + voffset / 4);
  
- static inline void host1x_hw_syncpt_restore(struct host1x *host,
+ 		if (!data_count) {
+ 			host1x_debug_output(o, "    %pad: %08x: ", &addr, val);
+@@ -203,7 +212,7 @@ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
+ 				    job->num_slots, job->num_unpins);
+ 
+ 		show_gather(o, pb->dma + job->first_get, job->num_slots * 2, cdma,
+-			    pb->dma + job->first_get, pb->mapped + job->first_get);
++			    pb->dma, pb->mapped);
+ 
+ 		for (i = 0; i < job->num_cmds; i++) {
+ 			struct host1x_job_gather *g;
+@@ -227,7 +236,7 @@ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
+ 			host1x_debug_output(o, "  GATHER at %pad+%#x, %d words\n",
+ 					    &g->base, g->offset, g->words);
+ 
+-			show_gather(o, g->base + g->offset, g->words, cdma,
++			show_gather(o, g->base + g->offset, g->words, NULL,
+ 				    g->base, mapped);
+ 
+ 			if (!job->gather_copy_mapped)
 -- 
 2.42.0
 
