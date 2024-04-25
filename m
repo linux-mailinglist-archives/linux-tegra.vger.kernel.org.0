@@ -1,34 +1,34 @@
-Return-Path: <linux-tegra+bounces-1914-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1916-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265168B1A1D
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 07:03:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A878B1A20
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 07:03:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B459A1F22A3B
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 05:03:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2FBEB232E7
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Apr 2024 05:03:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EB0D3A1AC;
-	Thu, 25 Apr 2024 05:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A74B39AF0;
+	Thu, 25 Apr 2024 05:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="dEN3vj22"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="Fw9jHNAU"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3158C39FD7
-	for <linux-tegra@vger.kernel.org>; Thu, 25 Apr 2024 05:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166B139FD7
+	for <linux-tegra@vger.kernel.org>; Thu, 25 Apr 2024 05:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714021394; cv=none; b=P6Cy2BhEAEcy8aL4Pu8GYqIfuZZwY9LHffx/vOyFKnUOdMAyNo2uyg0t2hDjY4ULsTUEggjGAezBPoN6ye7VQTMdra72rHKrDtxYjb10UQUVtVzJlVii/p/jh4Gn3pw5kh0dANuYLzq5XRialFs9vNRbMN6v69bwgIWz2ZqQ2SU=
+	t=1714021400; cv=none; b=c8b2LbNIl5d8DHgogCH8PXHbmGeEB7g70xV4mVuo6Rw6P6tR/aH0e6+0mRvRl01zTv3w9B5nHT1K8vOSzEsHPbTy4kewisYGrL5JwZg7M2uQUz+N/VaHjXE26IMUTW2eTzexfO0AF8dr7j1EQFuWn3mxGdhjA2+Qe5MumDYVsGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714021394; c=relaxed/simple;
-	bh=+bCiYkTayzPrq2odbezHfKcHWNVrV6mr9K4D73yU3tM=;
+	s=arc-20240116; t=1714021400; c=relaxed/simple;
+	bh=dl/H55x13//hBEekPZNtn38QxsSMAN0RKfTqrVdsjDo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H7Qgxpszbw7CHWhUEIsW5ah99JasjMdUt4FNk8mraQ8ojhWTCwn7RI4Mu6SIrAenB0DwqRwkyg9WfO8OYxOytksrKE2XNSpnFF7TxVuYOjBduv60HGepXPkJ1gHwNMhcb5fk8tZFQmgv6dhGkelXLcyC7FDGSdAlfQalJCJKgU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=dEN3vj22; arc=none smtp.client-ip=91.232.154.25
+	 MIME-Version; b=JXj27u0WZ9SE7uOh0wkgOM0nR+lhUNmAkGuvCuPbwQEN/nEcn/DHDWv2rG+y0q+IhlsMrfDVwrhuFf4uX5vpRv3az+ESIVVykx/geh436xFVek9sU9ksJiMIguv7jsuVviJUGeFkRjP2kx3OMAFfSELJvv+o7qLdIcrRikoAI9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=Fw9jHNAU; arc=none smtp.client-ip=91.232.154.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -37,26 +37,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=ReeraV7ufn60/mkW2+TUO0nmEAQXtsBUw1AVORBcKCg=; b=dEN3vj22XsRRFc86Kry143Q83Y
-	kuNb/uVgYVubRVM6XqPqnwWG9fOBXAJSMFW1LXXone2PUhFCbot5mJV7UNmwXzrrSKFCx2RMNAwPj
-	PXr6CHiSsKBmj0LVAUSrvO1ncFhknLDn45uIlutkL5lkrdFZZzlaIIQuj00SFXkPbg9rxG1q4Ek+S
-	LKZ1fDDVBgWUD7CQm0/hTEM7BFQ3BwhOCxY1CLpvpSCgYYWVze/aulNxVpSZCx/cbfkecuTk4txsy
-	jCj28R7iJdQYp2YJnZ+wEyW8TisjgtZ4qyTQH9kxRshvhpJdtDfbvskPEA2d+7etyoX2ZaXv14nW6
-	6UX6Kp1A==;
+	bh=5e3ZOd5UOHrN2erPJEkwHsJEoSpTtc+7EQ0plRwyCUY=; b=Fw9jHNAUbHD2kv9+jwb0t0zQlP
+	rNMNrYGdF0yYxGCNSYNGcfLWhIeNoWS39nFlhE4lJJcRPY4zEiAZd4J/qHJVlmjrGwFUYhzAxfekp
+	KSdaRtEQxUvTbPYOsw9fgbtErRsm0I0PDyUTUoY5ZfRuxWh+nSAE7CNV0EX+X1auwZ4Dag0s62/jY
+	28Pluraa+6qgd0ZqsurtYENLj3oii4OJcWzRaLKlUteFGrP178TLnwTdzN2y8Kg6z3P844yeu/ers
+	TvAec6CCWWzO8QyHqwNH54qjP9tApSABI7Q1aAnUGQSJ4WZZoAV7fPNoTNU4Ximwq8C7r+mQpoFIT
+	Iaofg3GA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <cyndis@kapsi.fi>)
-	id 1rzrG7-00Fmla-0l;
+	id 1rzrG7-00Fmla-1h;
 	Thu, 25 Apr 2024 08:02:59 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: Mikko Perttunen <mperttunen@nvidia.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 2/5] gpu: host1x: Handle CDMA wraparound when debug printing
-Date: Thu, 25 Apr 2024 08:02:34 +0300
-Message-ID: <20240425050238.2943404-2-cyndis@kapsi.fi>
+Subject: [PATCH 3/5] gpu: host1x: Complete stream ID entry tables
+Date: Thu, 25 Apr 2024 08:02:35 +0300
+Message-ID: <20240425050238.2943404-3-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240425050238.2943404-1-cyndis@kapsi.fi>
 References: <20240425050238.2943404-1-cyndis@kapsi.fi>
@@ -73,56 +73,189 @@ X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-During channel debug information dump, when printing CDMA
-opcodes, the circular nature of the CDMA pushbuffer wasn't being
-taken into account, sometimes accessing past the end. Change
-the printing to take this into account.
+These tables contain fixed values to program the host1x hardware
+with, so fill in the missing entries.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/hw/debug_hw.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/gpu/host1x/dev.c | 150 +++++++++++++++++++--------------------
+ 1 file changed, 72 insertions(+), 78 deletions(-)
 
-diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
-index 54e31d81517b..4c32aa1b95e8 100644
---- a/drivers/gpu/host1x/hw/debug_hw.c
-+++ b/drivers/gpu/host1x/hw/debug_hw.c
-@@ -177,7 +177,16 @@ static void show_gather(struct output *o, dma_addr_t phys_addr,
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 3a0aaa68ac8d..f83aaa40b13e 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -142,18 +142,29 @@ static const struct host1x_info host1x05_info = {
+ };
  
- 	for (i = 0; i < words; i++) {
- 		dma_addr_t addr = phys_addr + i * 4;
--		u32 val = *(map_addr + offset / 4 + i);
-+		u32 voffset = offset + i * 4;
-+		u32 val;
-+
-+		/* If we reach the RESTART opcode, continue at the beginning of pushbuffer */
-+		if (cdma && voffset >= cdma->push_buffer.size) {
-+			addr -= cdma->push_buffer.size;
-+			voffset -= cdma->push_buffer.size;
-+		}
-+
-+		val = *(map_addr + voffset / 4);
+ static const struct host1x_sid_entry tegra186_sid_table[] = {
+-	{
+-		/* VIC */
+-		.base = 0x1af0,
+-		.offset = 0x30,
+-		.limit = 0x34
+-	},
+-	{
+-		/* NVDEC */
+-		.base = 0x1b00,
+-		.offset = 0x30,
+-		.limit = 0x34
+-	},
++	{ /* SE1      */  .base = 0x1ac8, .offset = 0x90,    .limit = 0x90    },
++	{ /* SE2      */  .base = 0x1ad0, .offset = 0x90,    .limit = 0x90    },
++	{ /* SE3      */  .base = 0x1ad8, .offset = 0x90,    .limit = 0x90    },
++	{ /* SE4      */  .base = 0x1ae0, .offset = 0x90,    .limit = 0x90    },
++	{ /* ISP      */  .base = 0x1ae8, .offset = 0x50,    .limit = 0x50    },
++	{ /* VIC      */  .base = 0x1af0, .offset = 0x30,    .limit = 0x34    },
++	{ /* NVENC    */  .base = 0x1af8, .offset = 0x30,    .limit = 0x34    },
++	{ /* NVDEC    */  .base = 0x1b00, .offset = 0x30,    .limit = 0x34    },
++	{ /* NVJPG    */  .base = 0x1b08, .offset = 0x30,    .limit = 0x34    },
++	{ /* TSEC     */  .base = 0x1b10, .offset = 0x30,    .limit = 0x34    },
++	{ /* TSECB    */  .base = 0x1b18, .offset = 0x30,    .limit = 0x34    },
++	{ /* VI 0     */  .base = 0x1b80, .offset = 0x10000, .limit = 0x10000 },
++	{ /* VI 1     */  .base = 0x1b88, .offset = 0x20000, .limit = 0x20000 },
++	{ /* VI 2     */  .base = 0x1b90, .offset = 0x30000, .limit = 0x30000 },
++	{ /* VI 3     */  .base = 0x1b98, .offset = 0x40000, .limit = 0x40000 },
++	{ /* VI 4     */  .base = 0x1ba0, .offset = 0x50000, .limit = 0x50000 },
++	{ /* VI 5     */  .base = 0x1ba8, .offset = 0x60000, .limit = 0x60000 },
++	{ /* VI 6     */  .base = 0x1bb0, .offset = 0x70000, .limit = 0x70000 },
++	{ /* VI 7     */  .base = 0x1bb8, .offset = 0x80000, .limit = 0x80000 },
++	{ /* VI 8     */  .base = 0x1bc0, .offset = 0x90000, .limit = 0x90000 },
++	{ /* VI 9     */  .base = 0x1bc8, .offset = 0xa0000, .limit = 0xa0000 },
++	{ /* VI 10    */  .base = 0x1bd0, .offset = 0xb0000, .limit = 0xb0000 },
++	{ /* VI 11    */  .base = 0x1bd8, .offset = 0xc0000, .limit = 0xc0000 },
+ };
  
- 		if (!data_count) {
- 			host1x_debug_output(o, "    %pad: %08x: ", &addr, val);
-@@ -203,7 +212,7 @@ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
- 				    job->num_slots, job->num_unpins);
+ static const struct host1x_info host1x06_info = {
+@@ -173,24 +184,26 @@ static const struct host1x_info host1x06_info = {
+ };
  
- 		show_gather(o, pb->dma + job->first_get, job->num_slots * 2, cdma,
--			    pb->dma + job->first_get, pb->mapped + job->first_get);
-+			    pb->dma, pb->mapped);
+ static const struct host1x_sid_entry tegra194_sid_table[] = {
+-	{
+-		/* VIC */
+-		.base = 0x1af0,
+-		.offset = 0x30,
+-		.limit = 0x34
+-	},
+-	{
+-		/* NVDEC */
+-		.base = 0x1b00,
+-		.offset = 0x30,
+-		.limit = 0x34
+-	},
+-	{
+-		/* NVDEC1 */
+-		.base = 0x1bc0,
+-		.offset = 0x30,
+-		.limit = 0x34
+-	},
++	{ /* SE1          */  .base = 0x1ac8, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE2          */  .base = 0x1ad0, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE3          */  .base = 0x1ad8, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE4          */  .base = 0x1ae0, .offset = 0x90,  .limit = 0x90  },
++	{ /* ISP          */  .base = 0x1ae8, .offset = 0x800, .limit = 0x800 },
++	{ /* VIC          */  .base = 0x1af0, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVENC        */  .base = 0x1af8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDEC        */  .base = 0x1b00, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVJPG        */  .base = 0x1b08, .offset = 0x30,  .limit = 0x34  },
++	{ /* TSEC         */  .base = 0x1b10, .offset = 0x30,  .limit = 0x34  },
++	{ /* TSECB        */  .base = 0x1b18, .offset = 0x30,  .limit = 0x34  },
++	{ /* VI           */  .base = 0x1b80, .offset = 0x800, .limit = 0x800 },
++	{ /* VI_THI       */  .base = 0x1b88, .offset = 0x30,  .limit = 0x34  },
++	{ /* ISP_THI      */  .base = 0x1b90, .offset = 0x30,  .limit = 0x34  },
++	{ /* PVA0_CLUSTER */  .base = 0x1b98, .offset = 0x0,   .limit = 0x0   },
++	{ /* PVA0_CLUSTER */  .base = 0x1ba0, .offset = 0x0,   .limit = 0x0   },
++	{ /* NVDLA0       */  .base = 0x1ba8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDLA1       */  .base = 0x1bb0, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVENC1       */  .base = 0x1bb8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDEC1       */  .base = 0x1bc0, .offset = 0x30,  .limit = 0x34  },
+ };
  
- 		for (i = 0; i < job->num_cmds; i++) {
- 			struct host1x_job_gather *g;
-@@ -227,7 +236,7 @@ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
- 			host1x_debug_output(o, "  GATHER at %pad+%#x, %d words\n",
- 					    &g->base, g->offset, g->words);
+ static const struct host1x_info host1x07_info = {
+@@ -215,54 +228,35 @@ static const struct host1x_info host1x07_info = {
+  * and firmware stream ID in the MMIO path table.
+  */
+ static const struct host1x_sid_entry tegra234_sid_table[] = {
+-	{
+-		/* SE2 MMIO */
+-		.base = 0x1658,
+-		.offset = 0x90,
+-		.limit = 0x90
+-	},
+-	{
+-		/* SE4 MMIO */
+-		.base = 0x1660,
+-		.offset = 0x90,
+-		.limit = 0x90
+-	},
+-	{
+-		/* SE2 channel */
+-		.base = 0x1738,
+-		.offset = 0x90,
+-		.limit = 0x90
+-	},
+-	{
+-		/* SE4 channel */
+-		.base = 0x1740,
+-		.offset = 0x90,
+-		.limit = 0x90
+-	},
+-	{
+-		/* VIC channel */
+-		.base = 0x17b8,
+-		.offset = 0x30,
+-		.limit = 0x30
+-	},
+-	{
+-		/* VIC MMIO */
+-		.base = 0x1688,
+-		.offset = 0x34,
+-		.limit = 0x34
+-	},
+-	{
+-		/* NVDEC channel */
+-		.base = 0x17c8,
+-		.offset = 0x30,
+-		.limit = 0x30,
+-	},
+-	{
+-		/* NVDEC MMIO */
+-		.base = 0x1698,
+-		.offset = 0x34,
+-		.limit = 0x34,
+-	},
++	{ /* SE1 MMIO     */  .base = 0x1650, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE1 ch       */  .base = 0x1730, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE2 MMIO     */  .base = 0x1658, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE2 ch       */  .base = 0x1738, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE4 MMIO     */  .base = 0x1660, .offset = 0x90,  .limit = 0x90  },
++	{ /* SE4 ch       */  .base = 0x1740, .offset = 0x90,  .limit = 0x90  },
++	{ /* ISP MMIO     */  .base = 0x1680, .offset = 0x800, .limit = 0x800 },
++	{ /* VIC MMIO     */  .base = 0x1688, .offset = 0x34,  .limit = 0x34  },
++	{ /* VIC ch       */  .base = 0x17b8, .offset = 0x30,  .limit = 0x30  },
++	{ /* NVENC MMIO   */  .base = 0x1690, .offset = 0x34,  .limit = 0x34  },
++	{ /* NVENC ch     */  .base = 0x17c0, .offset = 0x30,  .limit = 0x30  },
++	{ /* NVDEC MMIO   */  .base = 0x1698, .offset = 0x34,  .limit = 0x34  },
++	{ /* NVDEC ch     */  .base = 0x17c8, .offset = 0x30,  .limit = 0x30  },
++	{ /* NVJPG MMIO   */  .base = 0x16a0, .offset = 0x34,  .limit = 0x34  },
++	{ /* NVJPG ch     */  .base = 0x17d0, .offset = 0x30,  .limit = 0x30  },
++	{ /* TSEC MMIO    */  .base = 0x16a8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVJPG1 MMIO  */  .base = 0x16b0, .offset = 0x34,  .limit = 0x34  },
++	{ /* NVJPG1 ch    */  .base = 0x17a8, .offset = 0x30,  .limit = 0x30  },
++	{ /* VI MMIO      */  .base = 0x16b8, .offset = 0x800, .limit = 0x800 },
++	{ /* VI_THI MMIO  */  .base = 0x16c0, .offset = 0x30,  .limit = 0x34  },
++	{ /* ISP_THI MMIO */  .base = 0x16c8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDLA MMIO   */  .base = 0x16d8, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDLA ch     */  .base = 0x17e0, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDLA1 MMIO  */  .base = 0x16e0, .offset = 0x30,  .limit = 0x34  },
++	{ /* NVDLA1 ch    */  .base = 0x17e8, .offset = 0x30,  .limit = 0x34  },
++	{ /* OFA MMIO     */  .base = 0x16e8, .offset = 0x34,  .limit = 0x34  },
++	{ /* OFA ch       */  .base = 0x1768, .offset = 0x30,  .limit = 0x30  },
++	{ /* VI2 MMIO     */  .base = 0x16f0, .offset = 0x800, .limit = 0x800 },
++	{ /* VI2_THI MMIO */  .base = 0x16f8, .offset = 0x30,  .limit = 0x34  },
+ };
  
--			show_gather(o, g->base + g->offset, g->words, cdma,
-+			show_gather(o, g->base + g->offset, g->words, NULL,
- 				    g->base, mapped);
- 
- 			if (!job->gather_copy_mapped)
+ static const struct host1x_info host1x08_info = {
 -- 
 2.42.0
 
