@@ -1,72 +1,105 @@
-Return-Path: <linux-tegra+bounces-1968-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-1971-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E869B8B5516
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2024 12:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43B18B5532
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2024 12:25:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F335280F71
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2024 10:21:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EDD4282836
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2024 10:25:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2723EA9C;
-	Mon, 29 Apr 2024 10:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67353BBFA;
+	Mon, 29 Apr 2024 10:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="Xgoc3uzq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqzI1y+a"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870672D05D
-	for <linux-tegra@vger.kernel.org>; Mon, 29 Apr 2024 10:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A0039FE0;
+	Mon, 29 Apr 2024 10:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714386004; cv=none; b=K3+u1DIxktqaptA/5MAxT0PHYVpgx/TsBfi6wi3Z9z80qgIyJNmYg6gKeH7J2li+OVImHtfwrGu4ZGrMz2spfY77OjVEm3SkwLdVmO+UHI7Wb/P2VsnPnPL/a1j4N8bbfxYZPHQaad+ZXei1L/bXv1RAnUTI/Al08A6pyiKEuTA=
+	t=1714386325; cv=none; b=jdWq/MH6be/idckBjXbfpz0Zmets7JOPtEt5rqSKarskH5oU0opRKUAAbZtiauqXkWOnfqJRqbhL0W9a3szdIsWePxQ9XhESQQoApBkdCEQ2JwNBX47d0cNZ25RKiblZVIUFhjnbFt2OvjwHPYX3EgGQZ2pbM055UNtN6mlyGI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714386004; c=relaxed/simple;
-	bh=gBT0/GHP92n03Txi9j723w1y05utrjiv0+U12KD3wps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uIBcTaHB4n4s8wK8MVhMzV7RoasOCDeLrCSch24OlkzRT0SZi2qzL3xhViyfHXF2+6GuiYTL/wzU3cUrBliWaYKc7/mNt9Uvse/x33Drw7ITllKQo/6nckBV52isPQ5fEhJzENgzDKJLQPzJRbP7BCf2KiXpxJvKPPwBPpVkkfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=Xgoc3uzq; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id BDAA160020D1;
-	Mon, 29 Apr 2024 11:19:52 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id zkU0GFO9c9RD; Mon, 29 Apr 2024 11:19:50 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 809AE60020D4;
-	Mon, 29 Apr 2024 11:19:50 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1714385990;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6L+o2xBlnX13VJHQyX2QgkyA28VGIf6z49wDsY/otFc=;
-	b=Xgoc3uzqKH1riu9WVLUELMj7jdaDh2//IQuweKfbOzDBNKXuE8el8MoQaG9vifxJXz7ciw
-	I7hB13SZqRB/ksgikptclEChPNgvkYzapJoTmTxgxWnlgiyFFS/fh+OR5ZIEryT1QfvBmY
-	djeS/mY+tHM+0bywoKj5UCW/uiwldbs=
-Received: from diogo-gram.BROTERIALX.local (bl10-99-26.dsl.telepac.pt [85.243.99.26])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 62827360083;
-	Mon, 29 Apr 2024 11:19:50 +0100 (WEST)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: krzysztof.kozlowski@linaro.org,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
+	s=arc-20240116; t=1714386325; c=relaxed/simple;
+	bh=BSxkbBdK70uPefLrVg5yOQ3KIh93f8UTGSR+QBBryx8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WtmxQZ3T/tQXTSU6KfpQrHDu2v/OA+xaRifeLpmtQt/Ps+FW5lYqKD4WO09G6RXPJwcBwpUnMS+oV2PHtpLgOBfujt7URJjPKAgng9XNNJwyy36De1TESyEiy3XknSJSu4FIJ0+xwOU3AdO7D8tuboYRrWpKorFG0eUC4oyAAQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqzI1y+a; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714386324; x=1745922324;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BSxkbBdK70uPefLrVg5yOQ3KIh93f8UTGSR+QBBryx8=;
+  b=aqzI1y+am4cWxn35amY488YPHxcRTap9ln9e8KynCSnw+LjO82izM2ZK
+   dhikF9pgx0zZXAFdl+13EcETboxch9Sz0xMwA9SWLYcBSXxjb7b5zg87U
+   Z75tji9vCYEt/5yAsZKBOmUPaVuC3m3vaZj+nP+lJQ1JQwnY3hi/gbPyx
+   aVFinCaNraC+sNV5LQGPl427sPW5ld3OfAjmY/67j5WKy4tzzb/JNPIg6
+   Nj0r5BO2g/VKEpj//1ZH+CJ74J4F2K8NeFPLPFV+aAZaRj8s4FaQJLbXE
+   ivZNc+GH7WaihiZ21b6NVmo2k3xvhGBpZlsuByWwQ6C4BGrQyYfGzkGEK
+   Q==;
+X-CSE-ConnectionGUID: clveFvorRWmyUxyB3Igtkw==
+X-CSE-MsgGUID: VHK1JHxTSySIhAVRYRcfCg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="13827905"
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
+   d="scan'208";a="13827905"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 03:25:21 -0700
+X-CSE-ConnectionGUID: eTitjhPcTPOhtWqwOYqo5Q==
+X-CSE-MsgGUID: kiuwJZZ9SPKgOBlYns0TzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
+   d="scan'208";a="26475172"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa006.jf.intel.com with ESMTP; 29 Apr 2024 03:25:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 827C115B; Mon, 29 Apr 2024 13:25:11 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-omap@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Cc: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Subject: [PATCH v3 7/7] memory: tegra: Rework update_clock_tree_delay()
-Date: Mon, 29 Apr 2024 11:19:30 +0100
-Message-ID: <20240429101933.11500-8-diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240429101933.11500-1-diogo.ivo@tecnico.ulisboa.pt>
-References: <20240429101933.11500-1-diogo.ivo@tecnico.ulisboa.pt>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Yue Wang <yue.wang@Amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Xiaowei Song <songxiaowei@hisilicon.com>,
+	Binghui Wang <wangbinghui@hisilicon.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+Subject: [PATCH v3 0/5] PCI: controller: Move to agnostic GPIO API
+Date: Mon, 29 Apr 2024 13:23:17 +0300
+Message-ID: <20240429102510.2665280-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -75,194 +108,36 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Further streamline this function by moving the delay post-processing
-to the callers, leaving it only with the task of returning the measured
-delay values.
+While at it, remove of_gpio.h leftover from some of the drivers.
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
- drivers/memory/tegra/tegra210-emc-cc-r21021.c | 120 +++++++-----------
- 1 file changed, 46 insertions(+), 74 deletions(-)
+In v3:
+- added precursor patch 1 to avoid build errors (LKP)
+- used GPIOD_OUT_LOW instead of GPIOD_ASIS (Mani)
+- added tags (Mani, Frank)
 
-diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-index a8a217502f0c..277fca62f57e 100644
---- a/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-+++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
-@@ -105,7 +105,7 @@ enum {
- 			  next->ptfv_list[w])) /			\
- 			(next->ptfv_list[w] + 1);			\
- 									\
--		emc_dbg(emc, EMA_UPDATES, "%s: (s=%lu) EMA: %u\n",	\
-+		emc_dbg(emc, EMA_UPDATES, "%s: (s=%u) EMA: %u\n",	\
- 			__stringify(dev), nval, next->ptfv_list[dqs]);	\
- 	} while (0)
- 
-@@ -130,93 +130,51 @@ static bool tegra210_emc_compare_update_delay(struct tegra210_emc_timing *timing
- 	return false;
- }
- 
--static bool update_clock_tree_delay(struct tegra210_emc *emc, int type)
-+static void tegra210_emc_get_clktree_delay(struct tegra210_emc *emc,
-+					   u32 delay[DRAM_CLKTREE_NUM])
- {
--	bool periodic_training_update = type == PERIODIC_TRAINING_UPDATE;
--	struct tegra210_emc_timing *last = emc->last;
--	struct tegra210_emc_timing *next = emc->next;
--	u32 last_timing_rate_mhz = last->rate / 1000;
--	bool dvfs_update = type == DVFS_UPDATE;
--	bool dvfs_pt1 = type == DVFS_PT1;
--	u32 temp[2][2], value, delay_us;
--	unsigned long cval = 0;
-+	struct tegra210_emc_timing *curr = emc->last;
-+	u32 rate_mhz = curr->rate / 1000;
-+	u32 msb, lsb, dqsosc, delay_us;
- 	unsigned int c, d, idx;
--	bool over = false;
-+	unsigned long clocks;
- 
--	if (dvfs_pt1 || periodic_training_update) {
--		delay_us = tegra210_emc_actual_osc_clocks(last->run_clocks);
--		delay_us *= 1000;
--		delay_us = 2 + (delay_us / last->rate);
-+	clocks = tegra210_emc_actual_osc_clocks(curr->run_clocks);
-+	delay_us = 2 + (clocks / rate_mhz);
- 
--		tegra210_emc_start_periodic_compensation(emc);
--		udelay(delay_us);
--	}
-+	tegra210_emc_start_periodic_compensation(emc);
-+	udelay(delay_us);
- 
- 	for (d = 0; d < emc->num_devices; d++) {
--		if (dvfs_pt1 || periodic_training_update) {
--			/* Dev[d] MSB */
--			value = tegra210_emc_mrr_read(emc, 2 - d, 19);
--
--			for (c = 0; c < emc->num_channels; c++) {
--				temp[c][0] = (value & 0x00ff) << 8;
--				temp[c][1] = (value & 0xff00) << 0;
--				value >>= 16;
--			}
--
--			/* Dev[d] LSB */
--			value = tegra210_emc_mrr_read(emc, 2 - d, 18);
--
--			for (c = 0; c < emc->num_channels; c++) {
--				temp[c][0] |= (value & 0x00ff) >> 0;
--				temp[c][1] |= (value & 0xff00) >> 8;
--				value >>= 16;
--			}
--		}
-+		/* Read DQSOSC from MRR18/19 */
-+		msb = tegra210_emc_mrr_read(emc, 2 - d, 19);
-+		lsb = tegra210_emc_mrr_read(emc, 2 - d, 18);
- 
- 		for (c = 0; c < emc->num_channels; c++) {
- 			/* C[c]D[d]U[0] */
- 			idx = c * 4 + d * 2;
- 
--			if (dvfs_pt1 || periodic_training_update) {
--				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
--				cval *= 1000000;
--				cval /= last_timing_rate_mhz * 2 * temp[c][0];
--			}
--
--			if (dvfs_pt1)
--				__INCREMENT_PTFV(idx, cval);
--			else if (dvfs_update)
--				__AVERAGE_PTFV(idx);
--			else if (periodic_training_update)
--				__WEIGHTED_UPDATE_PTFV(idx, cval);
-+			dqsosc = (msb & 0x00ff) << 8;
-+			dqsosc |= (lsb & 0x00ff) >> 0;
- 
--			if (dvfs_update || periodic_training_update)
--				over |= tegra210_emc_compare_update_delay(next,
--							__MOVAVG_AC(next, idx), idx);
-+			/* Check for unpopulated channels */
-+			if (dqsosc)
-+				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
- 
- 			/* C[c]D[d]U[1] */
- 			idx++;
- 
--			if (dvfs_pt1 || periodic_training_update) {
--				cval = tegra210_emc_actual_osc_clocks(last->run_clocks);
--				cval *= 1000000;
--				cval /= last_timing_rate_mhz * 2 * temp[c][1];
--			}
-+			dqsosc = (msb & 0xff00) << 0;
-+			dqsosc |= (lsb & 0xff00) >> 8;
- 
--			if (dvfs_pt1)
--				__INCREMENT_PTFV(idx, cval);
--			else if (dvfs_update)
--				__AVERAGE_PTFV(idx);
--			else if (periodic_training_update)
--				__WEIGHTED_UPDATE_PTFV(idx, cval);
-+			/* Check for unpopulated channels */
-+			if (dqsosc)
-+				delay[idx] = clocks * 1000000 / rate_mhz * 2 * dqsosc;
- 
--			if (dvfs_update || periodic_training_update)
--				over |= tegra210_emc_compare_update_delay(next,
--							__MOVAVG_AC(next, idx), idx);
-+			msb >>= 16;
-+			lsb >>= 16;
- 		}
- 	}
--
--	return over;
- }
- 
- static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
-@@ -228,8 +186,8 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
- 	   (nt)->ptfv_list[PTFV_DVFS_SAMPLES_INDEX]; })
- 
- 	u32 i, samples = next->ptfv_list[PTFV_DVFS_SAMPLES_INDEX];
-+	u32 delay[DRAM_CLKTREE_NUM], idx;
- 	bool over = false;
--	u32 idx;
- 
- 	if (!next->periodic_training)
- 		return 0;
-@@ -252,16 +210,30 @@ static bool periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
- 
- 			for (i = 0; i < samples; i++) {
- 				/* Generate next sample of data. */
--				update_clock_tree_delay(emc, DVFS_PT1);
-+				tegra210_emc_get_clktree_delay(emc, delay);
-+
-+				for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++)
-+					__INCREMENT_PTFV(idx, delay[idx]);
- 			}
- 		}
- 
--		/* Do the division part of the moving average */
--		over = update_clock_tree_delay(emc, DVFS_UPDATE);
-+		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
-+			/* Do the division part of the moving average */
-+			__AVERAGE_PTFV(idx);
-+			over |= tegra210_emc_compare_update_delay(next,
-+						__MOVAVG_AC(next, idx), idx);
-+		}
- 	}
- 
--	if (type == PERIODIC_TRAINING_SEQUENCE)
--		over = update_clock_tree_delay(emc, PERIODIC_TRAINING_UPDATE);
-+	if (type == PERIODIC_TRAINING_SEQUENCE) {
-+		tegra210_emc_get_clktree_delay(emc, delay);
-+
-+		for (idx = 0; idx < DRAM_CLKTREE_NUM; idx++) {
-+			__WEIGHTED_UPDATE_PTFV(idx, delay[idx]);
-+			over |= tegra210_emc_compare_update_delay(next,
-+						__MOVAVG_AC(next, idx), idx);
-+		}
-+	}
- 
- 	return over;
- }
+In v2:
+- combined previously sent patches into a series (Manivannan)
+- added tags (Rob, Manivannan)
+- converted iMX.6 driver (Manivannan)
+- dropped leftover in aadvark drivers (Manivannan)
+
+Andy Shevchenko (5):
+  PCI: dra7xx: Add missing header inclusion
+  PCI: aardvark: Remove unused of_gpio.h
+  PCI: dwc: Remove unused of_gpio.h
+  PCI: imx6: Convert to agnostic GPIO API
+  PCI: kirin: Convert to agnostic GPIO API
+
+ drivers/pci/controller/dwc/pci-dra7xx.c    |   2 +-
+ drivers/pci/controller/dwc/pci-imx6.c      |  37 +++-----
+ drivers/pci/controller/dwc/pci-meson.c     |   1 -
+ drivers/pci/controller/dwc/pcie-kirin.c    | 105 +++++++--------------
+ drivers/pci/controller/dwc/pcie-qcom.c     |   1 -
+ drivers/pci/controller/dwc/pcie-tegra194.c |   2 -
+ drivers/pci/controller/pci-aardvark.c      |   1 -
+ 7 files changed, 50 insertions(+), 99 deletions(-)
+
 -- 
-2.44.0
+2.43.0.rc1.1336.g36b5255a03ac
 
 
