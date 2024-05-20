@@ -1,95 +1,91 @@
-Return-Path: <linux-tegra+bounces-2323-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2327-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA8B8C9C9E
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2024 13:50:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CA98C9D1E
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2024 14:24:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26B1B1F22AA2
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2024 11:50:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3983CB2266D
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2024 12:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26AFA51C46;
-	Mon, 20 May 2024 11:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3928954FBD;
+	Mon, 20 May 2024 12:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kUQkszKd"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dixOGuBY"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4582453380;
-	Mon, 20 May 2024 11:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6AB548F7;
+	Mon, 20 May 2024 12:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716205793; cv=fail; b=FZkSUwo2YWszI23WdRqgU//1W296Tojvvi147cONJK9GZY4M8b9jJQrfWe7ADctqlne83fGdC1APAMqfpDZhlDkS0BBuxalYJupyXp277O/qqVjUYDmGGqUenq+3oAiG5p8BRzFN2GZXZuCTeC214S+k94rrVA4eyXcMbDbe7Bw=
+	t=1716207861; cv=fail; b=eWQwoVWV34XRorgRvhppar/CuhVssuzeB5jAVuxVZ00qbUPHRVakyv7Yp2zek3hIiJA1uAy0y/xpiqy9p67vEqiW/tjUj2hY85Q064CapWVvmbg0XBIKZ3XhT8uC2fKeOZBBhQKCVFv03nWGnMOont/u9gYNsxeRDxQnf7rhK94=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716205793; c=relaxed/simple;
-	bh=TubX/36XEmExFl6XLrEH+PKk8r98TGBVXhenGnp/8RQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p/rCAjZ16eytB5UpXGwwJbQOWjHLsR9/vGsKl0tUpXxS/Ly2ukEvgcyIvv8Mm8COW77sthsHGPQgGfKvMLeGWWgUKdddVezhd1/mMf0sHt20dcVVezwEKQAy6dXhK8+PMa4AOlbzkKaXbgHjQCzaoA/j7zp2uB8xNS7M9u0MxnM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kUQkszKd; arc=fail smtp.client-ip=40.107.223.71
+	s=arc-20240116; t=1716207861; c=relaxed/simple;
+	bh=DEXsZmSeo58xCvMWzPm/DrxUDoqwSDplm9/r5QtI1j4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F0K1TblI5R5Q7xRbSFSBwohnDAYSFq4k23XDakSad7Lj68kWuCGaf4gl7SzvBPPAbvDHYJs7pH+SpDWCCGchUEm12R5YkdSPoKS/f53PZtvaMLZwKGH7E+CGxFjBRkbyVVPAGNFSjSARZwLlPGwyre2DS/vd9dexDquKXywdIcA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dixOGuBY; arc=fail smtp.client-ip=40.107.237.62
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sc9o9lBN6o3UFpjDzOPoq0nYdehOhhqsmvIeJyQW818LnYdCsLqBaGHrp7HNcPuN6eugKC6jjmPA34F4h6MCMKea9E8KIHNCqQn8zCeYzgW5lOJ+EajoHmqwZdFJNh9230l2A8S51NWRD3Ehbp1HhCSikM9qaXR+xt6HaC06y+n0Q1+euzKXa9L2y9W5OQlDJub3Lvwb6WeyA/5PFnmqreEGsu+ppkZkqy9op3cnkja3dYq5Iba6hvWdOyhxowglmBgK8Q90N8BhyDb6O6fBXKq6qV34K2IagqAa4j03tXyA9ah5fgLXSzwtgCFyKPZopLKfMiJ/IPJEWeA5N0ChTw==
+ b=A/PA97WOujVHmXIqU7GVuTpExftAU5grwQJqmy7SVbGBTEDxkBYVTSTFjoH4EzqD+4Y3RYhUhSJn0txppcOH23bSzpdTEGZCSQ6ywtE5TsOMkzgxc8A5YQzV9UlL8yLY//bwCU0NecSzYntpCpyfHMTKIOMrmy7T6dF4aZwny42l8tFa++279Pg3IiPR4xPF/2CHDEB0o2IEENHpGRBM6tTj66Ox36PCuoO+ytzoIefkU7s9+tM2PF3ENSiAxul5/lYrEN7kEqIaeiiauHi0rw+Gpz1zVZ7F/eELwGLYJ7gZewGzyyrM+7cVD5e2apMUCUd5fhzkWAhNlO0URjnDIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lyprnbm1tIxrcuI12Z8zIjyjUaS7KPCHCBbmbSiWE1Q=;
- b=QKFRo02Ib5Iq3ORilVbRIbBblfyZw+rDnKYZVxtapa2PJIFSE81uiRhmwaRuVOD4mPducvFYS55/FatwrJ+hVaz9iX6YA5rC/XRRTEFwB7L6m0f5hNswJEBLisx8BwVulfu/0ZsZTUtS6SAwohW7tL7lRKX12Rig4Ag/Qa4km14mr0p48VOtJImLD0Ozn8j5HR4BFQSytYHYpR30i27zao4/j0U6wWPk/b+Cx1yaIAw7V2/PatIPTXUqwCKBBQebUy95Pyce/4ocJ05b3eS7QVAec/1GTuo4SzR6jSpwzGwBoobkn3s1Mh6czVIGXveJDqVZojN6tPoWoV+kEivBBA==
+ bh=dJXd25h0NH+4MRShVKC+Gk9crFEOq9qqIX3UWMD9U1Y=;
+ b=jyRDPpkM5aNLSetPiIaA84/zXGNbWSXftUQ99gnAipNPxvFqItQnTudvbTkNBAQY70eon79lyLaDo3ljholcchVc6bN3Zmviyok32aSvVWfrvejxQ3dtP2sjCYitvGLckTsos3e5zUoklErZYVXqaTkY6Ar6X00+u/QnXjqrVjFxSK665KydtXi4ZntoPGhBKcJM4TPpalQE8Qu+YchBPc3c/3ZUDPB2AtxcvsVdhkuuOyNytGJo+WEM4jUgxvp3JrVxeRTHdHCs/uMaDWD9v73Tq9h1bdHVcRgU9jHfWcwEvNIzJuIfSHq8kPLighMo7o9ztr9d1MHizMyjmzYVJQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lyprnbm1tIxrcuI12Z8zIjyjUaS7KPCHCBbmbSiWE1Q=;
- b=kUQkszKdvtba5pPeesxgHUeITTncb65D9DVDqdKwO6qzIB3QvAAro8p84WwlVgWeSfhgR4HOw5N0lSOGm7q2BhPkFcyq5lNtSHPdZTfqiBaGFjrLRjio8WYoNF86WrUbXsSjEaAA8pEyoKV7LHgwiWzU6L1e0EPegACgCvC4EkHPnEslTJfTYbkLWFfhgdrxL0ZbYyJkx0Gql+b4m/WQENz3tfsyENi3lxt7OcaKRUa5AnarvRiieCEa10pitgm2ZtZHjKkx+nQQURVmPA88rMSKRE8JpexbsJ1z9X4QtKrfr+dlO9Oc3Tstem3h2dKVA1N7SZ6pmCbA8o7hWoha5g==
-Received: from DM6PR17CA0012.namprd17.prod.outlook.com (2603:10b6:5:1b3::25)
- by LV8PR12MB9358.namprd12.prod.outlook.com (2603:10b6:408:201::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Mon, 20 May
- 2024 11:49:47 +0000
-Received: from CY4PEPF0000E9DC.namprd05.prod.outlook.com
- (2603:10b6:5:1b3:cafe::34) by DM6PR17CA0012.outlook.office365.com
- (2603:10b6:5:1b3::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36 via Frontend
- Transport; Mon, 20 May 2024 11:49:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ bh=dJXd25h0NH+4MRShVKC+Gk9crFEOq9qqIX3UWMD9U1Y=;
+ b=dixOGuBYWHxxrke2wXLB2ZAdAxnDQqPq/pk5QtGSQ3rP7gatC/0oVudyyWNm0H1dXMFuh0F1yBu2NTgKjoSYDiEj+RUOKL4hM9M2oDGRGGInFihqyB8CzO3BLXmWedvLgrgoov7/gOSex2c5qm13zflwVcxLgToevJBbK3wqZMGmaL2tY54zuyV9h4c6DGWV8MSzan6ukPnbPbW9c6AmxB6ZPOW52UiGd1vs0j/cdIaTxkakQlPWEYm+8oObYPddKQk1NP3q9C60Ab9/1w+Vy/27bz+Ajv23ObKymESHkXkUHEDW00X3+56rJmSt1YKd6OEL0Dmo+5RyS/C399Kdkw==
+Received: from DS7PR03CA0345.namprd03.prod.outlook.com (2603:10b6:8:55::29) by
+ SA3PR12MB9178.namprd12.prod.outlook.com (2603:10b6:806:396::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7587.35; Mon, 20 May 2024 12:24:16 +0000
+Received: from CY4PEPF0000EE31.namprd05.prod.outlook.com
+ (2603:10b6:8:55:cafe::ef) by DS7PR03CA0345.outlook.office365.com
+ (2603:10b6:8:55::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.34 via Frontend
+ Transport; Mon, 20 May 2024 12:24:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000E9DC.mail.protection.outlook.com (10.167.241.75) with Microsoft
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CY4PEPF0000EE31.mail.protection.outlook.com (10.167.242.37) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7611.14 via Frontend Transport; Mon, 20 May 2024 11:49:47 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.7611.14 via Frontend Transport; Mon, 20 May 2024 12:24:16 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 20 May
- 2024 04:49:34 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 05:24:01 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 20 May
- 2024 04:49:33 -0700
+ 2024 05:24:00 -0700
 Received: from build-spujar-20240506T080629452.internal (10.127.8.9) by
- mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.1544.4 via
- Frontend Transport; Mon, 20 May 2024 04:49:33 -0700
+ mail.nvidia.com (10.129.68.9) with Microsoft SMTP Server id 15.2.1544.4 via
+ Frontend Transport; Mon, 20 May 2024 05:24:00 -0700
 From: Sameer Pujar <spujar@nvidia.com>
-To: <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-CC: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lgirdwood@gmail.com>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<mkumard@nvidia.com>, <spujar@nvidia.com>
-Subject: [PATCH 2/2] ASoC: tegra: I2S client convert formats handling
-Date: Mon, 20 May 2024 11:49:02 +0000
-Message-ID: <20240520114902.1663695-3-spujar@nvidia.com>
+To: <vkoul@kernel.org>, <thierry.reding@gmail.com>,
+	<dmaengine@vger.kernel.org>
+CC: <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <mkumard@nvidia.com>, <spujar@nvidia.com>,
+	<ldewangan@nvidia.com>
+Subject: [PATCH 0/2] Virtualization support for Tegra ADMA
+Date: Mon, 20 May 2024 12:23:49 +0000
+Message-ID: <20240520122351.1691058-1-spujar@nvidia.com>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240520114902.1663695-1-spujar@nvidia.com>
-References: <20240520114902.1663695-1-spujar@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -101,240 +97,66 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DC:EE_|LV8PR12MB9358:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a672f80-9055-41ef-0989-08dc78c2f2f9
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE31:EE_|SA3PR12MB9178:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7572be15-2d30-4249-89ec-08dc78c7c41e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|36860700004|1800799015|376005|82310400017;
+	BCL:0;ARA:13230031|376005|36860700004|82310400017|1800799015;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IrHoTDDkom87IabeMhKJArun53wlegEOLGP5ZxRDCAg2zrn85aGJstWCSd//?=
- =?us-ascii?Q?s5dHFGw27ZEolZDMBM2ROpB0On/F2qGhP9qKlxBmeKOz9coGnZuEwbYYVwIk?=
- =?us-ascii?Q?jG/HqR0JAv3gvTsHD/QIOiHw/WhMLQeawyH6G7mLojkBbrHDK81+oYmqpvMU?=
- =?us-ascii?Q?gH6zx5B5JKpEdbVgev0CYDsYDBhckpVutOpt57iYTzcj5hkBYP7dufVBKxbA?=
- =?us-ascii?Q?GaLebl+yAFje3aigHjrRgP4tZnk/hk8omAFFrikU1zS2rLot0QQSi2DSqWdu?=
- =?us-ascii?Q?N05oK6X8wvKME5VFgYIr90Pc8XcRhtdaWYvKUICsQPuvUUAc64Ea0pcggpX6?=
- =?us-ascii?Q?p3RwyezYwV/uPm6byR6/HDHMonvt6U+c0swpJH+mYV9Ej6C5ypnkhP2X9udV?=
- =?us-ascii?Q?Wl2uPpU4sx1CztpS3en3MNOs8rUv2+xwOn1OJJzqIRBghRhh+WXvW/AGEqcq?=
- =?us-ascii?Q?V56lATslc7i7OChzxuyPAuAgprbpa9kJG0v9KP9sm0IrCsFPNiDhe8Xdq/p3?=
- =?us-ascii?Q?Oip7e2/qtf2RW7VGdvxkGAl032x9xjxdpaBlu2mi4ChtcWqqoitFBpxmAwEY?=
- =?us-ascii?Q?Ax/S4zuk5yGVwQ47YSHH00rWxeyyu3rRTYg8oatGrA0JsUBign+rtqqKZ9Hk?=
- =?us-ascii?Q?PbfjjNG3GS24lcNhBVa0iv7d8ZE1mQoQ1xUrY1IeY3XCYCsRBbCNw78uK/0y?=
- =?us-ascii?Q?9KdlM0freY52+LuNKwciC2V2Jvk/+QkALNkylfjQ1R6ALrEjmLp5IZFOjcZU?=
- =?us-ascii?Q?MBTThaFKR9QmNvvEA71m6uwQQvt+HLpOyZvqnivQH3eU9Q+/ZZ/XmnJowBfs?=
- =?us-ascii?Q?rEXRjL0fQoX6BlzA6PfB9gCS6dpesfijQnO5DJBPvfCWwmv9qEnMNF4nJYvD?=
- =?us-ascii?Q?JK2dVLUZM3aa4OHwzo6vILOwNJDrUDvvKaCyvmVwQHxc6ElwPP9rZi8t9gXF?=
- =?us-ascii?Q?nSJL0un4OfH9BWN+v8MMPaOl+nUQ9Kyo1zljJQgaunUY3q+lk2s4hwhu0g5u?=
- =?us-ascii?Q?TU1Gb2VQnBjrH1Pzec6O94lgrzq4zz06wnLATk6XEttIby+tJt2jFzZuJPaZ?=
- =?us-ascii?Q?UoOZiLYUokfeFfZ+vignzYkVliwvHHiSGTm4I/BFExua2+srkJV7BXeEymMn?=
- =?us-ascii?Q?yuJGJZYSmgLkMqNQRj9rNhRH1G8GrFwF9SGMxdK7HgDkKkKyRdPRkzaz3vPd?=
- =?us-ascii?Q?h34FtDLPIboN0Da5NFmLSU/IjZODPJ22XIdmUs9hI/LVGAXRRWgRBVH0sWY4?=
- =?us-ascii?Q?IqdBWItacjZY624N8VVlY++CaU+81pFhZrc2lry8KAlIho+ZuwKcU4fVrN3T?=
- =?us-ascii?Q?9fJFH2bZ9TjnGQkiWngaXys9PayezhhkVwQH3JDZnIu4NCh1bGuU3yiiVr5W?=
- =?us-ascii?Q?FhI3LcL/5MnsxalMqCejaGE8TP/9?=
+	=?us-ascii?Q?CZQ39v+/Fr3wDHxwgymnfXMOrYNQZwerfiFioXz6NV+5dLN5zL3AoklShrPl?=
+ =?us-ascii?Q?zsNONmIIreL3pf8XpWrdPoyO8Ll29Nrs+mClba/aONG4Q2D1XT3FRT+9RWic?=
+ =?us-ascii?Q?rELx9tWRHmEJoRC7qy4XgPk7Ah7X7Jvcq/OiUAQ1ggzRVJdq1p7qLL+qLHDc?=
+ =?us-ascii?Q?YtoRxbx+Aj4x96dAGaCNxg/HNpTcULG2PiyOme4CFlAhftAROKPIdC0ABVAw?=
+ =?us-ascii?Q?eb63TgLTt8D9wiBnwBgtd+6bmLoeJC22oUvCvfsqxJgQfjobklwXmiHs5vwL?=
+ =?us-ascii?Q?59UJx9glvAEKBXAh+jIy/k37VNj7eVuSZknNlbhdFQw44KF6t1Ggoe3z1Hd7?=
+ =?us-ascii?Q?k/bHmaQYoIupV/umNQ9STtaOey5JgoZ9d7AXYebwczesw0dWxgyVeBbeBvn5?=
+ =?us-ascii?Q?NgLuGFLmV+/DPbol+T5l8fzY8bnyKkDEDFT76JaJHGB9wrqKZJrbC+ZZmdMY?=
+ =?us-ascii?Q?aAJ6Q0+PlA5VWrqEbA4XjV4vZzfIkcdzZg4pQ63W1KbVjDBx3wsP+IWD/zV4?=
+ =?us-ascii?Q?Ys62eeO9AD4oVlkOUFDU/tMKghH+StvyujONLM250IpajhiUOs9mbugwTIbh?=
+ =?us-ascii?Q?cqZeM+MDBZmo5mp/UCXkGbc1/MW4mcOlbHHHnt4K6j2d8Ys7EHnEb/evSbMo?=
+ =?us-ascii?Q?cLfdk9Pkm6lJuadFR11LvqEOIHBoEKa2EDgHPI7wyWWhBkyLcejhrNA4Vnz+?=
+ =?us-ascii?Q?/RaF3IwGD8+QJyNt+U3MK70UMuJPU8BHzjSOjDK3EBn0nZtVnnGsLdsFV+io?=
+ =?us-ascii?Q?oZo/ceHM75c1pN7lmw26IEJuZdyI3jMQ5DgcYdUN0laZJDR+KeK7hJ+3ABqy?=
+ =?us-ascii?Q?0A5SF3jqYjjEPlGaG7HsY7+6uhHwDjRHN+BaJ9X2/z/eSc6dTu/Duei0gpe/?=
+ =?us-ascii?Q?eUfczEAvEDL8JrS6KJvPaS9F5Zkm0dN3pl2jOHbud+ltNrVgaHw2Z0HvzMyx?=
+ =?us-ascii?Q?7OJnGx7PJcOM8JffvuUFB1FrvDOk7L2p27N0BQEWJQEo6fPoqcqNwOyecs/T?=
+ =?us-ascii?Q?LqoGoek1pBUQeR4/m1i65jQs/dRyv7gSLgsApOoy0oMXZ0PtmEQU56yHbLvv?=
+ =?us-ascii?Q?92tmMzvLMGWGSbYA5zqkH3pwtWggcz/oA0+W8PJFbDuSJj4JedLwdfu8/OcV?=
+ =?us-ascii?Q?DBPqel+H9m48ltOVvcmUpA5w0a03c2Tg535IepI+8+rA44QWR97x5xLNaT11?=
+ =?us-ascii?Q?jDGtdt3CL17EGDcgLYeiwwdtll9LG7DVbc33wDMgFz9wqNXaPnEUU9JU5CCa?=
+ =?us-ascii?Q?q4S+GXm4Q4LCaa9GFPs5kCfZomGvQkfCE2NtviyUbpjK9mZXmxrerIiC95mY?=
+ =?us-ascii?Q?YsfzoT1x0I6UnegTrL4Rl2/2kN94Pi+9uuWGL8TDbf54vzX2lCJlYuxSpoJj?=
+ =?us-ascii?Q?sroAQhy/qvc4Rtr8OddUWQG+AYkf?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(376005)(82310400017);DIR:OUT;SFP:1101;
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(376005)(36860700004)(82310400017)(1800799015);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2024 11:49:47.3757
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2024 12:24:16.2706
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a672f80-9055-41ef-0989-08dc78c2f2f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7572be15-2d30-4249-89ec-08dc78c7c41e
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9DC.namprd05.prod.outlook.com
+	CY4PEPF0000EE31.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9358
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9178
 
 From: Mohan Kumar <mkumard@nvidia.com>
 
-The AHUB HW modules are interconnected with CIF which are capable of
-supporting Channel and Sample bit format conversion. Due to this, the
-I2S Client can have different Channel and Sample bit from the hw_params()
-and this config is passed from CIF port of I2S DT node which can help to
-perform this conversion.
+Tegra ADMA HW supports multiple PAGES for virtualization, to
+support virtualization
+- reg-names property has been added to DT binding for the hypervisor mode.
+- In hypervisor mode the ADMA global registers are not accessed by guest.
 
-For e.g. HFP usecase consists of BT SCO with 1ch and 8k audio data
-which needs to be converted and mixed with external codec playback and
-capture path which is of 2ch and 48k format.
+Mohan Kumar (2):
+  dt-bindings: dma: Add reg-names to nvidia,tegra210-adma
+  dmaengine: tegra210-adma: Add support for ADMA virtualization
 
-For HFP Playback:
-  The path includes mono to stereo and 8k to 48k conversion
-    _ _ _ _       _ _ _          _ _ _        _ _ _ _ _       _ _ _ _ _ _
-   |       |1ch  |      | 1ch   |     |2ch   | SFC     | 2ch |           |
-   |BT SCO |---->| I2Sx |------>| CIF |----->| 8k->48k |---->| Codec I2Sy|
-   |_ _ _ _|     |_ _ __|client |_ _ _|audio |_ _ _ _ _|     |_ _ _ _ _ _|
+ .../bindings/dma/nvidia,tegra210-adma.yaml    | 10 +++++
+ drivers/dma/tegra210-adma.c                   | 44 +++++++++++++++----
+ 2 files changed, 46 insertions(+), 8 deletions(-)
 
-For HFP Capture:
-  The path includes stereo to mono and 48k to 8k conversion
-    _ _ _ _ _ _       _ _ _ _ _        _ _ _         _ _ _ _       _ _ _ _
-   |           | 2ch | SFC     | 2ch  |     | 1ch   |       | 1ch |       |
-   | codec I2Sy|---->| 48k->8k |----->| CIF |------>| I2Sx  |---->| BT SCO|
-   |_ _ _ _ _ _|     |_ _ _ _ _| audio|_ _ _|client |_ _ _ _|     |_ _ _ _|
-
-For above two path, I2S client channel uses existing DT binding to pass
-channels and format conversion in I2Sx CIF Port.
-
-Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- sound/soc/tegra/tegra210_i2s.c | 71 ++++++++++++++++++++++++++++++++--
- sound/soc/tegra/tegra210_i2s.h |  2 +
- 2 files changed, 69 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra210_i2s.c b/sound/soc/tegra/tegra210_i2s.c
-index ba7fdd7405ac..454719126ad2 100644
---- a/sound/soc/tegra/tegra210_i2s.c
-+++ b/sound/soc/tegra/tegra210_i2s.c
-@@ -8,11 +8,13 @@
- #include <linux/device.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-+#include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <sound/core.h>
- #include <sound/pcm_params.h>
-+#include <sound/simple_card_utils.h>
- #include <sound/soc.h>
- #include "tegra210_i2s.h"
- #include "tegra_cif.h"
-@@ -603,6 +605,7 @@ static int tegra210_i2s_hw_params(struct snd_pcm_substream *substream,
- 	struct tegra210_i2s *i2s = snd_soc_dai_get_drvdata(dai);
- 	unsigned int sample_size, channels, srate, val, reg, path;
- 	struct tegra_cif_conf cif_conf;
-+	unsigned int sample_format;
- 
- 	memset(&cif_conf, 0, sizeof(struct tegra_cif_conf));
- 
-@@ -615,28 +618,51 @@ static int tegra210_i2s_hw_params(struct snd_pcm_substream *substream,
- 
- 	cif_conf.audio_ch = channels;
- 	cif_conf.client_ch = channels;
-+	if (i2s->client_channels)
-+		cif_conf.client_ch = i2s->client_channels;
- 
-+	/* AHUB CIF Audio bits configs */
- 	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_S8:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_8;
-+		break;
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
-+		break;
-+	default:
-+		dev_err(dev, "unsupported params audio bit format!\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	sample_format = params_format(params);
-+	if (i2s->client_sample_format >= 0)
-+		sample_format = i2s->client_sample_format;
-+
-+	/*
-+	 * Format of the I2S for sending/receiving the audio
-+	 * to/from external device.
-+	 */
-+	switch (sample_format) {
- 	case SNDRV_PCM_FORMAT_S8:
- 		val = I2S_BITS_8;
- 		sample_size = 8;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_8;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_8;
- 		break;
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		val = I2S_BITS_16;
- 		sample_size = 16;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_16;
- 		break;
- 	case SNDRV_PCM_FORMAT_S32_LE:
- 		val = I2S_BITS_32;
- 		sample_size = 32;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_32;
- 		break;
- 	default:
--		dev_err(dev, "unsupported format!\n");
-+		dev_err(dev, "unsupported client bit format!\n");
- 		return -EOPNOTSUPP;
- 	}
- 
-@@ -872,6 +898,40 @@ static const struct regmap_config tegra210_i2s_regmap_config = {
- 	.cache_type		= REGCACHE_FLAT,
- };
- 
-+/*
-+ * The AHUB HW modules are interconnected with CIF which are capable of
-+ * supporting Channel and Sample bit format conversion. This needs different
-+ * CIF Audio and client configuration. As one of the config comes from
-+ * params_channels() or params_format(), the extra configuration is passed from
-+ * CIF Port of DT I2S node which can help to perform this conversion.
-+ *
-+ *    4ch          audio = 4ch      client = 2ch       2ch
-+ *   -----> ADMAIF -----------> CIF -------------> I2S ---->
-+ */
-+static void tegra210_parse_client_convert(struct device *dev)
-+{
-+	struct tegra210_i2s *i2s = dev_get_drvdata(dev);
-+	struct device_node *ports, *ep;
-+	struct simple_util_data data = {};
-+	int cif_port = 0;
-+
-+	ports = of_get_child_by_name(dev->of_node, "ports");
-+	if (ports) {
-+		ep = of_graph_get_endpoint_by_regs(ports, cif_port, -1);
-+		if (ep) {
-+			simple_util_parse_convert(ep, NULL, &data);
-+			of_node_put(ep);
-+		}
-+		of_node_put(ports);
-+	}
-+
-+	if (data.convert_channels)
-+		i2s->client_channels = data.convert_channels;
-+
-+	if (data.convert_sample_format)
-+		i2s->client_sample_format = simple_util_get_sample_fmt(&data);
-+}
-+
- static int tegra210_i2s_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -887,6 +947,7 @@ static int tegra210_i2s_probe(struct platform_device *pdev)
- 	i2s->tx_mask = DEFAULT_I2S_SLOT_MASK;
- 	i2s->rx_mask = DEFAULT_I2S_SLOT_MASK;
- 	i2s->loopback = false;
-+	i2s->client_sample_format = -EINVAL;
- 
- 	dev_set_drvdata(dev, i2s);
- 
-@@ -916,6 +977,8 @@ static int tegra210_i2s_probe(struct platform_device *pdev)
- 		return PTR_ERR(i2s->regmap);
- 	}
- 
-+	tegra210_parse_client_convert(dev);
-+
- 	regcache_cache_only(i2s->regmap, true);
- 
- 	err = devm_snd_soc_register_component(dev, &tegra210_i2s_cmpnt,
-diff --git a/sound/soc/tegra/tegra210_i2s.h b/sound/soc/tegra/tegra210_i2s.h
-index 030d70c45e18..fe478f3d8435 100644
---- a/sound/soc/tegra/tegra210_i2s.h
-+++ b/sound/soc/tegra/tegra210_i2s.h
-@@ -112,6 +112,8 @@ struct tegra210_i2s {
- 	struct clk *clk_i2s;
- 	struct clk *clk_sync_input;
- 	struct regmap *regmap;
-+	int client_sample_format;
-+	unsigned int client_channels;
- 	unsigned int stereo_to_mono[I2S_PATHS];
- 	unsigned int mono_to_stereo[I2S_PATHS];
- 	unsigned int dai_fmt;
 -- 
 2.45.1
 
