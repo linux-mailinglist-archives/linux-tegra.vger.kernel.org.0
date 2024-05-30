@@ -1,139 +1,93 @@
-Return-Path: <linux-tegra+bounces-2505-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2507-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E2A8D4C5F
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 15:18:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B48128D4C99
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 15:26:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F09211F21FFB
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 13:18:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE6BAB211AD
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 13:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16E3A17FADB;
-	Thu, 30 May 2024 13:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABB9183089;
+	Thu, 30 May 2024 13:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkxCnp4z"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="RMiWI0oI"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E30016ABEE
-	for <linux-tegra@vger.kernel.org>; Thu, 30 May 2024 13:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FD61C2A8;
+	Thu, 30 May 2024 13:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717075123; cv=none; b=Ru0NnS3P8XCSUPHq1+GFTQ7Ae2wIQzxf4uhyWwU3bdGAb+5/jZW+gzkgJwZowzW72yPUskkHMOkohgrOZIsCA4aMWp9qMiThF5OHefOMTIDEMebx93h0TTrAfThtdSAj8uksE5rkLi2aEjbkZn5pLEZi8y8cpxpNKUAqQMMSKUU=
+	t=1717075590; cv=none; b=EI5hszKZ1EepbjASNfDOq2cef5f4Dpd9N78QDYpOCnt8ff/j5kiabriRuQXplROgGJBWZWi+WfsMCcYJXl7LjrIrCIVkfjAZRzLvDozGUFmS8zPlzhOD11gX6KBYtquZnG/IQy+aVUEhOo2/O/ad77u8+N8aKK+d/xqjsQifbLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717075123; c=relaxed/simple;
-	bh=SeKOEGo4lawtukCUDlc7sC7VHPowPZ/lJM/DsPPUPbs=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=fh0aitfLY9sOFHejvAOwWN7ZDx2kda9Wh+T4BJd3eyy6G0f35+unOyhsIQ6ME3ZdUPJFyr7G/uSwW7QXZcl38WbVMM4RRcd8G6mEfkeu1jkhnRWZI3xAzELZKd6ZlZHywikdpmjh7ZPJmNEfTrsapfwBD2NF0Qv2fnp1VVe8JTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkxCnp4z; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52b6ccfdf28so1020348e87.2
-        for <linux-tegra@vger.kernel.org>; Thu, 30 May 2024 06:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717075119; x=1717679919; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bwd1PBPyv+646I6bFN2hDGg/9uDOlVE5us6n2AOL7sE=;
-        b=AkxCnp4zu22PaKTSo/W7EmNMNxmoMAcWFj6+MP4jYehFCza4BIjpA13/4zP94fb/UH
-         8Xn//I/5cHu+/xcqzl3u1pf7H8Ni3rg1eyw2GtQLSSQeAk5VpyOnaMsKHx2K7GLODlm7
-         4DuLYOvifkLUDX5e5FCL+WbS+nn+nvgKLDZoCEo1p0dwi57PYqZrkYkzqCDkAIBaFc+b
-         JSI6U7sT1fn0qAiSvfHWuOtFe1lASbl3T+rOqoLMSmTvW7sSgLGZdUWIaWfSo/yuQ7t6
-         EBGeKWOIHe5cFe536qjm/uk6RXpumtg2PRbWtSAzX8OhFC0Z0SERxBNqeBEB4N1rNj5H
-         jZ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717075119; x=1717679919;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bwd1PBPyv+646I6bFN2hDGg/9uDOlVE5us6n2AOL7sE=;
-        b=gyxQS3NWsIV/2DG93kSxnPIf2Cu7rZ651yRcNIH/IQBBxCmrnbFU4fEp33VA9O3POz
-         z9ybvecS4uvTSYX0uyRm6kUKViFxwe+knOKdtEnPOCTDKA7uj0CJ0DNUht8TI685AZDD
-         F2kt8mAndB2QVPZDgzu//jiey4R+aJFgSqGdf8oncVT5MJnyoIxI56XHr5Ab2dRZ9QyT
-         zjcfRs0GdCkTxCXFWzVb1U/MPN4TUMueKG6tEHX5bfaFVHgQCYr4Cp3gUBicIzBcn6oi
-         w8E9IWelpPEzuMFW4I2EpgJA1T7D10Rp/Q2rp3rNExstyp/zfWccyTCOxkoksbyMZoTk
-         2OWg==
-X-Gm-Message-State: AOJu0YzcEl2ObaWr2/WfmHtUvY+P1HR8AthEJAAo9rIjCvj4S2AyMDyt
-	MRQpuz8rW6dRAx/o+338Tlq4ymVwYSLvDqkJ5re/dDsm7Qw5zd7c
-X-Google-Smtp-Source: AGHT+IHNhojVA3r4sQYkAlP5C59gijZyaJ5Vc6N1TvijjL72aciJe8w02UxDzIkhsDvvCRCr+Y3CAg==
-X-Received: by 2002:a19:ac4a:0:b0:52b:4c20:5cee with SMTP id 2adb3069b0e04-52b7d42655cmr1270814e87.22.1717075119071;
-        Thu, 30 May 2024 06:18:39 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b7d42911fsm222977e87.281.2024.05.30.06.18.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 06:18:38 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=bcb7fe86b3b9e469b48e922bcd55856b7b09e063ce70f9d068a77cd6a2a0;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	s=arc-20240116; t=1717075590; c=relaxed/simple;
+	bh=r4K4Gx4Wd1q9XvtfkuKCTGwiVYD+mCp1Rs435mgNJys=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VD6+3XBP/T8bXj0fjx5jQsTuDyeqq6O245yvQLPIXsAdUnJyKpHQgDiw/eWfPOKbAXT4Sv3jkLT1ODgW2eZZ2fZvfYiocaG6t2KzeMZXt/5Fa3wpE6Js8T4llhmossumguUlkqq1TFWPvwu46TwKpN8bCmtW81X3sgY7vFE3Nu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=RMiWI0oI; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=DQLQE1FIAuFo5tjq5i9dB2LPrhSJfMJnZUJEE6KMuqY=; b=RMiWI0oI+NOTAtVY
+	ijrFPsoHZzwIyaIrAG5Z4rUrACmZVU7VFUZ0eP9BfeRax0fQaeytx6XH9I+vqTccPi7RjnXSzgbTm
+	NP//y8G7iOxkQsIgYmZkW0HZpnbMiEJJmmQavEohM/vDP9Ttl1Zu7ZG8rUs1JLsOmijPI9IfQzT5j
+	OjumhDZX4nmwbSfD86tY5gRy/CRXYct1ZrSASb/m4se9fRTXSdqhr9/fe6cjh0qLFI/4zUcW17UDL
+	px/EQx4x0LThjgH/XnuBsGgYge0rqUscrUpLHbAAXkFh1l5OsMlIFbu2NYVPRaf+n+KB7JkYpEaXP
+	NaISS+Hx2DmE3bh0cQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1sCfnS-003N3v-0Y;
+	Thu, 30 May 2024 13:26:22 +0000
+From: linux@treblig.org
+To: mchehab@kernel.org,
+	ming.qian@nxp.com,
+	eagle.zhou@nxp.com,
+	digetx@gmail.com,
+	jonathanh@nvidia.com
+Cc: linux-tegra@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH v2 0/3] Dead structs in media/platform
+Date: Thu, 30 May 2024 14:26:16 +0100
+Message-ID: <20240530132619.71103-1-linux@treblig.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 15:18:37 +0200
-Message-Id: <D1N0BV7W6LDW.19UTZTRSJJD8S@gmail.com>
-Cc: <linux-tegra@vger.kernel.org>, <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V2] staging: nvec: make i2c controller register writes
- robust
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Marc Dietrich" <marvin24@gmx.de>, <linux-staging@lists.linux.dev>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240526193932.57277-1-marvin24@gmx.de>
-In-Reply-To: <20240526193932.57277-1-marvin24@gmx.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---bcb7fe86b3b9e469b48e922bcd55856b7b09e063ce70f9d068a77cd6a2a0
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-On Sun May 26, 2024 at 9:39 PM CEST, Marc Dietrich wrote:
-> The i2c controller needs to read back the data written to its registers.
-> This way we can avoid the long delay in the interrupt handler.
->
-> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
-> ---
-> V2: rename i2c_writel to tegra_i2c_writel
->  drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
->  1 file changed, 24 insertions(+), 17 deletions(-)
+Clean out a bunch of dead structs in media/platform.
+Build tested only.
 
-Hi Marc,
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-I've been trying to find out why we need to do these register read backs
-and so far I haven't found anything tangible. The only thing I was able
-to find that sounds like it could be remotely related to this is a
-mention of the interface clock being fixed at 72 MHz. So I'm wondering
-if you could perhaps verify in your setup what the I2C module clock is
-for the NVEC controller (any dump of the clk_summary debugfs file after
-boot would do).
+v2:
+  Removed tegra_vde_h264_frame declaration in header
+  Typo in first subject line
 
-Since I'm not sure we'll get to the bottom of this, this looks clean and
-is certainly an improvement over the udelay(100), so:
+Dr. David Alan Gilbert (3):
+  media: amphion: remove unused struct 'vpu_malone_frame_buffer'
+  media: m2m-deinterlace: remove unused struct 'vb2_dc_conf'
+  media: tegra-vde: remove unused struct 'tegra_vde_h264_frame'
 
-Reviewed-by: Thierry Reding <treding@nvidia.com>
+ drivers/media/platform/amphion/vpu_malone.c    | 5 -----
+ drivers/media/platform/m2m-deinterlace.c       | 4 ----
+ drivers/media/platform/nvidia/tegra-vde/h264.c | 5 -----
+ drivers/media/platform/nvidia/tegra-vde/vde.h  | 1 -
+ 4 files changed, 15 deletions(-)
 
---bcb7fe86b3b9e469b48e922bcd55856b7b09e063ce70f9d068a77cd6a2a0
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.45.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYfK4ACgkQ3SOs138+
-s6H7WhAAiSVAvfdQncK4PX/fpaBQU4TG0iL3ie0dSRJzUFJVyG4sqqP9JsiTBH5O
-EXPkht+5ol9LDgnB7oHh2k9jkTBZUNx5ZbQW93XdpbFNiPIuiGmf9IDbfa0fac00
-Qx7Vk1yN/ET3ajqfYOjiyKaOLGZ2ohXnEMPo+xpT69m0f6kNA689cKSGLJBExznY
-msnvZysWOLi4KrQ5X99P4pHccR8uqSo3qT5VyT62jCztFDEZ2UWgekbdlIWD2VHE
-odtqSXc3bX+JwVRRcZPNqX7SAyRs0w7hJKZ5iwuGPJJQcgJM4eYs8X81Ye/XFTrj
-bvownMnPCA3l+vNonqAio/IrHXdLY7SBZBSCfvH1jRLhO4neXfc/C3jyvVXgfzpq
-T8eE5rZLLPeWRsWQZp2QhjDJV4vadGMh/NO/kv9afdxZ4TgyhqsLYqPRIQM0c+WJ
-oj2z9tIu5o4ZEA6nYbqKZo8RuqcvkTazmufPsL5T0zkn7fXcwQzTF6j2AeTFZgtX
-UEmKiBHysZFC1/LzRXbhSxYp2HzKECXc1C0JqteNcnnLGDywW2zbdw9zCxchDOVo
-mhND9qgQu6DigzUdxj8/Ht/ZUcmQokqFPKSTbPWrvEXVqtpFgvoMWakXqvnonfV2
-UCRsENKvCuWSM6QR9Fo3KtKK/hIqSZPl5xeSZbXvv2YPjT8z7Hw=
-=rKEX
------END PGP SIGNATURE-----
-
---bcb7fe86b3b9e469b48e922bcd55856b7b09e063ce70f9d068a77cd6a2a0--
 
