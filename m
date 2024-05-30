@@ -1,301 +1,222 @@
-Return-Path: <linux-tegra+bounces-2504-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2506-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758F18D4BF3
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 14:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C9B8D4C82
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 15:22:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF07A1F2254B
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 12:48:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 960FB1F22709
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2024 13:22:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD1D917D37E;
-	Thu, 30 May 2024 12:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2027F1822C9;
+	Thu, 30 May 2024 13:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+P5rLHO"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Xl8QsRfe"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6C71E521;
-	Thu, 30 May 2024 12:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717073292; cv=none; b=i0KssecpLYpcDC8LZkUGU5ayQyweIss3sCx0PQ3bRqoZjM+UTeIITQZwUI1oBpt1IIsKeAX4yHOcAVtBDe7ftyGmZfpwSikySbnEZmiyrrtTBvaHYAkgPzpOVverNjMnbKOUxsec5jPp0Qd7RDXhOFu2I9ZI5Fu4QTkDLLSBUaY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717073292; c=relaxed/simple;
-	bh=r6254Ll0VwLlCjjp+UVjhwYhElgCx9+iVeZEYYEmdFM=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=DXaGYoJNR3aGuysTcfhTzu0hFTaGriXuP67ZLjeq4RW3PN16SweMHlMj7drQBuCG0+mD2rDPkOeTvPWnVy5wHwzzt4tDvM6v/0MF5X4CyIKkAQC8y6nXg2vYr9zsOSv9r7NeiG/J6PXxrnw2o0NVHE3NHzme6ILBtjAkORiHeiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+P5rLHO; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6269ad9a6fso75298866b.2;
-        Thu, 30 May 2024 05:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717073289; x=1717678089; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nehXVYPjt+tadQWfEhHE67jtHxRKaEFlK7gSdj/6Ibw=;
-        b=P+P5rLHOtRF+JRTR+WerCxcahM/QYExqqn8c10Uh8XnsvvjTtwMLFoIOr/M2wJlZLY
-         huFmp4PKvkYoF+4EP6vhFruiWthKtoCbzmf50wpS0aevaCgNlz/tnv4+wCvGGcQpSCwd
-         Nt0z6rZjEFwadYbeY9iNWhKyBDIbuKEuFUelJ8TOoOB/nAfFPvugWHU2wNvEZZ6nJ+IN
-         uupLwlYkyQxyU6DhxApHpSPCnU0zmbO7jkXJMzwKvJ3uGPs14O2j/6UfFq1boIl0lPja
-         ITU4mq52hGmaK2xPBFu6M8yC1ixoK03GVG+MfQ6n1/zHHfBgKgKUakDU6ySKDG8ReK4v
-         q11w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717073289; x=1717678089;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nehXVYPjt+tadQWfEhHE67jtHxRKaEFlK7gSdj/6Ibw=;
-        b=Yzi/SwgxrhVIOBLovtATtmQ7pbNCCN1W+ayANVFaoYQztkAkdst6Kkid2wDQflb8jR
-         2qUnhmDhqwJkjw5ppmrbFv87r+K03jns74MYzFlQ44OVNNVrDlIaHc7BCBqlEmX8AxlD
-         JIqQj2hp7HWRmLtO5z63wF5/dobQ2fLGQXoC9xGRV6ndLsN+LJ0hhj8imzFF8814O7V8
-         ItSEApDF6v+cPQuopm/iVV2N7UTm/KfDg+enCuBxu56zihloWIur5Ye510RjMd19FHoe
-         utMAibu6eAPNgDo2MfmkVCYNVlqCj7Tg3LkKADw2pAoYc/wBqQ/tPuJ2tbcperTVatP1
-         V1dw==
-X-Forwarded-Encrypted: i=1; AJvYcCU113t9HXDxhOguStXLem98sgFQWX7WxIOOy/+DNfcmhSMZqGiQc5X6B/0rMQQEZiZQcoFR6aIPqj+nqp9CvrsTjSWW4/h7q6SR5JtPoWR6CSXchY+GMSt86Ox7z2NRV0PiVYDtOHS5Mm9xfNxMa66lX5u4fLspw+OQH4w58rT776btMQ==
-X-Gm-Message-State: AOJu0YxTFMFqjqP3Af+wYvfDQaGFIWUuV1nt6A6ARBx28CtJBpkct1v5
-	9fxEvjGG6zJtJR8VWzKg8dth//HT4FeXDTTPeqWzu/FAXX0eSCrq
-X-Google-Smtp-Source: AGHT+IHOwilrTIdfuhNE8BKpScZoSiBgPHcw2LZUKdeBcXbVlEQJdrNSL6LkHIXE0sK7oUk5n9Pdcg==
-X-Received: by 2002:a17:907:100b:b0:a63:3c69:ec4 with SMTP id a640c23a62f3a-a65e8e43053mr145338366b.23.1717073288884;
-        Thu, 30 May 2024 05:48:08 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a662b43a010sm44015066b.110.2024.05.30.05.48.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 05:48:08 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=ac5239eee89eef8167849c5ee3fad8881c9fbf6bf4cf350a574975beacc1;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFD317E455;
+	Thu, 30 May 2024 13:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717075339; cv=fail; b=Q2UZbca7ZPGVeZjx16FGnma9+TL+d2FvZXV5V66/zNdhdXAxR3+rRgLlH/EMm2rM9owpcwRC9MCYcQfU80F3/Zz+Rupvy9N32Z6r7Pve+U5fPBTcmCRf06hip+STjMLLnb4SXtnYH2QvlyHwWu1h/mIoDspme7Suu+OYdszu1V8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717075339; c=relaxed/simple;
+	bh=Gg+bOhs5H1s5gYtausB/QiKf3AqPHuNWvB2OnlOrekk=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YFKe2IH3Fjko+qgfZWJ4kWGuWimBBOJbTcbTG1TlDrWoeVfLmqSEDqjs4J4DkmyOmX4gHIbryH95H+zFfYOsJoA1Xg5G0cZAnA8TFl79gexkObHgc3kHQKayF58D1Y2OTjV+H6TF7Q98EC2TVfqmIPh7x3ruR4xVIU6prrkxp+g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Xl8QsRfe; arc=fail smtp.client-ip=40.107.93.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kZ685quThb+/NPGbgsnd+YZcUTrO7sq5colfygAyQMPJCveBV36u1yeI1wNF4u+yZPIw8kXKagBohA1qltPYe4xRsIPZX0e+caDq4gqPRaRemUIpMhWr4/q7nYIJQBNKpcpa+HdsYSnR73mBN3nGlTdomWHtVGx7mc+pDYBYwPxMc6W31az73nF2oK77DxWsecvQQqNpyPVQa00jqt8VN6vQsBWASAtZdsfuCzKhvrqMyBD5hc9LSyruiudIVsZ3xhAEVnoIzhcbx57f/gT4VvqoTGFFHL259LjrPwevjAkhtfHg/+8gqjy7hf1Dc50LHqCFFWZVL/XM4kDB1H3eYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vp+Q9W9pKixlVsnZ8vL6wY29gOQ4rvU4Q4rAhSV/Omk=;
+ b=F2evHi+MHnL+jfHX3EVxKKjHTGXv649PBBuV0bAdEf6Q+MPGVK4zQTC9DiyMc0eLp8wlCoJJPBpQW/iMOQ/BucQnOfiarz3ff8MSXs8N/PzGcwXMRZ/XC/Nzs7Nl/YBMENiSGakE55VQnLuo6sOiP137eyoVpCXCzTU59eMnAr4CGYhv1v1vQI1f/HBGiG4BGfLbEpoe6RKvyTboSfiGnqWl03X/gZo1krWwSWQXk9q4+EqDgPzxZ7PzInWCZu9lxnr3Kl/m1tm7fSL1z/bUhGt/hu6Y5pr06pnFxVb0MsL1I3/Zjx/PHJAetiFuD+4VvFj8sPIcFDRBUhFi0GeoEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vp+Q9W9pKixlVsnZ8vL6wY29gOQ4rvU4Q4rAhSV/Omk=;
+ b=Xl8QsRfePIemmb36SpEDChLno1oBWAifB+/xuBo25tgN9IukJEeEJyDaJpIuTxi2wDSZk9Cnr2cTwAWg0/6PfBj0HXFIKK0NuzcD4ECNDjWNJTsFJSqM5/ikAEC1KxzC1O8QCralXhNln7KfYTb+Zs+b8kb1MSds/uRGCz8Avp3NFYgWDy1eDMS96s9IEc6ft5xTMLbsv5vD7t/MJjGQoq8ZxjXXqW/w8jzB+60I6Ae2ASYqJ/Td+Ak0o68VstAEcz9BpPWXlZUXITUO9eTJjLtQRnQCEFNVApTwfLlL890wPSNKYpds7BTmqhXOgHheVM8fti3d+dMlGWV2BS/kYg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ SA1PR12MB8644.namprd12.prod.outlook.com (2603:10b6:806:384::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Thu, 30 May
+ 2024 13:22:12 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::ae68:3461:c09b:e6e3]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::ae68:3461:c09b:e6e3%5]) with mapi id 15.20.7587.035; Thu, 30 May 2024
+ 13:22:12 +0000
+Message-ID: <d0cc1f6b-1bd5-4557-90cd-6c77f8f1293e@nvidia.com>
+Date: Thu, 30 May 2024 14:17:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: Fix gen_header.py for python earlier than v3.9
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org
+References: <20240508091751.336654-1-jonathanh@nvidia.com>
+ <83b6e1aa-c8ec-0bd7-2c98-20705741b76a@quicinc.com>
+ <780207c9-fcf1-460e-b16a-aad60c12ac71@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <780207c9-fcf1-460e-b16a-aad60c12ac71@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0494.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1ab::13) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 14:48:07 +0200
-Message-Id: <D1MZOIQR9R4G.16O4LIDN6AN5Q@gmail.com>
-Cc: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <ldewangan@nvidia.com>, <mkumard@nvidia.com>
-Subject: Re: [RESEND PATCH 1/2] dt-bindings: dma: Add reg-names to
- nvidia,tegra210-adma
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Sameer Pujar"
- <spujar@nvidia.com>, <vkoul@kernel.org>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <jonathanh@nvidia.com>,
- <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240521110801.1692582-1-spujar@nvidia.com>
- <20240521110801.1692582-2-spujar@nvidia.com>
- <80b6e6e6-9805-4a85-97d5-38e1b2bf2dd0@kernel.org>
- <e6fab314-8d1e-4ed7-bb5a-025fd65e1494@nvidia.com>
- <56bf93ac-6c1e-48aa-89d0-7542ea707848@kernel.org>
- <f785f699-be50-4547-9411-d41a4e66a225@nvidia.com>
- <774df64c-56a1-461a-82fa-a0340732b779@kernel.org>
- <D1HPADDIQNIK.2F4AL70NLHQCY@gmail.com>
- <819d7180-db8c-438c-afed-463fe495bfc5@kernel.org>
-In-Reply-To: <819d7180-db8c-438c-afed-463fe495bfc5@kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|SA1PR12MB8644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b1dca15-96de-4365-3b01-08dc80ab8419
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?U2ZFZXNqU0NGaHFZcC9jdlRmUUhLYXFhSlpUdTVISUpUcGt4cG5kQXFwUjJU?=
+ =?utf-8?B?aXQwWEtaQS9xS0xXRXFYTnAzR3Q5MkJ1NDFINmQzVld2REJHRU5VVDM5Z1BM?=
+ =?utf-8?B?dHJ3R1pnaDVuMVRCd2xlbkdYNTJzTjFyMUR0VU5DN2hXK0tjN3hvUTRvREhE?=
+ =?utf-8?B?Q3hzSzlEcTh1OVVPS0dNSFI1NXFWdDBKQ1ZsNWVsQmxwQ08xS1R2UFNZc2FH?=
+ =?utf-8?B?M3ZqUHpEdElXSTh2TmdoVjhiU2tiVHRNMTdHLzdjMmhLTmVrUFprOHJPOWht?=
+ =?utf-8?B?OWVTa0JBRHZ5bm5RVWVJWGdiUGN1RzNiakJmTXMxMy8wWGNhcWtOVmM3cXhu?=
+ =?utf-8?B?aVVDd0o5Q2hZL2cvd3RMRmxFUGdJWDA3dCtHUlR4MStlZDN6L3ZTVjVDY0lI?=
+ =?utf-8?B?ZFZvZkFLdElWek5pMHpRZFlxZlpNKzlVVCs4VGhaN3o4VzV2bCs4b3lYZ21s?=
+ =?utf-8?B?bFd4cUpYc3pqNmlHU05ibjlyS05KWjBNVjZVSjE3VnVscGVjOGR3bVVDMCtS?=
+ =?utf-8?B?cGZ5UGQ2cmtxd3FXM1J4K1lScTBpZ2k4cC9mRW1YRktXVThOTEhaV3B0N1FD?=
+ =?utf-8?B?U0JQWFl6MUQyS1RXR0xLNEVQQk1LaUhXMTdMNHgzY05sMmt4RkR2TkVZQkFt?=
+ =?utf-8?B?bzQ4c2N6SWhpUU9mbEorUWg1TXNnb3NGbXVlVHNTMDFXbFBHZTRRbXB5ZXJk?=
+ =?utf-8?B?THloazhKM2ZaWTgvWEJNMkwvK0t1MW8xQlhsd2xIS0s1NDh3SnZybklsNUhs?=
+ =?utf-8?B?WW0xL0sxS3RodGhSamxlai9kcTlUUlBwYTYrSmF5TkhDNzRtS01KVDB5NUJo?=
+ =?utf-8?B?RWpnd09JM2ppNlZ6RVV1em9abWlHa3QxT1NCZTdzVkRFVXI3U1RLR3pBdzRO?=
+ =?utf-8?B?MDhlL29sdG90cmpyL1U2eS9Mc3JiM1FHNVNZQm5VdEFNdk5SZm9NR3kyUDVa?=
+ =?utf-8?B?blBIRVdzalJzWmo3NEN6bVBaVkVZU0ZvNGV5U2xxTk5EUTRoSWxHa2lWL3hK?=
+ =?utf-8?B?SjZQcU14QlRWQTNGQUx1UCtlZUFRTTBBVHNzRVpvb0tNM2c3cmJ6ZWtIejY5?=
+ =?utf-8?B?akdIUkhIcHdxekY3TXpzR2Q2OTFqWElKcjN0ZE1jVDR4Z2ZoeUVBMTkwamVD?=
+ =?utf-8?B?aDI2bFM4WlVxTUloVTZDQWhWSW5xWEVSaW5XS0plbStORVdsaHZKY3c4VHlT?=
+ =?utf-8?B?d0tGTUU5aVdYTlpHUFNhNjRjS3A0Nk9NTzdjWmxPY2JFT2lTOGoyZjlXZ0dI?=
+ =?utf-8?B?akVQTHZ4Nit4TGViK2RiMjlrdWF6dC9ENWtPVzJSZytVem42VUtxNEp1U3ZI?=
+ =?utf-8?B?VUdGa1E1VElveStJZXc0eWt2SEdFbjRQYXdCL0FFZDVjZDgxQVRZRkh3YlQw?=
+ =?utf-8?B?U3dBNXhtaVRkTVgyWTZUMVNuUHNWL0RLQlk2ZWFWaGdESHZ0TTNoMjcyZXI1?=
+ =?utf-8?B?a1RrMkt4bHRCWlRBQjdZbXFBZVI4aW01SnRqWHlsYURaSElDWUtnN3JpUkNj?=
+ =?utf-8?B?d0tmbHp1NlBiaTkwUEhMZEhmcng5cUZoSTBwS1Z0THgzelRpR2ZtVmtNWEU1?=
+ =?utf-8?B?aWUxWU41dUpockJOdnFoclJ6aXpaZ2FSU0dLblA5T1pQOUZZMUh1eS9WaVF2?=
+ =?utf-8?B?UU00MnduOVBGa2hJd1FTYTYrQzBCV2g2S0NTN3VJeXZETEhtTEZJa25xdmdZ?=
+ =?utf-8?B?aXhQcnYrR1RPNEVvejEzdWtMVDRBSGZod0w5Vm1rMjBSSlErQWExNU1nPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ckNZMkxQdnJIS0ZEQnV2RXRrVjRiT1RuaGFFWTk4VHNJajBBaXc1TTE4R0xr?=
+ =?utf-8?B?R2daNGwrMVhOZEdxL2h4Slg0cjdQcWIrYWI5VWdFaXRiUUR3Y1l3UUhCcVFU?=
+ =?utf-8?B?NFhLRUwxKzl4c3lNNHZob0pBMTk4dzVmRmZZcVFxbzZiZVF1RjNOVXdCeXls?=
+ =?utf-8?B?OWdsNFkzUnFoOHlyVnBrTVFFd1FmQ29GYnUvd0N2UDdOSzVFc3JHQjN3ZWVl?=
+ =?utf-8?B?MmtPeW4yY3ViSkZVR253VnNzUVZnZk5LZER5b1d3Z2FpY0JHRTh1dm8wSWVI?=
+ =?utf-8?B?VHlhcjFYa3UwandXTVNhbUowWGd0RFNWZytVY1hqZ0MvMnFvK1NsWUJWaUhx?=
+ =?utf-8?B?aEtJWHltR2tTaFVFRVNOcXZNMTJaRlQ0Kys5a2tYQVY0dzAxWHd2RmdXNFd6?=
+ =?utf-8?B?dXk3c0xtS1BpMnFEd1BsUVMyN1l2MUZpSVU5M1pmOEJUemRQOFA1dTFiWmxH?=
+ =?utf-8?B?NFoxUElCVElENk5vaS9UeDZWWUM3bFIxM2VSNk9JYUFKKzFqK3M1MkhOR1pK?=
+ =?utf-8?B?Nk1WaXBlS3lLeGdTMTJnWDFIRk5lRXpGdEJJOU9YbWwvc1NuNEpHYjc2WkF4?=
+ =?utf-8?B?ZmZLZDRrZ1ZkMHl1Q1FiMXRpY0RPcWlrcnlNRnlnUGFneXJUTVRveTR1aWxp?=
+ =?utf-8?B?SDBHcXpoMXBCWkFtc2Z2YWhzTVFxMFhjZ25YMzZiR20rZjRZRGw2Mlh5NU8y?=
+ =?utf-8?B?K2I5bERhdWhRRnlJYk0vcEZic3VDOG9HcEFuWW5mMjZkdWEvbHl2VXBuMzVm?=
+ =?utf-8?B?OFdUMUJ1QVR0NmZ2ZTRBWjNHdHRnMlBTSGpuM0hVSWY4MHpwQ0g4eU1EeFh2?=
+ =?utf-8?B?MU5aWkNUV1NWOFBBTVhzTkdCcUFuWEMxS3o0anE5cGhBeFVyalJwdE1Pak9E?=
+ =?utf-8?B?UU1sdHRlU2ZacmxJQzJkTkJKTGN5VHMzb2pRbUdlUVh2dzcrTklMSEJiU29G?=
+ =?utf-8?B?WjZ3YS9URGYwZVZld2R4WmQxMkt6RXFVcjVpa24vc2FhYTFDV2t0YVZTTXJO?=
+ =?utf-8?B?c0J6bEpCVGNtNUVzdEVXS01zZkM4U2NJU2FKWmFZRHBZZ0JIQ0t6c05mczNQ?=
+ =?utf-8?B?N0ZNQ2xiWDhlQ1Z6NVR6dkFBMjYwbGV0N092UUVtakczeFdlRFRQdkNVdVRR?=
+ =?utf-8?B?Zitlb05yK2NiSDVNSWJKUm5wcUFvVjcyS1lKRU9pRldUTTdNV1hYSUh4M1ox?=
+ =?utf-8?B?Mi8ybkJ3ZkszWWtqSWc5YnZPV0RNZ3ZIcDlsRHBFd29yVG9OM0pPT2lmZjFP?=
+ =?utf-8?B?K1AzR0JwL0VTZTJqbkRUcGJrNjRxNmlER1E1eWZrNlpWS2UzZmkvN0RoUGs1?=
+ =?utf-8?B?SzcrN2FaQkRDd2VNcDNwUXk5c2Y1WWk5ditWTXppZ3RoZysyQXJiOVJsZ1dV?=
+ =?utf-8?B?ZmoxOGNjWG0yZllJdFk2UjU0ZlhFNlBKMDJFL1VTL1ZDTzlCcTRpcHpJZFpM?=
+ =?utf-8?B?dXEySzVUSFdrdmR0dmpjc0IwRXZIa0c0ZHJ1MUVUUnBuUzZoUDFJekR5Ym5a?=
+ =?utf-8?B?Mm15REUzdXc5djF6cm9JRldIbFI0NDZ5MCtUS3d0S2xmWWg5K0ZuOXFsSUlH?=
+ =?utf-8?B?MWc3RHlyMzVOQnV2TW1YWURiQ1k1SUZzaUdWRzRDOXByVTViUWNNdUc3aDZI?=
+ =?utf-8?B?VE9qcFRiRzBOOTlOM0lxT0E5QXRsbzEzMXVXOW5RaEFHZ2laTUE1ZWc3TTVa?=
+ =?utf-8?B?bnVxQWs1TjArZGdaUm5iZG13aklnREtJUTBDeWljKzJaY3cwY1BlWHZEN3BT?=
+ =?utf-8?B?QmZxNFFEV1VWSWVmdnNBMTRvRWRUTnowMnMvL24vRmRyZmw2a0JqTkxDTGpK?=
+ =?utf-8?B?SFBJM1hpRnZaOHpuSlRxaHhLK0t5YU9zaVpYK2F4aG9lYXNySkNqQXlHTnFi?=
+ =?utf-8?B?c3BwMEtCb0dmUUNNSmZzMW9iLzVxc2RpOW0xS3dWM3dPdTYzL2w0VHJ6UTlt?=
+ =?utf-8?B?TnpVY2xYUzZHRm5uZHd2UTM5Y2o4MVJFWHdCQmhndG1HZWx6SWpwMUVaSGM3?=
+ =?utf-8?B?bFdLZ1R3QnRMRWhTV1pqSGE5bmZWTmUvcFJEL2dNTGJVdDJic2xVQTFKMHpZ?=
+ =?utf-8?B?YWpHRGx0OGZEZlJWQnpId0lzMFoxdk5VejJiZVBBcVQrSy8xbGk0K3FTWm1Y?=
+ =?utf-8?Q?x5AVsqCBqwnvbCgtv2ZwX4QYo?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b1dca15-96de-4365-3b01-08dc80ab8419
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 13:22:12.6768
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Jh5zNlHD4uLzEJfCqPAwvA6hlfNvNm2USpfmkBt4m5Zo/sMju54A3OWhkDNdxTk+e9NWlouqclcQHeWEH3Qog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8644
 
---ac5239eee89eef8167849c5ee3fad8881c9fbf6bf4cf350a574975beacc1
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Abhinav,
 
-On Tue May 28, 2024 at 8:48 AM CEST, Krzysztof Kozlowski wrote:
-> On 24/05/2024 09:36, Thierry Reding wrote:
-> > On Wed May 22, 2024 at 1:29 PM CEST, Krzysztof Kozlowski wrote:
-> >> On 22/05/2024 09:43, Sameer Pujar wrote:
-> >>>
-> >>>
-> >>> On 22-05-2024 12:17, Krzysztof Kozlowski wrote:
-> >>>> On 22/05/2024 07:35, Sameer Pujar wrote:
-> >>>>> On 21-05-2024 17:23, Krzysztof Kozlowski wrote:
-> >>>>>> On 21/05/2024 13:08, Sameer Pujar wrote:
-> >>>>>>> From: Mohan Kumar <mkumard@nvidia.com>
-> >>>>>>>
-> >>>>>>> For Non-Hypervisor mode, Tegra ADMA driver requires the register
-> >>>>>>> resource range to include both global and channel page in the reg
-> >>>>>>> entry. For Hypervisor more, Tegra ADMA driver requires only the
-> >>>>>>> channel page and global page range is not allowed for access.
-> >>>>>>>
-> >>>>>>> Add reg-names DT binding for Hypervisor mode to help driver to
-> >>>>>>> differentiate the config between Hypervisor and Non-Hypervisor
-> >>>>>>> mode of execution.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
-> >>>>>>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> >>>>>>> ---
-> >>>>>>>    .../devicetree/bindings/dma/nvidia,tegra210-adma.yaml  | 10 ++=
-++++++++
-> >>>>>>>    1 file changed, 10 insertions(+)
-> >>>>>>>
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/dma/nvidia,tegra21=
-0-adma.yaml b/Documentation/devicetree/bindings/dma/nvidia,tegra210-adma.ya=
-ml
-> >>>>>>> index 877147e95ecc..ede47f4a3eec 100644
-> >>>>>>> --- a/Documentation/devicetree/bindings/dma/nvidia,tegra210-adma.=
-yaml
-> >>>>>>> +++ b/Documentation/devicetree/bindings/dma/nvidia,tegra210-adma.=
-yaml
-> >>>>>>> @@ -29,8 +29,18 @@ properties:
-> >>>>>>>              - const: nvidia,tegra186-adma
-> >>>>>>>
-> >>>>>>>      reg:
-> >>>>>>> +    description: |
-> >>>>>>> +      For hypervisor mode, the address range should include a
-> >>>>>>> +      ADMA channel page address range, for non-hypervisor mode
-> >>>>>>> +      it starts with ADMA base address covering Global and Chann=
-el
-> >>>>>>> +      page address range.
-> >>>>>>>        maxItems: 1
-> >>>>>>>
-> >>>>>>> +  reg-names:
-> >>>>>>> +    description: only required for Hypervisor mode.
-> >>>>>> This does not work like that. I provide vm entry for non-hyperviso=
-r mode
-> >>>>>> and what? You claim it is virtualized?
-> >>>>>>
-> >>>>>> Drop property.
-> >>>>> With 'vm' entry added for hypervisor mode, the 'reg' address range =
-needs
-> >>>>> to be updated to use channel specific region only. This is used to
-> >>>>> inform driver to skip global regions which is taken care by hypervi=
-sor.
-> >>>>> This is expected to be used in the scenario where Linux acts as a
-> >>>>> virtual machine (VM). May be the hypervisor mode gives a different
-> >>>>> impression here? Sorry, I did not understand what dropping the prop=
-erty
-> >>>>> exactly means here.
-> >>>> It was imperative. Drop it. Remove it. I provided explanation why.
-> >>>
-> >>> The driver doesn't know if it is operated in a native config or in th=
-e=20
-> >>> hypervisor config based on the 'reg' address range alone. So 'vm' ent=
-ry=20
-> >>> with restricted 'reg' range is used to differentiate here for the=20
-> >>> hypervisor config. Just adding 'vm' entry won't be enough, the 'reg'=
-=20
-> >>> region must be updated as well to have expected behavior. Not sure ho=
-w=20
-> >>> this dependency can be enforced in the schema.
-> >>
-> >> That's not a unusual problem, so please come with a solution for your
-> >> entire subarch. We've been discussing similar topic in terms of SCMI
-> >> controlled resources (see talk on Linaro Connect a week ago:
-> >> https://www.kitefor.events/events/linaro-connect-24/submissions/161 I
-> >> don't know where is recording or slides, see also discussions on maili=
-ng
-> >> lists about it), which is not that far away from the problem here. Oth=
-er
-> >> platforms and maybe nvidia had as well changes in IO space for
-> >> virtualized configuration.
-> >>
-> >> Come with unified approach FOR ALL your devices, not only this one
-> >> (that's kind of basic thing we keep repeating... don't solve only one
-> >> your problem), do not abuse the regular property, because as I said:
-> >> reg-names will be provided as well in non-vm case and then your entire
-> >> logic is wrong. The purpose of reg-names is not to tell whether you ha=
-ve
-> >> or have not virtualized environment.
-> >=20
-> > This isn't strictly about telling whether this is a virtualized
-> > environment or not. Unfortunately the bindings don't make that very
-> > clear, so let me try to give a bit more background.
-> >=20
-> > On Tegra devices the register regions associated with a device are
-> > usually split up into 64 KiB chunks.
->
-> So describing it as one IO region was incorrect from the start and you
-> want to fix it by adding one more incorrect description: making first
-> item meaning two different things. Sorry, that's not a correct way to
-> fix things.
+On 08/05/2024 21:52, Jon Hunter wrote:
+> 
+> On 08/05/2024 17:46, Abhinav Kumar wrote:
+>>
+>>
+>> On 5/8/2024 2:17 AM, Jon Hunter wrote:
+>>> Building the kernel with python3 versions earlier than v3.9 fails 
+>>> with ...
+>>>
+>>>   Traceback (most recent call last):
+>>>     File "drivers/gpu/drm/msm/registers/gen_header.py", line 970, in 
+>>> <module>
+>>>       main()
+>>>     File "drivers/gpu/drm/msm/registers/gen_header.py", line 951, in 
+>>> main
+>>>       parser.add_argument('--validate', 
+>>> action=argparse.BooleanOptionalAction)
+>>>   AttributeError: module 'argparse' has no attribute 
+>>> 'BooleanOptionalAction'
+>>>
+>>> The argparse attribute 'BooleanOptionalAction' is only supported for
+>>> python v3.9 and later. Fix support for earlier python3 versions by
+>>> explicitly defining '--validate' and '--no-validate' arguments.
+>>>
+>>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/registers/gen_header.py | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>
+>> Thanks for your patch, I had sent something similar y'day.
+>>
+>> If you are alright with 
+>> https://patchwork.freedesktop.org/patch/593057/, we can use that one.
+> 
+> 
+> Yes that's fine with me.
 
-Yes, describing this as one I/O region was incorrect, and in hindsight
-it should have been done differently.
 
-However, I don't think it's correct to describe this as adding one more
-incorrect description. Instead, what this does is add reg-names to
-provide additional context so that the operating system can make the
-necessary decisions as to what is allowed and what isn't.
+Any update on this? All our farm builders are unable to build either 
+-next or mainline currently.
 
-In the absence of a reg-names property the current definition of the DT
-bindings applies, so it means the region represents the entirety of the
-device's I/O register space. That's one particular use-case for this
-device.
+Jon
 
-For additional use-cases we can then use reg-names to differentiate
-between what separate regions are and use them accordingly.
-
-> Items are defined, thus first item is always expected to be what the
-> binding already said. Adding reg-names changes nothing, because (as
-> repeated many times) xxx-names is just a helper. Items are already define=
-d.
-
-I don't understand what you're trying to say here. I suppose adding
-reg-names alone indeed doesn't change anything. But the point is that
-once added we can now use these properties, at which point of course
-things change.
-
-> > One of these chunks, usually the first one, is a global region that
-> > contains registers that configure the device as a whole. This is usuall=
-y
-> > privileged and accessible only to the hypervisor.
-> >=20
-> > Subsequent regions are meant to be assigned to individual VMs. Often th=
-e
-> > regions take the form of "channels", so they are instances of the same
-> > register block and control that separate slice of the hardware.
-> >=20
-> > What makes this a bit confusing is that for the sake of simplicity (and=
-,
-> > I guess, lack of foresight) the original bindings were written in a way
-> > to encompass all registers without making that distinction. This worked
-> > fine because we've only ever run Linux as host OS where it has access t=
-o
-> > all those registers.
-> >=20
-> > However, when we move to virtualized environments that no longer works.
-> >=20
-> > Given the above, we can't read any registers in order to probe whether
-> > we run as a guest or not. Trying to access any of the global registers
-> > from a VM simply won't work and may crash the system. None of the
-> > "channel" registers contain information indicating host vs. guest
-> > either.
->
-> I don't understand how it differs from what I said - you want to
-> indicate that you run in virtualized environment and not all resources
-> are accessible.
->
-> The device still has the first (global) address, just it is not
-> available due to hypervisor.
-
-Yes, and that's a bad thing because there's no way for the device to
-know that it can't access the registers. So it will just assume that it
-can and try to access them, which would then result in a crash/error.
-
-Thierry
-
---ac5239eee89eef8167849c5ee3fad8881c9fbf6bf4cf350a574975beacc1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYdYgACgkQ3SOs138+
-s6FIBA//afkWB6Vob9QbMRD7saZNewxk8vuBbdTpJmw/gbg52qbrpN0dtzUXD583
-yfNYtqNdjwgdJYbSqHCs+arzpB6Lbf7A8S4aOTrovjUpnfV4nTjHYSkB4u2wjEZK
-Q3ML4SlVtRN/Kddv7L4YXyGdPOB7QgXebsLNLy4z6E8IN8YARlR6m60YIuCOvtHx
-YR+bTb3D3D2egFP2PTubdmtzMWL6NBxfgZhjIye1pgxR4znrXxB3Tgg4ZSUnNGVn
-IRNvQO27WAcaNBkmu/wiLxZbsgpWGcuxt5Fmxm60PyJGFoJui01l9Kr3isSrOnRE
-e+X8F5Xo0dixgdnPdEcub/O5UW1GCMZ64t1Gka0X/xh0TISPItG9TEH/P8JjvYxx
-R99Uil42n7cMHzLpfysOylPlsHv/zwGy/fIMQda18cyJB1kWoTSKS1WXlyCwFfD6
-BUlBomgPqXSmGpVACdOVAwuXxL1T+ItWBbTpgslZVq2h/vZH7cC0A4OE5siUbH0r
-PHfuwU/TPSxWIwWcCWD24brHYSWL2eR297PPG1ZWIC4L0gd3bZTuVmx13CAkzhQM
-1fIvAmzWFWoMTz9c6W5RPx0Wi9f3AwnZeCpjmww01YUL6HwTLlvma4nnmpaPC7wT
-UstnOjsN1lJCHSzPnS3GXDPskTPSCzXKjig43Zb9zsN5/PhYqBg=
-=Vn5+
------END PGP SIGNATURE-----
-
---ac5239eee89eef8167849c5ee3fad8881c9fbf6bf4cf350a574975beacc1--
+-- 
+nvpublic
 
