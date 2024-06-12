@@ -1,363 +1,223 @@
-Return-Path: <linux-tegra+bounces-2661-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2663-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D61905DEB
-	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2024 23:46:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF6E905E63
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2024 00:24:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADE3A1C214B4
-	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2024 21:46:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86DB51C216E7
+	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2024 22:24:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F27412CD88;
-	Wed, 12 Jun 2024 21:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48BC512AAC6;
+	Wed, 12 Jun 2024 22:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y3OqxrSI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XXfhtB10"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2077.outbound.protection.outlook.com [40.107.237.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1133A12C489;
-	Wed, 12 Jun 2024 21:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718228767; cv=fail; b=G/aIcxvnyon19scy57PdANqMkGOVKPGzMLRyVTyzehFK+Inu+AK+bODitQyA237rpNZv93V2/70eCJ7ukDPcETQ3rx8EQzKBfIAmeb0gQH6WLVm7qpJNvyh2RJrofeQ6i8oSQlPQ3Nzmey0bHpCQaa9MA+GGYOu5UqypOpV+GsU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718228767; c=relaxed/simple;
-	bh=zH+0LerWmhxj5KAmQnAGF4aHo0ory/DRk1NtSIncoUQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iVYA2OplBsybngyB1z5TInd4xzWA72CkD7dGGqLx1aZfZOUMWTI9iLFr9+6Z0Xt74rhqzIGGf7OAoLs29zS00VaHQHva3drvt7R1yVGcBjdmJl11ubBcFZlOSWm82c7rCgy1aUROtF2zDgN3fTlhXN1OtJiponNZOfBdN2j0Bv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Y3OqxrSI; arc=fail smtp.client-ip=40.107.237.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MVuXDluK6zq+r1NhWUZpPiG804rEDFscQfAtEwxtXPcqLcZVwzlp6wwFB5h5ORxMtpPPso83RdEWEtx2gW8qz2gx4qID12eqAIAG3lV4PgspWvBu7lSjhdkj290K5zbygwBtajuyUsviwl+DoTJLRRfh2emc+xwr9K0tUUTfBm4bEAebvIMHJWXmchYxELBAOr2LnhIRiKwvgnV0vosHqm2GYeg4jF7SHLk/oAmN4oxxzk2C+2CHH//1rCrTLnMGnh71S3iCjMBbwl/na//tvCrGJNIAjapXkUVpeqK6mKr8zRx0omA+BN6rznkhKE0KdYkFBbFZaANRFgJCNZCDDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qZ/jZKGH8OfzuU1jiiOHWK1nOqg28FjiaqvHR59WHB4=;
- b=OQpqvrS7J3NmlamtEPgpS0e/p/bRA3d+Srm7YXb2yr7NO64GkK81MWbf/pgGJ0s0WjLQGtCEaj2ZeP/bFOPgqXji7Sx3XufwR3eRXqGcaupkYG79wsWFCGQVNEy7f9wd5v1OSaaTlgaDpeY7Y/EiTVJwv1ZHognl3YNjy8N2ZwE9LjWEyydxqQIYw5bnexXZ2wg1PgMzl0CkbJMx2ohIC8tmgYaYFGT8b+aMm1+31SUIn+TSumSB5DV3QbMBYKlfoWTJCifWYkV8lJE4ljTA9ZNPs7EIiYJXR3QQUIf2giSSHeoe3AbRC3QM6ltHaxWJWX0I7oCp6cQh6zSBbHZboQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qZ/jZKGH8OfzuU1jiiOHWK1nOqg28FjiaqvHR59WHB4=;
- b=Y3OqxrSINmGb3749OEXfqPDz/VFrLmrTxSO7gR7VvkJ0Fw86Lr7tEBwdqRxlgX0Xz47EjkyPUV49Ldch4XPAGjOQnixA/ljkF0HztswKAvFAB0YQsXHgNGnieIGB0QZOC9gRK2tw5R8nbcgadgrYzLc+YsJkKsLp2dCjhor2AXGgDBXc0zcHBWh7fuSqpe3kKspB+zMt4841+5FTyG81uw3rxzg2Ma4X4iZHpIKkFkbmctUlKdENZq+gbkeL9brXw3ZurSWratL3ylDZbLn+J9xHs1kteBkcKmYkmMLH8ptcWQj6+BB1xNGcj86N0kpPCae+0jXp2LXQe/O1RVTe5g==
-Received: from SA1P222CA0091.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:35e::11)
- by MW4PR12MB7014.namprd12.prod.outlook.com (2603:10b6:303:218::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.21; Wed, 12 Jun
- 2024 21:46:00 +0000
-Received: from SA2PEPF00003AE9.namprd02.prod.outlook.com
- (2603:10b6:806:35e:cafe::7e) by SA1P222CA0091.outlook.office365.com
- (2603:10b6:806:35e::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.21 via Frontend
- Transport; Wed, 12 Jun 2024 21:46:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SA2PEPF00003AE9.mail.protection.outlook.com (10.167.248.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Wed, 12 Jun 2024 21:46:00 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 12 Jun
- 2024 14:45:46 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 12 Jun 2024 14:45:46 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Wed, 12 Jun 2024 14:45:45 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <will@kernel.org>, <robin.murphy@arm.com>
-CC: <joro@8bytes.org>, <jgg@nvidia.com>, <thierry.reding@gmail.com>,
-	<vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
-	<iommu@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>
-Subject: [PATCH v9 6/6] iommu/tegra241-cmdqv: Limit CMDs for guest owned VINTF
-Date: Wed, 12 Jun 2024 14:45:33 -0700
-Message-ID: <1075717e8f4321b8fbeea0fb24d4151e39e8a900.1718228494.git.nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1718228494.git.nicolinc@nvidia.com>
-References: <cover.1718228494.git.nicolinc@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CB71DFF0
+	for <linux-tegra@vger.kernel.org>; Wed, 12 Jun 2024 22:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718231086; cv=none; b=NQbRc4iUi/S9lwlNdLWcVEgLvyscLhY79nDd/3rvYdxlGEngS9nN+heY2ErKhsCINAW5r4dBmXRUyzgbwkKgBUs4NQF99EM2OH5cbfJkj+KtAvCOQVu/2/pfwJUM6yHazHEV7F5C+yRGZmbiZCLkPLj046OyeXROEGF+ImMtZ2I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718231086; c=relaxed/simple;
+	bh=p/wmu+4wYl/wqNke/QhUcX7EKLyt1KgUpm4CzyEB4AE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I8ABZ+/lzKGOv5YZfPJ9FovTPau3HjZ1EYL42xE5QL6z8mOQpLUgZbFlYxwYKrutGY5BTpt+ryZOJjtqvqdNrlcyhihFb+Zunk4A7Vnbs5o2SozbpJuPvSRA7sNj/ApZb6gH1KdYtkhAhrszU4u1tcc5QR4m7M4ZR6xpGxLI1ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XXfhtB10; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f717608231so3121145ad.2
+        for <linux-tegra@vger.kernel.org>; Wed, 12 Jun 2024 15:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718231083; x=1718835883; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hvJdqdXbOsMsvfolWLIhz5jKfl0lZRFyGewDbo4ybFE=;
+        b=XXfhtB10ztNzpumwlwt2rnGNCPYoTiOj7Tws/arWbAR+ymXKP27s9nmRy8iMvm9SIG
+         79+6AXFi/l4jdaF1lF4nBhozQWSUhZlS/NAKeKP1pQK6KGl9io3EPEdBdYkrQUIFA3Qn
+         3Gx8QEtZ4osTugneQmGVpo3XaV1sBgysHGRG0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718231083; x=1718835883;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hvJdqdXbOsMsvfolWLIhz5jKfl0lZRFyGewDbo4ybFE=;
+        b=Rxo8meZl2jiirEWSZz7XWopKB3eKOZjE29+XWQWfgV9vabmORLEOGIUDxhVbtCX8wX
+         b8e2ZChhPw0ZDZzsH+/47374dHKjyRlaxSZmLf0jTi+CS6W13EyKxKoM8aNkdUe0GjIH
+         QdQmu2cEllqbi8glht2OdB0S5ZVpBvDRTkMkP16DdlJSuue5UhTi4nqNzuvj+1pbMXGf
+         XIyAsLCjRECEOXJj2aHfL4xCOBv2fqleHMCSGZ3ciPtHkyI3Vx/F1QGPo7g4kBLbx93a
+         tiKvHD/es/eTn/AcqxYwWiS5MFuvNYXPuWgP34oSv+/EjDebnyQEYJVhEXTc2nRBTPzY
+         qCOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOubQPQXB3PYu5cgXYtwS0yy+HUexefQyAKKwOXU/yXfMXzNsf4YWEPicn0HGAay/wsgbbjDGjx8VXIUrCLflHACr0N/Q+fyO9O/g=
+X-Gm-Message-State: AOJu0YwFokjBIL2fD5SvLFW1jZMgF08MErtFxeISyYehyddChL8G2dX+
+	74LBMexPQ6+7+o3Eqm+YYzMiR4HqjuiHXedbpME1TAdxzk5AJx1UpiB+kA/Yvw==
+X-Google-Smtp-Source: AGHT+IFAyr/OLXB4J5n0QdHaEa3zXIRNItrD8acC+tRkbc51QXKJOk4EcFMZStf7hJ6gv4GGb6OcUA==
+X-Received: by 2002:a17:902:e851:b0:1f6:65d3:296 with SMTP id d9443c01a7336-1f83b637bdcmr34717685ad.29.1718231083000;
+        Wed, 12 Jun 2024 15:24:43 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:2816:6a42:9074:18cc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f30acda9sm87914105ad.198.2024.06.12.15.24.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 15:24:42 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Aurabindo Pillai <aurabindo.pillai@amd.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Candice Li <candice.li@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Danilo Krummrich <dakr@redhat.com>,
+	David Airlie <airlied@gmail.com>,
+	Edmund Dea <edmund.j.dea@intel.com>,
+	Hamza Mahfooz <hamza.mahfooz@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Karol Herbst <kherbst@redhat.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Le Ma <le.ma@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Ma Jun <Jun.Ma2@amd.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Shashank Sharma <shashank.sharma@amd.com>,
+	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+	Steven Price <steven.price@arm.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Victor Lu <victorchengchi.lu@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	chenxuebing <chenxb_99091@126.com>,
+	linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	nouveau@lists.freedesktop.org
+Subject: [PATCH v2 0/8] drm: make leftover drivers call drm_atomic_helper_shutdown() at the right times
+Date: Wed, 12 Jun 2024 15:23:40 -0700
+Message-ID: <20240612222435.3188234-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE9:EE_|MW4PR12MB7014:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c285cbc-8e98-40b0-b0b1-08dc8b290cca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230034|36860700007|376008|1800799018|82310400020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CiRW+fqL0yAW41GsWW6YHvztbgSIgYo4k2H9jLDWxOZJU4XqTO0CS+IuJiLE?=
- =?us-ascii?Q?OV9Wuck/TBQv4iM3rHEIYpzOM/8LgeN6thxwr0hT0X/D8B3i4SEMKA9Bah2O?=
- =?us-ascii?Q?l+a5nCh+5AMIMzYfKiqHPknllPIxZ0ThRbIuDEa4LRaFawBm4D+StZDn1KfN?=
- =?us-ascii?Q?2ZTqWxHroClAXCnpPF5P2wBcoqyIky5T57PpF2YJTQog+n50j3IwNmxW9OWC?=
- =?us-ascii?Q?H5G+dI8OWowJA1HdCrZpKzzGkiNLO0xe9y0CpcfKkEeyLFGy2KE8fry3v0Dp?=
- =?us-ascii?Q?ad6eULvYyB39vJ26bxLCqDkqEEisqABU1EYQ1e0gCKW1pCWQiiiYU4sxXj15?=
- =?us-ascii?Q?pDejFq1VrhmTRJX2cUxOqf7+7N/yvHMK7bEQV0b8tNlDc5BwBFo4Z13ASGnW?=
- =?us-ascii?Q?z9K7Guywwm4m8iR24TnjvXpayuHrx1y1Psr6zMYQZrFpcMoC7Nc65EDIdnUL?=
- =?us-ascii?Q?pfk7H5oU50Q1RM/DY0hHmyUb57HXrH2hBSX98u8zSi3vz6ciTYv0w9YmOiGz?=
- =?us-ascii?Q?OHkLB6KWVkGW6j3vVW5cHEh1QsgLe76dpvrh2gahyOLoCygmufRiGUoGHoQw?=
- =?us-ascii?Q?BoYdxrPGC4W3LuIaN+4SKOFKs+oTREJbCPAe+HKfvSYrvbfWO+JYYD9+klI3?=
- =?us-ascii?Q?mZGgU3YIRjjlUsGVHEfjx92oaX5EA2X8+0A0odg6ZAYY3bxeWxfNV/Ulmj1t?=
- =?us-ascii?Q?o8fLYzkwgLePqw4qzJJGhqNOILKjDPdnqTQIYjRZEggiL2CK4WxkgJ5a0mMM?=
- =?us-ascii?Q?Q7zeAKQKMWUmXxKd3GSPbfqGCCOjcE2ecjmJrQe2gE9swLnBVtEDWOGldgWZ?=
- =?us-ascii?Q?X704SpncnN3vjoN/SvFaESOSPEyS5Gagq7Na4UGUGwji165/cbQXO6zFNlam?=
- =?us-ascii?Q?7a/ObKiCdpmsMWK5OJXTPNfdEgpfPd5HgV+ODBU8UTDajXnLGFB625OltxlE?=
- =?us-ascii?Q?AB88vKTjdEekBHQO31D2PX5j7SafFIzUounxcuBUaU0Nty4HaMwanjz62ydz?=
- =?us-ascii?Q?P1BkkXvV8Uv8R9hH3NsALl1DZ3oNJyjWnoX0WM1eSNwDNBRY+I3a5/AaXmh2?=
- =?us-ascii?Q?WChFMMUvWdZ0hYquRslQQZItKxYF6nMHMXrGiF23Q/89mYTFKYazx59rHbzS?=
- =?us-ascii?Q?WJnTj74uia0gWUpZ0XgHffbAyASPoYMN4NnHiDX9RRd/+Z0J7d34x8pgj7+v?=
- =?us-ascii?Q?yoE9IJsBRfLI6llGlcmIHdrQWuBsZUIFynA059Qzq0WFdQI722UonKjCovbt?=
- =?us-ascii?Q?n+dK7EIsHdWO2Hq/y6lH8Kxbebywzl6eTS1fG2IeHflrQRM8AjuWgXFbOxjQ?=
- =?us-ascii?Q?52CNORZwi+v8fdBur2z6gnbVRka0m7uSGKxzOu2rKAkuq4b+IYmK95M4fKk2?=
- =?us-ascii?Q?QtAuIjg3/UUSdKs6DROsOpyNmghORXyAj2r+o/MwT1TiVCfcOA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230034)(36860700007)(376008)(1800799018)(82310400020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2024 21:46:00.2422
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c285cbc-8e98-40b0-b0b1-08dc8b290cca
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7014
 
-When VCMDQs are assigned to a VINTF owned by a guest (HYP_OWN bit unset),
-only TLB and ATC invalidation commands are supported by the VCMDQ HW. So,
-add a new helper to scan the input cmd to make sure it is supported when
-selecting a queue, though this assumes that SMMUv3 driver will only add
-the same type of commands into an arm_smmu_cmdq_batch as it does today.
 
-Note that the guest VM shouldn't have HYP_OWN bit being set regardless of
-guest kernel driver writing it or not, i.e. the hypervisor running in the
-host OS should wire this bit to zero when trapping a write access to this
-VINTF_CONFIG register from a guest kernel.
+This patch series is the leftovers of a patch series sent in September
+2023 [1] in an attempt to get some of the patches landed finally.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 +++++++++++-----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  5 +--
- .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    | 36 ++++++++++++++++++-
- 3 files changed, 60 insertions(+), 12 deletions(-)
+This patch series originally came about after a _long_ discussion
+between me and Maxime Ripard in response to a different patch I sent
+out [2]. As part of that discussion, we realized that it would be good
+if DRM drivers consistently called drm_atomic_helper_shutdown()
+properly at shutdown and driver remove time as it's documented that
+they should do. The eventual goal of this would be to enable removing
+some hacky code from panel drivers where they had to hook into
+shutdown themselves because the DRM driver wasn't calling them.
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 430e84fe3679..3e2eb88535de 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -332,10 +332,22 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- 	return 0;
- }
- 
--static struct arm_smmu_cmdq *arm_smmu_get_cmdq(struct arm_smmu_device *smmu)
-+static struct arm_smmu_cmdq *
-+arm_smmu_get_cmdq(struct arm_smmu_device *smmu, u8 opcode)
- {
-+	/*
-+	 * TEGRA241 CMDQV has two modes to execute commands: host and guest.
-+	 * The host mode supports all the opcodes, while the guest mode only
-+	 * supports a few invalidation ones (check tegra241_vintf_support_cmd)
-+	 * and also a CMD_SYNC added by arm_smmu_cmdq_issue_cmdlist(..., true).
-+	 *
-+	 * Here pass in the representing opcode for either a single command or
-+	 * an arm_smmu_cmdq_batch, assuming that this SMMU driver will only add
-+	 * same type of commands into a batch as it does today or it will only
-+	 * mix supported invalidation commands in a batch.
-+	 */
- 	if (arm_smmu_has_tegra241_cmdqv(smmu))
--		return tegra241_cmdqv_get_cmdq(smmu);
-+		return tegra241_cmdqv_get_cmdq(smmu, opcode);
- 
- 	return &smmu->cmdq;
- }
-@@ -871,7 +883,7 @@ static int __arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
- 	}
- 
- 	return arm_smmu_cmdq_issue_cmdlist(
--		smmu, arm_smmu_get_cmdq(smmu), cmd, 1, sync);
-+		smmu, arm_smmu_get_cmdq(smmu, ent->opcode), cmd, 1, sync);
- }
- 
- static int arm_smmu_cmdq_issue_cmd(struct arm_smmu_device *smmu,
-@@ -887,10 +899,11 @@ static int arm_smmu_cmdq_issue_cmd_with_sync(struct arm_smmu_device *smmu,
- }
- 
- static void arm_smmu_cmdq_batch_init(struct arm_smmu_device *smmu,
--				     struct arm_smmu_cmdq_batch *cmds)
-+				     struct arm_smmu_cmdq_batch *cmds,
-+				     u8 opcode)
- {
- 	cmds->num = 0;
--	cmds->cmdq = arm_smmu_get_cmdq(smmu);
-+	cmds->cmdq = arm_smmu_get_cmdq(smmu, opcode);
- }
- 
- static void arm_smmu_cmdq_batch_add(struct arm_smmu_device *smmu,
-@@ -1169,7 +1182,7 @@ static void arm_smmu_sync_cd(struct arm_smmu_master *master,
- 		},
- 	};
- 
--	arm_smmu_cmdq_batch_init(smmu, &cmds);
-+	arm_smmu_cmdq_batch_init(smmu, &cmds, cmd.opcode);
- 	for (i = 0; i < master->num_streams; i++) {
- 		cmd.cfgi.sid = master->streams[i].id;
- 		arm_smmu_cmdq_batch_add(smmu, &cmds, &cmd);
-@@ -2014,7 +2027,7 @@ static int arm_smmu_atc_inv_master(struct arm_smmu_master *master)
- 
- 	arm_smmu_atc_inv_to_cmd(IOMMU_NO_PASID, 0, 0, &cmd);
- 
--	arm_smmu_cmdq_batch_init(master->smmu, &cmds);
-+	arm_smmu_cmdq_batch_init(master->smmu, &cmds, cmd.opcode);
- 	for (i = 0; i < master->num_streams; i++) {
- 		cmd.atc.sid = master->streams[i].id;
- 		arm_smmu_cmdq_batch_add(master->smmu, &cmds, &cmd);
-@@ -2054,7 +2067,7 @@ int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain, int ssid,
- 
- 	arm_smmu_atc_inv_to_cmd(ssid, iova, size, &cmd);
- 
--	arm_smmu_cmdq_batch_init(smmu_domain->smmu, &cmds);
-+	arm_smmu_cmdq_batch_init(smmu_domain->smmu, &cmds, CMDQ_OP_ATC_INV);
- 
- 	spin_lock_irqsave(&smmu_domain->devices_lock, flags);
- 	list_for_each_entry(master, &smmu_domain->devices, domain_head) {
-@@ -2131,7 +2144,7 @@ static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
- 			num_pages++;
- 	}
- 
--	arm_smmu_cmdq_batch_init(smmu, &cmds);
-+	arm_smmu_cmdq_batch_init(smmu, &cmds, cmd->opcode);
- 
- 	while (iova < end) {
- 		if (smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index 604e26a292e7..2c1fe7e129cd 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -879,7 +879,8 @@ struct tegra241_cmdqv *tegra241_cmdqv_acpi_probe(struct arm_smmu_device *smmu,
- 						 struct acpi_iort_node *node);
- void tegra241_cmdqv_device_remove(struct arm_smmu_device *smmu);
- int tegra241_cmdqv_device_reset(struct arm_smmu_device *smmu);
--struct arm_smmu_cmdq *tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu);
-+struct arm_smmu_cmdq *tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu,
-+					      u8 opcode);
- #else /* CONFIG_TEGRA241_CMDQV */
- static inline bool arm_smmu_has_tegra241_cmdqv(struct arm_smmu_device *smmu)
- {
-@@ -903,7 +904,7 @@ static inline int tegra241_cmdqv_device_reset(struct arm_smmu_device *smmu)
- }
- 
- static inline struct arm_smmu_cmdq *
--tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu)
-+tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu, u8 opcode)
- {
- 	return NULL;
- }
-diff --git a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-index 1a2680d31c3d..bb696c66e56d 100644
---- a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-@@ -144,6 +144,7 @@ struct tegra241_vcmdq {
-  * struct tegra241_vintf - Virtual Interface
-  * @idx: Global index in the CMDQV
-  * @enabled: Enable status
-+ * @hyp_own: Owned by hypervisor (in-kernel)
-  * @cmdqv: Parent CMDQV pointer
-  * @lvcmdqs: List of logical VCMDQ pointers
-  * @base: MMIO base address
-@@ -152,6 +153,7 @@ struct tegra241_vintf {
- 	u16 idx;
- 
- 	bool enabled;
-+	bool hyp_own;
- 
- 	struct tegra241_cmdqv *cmdqv;
- 	struct tegra241_vcmdq **lvcmdqs;
-@@ -290,7 +292,25 @@ static irqreturn_t tegra241_cmdqv_isr(int irq, void *devid)
- 
- /* Command Queue Selecting Function */
- 
--struct arm_smmu_cmdq *tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu)
-+static bool tegra241_vintf_support_cmd(struct tegra241_vintf *vintf, u8 opcode)
-+{
-+       /* Hypervisor-owned VINTF can execute any command in its VCMDQs */
-+	if (READ_ONCE(vintf->hyp_own))
-+		return true;
-+
-+	/* Guest-owned VINTF must check against the list of supported CMDs */
-+	switch (opcode) {
-+	case CMDQ_OP_TLBI_NH_ASID:
-+	case CMDQ_OP_TLBI_NH_VA:
-+	case CMDQ_OP_ATC_INV:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+struct arm_smmu_cmdq *tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu,
-+					      u8 opcode)
- {
- 	struct tegra241_cmdqv *cmdqv = smmu->tegra241_cmdqv;
- 	struct tegra241_vintf *vintf = cmdqv->vintfs[0];
-@@ -304,6 +324,10 @@ struct arm_smmu_cmdq *tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu)
- 	if (!READ_ONCE(vintf->enabled))
- 		return &smmu->cmdq;
- 
-+	/* Unsupported CMD go for smmu->cmdq pathway */
-+	if (!tegra241_vintf_support_cmd(vintf, opcode))
-+		return &smmu->cmdq;
-+
- 	/*
- 	 * Select a LVCMDQ to use. Here we use a temporal solution to
- 	 * balance out traffic on cmdq issuing: each cmdq has its own
-@@ -393,12 +417,22 @@ static int tegra241_vintf_hw_init(struct tegra241_vintf *vintf, bool hyp_own)
- 	tegra241_vintf_hw_deinit(vintf);
- 
- 	/* Configure and enable VINTF */
-+	/*
-+	 * Note that HYP_OWN bit is wired to zero when running in guest kernel,
-+	 * whether enabling it here or not, as !HYP_OWN cmdq HWs only support a
-+	 * restricted set of supported commands.
-+	 */
- 	regval = FIELD_PREP(VINTF_HYP_OWN, hyp_own);
- 	writel(regval, REG_VINTF(vintf, CONFIG));
- 
- 	ret = vintf_write_config(vintf, regval | VINTF_EN);
- 	if (ret)
- 		return ret;
-+	/*
-+	 * As being mentioned above, HYP_OWN bit is wired to zero for a guest
-+	 * kernel, so read it back from HW to ensure that reflects in hyp_own
-+	 */
-+	vintf->hyp_own = !!(VINTF_HYP_OWN & readl(REG_VINTF(vintf, CONFIG)));
- 
- 	for (lidx = 0; lidx < vintf->cmdqv->num_lvcmdqs_per_vintf; lidx++) {
- 		if (vintf->lvcmdqs && vintf->lvcmdqs[lidx]) {
+It turns out that quite a lot of drivers seemed to be missing
+drm_atomic_helper_shutdown() in one or both places that it was
+supposed to be. This patch series attempts to fix all the drivers that
+I was able to identify.
+
+NOTE: fixing this wasn't exactly cookie cutter. Each driver has its
+own unique way of setting itself up and tearing itself down. Some
+drivers also use the component model, which adds extra fun. I've made
+my best guess at solving this and I've run a bunch of compile tests
+(specifically, allmodconfig for amd64, arm64, and powerpc). That being
+said, these code changes are not totally trivial and I've done zero
+real testing on them. Making these patches was also a little mind
+numbing and I'm certain my eyes glazed over at several points when
+writing them. What I'm trying to say is to please double-check that I
+didn't do anything too silly, like cast your driver's drvdata to the
+wrong type. Even better, test these patches!
+
+Apparently most of these drivers now land through drm-misc [3], so
+hopefully they can land. The two that don't (amdgpu and radeon) are
+the ones I'm most ucertain about anyway so I've stuck them at the end.
+If I've totally buggered those up feel free to take my patch as a bug
+report and submit your own proper fix. ...or if there's some reason
+that we don't need to do anything for those drivers then let me know
+and we can drop them.
+
+I'd like to call out a few drivers that I _didn't_ fix in this series
+and why. If any of these drivers should be fixed then please yell.
+- DRM drivers backed by usb_driver (like gud, gm12u320, udl): I didn't
+  add the call to drm_atomic_helper_shutdown() at shutdown time
+  because there's no ".shutdown" callback for them USB drivers. Given
+  that USB is hotpluggable, I'm assuming that they are robust against
+  this and the special shutdown callback isn't needed.
+- ofdrm and simpledrm: These didn't have drm_atomic_helper_shutdown()
+  in either shutdown or remove, but I didn't add it. I think that's OK
+  since they're sorta special and not really directly controlling
+  hardware power sequencing.
+- virtio, vkms, vmwgfx, xen: I believe these are all virtual (thus
+  they wouldn't directly drive a panel) and adding the shutdown
+  didn't look straightforward, so I skipped them.
+
+I've let each patch in the series get CCed straight from
+get_maintainer. That means not everyone will have received every patch
+but everyone should be on the cover letter. I know some people dislike
+this but when touching this many drivers there's not much
+choice. dri-devel and lkml have been CCed and lore/lei exist, so
+hopefully that's enough for folks. I'm happy to add people to the
+whole series for future posts.
+
+[1] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid
+[3] https://lore.kernel.org/r/Zmm6_27GikpmT3HQ@phenom.ffwll.local
+
+Changes in v2:
+- Gathered whatever hadn't landed, rebased, and reposted.
+
+Douglas Anderson (8):
+  drm/kmb: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/nouveau: Call drm_atomic_helper_shutdown() or equiv at shutdown
+    time
+  drm/tegra: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/arcpgu: Call drm_atomic_helper_shutdown() at shutdown time
+  drm/sprd: Call drm_atomic_helper_shutdown() at remove time
+  drm/gma500: Call drm_helper_force_disable_all() at shutdown/remove
+    time
+  drm/radeon: Call drm_helper_force_disable_all() at shutdown/remove
+    time
+  drm/amdgpu: Call drm_atomic_helper_shutdown() at shutdown time
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  2 ++
+ drivers/gpu/drm/gma500/psb_drv.c           |  8 ++++++++
+ drivers/gpu/drm/kmb/kmb_drv.c              |  6 ++++++
+ drivers/gpu/drm/nouveau/nouveau_display.c  |  9 +++++++++
+ drivers/gpu/drm/nouveau/nouveau_display.h  |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c      | 13 +++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_drv.h      |  1 +
+ drivers/gpu/drm/nouveau/nouveau_platform.c |  6 ++++++
+ drivers/gpu/drm/radeon/radeon_drv.c        |  7 ++++++-
+ drivers/gpu/drm/sprd/sprd_drm.c            |  4 +++-
+ drivers/gpu/drm/tegra/drm.c                |  6 ++++++
+ drivers/gpu/drm/tiny/arcpgu.c              |  6 ++++++
+ 14 files changed, 78 insertions(+), 2 deletions(-)
+
 -- 
-2.43.0
+2.45.2.505.gda0bf45e8d-goog
 
 
