@@ -1,118 +1,117 @@
-Return-Path: <linux-tegra+bounces-2830-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2837-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7537F91E182
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2024 15:57:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F99F91E2A3
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2024 16:39:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC72EB21317
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2024 13:57:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C5F71C215E1
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2024 14:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E80CA16B736;
-	Mon,  1 Jul 2024 13:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5948C16B3B0;
+	Mon,  1 Jul 2024 14:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="UYp5EScF"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188A716B3A4
-	for <linux-tegra@vger.kernel.org>; Mon,  1 Jul 2024 13:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359182A1A4;
+	Mon,  1 Jul 2024 14:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842068; cv=none; b=dmxMMDfIC8k80PBZ/BWG07dY7JuBzP1m6WfNrwUd+9+o0tOm5VoIUuA5mDT8f5bktsCNFZe3JUyxqbKMjUSOjAinGJDLs7MeZgNxMy/d1gGritlzkC/ftk5OV7LdfOe3oXNZvTZ/H8U/ZezaeTRLhJ6o1kCHoC8CeJSqoPXHXyY=
+	t=1719844775; cv=none; b=P9Kqocyu2eKiLSiBfbc7Y6SW7K3S1YAF0l1JSaMMozaCVMC5+s573FLBdf6kfIeZ7vmo8G+QD2nRKDcBfxaioqtmiXkNeuIJh7AKZ4VQBkofoL73NPmmo4GN/WJ1fjiri3o/lHUwUOBR5HEt5luhB3upNvjGw7WscyYucgYvfFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842068; c=relaxed/simple;
-	bh=Uzn7LDoOL9SlsZeIM68XzGKBB+r44Ge/qQ/yufBvw8U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HRcN7SMRwUvALUXbLllW+kFh5r2QrEdDSBuZL7A5U0l0sDdHtNCrhBA0lq2dJyyyDHF72rTeITqMfPAz6WW62WTYXGIhaz/D9kgmLDWJMVOWqoSrirff2V9f0N/sShU4zl2dWwBJvGEAq2ikq/sp77F664CQPPgy7g6ezoD4Wuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <m.felsch@pengutronix.de>)
-	id 1sOHTY-0001LY-20; Mon, 01 Jul 2024 15:53:48 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Mon, 01 Jul 2024 15:53:48 +0200
-Subject: [PATCH 9/9] eeprom: at24: remove deprecated Kconfig symbol
+	s=arc-20240116; t=1719844775; c=relaxed/simple;
+	bh=/6qke6RUXta77pvxyFGlQ7jb5LbK70lHz1fXlCciVSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fC7X1sC5/TCGMA2HK2XwwarKZMkE19v29IDL1VJqv3KB2R3DR1SKkyL2D2DrD1v7F0cJUVzcVzw27iWQfixtMR39S+8m5qXB5eLYfAzuAatIUxWuMR17ooNSyR7m44XSLOXfjBe70vUKenamjpFTBWUtdfUIiTrPjECpYsBhXJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=UYp5EScF; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 122A26002414;
+	Mon,  1 Jul 2024 15:30:39 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id vtWJFCvQ7Ifm; Mon,  1 Jul 2024 15:30:09 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 5B1E2600140D;
+	Mon,  1 Jul 2024 15:30:09 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail; t=1719844209;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R1hlZfJgLOxh6K5sBaTW/U1/Z3z8nnKAghRXP3SUY+M=;
+	b=UYp5EScF7V+KxA4yERMIUFmVwF4ik5RZZrXsTQ+JOmRz7TDUNzk8F9oeDbcNRDUt/YyzgC
+	uecnkyP5cSBhMWq0WLp8KzX+X4Qk4z0wx3v4TxtzPnKQdCBDq5J4ajqGNTlhKdaKAdEQ1L
+	5w//eWiLtm2vsLdM5RcLGhDQpcD8T2Q=
+Received: from diogo-gram (unknown [46.6.168.43])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 11CD83600B9;
+	Mon,  1 Jul 2024 15:30:03 +0100 (WEST)
+Date: Mon, 1 Jul 2024 15:29:55 +0100
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, soc@kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: Add/fix /memory node unit-addresses
+Message-ID: <otqwrgux76jfnj3zqdmybivu23k7os4gthxlvwn6xh3wv5g4lk@niz3kwwmcizr>
+References: <20240430191856.874600-2-robh@kernel.org>
+ <lbv5dlpvjfolp3tidna6ft7o3c3xswu6udp6savazegbfovygp@uzf2yyrocfuj>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240701-b4-v6-10-topic-usbc-tcpci-v1-9-3fd5f4a193cc@pengutronix.de>
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
-In-Reply-To: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Russell King <linux@armlinux.org.uk>, 
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Tony Lindgren <tony@atomide.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-tegra@vger.kernel.org, openbmc@lists.ozlabs.org, 
- linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org, 
- loongarch@lists.linux.dev, Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.15-dev
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: m.felsch@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lbv5dlpvjfolp3tidna6ft7o3c3xswu6udp6savazegbfovygp@uzf2yyrocfuj>
 
-All kernel users are shifted to the new MTD_EEPROM_AT24 Kconfig symbol
-so we can drop the old one.
+Hi Thierry,
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- drivers/misc/eeprom/Kconfig | 7 -------
- 1 file changed, 7 deletions(-)
+On Fri, Jun 28, 2024 at 05:06:10PM GMT, Thierry Reding wrote:
+> On Tue, Apr 30, 2024 at 02:18:54PM GMT, Rob Herring (Arm) wrote:
+> [...]
+> > diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> > index 9ebb7369256e..2e5b6b2c1f56 100644
+> > --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> > +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> > @@ -25,7 +25,7 @@ chosen {
+> >  		stdout-path = "serial0:115200n8";
+> >  	};
+> >  
+> > -	memory {
+> > +	memory@80000000 {
+> >  		device_type = "memory";
+> >  		reg = <0x0 0x80000000 0x0 0xc0000000>;
+> >  	};
+> 
+> [trimming the recipient list and adding Diogo]
+> 
+> Sorry I just noticed this as I was doing a cleanup path of patchwork.
+> 
+> For tegra210-smaug, unfortunately we can't do this. The problem is that
+> the firmware for this device looks for a hard-coded /memory device when
+> updating with the proper memory size and this firmware can't always be
+> updated.
+> 
+> Diogo, you're one of the few remaining people that I know of that still
+> use this device (with an upstream kernel). Do you have any more details
+> about this? Is there any way the firmware can be safely updated on these
+> devices?
 
-diff --git a/drivers/misc/eeprom/Kconfig b/drivers/misc/eeprom/Kconfig
-index 3a9aaec2f2c7..9e071cfdc6c6 100644
---- a/drivers/misc/eeprom/Kconfig
-+++ b/drivers/misc/eeprom/Kconfig
-@@ -1,13 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menu "EEPROM support"
- 
--config EEPROM_AT24
--	tristate "I2C EEPROMs / RAMs / ROMs from most vendors"
--	select MTD_EEPROM_AT24
--	help
--	  Deprecated config option to get read/write support to most I2C
--	  EEPROMs. Please use MTD_EEPROM_AT24 instead.
--
- config EEPROM_AT25
- 	tristate "SPI EEPROMs (FRAMs) from most vendors"
- 	depends on SPI && SYSFS
+To be honest I am not quite sure. I do know that at least there is a part
+of the firmware that is locked down and cannot be updated easily, as you
+have to disconnect a ribbon cable inside of the device. Do you know of
+any firmware updates for this device? Currently I am not aware of any.
 
--- 
-2.39.2
-
+Diogo
 
