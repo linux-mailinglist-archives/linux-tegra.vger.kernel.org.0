@@ -1,150 +1,198 @@
-Return-Path: <linux-tegra+bounces-2872-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2878-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0942992411B
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2024 16:45:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCCD924695
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2024 19:42:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B31C7282080
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2024 14:44:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9AD9B210CF
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2024 17:42:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A9D1BA087;
-	Tue,  2 Jul 2024 14:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E6A1BE86C;
+	Tue,  2 Jul 2024 17:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=rjwysocki.net header.i=@rjwysocki.net header.b="YHEOPZXf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epCLP+YH"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B6FBE7F;
-	Tue,  2 Jul 2024 14:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.96.170.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D187D3D978;
+	Tue,  2 Jul 2024 17:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719931495; cv=none; b=aH4qMpORMYev9NhFGEUX4CeQ7TYgQ/dO3KAM66aUAXc95LD4Sm/zenhay/DcWWB/ROimEVhgg4HEDtI0trKLgYFNjqfinnxXxviWZM/CpLtRvLIFKz9189zvjQW41EJI+4r6Cz8Exs9K40F4WIVAarVtdawWkVwzjvVWr9uP3K4=
+	t=1719942118; cv=none; b=mA0RS6Lf8+xghMNp3xAjueOaO0LdoJGDZjGV1GXM5XeNuYhIb9z1e48NfCxNfrYL1/gOvhO5ENKD3pTSJ1JW29nCV3ErPSV5MEujAYCVuuL7Or4gJ53EvdeAgow1PstXEAC+h9kjtnNWDtRVf2wVEZ99MAM4ooVkMoZYTDoAlNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719931495; c=relaxed/simple;
-	bh=hylGUm911e4WMhiZzXuDXft7cF0yyM6IgOOX8pQZKto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GQNrkLTyqoTar9DlZKbHHjnhXgyyhNI+X4pE6INZTzIPywR4N5+cHCFAbuWs/VZTCN0qYmDSJfJEU7M/u8QWh+sHMvBbbtFEyLROgTluCrBjAbYFS36YsZAi/7mBqMF/nM3e3KBNTBAiwFn4RBbpnImwFz2RspRt81buVLiJfAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net; spf=pass smtp.mailfrom=rjwysocki.net; dkim=fail (2048-bit key) header.d=rjwysocki.net header.i=@rjwysocki.net header.b=YHEOPZXf reason="signature verification failed"; arc=none smtp.client-ip=79.96.170.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rjwysocki.net
-Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
- by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 6.2.0)
- id aed396a62b52ac75; Tue, 2 Jul 2024 16:44:43 +0200
-Received: from kreacher.localnet (unknown [195.136.19.94])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by cloudserver094114.home.pl (Postfix) with ESMTPSA id 43444A562AE;
-	Tue,  2 Jul 2024 16:44:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rjwysocki.net;
-	s=dkim; t=1719931483;
-	bh=hylGUm911e4WMhiZzXuDXft7cF0yyM6IgOOX8pQZKto=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YHEOPZXf+76dohpZb1tqnMCHzzVnxT+Eithjngiq2luwFTK7aUUkjmymASzTAodqH
-	 gHQaFoRKyp3ixiPuj96QCVVz44w9ZM84M7pGewktFATsgAU0jnkVb8zGmjvj/4coJn
-	 keswOV8bywQr5KtTO4PgYZyMZn86loZGqBe598EG/rN6Qk0jQII2ew1xbH0lwvGzrm
-	 K2vNtHcaXRCuz3x2Ah0/LHaxKjG+/z33MZcFxcPQWK2iBuINh4TiXk1Lxj/kz6iWgo
-	 MOG3NppUhThUPI5qppVr1ZgiPAk9SOBRltXONZI4iyP8w5plnAJujoAvKRozOBuGwF
-	 jE/Xtd5Gm7kDg==
-From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To: Linux PM <linux-pm@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Zhang Rui <rui.zhang@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-wireless@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject:
- [RESEND][PATCH v1 5/5] thermal: trip: Fold __thermal_zone_get_trip() into its
- caller
-Date: Tue, 02 Jul 2024 16:44:27 +0200
-Message-ID: <22339769.EfDdHjke4D@rjwysocki.net>
-In-Reply-To: <1890956.tdWV9SEqCh@rjwysocki.net>
-References: <1890956.tdWV9SEqCh@rjwysocki.net>
+	s=arc-20240116; t=1719942118; c=relaxed/simple;
+	bh=V1br44Suz4Wiyv69CA10ClMypjB26LNaQ5yMRsJPc48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7mIa9hFm4jIV/o+WUW1+yOG517981NbgMkUpivfzR60KDJP6TZLzWR9QjJXYlsrFtMN4uwn8gDXY7P4ub2eRvd3ksJRiESLOrMCnH8/neTOFHTRqVQ1XwzYVmFRH15DtQ8op+9IGxhE11RWQ14k/miXBbWbWhL/qEqomdL1BFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epCLP+YH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB19C116B1;
+	Tue,  2 Jul 2024 17:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719942118;
+	bh=V1br44Suz4Wiyv69CA10ClMypjB26LNaQ5yMRsJPc48=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=epCLP+YHoh28Xp9koK/so0cTTVZFe1iZfYFnoERH6CX1YHknZdN6Mk10gChe1aDzO
+	 73/1uPwfyJN/Otm3uEZKqtSYL5vcXomG+Kjl7Vi5zWLpuNKAp2fdJuce4r3IO+7oEg
+	 c5XIx+EPUQAcmilIWXFV5Mh/M8UhtmevEb4D7p1dD7IoyLAGGitIrLs1XPYPG/j0Xt
+	 8XCDmHM8wixDLgKYka8J1+YVuPF00bKLdByBpZ5lmSsc1/hTkLm+LW3Q7ZbrFkbRlA
+	 JK6Hso2PLvpV/8lAVholV08Af4ln1NcaC404pJ0IPPC3/X6h+bVgYlK23bW0eQCR85
+	 +XDbu66xlnblQ==
+Date: Tue, 2 Jul 2024 18:41:53 +0100
+From: Will Deacon <will@kernel.org>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: robin.murphy@arm.com, joro@8bytes.org, jgg@nvidia.com,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v9 5/6] iommu/arm-smmu-v3: Add in-kernel support for
+ NVIDIA Tegra241 (Grace) CMDQV
+Message-ID: <20240702174152.GA4740@willie-the-truck>
+References: <cover.1718228494.git.nicolinc@nvidia.com>
+ <d74b091a1216421ab8431f4c684242cd70ef0b77.1718228494.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-CLIENT-IP: 195.136.19.94
-X-CLIENT-HOSTNAME: 195.136.19.94
-X-VADE-SPAMSTATE: clean
-X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepudelhedrudefiedrudelrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduleehrddufeeirdduledrleegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhukhgrshiirdhluhgsrgesrghrmhdrtghomhdprhgtphhtthhopegurghnihgvlhdrlhgviigt
- rghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhrihhnihhvrghsrdhprghnughruhhvrggurgeslhhinhhugidrihhnthgvlhdrtghomh
-X-DCC--Metrics: v370.home.net.pl 1024; Body=14 Fuz1=14 Fuz2=14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d74b091a1216421ab8431f4c684242cd70ef0b77.1718228494.git.nicolinc@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Wed, Jun 12, 2024 at 02:45:32PM -0700, Nicolin Chen wrote:
+> From: Nate Watterson <nwatterson@nvidia.com>
+> 
+> NVIDIA's Tegra241 Soc has a CMDQ-Virtualization (CMDQV) hardware, extending
+> the standard ARM SMMU v3 IP to support multiple VCMDQs with virtualization
+> capabilities. In terms of command queue, they are very like a standard SMMU
+> CMDQ (or ECMDQs), but only support CS_NONE in the CS field of CMD_SYNC.
+> 
+> Add a new tegra241-cmdqv driver, and insert its structure pointer into the
+> existing arm_smmu_device, and then add related function calls in the SMMUv3
+> driver to interact with the CMDQV driver.
+> 
+> In the CMDQV driver, add a minimal part for the in-kernel support: reserve
+> VINTF0 for in-kernel use, and assign some of the VCMDQs to the VINTF0, and
+> select one VCMDQ based on the current CPU ID to execute supported commands.
+> This multi-queue design for in-kernel use gives some limited improvements:
+> up to 20% reduction of invalidation time was measured by a multi-threaded
+> DMA unmap benchmark, compared to a single queue.
+> 
+> The other part of the CMDQV driver will be user-space support that gives a
+> hypervisor running on the host OS to talk to the driver for virtualization
+> use cases, allowing VMs to use VCMDQs without trappings, i.e. no VM Exits.
+> This is designed based on IOMMUFD, and its RFC series is also under review.
+> It will provide a guest OS a bigger improvement: 70% to 90% reductions of
+> TLB invalidation time were measured by DMA unmap tests running in a guest,
+> compared to nested SMMU CMDQ (with trappings).
+> 
+> However, it is very important for this in-kernel support to get merged and
+> installed to VMs running on Grace-powered servers as soon as possible. So,
+> later those servers would only need to upgrade their host kernels for the
+> user-space support.
 
-Because __thermal_zone_get_trip() is only called by thermal_zone_get_trip()
-now, fold the former into the latter.
+^^^ This is a weird paragraph to put in the commit message.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- drivers/thermal/thermal_trip.c |   18 ++++--------------
- include/linux/thermal.h        |    2 --
- 2 files changed, 4 insertions(+), 16 deletions(-)
+> 
+> As the initial version, the CMDQV driver only supports ACPI configurations.
+> 
+> Signed-off-by: Nate Watterson <nwatterson@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Co-developed-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  MAINTAINERS                                   |   1 +
+>  drivers/iommu/Kconfig                         |  11 +
+>  drivers/iommu/arm/arm-smmu-v3/Makefile        |   1 +
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |  52 +-
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  50 ++
+>  .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    | 842 ++++++++++++++++++
+>  6 files changed, 945 insertions(+), 12 deletions(-)
+>  create mode 100644 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aacccb376c28..ecf7af1b2df8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -22078,6 +22078,7 @@ M:	Thierry Reding <thierry.reding@gmail.com>
+>  R:	Krishna Reddy <vdumpa@nvidia.com>
+>  L:	linux-tegra@vger.kernel.org
+>  S:	Supported
+> +F:	drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+>  F:	drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+>  F:	drivers/iommu/tegra*
+>  
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index c04584be3089..e009387d3cba 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -423,6 +423,17 @@ config ARM_SMMU_V3_KUNIT_TEST
+>  	  Enable this option to unit-test arm-smmu-v3 driver functions.
+>  
+>  	  If unsure, say N.
+> +
+> +config TEGRA241_CMDQV
+> +	bool "NVIDIA Tegra241 CMDQ-V extension support for ARM SMMUv3"
+> +	depends on ACPI
+> +	help
+> +	  Support for NVIDIA CMDQ-Virtualization extension for ARM SMMUv3. The
+> +	  CMDQ-V extension is similar to v3.3 ECMDQ for multi command queues
+> +	  support, except with virtualization capabilities.
+> +
+> +	  Say Y here if your system is NVIDIA Tegra241 (Grace) or it has the same
+> +	  CMDQ-V extension.
+>  endif
+>  
+>  config S390_IOMMU
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/Makefile b/drivers/iommu/arm/arm-smmu-v3/Makefile
+> index 014a997753a8..55201fdd7007 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/Makefile
+> +++ b/drivers/iommu/arm/arm-smmu-v3/Makefile
+> @@ -2,6 +2,7 @@
+>  obj-$(CONFIG_ARM_SMMU_V3) += arm_smmu_v3.o
+>  arm_smmu_v3-objs-y += arm-smmu-v3.o
+>  arm_smmu_v3-objs-$(CONFIG_ARM_SMMU_V3_SVA) += arm-smmu-v3-sva.o
+> +arm_smmu_v3-objs-$(CONFIG_TEGRA241_CMDQV) += tegra241-cmdqv.o
+>  arm_smmu_v3-objs := $(arm_smmu_v3-objs-y)
+>  
+>  obj-$(CONFIG_ARM_SMMU_V3_KUNIT_TEST) += arm-smmu-v3-test.o
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index ba0e24d5ffbf..430e84fe3679 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -334,6 +334,9 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
+>  
+>  static struct arm_smmu_cmdq *arm_smmu_get_cmdq(struct arm_smmu_device *smmu)
+>  {
+> +	if (arm_smmu_has_tegra241_cmdqv(smmu))
+> +		return tegra241_cmdqv_get_cmdq(smmu);
+> +
+>  	return &smmu->cmdq;
 
-Index: linux-pm/drivers/thermal/thermal_trip.c
-===================================================================
---- linux-pm.orig/drivers/thermal/thermal_trip.c
-+++ linux-pm/drivers/thermal/thermal_trip.c
-@@ -114,27 +114,17 @@ void thermal_zone_set_trips(struct therm
- 		dev_err(&tz->device, "Failed to set trips: %d\n", ret);
- }
- 
--int __thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
--			    struct thermal_trip *trip)
--{
--	if (!tz || trip_id < 0 || trip_id >= tz->num_trips || !trip)
--		return -EINVAL;
--
--	*trip = tz->trips[trip_id].trip;
--	return 0;
--}
--EXPORT_SYMBOL_GPL(__thermal_zone_get_trip);
--
- int thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
- 			  struct thermal_trip *trip)
- {
--	int ret;
-+	if (!tz || !trip || trip_id < 0 || trip_id >= tz->num_trips)
-+		return -EINVAL;
- 
- 	mutex_lock(&tz->lock);
--	ret = __thermal_zone_get_trip(tz, trip_id, trip);
-+	*trip = tz->trips[trip_id].trip;
- 	mutex_unlock(&tz->lock);
- 
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(thermal_zone_get_trip);
- 
-Index: linux-pm/include/linux/thermal.h
-===================================================================
---- linux-pm.orig/include/linux/thermal.h
-+++ linux-pm/include/linux/thermal.h
-@@ -202,8 +202,6 @@ static inline void devm_thermal_of_zone_
- }
- #endif
- 
--int __thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
--			    struct thermal_trip *trip);
- int thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
- 			  struct thermal_trip *trip);
- int for_each_thermal_trip(struct thermal_zone_device *tz,
+Hardcoding all these tegra-specific checks in the core driver is pretty
+horrible :/
 
+Instead, please can we do something similar to the SMMUv2 driver? That
+is, tweak the probe routine to call something akin to the
+arm_smmu_impl_init() function, which looks at the 'model' field pulled
+out of the IORT and can then dispatch directly to a tegra-specific init
+function (see, e.g. nvidia_smmu_impl_init() for SMMUv2).
 
+From there, you can both install function pointers into the
+'arm_smmu_device' structure which can be used instead of having the the
+'if (tegra)' checks in the main driver and you can also re-allocate the
+structu to live inside a private structure instead of having the
+backpointer.
 
+Maybe those cmdq function pointers would be happy for other extensions
+too (e.g. the ECMDQ stuff at [1]).
+
+Will
+
+[1] https://lore.kernel.org/r/20240425144152.52352-3-tanmay@marvell.com
 
