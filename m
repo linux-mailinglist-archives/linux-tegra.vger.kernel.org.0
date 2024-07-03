@@ -1,198 +1,264 @@
-Return-Path: <linux-tegra+bounces-2894-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-2898-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981089261C5
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2024 15:27:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 785B29264F4
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2024 17:36:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C40CB22260
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2024 13:27:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06FBF1F23198
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2024 15:36:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE35173345;
-	Wed,  3 Jul 2024 13:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TpgH6gDr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58C9181312;
+	Wed,  3 Jul 2024 15:35:58 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F6E13A25B;
-	Wed,  3 Jul 2024 13:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720013243; cv=fail; b=t7A35mFKi7kWpeqPnLP9R+U1jOvvTeiUkNnqFJ58XHY0VPxI6Rva8UwtMJtPOuAtenSU7aKIWn49/AAWgD0aaZkw8NU5h/gvYqTjCXj0Rs/7IEaBItGqvuEjABAflqH+r3tJXZKuwiV0Sr6d67WH6QUTteg4awOJrumS0FOEuJk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720013243; c=relaxed/simple;
-	bh=8NvWYVZJJQitZM9LaanIE1Ex0OehJdEm1SCFPr/YPVY=;
-	h=From:To:CC:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID:Date; b=JgWFT9HX4WKgkRLjpr1zcPPqwEEa9fKiQR8d2C3I5qet+L3tlRCQEfV0IiVs8sS81dtaPiHjRB/E26cJMmszwbpHcZPY9zXW4ORWoPW3xUGaE5hzfVL/6NgUj3phwXm6qbsKHT6iCJxoACxZqug7nUP3v40+iRow737a1GRF+iM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TpgH6gDr; arc=fail smtp.client-ip=40.107.223.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cLTb2XOADQmsWskelSxGvR79lLuK0ryyMVz+d0gde+cVPdxR9BmUshmLsCWG9kKw1fQZd5/wJS2nCUpa0fs17hP6Gz+2RRYPECmGbGQGZ5FkhPdSr9KDR1CLf7Rl/X8VQUm7VrlUhSI5r9xrLYRuPbwZXpU2dD4YZoq0HLdEH4k0UgZFRPiwyUat06B3LgQszIHBtZxr04CSe3YPnHtrUMjnlGBRUPB8/z/dIcEr+AQjg3lCWgdKqLl4Sp6jGj3tU0OSe1LpdaMBXvtTlrbuNQcIZubDpntDt8pmmK8CfYNMVFFGVWkEp6q3wAkhSh9p2LVAO1nFc2V9itKeSaGgUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r80PCs3Bor7U5jDGvGZd0SHlyYMU7FwXUvtOe2ZLFvY=;
- b=R8DO3hw47a73e24uLOx0yeTg3MSFo6X9A6Qh9/VydY3r9w5kqPao7ZDD3QNxt1ara6RbndGLdAaJX7sIthavpkUmyJP9VZRipa+7yO+AcMHyfqSjs0wQB10xGbJmSCgDtJHbABCvksIJBKHsKZIITH2xYxbKHLxCPnKwbxFqD+rcTUWNUkRALnhka1Y0MrfLqxyB7Fc9mK54h635iVCWHrcspW94bNdW3fQPc7HoDDb1A6t4XRJVEFxfq1RtzFMEFgjqsEyuO0QN1SfZjBQpZ0Zt8XMpcizQxrrohyTu6Ez2Rw9WCREIOwsZ4FJxv5vZcPK/QqDK0ttw3nTTNLbpXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r80PCs3Bor7U5jDGvGZd0SHlyYMU7FwXUvtOe2ZLFvY=;
- b=TpgH6gDrZNSn23wrdI4tzY1I0jhF527d2krD0guHx/n6rL3FIWyomiZzgrS8J004hhErNj1BcbY6FD19qs2uBrvFPZlbnfzOBu08oZWIQ1vZ+X4Bxe+m6se2DSaKroz2/HnbwDwMXAHF5mJ+7cjKLacyUNBSEpMrGaZOrcVVdKG+PQG1YBqaPQJHan2+hztw/zWFesozzBlf1jEv9FdHA4CWCVgFUf+fwXHm4Fe6c3L3R/1lhkb7l5TPF86xHDS2iSSLCCOIaspsykkzWDq/JNbBAtDgoGCsmz+NTGTBbusel/pl2TuxOLkOgUruiAZi+vxTNhmUvi60REHCqfXKCw==
-Received: from MN2PR06CA0024.namprd06.prod.outlook.com (2603:10b6:208:23d::29)
- by IA0PR12MB8973.namprd12.prod.outlook.com (2603:10b6:208:48e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.29; Wed, 3 Jul
- 2024 13:27:19 +0000
-Received: from BL02EPF0001A0FE.namprd03.prod.outlook.com
- (2603:10b6:208:23d:cafe::d7) by MN2PR06CA0024.outlook.office365.com
- (2603:10b6:208:23d::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25 via Frontend
- Transport; Wed, 3 Jul 2024 13:27:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BL02EPF0001A0FE.mail.protection.outlook.com (10.167.242.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7741.18 via Frontend Transport; Wed, 3 Jul 2024 13:27:19 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 3 Jul 2024
- 06:27:07 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 3 Jul 2024 06:27:06 -0700
-Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
- Transport; Wed, 3 Jul 2024 06:27:06 -0700
-From: Jon Hunter <jonathanh@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	<patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-	<linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-	<lkft-triage@lists.linaro.org>, <pavel@denx.de>, <jonathanh@nvidia.com>,
-	<f.fainelli@gmail.com>, <sudipm.mukherjee@gmail.com>, <srw@sladewatkins.net>,
-	<rwarsow@gmx.de>, <conor@kernel.org>, <allen.lkml@gmail.com>,
-	<broonie@kernel.org>, <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: Re: [PATCH 5.4 000/189] 5.4.279-rc1 review
-In-Reply-To: <20240703102841.492044697@linuxfoundation.org>
-References: <20240703102841.492044697@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9939E17B50D;
+	Wed,  3 Jul 2024 15:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720020958; cv=none; b=FwAG2zr3jFQZB+i6dr+EPnkMEro8o7JLyXVsC+QgamLK7KwjFQwQDVk0jb9Dz+W8tLbNKXOzNq72Hdzs+PZ0I/VNe9WlSbLG+C2WGkCPCsno1mu4L0zGTrkc0jzUmRrQ+xLoHyQERdXKMBU8VlPi+PdF7eIil6OkVSrWTOtg9LQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720020958; c=relaxed/simple;
+	bh=Uyc1hU8okBF33WZyc4l2HVw4+2t1v/yUIooCPhLOmnE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pTJyOW6ikzlgpZhjKYcD1uWaQuZ4Gwff99Rrzp2brq3pzT61tmaYgbRKuusDWSfn67MSQB2FftyN034vSzVxJpsYTgkumvL2fEDO/pcr/V3JVjcrQe5KVX/8+Pszr9o84tUPc7t32robwgz6mLYJ+Jr7czYUKBxWTdRmh+0fqwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2830B367;
+	Wed,  3 Jul 2024 08:36:21 -0700 (PDT)
+Received: from [10.57.75.119] (unknown [10.57.75.119])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4EC2F3F762;
+	Wed,  3 Jul 2024 08:35:54 -0700 (PDT)
+Message-ID: <cc69b154-ca4b-42eb-950a-9ea3c5a4e4ee@arm.com>
+Date: Wed, 3 Jul 2024 16:35:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <b95b57ee-4f94-4b3e-8245-a7f09ea4f721@drhqmail201.nvidia.com>
-Date: Wed, 3 Jul 2024 06:27:06 -0700
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FE:EE_|IA0PR12MB8973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d0684fd-05ca-4c02-fca8-08dc9b63dd06
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eVk2ZjVmNU1NNjJFY2FDdVdsbWVuU01UTlRSSFF6VUhxVWlDZXU2MGF1cmJj?=
- =?utf-8?B?T24xeEUwNnNWQktpcDczNVZSOWg1UXFOUmthcGVDbjJaYUVJNEtrN3Z0Mmdi?=
- =?utf-8?B?alZzQlhoWWpFQm0yU1dMeHpwbEI5S2tnbUtYM3ZRNktFNlJVVTVGZjNQSlp4?=
- =?utf-8?B?QzFOQWQwblh5djBMNWlqdnlsMFV6eHRhZFFkbUplUFB2WGJFcFcyWCtSbHVB?=
- =?utf-8?B?MlQ5WlRPaENVMkQzU2NTUW9XKzZtc2djWERvemhqS1VReG5hbEpSdVRsYk9U?=
- =?utf-8?B?UUVVZWM1eXhHOHZIOHhVd1d5cmNQdEphTGp0WFVSbzl1R1JjTDZaQitEd0Vl?=
- =?utf-8?B?b3JlOGJPU0pIbVJUYmNVQk91R3JYakZwOHBGV2RCR1dJdXM2VnlCMU9aeldO?=
- =?utf-8?B?bnJiREszSWFESmdURWhJK0t5S0hyRmNGODl0L3RLR2VHQUJjbFNMRExlV3c2?=
- =?utf-8?B?cjBFSHV5aHdKM3lOR3pMOWVROEEzNTBnVTZwUFAyN0lHMmdIMDZsaG9tOXhn?=
- =?utf-8?B?Z09TUzM3RkxJdmFYWWwzYTlHNzkydkZPV1hkU21zeVkzcGp3UnU4bktCNk8x?=
- =?utf-8?B?ZWd4b2NsdkNubzVoSzVtQWdtR25Vd2EwdGdYRGZjK241Mk0vWmROdjI1Tm1a?=
- =?utf-8?B?WmZPVzhiOGNDbjRWTXlQL0JrUGdPV2ExSy9hNEszaTJybXJMbHdqS3N2VHFj?=
- =?utf-8?B?UmhKblVlY0ppWnpsYlBrQXpIZk9FTDExMTRhYXZTSGZ5UXpoaEwzVFBpTTZq?=
- =?utf-8?B?RjNRRXBlVTdaUlduVEZyL0tycWY0SkN2WjdjdTl2UEdiMkt0WllkK3JMNDhJ?=
- =?utf-8?B?cVpMOURiYXdtNEw4RnFoeitPTCtlMW1EZUJoclNwZWM3MlA4d1o4QkhGSjAx?=
- =?utf-8?B?amRpVUx1azlUdW5xdDJyL1pMTWpnNmNMNkxPZU1lM2taeU9aN1Z1KzRPSm9R?=
- =?utf-8?B?TEVOalpueVFWcTJxRVJzWVFLSHRvdDdqam1JYVhTVWMrZGFLWDlGaUlYRGRG?=
- =?utf-8?B?ZHBsTzRlOE5rN2U5ZDVUTkJkMExCY1RqVElDdHRYVEF5SkNaeTBLWmRRZUNw?=
- =?utf-8?B?eUtvd0xDd3lwWDE3Q3VjUUFjRENtd21Mc3BNdjVIVzRybjVUdTUrOFJmUHRq?=
- =?utf-8?B?ZEJRMlozQUFMYk5RV2RqMzFSTTJHbEE0bFRtZlE0eUZGUTBDMjBCaDkvcU9m?=
- =?utf-8?B?Y0RzWU52YUllOUFsODc5ZDdJNFRqdXZRL0dsSGR1d0dXL0RSZ0U4eWQwSytp?=
- =?utf-8?B?WWEzSHYrNHY4WGFlZ1U0amI5MDQ2Y2NDMnhTMDA2eHpwUHJzTGN1RGl0MDJ2?=
- =?utf-8?B?d1lDMkZLN3ZCZndnWDcydTdaRnYzYUdvelE0ZGxwdnRMU2JTWTJYME5YUi9D?=
- =?utf-8?B?ZERoWGlxSVVweGVmUmdlVm0wdWhvTWMyWWVKcGhpK1Qzbm5NNTZOS21KSlRS?=
- =?utf-8?B?MnpRZys2blc2QmRNTURrRjBFaTlxWmtWZkhkZnN0NTdKQ1F1Zmc5a0w2YlBw?=
- =?utf-8?B?ampSb3NZNWtHc0lvSCtLMjhMbjhFa0xzREVMNEF6emh5dk5GaUdjT0dPcUdz?=
- =?utf-8?B?TGRLRm1xM0s2eFNJZS9GSWI1RFJIcFh6T0dUdjErTXV5L2NRand6MXBxQ3hy?=
- =?utf-8?B?OEhMdER3ZDA4SUJEUkYrMmFaK2E2dXRyeXJlY1B5K1kyRGF6OW1rQ0ZIejI4?=
- =?utf-8?B?NFNkUDN4b09DV0YzU2g3OVdNMlZVaXU5NjhXUEx3K1dVTzEwZ3k1dDdoNEQz?=
- =?utf-8?B?bUZQT253SWdJRURGTDU4elZ2ZU9wOFd4UHVlWXRQdTVJS01XclhzQTlvMDE4?=
- =?utf-8?B?cGk3bjgzR3FyUldBTEFNaDhFK0R3TkxFVGVsRXY1RCtxbjQ5Tmdud3RXcnVp?=
- =?utf-8?B?MU5uQlFDbVFsUzdRYjFGcHd4czhXbkVBb0p0TGc2QnJHRHRJdUdXWVRyWklk?=
- =?utf-8?Q?5oTgjgi4m7rzZHNSckUDCuVex9byhufi?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2024 13:27:19.0182
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d0684fd-05ca-4c02-fca8-08dc9b63dd06
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A0FE.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8973
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] iommu: Optimize IOMMU UnMap
+To: Ashish Mhetre <amhetre@nvidia.com>, will@kernel.org, joro@8bytes.org,
+ linux-arm-kernel@lists.infradead.org, Rob Clark <robdclark@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: vdumpa@nvidia.com, linux-tegra@vger.kernel.org, treding@nvidia.com,
+ jonathanh@nvidia.com, iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240523031935.90856-1-amhetre@nvidia.com>
+ <6b707eb4-5cf3-4b66-8152-5ba252f5df39@arm.com>
+ <2a349725-72cf-45e2-9ca2-5a8b153a6fae@nvidia.com>
+ <d854664c-ab56-46b6-81f9-9ef712c32b3a@nvidia.com>
+ <39d1635d-25b4-47ca-beb3-0baaae6252db@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <39d1635d-25b4-47ca-beb3-0baaae6252db@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 03 Jul 2024 12:37:41 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.279 release.
-> There are 189 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On 2024-07-01 8:49 am, Ashish Mhetre wrote:
 > 
-> Responses should be made by Fri, 05 Jul 2024 10:28:06 +0000.
-> Anything received after that time might be too late.
+> On 5/31/2024 2:52 PM, Ashish Mhetre wrote:
+>>
+>> On 5/24/2024 6:09 PM, Ashish Mhetre wrote:
+>>>
+>>> On 5/23/2024 7:11 PM, Robin Murphy wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> On 23/05/2024 4:19 am, Ashish Mhetre wrote:
+>>>>> The current __arm_lpae_unmap() function calls dma_sync() on individual
+>>>>> PTEs after clearing them. By updating the __arm_lpae_unmap() to call
+>>>>> dma_sync() once for all cleared PTEs, the overall performance can be
+>>>>> improved 25% for large buffer sizes.
+>>>>> Below is detailed analysis of average unmap latency(in us) with and
+>>>>> without this optimization obtained by running dma_map_benchmark for
+>>>>> different buffer sizes.
+>>>>>
+>>>>> Size  Time W/O        Time With       % Improvement
+>>>>>       Optimization    Optimization
+>>>>>       (us)            (us)
+>>>>>
+>>>>> 4KB   3.0             3.1             -3.33
+>>>>> 1MB   250.3           187.9           24.93
+>>>>
+>>>> This seems highly suspect - the smallest possible block size is 2MB 
+>>>> so a
+>>>> 1MB unmap should not be affected by this path at all.
+>>>>
+>>> It will be unmapped at 4KB block size, right? The 'size' passed to
+>>> __arm_lpae_unmap will be 4KB and 'pgcount' will be 256 for 1MB
+>>> buffer from iommu_pgsize() unless the IOVA and phys address met
+>>> conditions for next bigger size i.e., 2MB.
+>>>>> 2MB   493.7           368.7 25.32
+>>>>> 4MB   974.7           723.4           25.78
+>>>>
+>>>> I'm guessing this is on Tegra with the workaround to force 
+>>>> everything to
+>>>> PAGE_SIZE? In the normal case a 2MB unmap should be nominally *faster*
+>>>> than 4KB, since it would also be a single PTE, but with one fewer level
+>>>> of table to walk to reach it. The 25% figure is rather misleading if
+>>>> it's only a mitigation of an existing erratum workaround, and the 
+>>>> actual
+>>>> impact on the majority of non-broken systems is unmeasured.
+>>>>
+>>> Yes, I forgot about the workaround we have and agree that without the
+>>> workaround, 2MB unmap will be faster without this optimization. But
+>>> for any size between 4KB and 2MB, this optimization would help in
+>>> improving the unmap latencies. To verify that, I reverted the workaround
+>>> and again got unmap latencies using dma_map_benchmark which are as
+>>> mentioned below. We can see an improvement around 20% to 25%:
+>>>
+>>> Size          Time WO Opt(us)     Time With Opt(us)       % improvement
+>>> 4KB          3                                  3.1 -3.33
+>>> 64KB        18.6                            15 19.36
+>>> 128KB      35.2                            27.7            21.31
+>>> 256KB      67.6                            52.6            22.19
+>>> 512KB      128.4                          97.7           23.91
+>>> 1MB         249.9                          188.1           24.72
+>>> 2MB         67.4                             67.5 -0.15
+>>> 4MB         121.3                          121.2           0.08
+>>>
+>>>> (As an aside, I think that workaround itself is a bit broken, since at
+>>>> least on Tegra234 with Cortex-A78, PAGE_SIZE could be 16KB which 
+>>>> MMU-500
+>>>> doesn't support.)
+>>>>
+>>> Yes, that's true. For 16KB PAGE_SIZE, we need to fall back to 4KB 
+>>> pgsize_bitmap.
+>>>>> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+>>>>> ---
+>>>>>   drivers/iommu/io-pgtable-arm.c | 34 
+>>>>> +++++++++++++++++++++++++---------
+>>>>>   1 file changed, 25 insertions(+), 9 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/iommu/io-pgtable-arm.c 
+>>>>> b/drivers/iommu/io-pgtable-arm.c
+>>>>> index 3d23b924cec1..94094b711cba 100644
+>>>>> --- a/drivers/iommu/io-pgtable-arm.c
+>>>>> +++ b/drivers/iommu/io-pgtable-arm.c
+>>>>> @@ -256,13 +256,15 @@ static void 
+>>>>> __arm_lpae_sync_pte(arm_lpae_iopte *ptep, int num_entries,
+>>>>>                                  sizeof(*ptep) * num_entries, 
+>>>>> DMA_TO_DEVICE);
+>>>>>   }
+>>>>>
+>>>>> -static void __arm_lpae_clear_pte(arm_lpae_iopte *ptep, struct 
+>>>>> io_pgtable_cfg *cfg)
+>>>>> +static void __arm_lpae_clear_pte(arm_lpae_iopte *ptep, struct 
+>>>>> io_pgtable_cfg *cfg, int num_entries)
+>>>>>   {
+>>>>> +     int i;
+>>>>>
+>>>>> -     *ptep = 0;
+>>>>> +     for (i = 0; i < num_entries; i++)
+>>>>> +             ptep[i] = 0;
+>>>>>
+>>>>>       if (!cfg->coherent_walk)
+>>>>> -             __arm_lpae_sync_pte(ptep, 1, cfg);
+>>>>> +             __arm_lpae_sync_pte(ptep, num_entries, cfg);
+>>>>>   }
+>>>>>
+>>>>>   static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>>>>> @@ -633,13 +635,25 @@ static size_t __arm_lpae_unmap(struct 
+>>>>> arm_lpae_io_pgtable *data,
+>>>>>       if (size == ARM_LPAE_BLOCK_SIZE(lvl, data)) {
+>>>>>               max_entries = ARM_LPAE_PTES_PER_TABLE(data) - 
+>>>>> unmap_idx_start;
+>>>>>               num_entries = min_t(int, pgcount, max_entries);
+>>>>> -
+>>>>> -             while (i < num_entries) {
+>>>>> -                     pte = READ_ONCE(*ptep);
+>>>>> +             arm_lpae_iopte *pte_flush;
+>>>>> +             int j = 0;
+>>>>> +
+>>>>> +             pte_flush = kvcalloc(num_entries, sizeof(*pte_flush), 
+>>>>> GFP_ATOMIC);
+>>>>
+>>>> kvmalloc() with GFP_ATOMIC isn't valid. However, I'm not sure if there
+>>>> isn't a more fundamental problem here - Rob, Boris; was it just the map
+>>>> path, or would any allocation on unmap risk the GPU reclaim deadlock
+>>>> thing as well?
+>>>>
+>>> I am using kvmalloc() here to create an array which is used to store 
+>>> PTEs
+>>> that are going to be flushed after clearing. If we don't store them then
+>>> those will be lost once cleared and we won't be able to flush them.
+>>> I tried using GFP_KERNEL instead of GFP_ATOMIC but then I am getting
+>>> warning from might_sleep().
+>>> Is there any other alternative way we can use here to store the PTEs?
+>>>> Thanks,
+>>>> Robin.
+>>>>
+>>>>> +             if (pte_flush) {
+>>>>> +                     for (j = 0; j < num_entries; j++) {
+>>>>> +                             pte_flush[j] = READ_ONCE(ptep[j]);
+>>>>> +                             if (WARN_ON(!pte_flush[j]))
+>>>>> +                                     break;
+>>>>> +                     }
+>>>>> +                     __arm_lpae_clear_pte(ptep, &iop->cfg, j);
+>>>>> +             }
+>>>>> +             while (i < (pte_flush ? j : num_entries)) {
+>>>>> +                     pte = pte_flush ? pte_flush[i] : 
+>>>>> READ_ONCE(*ptep);
+>>>>>                       if (WARN_ON(!pte))
+>>>>>                               break;
+>>>>>
+>>>>> -                     __arm_lpae_clear_pte(ptep, &iop->cfg);
+>>>>> +                     if (!pte_flush)
+>>>>> +                             __arm_lpae_clear_pte(ptep, &iop->cfg, 
+>>>>> 1);
+>>>>>
+>>>>>                       if (!iopte_leaf(pte, lvl, iop->fmt)) {
+>>>>>                               /* Also flush any partial walks */
+>>>>> @@ -649,10 +663,12 @@ static size_t __arm_lpae_unmap(struct 
+>>>>> arm_lpae_io_pgtable *data,
+>>>>>                       } else if (!iommu_iotlb_gather_queued(gather)) {
+>>>>>                               io_pgtable_tlb_add_page(iop, gather, 
+>>>>> iova + i * size, size);
+>>>>>                       }
+>>>>> -
+>>>>> -                     ptep++;
+>>>>> +                     if (!pte_flush)
+>>>>> +                             ptep++;
+>>>>>                       i++;
+>>>>>               }
+>>>>> +             if (pte_flush)
+>>>>> +                     kvfree(pte_flush);
+>>>>>
+>>>>>               return i * size;
+>>>>>       } else if (iopte_leaf(pte, lvl, iop->fmt)) {
+>> Hi all,
+>>
+>> Can you please provide feedback on this patch? Is this optimization
+>> worth pursuing?
+>>
+>> Thanks,
+>> Ashish Mhetre
+> Hi Robin,
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.279-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+> Can you please share feedback on this? Is more testing required
+> for this on non-Tegra platforms? Perhaps shall I send it as RFT ?
+> I have used 'dma_map_benchmark' available in kernel to test this.
+> Same can be used to test on other platforms.
 
-All tests passing for Tegra ...
+Apologies I was slightly mistaken before - I confess I was trying to 
+remember how the code worked from the patch context alone, and forgot 
+that this same path is actually used for clearing leaf entries all the 
+way down to L3 as well as freeing tables. So yes, indeed there should be 
+something to gain in general from combining the syncs for adjacent leaf 
+entries. However we still have the problem that we can't put an 
+unconditional allocation in here, so we'd have to do something like 
+combine up to the next non-leaf entry and keep the "inline" sync for 
+those. Or perhaps it might end up quite a neat compromise overall to do 
+your current idea on a smaller scale, with a fixed number of PTEs that's 
+reasonable to keep on the stack - even in the worst case, I'd expect to 
+still get a fair boost from doing, say, 32 syncs of 2 cachelines each 
+vs. 512 that touch each line multiple times.
 
-Test results for stable-v5.4:
-    10 builds:	10 pass, 0 fail
-    24 boots:	24 pass, 0 fail
-    54 tests:	54 pass, 0 fail
-
-Linux version:	5.4.279-rc1-gccd91126c63d
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Jon
+Thanks,
+Robin.
 
