@@ -1,159 +1,109 @@
-Return-Path: <linux-tegra+bounces-3276-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-3278-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09A4952A00
-	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2024 09:33:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE639537C1
+	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2024 17:59:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B8461F227AE
-	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2024 07:33:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F334DB23EEE
+	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2024 15:59:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A2817AE1E;
-	Thu, 15 Aug 2024 07:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEA891B32D7;
+	Thu, 15 Aug 2024 15:59:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H3Ygra5j"
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="vlsCWXHJ"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB0178CC8
-	for <linux-tegra@vger.kernel.org>; Thu, 15 Aug 2024 07:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FB41B143B;
+	Thu, 15 Aug 2024 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723707201; cv=none; b=VBYSBs/1PRl4dsrfSqqTBMk66y0DkDP0ABJcg8kSDRpIQBOoc7IGjGHCWgAVeVm790JSyGFjb6y2aQ1rx38phw+VFgw4yLdprFFrAku5REK086aiif2ochFsGxT5uOd2gu6JLkv4XKaHIhZ3JyPNgYSsmvWFTSkuw6h4dGTEpZI=
+	t=1723737572; cv=none; b=jTGqT5jr4fFMtiNzHH1U2LSs1IUUmsULLrTzaAGjkcwmJoRy5WdjCiGtUb/rX76Qh5PZDJguG2oCIBJnO9Un1qH4D1I71LPzP8KoWUPiI8RZmqtZ6IsTN8wQbR9un4KYmUJ8BkMIDOt6Tv24zpacKeWOaiFdONSMUltZNU+eNB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723707201; c=relaxed/simple;
-	bh=LCZqNlothIJ7iUi0FaViXUQV8VMf+8pHOfULUFoQPlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRMy8p32ICpaqaacj2vLSw3UjPa45ZjD0Ee7j48mqhg7CGjDOOLpqf9xr9ec51vVJuxRBpG0RFn5Rom+tpxxcm8iCHI8Jbuq3lM843jEw7zHOg1UqAVdjLkeEgU6w0mlOo1ZxqaYQvs6kA44PtLOPg8u24jk0NlLDDw+2Iv1FmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H3Ygra5j; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-70d18d4b94cso480257b3a.2
-        for <linux-tegra@vger.kernel.org>; Thu, 15 Aug 2024 00:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723707199; x=1724311999; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mSVgOh4W3trTwpBrRTkuN1lvc7J54SJDhoOOLbBw+iU=;
-        b=H3Ygra5j6izjFuKBbcoHy/HiVK8e12hsJniFGdD3G3ndnf8qF5w5XCQErswkq0woi0
-         Waj2qJpPLUP8s/gX/YOCaSA9PGFH/46AQsmhUYEzFFl13H+tXjpVYp/RIso9Cj6c/QZB
-         smfKh6oOd36hGUc+fPq3A3cFlM0qfU7vgpeaU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723707199; x=1724311999;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mSVgOh4W3trTwpBrRTkuN1lvc7J54SJDhoOOLbBw+iU=;
-        b=bvyJI7p/l4XY7ZvsupbFvBwCvPmlzlZKk2kxXX1hHq550oVwqG+uYCevLTW7Rqhp/8
-         wkD8tTpdceXqNmxjrpYp8fk2vUTFEEEYbmcaLLVZmO8Xe3xSFjIqBsf1785uH6u5nhcS
-         0ts/xTdTanv48dqyHQ4kK20nzBSgaFTeA4TsJWvtmoxInRe3cf5CeGmigUAhsuf21lxA
-         sI0AXGgc14w5UQBB5lIHGED1vpd2ItiLLklJ1E/gXqQo8mxXJrHlyzb+oJYis5+a8OWu
-         HR2py6eO3SP94F595ZVHVBWEmjXxlOj1fzems+EFHQkaV0Wpid2KoyAsI5A4dkkAmBHs
-         Pi6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU8Nq1HBbCXiyDhAk/WlGWo0TqO6P++ZS1bP344j916eYIJCm4D+SKZp9sTBS57kBbjTLJI3yAfUQlxPLPb6oPGiiNYKXOvnLu9PDo=
-X-Gm-Message-State: AOJu0Yw83KMYrq3mKfD4SO1+0DcUZdGXGtMx3igZDTY5WVaN6oo4+mQL
-	HbDtLCR6uopTtjb0UpRL1vvCtz7j32tlz6TIdXNW6ElyK1ClXEWajAVmSdni1A==
-X-Google-Smtp-Source: AGHT+IE+v6e+Df7tQx88UbXmfy+wlQroZUtqBIcjWsCC3V2G6r5uCEDNzWqCeTXlE1H5mKvT4LnM9w==
-X-Received: by 2002:a05:6a00:1394:b0:705:a13b:e740 with SMTP id d2e1a72fcca58-712673abaf0mr5999238b3a.19.1723707199046;
-        Thu, 15 Aug 2024 00:33:19 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:745d:58f7:b3cd:901f])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127aef544csm563951b3a.121.2024.08.15.00.33.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 00:33:18 -0700 (PDT)
-Date: Thu, 15 Aug 2024 15:33:14 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Amit Kucheria <amitk@kernel.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 7/7] thermal: sun8i: Use scoped device node handling to
- simplify error paths
-Message-ID: <20240815073314.GG350960@google.com>
-References: <20240814-b4-cleanup-h-of-node-put-thermal-v1-0-7a1381e1627e@linaro.org>
- <20240814-b4-cleanup-h-of-node-put-thermal-v1-7-7a1381e1627e@linaro.org>
+	s=arc-20240116; t=1723737572; c=relaxed/simple;
+	bh=+rwOr/Eb6aLx1oQeqhMY8o2Y2is7QVnmjzrnSPwAwdw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ia8MGQqxcNgGbY3h8PKxVNnd78MPrq2napbyOd/c9U7LzJHJxuBYWHu2ekGjPf4Al8J5nF6KxHm/hOAwpQtPzDIQyBUTVL5cF56CMWlBM/DTN+hHTBAbMENCuNLy15Eu7M4GY0+yy1FRHQiVu6pPqJvjdhzTNiKKW64aE3yJYB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=vlsCWXHJ; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 38EB06002402;
+	Thu, 15 Aug 2024 16:51:27 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id p4XKnI0bjZwz; Thu, 15 Aug 2024 16:51:25 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id D06B16002405;
+	Thu, 15 Aug 2024 16:51:24 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail; t=1723737084;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=f2g1boM6IStFG0tqVscyGKuPc9jQ/FmFMZf7AExGi4s=;
+	b=vlsCWXHJO/yrIzy3Vn6MJdnib0n/4YSzAYZD9Dv1+PCUA8xQjlyaG2sE1mFgQjfPlXOhjz
+	v0ObDZl30fyV8YCaIkV13XZgJTlGAu+iytlzVmYdZCSBp/U8dsoAjLUImRUVw2b1bH7qKU
+	HubUUa1kewtudoY62pDxAc5jmpQqoTA=
+Received: from [192.168.1.53] (unknown [IPv6:2a01:14:8073:1e10:a82d:2c2b:d13b:a86a])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 7A2733600F3;
+	Thu, 15 Aug 2024 16:51:24 +0100 (WEST)
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH 0/2] arm64: tegra: add wp-gpio to P2957 board
+Date: Thu, 15 Aug 2024 16:50:38 +0100
+Message-Id: <20240815-tx1_sdmmc-v1-0-7856ac25a204@tecnico.ulisboa.pt>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240814-b4-cleanup-h-of-node-put-thermal-v1-7-7a1381e1627e@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM4jvmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDC0NT3ZIKw/jilNzcZF1jQ8NUEwsDo2QLE2MloPqCotS0zAqwWdGxtbU
+ AKjWiHlsAAAA=
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723737084; l=699;
+ i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
+ bh=+rwOr/Eb6aLx1oQeqhMY8o2Y2is7QVnmjzrnSPwAwdw=;
+ b=EOWSwcYvnH9afo/ilzzVIELdqmia0RpMszkwhFFkTsj7/Ku4R4A5bgJ3bWBnsEGUjgpHpl92b
+ x/ZWfwKLZOtAA9bfokebKQjsMguEpLTdoi8Rbwh3YnM+6y9b5LG00SC
+X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
+ pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
 
-On Wed, Aug 14, 2024 at 10:17:53PM +0200, Krzysztof Kozlowski wrote:
-> Obtain the device node reference with scoped/cleanup.h to reduce error
-> handling and make the code a bit simpler.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Define the wp-gpio for the P2597 board.
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+For this, patch 1 fixes the assignment of the vmmc supply's gpio that
+was incorrectly assigned to the wp-gpio of the external slot.
 
-> ---
->  drivers/thermal/sun8i_thermal.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index 3203d8bd13a8..22674790629a 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -9,6 +9,7 @@
->   */
->  
->  #include <linux/bitmap.h>
-> +#include <linux/cleanup.h>
->  #include <linux/clk.h>
->  #include <linux/device.h>
->  #include <linux/interrupt.h>
-> @@ -348,19 +349,18 @@ static void sun8i_ths_reset_control_assert(void *data)
->  
->  static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
->  {
-> -	struct device_node *sram_node;
->  	struct platform_device *sram_pdev;
->  	struct regmap *regmap = NULL;
->  
-> -	sram_node = of_parse_phandle(node, "allwinner,sram", 0);
-> +	struct device_node *sram_node __free(device_node) =
-> +		of_parse_phandle(node, "allwinner,sram", 0);
->  	if (!sram_node)
->  		return ERR_PTR(-ENODEV);
->  
->  	sram_pdev = of_find_device_by_node(sram_node);
->  	if (!sram_pdev) {
->  		/* platform device might not be probed yet */
-> -		regmap = ERR_PTR(-EPROBE_DEFER);
-> -		goto out_put_node;
-> +		return ERR_PTR(-EPROBE_DEFER);
->  	}
->  
->  	/* If no regmap is found then the other device driver is at fault */
-> @@ -369,8 +369,7 @@ static struct regmap *sun8i_ths_get_sram_regmap(struct device_node *node)
->  		regmap = ERR_PTR(-EINVAL);
->  
->  	platform_device_put(sram_pdev);
-> -out_put_node:
-> -	of_node_put(sram_node);
-> +
->  	return regmap;
->  }
->  
-> 
-> -- 
-> 2.43.0
-> 
+Patch 2 adds the definition of the wp-gpio.
+
+Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+---
+Diogo Ivo (2):
+      arm64: tegra: Fix gpio for P2597 vmmc regulator
+      arm64: tegra: Add wp-gpio for P2597's external card slot
+
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+---
+base-commit: 1fb918967b56df3262ee984175816f0acb310501
+change-id: 20240815-tx1_sdmmc-311e4802c843
+
+Best regards,
+-- 
+Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+
 
