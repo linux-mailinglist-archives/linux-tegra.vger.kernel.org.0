@@ -1,76 +1,86 @@
-Return-Path: <linux-tegra+bounces-3370-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-3373-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D1A959F6D
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 16:13:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE14795A503
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 21:06:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C36941F256B1
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 14:13:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AE7A1F227E0
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 19:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C688F1B1D41;
-	Wed, 21 Aug 2024 14:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BB6116EB4B;
+	Wed, 21 Aug 2024 19:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/AsI3tF"
+	dkim=pass (2048-bit key) header.d=terefe.re header.i=@terefe.re header.b="tqX4I7UD"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from terefe.re (terefe.re [5.255.96.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBC418C348;
-	Wed, 21 Aug 2024 14:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1F316E873;
+	Wed, 21 Aug 2024 19:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.255.96.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724249591; cv=none; b=fxO9Htvcd8jeNkD89Zus0ldYO2yiuySrrGynydi5JKCBk9hfAKPSDKZKnKGELIyxqh5RXgT6+O1qU3/LBMKhqxgYyNXzJSw3yKlKNYopPDGrU5zCXTpT2iZlXHP16+hvDQbyFi9hm0jzVdqWf6MR14yvmCgFIdZqNq1iXucHhZU=
+	t=1724267186; cv=none; b=hOlPISgysyego6H811ptQGNJFIDXFEGzZtQhDqwjpYy3XaSch0W7yDd4PddPTnYWTVRI1FLCJSLifh+dXevHvvcPFdauHhMjBmjsZh2yl4GFJ3j686mD5vWMoK2uY4pL4q5ZNHq1OcJyHGnKrVPJ4nEGzV4m+e8D55wsgkDdhSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724249591; c=relaxed/simple;
-	bh=sZwr6HFTcdqf2bHrANyg6CQ//2dIkGcLCdziHq8M6Mc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMlHLoGfpYxIsu9GO4rxXXH3XoFigfIvNk49BUEQUibxBe0MZ8XNuWAHRYcZ7mGLNKgBoyrmHQog3JWDgTTtBwxkI9L57eDYsF4q8+Qg+F9WNVjeLZHP1hWjzW8mZJH8gSbkzQrLJ38EMpX2sWSvzD3+b8sj19uvrNNx1bQHQso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/AsI3tF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCC8C32781;
-	Wed, 21 Aug 2024 14:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724249591;
-	bh=sZwr6HFTcdqf2bHrANyg6CQ//2dIkGcLCdziHq8M6Mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P/AsI3tFgf5V4mEnQbUPB6wtEUw+gI37oPp/UQXa6wq/4alIlDKJPg+eaEZm+NN1R
-	 c94VFwSbkKs23mU22wM7CtE9g0S9kkJBeVgg9H96Gy7cwKBk4Wkqmxjxwm/bd/601r
-	 TJWDe2gQWVFhh59dwyRSqOT33ehw1hX2sUqxnVgCSFDA8ZlDSPhCxCuz7yfjtGPNbe
-	 8aP7dL59gFxDobtrejgumd0XN0tPRRfqRi4SvSF7L2HEI4ytOTpk6WX0pSgTFVELfc
-	 F/dUuQEjbKL7NsRZdQdnknhY2rO04eDCzS+Zcx3D0N49LlD6J/4m150Ahi6IgFGvgb
-	 bGM39D1rGfysw==
-Date: Wed, 21 Aug 2024 16:13:07 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] dt-bindings: i2c: nvidia,tegra20-i2c: minor cleanups
-Message-ID: <dkcfnidl3xgvspiusp3zftgdftyvlbxahlbumjdfl7dvxgmdmr@nomisqfu2mwb>
-References: <20240820-dt-bindings-i2c-nvidia-v1-0-2763e9a9a1b0@linaro.org>
+	s=arc-20240116; t=1724267186; c=relaxed/simple;
+	bh=34MFcCZ3blJSkVZnKx7zZ191kBMyF8eFb6URIOqpTvI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GYjHaAXKXw9k/qKO1vHqrjmGIgcYHyci17DQppoHZGbqncsQWG+tLYk6cY2gydgxPe4ftjW0wXnX8qWpoPse1nTtWav+rEBXlZ1NCY4wtDr2WqmJe3ZB2bMVeMJJVfNonFq+0GrVU8doutI1niObeCEk1Zhy8lB/DDcBJaGP/W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=terefe.re; spf=pass smtp.mailfrom=terefe.re; dkim=pass (2048-bit key) header.d=terefe.re header.i=@terefe.re header.b=tqX4I7UD; arc=none smtp.client-ip=5.255.96.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=terefe.re
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=terefe.re
+Received: from localhost.localdomain (unknown [212.106.161.95])
+	by terefe.re (Postfix) with ESMTPSA id E31A21FFBF;
+	Wed, 21 Aug 2024 20:58:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=terefe.re; s=default;
+	t=1724266716; bh=34MFcCZ3blJSkVZnKx7zZ191kBMyF8eFb6URIOqpTvI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tqX4I7UDT/+q++aOKXL0BRkePHjqDJuF1jp2amnlhbQGMAVIXJmdUSeLhh7xAGRaG
+	 QW00egiAsYkoS5HPlAcjx/uTLMv5OVLl79i2J5I386Y+K+MT3sPdAZmxdwhhKxSF/Y
+	 vZj3AdwPehNgRXqmm7y5Qp1Yxkqa9qxXIShhHH3P1UpoPqQPhUIyOjfXUv6YvSBr0C
+	 tNzpKGaqqOPyxEl1G6iE6cu8oejeFTxavQjSs5Y9azbRAeGjH80UzUH8y3XL0q1Jak
+	 GAUaDZZlMMlVjc4Da3pMsuRmwXBpKQWqJw6yW7iNC6CEesayZ0zWTqcxuZ3GmKCQZQ
+	 SpzaBTtruF4jg==
+From: Tomasz Maciej Nowak <tmn505@terefe.re>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nicolas Chauvet <kwizart@gmail.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tomasz Maciej Nowak <tmn505@gmail.com>
+Subject: [PATCH 0/3] arm64: tegra: add power sensors and BT+WiFi to TX1
+Date: Wed, 21 Aug 2024 20:58:02 +0200
+Message-ID: <20240821185829.20997-1-tmn505@terefe.re>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240820-dt-bindings-i2c-nvidia-v1-0-2763e9a9a1b0@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+From: Tomasz Maciej Nowak <tmn505@gmail.com>
 
-> Krzysztof Kozlowski (3):
->       dt-bindings: i2c: nvidia,tegra20-i2c: combine same if:then: clauses
->       dt-bindings: i2c: nvidia,tegra20-i2c: restrict also clocks in if:then:
->       dt-bindings: i2c: nvidia,tegra20-i2c: define power-domains top-level
+Jetson TX1 DevKit features bunch of peripherals that we have now drivers
+for, so wire them up.
 
-merged to i2c/i2c-host.
+Tomasz Maciej Nowak (3):
+  arm64: tegra: wire up power sensors on Jetson TX1 DevKit
+  arm64: tegra: wire up Bluetooth on Jetson TX1 module
+  arm64: tegra: wire up WiFi on Jetson TX1 module
 
-Thanks,
-Andi
+ .../arm64/boot/dts/nvidia/tegra210-p2180.dtsi | 64 +++++++++++++++++++
+ .../arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 50 +++++++++++++++
+ 2 files changed, 114 insertions(+)
+
+-- 
+2.46.0
+
 
