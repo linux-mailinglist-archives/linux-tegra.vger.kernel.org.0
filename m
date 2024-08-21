@@ -1,121 +1,137 @@
-Return-Path: <linux-tegra+bounces-3374-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-3371-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D0495A505
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 21:06:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D0C95A4FD
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 21:06:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E10491F2232A
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 19:06:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41F77283A84
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2024 19:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE2B16EB7C;
-	Wed, 21 Aug 2024 19:06:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238C6152E17;
+	Wed, 21 Aug 2024 19:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=terefe.re header.i=@terefe.re header.b="dkEopwhy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3vxUnme"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from terefe.re (terefe.re [5.255.96.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C50E13A24D;
-	Wed, 21 Aug 2024 19:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.255.96.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4911A13A24D;
+	Wed, 21 Aug 2024 19:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724267186; cv=none; b=gM/x50B/YLxeXcogBX4Ff0ejCOwQz2kACkfRa+KUGLkE25vZ1zy4PuE9phwX7Cs06rKC3vmVPvvQbYXB+A2jZzRnh3M+qgqb2nw13TW84LX3G5xcQwnS9YV3snpO3n4JlEj5XSVtS3uqs7pBFCQK81GSWnDvi5qIiYwApZATuCk=
+	t=1724267179; cv=none; b=rRScbmcH9FRtwP1CbvWzlm8Jz0hd+K0aRvOANm3SR5wtMt48WSiWC4C6luFsQs7eJP0HLQurL4cPe2NBmOTjs5lLn9AeMpQzVoGqnCpz2gMvrBDsj2ZC5obhRm5lfXS3kYF3b6UPQ7AxPSaJtiNQHY1OlnpXk4ifKyBVIM2oUwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724267186; c=relaxed/simple;
-	bh=hd9wkcPN4CmAARSYR+3zLHtDIyZfHClpBM/3EtyxlK8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aJ4eWBkO3FB5monCyeSXRQV3abms8/1yz95azUNjG0mD2h6QC7jKrqJcsv8UFeiu/TKxdDHQOtwF+wvgUQeVDjJwjhDFS5QzjXZdCYb+n7sLm5HnsyqISlQSdwhq3SuHb3dn1Z1kJNr+Vz6SRL//hz5T7kGt6A2ObY97v2Kw3/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=terefe.re; spf=pass smtp.mailfrom=terefe.re; dkim=pass (2048-bit key) header.d=terefe.re header.i=@terefe.re header.b=dkEopwhy; arc=none smtp.client-ip=5.255.96.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=terefe.re
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=terefe.re
-Received: from localhost.localdomain (unknown [212.106.161.95])
-	by terefe.re (Postfix) with ESMTPSA id 92009203EC;
-	Wed, 21 Aug 2024 20:58:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=terefe.re; s=default;
-	t=1724266718; bh=hd9wkcPN4CmAARSYR+3zLHtDIyZfHClpBM/3EtyxlK8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dkEopwhyq/Fsxyy9feLabgSDb98P3zxOLUuEhkStx/7eIFRbNsX6mvhwRKKsouMaL
-	 qcrne96JvPrzJeTiKPYonuy+GQSaLoPiUVgf76/KbHS07TN/cREakHaDAtMiUdAHg1
-	 tTl/TWiF6Q5bB2I0UOEi+sYlkIDwPwAJfWkz7RcvwZG0Kak+OAs8/tLWrkLiWX7Q5J
-	 MQVjPrRO2r3lsMSta4gC67xplCrIFUAe2rbaT6boLqflHPbgQrbS2S+XxS5xl11wHy
-	 xpa60cP7d2adQb512FRShPPPjjOvFg4GwzW0UmRyKs4jcgugJL9q3XZHGv2Up6Xt0P
-	 f3CYYYqvSyPYQ==
-From: Tomasz Maciej Nowak <tmn505@terefe.re>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nicolas Chauvet <kwizart@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tomasz Maciej Nowak <tmn505@gmail.com>
-Subject: [PATCH 3/3] arm64: tegra: wire up WiFi on Jetson TX1 module
-Date: Wed, 21 Aug 2024 20:58:05 +0200
-Message-ID: <20240821185829.20997-4-tmn505@terefe.re>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240821185829.20997-1-tmn505@terefe.re>
-References: <20240821185829.20997-1-tmn505@terefe.re>
+	s=arc-20240116; t=1724267179; c=relaxed/simple;
+	bh=a2K9ep/Oq4OWk/STP+n1dcQIFHnKsGlrgr5bW8mmux8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlmGlEe77HHobs1wQ5hvMb0uJNbOGeYzCh7UmKnY0a+/cBRbyA81CnGYMjdpm1yA4Hze7t5dft+594Ek7F1SCuY7eUDSd7Gh7hO3TbY0svp2r/51hK2KAHObG+kn3JC3DO/HT4LUH3IRgNnBzckYSO2ErBTMrNh2fyUOmTt/yeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3vxUnme; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3e9fb6ee9so369231fa.3;
+        Wed, 21 Aug 2024 12:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724267175; x=1724871975; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P/LFh/529/O1hNqGzQvQg8poQ8UusGeR+HlHeywLeSU=;
+        b=W3vxUnmeyqXRD0vwtXZ98zi5yaUGIgsmp0032Ms6/VBONGbwME237Zt+lcZE5a9i9y
+         V1V6TYmgbvWetArFJSTkhOXHtRBYXakfsEoi8RL4bwb2NtDXKMSI6+Lnb7R1Es178hxm
+         P1YFDUfP1b5bQW3IXst7JOgKoQG/V0t2jDXHR97ESORXrVM33xlYwrzYL+VLe5ZzP6dA
+         LOYh0eN4BcOT/NAm1qVmCOLQHPsWzVchwbLLcy8lz6A3cIomMOSQd0RDW2i1VDObE98W
+         9fF8ypzVBmjfesKoA1pDaC7JO888eGjP+eePAvNFjNeLHXVtJzDGmCl7ymD/ftCGbEKc
+         5D4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724267175; x=1724871975;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P/LFh/529/O1hNqGzQvQg8poQ8UusGeR+HlHeywLeSU=;
+        b=wxecS3+anBLg8tQtIqvYtbacE96m6fPxKebo85b0pISyb5qiTj/qW6VM1A+lcnXk5F
+         yC1SSGkAw1574qKKXKZMOCjYJGEArYz+rU3T5NwJiQJOIj39Q8+RM9hUEnWC0lfG7XO3
+         1ZDgrtQpQcxhw/0zT3JPtdxe7HzAs/5NqWQTE8nwdjDQLlAc47ddvqpHwHR0x6k6xSox
+         EAKzFN2YxAoakKFrlGeY8YwjjcKbTxkkgsWQqCiD86f6U0kYGxmuPr8vSe1DzlnyyQXz
+         rI6ATUEghj3rOPPUeFGcDUMneEY48I9nqWucV5c+huE3U6ULYFQoZnnIIFMUDMYyH690
+         MiKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgwUyhkC/eZ7qFpmFT64PoooMTY1GlKOJX6LnfK/GtecblnqlnpM1eYfPgRCoUp+3NJRS/tcHjd9nP0xrl@vger.kernel.org, AJvYcCWfDk4BsOB2tAv6AUbo0d07XlF9MGi3Y1thNsh30kjkSvDRIV+9JFxIZD5A9ieu62ldjme1CVG67aHYy7k=@vger.kernel.org, AJvYcCXrpxWFyiKLCXIWvA69VdGdM245WXNmbAbEK69tO3VTIdH9jwaGhNHhreGo+EJbpqWJNSsJd7gCUutN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv+1mxAojDvHqVXpqa/7UOKcpr13J4CA4JWFREG7oaY83Ov2DY
+	Q+P5C5WLDuI63crDY0QY4doemyfXlqWCNr4XLcuMfHtRZIzmj/Fn
+X-Google-Smtp-Source: AGHT+IGi83nl9Zj3dneQZPP4Z/0BUWw9woR2JtWnrVsbthS+3eO5D6XD4mm5c06qbTkXv14B1+qZ8A==
+X-Received: by 2002:a2e:9a88:0:b0:2f3:ea86:3719 with SMTP id 38308e7fff4ca-2f3f889da1cmr19126301fa.27.1724267174532;
+        Wed, 21 Aug 2024 12:06:14 -0700 (PDT)
+Received: from [192.168.1.101] ([212.106.161.95])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f403bc1458sm72281fa.63.2024.08.21.12.06.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Aug 2024 12:06:13 -0700 (PDT)
+Message-ID: <fa06163b-cb41-4004-ae22-ecf9a54f7c6c@gmail.com>
+Date: Wed, 21 Aug 2024 21:06:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] arm64: tegra: add wp-gpio to P2957 board
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>
+References: <20240815-tx1_sdmmc-v1-0-7856ac25a204@tecnico.ulisboa.pt>
+ <e544466f-8c9c-441a-a209-bda0b47aeb7d@gmail.com>
+ <2qdy5ehshfslfuyqquycsirzx7ngbwbet2mzsrz6xitaa4pyri@oqohc4egyydl>
+Content-Language: en-US, pl-PL
+From: Tomasz Maciej Nowak <tmn505@gmail.com>
+In-Reply-To: <2qdy5ehshfslfuyqquycsirzx7ngbwbet2mzsrz6xitaa4pyri@oqohc4egyydl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Maciej Nowak <tmn505@gmail.com>
+W dniu 21.08.2024 o 12:34, Diogo Ivo pisze:
+> On Tue, Aug 20, 2024 at 06:32:44PM GMT, Tomasz Maciej Nowak wrote:
+>>
+>> W dniu 15.08.2024 o 17:50, Diogo Ivo pisze:
+>>> Define the wp-gpio for the P2597 board.
+>>>
+>>> For this, patch 1 fixes the assignment of the vmmc supply's gpio that
+>>> was incorrectly assigned to the wp-gpio of the external slot.
+>>>
+>>> Patch 2 adds the definition of the wp-gpio.
+>>>
+>>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+>>> ---
+>>> Diogo Ivo (2):
+>>>       arm64: tegra: Fix gpio for P2597 vmmc regulator
+>>>       arm64: tegra: Add wp-gpio for P2597's external card slot
+>>
+>> Hi,
+>> for both patches
+>> Tested-by: Tomasz Maciej Nowak <tmn505@gmail.com>
+>>
+>> PS
+>> I case You wish to save some digging for other features I enabled BT+WiFi, PWM-FAN
+>> and power sensors in this tree: https://github.com/tmn505/linux/tree/jetson-tx1
+>> For passing MAC addresses for BT+WiFi from cboot provided dtb check this U-Boot
+>> tree: https://github.com/tmn505/u-boot/tree/jetson-tx1
+> 
+> Thanks for testing! Are you planning on sending your patches upstream?
+> It would be nice to have those features enabled, and I can add my
+> Tested-by once I test them.
 
-P2180 modules have WiFi in form of BCM4354 chip, and kernel driver
-supports this one, so enable it for all users. The necessary calibration
-file can be obtained from Jetson Linux Archive. nvram.txt file is located
-in "Driver Package (BSP)" in
-nv_tegra/l4t_deb_packages/nvidia-l4t-firmware_<version>_arm64.deb
-archive. The rest of necessary blobs can be obtained from official
-Linux Firmware repository or (newer ones) from Infineon
-ifx-linux-firmware repository (look in older releases).
+As Nicolas also requested it I sent the patches except the PWM-FAN ones, since
+this will probably need enhancement of tegra pwm driver to handle inverted signal.
+Also the GPU enable is left out, as pointed by Nicolas bootloader overwrites the
+status of it to "okay".
 
-Signed-off-by: Tomasz Maciej Nowak <tmn505@gmail.com>
----
- .../arm64/boot/dts/nvidia/tegra210-p2180.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+> 
+> Diogo
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-index 64b8668fcdcd..c00db75e3910 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-@@ -340,6 +340,25 @@ pmc@7000e400 {
- 		nvidia,sys-clock-req-active-high;
- 	};
- 
-+	mmc@700b0200 {
-+		status = "okay";
-+		bus-width = <4>;
-+		non-removable;
-+		power-gpios = <&gpio TEGRA_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
-+		vqmmc-supply = <&vdd_1v8>;
-+		vmmc-supply = <&vdd_3v3_sys>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		wifi@1 {
-+			compatible = "brcm,bcm4354-fmac";
-+			reg = <1>;
-+			interrupt-parent = <&gpio>;
-+			interrupts = <TEGRA_GPIO(H, 2) IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "host-wake";
-+		};
-+	};
-+
- 	/* eMMC */
- 	mmc@700b0600 {
- 		status = "okay";
+Regards
 -- 
-2.46.0
-
+TMN
 
