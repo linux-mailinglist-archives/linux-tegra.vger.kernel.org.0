@@ -1,252 +1,183 @@
-Return-Path: <linux-tegra+bounces-3758-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-3760-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1730F97C1BC
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Sep 2024 00:00:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F087897C1E2
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Sep 2024 00:24:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 580981C21DCF
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2024 22:00:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6234EB218D4
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2024 22:24:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11EE51CB503;
-	Wed, 18 Sep 2024 22:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF311CB30A;
+	Wed, 18 Sep 2024 22:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iJy/Iut+"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j01zjPxF"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2079.outbound.protection.outlook.com [40.107.212.79])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A3C1CB323;
-	Wed, 18 Sep 2024 22:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726696816; cv=fail; b=kT/r0J0yPVhmYc7xzYRB1pR6yOdmeV8I345KVOiIsXtxydes3HCxoagb5ySeYsUAZRlhYFi541oGijo4cExg91u8pwgQU1DttxCYxZGICamMPAU5XhFns/fTbv68WRRx761h0ik8Xv/wMw2yuVDZ6DwG022nhvSWN93cpnkHo8c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726696816; c=relaxed/simple;
-	bh=UOVmMtV36+YOMuc8DxUy++3kGJ6A317ygQ5YBsz/VKU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aHWEvrzPg4i04JqTSmbdxnOvyuQe1iO8KgSGuLUhzYsxR45xbVlYUxUmckIGUBpLxA9vc0AOlzVAN/R6fCalltyZl5Xipyna7gZmH/WBc0I8PR8WCsp5FUqn+zqA0FIGjS6jNdhrrZSNWRKOPaGx/xffuIkvY+iWLhCjfdNSDU4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iJy/Iut+; arc=fail smtp.client-ip=40.107.212.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nXCdIa1BXr/2CvUQrh0XdgF6fc0FTkafJzwyYVbC0lXB5QusRbifZSBB5ZHqIfCvh/IAhgAIpbY4EVyqS0393Mfr9K34SmwqK/gMzZI9o02zs8W4dufCE7NH/Zq5jXOnLz6tQ+Bb1OFLrhvBJvJqclbeyE0Xh5wXjRLRZf+ur2Xwft2THfT3DBjLI6tgtxGUnosRqVLk3Bi7N9dlanBL7X9V23bERymeYjMzKIpLPWCvyQJ8G/uL31sVOb0iymikvd2Ord7HGpjNWP0y3KSrZqtf/TLTCLjTriJNK+p4AiFRzf+qlVUGaOa/fJHr/Oy4oWrJM17lyWDbL6mo9WCkyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G+hmWxIw18PO6EwUT+jSNVXeARBSgUr8w1IjUIZbq3Q=;
- b=cmwSq/FwVsIZIiy7OJgMhqtvviERx8WG7z9kM7kkNa1m0VEHtco9cFI3GPbkDDlVL4vT90MIm3GzJC09RLfenxdwKE+YpiLoka6Rz8OGZkywSRv4FCfGh9gqyO9fLi8+UvITmbWNEyshUYNi/pp4xSnI+y5WAxbxvc0Sbrhl8wHLBEVBdLhsILzNn/JayhW2Rz3lFkAESvPlTOvSfmdi1fVCg2O+aZqidhQBu97T5lA0MBuH7r62eiGwKIu2tzvitEEmk9iqVQ5uU/JVimK4b2Q3OavIa08JqkDHqIecB0+TnyxjETooRQ6uPSaQpxWeGsbvtubEH36dJ71UuvCQlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+hmWxIw18PO6EwUT+jSNVXeARBSgUr8w1IjUIZbq3Q=;
- b=iJy/Iut+hHFfE5j456O9xiEbGDs55nI1lZX0/hYxAeB12rPdPkQvX0ua1iKCEtIbC6aYpoBiXmQhrxvQgME2HWXi6lAaay1exxOQp6A/TVxXGMl8RHwYSL1rmw05/q9NqbI/xVGyGTD1twv2RI1vBZv95lmt45Zr9qc4hAP4nWOx5451aqsfV0Kwys9vl2RPospiHOsquTG6BkRLIbQ/ZzxCHAtEGEyhGmiL3EUkWhrmK4VU2jurWFujNzbzOzD45AUmFEaATiVQhcLIcZB3o0OdTiPzKqAqqYxJIKJapAPR0Ezb87FF0OE61vEhXBNjGcP0J2x5QLKaIS0pCXK4Xg==
-Received: from CH2PR11CA0022.namprd11.prod.outlook.com (2603:10b6:610:54::32)
- by CH3PR12MB7762.namprd12.prod.outlook.com (2603:10b6:610:151::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Wed, 18 Sep
- 2024 22:00:10 +0000
-Received: from CH3PEPF00000009.namprd04.prod.outlook.com
- (2603:10b6:610:54:cafe::48) by CH2PR11CA0022.outlook.office365.com
- (2603:10b6:610:54::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.30 via Frontend
- Transport; Wed, 18 Sep 2024 22:00:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- CH3PEPF00000009.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.13 via Frontend Transport; Wed, 18 Sep 2024 22:00:09 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 18 Sep
- 2024 15:00:01 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 18 Sep 2024 15:00:00 -0700
-Received: from build-bwicaksono-20240327T112120892.internal (10.127.8.12) by
- mail.nvidia.com (10.126.190.180) with Microsoft SMTP Server id 15.2.1544.4
- via Frontend Transport; Wed, 18 Sep 2024 15:00:00 -0700
-From: Besar Wicaksono <bwicaksono@nvidia.com>
-To: <suzuki.poulose@arm.com>, <robin.murphy@arm.com>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<vsethi@nvidia.com>, <rwiley@nvidia.com>, <rknight@nvidia.com>, "Besar
- Wicaksono" <bwicaksono@nvidia.com>
-Subject: [PATCH 3/3] perf: arm_cspmu: nvidia: enable NVLINK-C2C port filtering
-Date: Wed, 18 Sep 2024 21:58:46 +0000
-Message-ID: <20240918215846.1424282-4-bwicaksono@nvidia.com>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20240918215846.1424282-1-bwicaksono@nvidia.com>
-References: <20240918215846.1424282-1-bwicaksono@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF939178CF6;
+	Wed, 18 Sep 2024 22:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726698277; cv=none; b=sguTurXaCtpVZ3mF4nolFrHEWX8cUIglTK8tyOtF8zbda5qSeNULjOddpaiiOT9WoW86+S+m8UFKYtwSQZFyw7XomGiztD4i9iG0EP8BekC1JkWN45Z70mP9Io4rke6a0tnz07dMbYX66M9jUfHnSsllAkKcOIl6ROPao3mnE7s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726698277; c=relaxed/simple;
+	bh=UkbYhEXHxm4dmtDZj6n0+zM3/1JtpT4UoTfmtsLqVQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=I1TNssM9qsLO0S+ISZUVXXupsMORlQ5TjrCW4GJtVrYC9C+bPjPorU3XfCkusr24DOa6Lncxea7jC+0LwJGnEXACD+e58DRmBZLMpeSlTabVdKojuvX5ncI10SGjETsGr7AJuswrS/9KhEC76YfhnEU5tTukmXqYApwYIrBBY/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j01zjPxF; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48IA8f9W010095;
+	Wed, 18 Sep 2024 22:24:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	yMdmzNEgXNc3SOK6yWjXAfP6dRxeU2NsOaQkS8cXojQ=; b=j01zjPxFA+7ZuccD
+	fbs+V3T0F/BWNlhm19zE/G5ifK1gJh49YXYaRS8Fj/0fcqFVsEvHJik398bjBwPd
+	Xmgdmg4lXnF0zsdWsWbCrhRZbz0AZILCJOC2XFlcZtDsQQ09J0g1HqFGsHZMPO/S
+	C+5+BjMVCWsHY34JF8ajqrHtAMvYpT7yF4HVsaikM2movc87UdZHDw1RoEMOr/uP
+	LaQdAEc5WySviyNeuNRuaNpoTfuMdK2R//t8sYHZ48ZWGSqRCSwwifTAFe/Amao2
+	pgKwd0kV4AIVKkY9GP/c7+n/xvaf3WABFsJ/G2Zcj+AsoTxAYZNqmq+9k2eRw8cB
+	D7FOig==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41n4hhbahw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Sep 2024 22:24:14 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48IMODJJ017413
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Sep 2024 22:24:13 GMT
+Received: from [10.110.34.108] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 18 Sep
+ 2024 15:24:09 -0700
+Message-ID: <a4a4f5e2-f925-442c-b262-629de63022ba@quicinc.com>
+Date: Wed, 18 Sep 2024 15:24:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000009:EE_|CH3PR12MB7762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d112fcf-c67c-4593-f781-08dcd82d43ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?zgQ+WSy9lBRNDZ7vTWBr8oPlLNSF/1Kti24rCGumtwRbCMy3bRtWIOG66SJw?=
- =?us-ascii?Q?yTQ2mihavv9Zso7pyEZkykEKB2YYdDy8DYIJo4kqpkSQ7o6/rWcyRJy+EtPr?=
- =?us-ascii?Q?skRI7fp6uI4enizJYCrru3EP/nCVO2214yQ7y2gkw0/jBWMdeW2BH+lqcJRh?=
- =?us-ascii?Q?zz1UOsQ8HRu/RYITquVTLe9rzYPb7+FxbqKjEX7yS2+n6zWSk7F/wDMtIlMz?=
- =?us-ascii?Q?Oiag3TK8M3uEcqNomzQQeBMktcRI9asoDDqdNPa3K2KwXzdma3q7r71/pzFG?=
- =?us-ascii?Q?ioraBodWurngxrUcXznR+chap0LRK7E1V2BO/QqDNxyc/P8FmCuNF9ldfGEv?=
- =?us-ascii?Q?8o7Y3Gdjc5hZyp4dvPijTBrjVDg3O567I4d8JexeyAqF/MImyEiusfJlwn2G?=
- =?us-ascii?Q?lHvC1kRG0/ofJYpm/o6gEXCzbfBD+zEyqhTDUKcvugBxcu31czVhdlwWO8M2?=
- =?us-ascii?Q?C9b9HVkfhv1CQc4YnoHpClp6VaGIucJMq/IqS5nGh2rmui/eVVWZ/Egqv8MT?=
- =?us-ascii?Q?bgiDXy3i9UkVEkL34VTsblozFoAcATipoYBI4C87vvHqWXDQKKRw1IEZrPqp?=
- =?us-ascii?Q?ZIawMlGnFx3Li7rVJgw6RORZoYQYYxsHyWKT5qInNcEwU67T/gZwLkTAxmb+?=
- =?us-ascii?Q?61K5XkPa2eUyB7V5wGiE+iRt7J8nZNXyo2M2p3Psh2ZxEdJJMEabCZBTqP4Y?=
- =?us-ascii?Q?2cj0MXbHcPuS1lwHM3FKpLcav9N2e/EPFrnbella2W0nCAy7GOg19UjoDW05?=
- =?us-ascii?Q?iArLGa+9ffp/tMWAyF1TyUdVNTf0xE1jMtvKbsZWg2NYlMNA0Qe6Nekiy3In?=
- =?us-ascii?Q?AJcc5kkYQ0pcSvbXKgZ9U7uOBlZTPZ9hqFOv6TruTIQHe8xWaen1Ll5UC/qB?=
- =?us-ascii?Q?ecN83ntetIlSkv9S2pHYLrTDFnNhT5ygHWdtskq6WixLL4JTOR2lgRICv+kW?=
- =?us-ascii?Q?dv9jDtqeyC70uJUG71uWKjPNl/Hz9AsWhckBjl8fnWGGSMRPUE5HPAzLvlV8?=
- =?us-ascii?Q?P5ygggURyNR2BiDdSzVNEdh7uNp4fTikkxlCdcSbJ54M+JwU8GCnBpskngVr?=
- =?us-ascii?Q?0MfcFNNHaFspqi+g+CucrRxVYoGj/uhS/CFIH0PyEdFccXy5m5ApxdgrFrXT?=
- =?us-ascii?Q?e2HVhm42V3h7xLwEKL+uwLTnzcgxAdkxctpxS3tyXJOadNgGO5L/0/5kfAtU?=
- =?us-ascii?Q?bkCO/oP1eQiWiSTIkF68wdp0RzE4tlWDkeNmPnD1d+N3GQFLpe4qi8KoZc6K?=
- =?us-ascii?Q?dI4P2Ixh9Ktjv1MwQxOKflDZkFrEVJ2sF5UQUvFV8A1wB0SC3oXaIg2qwkgF?=
- =?us-ascii?Q?Pev30MbTN1Em3oBbWTXHsPEYCOHLt6W1mJ0iNysApMO0tUpbxH2r+SeT3dIq?=
- =?us-ascii?Q?p/Fk3+QN7/BO9cVzSSgsu4iyEDsnqYNC7u6EKHLml98Qggj9JCCs9g3cB4wQ?=
- =?us-ascii?Q?sCAx8dtla9XwfwhDrN3c+RW3vTHn7Ig8?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 22:00:09.8873
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d112fcf-c67c-4593-f781-08dcd82d43ae
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000009.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7762
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net v1] net: phy: aquantia: Set phy speed to 2.5gbps
+ for AQR115c
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Maxime Chevallier
+	<maxime.chevallier@bootlin.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        "Paolo
+ Abeni" <pabeni@redhat.com>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Andrew Halaney <ahalaney@redhat.com>,
+        "Heiner
+ Kallweit" <hkallweit1@gmail.com>,
+        Bartosz Golaszewski
+	<bartosz.golaszewski@linaro.org>,
+        "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>,
+        Brad Griffis <bgriffis@nvidia.com>,
+        "Vladimir
+ Oltean" <vladimir.oltean@nxp.com>,
+        Jon Hunter <jonathanh@nvidia.com>, <kernel@quicinc.com>
+References: <20240913011635.1286027-1-quic_abchauha@quicinc.com>
+ <20240913100120.75f9d35c@fedora.home>
+ <eb601920-c2ea-4ef6-939b-44aa18deed82@quicinc.com>
+ <c6cc025a-ff13-46b8-97ac-3ad9df87c9ff@lunn.ch>
+ <ZulMct3UGzlfxV1T@shell.armlinux.org.uk>
+ <1c58c34e-8845-41f2-8951-68ba5b9ced38@quicinc.com>
+ <1ed3968a-ed7a-4ddf-99bd-3f1a6aa2528f@quicinc.com>
+ <473d2830-c7e0-4adf-8279-33b91e112f80@lunn.ch>
+Content-Language: en-US
+From: "Abhishek Chauhan (ABC)" <quic_abchauha@quicinc.com>
+In-Reply-To: <473d2830-c7e0-4adf-8279-33b91e112f80@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Trulk6ZhZabLLo_6_5wT3BBIeiU3kUBT
+X-Proofpoint-ORIG-GUID: Trulk6ZhZabLLo_6_5wT3BBIeiU3kUBT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=999 mlxscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
+ definitions=main-2409180149
 
-Enable NVLINK-C2C port filtering to distinguish traffic from
-different GPUs connected to NVLINK-C2C.
 
-Signed-off-by: Besar Wicaksono <bwicaksono@nvidia.com>
----
- Documentation/admin-guide/perf/nvidia-pmu.rst | 32 +++++++++++++++++++
- drivers/perf/arm_cspmu/nvidia_cspmu.c         |  7 ++--
- 2 files changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/perf/nvidia-pmu.rst b/Documentation/admin-guide/perf/nvidia-pmu.rst
-index 2e0d47cfe7ea..6d1d3206b4ad 100644
---- a/Documentation/admin-guide/perf/nvidia-pmu.rst
-+++ b/Documentation/admin-guide/perf/nvidia-pmu.rst
-@@ -86,6 +86,22 @@ Example usage:
- 
-    perf stat -a -e nvidia_nvlink_c2c0_pmu_3/event=0x0/
- 
-+The NVLink-C2C has two ports that can be connected to one GPU (occupying both
-+ports) or to two GPUs (one GPU per port). The user can use "port" bitmap
-+parameter to select the port(s) to monitor. Each bit represents the port number,
-+e.g. "port=0x1" corresponds to port 0 and "port=0x3" is for port 0 and 1. The
-+PMU will monitor both ports by default if not specified.
-+
-+Example for port filtering:
-+
-+* Count event id 0x0 from the GPU connected with socket 0 on port 0::
-+
-+   perf stat -a -e nvidia_nvlink_c2c0_pmu_0/event=0x0,port=0x1/
-+
-+* Count event id 0x0 from the GPUs connected with socket 0 on port 0 and port 1::
-+
-+   perf stat -a -e nvidia_nvlink_c2c0_pmu_0/event=0x0,port=0x3/
-+
- NVLink-C2C1 PMU
- -------------------
- 
-@@ -116,6 +132,22 @@ Example usage:
- 
-    perf stat -a -e nvidia_nvlink_c2c1_pmu_3/event=0x0/
- 
-+The NVLink-C2C has two ports that can be connected to one GPU (occupying both
-+ports) or to two GPUs (one GPU per port). The user can use "port" bitmap
-+parameter to select the port(s) to monitor. Each bit represents the port number,
-+e.g. "port=0x1" corresponds to port 0 and "port=0x3" is for port 0 and 1. The
-+PMU will monitor both ports by default if not specified.
-+
-+Example for port filtering:
-+
-+* Count event id 0x0 from the GPU connected with socket 0 on port 0::
-+
-+   perf stat -a -e nvidia_nvlink_c2c1_pmu_0/event=0x0,port=0x1/
-+
-+* Count event id 0x0 from the GPUs connected with socket 0 on port 0 and port 1::
-+
-+   perf stat -a -e nvidia_nvlink_c2c1_pmu_0/event=0x0,port=0x3/
-+
- CNVLink PMU
- ---------------
- 
-diff --git a/drivers/perf/arm_cspmu/nvidia_cspmu.c b/drivers/perf/arm_cspmu/nvidia_cspmu.c
-index d1cd9975e71a..cd51177347e5 100644
---- a/drivers/perf/arm_cspmu/nvidia_cspmu.c
-+++ b/drivers/perf/arm_cspmu/nvidia_cspmu.c
-@@ -149,6 +149,7 @@ static struct attribute *pcie_pmu_format_attrs[] = {
- 
- static struct attribute *nvlink_c2c_pmu_format_attrs[] = {
- 	ARM_CSPMU_FORMAT_EVENT_ATTR,
-+	ARM_CSPMU_FORMAT_ATTR(port, "config1:0-1"),
- 	NULL,
- };
- 
-@@ -193,7 +194,7 @@ static u32 nv_cspmu_event_filter(const struct perf_event *event)
- 	const struct nv_cspmu_ctx *ctx =
- 		to_nv_cspmu_ctx(to_arm_cspmu(event->pmu));
- 
--	if (ctx->filter_mask == 0)
-+	if (ctx->filter_mask == 0 || event->attr.config1 == 0)
- 		return ctx->filter_default_val;
- 
- 	return event->attr.config1 & ctx->filter_mask;
-@@ -229,7 +230,7 @@ static const struct nv_cspmu_match nv_cspmu_match[] = {
- 	{
- 	  .prodid = 0x104,
- 	  .prodid_mask = NV_PRODID_MASK,
--	  .filter_mask = 0x0,
-+	  .filter_mask = NV_NVL_C2C_FILTER_ID_MASK,
- 	  .filter_default_val = NV_NVL_C2C_FILTER_ID_MASK,
- 	  .name_pattern = "nvidia_nvlink_c2c1_pmu_%u",
- 	  .name_fmt = NAME_FMT_SOCKET,
-@@ -239,7 +240,7 @@ static const struct nv_cspmu_match nv_cspmu_match[] = {
- 	{
- 	  .prodid = 0x105,
- 	  .prodid_mask = NV_PRODID_MASK,
--	  .filter_mask = 0x0,
-+	  .filter_mask = NV_NVL_C2C_FILTER_ID_MASK,
- 	  .filter_default_val = NV_NVL_C2C_FILTER_ID_MASK,
- 	  .name_pattern = "nvidia_nvlink_c2c0_pmu_%u",
- 	  .name_fmt = NAME_FMT_SOCKET,
--- 
-2.34.1
+On 9/18/2024 2:45 PM, Andrew Lunn wrote:
+>> Russell and Andrew 
+>>
+>> we added prints and understood what the phy is reporting as part of the 
+>> genphy_c45_pma_read_abilities 
+>>
+>> [   12.041576] MDIO_STAT2: 0xb301
+>>
+>>
+>> [   12.050722] MDIO_PMA_EXTABLE: 0x40fc
+>>
+>> >From the PMA extensible register we see that the phy is reporting that it supports
+>>
+>> #define MDIO_PMA_EXTABLE_10GBT		0x0004	/* 10GBASE-T ability */
+>> #define MDIO_PMA_EXTABLE_10GBKX4	0x0008	/* 10GBASE-KX4 ability */
+>> #define MDIO_PMA_EXTABLE_10GBKR		0x0010	/* 10GBASE-KR ability */
+>> #define MDIO_PMA_EXTABLE_1000BT		0x0020	/* 1000BASE-T ability */
+>> #define MDIO_PMA_EXTABLE_1000BKX	0x0040	/* 1000BASE-KX ability */
+>> #define MDIO_PMA_EXTABLE_100BTX		0x0080	/* 100BASE-TX ability */
+>> #define MDIO_PMA_EXTABLE_NBT		0x4000  /* 2.5/5GBASE-T ability */
+>>
+>> [   12.060265] MDIO_PMA_NG_EXTABLE: 0x3
+>>
+>> /* 2.5G/5G Extended abilities register. */
+>> #define MDIO_PMA_NG_EXTABLE_2_5GBT	0x0001	/* 2.5GBASET ability */
+>> #define MDIO_PMA_NG_EXTABLE_5GBT	0x0002	/* 5GBASET ability */
+>>
+>> I feel that the phy here is incorrectly reporting all these abilities as 
+>> AQR115c supports speeds only upto 2.5Gbps 
+>> https://www.marvell.com/content/dam/marvell/en/public-collateral/transceivers/marvell-phys-transceivers-aqrate-gen4-product-brief.pdf
+>>
+>> AQR115C / AQR115 Single port, 2.5Gbps / 1Gbps / 100Mbps / 10Mbps 7 x 7 mm / 7 x 11 mm
+> 
+> One things to check. Are you sure you have the correct firmware? Many
+> of the registers which the standards say should be Read Only can be
+> influenced by the firmware. So the wrong firmware, or provisioning
+> taken from another device could result in the wrong capabilities being
+> set.
+> 
 
+I did check with the hardware team and the firmware loaded is 
+AQR-G4_v5.6.7-AQR_Marvell_NoSwap_XFI2500SGMII_ID44842_VER1922.cld
+Only Marvell folks can tell me what is inside the FW. 
+Let me double check with Marvell on this and ask them why is the phy 
+reporting all these PMA capabilities. 
+
+> You might want to report this issue to Marvell, but my guess would be,
+> they don't care. I would guess the vendor driver ignores these
+> registers and simply uses the product ID to determine what the device
+> actually supports.
+> 
+>> I am thinking of solving this problem by having 
+>> custom .get_features in the AQR115c driver to only set supported speeds 
+>> upto 2.5gbps 
+> 
+> Yes, that is the correct solution.
+
+> It would also be good if you could, in a separate patch, change the
+> aqcs109_config_init() to not call phy_set_max_speed() and add a custom
+> .get_features.
+Let me raise this patch in a day or two for upstream review after 
+testing it out locally on AQR115c 
+> 
+> 	Andrew
 
