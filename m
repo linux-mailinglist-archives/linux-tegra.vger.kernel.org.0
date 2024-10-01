@@ -1,81 +1,85 @@
-Return-Path: <linux-tegra+bounces-3859-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-3861-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D51C98C6E7
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2024 22:40:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 312F498C855
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2024 00:47:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82FABB21D16
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2024 20:40:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FE741C228C5
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2024 22:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85641BDAAB;
-	Tue,  1 Oct 2024 20:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087BE1CEEA3;
+	Tue,  1 Oct 2024 22:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YZYYf7y0"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HmxTsrat"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103481925B8
-	for <linux-tegra@vger.kernel.org>; Tue,  1 Oct 2024 20:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD8D1BFE00;
+	Tue,  1 Oct 2024 22:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727815236; cv=none; b=GdkfCTd0FOv/Z4gr+My3HRCRq1uCDahw8DBkHrqSNH/vONw/1f+uTkzViufNgxu6CV+lV54VzEHFV0+q9mbJnmWGbsmkB1ZcYX1j/gZJuw1PpUqMOCL6ciDcyhgjpvCdGPBef71NUrC9rpkN8NP2qBii5WQB2jzazyQIY/sSL5Y=
+	t=1727822814; cv=none; b=NDmzm+dufAPkUNl+7k+uojZEz7tujAnQMnBzZVnkHFRBNzxvhR2YQ2U4GWEmJRvET1mKIkk514tYQOQr8cKwCCJGKBuFEOcjrLHAIiVmVO2oGvXkw0UY450U/yE9/HQbEOpM/y5lTj7lfK0RlzRFFfBjczfSzf/TDwAndxopCXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727815236; c=relaxed/simple;
-	bh=z7fN0wcDrgSGLJ54CogSRI9qTPvLsqNMXWPMmhQaMK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TBlMMnbNF8AuJXx6hP1IfW59+eOmgjDoZ/Oizvnn4JiOfsxo7zxXJR/axbgFFzedk5mal8tkDHQB+ZQNx1RTd+2/2vY2XCc3nopDGYAiD72WpgcSN/UKpmU87jqDOkx8oVV+5GvALigwqPOB/jrCkV7zjNm+Azy8QDZ9Z6iwONI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YZYYf7y0; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42cdefe9ae8so7767825e9.1
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2024 13:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727815233; x=1728420033; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EN+IlGnMWsVNl93iDCLUh0QeaNh7xIiYAcmuHj+W00s=;
-        b=YZYYf7y0t3fzNM6K8Io/RKGwI6WHJiV38lKuKDxx9LfCcPwU8pJvhVMQHB989W0lbH
-         qoWoiy9qgzSJXTwlHvoVY/klOuc/FnKHxrSt+/ThBLoF+4ZMIdxmI34w0XKFAd7JAfx8
-         f93rdrCKIFVQ7zI0Zd8AlwtcckIBVp05syFToLAIMtsLJQICv69u2knv5L1ft4pyRgWE
-         +s1He5B/yGCvo9SP/eVKJK5pszJ2nyn3bHSJlK7Q6uRW7vmU8EG57ImDBeQy3IVDruxJ
-         awBkHirnmXngDS0ysmKOyGSWGkRrcSo0bESh1INwZdOgBSDw/5gbBZNY1ZxPYCS9wKx9
-         WZdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727815233; x=1728420033;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EN+IlGnMWsVNl93iDCLUh0QeaNh7xIiYAcmuHj+W00s=;
-        b=Q+gQMp5XVJb1mQnwEz5BedMOTQyhCjQmwSzfyfmd54KnCYVGyrwkOWb4ojqgGPmxsx
-         sdgMIxKSXQ0d5icXd57K2rmoS4HmBz9wR3jwi6RHd8FvIDDbvwt/OkluoW8ugt9YHYQk
-         DUkaBKXQQUdLZLSvaS678j7/UqqxUh9wkukX7E597foS7DLiiW9IVc3l85dxNHBBbLqV
-         alrVtbfeMASIxYxJ2PxkNAnICBIBKT5uMUl7i9owPQ9gZJeTHcfsqB7BF8mcvdRte6fY
-         fL5iq7paLPHBUDmfrgLlZoi/q5dF97k4lSbXwf+kvPTrr6AtUGBZYt9rgoDljBMKlyHZ
-         4Dyw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3xqKykq5vlEWw1NV1X5Msk7VRks5uoxBa7tTq7kWrn8FHEjh2M52GAlfc4alA0h6ykXJz0Uzn+EJyUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlOxU2/fJdrgt7T7YCPX0pSTcmBco2U04LffzblkSnQ9ghhXdx
-	5HUiYPV2haPcazcyvBSw7HH9JAgfFRtmZZQfoASsszQUPEFTrIKovrKhEp09H88=
-X-Google-Smtp-Source: AGHT+IGT9qvAcHTeHq/UjlDNrHiw+vESOThjdO8ZDEU34vY5psay4GhWwsOZG2VmxNX+sm2JGMKISg==
-X-Received: by 2002:a05:600c:1884:b0:42c:aeee:d8ee with SMTP id 5b1f17b1804b1-42f77951d97mr2528105e9.8.1727815233235;
-        Tue, 01 Oct 2024 13:40:33 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f771c208bsm6214725e9.0.2024.10.01.13.40.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 13:40:32 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH] firmware: tegra: bpmp: Revert "firmware: tegra: bpmp: Use scoped device node handling to simplify error paths"
-Date: Tue,  1 Oct 2024 22:40:25 +0200
-Message-ID: <20241001204025.5632-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1727822814; c=relaxed/simple;
+	bh=ZDslSkulC1sAOhjyNUpHtCXyeuQyFQa5OSChIsUPVwk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TOHTujQtVwyXDV4oYEr4LyQqZpsT2R37ikZVpzACVFwzY1TKPFvXtnv+Jt9vTnUQAeUW2fY2NDlOhHhTqciVejEiSuio2mcC0m08iWPfmG05LPqb7ZhNGDmTtLw1sqVEVVmofR03VDXruhLxGEj8v65aNhqUvJhExYa/uI4PJ0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HmxTsrat; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 491LbhhW032323;
+	Tue, 1 Oct 2024 22:46:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=mg4Z9hX96gITYTKok2FJQoBsdRCEhmnRJQk
+	ltEOy2aM=; b=HmxTsratHIKlgf31a0cKT+PQwxBIYOGzGmJa4Ik13facU+y0cei
+	GbfCQVHiIAd/0HsQVl+cdnjK0IMoGZ00Jr/OgWen5nNpQP1MLiB9NT4mIJYbQit0
+	0pIlUovUShvYdIdhPb8/1f8l0ARQRD8UoTh6X4TnLFLjLXh30FwCJveX6I3zs8gL
+	vhoLrTlJPoSDNKGOzGnWhx4HpP0gdN+2rQIXdESdL0rLIW8gTcY3sQblq5fUI9As
+	MFxsLlCkpUfGJdSUvJHk3B4vAJD4Wbn6nGQFQWazbmf7AIlNZiSfwqd6sjGSlqe+
+	BpCtjPhqJIYQp3a24GhSyt1PXb6QDiyjIXQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41x94hhwe1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 22:46:28 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 491MfwtO014023;
+	Tue, 1 Oct 2024 22:46:26 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 420h1qmc1s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 22:46:26 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 491MiW30016955;
+	Tue, 1 Oct 2024 22:46:26 GMT
+Received: from hu-devc-lv-u20-a-new.qualcomm.com (hu-abchauha-lv.qualcomm.com [10.81.25.35])
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 491MkQtC018812
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 22:46:26 +0000
+Received: by hu-devc-lv-u20-a-new.qualcomm.com (Postfix, from userid 214165)
+	id 1EEB722EC5; Tue,  1 Oct 2024 15:46:26 -0700 (PDT)
+From: Abhishek Chauhan <quic_abchauha@quicinc.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andrew Halaney <ahalaney@redhat.com>,
+        "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Brad Griffis <bgriffis@nvidia.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: kernel@quicinc.com
+Subject: [PATCH net v6 0/2] Fix AQR PMA capabilities
+Date: Tue,  1 Oct 2024 15:46:24 -0700
+Message-Id: <20241001224626.2400222-1-quic_abchauha@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -83,78 +87,46 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Tyn-HQgOKGOXoiasYRd4iclQoIdUCkT3
+X-Proofpoint-ORIG-GUID: Tyn-HQgOKGOXoiasYRd4iclQoIdUCkT3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=954 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2410010151
 
-This reverts commit 8812b8689ee6 ("firmware: tegra: bpmp: Use scoped
-device node handling to simplify error paths") because it was silently
-modified by committer during commit process, by moving declaration of
-'struct device_node *np' above the initializer/constructor.  Such code
-was not intention of the author, is not conforming to cleanup.h code
-style and decreases the code readability.
+Patch 1:- 
+AQR115c reports incorrect PMA capabilities which includes
+10G/5G and also incorrectly disables capabilities like autoneg
+and 10Mbps support.
 
-I did not write such code and I did not agree to put my name with such
-commit.
+AQR115c as per the Marvell databook supports speeds up to 2.5Gbps
+with autonegotiation.
 
-Original patch:
-https://lore.kernel.org/all/20240816135722.105945-2-krzysztof.kozlowski@linaro.org/
+Patch 2:- 
+Remove the use of phy_set_max_speed in phy driver as the
+function is mainly used in MAC driver to set the max
+speed.
 
-Cc: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Instead use get_features to fix up Phy PMA capabilities for
+AQR111, AQR111B0, AQR114C and AQCS109
 
----
 
-It's very strange to see own patches silently modified without any
-explanation in Signed-off-by area.
----
- drivers/firmware/tegra/bpmp.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Abhishek Chauhan (2):
+  net: phy: aquantia: AQR115c fix up PMA capabilities
+  net: phy: aquantia: remove usage of phy_set_max_speed
 
-diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-index 2bee6e918f81..c3a1dc344961 100644
---- a/drivers/firmware/tegra/bpmp.c
-+++ b/drivers/firmware/tegra/bpmp.c
-@@ -3,7 +3,6 @@
-  * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
-  */
- 
--#include <linux/cleanup.h>
- #include <linux/clk/tegra.h>
- #include <linux/genalloc.h>
- #include <linux/mailbox_client.h>
-@@ -35,24 +34,29 @@ channel_to_ops(struct tegra_bpmp_channel *channel)
- 
- struct tegra_bpmp *tegra_bpmp_get(struct device *dev)
- {
--	struct device_node *np __free(device_node);
- 	struct platform_device *pdev;
- 	struct tegra_bpmp *bpmp;
-+	struct device_node *np;
- 
- 	np = of_parse_phandle(dev->of_node, "nvidia,bpmp", 0);
- 	if (!np)
- 		return ERR_PTR(-ENOENT);
- 
- 	pdev = of_find_device_by_node(np);
--	if (!pdev)
--		return ERR_PTR(-ENODEV);
-+	if (!pdev) {
-+		bpmp = ERR_PTR(-ENODEV);
-+		goto put;
-+	}
- 
- 	bpmp = platform_get_drvdata(pdev);
- 	if (!bpmp) {
-+		bpmp = ERR_PTR(-EPROBE_DEFER);
- 		put_device(&pdev->dev);
--		return ERR_PTR(-EPROBE_DEFER);
-+		goto put;
- 	}
- 
-+put:
-+	of_node_put(np);
- 	return bpmp;
- }
- EXPORT_SYMBOL_GPL(tegra_bpmp_get);
+ drivers/net/phy/aquantia/aquantia_main.c | 51 +++++++++++++++---------
+ 1 file changed, 33 insertions(+), 18 deletions(-)
+
 -- 
-2.43.0
+2.25.1
 
 
