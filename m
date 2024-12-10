@@ -1,276 +1,306 @@
-Return-Path: <linux-tegra+bounces-4289-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-4291-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9F59EB892
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2024 18:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9359EB9A0
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2024 19:50:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28C2F166F3A
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2024 17:47:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7D8916516C
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2024 18:50:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120A1214222;
-	Tue, 10 Dec 2024 17:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F9961C3F13;
+	Tue, 10 Dec 2024 18:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Mhd+/GeX"
+	dkim=pass (2048-bit key) header.d=finest.io header.i=parker@finest.io header.b="HLsKZhmZ"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2071.outbound.protection.outlook.com [40.107.212.71])
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DED1214211;
-	Tue, 10 Dec 2024 17:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733852787; cv=fail; b=pwvV8UsJzvWsanUYCirrpVjHl6BkqEMwQSfyAV9iQPL07bfhgq0ECQ0ZRMMxQoKmQE1Mpx5JfzFqwdkcmiwndK+qNAamPe92ual5o/u9lCI6GeAo0ut4TRhVGJic1HtBo2nm8/0Wqz6QwdvvkO2GvI43TeAXNgjzB1BdO3Z1W2s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733852787; c=relaxed/simple;
-	bh=9EhYSFWsRus1+fVauRO2T+umX6Yu6+CNmfYkzKXcU78=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cJy27XUayN6HXGblbeXE/ZTotfVPjZBfm29iKmcnPmCzo6QTXLaZP5geclIvkBcoMiWXLkuK+QCHnVU+UG14hSvNetS+xYIOmlsgNZwVZc47ntB7Nvet8SEaEp+Vp5idUAe0inBzJuKN9Wly62VRj/GoTJ+Pkb1Sf3Ztb7qO9mA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Mhd+/GeX; arc=fail smtp.client-ip=40.107.212.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VXiAxaSC49CkbfgOHX++pMFqXIu1DTZsbmS3OpcWB+RlpG3Vnvh+qZEv6Nw6Llx1+TBCvYpmoLcXHgUcucdvDWtDPMt5QyGK58Syb4pBNjc1C/IH5EAXlzEUe8XsBqXUwhiv8rfm2VJjDv+ISzpoQuEpM+uHQr8A1Dg/vFP4IQc8tDlDywIrAwrnLZTDi9MNVxlzMjef8ZriZYJAvdnm8cWrOw3lm+aLvUBEcieM06lQnk6a/tRsLam6lm1jzNIXt8vzZ75Jv713uT/pAO1XpOb9/cQ/2Mlq7XeAfweYAIdDRgAaPGAEVJ9gzxM14ryiFvCKzIP8tS+9s3eUuqmCVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6s1mgzYgjubaFe5vz2yf25UsogL8btmVF5U9yte3mAQ=;
- b=ck6qIdWTuSX0u14YWcjWWuAKiQ6l3C07klEtNes+OcjtX5CidUo0rKj4qv+9qLZ1DfUBKBXh85xxrlXSJvydePhGH5H8hi5V2P2z8O5Ukln5Ih/p5m7CbGwcjtueWHoXDByU/hMK2BW4JdRaAh8PwAeLFlbbenJoC6MEE9ll5wH0CJafNqKUq07jgrk4f+NlhW+ckDS5gCYUx+HU5eKjZ1ci7HSgsASIicmz6S4yix2aIvdKm3CO//3alJVfqEXaQgBjIMD0d/GD2ixp7yEXCDhLwkZVbrO7196wSs/896jm0QdPKu9zewRHbKh9mPij8VQEjpC+KSACQ7XU3JV+zQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6s1mgzYgjubaFe5vz2yf25UsogL8btmVF5U9yte3mAQ=;
- b=Mhd+/GeXEtBWMhXR1YkZxq2Thk8Q2KD3m4Ds6+8FoagZGaVu1VviIFsN9FkVSTad9GME7E/UdombEUzxCoT0RNlKxkSQB4cjEdVqulfggPYI8Dq2bC4iMd9WBHsNjf5fsUh7PZK18BsqYz6iuL9PtTqpQu7S073l6jgXPVxIY5zVYaFxvVAFeasHwWtj8bpLCaXcPT/vAunZ7EeBW+ZZtmZgHvAxeGRQFWKKFN2H+BL89wcz3n0LDNsFXhBeZagCetxGOvflQyUbd2TUxrFd9aJ4L9FBhBzLKxDh2twORfx9n1FDZkTwcYJm7TRc9OY9vzyrOqCfk6Ls4QOS65Fykw==
-Received: from BL6PEPF00013E0A.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1001:0:12) by DS0PR12MB7653.namprd12.prod.outlook.com
- (2603:10b6:8:13e::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Tue, 10 Dec
- 2024 17:46:18 +0000
-Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2a01:111:f403:f902::3) by BL6PEPF00013E0A.outlook.office365.com
- (2603:1036:903:4::4) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8158.23 via Frontend Transport; Tue,
- 10 Dec 2024 17:46:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- MN1PEPF0000ECD9.mail.protection.outlook.com (10.167.242.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.15 via Frontend Transport; Tue, 10 Dec 2024 17:46:18 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 10 Dec
- 2024 09:46:01 -0800
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Tue, 10 Dec 2024 09:46:01 -0800
-Received: from thinkpad-t480.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Tue, 10 Dec 2024 09:46:00 -0800
-From: Johnny Liu <johnliu@nvidia.com>
-To: <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<skomatineni@nvidia.com>, <luca.ceresoli@bootlin.com>,
-	<mperttunen@nvidia.com>, <maarten.lankhorst@linux.intel.com>,
-	<mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
-	<simona@ffwll.ch>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Johnny Liu <johnliu@nvidia.com>
-Subject: [PATCH v1 5/5] drm/tegra: vic: Register the device with actmon
-Date: Tue, 10 Dec 2024 09:45:54 -0800
-Message-ID: <20241210174554.18869-6-johnliu@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20241210174554.18869-1-johnliu@nvidia.com>
-References: <20241210174554.18869-1-johnliu@nvidia.com>
-X-NVConfidentiality: public
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D406623ED41;
+	Tue, 10 Dec 2024 18:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.208.4.197
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733856626; cv=none; b=Wxj9BCWr0werohhBxLRumrV2c0AvibYTUrmoOh5/GySZ/qUGuXxN6A/69BT0owo4TLuXpqynGq2Otsc+RBlxQLTgFq7dmMTHxkOdMc1LAF8StUw2Epu9IEelJxWMv4c2R1w/vglzAeHm5qPt0b1jyprHvtIoXb/H0Je0Uczo1O8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733856626; c=relaxed/simple;
+	bh=jeb8RjObl9n/RpjrBee2UUV1rzl2k9GmIRAso3y1rqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gVynpkFZKBCOzlY3hsNXCzRPrUJgb+MiLWcHVOR+jN6lK+hzOI9MdPQ/fqqNX2R8YqrThF+wb7zQNYMY7oFckN78M0ee0JjSgxygVYTozH9gJ7kVZEsDFz5pLExrav0QSpw3s6ExanwqePLbWGSX6YSuFMOFjhXVn9R2uBNR4Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=finest.io; spf=pass smtp.mailfrom=finest.io; dkim=pass (2048-bit key) header.d=finest.io header.i=parker@finest.io header.b=HLsKZhmZ; arc=none smtp.client-ip=74.208.4.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=finest.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=finest.io
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=finest.io;
+	s=s1-ionos; t=1733856574; x=1734461374; i=parker@finest.io;
+	bh=sXGDoDjkGFFSl51u8zxIYJIcqrg3qf0vQUL25ISmdXo=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=HLsKZhmZn5EV78icqXKZwd+lbxo6+tUK0g14xjb6HGLXz6inIBXEiEShNnb2zk0c
+	 w/JERmS2bidwQuhgYmZ9+uZfwgprFCP3L4K/IQXyLXpH2i9w7GKAJEhXjbmvWgFTg
+	 Rnd02iyDf9oplvzRUA7iwrPA14ex37NLpFQsbGYT5ltovGzh5tUZW0urijPNDlixx
+	 oxdfezbNhYSy4L78sHkb/OS5XZcKsWGSUqpdysK2AnYlmHRoUUgC6EF1DUxTvvNM5
+	 fwtMgdVUUuxwiBQLJdtFuUS7rD8oN7r9+YX3UW8x0hKtcxog6w8pcR7PRmdViNP4i
+	 RRFJ/eDCu2l8ksVxvQ==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from SWDEV2.connecttech.local ([98.159.241.229]) by
+ mrelay.perfora.net (mreueus002 [74.208.5.2]) with ESMTPSA (Nemesis) id
+ 0MGknn-1tPoFQ2dNJ-009LJs; Tue, 10 Dec 2024 19:49:33 +0100
+Date: Tue, 10 Dec 2024 13:49:30 -0500
+From: Parker Newman <parker@finest.io>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Paolo Abeni <pabeni@redhat.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Jonathan
+ Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Parker Newman <pnewman@connecttech.com>
+Subject: Re: [PATCH v1 1/1] net: stmmac: dwmac-tegra: Read iommu stream id
+ from device tree
+Message-ID: <20241210134930.0f963709.parker@finest.io>
+In-Reply-To: <vyzrfrkvwwbi66zemgjywdzpk75mebr47vxaon5jwnn2vprahl@ndzjlez3ywgv>
+References: <bb52bdc1-df2e-493d-a58f-df3143715150@lunn.ch>
+	<20241118084400.35f4697a.parker@finest.io>
+	<984a8471-7e49-4549-9d8a-48e1a29950f6@lunn.ch>
+	<20241119131336.371af397.parker@finest.io>
+	<f00bccd3-62d5-46a9-b448-051894267c7a@lunn.ch>
+	<20241119144729.72e048a5.parker@finest.io>
+	<mpgilwqb5zg5kb4n7r6zwbhy4uutdh6rq5s2yc6ndhcj6gqgri@qkfr4qwjj3ym>
+	<20241204115317.008f497c.parker@finest.io>
+	<uad6id6omswjm7e4eqwd75c52sy5pddtxru3bcuxlukhecvj4u@klzgrws24r2q>
+	<20241206084203.2502ab95.parker@finest.io>
+	<vyzrfrkvwwbi66zemgjywdzpk75mebr47vxaon5jwnn2vprahl@ndzjlez3ywgv>
+Organization: Connect Tech Inc.
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|DS0PR12MB7653:EE_
-X-MS-Office365-Filtering-Correlation-Id: 914034bc-590a-433e-5265-08dd19428d7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|1800799024|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?gdSIMqV62+OgdIjAGgyvsZqDn7wcWuT+o7wDxiz5r2TCAteSDn9yRPiY6RPt?=
- =?us-ascii?Q?iYLq/eYUdBPrqETTXm/WhOGb236zNOVIpRWtGogJOt3XVwqY+I7q7hAPu5jp?=
- =?us-ascii?Q?drp8FEyK9HvHnqSZg8lmnU3jmFExePH7M7/SP3LY1oY8boKgvmI7tOBwOuj9?=
- =?us-ascii?Q?qAB9Sjq+e/pZGKBEmFTiSQita0nDhq3UD4/gsSIFXU8VwIy24WiKJMerbq2D?=
- =?us-ascii?Q?NmiwVvoHW4ObcK0oV0ZR6m1bxh52w0fjM0MjBu3RFUcChZt5Yx2v/lXKY33a?=
- =?us-ascii?Q?4jJE7pGFttwfGWB8V4hq6GTTY90qLOXxRwsoNitfqgQemeXXmL+lwuXDcIls?=
- =?us-ascii?Q?ZH4NUAgAA0+BUJ4kYy436Omi5atSkqYWaDUGuvRntFOln4MvZE8GLvAjBjlK?=
- =?us-ascii?Q?+z1ea+YPfPUUfthlJ+MkRuFLzdS3SOm+CWSafELnr42whJNo1og56FhpNtEz?=
- =?us-ascii?Q?wzrwgJ4s0WAhf4H7h9iQTHoT6RlNURRLYKq5L5V7S0Nhr5lasgslg53HSgY4?=
- =?us-ascii?Q?rLsPYVDKL/y7xfEh2nmdZuKbbiumxRPSXQgRzEABfVglmueyZsFNqsLLzGTs?=
- =?us-ascii?Q?vGBPLhiAAdAEpqf4hxePM5SXSaYwPXd+cs0Phe0JxcHatRqYn+hrbsyyae1e?=
- =?us-ascii?Q?GPPWfMks/fQktH6NEY25OxhOsf2UYA27OET5imOKqMlI1ozShDH9vL0kDr59?=
- =?us-ascii?Q?zF83SGHb42SXpDxQRReCrH/OZ0Z9/OwvsvrpLq5B0gQn2/c5Jmls3p09tEmi?=
- =?us-ascii?Q?xMWArwGqiG4Alq6AQ4waiZ7mi/wa9IlEWoE1cfzZ3uPP+ufZB3FCGKg9TJbJ?=
- =?us-ascii?Q?ppLYk34s3+NakP5l4R3M8klqCW/Sa9X6IbBxpKF16O6XAPG03KYATgRGfGOX?=
- =?us-ascii?Q?KHgrCP3HGkz4BdD9F9t44vdig865mLlaSpaBlCI0PtYOXaCKvbvPYEBuC/M5?=
- =?us-ascii?Q?Vt+WK4bLiMjZWLwyWiK/Gx1t8gj6Hyig2YeRyV058e/QuXRlCMLx/3u3uDMG?=
- =?us-ascii?Q?F2t8Nk37niZIkAhAFDzn/1+Zg4OX7DZqK+qz25wCP9YMYxqnaNZOsDNb5NjY?=
- =?us-ascii?Q?Ren8D3fmC0sPfv6L2LzFdScWUaYMOBGb5TaD1uNX5TDYMY5TzJHonDC7iZyU?=
- =?us-ascii?Q?rxrqZGVdDuu70OmZUi027Sw9arEovcKS6SGzIjYvUoyRwcf5JJWwtzIV+BNS?=
- =?us-ascii?Q?1mhebNTqb37VWVyOQN3UH6HRvXgSGS1tJzBB8HyJdtJiC8F13pXLOKpuLMxU?=
- =?us-ascii?Q?7ft8gMkKIVShHkzeGe4kQ/oCFqVjWhlN0kCWyrWu43kK3SGCDdrX8zDf1/Jd?=
- =?us-ascii?Q?VlIpY77zjguynYrIGyY0wMy9uL04nbN3+NYYAeBwzArQVIu7unlUtqSwleMr?=
- =?us-ascii?Q?l8omQvFCImSqxeWorxXOa5o74NG1Vzr70slsnRYIiXnBUgYBXa9uKpz8ZDYM?=
- =?us-ascii?Q?j5zxd6e7FjUO0Sbl44LRGssLpkHAz/O6VQ2hImw9Lny58u8LdzK+dg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2024 17:46:18.7071
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 914034bc-590a-433e-5265-08dd19428d7f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECD9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7653
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:YH2jGO95AdX7oPzjLch72mMQO5TSMAiGw1gFaJeEQ8bYIyNDqgc
+ 6uSgtqvI9N/SkrLZTX1E6RaIcOyizSttMBzs8K0GBkymI7PI0gVKjgBjRbWt3v15dHMwrUB
+ TDTfMznV2ZtimFGzzYvWbxC4eUDek+mUYN1VTrm0ECvtnu7DTYIgGlzGfwNRmcwPHn31lYI
+ dWAAq4hReSBo5+Qe1ui9A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:f1o3tPPtBnU=;vSmAOKOkEElLwW6kf2XQdeBsfMF
+ YUVRGvNG7ndwxxTCRvVKx/FNa2Uk71AGWTIFfjo2LzpPv1+BZAx9WkTiVS6J4RYSrkz4eU51c
+ 32Auwoj6FUbodmHP2jKZltaXeYzefZ19oTIeJJfXZP8axMGz9Kh0ILZrbrVDt0P6zlRWOCy/u
+ w9w2nH7t6KYUXoEeoR45iZ2Wsb6rhPSGUatO3xlpW6OnLEG2r+r8CLQDftt4rSnvi55j3gOmg
+ kNltiO1AvMAIxWzl+92m0AdEUACxRGwDRT98o7U3tL/tB0fs7m3eLF70xIu6j8Ft8ryZMfOIe
+ NKNVI9zqI3qo0GEHpJ2XG221RutkKlLT7mb3QgPL5NgYrI1W8o049e4f5hsoQ483zsGGD6vI9
+ qtzuh89Ie9ldy52m9IMnhCJfDuaWMLvFPwV1QATZWTxWLAKnJ2TS5kjl2Tg9YgWjX3PugEr7H
+ RTth/KNa805ChPXzsOYpvVrsKfAQtbsV1LytI36zIHmNTBihX9yKrQpXxF4EwGfXNtYbG5tap
+ 1FBFVfjrsNKknJ4l4UhP8qKRdgZ52RM+jXNNNzJ0E0WWcTiDD6Yipt6yyK9oH9qG8bE6YjQBL
+ qXVD1fYaEQS7Limq/9B+YNvE2v7DqWjyIOF/FTuA3PBC22mRsapTYi3pw3+NKeGbrDmmsYkER
+ 3ewSj/2jNeLfHQS0r24wbE0kHrKlX/QiY6kJIk8poIps92+CbpKrG6oc350RsFIwIu1TS++Yi
+ Mx71vH8hU7D984VM1K+gsU8pRwOFGzXz/wpjL32kRWqWfB4/71683mP0Lu4rXOet7Bk6TxmWP
+ F7ObvdQTAjCtg89IsysBes7aCmCspujilY1QnZGcNL6c0yUCuQEXMA5Esdh3amv22/fuOf9X7
+ zZ7D3j0HNfpYWUZ+PKxBa+ihw4MiE1pG9cK1tJGQxGoqdCNGWwVsfzNcrS+VRMyL33K3vkxei
+ tD/wv+p87Khm+pmE+ALTWWPcm+14b43Ago1aY6YRD+4KpoJfoJen0EaguY8Da9n3bqgGws3vk
+ /zah2f1Zk6OoHdiiRB4iCWz42O9QGDscsOrbzr+
 
-By registering the vic with actmon, engine load information can be
-exported to the user through debugfs for engine profiling purpose.
+On Fri, 6 Dec 2024 17:01:01 +0100
+Thierry Reding <thierry.reding@gmail.com> wrote:
 
-Signed-off-by: Johnny Liu <johnliu@nvidia.com>
----
- drivers/gpu/drm/tegra/vic.c | 39 ++++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/tegra/vic.h |  9 +++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
+> On Fri, Dec 06, 2024 at 08:42:03AM -0500, Parker Newman wrote:
+> > On Wed, 4 Dec 2024 19:06:30 +0100
+> > Thierry Reding <thierry.reding@gmail.com> wrote:
+> >
+> > > On Wed, Dec 04, 2024 at 11:53:17AM -0500, Parker Newman wrote:
+> > > > On Wed, 4 Dec 2024 17:23:53 +0100
+> > > > Thierry Reding <thierry.reding@gmail.com> wrote:
+> > > >
+> > > > > On Tue, Nov 19, 2024 at 02:47:29PM -0500, Parker Newman wrote:
+> > > > > > On Tue, 19 Nov 2024 20:18:00 +0100
+> > > > > > Andrew Lunn <andrew@lunn.ch> wrote:
+> > > > > >
+> > > > > > > > I think there is some confusion here. I will try to summar=
+ize:
+> > > > > > > > - Ihe iommu is supported by the Tegra SOC.
+> > > > > > > > - The way the mgbe driver is written the iommu DT property=
+ is REQUIRED.
+> > > > > > >
+> > > > > > > If it is required, please also include a patch to
+> > > > > > > nvidia,tegra234-mgbe.yaml and make iommus required.
+> > > > > > >
+> > > > > >
+> > > > > > I will add this when I submit a v2 of the patch.
+> > > > > >
+> > > > > > > > - "iommus" is a SOC DT property and is defined in tegra234=
+.dtsi.
+> > > > > > > > - The mgbe device tree nodes in tegra234.dtsi DO have the =
+iommus property.
+> > > > > > > > - There are no device tree changes required to to make thi=
+s patch work.
+> > > > > > > > - This patch works fine with existing device trees.
+> > > > > > > >
+> > > > > > > > I will add the fallback however in case there is changes m=
+ade to the iommu
+> > > > > > > > subsystem in the future.
+> > > > > > >
+> > > > > > > I would suggest you make iommus a required property and run =
+the tests
+> > > > > > > over the existing .dts files.
+> > > > > > >
+> > > > > > > I looked at the history of tegra234.dtsi. The ethernet nodes=
+ were
+> > > > > > > added in:
+> > > > > > >
+> > > > > > > 610cdf3186bc604961bf04851e300deefd318038
+> > > > > > > Author: Thierry Reding <treding@nvidia.com>
+> > > > > > > Date:   Thu Jul 7 09:48:15 2022 +0200
+> > > > > > >
+> > > > > > >     arm64: tegra: Add MGBE nodes on Tegra234
+> > > > > > >
+> > > > > > > and the iommus property is present. So the requires is safe.
+> > > > > > >
+> > > > > > > Please expand the commit message. It is clear from all the q=
+uestions
+> > > > > > > and backwards and forwards, it does not provide enough detai=
+ls.
+> > > > > > >
+> > > > > >
+> > > > > > I will add more details when I submit V2.
+> > > > > >
+> > > > > > > I just have one open issue. The code has been like this for =
+over 2
+> > > > > > > years. Why has it only now started crashing?
+> > > > > > >
+> > > > > >
+> > > > > > It is rare for Nvidia Jetson users to use the mainline kernel.=
+ Nvidia
+> > > > > > provides a custom kernel package with many out of tree drivers=
+ including a
+> > > > > > driver for the mgbe controllers.
+> > > > > >
+> > > > > > Also, while the Orin AGX SOC (tegra234) has 4 instances of the=
+ mgbe controller,
+> > > > > > the Nvidia Orin AGX devkit only uses mgbe0. Connect Tech has c=
+arrier boards
+> > > > > > that use 2 or more of the mgbe controllers which is why we fou=
+nd the bug.
+> > > > >
+> > > > > Correct. Also, this was a really stupid thing that I overlooked.=
+ I don't
+> > > > > recall the exact circumstances, but I vaguely recall there had b=
+een
+> > > > > discussions about adding the tegra_dev_iommu_get_stream_id() hel=
+per
+> > > > > (that this patch uses) around the time that this driver was crea=
+ted. In
+> > > > > the midst of all of this I likely forgot to update the driver af=
+ter the
+> > > > > discussions had settled.
+> > > > >
+> > > > > Anyway, I agree with the conclusion that we don't need a compati=
+bility
+> > > > > fallback for this, both because it would be actively wrong to do=
+ it and
+> > > > > we've had the required IOMMU properties in device tree since the=
+ start,
+> > > > > so there can't be any regressions caused by this.
+> > > > >
+> > > > > I don't think it's necessary to make the iommus property require=
+d,
+> > > > > though, because there's technically no requirement for these dev=
+ices to
+> > > > > be attached to an IOMMU. They usually are, and it's better if th=
+ey are,
+> > > > > but they should be able to work correctly without an IOMMU.
+> > > > >
+> > > > Thanks for confirming from the Nvidia side! I wasn't sure if they =
+would
+> > > > work without the iommu. That said, if you did NOT want to use the =
+iommu
+> > > > and removed the iommu DT property then the probe will fail after m=
+y patch.
+> > > > Would we not need a guard around the writes to MGBE_WRAP_AXI_ASID0=
+_CTRL as well?
+> > >
+> > > Well... frankly, I don't know. There's an override in the memory
+> > > controller which we set when a device is attached to an IOMMU. That'=
+s
+> > > usually how the stream ID is programmed. If we don't do that it will
+> > > typically default to a special passthrough stream ID (technically th=
+e
+> > > firmware can lock down those register and force them to a specific
+> > > stream ID all the time). I'm not sure what exactly the impact is of
+> > > these ASID registers (there's a few other instances where those are
+> > > needed). They are required if you want to use the IOMMU, but I don't
+> > > know what their meaning is if the IOMMU is not enabled.
+> > >
+> > > There's also different cases: the IOMMU can be disabled altogether, =
+in
+> > > which case no page tables and such exist for any device and no
+> > > translation should happen whatsoever. But there's also the case wher=
+e an
+> > > IOMMU is enabled, but certain devices shouldn't attach to them. I sh=
+ould
+> > > make it very clear that both of these are not recommended setups and=
+ I
+> > > don't know if they'll work. And they are mostly untested. I've been
+> > > meaning, but haven't found the time, to test some of these cases.
+> > >
+> >
+> > Yes I agree, all of those situations are very niche and not recommende=
+d for
+> > a Tegra platform that should always have the iommu enabled anyways. Ad=
+ding an
+> > iommu bypass would probably be outside of the scope of this patch.
+> >
+> > I will not add a patch marking the iommu as required in the device tre=
+e
+> > bindings when I submit v2 unless anyone else feels different.
+>
+> I was able to find a bit more information on this. Starting with
+> Tegra234 it's usually no longer possible to even enable bypass. It can
+> still be done, but it needs to be carefully coordinated between the
+> secure bootloader/firmware and the OS. Basically the secure firmware
+> can lock down the ability to bypass the IOMMU. If the firmware was
+> configured to allow bypass, the driver can then do so by writing the
+> special stream ID 0x7f into the stream ID register.
+>
+> On these newer chips the memory controller override no longer has any
+> effect and writing the per-device stream ID registers is the only way to
+> attach to the IOMMU.
+>
+> There's still the case where you can disable the IOMMU altogether, in
+> which case the IOMMU will still be bypassed, no matter what the firmware
+> did. My understanding is that it doesn't matter in those cases whether
+> we write the stream ID registers or not, they will simply get ignored.
+> With one exception perhaps being the bypass SID. If you write that, then
+> there's a protection mechanism that kicks in.
+>
+> Well, after all this this still isn't entirely clear to me, but I think
+> what it means in a nutshell is that a) we'll want to keep the IOMMU
+> always on for security and because the firmware is by default configured
+> to not allow bypassing, b) IOMMU isn't strictly required because the
+> IOMMU might be completely disabled and c) we shouldn't need to
+> conditionalize the stream ID register writes.
+>
+> That said, the tegra_dev_iommu_get_stream_id() function returns a bool
+> specifically to support the latter case. So the intention with the
+> design was that drivers would call that function and only need to write
+> the stream ID register if it returns true. That's not always great
+> because you may want (or need) to rewrite the register after suspend/
+> resume, in which case you probably want to resort to a cached value
+> rather than call that API. On the other hand the API is quite simple, so
+> it could serve as a cache as well.
+>
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 332c9b563d3f4..54c9b9b2af0a2 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2015, NVIDIA Corporation.
-+ * SPDX-FileCopyrightText: Copyright (c) 2015-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-  */
- 
- #include <linux/clk.h>
-@@ -302,6 +302,28 @@ static int vic_load_firmware(struct vic *vic)
- 	return err;
- }
- 
-+static void vic_actmon_reg_init(struct vic *vic)
-+{
-+	vic_writel(vic,
-+		   VIC_TFBIF_ACTMON_ACTIVE_MASK_STARVED |
-+		   VIC_TFBIF_ACTMON_ACTIVE_MASK_STALLED |
-+		   VIC_TFBIF_ACTMON_ACTIVE_MASK_DELAYED,
-+		   NV_PVIC_TFBIF_ACTMON_ACTIVE_MASK);
-+	vic_writel(vic,
-+		   VIC_TFBIF_ACTMON_ACTIVE_BORPS_ACTIVE,
-+		   NV_PVIC_TFBIF_ACTMON_ACTIVE_BORPS);
-+}
-+
-+static void vic_count_weight_init(struct vic *vic, unsigned long rate)
-+{
-+	struct host1x_client *client = &vic->client.base;
-+	u32 weight = 0;
-+
-+	host1x_actmon_update_client_rate(client, rate, &weight);
-+
-+	if (weight)
-+		vic_writel(vic, weight, NV_PVIC_TFBIF_ACTMON_ACTIVE_WEIGHT);
-+}
- 
- static int __maybe_unused vic_runtime_resume(struct device *dev)
- {
-@@ -328,6 +350,10 @@ static int __maybe_unused vic_runtime_resume(struct device *dev)
- 	if (err < 0)
- 		goto assert;
- 
-+	vic_actmon_reg_init(vic);
-+	vic_count_weight_init(vic, clk_get_rate(vic->clk));
-+	host1x_actmon_enable(&vic->client.base);
-+
- 	return 0;
- 
- assert:
-@@ -352,6 +378,8 @@ static int __maybe_unused vic_runtime_suspend(struct device *dev)
- 
- 	clk_disable_unprepare(vic->clk);
- 
-+	host1x_actmon_disable(&vic->client.base);
-+
- 	return 0;
- }
- 
-@@ -520,12 +548,20 @@ static int vic_probe(struct platform_device *pdev)
- 		goto exit_falcon;
- 	}
- 
-+	err = host1x_actmon_register(&vic->client.base);
-+	if (err < 0) {
-+		dev_info(&pdev->dev, "failed to register host1x actmon: %d\n", err);
-+		goto exit_client;
-+	}
-+
- 	pm_runtime_enable(dev);
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_set_autosuspend_delay(dev, 500);
- 
- 	return 0;
- 
-+exit_client:
-+	host1x_client_unregister(&vic->client.base);
- exit_falcon:
- 	falcon_exit(&vic->falcon);
- 
-@@ -537,6 +573,7 @@ static void vic_remove(struct platform_device *pdev)
- 	struct vic *vic = platform_get_drvdata(pdev);
- 
- 	pm_runtime_disable(&pdev->dev);
-+	host1x_actmon_unregister(&vic->client.base);
- 	host1x_client_unregister(&vic->client.base);
- 	falcon_exit(&vic->falcon);
- }
-diff --git a/drivers/gpu/drm/tegra/vic.h b/drivers/gpu/drm/tegra/vic.h
-index acf35aac948b2..905cd7bfde2f6 100644
---- a/drivers/gpu/drm/tegra/vic.h
-+++ b/drivers/gpu/drm/tegra/vic.h
-@@ -21,6 +21,15 @@
- #define CG_IDLE_CG_EN				(1 << 6)
- #define CG_WAKEUP_DLY_CNT(val)			((val & 0xf) << 16)
- 
-+#define NV_PVIC_TFBIF_ACTMON_ACTIVE_MASK	0x0000204c
-+#define NV_PVIC_TFBIF_ACTMON_ACTIVE_BORPS	0x00002050
-+#define NV_PVIC_TFBIF_ACTMON_ACTIVE_WEIGHT	0x00002054
-+
-+#define VIC_TFBIF_ACTMON_ACTIVE_MASK_STARVED	BIT(0)
-+#define VIC_TFBIF_ACTMON_ACTIVE_MASK_STALLED	BIT(1)
-+#define VIC_TFBIF_ACTMON_ACTIVE_MASK_DELAYED	BIT(2)
-+#define VIC_TFBIF_ACTMON_ACTIVE_BORPS_ACTIVE	BIT(7)
-+
- #define VIC_TFBIF_TRANSCFG	0x00002044
- #define  TRANSCFG_ATT(i, v)	(((v) & 0x3) << (i * 4))
- #define  TRANSCFG_SID_HW	0
--- 
-2.34.1
+I guess I could add an IS_ENABLED(CONFIG_IOMMU_API) check if
+tegra_dev_iommu_get_stream_id() returns false in probe?
 
+That would cover if the IOMMU_API is not enabled but not if the Tegra's
+iommu is disabled in other ways.
+
+-Parker
 
