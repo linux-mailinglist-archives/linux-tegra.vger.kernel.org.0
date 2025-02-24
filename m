@@ -1,116 +1,120 @@
-Return-Path: <linux-tegra+bounces-5264-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5268-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A561EA41AD3
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2025 11:25:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8ACDA41F12
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2025 13:32:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04AA01891AB5
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2025 10:25:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A3EA16203A
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2025 12:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1824224E4B7;
-	Mon, 24 Feb 2025 10:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F61223370C;
+	Mon, 24 Feb 2025 12:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="K/ekEqEO"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21523241669;
-	Mon, 24 Feb 2025 10:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08EF5219300;
+	Mon, 24 Feb 2025 12:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740392701; cv=none; b=Xs7dJx73FuxmLk6mnDerfYovR+2sEPI890XguJaZKq5blgY0i7zRHj/oBFNQr8KsGjKI9KtxCgJ0J0dFaHlsdpM2i4tkL+gzEXEj8sN4JFHD2AR2JTkLkORRT9CTkQ56jLnFMlTvwpdA02kLrsnZPghLsqO28iTcSb7hb5w9VPU=
+	t=1740399980; cv=none; b=KCkIBHgJsmgsKAtxBZuE2UvhAD2Gfb1b5cRYb++MwOB9iSkiG1CaKdKuVPtlXPjXV21K0s7T0E9z71nCGvU5wzUt7i+LRdXT9BGIKoIP1pKkyToLMbV+PT7IoBkd3eMagXaEjl5rycTnEF85Z+pWvBVBbSWHmdH2OULnLlsXC8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740392701; c=relaxed/simple;
-	bh=FN8iFgeI6rosvaokiG/UoUpgH0k0DiZJJ6LLcQceCXI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wp67eR/7xQTY1/5HVdnu0CSGa85u7ahu0M8pea2wK19WfeYlzHPgV7DfxdyZCgjaBmt9tWm6y4ndEvo/q7YTcpig14wl1Ff/+7zRvYefBR0faIhgbeIya6eZSWv25232ldvlKlVpuUDlDxbMq6Vz1UmnureICsNwC4OBaTEp7Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A75D1E7D;
-	Mon, 24 Feb 2025 02:25:14 -0800 (PST)
-Received: from [10.57.38.222] (unknown [10.57.38.222])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D51B3F673;
-	Mon, 24 Feb 2025 02:24:53 -0800 (PST)
-Message-ID: <ecd2190d-09a2-4e7e-a076-08f517fe20de@arm.com>
-Date: Mon, 24 Feb 2025 11:24:51 +0100
+	s=arc-20240116; t=1740399980; c=relaxed/simple;
+	bh=G2N23KBDZVV/hHfklrc38BAnNkdsiijRT8unv63gSxk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=m1WA1CTDrix8HDptQ8W74k7Q5GcTqI06570fX2yPPZGxmbGl+2cOIwEQC+ktxj68tAMFRq6ZMImvWeWL7fF7f23xcpbdAURP1rgYGJq26yLXGMMxqX8hLnDWNP59Vz3rrrDtvMbeFjMEfJTS9tz1/ADqkfduV+0D8uH7yAJkdn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=K/ekEqEO; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id CA92E600023C;
+	Mon, 24 Feb 2025 12:17:51 +0000 (WET)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id y6bHkwreMmQl; Mon, 24 Feb 2025 12:17:49 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 84A7D6000222;
+	Mon, 24 Feb 2025 12:17:49 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail; t=1740399469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eUghrrODC5tYhJWWxxitsDp6QHNc46doVfbUxtKXhPk=;
+	b=K/ekEqEOkW6Lup0Ki8fo7kRM/u64l7Kq6ENY4EpNHs/CjxEyLDBDnUZ7Gu/7co/n2BEl9j
+	4DS1DYPN10lCjDzu6h1ACuEBqc66g0MvTTJ28tBBUD0zhRE+mz1kGcsQfBhy/a+6HHucTn
+	Hj4HdEwBsIspTWLP4BJxpVRGUGtcdb0=
+Received: from [192.168.1.72] (unknown [IPv6:2001:8a0:fbe2:fb00:fc96:36d2:d34:1e80])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 1CC9036012D;
+	Mon, 24 Feb 2025 12:17:49 +0000 (WET)
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Subject: [PATCH 0/4] arm64: tegra: Small hardware enablement for Jetson TX1
+Date: Mon, 24 Feb 2025 12:17:35 +0000
+Message-Id: <20250224-diogo-gpio_exp-v1-0-80fb84ac48c6@tecnico.ulisboa.pt>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch 3/5] ACPI: CPPC: support updating epp, auto_sel and
- {min|max_perf} from sysfs
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- sashal@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
- sanjayc@nvidia.com, bbasu@nvidia.com
-References: <20250211103737.447704-1-sumitg@nvidia.com>
- <20250211103737.447704-4-sumitg@nvidia.com>
-Content-Language: en-US
-From: Pierre Gondois <pierre.gondois@arm.com>
-In-Reply-To: <20250211103737.447704-4-sumitg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF9jvGcC/x3MQQqAIBBG4avErBNsSKiuEhGRvzYbFYUIwrsnL
+ b/Fey8VZEGhpXsp45YiMTQMfUfndQQPJbaZWLPRzKOyEn1UPknc8STFzhpzYpxmHNSilOHk+Yf
+ rVusHxCUJh2AAAAA=
+X-Change-ID: 20250224-diogo-gpio_exp-2fd55ce489ea
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740399469; l=1333;
+ i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
+ bh=G2N23KBDZVV/hHfklrc38BAnNkdsiijRT8unv63gSxk=;
+ b=mE/BN4tb/ccwuOkH/IKl3s8ubezZ/zCen9t6QmDIv6rOzRE5nkcdL4coPjYxYTftAsOWzlkY9
+ TrsaMKH2HVRBhJQm6JIaGFhznfprsxiyp/94rrNtGoCGYag7TqBDPs2
+X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
+ pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
 
-Hello Sumit,
+This series consists of Device Tree changes enabling two features:
+ - Using both TCA9539 GPIO expanders found on P2597 as IRQ controllers
+ - TMP451 temperature sensor found on P2180
 
-On 2/11/25 11:37, Sumit Gupta wrote:
-> Add support to update the CPC registers used for Autonomous
-> Performance Level Selection from acpi_cppc sysfs store nodes.
-> Registers supported for updation are:
-> - Engergy Performance Preference (EPP): energy_perf
-> - Autonomous Selection: auto_sel
-> - Maximum Performance: max_perf
-> - Minimum Performance: min_perf
-> 
-> Also, enable show nodes to read of the following CPC registers:
-> - Performance Limited: perf_limited
-> - Autonomous Activity Window: auto_activity_window
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->   drivers/acpi/cppc_acpi.c | 191 ++++++++++++++++++++++++++++++++++++---
->   include/acpi/cppc_acpi.h |   5 +
->   2 files changed, 183 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
-> index cc2bf958e84f..c60ad66ece85 100644
-> --- a/drivers/acpi/cppc_acpi.c
-> +++ b/drivers/acpi/cppc_acpi.c
+For the first feature some preparation is needed:
+ - Patch 01: fix the enable GPIO line number for a regulator, freeing an
+   	     exposed line on P2597 expansion header J21
+ - Patch 02: add voltage level pinctrl information
+ - Patch 03: fill the TCA9539 DT nodes for IRQ controller operation
 
-[...]
+Patch 04 simply adds the TMP451 node to the Device Tree of the P2180
+module.
 
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, highest_perf, ro);
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, lowest_perf, ro);
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, nominal_perf, ro);
-> @@ -177,9 +304,16 @@ sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, lowest_nonlinear_perf, ro);
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, guaranteed_perf, ro);
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, lowest_freq, ro);
->   sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, nominal_freq, ro);
-> +sysfs_cppc_data(cppc_get_perf_caps, cppc_perf_caps, auto_sel, rw);
->   
->   sysfs_cppc_data(cppc_get_perf_fb_ctrs, cppc_perf_fb_ctrs, reference_perf, ro);
->   sysfs_cppc_data(cppc_get_perf_fb_ctrs, cppc_perf_fb_ctrs, wraparound_time, ro);
-> +sysfs_cppc_data(cppc_get_perf_fb_ctrs, cppc_perf_fb_ctrs, perf_limited, ro);
-> +
-> +sysfs_cppc_data(cppc_get_perf_ctrls, cppc_perf_ctrls, min_perf, rw);
-> +sysfs_cppc_data(cppc_get_perf_ctrls, cppc_perf_ctrls, max_perf, rw);
+Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+---
+Diogo Ivo (4):
+      arm64: tegra: p2597: Fix gpio for vdd-1v8-dis regulator
+      arm64: tegra: Define pinmuxing for gpio pads on Tegra210
+      arm64: tegra: p2597: Enable TCA9539 as IRQ controllers
+      arm64: tegra: p2180: Add TMP451 temperature sensor node
 
-IIUC, this means that users can modify the min/max performance levels of the CPU
-without having the cpufreq framework notified. Meaning that if a user modifies these
-levels, the frequency selection will be done using the initial min/max performance
-level.
-I think it would be better not allow users to modifies these values directly. Reliying
-on existing scaling_min_freq/scaling_max_freq files would be better IMO.
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi | 13 +++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 20 +++++++++++++++++++-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 10 ++++++++++
+ 3 files changed, 42 insertions(+), 1 deletion(-)
+---
+base-commit: 737742d382b6d05aa785f041723cc7f10d4824dd
+change-id: 20250224-diogo-gpio_exp-2fd55ce489ea
 
-Regards,
-Pierre
+Best regards,
+-- 
+Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+
 
