@@ -1,65 +1,72 @@
-Return-Path: <linux-tegra+bounces-5353-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5349-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6AAA45B95
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Feb 2025 11:19:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C97A459C0
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Feb 2025 10:16:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 409227A85D1
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Feb 2025 10:18:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71753167171
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Feb 2025 09:16:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABCC213256;
-	Wed, 26 Feb 2025 10:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5144C22425A;
+	Wed, 26 Feb 2025 09:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="cAE1KzUs"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="pd0qKB6S"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8CA21C9E4;
-	Wed, 26 Feb 2025 10:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62E22036EB;
+	Wed, 26 Feb 2025 09:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740565192; cv=none; b=GOqSGTovpdejJH08hVNB4kqI0abMifPh5lnh+XsUqWyHZmW5TNFLjRRZ+Zfql26GbcHEG96qC7SgFtOeTd/lN7hJ2zv43Y53WF8P123dXSbnjAyOMPGlaeUGpPzA16QS5lS8s8LdJc/JbYqKS7i4gH0tIuvO2z0pyWa4CLFuzqU=
+	t=1740561362; cv=none; b=KsVk72lzdTsingQjpoM3MiX4lWUOMwdMZ+h3gX5km4zqYD01GheEFOoefo/gXzygkGJ/kaZGlHuwcgbRhdOPEsT8bWnWF0R8ebO8/lhiBpGFKiAVaRM1pxEMCPfUM8iUGm0A3divKQ2S0rBmQ8M9eT/jasadM3BR7ej33bL2uL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740565192; c=relaxed/simple;
-	bh=mbN2m0EpH8LQ6sVgK+ooq3M28nLWYE+cBynmDz6o5kg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VMnV+pnDELP3KDyaMdk+yPhjA+AyMTHAzWXwGDtMQsoOIvGLPXBvbmGsxcx1PEk6IdJzja8tDrMv1qcTrTtIFirEXkFJKM1XQVsDoVOFNJv0AJzEW7FFsuf05ING+w7isgfhTzZg8qpFhGdihypa39GURgcItvgS050e6JvAqOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=cAE1KzUs; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51Q8gGpm004998;
-	Wed, 26 Feb 2025 11:18:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	MlTVB78Bxku5VTa57kqTeAEK8EBqya2T3N8W9o9jXJc=; b=cAE1KzUseBXfhSJQ
-	S1O7NDJXDSxLRYq+LMpwPw3qrr6KbywYmdEtnzSbWsluuwCuiGsK+kNow6iT3ys7
-	2tvkEHCxh+8gDlLnLQSeTvJuoPozwTNkc4ndZ2dljHNKTflXnzRC6aDGPlC4pv2M
-	8Q1RFoHhnsgmEHa/XcLdbfgmYDVcJCmcHghZKF6jN6FQRbdij1tvpFH96RpyVMWj
-	s2Hzn2zKG3UIyrTyuZsP+ZwLUsHFdqcYNQ+//EJlnsl7Dt+Dn7FFqCKhGHyYGnZQ
-	d9nnVCLG3bPbwDCuud27z/r9AlswNQVFC3vtu0xQVJPuqIttjaH9qEpEW8rtxQac
-	DzzEcg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 451pst3am7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Feb 2025 11:18:13 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1C2BC40053;
-	Wed, 26 Feb 2025 11:14:00 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6D6D757B521;
-	Wed, 26 Feb 2025 10:06:16 +0100 (CET)
-Received: from [10.129.178.211] (10.129.178.211) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Feb
- 2025 10:06:14 +0100
-Message-ID: <24958ae8-6153-4798-abeb-e770d66ca8e4@foss.st.com>
-Date: Wed, 26 Feb 2025 10:06:14 +0100
+	s=arc-20240116; t=1740561362; c=relaxed/simple;
+	bh=HmmdzVTTi/DjoKLcmrxW1fMIoviGanIxaCaW6zxswLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=lM6QbtjS/VosFiKvstSycQs4ZNkECaPC+JCcWdXFiRcThHzrX+bAJDRNrZjCQapx6BlTO0v0LcLY6rkA8ezMRtacHxikRj5FKdqo3PYVkn6bkHtFQjVsY5V3LpQaDmSqiLQqsOc7VQSdvhI7nF2zH6r78FPhbaG49KlAYCqnjd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=pd0qKB6S; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250226091557euoutp0161733e589313a5d360143bf659ed2ac4~nt1UUMSFJ0235702357euoutp018;
+	Wed, 26 Feb 2025 09:15:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250226091557euoutp0161733e589313a5d360143bf659ed2ac4~nt1UUMSFJ0235702357euoutp018
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1740561357;
+	bh=jfJCJyoMIpaltaIU+7lWbslcg8FIPqfxsGd8Aa/3U4g=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=pd0qKB6SEv3qSWA5608B8oO2iGWR7WjfUjY2eZgAJKutotBUbf09dxzRJ6HokEIfl
+	 SENoGO7kGj+s5+5W9pcnL1jlx+tZjJeceP8qzzOTwn25j197LEY2e5ro61VeUURHeg
+	 tpP39Yc9WB7YuWNRDkkxYYqX3jPJHhQLSkY8WSSc=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20250226091556eucas1p29db20e03f1f9ea1782103d1167564e1b~nt1T3fxAv0815308153eucas1p2U;
+	Wed, 26 Feb 2025 09:15:56 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id B1.88.20397.CCBDEB76; Wed, 26
+	Feb 2025 09:15:56 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250226091555eucas1p1320cf0ed08b514c5259710476a930e60~nt1TNvpGD1197611976eucas1p1P;
+	Wed, 26 Feb 2025 09:15:55 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250226091555eusmtrp1d211ba6163f39cbff93c4ff3e854775d~nt1TMYUVW3155431554eusmtrp1P;
+	Wed, 26 Feb 2025 09:15:55 +0000 (GMT)
+X-AuditID: cbfec7f5-e59c770000004fad-b0-67bedbccae7f
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 40.E0.19920.BCBDEB76; Wed, 26
+	Feb 2025 09:15:55 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250226091552eusmtip1c4c7761f98c6c76160fa00aed2a5042b~nt1QGGXF83166531665eusmtip1L;
+	Wed, 26 Feb 2025 09:15:52 +0000 (GMT)
+Message-ID: <1a6f693d-5ebe-46f5-be89-5edc0e77e316@samsung.com>
+Date: Wed, 26 Feb 2025 10:15:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -67,343 +74,208 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 07/12] drm/sti: move to
- devm_platform_ioremap_resource() usage
-To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard
-	<mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Andrew Jeffery
-	<andrew@codeconstruct.com.au>,
-        Stefan Agner <stefan@agner.ch>, Alison Wang
-	<alison.wang@nxp.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Tian Tao
-	<tiantao6@hisilicon.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Sumit
- Semwal <sumit.semwal@linaro.org>,
-        Yongqin Liu <yongqin.liu@linaro.org>,
-        John
- Stultz <jstultz@google.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp
- Zabel <p.zabel@pengutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Marek
- Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Raphael Gallais-Pou
-	<rgallaispou@gmail.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen
-	<mperttunen@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alexey
- Brodkin <abrodkin@synopsys.com>,
-        Dave Stevenson
-	<dave.stevenson@raspberrypi.com>,
-        =?UTF-8?Q?Ma=C3=ADra_Canal?=
-	<mcanal@igalia.com>,
-        Raspberry Pi Kernel Maintenance
-	<kernel-list@raspberrypi.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <imx@lists.linux.dev>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
+Subject: Re: [PATCH v3 21/23] iommu/pages: Remove iommu_alloc_page/pages()
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+	asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>, David Woodhouse
+	<dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
+	iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan
+	Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Krzysztof
+	Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, Hector Martin <marcan@marcan.st>, Palmer
+	Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Sven Peter
+	<sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>, Tomasz
+	Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu
+	Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev, David
+	Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
 Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-26_02,2025-02-26_01,2024-11-22_01
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <21-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVBUVRjGO/fevbsws3BlKY5Wg22YxQRCinMaya9JvUMzGs1kTM0oK1wX
+	AlbbZROKmdD4WlAEwYKLLjvm8CEbrCxugYTthrBAgkAZ8hFfWwQIhECwLLKxXCz++z3v+5zz
+	vO+ZOQLcbYjcJIiUxTJymSRaTDoThgZrq8/PPXVSv3N5G9GA2kCiqpZMgG7ZWD6y/uqCLp8F
+	SJ99i0TZpTk4sg+N89DiLEIjheUA/bJcC1ASe41AqgIdH+U0X8VQW9sKVQ4/4CHDTBKJHg/Y
+	cZTXVoeh3LoaEqlmWRK1PNDw0WjneRw1WxNQp7kDoBTWFaVcv4kh498WHhoZUq3kLWgAWuqx
+	Y8haoybQbFEqQJk/vIespjYMJfUGINvCFXLvFtpiVGN0cscTktaqtYDWDZXx6EejowT9U9os
+	n65m+/i0plJJ60u86cobKpJWNwXT+utf0H/p8wH9TVE1SV/4cpKku9iQdzd+6BwYzkRHfsrI
+	t+0OdY4wTzwEp9u3xjWNDfISQfLmdOAkgNQOqG9IxNOBs8CNKgGwbzIHcGIWwLQ7lXxOzACo
+	q1nkPT1iaDWuuYoBNKdp18Q0gAU1D/kOl5DaDTPU7atMUFugyngb5+obYFO+hXDws5Qn7O/O
+	W/WIqCCoKrBjjovcKZsADo2WrzZwqg/AcZU3xx6w21KIOZik/GH6RDrpYCdqPzSXZGKcxxN+
+	N3FldSNILTjD5OoLODf327CvW7fGIjjWWMXn+AXYknOe4A6kAqix9WOcyAIwcaQbcK5dsLd1
+	cSVOsBLxGqyo2caV98Hi0mrMUYaUC+ya2MAN4QIvGb7GubIQpqW4ce5XINtY/l+s8X4HngXE
+	7Lp3Ydetya5bh/0/VwOIG8CDUSpipIxiu4w546uQxCiUMqlv2KmYSrDyDVqWG+e+ByVj074m
+	gAmACUABLnYXOkXWSt2E4ZL4zxj5qeNyZTSjMIHnBYTYQ3jtTrLUjZJKYpkohjnNyJ92MYHT
+	pkRMlHD74uay6SP5J94kXpW9tEBdMvZOZsyFNptkP0Lvk4qLuQcihkVhHTfvBum3nhz+pP+P
+	R74fHTv3VsjH/kvyg/mHXvynwbCdbfxgyis8v6Ki+J7yeNbv0aHio7Ga4GH7y/cfl9aH7Aya
+	yhApc+Ldz8abeDqZX2B7SsBcqDbsOXNQXPAOs6g06mjC8J9qS175VOoemesRUS6e0aWNzD4s
+	sN39bXDc6/CMPevqt4EZFwP2uN7r8fCMTjzIjyt8Y2R/lnC+VqeNaqvau9PPph4QaZrGijo/
+	T0ga/KrlgNd81644TeSJqqVn6oURRv93fLqMGt/3LcfOzE+yh163Lvvsq39SNiAVE4oIib83
+	LldI/gU/varkdQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMKsWRmVeSWpSXmKPExsVy+t/xu7qnb+9LNzi3StfiwbxtbBZbTvcx
+	Wmz9PYvd4udVPoupjYwWmyduZbOYuHIys8X/R69ZLX59sbB4Pn8do8WVf3sYLVpmLWKx6Jy9
+	gd1i8qm5TBbnzwNZmx5fY7XY9rmFzeLTg//MFjPO72OymLJvF5tF55dZbBanry1gt3h5uYfZ
+	4tTPGovLJy4xWrTN4rdoW7KRyeLghyesFs8fdQLt+7GA0eLP7f9MFj93zWOx+LKsndGib2+Q
+	xc9D55ksWu6YWvz+MYfNQdXjycF5TB6tl/6yeayZt4bRY8Oj1aweb16+ZPE43PGF3WPnrLvs
+	Hgs2lXpsXqHlsWlVJ5vHvJOBHpuX1Hu82DyT0WPxsp1sHr3N79g8bsyKCJCM0rMpyi8tSVXI
+	yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0Ms48fYmY8FF9YqTrx6y
+	NjC2KnQxcnJICJhIbDt3kLGLkYtDSGApo0T/l8vsEAkZiZPTGlghbGGJP9e62CCK3jNKLLw8
+	nQUkwStgJ9E97yJYA4uAqkTnwd3MEHFBiZMzn4DViArIS9y/NQOsRljAS6Jz9n8mEFtE4C+H
+	xMR+b5ChzAJ3GSUOLV7PBpIQEpjKKHFslQ+IzSwgLnHryXywBjYBQ4mut11gNZwCThInVvQx
+	QdSYSXRt7WKEsOUltr+dwzyBUWgWkjtmIRk1C0nLLCQtCxhZVjGKpJYW56bnFhvqFSfmFpfm
+	pesl5+duYgSmvm3Hfm7ewTjv1Ue9Q4xMHIyHGCU4mJVEeDkz96QL8aYkVlalFuXHF5XmpBYf
+	YjQFBsZEZinR5Hxg8s0riTc0MzA1NDGzNDC1NDNWEud1u3w+TUggPbEkNTs1tSC1CKaPiYNT
+	qoFpXur+pXc6TXhT/bYZpk0InGB9IsTsWvpbcd5APuNKY8XdpYqxy5mNlbWz12b3d7e+k19p
+	122ov7wzeJZ7k5jY0+vafy7qLDWZrPbX2VNdL2X9dt/WZ+/aP2Y5GNXynNZmaF5UUaMT717x
+	x+1sn6iJl987u/dO8QzW0Q/chWOyVv5rdziy5/jmKtmTd86xBtwN1rG8slGg40SSzZsbS2d/
+	S7jv5fn8WCFv08TYphK3SYaC3IvfddqdmSN2VrdNONatdf/9n8s/KU7SOh65djPjDTWuGT7C
+	Da1igRmrC5b/9me7vDX/7Skdmx3pZQZbZPz2nNXaHrJ7donPvNAYafP3J0vXRH8+t/yUsMIi
+	ayWW4oxEQy3mouJEAGWS78wGBAAA
+X-CMS-MailID: 20250226091555eucas1p1320cf0ed08b514c5259710476a930e60
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250225194054eucas1p14df0adad570f01d8a8f93a0042555a51
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250225194054eucas1p14df0adad570f01d8a8f93a0042555a51
+References: <CGME20250225194054eucas1p14df0adad570f01d8a8f93a0042555a51@eucas1p1.samsung.com>
+	<21-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
 
-
-On 2/25/25 23:20, Anusha Srivatsa wrote:
-> Replace platform_get_resource/_byname + devm_ioremap
-> with just devm_platform_ioremap_resource()
+On 25.02.2025 20:39, Jason Gunthorpe wrote:
+> A few small changes to the remaining drivers using these will allow
+> them to be removed:
 >
-> Used Coccinelle to do this change. SmPl patch:
+> - Exynos wants to allocate fixed 16K/8K allocations
+> - Rockchip already has a define SPAGE_SIZE which is used by the
+>    dma_map immediately following, using SPAGE_ORDER which is a lg2size
+> - tegra has size constants already for its two allocations
 >
-> @rule@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> constant mem;
-> expression name;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource_byname(pdev,mem,name);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
->
-> and
-> @rule_2@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource(pdev,...);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource(pdev,0);
->
-> v2: Fix compilation error.
-
-
-Hi Anusha, 
-
-
-You did not take into account my comment regarding the changelog. :-)
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#commentary
-
-While the commit summary do not specify the version, this changelog suggests
-that the version of your series as been incremented.
-If this is a v2, then a version descriptor should be applied to the patchset.
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#subject-line
-
-
-Regards,
-Raphaël
-
->
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+For exynos-iommu:
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
->  drivers/gpu/drm/sti/sti_compositor.c | 10 +---------
->  drivers/gpu/drm/sti/sti_dvo.c        | 10 +---------
->  drivers/gpu/drm/sti/sti_hda.c        |  9 +--------
->  drivers/gpu/drm/sti/sti_hdmi.c       | 11 +----------
->  drivers/gpu/drm/sti/sti_hqvdp.c      | 10 +---------
->  drivers/gpu/drm/sti/sti_tvout.c      | 10 +---------
->  drivers/gpu/drm/sti/sti_vtg.c        | 10 +---------
->  7 files changed, 7 insertions(+), 63 deletions(-)
+>   drivers/iommu/exynos-iommu.c   |  4 ++--
+>   drivers/iommu/iommu-pages.h    | 26 --------------------------
+>   drivers/iommu/rockchip-iommu.c |  6 ++++--
+>   drivers/iommu/tegra-smmu.c     |  4 ++--
+>   4 files changed, 8 insertions(+), 32 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-> index 063f82d23d80c4ba83624a0066a18416a2b37351..7aefce6706ba2cd7d97a33228c9b9812edecf06f 100644
-> --- a/drivers/gpu/drm/sti/sti_compositor.c
-> +++ b/drivers/gpu/drm/sti/sti_compositor.c
-> @@ -177,7 +177,6 @@ static int sti_compositor_probe(struct platform_device *pdev)
->  	struct device_node *np = dev->of_node;
->  	struct device_node *vtg_np;
->  	struct sti_compositor *compo;
-> -	struct resource *res;
->  	unsigned int i;
->  
->  	compo = devm_kzalloc(dev, sizeof(*compo), GFP_KERNEL);
-> @@ -194,14 +193,7 @@ static int sti_compositor_probe(struct platform_device *pdev)
->  
->  	memcpy(&compo->data, of_match_node(compositor_of_match, np)->data,
->  	       sizeof(struct sti_compositor_data));
+> diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
+> index 1019e08b43b71c..74337081278551 100644
+> --- a/drivers/iommu/exynos-iommu.c
+> +++ b/drivers/iommu/exynos-iommu.c
+> @@ -902,11 +902,11 @@ static struct iommu_domain *exynos_iommu_domain_alloc_paging(struct device *dev)
+>   	if (!domain)
+>   		return NULL;
+>   
+> -	domain->pgtable = iommu_alloc_pages(GFP_KERNEL, 2);
+> +	domain->pgtable = iommu_alloc_pages_sz(GFP_KERNEL, SZ_16K);
+>   	if (!domain->pgtable)
+>   		goto err_pgtable;
+>   
+> -	domain->lv2entcnt = iommu_alloc_pages(GFP_KERNEL, 1);
+> +	domain->lv2entcnt = iommu_alloc_pages_sz(GFP_KERNEL, SZ_8K);
+>   	if (!domain->lv2entcnt)
+>   		goto err_counter;
+>   
+> diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> index 3c4575d637da6d..4513fbc76260cd 100644
+> --- a/drivers/iommu/iommu-pages.h
+> +++ b/drivers/iommu/iommu-pages.h
+> @@ -100,20 +100,6 @@ static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp,
+>   	return iommu_alloc_pages_node_sz(nid, gfp, 1 << (order + PAGE_SHIFT));
+>   }
+>   
+> -/**
+> - * iommu_alloc_pages - allocate a zeroed page of a given order
+> - * @gfp: buddy allocator flags
+> - * @order: page order
+> - *
+> - * returns the virtual address of the allocated page
+> - * Prefer to use iommu_alloc_pages_lg2()
+> - */
+> -static inline void *iommu_alloc_pages(gfp_t gfp, int order)
+> -{
+> -	return iommu_alloc_pages_node_sz(NUMA_NO_NODE, gfp,
+> -					 1 << (order + PAGE_SHIFT));
+> -}
 > -
-> -	/* Get Memory ressources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (res == NULL) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENXIO;
-> -	}
-> -	compo->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	compo->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (compo->regs == NULL) {
->  		DRM_ERROR("Register mapping failed\n");
->  		return -ENXIO;
-> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-> index 4dcddd02629b6a1052be8fb8333bd3aa17c083c5..c877298a7f2bad171724eca4d43ea622db4c81cd 100644
-> --- a/drivers/gpu/drm/sti/sti_dvo.c
-> +++ b/drivers/gpu/drm/sti/sti_dvo.c
-> @@ -511,7 +511,6 @@ static int sti_dvo_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct sti_dvo *dvo;
-> -	struct resource *res;
->  	struct device_node *np = dev->of_node;
->  
->  	DRM_INFO("%s\n", __func__);
-> @@ -523,14 +522,7 @@ static int sti_dvo_probe(struct platform_device *pdev)
->  	}
->  
->  	dvo->dev = pdev->dev;
+>   /**
+>    * iommu_alloc_pages_sz - Allocate a zeroed page of a given size from
+>    *                          specific NUMA node
+> @@ -141,16 +127,4 @@ static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+>   	return iommu_alloc_pages_node_sz(nid, gfp, PAGE_SIZE);
+>   }
+>   
+> -/**
+> - * iommu_alloc_page - allocate a zeroed page
+> - * @gfp: buddy allocator flags
+> - *
+> - * returns the virtual address of the allocated page
+> - * Prefer to use iommu_alloc_pages_lg2()
+> - */
+> -static inline void *iommu_alloc_page(gfp_t gfp)
+> -{
+> -	return iommu_alloc_pages_node_sz(NUMA_NO_NODE, gfp, PAGE_SIZE);
+> -}
 > -
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dvo-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid dvo resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	dvo->regs = devm_ioremap(dev, res->start,
-> -			resource_size(res));
-> +	dvo->regs = devm_platform_ioremap_resource_byname(pdev, "dvo-reg");
->  	if (!dvo->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-> index 14fdc00d2ba03d4f96ba407ac8e576decb6f32c0..3ca3abb80d425901f4c031edfd327a770d624e1c 100644
-> --- a/drivers/gpu/drm/sti/sti_hda.c
-> +++ b/drivers/gpu/drm/sti/sti_hda.c
-> @@ -750,14 +750,7 @@ static int sti_hda_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  
->  	hda->dev = pdev->dev;
-> -
-> -	/* Get resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hda-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid hda resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	hda->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
->  	if (!hda->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-> index 164a34d793d86f114394048667ae3189e1c39242..c64ce7a1ef58b9ce4429edd368269bea87d86984 100644
-> --- a/drivers/gpu/drm/sti/sti_hdmi.c
-> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-> @@ -1380,7 +1380,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct sti_hdmi *hdmi;
->  	struct device_node *np = dev->of_node;
-> -	struct resource *res;
->  	struct device_node *ddc;
->  	int ret;
->  
-> @@ -1399,15 +1398,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
->  	}
->  
->  	hdmi->dev = pdev->dev;
-> -
-> -	/* Get resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid hdmi resource\n");
-> -		ret = -ENOMEM;
-> -		goto release_adapter;
-> -	}
-> -	hdmi->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hdmi->regs = devm_platform_ioremap_resource_byname(pdev, "hdmi-reg");
->  	if (!hdmi->regs) {
->  		ret = -ENOMEM;
->  		goto release_adapter;
-> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-> index 0f658709c9d0d398c4eed65202443db9d0b41f8c..420395598d119a403d531211022e6005d6a2bd59 100644
-> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
-> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-> @@ -1356,7 +1356,6 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *vtg_np;
->  	struct sti_hqvdp *hqvdp;
-> -	struct resource *res;
->  
->  	DRM_DEBUG_DRIVER("\n");
->  
-> @@ -1367,14 +1366,7 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
->  	}
->  
->  	hqvdp->dev = dev;
-> -
-> -	/* Get Memory resources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!res) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENXIO;
-> -	}
-> -	hqvdp->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	hqvdp->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (!hqvdp->regs) {
->  		DRM_ERROR("Register mapping failed\n");
->  		return -ENXIO;
-> diff --git a/drivers/gpu/drm/sti/sti_tvout.c b/drivers/gpu/drm/sti/sti_tvout.c
-> index af6c06f448c4819def8cc0d0836e30f991529690..0bebe815f5e7567f84388af93723a6fa7d2cc7a2 100644
-> --- a/drivers/gpu/drm/sti/sti_tvout.c
-> +++ b/drivers/gpu/drm/sti/sti_tvout.c
-> @@ -838,7 +838,6 @@ static int sti_tvout_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *node = dev->of_node;
->  	struct sti_tvout *tvout;
-> -	struct resource *res;
->  
->  	DRM_INFO("%s\n", __func__);
->  
-> @@ -850,14 +849,7 @@ static int sti_tvout_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  
->  	tvout->dev = dev;
-> -
-> -	/* get memory resources */
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tvout-reg");
-> -	if (!res) {
-> -		DRM_ERROR("Invalid glue resource\n");
-> -		return -ENOMEM;
-> -	}
-> -	tvout->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	tvout->regs = devm_platform_ioremap_resource_byname(pdev, "tvout-reg");
->  	if (!tvout->regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/gpu/drm/sti/sti_vtg.c b/drivers/gpu/drm/sti/sti_vtg.c
-> index 5ba469b711b5318e9e9e6d8df127fb8933d1fac1..b5353fe774d72fd629ecd3ef75a5d2817ca8617f 100644
-> --- a/drivers/gpu/drm/sti/sti_vtg.c
-> +++ b/drivers/gpu/drm/sti/sti_vtg.c
-> @@ -380,20 +380,12 @@ static int vtg_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct sti_vtg *vtg;
-> -	struct resource *res;
->  	int ret;
->  
->  	vtg = devm_kzalloc(dev, sizeof(*vtg), GFP_KERNEL);
->  	if (!vtg)
->  		return -ENOMEM;
-> -
-> -	/* Get Memory ressources */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!res) {
-> -		DRM_ERROR("Get memory resource failed\n");
-> -		return -ENOMEM;
-> -	}
-> -	vtg->regs = devm_ioremap(dev, res->start, resource_size(res));
-> +	vtg->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (!vtg->regs) {
->  		DRM_ERROR("failed to remap I/O memory\n");
->  		return -ENOMEM;
->
+>   #endif	/* __IOMMU_PAGES_H */
+> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+> index 798e85bd994d56..5af82072b03a17 100644
+> --- a/drivers/iommu/rockchip-iommu.c
+> +++ b/drivers/iommu/rockchip-iommu.c
+> @@ -730,7 +730,8 @@ static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
+>   	if (rk_dte_is_pt_valid(dte))
+>   		goto done;
+>   
+> -	page_table = iommu_alloc_page(GFP_ATOMIC | rk_ops->gfp_flags);
+> +	page_table = iommu_alloc_pages_sz(GFP_ATOMIC | rk_ops->gfp_flags,
+> +					  SPAGE_SIZE);
+>   	if (!page_table)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -1064,7 +1065,8 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
+>   	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
+>   	 * Allocate one 4 KiB page for each table.
+>   	 */
+> -	rk_domain->dt = iommu_alloc_page(GFP_KERNEL | rk_ops->gfp_flags);
+> +	rk_domain->dt = iommu_alloc_pages_sz(GFP_KERNEL | rk_ops->gfp_flags,
+> +					     SPAGE_SIZE);
+>   	if (!rk_domain->dt)
+>   		goto err_free_domain;
+>   
+> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+> index 844682a41afa66..a9c35efde56969 100644
+> --- a/drivers/iommu/tegra-smmu.c
+> +++ b/drivers/iommu/tegra-smmu.c
+> @@ -295,7 +295,7 @@ static struct iommu_domain *tegra_smmu_domain_alloc_paging(struct device *dev)
+>   
+>   	as->attr = SMMU_PD_READABLE | SMMU_PD_WRITABLE | SMMU_PD_NONSECURE;
+>   
+> -	as->pd = iommu_alloc_page(GFP_KERNEL | __GFP_DMA);
+> +	as->pd = iommu_alloc_pages_sz(GFP_KERNEL | __GFP_DMA, SMMU_SIZE_PD);
+>   	if (!as->pd) {
+>   		kfree(as);
+>   		return NULL;
+> @@ -695,7 +695,7 @@ static struct tegra_pt *as_get_pde_page(struct tegra_smmu_as *as,
+>   	if (gfpflags_allow_blocking(gfp))
+>   		spin_unlock_irqrestore(&as->lock, *flags);
+>   
+> -	pt = iommu_alloc_page(gfp | __GFP_DMA);
+> +	pt = iommu_alloc_pages_sz(gfp | __GFP_DMA, SMMU_SIZE_PT);
+>   
+>   	if (gfpflags_allow_blocking(gfp))
+>   		spin_lock_irqsave(&as->lock, *flags);
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
 
