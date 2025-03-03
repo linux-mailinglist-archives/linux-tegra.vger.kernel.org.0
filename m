@@ -1,105 +1,117 @@
-Return-Path: <linux-tegra+bounces-5432-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5434-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E64EA4E220
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 16:01:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA0BA4E30D
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 16:25:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F05934209D1
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 14:50:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1179218828B3
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 15:16:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A6C220A5E3;
-	Tue,  4 Mar 2025 14:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29FC8286287;
+	Tue,  4 Mar 2025 15:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="jC3FiKE1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V8rOERi1"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from beeline1.cc.itu.edu.tr (beeline1.cc.itu.edu.tr [160.75.25.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED825290B
-	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 14:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6C127E1BF
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 15:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.115
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741099786; cv=pass; b=thKfGcn+lPn6rxDxOuoLptiR8ewtfb5AHT8aAKyJyl4g+rED6tfU0/88BprB+zZCzKn6KzQndS4Z6ss83NN+IM5BI9kcCul+qtQy0KvLl28v66Fa4/z7nsBeAuCxwAfrLkrxl3nf1x4TAiEWnUaa+ILp9Vcot+nU91sNRvsQxqo=
+	t=1741100957; cv=pass; b=MLLnCH7OuBRzOBW7WVCF9W3VO62Id48YkKZl0Cc4AwMjp/txRx41GJiiDArOsQvPoqgeVCAZUS0QCj95bz08j8fEuGuphr/8JYuzYsJMBCU7SLqTuEXa9DyRgTJWBBf2hoWvld5UiH3ewrTCok4km+5wkGHhiSsDfo7Cy3HAuVw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741099786; c=relaxed/simple;
-	bh=My0FAg9ECNGTXiPTr8yp95tKw/PNZxWh3Wz2mbCwVSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dpUIGcxuPHiaWkhSjI79pl0WgsCvd5MMOckVkWjl4uAk/2TAG2hx5sL8U8d7siTdZ4vSI6Zo9S/fuDUIe5YmH4AomSXO/F4oqwzPGYqCO0/E7wJL8se1FYjC8hpcLJTm3av6YbvJieiLX/3zoWDyptRla7xY3DRUDpjZIDJ0CE8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jC3FiKE1; arc=none smtp.client-ip=212.227.15.3; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; arc=pass smtp.client-ip=160.75.25.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+	s=arc-20240116; t=1741100957; c=relaxed/simple;
+	bh=KuJNrgV0L41NqM51p8r18I1mt8rIt7jB62RLFcUV8bc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Xktab2l9OTAUDGXlKG5B/iEMfPvGb9LiSVZmzxLH4bUcZMweqJDj6TqoE3qTRKkwUnPWlKSyQUXQlo27kaY65mf7zuWRq1n6J4CMWF7jXeHmgK8hWv/azlBoSRbk1pwkIL1Ukyawl80OnvxCl3lJL28zl6j8RBmQHfADAK/5sxU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V8rOERi1; arc=none smtp.client-ip=217.70.183.193; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; arc=pass smtp.client-ip=160.75.25.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
 Received: from lesvatest1.cc.itu.edu.tr (unknown [10.146.128.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id A390A40D5707
-	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 17:49:42 +0300 (+03)
+	by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id D1E3F40D5715
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 18:09:13 +0300 (+03)
 X-Envelope-From: <root@cc.itu.edu.tr>
 Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=jC3FiKE1
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=V8rOERi1
 Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6dn63RFjzFxPg
-	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 17:47:06 +0300 (+03)
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6f9V5xKpzFyDF
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 18:04:46 +0300 (+03)
 Received: by le1 (Postfix, from userid 0)
-	id AA17A42746; Tue,  4 Mar 2025 17:46:50 +0300 (+03)
+	id 407624275B; Tue,  4 Mar 2025 18:04:36 +0300 (+03)
 Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jC3FiKE1
-X-Envelope-From: <linux-kernel+bounces-541552-bozkiru=itu.edu.tr@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V8rOERi1
+X-Envelope-From: <linux-kernel+bounces-541491-bozkiru=itu.edu.tr@vger.kernel.org>
 Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jC3FiKE1
-Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
-	by le2 (Postfix) with ESMTP id 327A5427DF
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:23:16 +0300 (+03)
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by fgw2.itu.edu.tr (Postfix) with SMTP id DA1F32DCE1
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:23:15 +0300 (+03)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V8rOERi1
+Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
+	by le2 (Postfix) with ESMTP id 4F0EA41B6A
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:11:19 +0300 (+03)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by fgw1.itu.edu.tr (Postfix) with SMTP id D777B305F789
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:11:18 +0300 (+03)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF8F16D7A0
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:20:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77DC13BB622
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F7ED1F790B;
-	Mon,  3 Mar 2025 11:15:47 +0000 (UTC)
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 917341F4162;
+	Mon,  3 Mar 2025 11:04:07 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144321F1921;
-	Mon,  3 Mar 2025 11:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0261F0E28;
+	Mon,  3 Mar 2025 11:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741000544; cv=none; b=O6xOxIllun6LKZJJHD9Gno514rCmF7ipl11NKV4H8uOc+CI4yLabjUKuUIUZBlGt9g9OhzUKbZpPLNL1tuDabhzp0k0GjSCC69h6+G0sCdWibPyg+wBpbt4NiYoYIRBWQ3ZI+AIFzEQOxTzeo2eQw3hZer2/jWr4F1cCTsNZ9P8=
+	t=1740999844; cv=none; b=ks2U9uh5Pr2VusfBhIl8C9TV6zFgpDZ4J6g8hV69t+AbTgxi5ejsI01qj0cTmeJJ8+gbNFZ36BIYdCBJpgl4B1yGMK41zNTA5jQYmje8Y1o+Dne05w23MLqleVvJm56ZNFH6dlo6tFn2QlueC0zR74gf757/s7zr/IKuGAK1DtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741000544; c=relaxed/simple;
-	bh=My0FAg9ECNGTXiPTr8yp95tKw/PNZxWh3Wz2mbCwVSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GX//8KEh/jNiVJL4chIwr0CLfuFxlOr9H0amJMZm9/VYtEI9maDRcmHY2IwBzlywKcDUgAazraKRE4UaBn8oS9Ypd7/N5ki3Opj+P1wd/XX/vByZUJLgeRCcH/8OV3boacDWFusvcVDcbX75Dfi6XCC82eLuc9/tu6gng60EmlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jC3FiKE1; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1741000527; x=1741605327; i=markus.elfring@web.de;
-	bh=My0FAg9ECNGTXiPTr8yp95tKw/PNZxWh3Wz2mbCwVSE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=jC3FiKE1zwz0jH5Cs5wJHKsMGoy0dqE9amlLs10O3SwZB/FWdFjB9tSe0wJo4tsf
-	 LJujFIQwUlJtAvjP5e4IhYpG46h9GTEeMKngt88WwHnPoxBilG8zm3+hkx53capMF
-	 FIC0uDjHF/1el6X2TFLPdPuIQ1DJs9Lym2QFRu+ZlbOr8mpDJdrWpl5o4zY9gAF2o
-	 YHqD69241/TPyrmkI+ZMEmfYykbYlvIPHRpcNJ2oblmaZYfbxcpSfHqDTKRzP0/SE
-	 +Q7NFKHFaU4R11+vL9f/oudJ9x0zmbVLS/PWZk5lwXk0BaZiYtd8yK+uZmqjGPvvL
-	 lyWRNaPLQ/0VZVQ1OA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mt8kX-1t06sA36Jl-00yCfC; Mon, 03
- Mar 2025 12:15:27 +0100
-Message-ID: <10afda2a-4c52-47a8-bdfd-4bfd7bd9cb34@web.de>
-Date: Mon, 3 Mar 2025 12:15:25 +0100
+	s=arc-20240116; t=1740999844; c=relaxed/simple;
+	bh=KuJNrgV0L41NqM51p8r18I1mt8rIt7jB62RLFcUV8bc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bFHHFPJWqrJzjMlCK497H9vCT3WnDso7Tvi3qD9lxfnuQ2wUiEEgyrmSa69UeWGcwNS2wLSSfyxCRxZNm7PNk+LiP6OV+B23CUT6fap//3Fv7mCy1U0hjWCxxyKFu193stZ2hbv49UW0UrhpYQCNxWOmCWi6mcnHcmzAOzvUT4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V8rOERi1; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A6DF9442A0;
+	Mon,  3 Mar 2025 11:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740999836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UYg0OhYtGacV1+2euRFkrodD8aiR3ZlFwLFtEbH5bs4=;
+	b=V8rOERi1COiXtad2VjJsc+kUj6Z6y0+6M3Z8Aca8oFl51RYAgTUurp8mL0bv5hRvcjIr7m
+	qg39TNohItoSwlghPft2YRClrT0x6wBCJRl1A3C2dzF5wliEbC66pUfGzWjKaScV5sDy0a
+	r00HZwBNkvTlDKdDhJUqyrr5sFGQUWErqyHpwkkDOC7SvkcH/ZiTIqqURZwdYZ2QvRXxyC
+	QGA32FNXcv5XcpWeSE4mME5PIq+XBUKqUhu7C6GeVYgANuYgqCIgph3PvEE4iImy5yUbnd
+	MIXeIv/foWBijvuAYDjB/VTcmba/48RTmFzVawX1rfT6eXdxC6ipw2gNY+fh4A==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-tegra@vger.kernel.org,  linux-mtd@lists.infradead.org,  Jonathan
+ Hunter <jonathanh@nvidia.com>,  Lucas Stach <dev@lynxeye.de>,  Richard
+ Weinberger <richard@nod.at>,  Stefan Agner <stefan@agner.ch>,  Thierry
+ Reding <thierry.reding@gmail.com>,  Vignesh Raghavendra <vigneshr@ti.com>,
+  LKML <linux-kernel@vger.kernel.org>,  kernel-janitors@vger.kernel.org,
+  Qasim Ijaz <qasdev00@gmail.com>,  Natalie Vock <natalie.vock@gmx.de>
+Subject: Re: mtd: rawnand: tegra: Simplify maximum determination in
+ tegra_nand_setup_timing()
+In-Reply-To: <0193ac44-e858-4aff-a50f-dd95dbf3de5b@web.de> (Markus Elfring's
+	message of "Mon, 3 Mar 2025 11:55:49 +0100")
+References: <d564cafe-d45a-40b5-9a91-a2e2b97c80d6@web.de>
+	<87pliy9yyv.fsf@bootlin.com>
+	<0193ac44-e858-4aff-a50f-dd95dbf3de5b@web.de>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 03 Mar 2025 12:03:55 +0100
+Message-ID: <87h64a9y04.fsf@bootlin.com>
 Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
@@ -107,68 +119,41 @@ List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mtd: rawnand: tegra: Simplify maximum determination in
- tegra_nand_setup_timing()
-To: Miquel Raynal <miquel.raynal@bootlin.com>, linux-tegra@vger.kernel.org,
- linux-mtd@lists.infradead.org
-Cc: Jonathan Hunter <jonathanh@nvidia.com>, Lucas Stach <dev@lynxeye.de>,
- Richard Weinberger <richard@nod.at>, Stefan Agner <stefan@agner.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, LKML <linux-kernel@vger.kernel.org>,
- kernel-janitors@vger.kernel.org, Qasim Ijaz <qasdev00@gmail.com>,
- Natalie Vock <natalie.vock@gmx.de>
-References: <d564cafe-d45a-40b5-9a91-a2e2b97c80d6@web.de>
- <87pliy9yyv.fsf@bootlin.com> <0193ac44-e858-4aff-a50f-dd95dbf3de5b@web.de>
- <87h64a9y04.fsf@bootlin.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <87h64a9y04.fsf@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:R1exJjdCQwDCi4tP+5q2mVtAJq6NaltfMACf/dznh3c2rORKP8d
- EjjNDUoCoUYK/hlQ18JBQvxCEai4B4jLmJCvRepLp06rXRRscEQnIunGbqWjJxlGdOa55J4
- th/oQDxXsk4Ga0eZZt8pvMIhamehVGQ6jakpIypJoEFdJhNHSZM2IKB5F9y9xhW0XqNl+wr
- iANKn8LFoBVo8c9eXiw3g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9aGubQHfLpA=;X2oznE8qxdpeeK7RDktpeZ6VenX
- SY4S66SxXgz1fvqAzrjZGKCbALvFIOTlSeOrGRCklYGiRfYzeQ0gFJlv4KHA7JQhzD5r0BI4v
- Wz6N9/dPehIzl9RYlP0N8MAHti+KYioj4EYAKcLFjqvYSHmRmDdHWW/ilhqS+HM0q2ZMAEZja
- Q4r17eTq9w+q67VRYXOI5wbP5y09e79a/YdTMzknp/kU2IWg0DWNvmEPdBFPBlX+6dOoQgZRI
- czD7BgbMdJUyY1LF/K/dP13Uic8xLBKBqFDGNfN7ThTfkCTcwPHJ+81yayjP0R9/4LO+3SUWl
- oFtwfI0QVhm5D3GQnvoTQuYINWIoT9mmnO+2Iv380OIjtRQMGObZhmzYJzlaCu8wIIvnmg9VA
- wm2MMcfvA9YsWICoDWwNGKy1ZRFJdWJl+7UW4YxcvRerXqTWI/oDx/GZWFnTmFMEZZYxnMf+5
- aFLhXL7mryGxBAsLlQxNZE5HdYY2G/tJtoTONlFmKqbicGhDysEN46ZZ9PlbLTxUDymiehJAZ
- 6COWzab92QXHQsK9/IaRAkx2MWcW+mSSzW1gjlr68lvY574+G2wBYyftLlWAUDax7TwmqEWbq
- uov7uz2SiPXSjLokY7R1NFhCUk2rXGslLd87ntSjMkG7gTYFAaXA06SnJ3JAlRZJFdDpNxdXA
- sk+0X9zBt0oB1InfFbS7l5wqq909vnZVNZcXiWYR4m3PtoqEQkqwwCdy9jXpncKy1hONv3gCI
- tKkTr2lmFwaGojxltZ90mfROkPwAIzC7n2g1hNuYSYCdkQUjub7wRX3maNqK8wSqg/hsFsZxY
- 9vizJ2c/rmF3H2UvvBdmp6iBtRy4ePbp5eDgBOqAXcDHBJK/sBMD8/haItmCxVC/4UGseVR1g
- 3jDeOBkQ5Hw8WA80Y+UAAlK/S4drhoDf9bnggFJBOH4agcS3jatZOwbkLPe5+vhQHBKTvofZ0
- YYTl8Ipnk8ivIuozDkaMieYQseJ5ypFE/jFyiGKAQnwYTg3LBgajq2eSypUY61kRi4yZERSBr
- Wek9Cfi/H1HmJ6l72jcFcFBxS366IexX/RaSv+mXdW6cT3dLRVTweKWXLe+k8pJlXGLaX9pSZ
- P2Jsafa7cDLgyGP+kUIF+QPNHjJDJx40aipZ/eEDa9EeiK9Sd7g1M3RedraDd4LDbQr2zd7LE
- 0oz/4AFwoz+8F8OWHslygz11JlBgY/X3MahIgO6cOQpoIvgvxGNS4aOgK5sRNyWAapydIe5Lb
- GPI2jSktmQ1dKANNF8yAMXiE1EO9IuEkM6IoLmLsRjdwVOo4+XYSdnhYDc5E2ahL8J/dhEWc2
- 157rZyW3tFYKyqTTK7HTusBHWxpU1D8YGBzexnzr8E7H7KfpRb812BUtX4A7GJKe89RRQDyFk
- jT+Oh6pfkm6PcunGZLMyDDXvCdI4Dbo4t2U5D1jfG66I53Q6/4VwEpemaEGbrXVMj97dl6yMx
- X22nRxA==
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelkeeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefujghffgffkfggtgfgsehtqhertddtreejnecuhfhrohhmpefoihhquhgvlhcutfgrhihnrghluceomhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepteehkeelvddvheehtdefkedtjeeutedthfegudekgeefleetkeettdekiefftdeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepofgrrhhkuhhsrdfglhhfrhhinhhgseifvggsrdguvgdprhgtphhtthhopehlihhnuhigqdhtvghgrhgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhhtugeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdpr
+ hgtphhtthhopeguvghvsehlhihngigvhigvrdguvgdprhgtphhtthhopehrihgthhgrrhgusehnohgurdgrthdprhgtphhtthhopehsthgvfhgrnhesrghgnhgvrhdrtghhpdhrtghpthhtohepthhhihgvrhhrhidrrhgvughinhhgsehgmhgrihhlrdgtohhm
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6dn63RFjzFxPg
+X-ITU-Libra-ESVA-ID: 4Z6f9V5xKpzFyDF
 X-ITU-Libra-ESVA: No virus found
 X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741704477.52937@zlict1UbE+pKaqwcWI79qw
+X-ITU-Libra-ESVA-Watermark: 1741705667.81365@23LsgtSK82vRl48aextLdw
 X-ITU-MailScanner-SpamCheck: not spam
 
->> You would eventually like to express that a maximum should be determine=
-d
->> from three (or even four?) values.
->
-> If there was a max4(), why not, but in this case I don't see the point.
-Do you miss such a programming interface so far?
-Would you be looking for corresponding software adjustments?
+On 03/03/2025 at 11:55:49 +01, Markus Elfring <Markus.Elfring@web.de> wrote:
 
-Regards,
-Markus
+>> I am sorry, I do not see what gets simplified. max(max(a,b),max(c,d))
+>> looks simpler than max3(a,b,max(c,d)).
+>
+> You would eventually like to express that a maximum should be determined
+> from three (or even four?) values.
+
+If there was a max4(), why not, but in this case I don't see the point.
+
+> https://elixir.bootlin.com/linux/v6.14-rc4/source/include/linux/minmax.h#=
+L147
+>
+>
+>>                                        Does it bring something in terms
+>> of optimization?
+> Corresponding effects depend on various factors, don't they?
+
+Ok, so I'll assume the answer to my question is "no".
+
+Thanks,
+Miqu=C3=A8l
 
 
