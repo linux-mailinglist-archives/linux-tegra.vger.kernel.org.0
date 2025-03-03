@@ -1,171 +1,178 @@
-Return-Path: <linux-tegra+bounces-5436-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5439-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CA7A4E590
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 17:21:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99C7A4EC16
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 19:43:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEA77189EC1E
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 16:15:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 733E41892D6F
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Mar 2025 18:38:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDEE0259C9D;
-	Tue,  4 Mar 2025 15:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QavnOK3n"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B2627FE7F;
+	Tue,  4 Mar 2025 18:32:00 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from beeline1.cc.itu.edu.tr (beeline1.cc.itu.edu.tr [160.75.25.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4150E259C99
-	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 15:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A79E27F4C4
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 18:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=160.75.25.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741113120; cv=fail; b=GO4emIhMb/s52ZeDEQEDM5Anp3w8H1rQX9C+479rj+K2EXNSbGXbw1BuNvYcq5hneBNZ9DDH9ctR+LCxswQHVT3yTd0yJNmdwauCoEhdptpLf4iZO1lWoNgJoWYedwULtkFX5nEUgA7IzCVGWkocnVD9UozH8PsjxUG63wL0/iU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741113120; c=relaxed/simple;
+	bh=afaNn7bQBqwP5EyP5AoJcdnHL2DHIHUStLtpr/Prcnk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jqygx/3SvqazbEO2U1WIiKc59/2ZZ4r2f0gmPqfdLmdF3sbKgeqBlp/smTDeTq3DmuQvBEJtUlKxmkPa6Janbfza8CsKxNd3K0N6JfdE1KTmPGV/itdn9INPUd0NW0URwU90A8S/cRfhCOMwk08u9EXg4/lran+tb0LshAkdk6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=none smtp.mailfrom=cc.itu.edu.tr; arc=none smtp.client-ip=159.226.251.84; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=fail smtp.client-ip=160.75.25.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
+Received: from lesvatest1.cc.itu.edu.tr (unknown [10.146.128.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id A8BC440CFB67
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 21:31:55 +0300 (+03)
+X-Envelope-From: <root@cc.itu.edu.tr>
+Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6flL69KpzG0ZH
+	for <linux-tegra@vger.kernel.org>; Tue,  4 Mar 2025 18:30:38 +0300 (+03)
+Received: by le1 (Postfix, from userid 0)
+	id 7E70C4273B; Tue,  4 Mar 2025 18:30:28 +0300 (+03)
+X-Envelope-From: <linux-kernel+bounces-541093-bozkiru=itu.edu.tr@vger.kernel.org>
+Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
+	by le2 (Postfix) with ESMTP id 78184425A4
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:28:21 +0300 (+03)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by fgw2.itu.edu.tr (Postfix) with SMTP id 4F03F2DCE4
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:28:21 +0300 (+03)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37FC71891758
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 07:28:28 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5211EB9EF;
+	Mon,  3 Mar 2025 07:28:04 +0000 (UTC)
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84E61E8327;
+	Mon,  3 Mar 2025 07:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741103636; cv=none; b=JIIknyyxGqe0GUc1rSPcuEV/Rq1OmHoi+RdyGLVCIEXqoasVjITtlQ935gM6t0yp9ZC+CUGRnqKeV1UDc8uffQqbCrvS8rxJyCT+lYaWiHHnzhyIGNAeYHEygRYalKunapiGArkJRNIEvEv0CFcwbpWB2FN/PKMMuBzsvQMxbd0=
+	t=1740986883; cv=none; b=QkM4Y73o/TpBElBS7bMsKXzgBQzOGe1QtFn5PN162s7lpalCM5rSebA5omqnx4cJQoB9bDcYmX51HoMmpHCbYVELz+gKOtXdKU++PTSHJ/3m4sjiP0W7pZIQt4y2ajjBPwUuoRZmNss5RaeoUdzO419ib0Z8NCgKgdfVDzaf/V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741103636; c=relaxed/simple;
-	bh=1vV7+BT4xw81qLATGwFSVB9T/BFBbp5ljRvUFKtYJJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L0wM2wcDZXCanzkK8bplivjeuMFrzzSoX7aB90DubHeQswF9ZVYn98oeiH5orwisKdi7sAF5wXPr78Z+OmJqYJZ9O9J3log+8GwfLeWJcL0ReLyLDCpz5Wx6oLJn27yURyHXVh3X3PsMuaVfx3uHXfGgYgvtt1CE3p7RcbcRheA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QavnOK3n; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741103634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ri5wR93YJXv4w21IzGikMZS6QGEGNEj5q6TV1QKUdt8=;
-	b=QavnOK3na/hdl4n2QtUQjk8l7nfqiWglm90RBZA+pajmC1iFBNnIY2X7mceVPOoVvH8mPl
-	v1in8FMzY8bslg2+B4PXUhPJE6MTGwAe30EMVzgPKkOOZ7YaMqxLi6K1gK4/nrKV1tMptu
-	JqQWN6BXKHGjeeJlKNTScehVA1L62sg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-FnE-IcEcOWm_JcrBm0t-xg-1; Tue, 04 Mar 2025 10:53:52 -0500
-X-MC-Unique: FnE-IcEcOWm_JcrBm0t-xg-1
-X-Mimecast-MFC-AGG-ID: FnE-IcEcOWm_JcrBm0t-xg_1741103631
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43bc97e6360so8026185e9.3
-        for <linux-tegra@vger.kernel.org>; Tue, 04 Mar 2025 07:53:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741103631; x=1741708431;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ri5wR93YJXv4w21IzGikMZS6QGEGNEj5q6TV1QKUdt8=;
-        b=D/v9L2834S+cN5w6tD7z+W8b2QLylRYQwaoAcu+7Kx6szovwG3p4abX5ZHpDo2QB6a
-         VIysuiqFhSD7mn0u9A/O/DzlBIjG7EVYOZSdMD/CIGLWkK/XJThyn7hsMHl2HBoSempn
-         KpNfyXoRIYg/UHuyhXxl0HCfY0g9qCm4DAe43NQJEBQPc6WLbbdU2+WF2XcyWUiD+rWb
-         IZuP0Q8am/nqaAlEVNEiW+weSfw4Uy/0VDjvt872Y3/hvoD2wAk+CgjqWRP2D7Ne96Cl
-         REQSHOkYNPOT0PAxYLWMnwXREdIJDv1t/WzQCVB46O4676TrIyYeOZc5DQNBwbCN1H/K
-         lP5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWiVaOWx5XaYtKRN+SRsSdu9JAlC5577Bkmwva16oTvM98Z6/OnyPABlTp/vsbD0jZ6acetFtl/sPfurA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsi5vEJctFIOpeV9TLKMp0m5XtCQqY3o961Tln/pVEVlppOAFK
-	GmD2ZyskjQq2ivfSNXFcWpVnyblFMTxGIOucwjnv5UwNGhFBumVDGDS2465sFv2hLx60ZtGHj2k
-	ZbzmcP2JqDxCuew0YAHUFgn0LKgcIEzRjWicmmfXP+4qu0etWPYgiglFR59EG
-X-Gm-Gg: ASbGncucnxJiWG4hfjHaHKLcNRnLQen/uy5nls1c60Mljtt0uCvUaIfkI6VTZm1kgzQ
-	NsN9a/PB+SuB8k/9DukKlbYOZQzjFiipSADemGSVDu2dVQYGalLrAbpuUIakPgGAmoa2Usyx46Q
-	FGojuMfG9s+3RXBqy7AM8PMuYlXNNfb3uhPHR3tVL4gpfk09yGgnzh5vHKkwwdOIY42Kvu/UIVd
-	iavN0Gh2epTLwDSifXQB6tqo9bwJOIBzYAsFKdrAZJyH8Ibk5+M+XFE72sIyHJaHAyvu4+MV0/p
-	Mq36gOb0hfdaPcn7vQ6dzqlFChA+PJubO24N6XhPgueYYGMCTNYy80T3RQzCfSprA5qDvwwMumx
-	wBEPM
-X-Received: by 2002:a5d:5f84:0:b0:385:ee40:2d88 with SMTP id ffacd0b85a97d-390ec7c6a3bmr16312423f8f.3.1741103631482;
-        Tue, 04 Mar 2025 07:53:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEBhIMPB956a7ncBlyy8BOaBmL91FKiR7SKf3cdKksS88vwy8ZlkzWMX3xE90PfLivuTds0aA==
-X-Received: by 2002:a5d:5f84:0:b0:385:ee40:2d88 with SMTP id ffacd0b85a97d-390ec7c6a3bmr16312395f8f.3.1741103631142;
-        Tue, 04 Mar 2025 07:53:51 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb (host-89-240-117-139.as13285.net. [89.240.117.139])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bad347823sm149763155e9.0.2025.03.04.07.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 07:53:50 -0800 (PST)
-Date: Tue, 4 Mar 2025 15:53:48 +0000
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Qais Yousef <qyousef@layalina.io>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Swapnil Sapkal <swapnil.sapkal@amd.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Phil Auld <pauld@redhat.com>, luca.abeni@santannapisa.it,
-	tommaso.cucinotta@santannapisa.it,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 0/5] Fix SCHED_DEADLINE bandwidth accounting during
- suspend
-Message-ID: <Z8ciDMdstzJCZoBm@jlelli-thinkpadt14gen4.remote.csb>
-References: <20250304084045.62554-1-juri.lelli@redhat.com>
- <a04845cf-c70a-4699-8260-27a3502fd01d@nvidia.com>
+	s=arc-20240116; t=1740986883; c=relaxed/simple;
+	bh=sS6epZ/Q0dmr2tgVut1X+sY8gavr366YXLTOVDwcdzM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a8Tk1+AVPPfrxp0ILU2DDPo5BdTqkvN6nWbEioA8QEsBcwnk0TPkUSKQJ/APAe+hfQnhJHpzOAudLwKNXodaHWtmvQ8eVGULDQFbheaSdYHKCaCswTyg30d3702xBF27SwfxbuU923TMhbpWrrUnZe4bz0hAzcB7uNkHgaR0xUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by APP-05 (Coremail) with SMTP id zQCowAC3vaHsWcVnWs+uEQ--.52938S2;
+	Mon, 03 Mar 2025 15:27:47 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: jckuo@nvidia.com,
+	vkoul@kernel.org,
+	kishon@kernel.org,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com
+Cc: linux-phy@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 RESEND] phy: Fix error handling in tegra_xusb_port_init
+Date: Mon,  3 Mar 2025 15:27:39 +0800
+Message-Id: <20250303072739.3874987-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a04845cf-c70a-4699-8260-27a3502fd01d@nvidia.com>
+X-CM-TRANSID:zQCowAC3vaHsWcVnWs+uEQ--.52938S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4DKFWkAF15tFW3Aw4fKrg_yoW8XFyDpa
+	1DGas8Kr9YgrWkKF4jvF409Fy5GF42k3yrur1rJ34akrn3W348tas8trWxXa4UArZ7uF4U
+	ArnxJa4kJFyUC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUB214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+	648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2
+	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+	kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF0eHDUUUU
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+Content-Transfer-Encoding: quoted-printable
+X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
+X-ITU-Libra-ESVA-ID: 4Z6flL69KpzG0ZH
+X-ITU-Libra-ESVA: No virus found
+X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
+X-ITU-Libra-ESVA-Watermark: 1741717801.71898@DiYjR/tItB3Yt94XI/RBIw
+X-ITU-MailScanner-SpamCheck: not spam
 
-Hi Jon,
+If device_add() fails, do not use device_unregister() for error
+handling. device_unregister() consists two functions: device_del() and
+put_device(). device_unregister() should only be called after
+device_add() succeeded because device_del() undoes what device_add()
+does if successful. Change device_unregister() to put_device() call
+before returning from the function.
 
-On 04/03/25 15:32, Jon Hunter wrote:
-> Hi Juri,
-> 
-> On 04/03/2025 08:40, Juri Lelli wrote:
-> > Hello!
-> > 
-> > Jon reported [1] a suspend regression on a Tegra board configured to
-> > boot with isolcpus and bisected it to commit 53916d5fd3c0
-> > ("sched/deadline: Check bandwidth overflow earlier for hotplug").
-> > 
-> > Root cause analysis pointed out that we are currently failing to
-> > correctly clear and restore bandwidth accounting on root domains after
-> > changes that initiate from partition_sched_domains(), as it is the case
-> > for suspend operations on that board.
-> > 
-> > The way we currently make sure that accounting properly follows root
-> > domain changes is quite convoluted and was indeed missing some corner
-> > cases. So, instead of adding yet more fragile operations, I thought we
-> > could simplify things by always clearing and rebuilding bandwidth
-> > information on all domains after an update is complete. Also, we should
-> > be ignoring DEADLINE special tasks when doing so (e.g. sugov), since we
-> > ignore them already for runtime enforcement and admission control
-> > anyway.
-> > 
-> > The following implements the approach by:
-> > 
-> > - 01/05: filter out DEADLINE special tasks
-> > - 02/05: preparatory wrappers to be able to grab sched_domains_mutex on
-> >           UP
-> > - 03/05: generalize unique visiting of root domains so that we can
-> >           re-use the mechanism elsewhere
-> > - 04/05: the bulk of the approach, clean and rebuild after changes
-> > - 05/05: clean up a now redundant call
-> > 
-> > Please test and review. The set is also available at
-> > 
-> > git@github.com:jlelli/linux.git upstream/deadline/domains-suspend
-> 
-> 
-> I know that this is still under review, but I have tested on my side and it
-> is working for me, so feel free to include my ...
-> 
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+As comment of device_add() says, 'if device_add() succeeds, you should
+call device_del() when you want to get rid of it. If device_add() has
+not succeeded, use only put_device() to drop the reference count'.
 
-Great to hear this and thanks for the super quick turn around with
-testing. I will be implementing the changes that Waiman (and possibly
-others) is suggesting and post a new version soon.
+Found by code review.
 
-Best,
-Juri
+Cc: stable@vger.kernel.org
+Fixes: 53d2a715c240 ("phy: Add Tegra XUSB pad controller support")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v2:
+- modified the bug description as suggestions.
+---
+ drivers/phy/tegra/xusb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index 79d4814d758d..c89df95aa6ca 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -548,16 +548,16 @@ static int tegra_xusb_port_init(struct tegra_xusb_p=
+ort *port,
+=20
+ 	err =3D dev_set_name(&port->dev, "%s-%u", name, index);
+ 	if (err < 0)
+-		goto unregister;
++		goto put_device;
+=20
+ 	err =3D device_add(&port->dev);
+ 	if (err < 0)
+-		goto unregister;
++		goto put_device;
+=20
+ 	return 0;
+=20
+-unregister:
+-	device_unregister(&port->dev);
++put_device:
++	put_device(&port->dev);
+ 	return err;
+ }
+=20
+--=20
+2.25.1
+
 
 
