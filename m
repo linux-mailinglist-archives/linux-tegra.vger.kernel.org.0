@@ -1,490 +1,196 @@
-Return-Path: <linux-tegra+bounces-5449-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5451-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A633A4F963
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Mar 2025 10:00:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE67A4FCC1
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Mar 2025 11:51:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 022D41891F09
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Mar 2025 09:00:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A383B17223C
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Mar 2025 10:50:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B8A200BB2;
-	Wed,  5 Mar 2025 09:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B84320E00C;
+	Wed,  5 Mar 2025 10:50:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="BxrMHxKZ"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gp0kKAg9"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2078.outbound.protection.outlook.com [40.107.101.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3684D1FFC6F;
-	Wed,  5 Mar 2025 09:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741165205; cv=none; b=IdMmSrdnDWn/V9DdfCxFkPHxmmKoXXSdAdSKiBwnSjsAkH7m0vfLza8n/l9+qvJ7RSFZd+hAyNavYy9fbSGJiX4O7xMEfJuzbrQy7ABPITz0eyxHMMatXbOmTVuMk1txJW7MSfm4tvqRR+SkJEU31aFOPhdushHjrZxJ/4J/zL8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741165205; c=relaxed/simple;
-	bh=Plq6/Tu6IqVfh61cVQXVKUeVdqnhsiqZ8xNpwElfhTA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eQL+X9iEq8dNIhI7enbPo4tPGROuOz7a6EqA7EjaLeVcthZRDX16G8u3Z8GBQEo+H1hyO2a2u8iZU3RbChMZ5jxTODNXwJtCKO3+00b2uH2VBr/qVCpKXlSkIbkwQ/bpggTvSeGmIEh712hAbcS9ifou1vlQgcIe7DlgIHiz4fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=BxrMHxKZ; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5257njAs000665;
-	Wed, 5 Mar 2025 09:58:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	LQXDAu/Cz7vbFe21nnUqOtM+s7wpjqaQJEOHMcYs7/M=; b=BxrMHxKZiP8/Y8ea
-	2dfoLCbqIp1LweePpkqi/ok1F4YMl1EY/3CjUjbEJNHP3FYGzk4hAcIl7Z0d0igz
-	c6SrcoubvDpKLCsulpE/eByZ2RKXO5HJgLdvmXDDNCOwTa/e5yRgUfyVqRNgHDHD
-	VZhkmbHJ53FuFoRJrn9FHWQB3VL6ZT0Efs65QnpVQWUbtVsa9dsppR7KQKH40ib5
-	Of61j9H2Hwow7nyqYo1nWxNjN1X56w6GazUjfJkyI3okMV23LbmzQDvnrAnc9dXA
-	zditwB0noEho8RahiQ9x715E5b8RSaE08xq2SJukA3Zvz7C8MXybPRxixLhJdvi4
-	/IsjlQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 453t9natuc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Mar 2025 09:58:07 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 84E0140056;
-	Wed,  5 Mar 2025 09:54:06 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 722C55AC880;
-	Wed,  5 Mar 2025 09:47:07 +0100 (CET)
-Received: from [10.130.77.153] (10.130.77.153) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 5 Mar
- 2025 09:47:05 +0100
-Message-ID: <3b173c1c-4e74-4907-961c-9c90d48a9412@foss.st.com>
-Date: Wed, 5 Mar 2025 09:47:05 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A369420B7E7;
+	Wed,  5 Mar 2025 10:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741171809; cv=fail; b=upGKSxnRHy3Vi3QwZ+sq3vHzX8bnWZiUHQFMPvilN2kQopDcKu/ZNEV8vZP8pmKqnAFBfKHjefwOKcL99XvUwwl4/2O+cIxNHq3a8BqlgkPFMrbTc8mzMFcT5/3DY74svKkjOUF3J4sI676mRH6MTPJ3RADfnW/bs5y4PWITqK0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741171809; c=relaxed/simple;
+	bh=ToL+1dMao8vRi8xqT7KMm2CGvWwzuZDHUXK6X6KONUU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m3lLcPnd5jnXe6VpVs7ESQC2NRuFXt1teapTrNTtb+7KdymBIEOb0JmWnqlGedROA3pGtXKEOnBIEcUPzpvlSP5RF5dr+fUjVhMMA2uxp1sQGpQ0//fdtuCpJjfbHAeJHnbam4b7trzqDeyZrDJRUi2XZtE26ZXdjQXiIaJcyfk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gp0kKAg9; arc=fail smtp.client-ip=40.107.101.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y24q/gtFXWX7fg58M3EdcgB+FnK4aOU0azTymMLbiOil1MW0Dt8rU6piFSF6udU800i4jmHuD8j+FptKpyNZCYLJKfaDzZZasgiJnPcybwgFJHQIUF+FBR4cbcq7y6YxskCfDjNWfxWQLUC5l6w/cszjGpvsReEgiTVVNgw6PYcQ5zBi/QJlukNqLM4eWzIewJuWEKTbq5bYaAkiQ1bZyanS2zzUoH39HvfEi0s1B0ji/uOuD75HrqoOKO8xDT2cg5NqpeRPJqikPNyphnaruVlJp/ecmh+PynYPIzArVf/s1R5NKIZRfUYHv0AkLc0vmxij4Fx3DULFneb1v1rvVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Z2I71Ed3MHruRGOvxQ1zPh8awIgDk9OJdMYwdX8RdQ=;
+ b=UPE5YXnsmAFod5QpYKWORfYAy/leJ1y6ZMWa2jDJHkMRhvNotKyBapfYl+GlESyCX/aDfjzA8RIH96R8kh3yFELD70O/ghW+MOVoY/nLOacCQdnC3VgHh+R5icaX6FZwWdmMsFdvnjYOBM3Y1GNcKKAi9HuHFRxIyZ/zEioLi9+KDhlCf9cqJnvFU+JJ+i3JclFJ9plT6ZkiGxuSvjpKR46ZOOWpcRQtXdsLACH2TgTODAeIfRph+8ybMbSN/O8yqLUhoG2oGW2B/uPGS8CKDe+zzQ8Zh+AXp/MjF19CyhbqTcUKctVX11xeplX1HC3NEIKXR/kSjzqNdzEYe4uGjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Z2I71Ed3MHruRGOvxQ1zPh8awIgDk9OJdMYwdX8RdQ=;
+ b=gp0kKAg9ODdpJmHO7koXsYdWZChn4fr9MRciOkzhvSSR+B0xdZHB4Q0mL8pndjH2zmmLiTTqdliBkqm81f9j08nySaOnwx3X3y48ldi+s56ZSzIviH3bGHu8NxXjqnJR3KSLmojpgEd02cF8Su6cvmwqQa+F/p5GNOr2W21Tzkd33mO8X48EbDzYVoKSQFVZJJVIeuI1AdqDpqS/BBx4eMva9SjukZ7L00loAhAOd+xhvK8iqb3WSosRrWgW7ab+PjbeDqmAUYEolFhaEhiOzKE9a92CMLkecMCHeN7xnCngYat3pzAI9iVASucirpHtMX9NbZx2qn4s/o0NDqKs7g==
+Received: from CY5PR22CA0072.namprd22.prod.outlook.com (2603:10b6:930:80::17)
+ by SJ2PR12MB8063.namprd12.prod.outlook.com (2603:10b6:a03:4d1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.26; Wed, 5 Mar
+ 2025 10:50:04 +0000
+Received: from CY4PEPF0000FCBF.namprd03.prod.outlook.com
+ (2603:10b6:930:80:cafe::13) by CY5PR22CA0072.outlook.office365.com
+ (2603:10b6:930:80::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.28 via Frontend Transport; Wed,
+ 5 Mar 2025 10:50:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000FCBF.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8511.15 via Frontend Transport; Wed, 5 Mar 2025 10:50:03 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 5 Mar 2025
+ 02:49:43 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Mar
+ 2025 02:49:42 -0800
+Received: from pshete-ubuntu.nvidia.com (10.127.8.12) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
+ Transport; Wed, 5 Mar 2025 02:49:40 -0800
+From: Prathamesh Shete <pshete@nvidia.com>
+To: <linus.walleij@linaro.org>, <thierry.reding@gmail.com>,
+	<jonathanh@nvidia.com>, <linux-gpio@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <pshete@nvidia.com>
+Subject: [PATCH 1/2] pinctrl: tegra: Add descriptions for SoC data fields
+Date: Wed, 5 Mar 2025 16:19:38 +0530
+Message-ID: <20250305104939.15168-1-pshete@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 07/12] drm/sti: move to
- devm_platform_ioremap_resource() usage
-To: Anusha Srivatsa <asrivats@redhat.com>
-CC: Joel Stanley <joel@jms.id.au>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Andrew Jeffery
-	<andrew@codeconstruct.com.au>,
-        Stefan Agner <stefan@agner.ch>, Alison Wang
-	<alison.wang@nxp.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Tian Tao
-	<tiantao6@hisilicon.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Sumit
- Semwal <sumit.semwal@linaro.org>,
-        Yongqin Liu <yongqin.liu@linaro.org>,
-        John
- Stultz <jstultz@google.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp
- Zabel <p.zabel@pengutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Marek
- Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Raphael Gallais-Pou
-	<rgallaispou@gmail.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen
-	<mperttunen@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alexey
- Brodkin <abrodkin@synopsys.com>,
-        Dave Stevenson
-	<dave.stevenson@raspberrypi.com>,
-        =?UTF-8?Q?Ma=C3=ADra_Canal?=
-	<mcanal@igalia.com>,
-        Raspberry Pi Kernel Maintenance
-	<kernel-list@raspberrypi.com>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-aspeed@lists.ozlabs.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <imx@lists.linux.dev>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
- <24958ae8-6153-4798-abeb-e770d66ca8e4@foss.st.com>
- <CAN9Xe3Q8=_Tz51i6gxNM6445p-rhNiK7B5Ljcga8g_Nn676dCQ@mail.gmail.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <CAN9Xe3Q8=_Tz51i6gxNM6445p-rhNiK7B5Ljcga8g_Nn676dCQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-05_03,2025-03-05_01,2024-11-22_01
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBF:EE_|SJ2PR12MB8063:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67bde98c-5530-410e-998a-08dd5bd37c3b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?USu37tsRnp42aW/+lteMm7soN5eohWAOkdMqFvPUoF0IsHgb19oxF7ZiQ7VA?=
+ =?us-ascii?Q?F5YTiNu6d+s4BCpbFgC/n+MVoOkm/9GolP4aZ2WV7NFx/b30pBq0rHhdz4zD?=
+ =?us-ascii?Q?wcm92zS3rd3gQIVoT5VK5tnvCN1RE0p/wpNcNJPpVIBFk6RAaly1thF2JCxn?=
+ =?us-ascii?Q?b1Kn36K4Q2Oyo4ZJyUFIXc2Y7SDKZ0r8ZSMHIO9r3Sa5/Yr16EcdcnZzAJ23?=
+ =?us-ascii?Q?IeuAYRhB83lofcyfZl0IOIZgmars/udZbw4liPl48bp3xLSgF9oZ3IzeDIGo?=
+ =?us-ascii?Q?viZ/NRE5PIG/InaMv/E/AAe77AbbFkPgeKX3+MhNF8NvWA++dFOb9A0wbet2?=
+ =?us-ascii?Q?1BJCP/pcPv4YZaRYPrKP+3akJS93zYy+LYUamu2xtPa/VFrZM8BqvpD+F1BW?=
+ =?us-ascii?Q?dCtsZAo7jF+WgNscZifn1xBV0VMPeCtMqhMCjL4E2ogfaC2SCdSF3xaX4tsL?=
+ =?us-ascii?Q?vKvvEMVrrOYTiOsyDBZ8wiHZp/LcMjwhf19X/qXSFiHcqqHnuntxLa4F6XDL?=
+ =?us-ascii?Q?BYDOanAcnZQYg3smHE2/V3rKgB3PFeixEpGCDf8fc7fjSYYvG8/tPmGRzNBg?=
+ =?us-ascii?Q?Uip+AXS3OLKxhOKI+mfroa8pG5oBu7MZUnhTvkDbpi/yFNLorNeDdsWhok/9?=
+ =?us-ascii?Q?IHS7gwN2zAxtcgsCaC4E1EEqNf6Kh8hLSPOKpfSF3WrnDv3jrJV2k1hGedLA?=
+ =?us-ascii?Q?Woc3kzfSww/AqJ87atejpVkFs1fANBFC0Lhc0xixjsP0YCGKw635s4pkBe6q?=
+ =?us-ascii?Q?mum2bgd0zdKrGyyREXjZ64iZZHb/FwiRxHPH6Xu39JZSFIBzccu2hdGdHUEB?=
+ =?us-ascii?Q?lBUOTK4ozhGFJHtxVeX4mJs+/mUn1PYWdZLPA0XhOL1zKhDK0Xr3w+pHFjYI?=
+ =?us-ascii?Q?2rpfSvolY+aQEv4Gh/GioGH7eYyPGXYmlMi3vSIWAEvuH196T7Cp+n8/QQXM?=
+ =?us-ascii?Q?R0uZEbB9WaBDnUQRdwGY1eOf7sBaswl13cdV3G1KRoPoNaD5s1gCn9oMRAkt?=
+ =?us-ascii?Q?cRRdfs70kX0hUbad9xmE3lc6gcEtoHGh3nP58GiUqBc0vcduWGB+SvrfcPS7?=
+ =?us-ascii?Q?1WGtNR4NV5yT8mExfEGFbjekGqIrENpQCDNEghrMqngiTpkMyBYnozw+F6CE?=
+ =?us-ascii?Q?eSC77k908ph2YPwJ/b2RBBYjVCUr41g/oiyk1TxhPT/wNc9wLD/7urMtlmOZ?=
+ =?us-ascii?Q?yE6yXfKfnlW74GeWCTkLxsjGWPTl7soCJR/uYgE1pJTePN8XEUFMJp7+SUU+?=
+ =?us-ascii?Q?rWnlBiPciPiir+R6LODa6Pr6M7AuXIQAJ0rtxs3X03b0lREEnpIRfFxsxbYp?=
+ =?us-ascii?Q?LcnGOQGWBuTH/OngpkA3kESpU9jPTbaS9yJlVZnmSG9D8aSEPGEj8ZO9K6r2?=
+ =?us-ascii?Q?kA+hrjHONvzlzccPnt6iGBCwD71eXMsvdb1HybyBbbz1dD2P9s3X8i11v6+h?=
+ =?us-ascii?Q?DOW+XsvZsVh63lL4VvjJlCEVPAHSbBtRr0MIlgrv4H83kHFEyRWxoePyTOYD?=
+ =?us-ascii?Q?2v3bd8dOhSF8XSY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2025 10:50:03.5111
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67bde98c-5530-410e-998a-08dd5bd37c3b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000FCBF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8063
 
+Add detailed descriptions for the remaining fields in the
+tegra_pinctrl_soc_data structure. This improves code documentation
+and clarifies the purpose of each field, particularly for the
+pin-specific configuration options.
 
-On 3/3/25 18:29, Anusha Srivatsa wrote:
-> On Wed, Feb 26, 2025 at 5:19 AM Raphael Gallais-Pou <
-> raphael.gallais-pou@foss.st.com> wrote:
->
->> On 2/25/25 23:20, Anusha Srivatsa wrote:
->>> Replace platform_get_resource/_byname + devm_ioremap
->>> with just devm_platform_ioremap_resource()
->>>
->>> Used Coccinelle to do this change. SmPl patch:
->>>
->>> @rule@
->>> identifier res;
->>> expression ioremap;
->>> identifier pdev;
->>> constant mem;
->>> expression name;
->>> @@
->>> -struct resource *res;
->>> ...
->>> -res = platform_get_resource_byname(pdev,mem,name);
->>> <...
->>> -if (!res) {
->>> -...
->>> -}
->>> ...>
->>> -ioremap = devm_ioremap(...);
->>> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
->>>
->>> and
->>> @rule_2@
->>> identifier res;
->>> expression ioremap;
->>> identifier pdev;
->>> @@
->>> -struct resource *res;
->>> ...
->>> -res = platform_get_resource(pdev,...);
->>> <...
->>> -if (!res) {
->>> -...
->>> -}
->>> ...>
->>> -ioremap = devm_ioremap(...);
->>> +ioremap = devm_platform_ioremap_resource(pdev,0);
->>>
->>> v2: Fix compilation error.
->>
->> Hi Anusha,
->>
->>
->> You did not take into account my comment regarding the changelog. :-)
->>
->> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#commentary
->>
->> While the commit summary do not specify the version, this changelog
->> suggests
->> that the version of your series as been incremented.
->> If this is a v2, then a version descriptor should be applied to the
->> patchset.
->>
->> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#subject-line
->>
->> Hi  Raphael,
-> That is correct. While this patch is a v2, there is another patch or two in
-> the same series that is on v4 when it got acked and reviewed. Having
-> patches belonging to the same series with different version prefixes seemed
-> odd when I sent the series. Hence added what exactly changed in the commit
-> log.
+Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
+---
+ drivers/pinctrl/tegra/pinctrl-tegra.h | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.h b/drivers/pinctrl/tegra/pinctrl-tegra.h
+index b3289bdf727d..b21f609b5918 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra.h
++++ b/drivers/pinctrl/tegra/pinctrl-tegra.h
+@@ -176,16 +176,22 @@ struct tegra_pingroup {
+ 
+ /**
+  * struct tegra_pinctrl_soc_data - Tegra pin controller driver configuration
+- * @ngpios:	The number of GPIO pins the pin controller HW affects.
+- * @pins:	An array describing all pins the pin controller affects.
+- *		All pins which are also GPIOs must be listed first within the
+- *		array, and be numbered identically to the GPIO controller's
+- *		numbering.
+- * @npins:	The numbmer of entries in @pins.
+- * @functions:	An array describing all mux functions the SoC supports.
+- * @nfunctions:	The numbmer of entries in @functions.
+- * @groups:	An array describing all pin groups the pin SoC supports.
+- * @ngroups:	The numbmer of entries in @groups.
++ * @ngpios:		The number of GPIO pins the pin controller HW affects.
++ * @gpio_compatible:	Device-tree GPIO compatible string.
++ * @pins:		An array describing all pins the pin controller affects.
++ *			All pins which are also GPIOs must be listed first within the
++ *			array, and be numbered identically to the GPIO controller's
++ *			numbering.
++ * @npins:		The number of entries in @pins.
++ * @functions:		An array describing all mux functions the SoC supports.
++ * @nfunctions:		The number of entries in @functions.
++ * @groups:		An array describing all pin groups the pin SoC supports.
++ * @ngroups:		The number of entries in @groups.
++ * @hsm_in_mux:		High-speed mode field. Only applicable to devices with one pin per group.
++ * @schmitt_in_mux:	Schmitt trigger field. Only applicable to devices with one pin per group.
++ * @drvtype_in_mux:	Drivetype field. Only applicable to devices with one pin per group.
++ * @sfsel_in_mux:	Special function selection field.
++ *			Only applicable to devices with one pin per group.
+  */
+ struct tegra_pinctrl_soc_data {
+ 	unsigned ngpios;
+-- 
+2.17.1
 
-Indeed, the serie version should remain consistent across all patches.
-
-Maxime told you in an earlier answer, any modification of any patch what so ever
-increases the serie version. Thus all patches are at v5 (looking at your latest
-revision).
-
-Verbatim from the documentation :
-
-Other comments relevant only to the moment or the maintainer, not suitable for
-the permanent changelog, should also go here [under the --- marker]. A good
-example of such comments might be patch changelogs which describe what has
-changed between the v1 and v2 version of the patch.
-
-Please put this information after the --- line which separates the changelog
-from the rest of the patch. The version information is not part of the changelog
-which gets committed to the git tree. It is additional information for the
-reviewers. If it’s placed above the commit tags, it needs manual interaction to
-remove it. If it is below the separator line, it gets automatically stripped off
-when applying the patch:
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#commentary
-
-Raphaël
-
->
-> Anusha
->
->
->> Regards,
->> Raphaël
->>
->>> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->>> Cc: Alain Volmat <alain.volmat@foss.st.com>
->>> Reviewed-by: Maxime Ripard <mripard@kernel.org>
->>> Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
->>> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
->>> ---
->>>  drivers/gpu/drm/sti/sti_compositor.c | 10 +---------
->>>  drivers/gpu/drm/sti/sti_dvo.c        | 10 +---------
->>>  drivers/gpu/drm/sti/sti_hda.c        |  9 +--------
->>>  drivers/gpu/drm/sti/sti_hdmi.c       | 11 +----------
->>>  drivers/gpu/drm/sti/sti_hqvdp.c      | 10 +---------
->>>  drivers/gpu/drm/sti/sti_tvout.c      | 10 +---------
->>>  drivers/gpu/drm/sti/sti_vtg.c        | 10 +---------
->>>  7 files changed, 7 insertions(+), 63 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/sti/sti_compositor.c
->> b/drivers/gpu/drm/sti/sti_compositor.c
->>> index
->> 063f82d23d80c4ba83624a0066a18416a2b37351..7aefce6706ba2cd7d97a33228c9b9812edecf06f
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_compositor.c
->>> +++ b/drivers/gpu/drm/sti/sti_compositor.c
->>> @@ -177,7 +177,6 @@ static int sti_compositor_probe(struct
->> platform_device *pdev)
->>>       struct device_node *np = dev->of_node;
->>>       struct device_node *vtg_np;
->>>       struct sti_compositor *compo;
->>> -     struct resource *res;
->>>       unsigned int i;
->>>
->>>       compo = devm_kzalloc(dev, sizeof(*compo), GFP_KERNEL);
->>> @@ -194,14 +193,7 @@ static int sti_compositor_probe(struct
->> platform_device *pdev)
->>>       memcpy(&compo->data, of_match_node(compositor_of_match, np)->data,
->>>              sizeof(struct sti_compositor_data));
->>> -
->>> -     /* Get Memory ressources */
->>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->>> -     if (res == NULL) {
->>> -             DRM_ERROR("Get memory resource failed\n");
->>> -             return -ENXIO;
->>> -     }
->>> -     compo->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     compo->regs = devm_platform_ioremap_resource(pdev, 0);
->>>       if (compo->regs == NULL) {
->>>               DRM_ERROR("Register mapping failed\n");
->>>               return -ENXIO;
->>> diff --git a/drivers/gpu/drm/sti/sti_dvo.c
->> b/drivers/gpu/drm/sti/sti_dvo.c
->>> index
->> 4dcddd02629b6a1052be8fb8333bd3aa17c083c5..c877298a7f2bad171724eca4d43ea622db4c81cd
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_dvo.c
->>> +++ b/drivers/gpu/drm/sti/sti_dvo.c
->>> @@ -511,7 +511,6 @@ static int sti_dvo_probe(struct platform_device
->> *pdev)
->>>  {
->>>       struct device *dev = &pdev->dev;
->>>       struct sti_dvo *dvo;
->>> -     struct resource *res;
->>>       struct device_node *np = dev->of_node;
->>>
->>>       DRM_INFO("%s\n", __func__);
->>> @@ -523,14 +522,7 @@ static int sti_dvo_probe(struct platform_device
->> *pdev)
->>>       }
->>>
->>>       dvo->dev = pdev->dev;
->>> -
->>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->> "dvo-reg");
->>> -     if (!res) {
->>> -             DRM_ERROR("Invalid dvo resource\n");
->>> -             return -ENOMEM;
->>> -     }
->>> -     dvo->regs = devm_ioremap(dev, res->start,
->>> -                     resource_size(res));
->>> +     dvo->regs = devm_platform_ioremap_resource_byname(pdev, "dvo-reg");
->>>       if (!dvo->regs)
->>>               return -ENOMEM;
->>>
->>> diff --git a/drivers/gpu/drm/sti/sti_hda.c
->> b/drivers/gpu/drm/sti/sti_hda.c
->>> index
->> 14fdc00d2ba03d4f96ba407ac8e576decb6f32c0..3ca3abb80d425901f4c031edfd327a770d624e1c
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_hda.c
->>> +++ b/drivers/gpu/drm/sti/sti_hda.c
->>> @@ -750,14 +750,7 @@ static int sti_hda_probe(struct platform_device
->> *pdev)
->>>               return -ENOMEM;
->>>
->>>       hda->dev = pdev->dev;
->>> -
->>> -     /* Get resources */
->>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->> "hda-reg");
->>> -     if (!res) {
->>> -             DRM_ERROR("Invalid hda resource\n");
->>> -             return -ENOMEM;
->>> -     }
->>> -     hda->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
->>>       if (!hda->regs)
->>>               return -ENOMEM;
->>>
->>> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c
->> b/drivers/gpu/drm/sti/sti_hdmi.c
->>> index
->> 164a34d793d86f114394048667ae3189e1c39242..c64ce7a1ef58b9ce4429edd368269bea87d86984
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_hdmi.c
->>> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
->>> @@ -1380,7 +1380,6 @@ static int sti_hdmi_probe(struct platform_device
->> *pdev)
->>>       struct device *dev = &pdev->dev;
->>>       struct sti_hdmi *hdmi;
->>>       struct device_node *np = dev->of_node;
->>> -     struct resource *res;
->>>       struct device_node *ddc;
->>>       int ret;
->>>
->>> @@ -1399,15 +1398,7 @@ static int sti_hdmi_probe(struct platform_device
->> *pdev)
->>>       }
->>>
->>>       hdmi->dev = pdev->dev;
->>> -
->>> -     /* Get resources */
->>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->> "hdmi-reg");
->>> -     if (!res) {
->>> -             DRM_ERROR("Invalid hdmi resource\n");
->>> -             ret = -ENOMEM;
->>> -             goto release_adapter;
->>> -     }
->>> -     hdmi->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     hdmi->regs = devm_platform_ioremap_resource_byname(pdev,
->> "hdmi-reg");
->>>       if (!hdmi->regs) {
->>>               ret = -ENOMEM;
->>>               goto release_adapter;
->>> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c
->> b/drivers/gpu/drm/sti/sti_hqvdp.c
->>> index
->> 0f658709c9d0d398c4eed65202443db9d0b41f8c..420395598d119a403d531211022e6005d6a2bd59
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
->>> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
->>> @@ -1356,7 +1356,6 @@ static int sti_hqvdp_probe(struct platform_device
->> *pdev)
->>>       struct device *dev = &pdev->dev;
->>>       struct device_node *vtg_np;
->>>       struct sti_hqvdp *hqvdp;
->>> -     struct resource *res;
->>>
->>>       DRM_DEBUG_DRIVER("\n");
->>>
->>> @@ -1367,14 +1366,7 @@ static int sti_hqvdp_probe(struct platform_device
->> *pdev)
->>>       }
->>>
->>>       hqvdp->dev = dev;
->>> -
->>> -     /* Get Memory resources */
->>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->>> -     if (!res) {
->>> -             DRM_ERROR("Get memory resource failed\n");
->>> -             return -ENXIO;
->>> -     }
->>> -     hqvdp->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     hqvdp->regs = devm_platform_ioremap_resource(pdev, 0);
->>>       if (!hqvdp->regs) {
->>>               DRM_ERROR("Register mapping failed\n");
->>>               return -ENXIO;
->>> diff --git a/drivers/gpu/drm/sti/sti_tvout.c
->> b/drivers/gpu/drm/sti/sti_tvout.c
->>> index
->> af6c06f448c4819def8cc0d0836e30f991529690..0bebe815f5e7567f84388af93723a6fa7d2cc7a2
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_tvout.c
->>> +++ b/drivers/gpu/drm/sti/sti_tvout.c
->>> @@ -838,7 +838,6 @@ static int sti_tvout_probe(struct platform_device
->> *pdev)
->>>       struct device *dev = &pdev->dev;
->>>       struct device_node *node = dev->of_node;
->>>       struct sti_tvout *tvout;
->>> -     struct resource *res;
->>>
->>>       DRM_INFO("%s\n", __func__);
->>>
->>> @@ -850,14 +849,7 @@ static int sti_tvout_probe(struct platform_device
->> *pdev)
->>>               return -ENOMEM;
->>>
->>>       tvout->dev = dev;
->>> -
->>> -     /* get memory resources */
->>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->> "tvout-reg");
->>> -     if (!res) {
->>> -             DRM_ERROR("Invalid glue resource\n");
->>> -             return -ENOMEM;
->>> -     }
->>> -     tvout->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     tvout->regs = devm_platform_ioremap_resource_byname(pdev,
->> "tvout-reg");
->>>       if (!tvout->regs)
->>>               return -ENOMEM;
->>>
->>> diff --git a/drivers/gpu/drm/sti/sti_vtg.c
->> b/drivers/gpu/drm/sti/sti_vtg.c
->>> index
->> 5ba469b711b5318e9e9e6d8df127fb8933d1fac1..b5353fe774d72fd629ecd3ef75a5d2817ca8617f
->> 100644
->>> --- a/drivers/gpu/drm/sti/sti_vtg.c
->>> +++ b/drivers/gpu/drm/sti/sti_vtg.c
->>> @@ -380,20 +380,12 @@ static int vtg_probe(struct platform_device *pdev)
->>>  {
->>>       struct device *dev = &pdev->dev;
->>>       struct sti_vtg *vtg;
->>> -     struct resource *res;
->>>       int ret;
->>>
->>>       vtg = devm_kzalloc(dev, sizeof(*vtg), GFP_KERNEL);
->>>       if (!vtg)
->>>               return -ENOMEM;
->>> -
->>> -     /* Get Memory ressources */
->>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->>> -     if (!res) {
->>> -             DRM_ERROR("Get memory resource failed\n");
->>> -             return -ENOMEM;
->>> -     }
->>> -     vtg->regs = devm_ioremap(dev, res->start, resource_size(res));
->>> +     vtg->regs = devm_platform_ioremap_resource(pdev, 0);
->>>       if (!vtg->regs) {
->>>               DRM_ERROR("failed to remap I/O memory\n");
->>>               return -ENOMEM;
->>>
->>
 
