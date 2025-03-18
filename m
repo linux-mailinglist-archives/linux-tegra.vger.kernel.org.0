@@ -1,43 +1,43 @@
-Return-Path: <linux-tegra+bounces-5618-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5616-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F19A66A91
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 07:35:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66809A66A94
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 07:36:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1352C7A7885
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 06:34:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFB1B17B4D6
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 06:35:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29321DE3DC;
-	Tue, 18 Mar 2025 06:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0854D1A08A8;
+	Tue, 18 Mar 2025 06:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="IaSe35HR"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nOU4A+w9"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ACCF1A238C
-	for <linux-tegra@vger.kernel.org>; Tue, 18 Mar 2025 06:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 898A746426
+	for <linux-tegra@vger.kernel.org>; Tue, 18 Mar 2025 06:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742279751; cv=none; b=KsL7s440ENIx34lUTJlTAHTY3kfVrV/Y2WhVxMFTnvwb1JqQlc2/+n04KPQ46KBTf1NhGaH+PzWWXTy4hvHfg+0H/LmLGzA99psnxxCucAadJoFIXPmfd/xbE0B3t0mUd+BAUyyVpRJ6rZ17q5aZBBxKY5V05IGwwfXegQkeA5s=
+	t=1742279748; cv=none; b=GA6yopxOE2gaFrF2W63XWBW/MpwhEsXLpFgE5EnwC8t8EvevN1NavLojYgAg0wGMVE4yFgPlbX2SsaXjH0Jo0b2XVCDzvNa05LcJ+5rDdhzA9CnzqQ52J+gyPuZrv9HveFoJhu8YQhgmHmraAaq2Au9SX+tNll/vjXeiLdouEsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742279751; c=relaxed/simple;
-	bh=BjnBKssJqPzZNkcGGVw3IUuCNVxX5rByqu0eojHtaxQ=;
+	s=arc-20240116; t=1742279748; c=relaxed/simple;
+	bh=g5LDPeZFEOQBI+DgPiE4h4bJJm4JY0NkSiAoW64Upvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ekx8I1raEwDJH6ep3WBMwmUhjqqXX3VICOXonYScypMwCXJ6mz6NV7Cf+pPuT5ZT8JLdTMmE7ipJLa9cilLEJP40ues+kHrtp613wxcwDm8QHNsaQJVnCTe1+5zOpjBw6Gn0yXgYoIFosxc9sSG7IGFkNygHZ6nt1CVpyaoJ28I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=IaSe35HR; arc=none smtp.client-ip=220.197.31.3
+	 MIME-Version; b=O5bz1KlhHQsAUU5OZ2RS95wfYP0C6WRdNx+UCsbY0XmXTALil7flGDwhaVChKhV+9QOmnuM8JE0KW3uw9uofZ6oX3EkZo8sCUfmxod52cnZYwNNvwS0F8Sxybs/XHExGMlhnOUCPYItu3SAIfMiuzHEV0qdk0KJDrLAR9O/QGWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nOU4A+w9; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=R5tub
-	IkLGLLauxbma/eCHLbMxtXUO/cXsdIf0aGk0vM=; b=IaSe35HRlr+O00Tn+gVG7
-	Zq3ltfYBuFBPMdtP12nP1ACPF75RBIE3Cm88u+cA2SbI8/LLyScE+51NWbjBMdvl
-	fYkG8n6cq7Bo4+2QyZc9hL2BtAkASERvhyQ1AS28AqSqdLwfJJIf6eRbudC4CIxg
-	VAwBer3lpESVCwwDE6+BQQ=
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=rPBTU
+	KbnNgaTouZNcb18EqWega5P/0Ty2iUC9/ZbyI4=; b=nOU4A+w9e3xPUle5k6gVe
+	2Nq0w09lLfcCAG/oY3Q8JG3WogxWq7bzTzrsWO8I/3qtz9Ylahej3jDVzeVQhucr
+	68HLOWRHmHnXt/4Z/RRhm8SuGBQJ/+7tPRanw9Og0K0NUtQcl86hrTb9PNTiTEC/
+	UCJiJJKc1K62kr+8OGAMBA=
 Received: from ProDesk.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDnnuYSFNlnP+WyAA--.9231S4;
-	Tue, 18 Mar 2025 14:35:03 +0800 (CST)
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDnnuYSFNlnP+WyAA--.9231S5;
+	Tue, 18 Mar 2025 14:35:04 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: lumag@kernel.org
 Cc: mripard@kernel.org,
@@ -54,9 +54,9 @@ Cc: mripard@kernel.org,
 	linux-tegra@vger.kernel.org,
 	Andy Yan <andy.yan@rock-chips.com>,
 	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 3/5] drm/bridge: anx6345: Switch to common helpers to power up/down dp link
-Date: Tue, 18 Mar 2025 14:34:37 +0800
-Message-ID: <20250318063452.4983-3-andyshrk@163.com>
+Subject: [PATCH v2 4/5] drm/bridge: anx78xx: Switch to common helpers to power up/down dp link
+Date: Tue, 18 Mar 2025 14:34:38 +0800
+Message-ID: <20250318063452.4983-4-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250318063452.4983-1-andyshrk@163.com>
 References: <20250318063452.4983-1-andyshrk@163.com>
@@ -67,12 +67,12 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnnuYSFNlnP+WyAA--.9231S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr4ktrW5tF1kur4rGF17Wrg_yoW8AFW8pr
-	13C342qF1S9wnYqrs0kF10gFs8Z34DW395GrWUCw48u3WUCFnFy34Sy34fGas5XrykA3Wj
-	qFnrAF9rZFyvvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jTT5dUUUUU=
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAEUXmfZDcXVgQAAsB
+X-CM-TRANSID:_____wDnnuYSFNlnP+WyAA--.9231S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr4ktrW5tF1kur4rZryUAwb_yoW8AFW5pr
+	1fKw42vr1xuw13Xr4YkF40gFW5Za4DW395CrW7Gw4vy3WUAFnF9a4IvFyfGas8Jr95AF10
+	qr1DAasrZa409w7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jlXd8UUUUU=
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hMUXmfZEI52+wAAsm
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
@@ -84,14 +84,14 @@ Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 (no changes since v1)
 
- .../drm/bridge/analogix/analogix-anx6345.c    | 30 +------------------
+ .../drm/bridge/analogix/analogix-anx78xx.c    | 30 +------------------
  1 file changed, 1 insertion(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index 83d711ee3a2e..f4fffe4bbb30 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -143,35 +143,7 @@ static int anx6345_dp_link_training(struct anx6345 *anx6345)
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index f74694bb9c50..3d9daa885eef 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -656,35 +656,7 @@ static int anx78xx_dp_link_training(struct anx78xx *anx78xx)
  	if (err)
  		return err;
  
@@ -99,8 +99,8 @@ index 83d711ee3a2e..f4fffe4bbb30 100644
 -	 * Power up the sink (DP_SET_POWER register is only available on DPCD
 -	 * v1.1 and later).
 -	 */
--	if (anx6345->dpcd[DP_DPCD_REV] >= 0x11) {
--		err = drm_dp_dpcd_readb(&anx6345->aux, DP_SET_POWER, &dpcd[0]);
+-	if (anx78xx->dpcd[DP_DPCD_REV] >= 0x11) {
+-		err = drm_dp_dpcd_readb(&anx78xx->aux, DP_SET_POWER, &dpcd[0]);
 -		if (err < 0) {
 -			DRM_ERROR("Failed to read DP_SET_POWER register: %d\n",
 -				  err);
@@ -110,7 +110,7 @@ index 83d711ee3a2e..f4fffe4bbb30 100644
 -		dpcd[0] &= ~DP_SET_POWER_MASK;
 -		dpcd[0] |= DP_SET_POWER_D0;
 -
--		err = drm_dp_dpcd_writeb(&anx6345->aux, DP_SET_POWER, dpcd[0]);
+-		err = drm_dp_dpcd_writeb(&anx78xx->aux, DP_SET_POWER, dpcd[0]);
 -		if (err < 0) {
 -			DRM_ERROR("Failed to power up DisplayPort link: %d\n",
 -				  err);
@@ -124,10 +124,10 @@ index 83d711ee3a2e..f4fffe4bbb30 100644
 -		 */
 -		usleep_range(1000, 2000);
 -	}
-+	drm_dp_link_power_up(&anx6345->aux, anx6345->dpcd[DP_DPCD_REV]);
++	drm_dp_link_power_up(&anx78xx->aux, anx78xx->dpcd[DP_DPCD_REV]);
  
  	/* Possibly enable downspread on the sink */
- 	err = regmap_write(anx6345->map[I2C_IDX_DPTX],
+ 	err = regmap_write(anx78xx->map[I2C_IDX_TX_P0],
 -- 
 2.43.0
 
