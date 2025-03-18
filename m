@@ -1,41 +1,42 @@
-Return-Path: <linux-tegra+bounces-5617-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5619-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0822A66A95
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 07:36:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E818A66A92
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 07:35:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D99517B679
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 06:35:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F4517A7CC0
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 06:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E138C1B0405;
-	Tue, 18 Mar 2025 06:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320AA1DE4E6;
+	Tue, 18 Mar 2025 06:35:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="VfeZ/WcM"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="SzHkNd2Q"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DDEF19F47E
-	for <linux-tegra@vger.kernel.org>; Tue, 18 Mar 2025 06:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E610F1B85D1
+	for <linux-tegra@vger.kernel.org>; Tue, 18 Mar 2025 06:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742279749; cv=none; b=FG2B/ZtWGKckNMp4BZOsDK1HQEZk7psFtZoGl7OS+1LTlncTsuQZ8h4ua2datKnmSpF9pN7efBeCq1zvaD7TzZPpP6R6aIK74Aoc2HnOf240goU0amrXOMmLHX2GzgL/QaybC9GYPczoRuyQ0zyPFWcimyf5VAmlt6ZngbCeMlQ=
+	t=1742279752; cv=none; b=B4a/hGa/hhuOr925SA96O17S1nuHZqiwbRy+leDoU0vfjNoGmKr+oZaRww5ND6LDjWJGXoKViwkuw+f+dTcump2qPoZPCNJajAHScgIAqu4b2G1KKd8LSOhvy/H7aim0ch7i1IEyM0ntn2QUBXO75wIMjlhf1xBYLLCHlHEo7kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742279749; c=relaxed/simple;
-	bh=qiaCpBy+1SmlyOwbIiMfkSTOTPtzruPDTBDoTvSsQdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qix6ImvORs1k8qAVu/HRhzJKHzKakpuSEDrGDGmPECFf//EOr77lwNykrxwrLs/I/lEGTuhOwsw5Q7650+UiF/deHlH3C6WJ0WxYITqzrngcgr6q7EaSJiRMvjaiSag0rM94xFHRpS1tueBOoCf68fJa8Z2IlfhTVKuNsGUeso0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=VfeZ/WcM; arc=none smtp.client-ip=220.197.31.3
+	s=arc-20240116; t=1742279752; c=relaxed/simple;
+	bh=ZhumqbJyC0jbSm+aIwpEmIBwtKUwy6ehaPN7I3hoWMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SFGXNhms//z5GPHbxevElM6FblezcCMnzgDRVBMyqKjMHweyx69Dk/oeMjfKU0HN+3i0mPjQ6rbriG4uPzefufu7SYzrQejqsWfpph6Ux7uKZDbelzsUgQhkvR50ij50o3GtqafaL0HDOa9IT+bkS/o7O7c7s9jtax4U6WalBZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=SzHkNd2Q; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=3cFpy
-	O0zoxCvQA2gLIyeQFepMdzph3mRX5brkB3Irso=; b=VfeZ/WcM4BZ5HyhCKqBZk
-	SfrJqKobeznK5eSpa21uT1bByL1IwmmiYjHFVqGwi3GiIY0D9sFgAueHKI6nK25t
-	LHVJ9M1aWIlRWq2gVSoNoFSPxtjKasybo8HI9ncL2Y7VuYgIOzYqDC/HUlha7+RR
-	e9liCH4a2MYy58FdwJiT4I=
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=Lni5v
+	gIHCnsELvDKBqFqxLmr1fHW/mwIGLXVHAW3C7g=; b=SzHkNd2QYFIpittBiqDGc
+	d7vrnpG2TxueyfV+kGQAdlevWf0RPxiYprddST6wQD3PpgYFgCNxy9DPw1j3o2oK
+	U0iWA542OI+0Xzj4zTxKTENWrkyXo315AD+WeBGr1HI1EvvKvSff2qXthM7g1GbS
+	moKgcHOiCaqOMlw8epiuuA=
 Received: from ProDesk.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDnnuYSFNlnP+WyAA--.9231S2;
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDnnuYSFNlnP+WyAA--.9231S3;
 	Tue, 18 Mar 2025 14:35:02 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: lumag@kernel.org
@@ -53,10 +54,12 @@ Cc: mripard@kernel.org,
 	linux-tegra@vger.kernel.org,
 	Andy Yan <andy.yan@rock-chips.com>,
 	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra to common drm_dp_helper
-Date: Tue, 18 Mar 2025 14:34:35 +0800
-Message-ID: <20250318063452.4983-1-andyshrk@163.com>
+Subject: [PATCH v2 2/5] drm/bridge: cdns-mhdp8546: Switch to common helpers to power up/down dp link
+Date: Tue, 18 Mar 2025 14:34:36 +0800
+Message-ID: <20250318063452.4983-2-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250318063452.4983-1-andyshrk@163.com>
+References: <20250318063452.4983-1-andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -64,131 +67,43 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnnuYSFNlnP+WyAA--.9231S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3XFyfAFW5Ar1xKFyxAry5Jwb_yoW3XrWDpF
-	ZxWry8tw4vvw4UXF47tF129rZxua17CFWkKrWxG3s3A3Wjyr98Xa45tr15GFy3JryDCay7
-	tFnxCFW7GFWIkw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jFxRDUUUUU=
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAIUXmfZEzUB-gABs+
+X-CM-TRANSID:_____wDnnuYSFNlnP+WyAA--.9231S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw18Xr1xtF4xAF4UZF4fXwb_yoW5uF15pF
+	ZxW34UtF4vvw4DXF4ktF109r43A3W7Ca1kGrW8Gw48Z3WYyas8ta4a9F17JFW5Gr97Ca1a
+	qFnYvayxWFZ2kr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jxYFAUUUUU=
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAIUXmfZEzUB-gACs9
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The helper functions drm_dp_link_power_up/down were moved to Tegra
-DRM in commit 9a42c7c647a9 ("drm/tegra: Move drm_dp_link helpers to Tegra DRM")".
-
-Now since more and more users are duplicating the same code in their
-own drivers, it's time to make them as DRM DP common helpers again.
+Use the common dp link power up/down helpers to avoid duplicating code.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
 
-Changes in v2:
-- Fix commit message as suggested by Dmitry
+(no changes since v1)
 
- drivers/gpu/drm/display/drm_dp_helper.c | 69 +++++++++++++++++++++++++
- drivers/gpu/drm/tegra/dp.c              | 67 ------------------------
- drivers/gpu/drm/tegra/dp.h              |  2 -
- drivers/gpu/drm/tegra/sor.c             |  4 +-
- include/drm/display/drm_dp_helper.h     |  2 +
- 5 files changed, 73 insertions(+), 71 deletions(-)
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 74 +------------------
+ 1 file changed, 2 insertions(+), 72 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index dbce1c3f4969..e5dec67e5fca 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -838,6 +838,75 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
- }
- EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
- 
-+/**
-+ * drm_dp_link_power_up() - power up a DisplayPort link
-+ * @aux: DisplayPort AUX channel
-+ * @revision: DPCD revision supported on the link
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision)
-+{
-+	u8 value;
-+	int err;
-+
-+	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
-+	if (revision < DP_DPCD_REV_11)
-+		return 0;
-+
-+	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
-+	if (err < 0)
-+		return err;
-+
-+	value &= ~DP_SET_POWER_MASK;
-+	value |= DP_SET_POWER_D0;
-+
-+	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
-+	if (err < 0)
-+		return err;
-+
-+	/*
-+	 * According to the DP 1.1 specification, a "Sink Device must exit the
-+	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
-+	 * Control Field" (register 0x600).
-+	 */
-+	usleep_range(1000, 2000);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_link_power_up);
-+
-+/**
-+ * drm_dp_link_power_down() - power down a DisplayPort link
-+ * @aux: DisplayPort AUX channel
-+ * @revision: DPCD revision supported on the link
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision)
-+{
-+	u8 value;
-+	int err;
-+
-+	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
-+	if (revision < DP_DPCD_REV_11)
-+		return 0;
-+
-+	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
-+	if (err < 0)
-+		return err;
-+
-+	value &= ~DP_SET_POWER_MASK;
-+	value |= DP_SET_POWER_D3;
-+
-+	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_link_power_down);
-+
- static int read_payload_update_status(struct drm_dp_aux *aux)
- {
- 	int ret;
-diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-index 08fbd8f151a1..990e744b0923 100644
---- a/drivers/gpu/drm/tegra/dp.c
-+++ b/drivers/gpu/drm/tegra/dp.c
-@@ -255,73 +255,6 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
- 	return 0;
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index 81fad14c2cd5..6094ecde35ff 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -545,76 +545,6 @@ int cdns_mhdp_adjust_lt(struct cdns_mhdp_device *mhdp, unsigned int nlanes,
+ 	return ret;
  }
  
 -/**
-- * drm_dp_link_power_up() - power up a DisplayPort link
+- * cdns_mhdp_link_power_up() - power up a DisplayPort link
 - * @aux: DisplayPort AUX channel
 - * @link: pointer to a structure containing the link configuration
 - *
 - * Returns 0 on success or a negative error code on failure.
 - */
--int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-static
+-int cdns_mhdp_link_power_up(struct drm_dp_aux *aux, struct cdns_mhdp_link *link)
 -{
 -	u8 value;
 -	int err;
@@ -219,13 +134,15 @@ index 08fbd8f151a1..990e744b0923 100644
 -}
 -
 -/**
-- * drm_dp_link_power_down() - power down a DisplayPort link
+- * cdns_mhdp_link_power_down() - power down a DisplayPort link
 - * @aux: DisplayPort AUX channel
 - * @link: pointer to a structure containing the link configuration
 - *
 - * Returns 0 on success or a negative error code on failure.
 - */
--int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-static
+-int cdns_mhdp_link_power_down(struct drm_dp_aux *aux,
+-			      struct cdns_mhdp_link *link)
 -{
 -	u8 value;
 -	int err;
@@ -249,56 +166,26 @@ index 08fbd8f151a1..990e744b0923 100644
 -}
 -
  /**
-  * drm_dp_link_configure() - configure a DisplayPort link
+  * cdns_mhdp_link_configure() - configure a DisplayPort link
   * @aux: DisplayPort AUX channel
-diff --git a/drivers/gpu/drm/tegra/dp.h b/drivers/gpu/drm/tegra/dp.h
-index cb12ed0c54e7..695060cafac0 100644
---- a/drivers/gpu/drm/tegra/dp.h
-+++ b/drivers/gpu/drm/tegra/dp.h
-@@ -164,8 +164,6 @@ int drm_dp_link_remove_rate(struct drm_dp_link *link, unsigned long rate);
- void drm_dp_link_update_rates(struct drm_dp_link *link);
+@@ -1453,7 +1383,7 @@ static int cdns_mhdp_link_up(struct cdns_mhdp_device *mhdp)
+ 		mhdp->link.capabilities |= DP_LINK_CAP_ENHANCED_FRAMING;
  
- int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link);
--int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link);
--int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link);
- int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link);
- int drm_dp_link_choose(struct drm_dp_link *link,
- 		       const struct drm_display_mode *mode,
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index f98f70eda906..21f3dfdcc5c9 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -2666,7 +2666,7 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
- 	 * the AUX transactions would just be timing out.
- 	 */
- 	if (output->connector.status != connector_status_disconnected) {
--		err = drm_dp_link_power_down(sor->aux, &sor->link);
-+		err = drm_dp_link_power_down(sor->aux, sor->link.revision);
- 		if (err < 0)
- 			dev_err(sor->dev, "failed to power down link: %d\n",
- 				err);
-@@ -2882,7 +2882,7 @@ static void tegra_sor_dp_enable(struct drm_encoder *encoder)
- 	else
- 		dev_dbg(sor->dev, "link training succeeded\n");
+ 	dev_dbg(mhdp->dev, "Set sink device power state via DPCD\n");
+-	cdns_mhdp_link_power_up(&mhdp->aux, &mhdp->link);
++	drm_dp_link_power_up(&mhdp->aux, mhdp->link.revision);
  
--	err = drm_dp_link_power_up(sor->aux, &sor->link);
-+	err = drm_dp_link_power_up(sor->aux, sor->link.revision);
- 	if (err < 0)
- 		dev_err(sor->dev, "failed to power up DP link: %d\n", err);
+ 	cdns_mhdp_fill_sink_caps(mhdp, dpcd);
  
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 5ae4241959f2..f9dabce484a7 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -566,6 +566,8 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
- 				     enum drm_dp_phy dp_phy,
- 				     u8 link_status[DP_LINK_STATUS_SIZE]);
-+int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision);
-+int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision);
+@@ -1500,7 +1430,7 @@ static void cdns_mhdp_link_down(struct cdns_mhdp_device *mhdp)
+ 	WARN_ON(!mutex_is_locked(&mhdp->link_mutex));
  
- int drm_dp_dpcd_write_payload(struct drm_dp_aux *aux,
- 			      int vcpid, u8 start_time_slot, u8 time_slot_count);
+ 	if (mhdp->plugged)
+-		cdns_mhdp_link_power_down(&mhdp->aux, &mhdp->link);
++		drm_dp_link_power_down(&mhdp->aux, mhdp->link.revision);
+ 
+ 	mhdp->link_up = false;
+ }
 -- 
 2.43.0
 
