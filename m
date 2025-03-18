@@ -1,137 +1,305 @@
-Return-Path: <linux-tegra+bounces-5615-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5617-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982CFA65AAA
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Mar 2025 18:27:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0822A66A95
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 07:36:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 340293A05DD
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Mar 2025 17:24:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D99517B679
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Mar 2025 06:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B93919995B;
-	Mon, 17 Mar 2025 17:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E138C1B0405;
+	Tue, 18 Mar 2025 06:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="VfeZ/WcM"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387FC18A6DB;
-	Mon, 17 Mar 2025 17:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DDEF19F47E
+	for <linux-tegra@vger.kernel.org>; Tue, 18 Mar 2025 06:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742232270; cv=none; b=KVe8DaDckBDiEvb9L1MO5QjcC0s7R8kR0zrAmpnaN2TGHRlZdKYUC0jAGbnoSAyu8UL/wlNf29SOvvmndjJ+NyLM7tih0tu3G5QxQu8NRsuKNgTIxuKtddP2tFbqE08Kawi7oo3TFI2bMof+lijoDlg61pIZFlcBpN8ZwzjsLfo=
+	t=1742279749; cv=none; b=FG2B/ZtWGKckNMp4BZOsDK1HQEZk7psFtZoGl7OS+1LTlncTsuQZ8h4ua2datKnmSpF9pN7efBeCq1zvaD7TzZPpP6R6aIK74Aoc2HnOf240goU0amrXOMmLHX2GzgL/QaybC9GYPczoRuyQ0zyPFWcimyf5VAmlt6ZngbCeMlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742232270; c=relaxed/simple;
-	bh=zbbR6WbFaC4VlMNV/gml+ZSldzu+moegdui9CEsqH7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJwiby4Q5TakEO9zG5KfzZY+hTzzaEzNPaqJnIo7tpaK4ckLiyAbOEtxsEoFrQ3MTTZ/OynzRULQoaA3kVSJyDiaUmB3cSwPLO6XWCy9A7z9JSWjukWXGI5dr4nx4SZOE+CoI4afhKqh6/dhRzra30qgR3xgsHsDLSPHTnAi0/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5114C4CEE3;
-	Mon, 17 Mar 2025 17:24:27 +0000 (UTC)
-Date: Mon, 17 Mar 2025 17:24:24 +0000
-From: Mark Brown <broonie@debian.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>, linux-tegra@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rmikey@meta.com, kernel-team@meta.com
-Subject: Re: [PATCH 1/3] spi: tegra210-quad: use device_reset_optional()
- instead of device_reset()
-Message-ID: <f3e47d12-f6be-4bb5-b87b-84aa0037e1ef@sirena.org.uk>
-References: <20250317-tegra-v1-0-78474efc0386@debian.org>
- <20250317-tegra-v1-1-78474efc0386@debian.org>
- <22ffa8f5-6590-4602-853d-ceffed580f22@sirena.org.uk>
- <20250317-solemn-debonair-sambar-f04fa7@leitao>
+	s=arc-20240116; t=1742279749; c=relaxed/simple;
+	bh=qiaCpBy+1SmlyOwbIiMfkSTOTPtzruPDTBDoTvSsQdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qix6ImvORs1k8qAVu/HRhzJKHzKakpuSEDrGDGmPECFf//EOr77lwNykrxwrLs/I/lEGTuhOwsw5Q7650+UiF/deHlH3C6WJ0WxYITqzrngcgr6q7EaSJiRMvjaiSag0rM94xFHRpS1tueBOoCf68fJa8Z2IlfhTVKuNsGUeso0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=VfeZ/WcM; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=3cFpy
+	O0zoxCvQA2gLIyeQFepMdzph3mRX5brkB3Irso=; b=VfeZ/WcM4BZ5HyhCKqBZk
+	SfrJqKobeznK5eSpa21uT1bByL1IwmmiYjHFVqGwi3GiIY0D9sFgAueHKI6nK25t
+	LHVJ9M1aWIlRWq2gVSoNoFSPxtjKasybo8HI9ncL2Y7VuYgIOzYqDC/HUlha7+RR
+	e9liCH4a2MYy58FdwJiT4I=
+Received: from ProDesk.. (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDnnuYSFNlnP+WyAA--.9231S2;
+	Tue, 18 Mar 2025 14:35:02 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: lumag@kernel.org
+Cc: mripard@kernel.org,
+	neil.armstrong@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	dianders@chromium.org,
+	jani.nikula@intel.com,
+	lyude@redhat.com,
+	jonathanh@nvidia.com,
+	thierry.reding@gmail.com,
+	victor.liu@nxp.com,
+	rfoss@kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra to common drm_dp_helper
+Date: Tue, 18 Mar 2025 14:34:35 +0800
+Message-ID: <20250318063452.4983-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mKVuPqVh/OxM585l"
-Content-Disposition: inline
-In-Reply-To: <20250317-solemn-debonair-sambar-f04fa7@leitao>
-X-Cookie: I know how to do SPECIAL EFFECTS!!
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnnuYSFNlnP+WyAA--.9231S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3XFyfAFW5Ar1xKFyxAry5Jwb_yoW3XrWDpF
+	ZxWry8tw4vvw4UXF47tF129rZxua17CFWkKrWxG3s3A3Wjyr98Xa45tr15GFy3JryDCay7
+	tFnxCFW7GFWIkw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jFxRDUUUUU=
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAIUXmfZEzUB-gABs+
 
+From: Andy Yan <andy.yan@rock-chips.com>
 
---mKVuPqVh/OxM585l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The helper functions drm_dp_link_power_up/down were moved to Tegra
+DRM in commit 9a42c7c647a9 ("drm/tegra: Move drm_dp_link helpers to Tegra DRM")".
 
-On Mon, Mar 17, 2025 at 09:56:43AM -0700, Breno Leitao wrote:
-> Hello Mark,
->=20
-> On Mon, Mar 17, 2025 at 04:45:31PM +0000, Mark Brown wrote:
-> > On Mon, Mar 17, 2025 at 08:44:01AM -0700, Breno Leitao wrote:
-> > > My UEFI machines with tegra210-quad consistently report "device reset
-> > > failed". Investigation showed this isn't an actual failure
-> > > - __device_reset() returns -ENOENT because ACPI has no "*_RST" method.
+Now since more and more users are duplicating the same code in their
+own drivers, it's time to make them as DRM DP common helpers again.
 
-> > That's not the case, it's returning an error because there is no reset
-> > controller discoverable via any mechanism.=20
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
 
-> Sorry, I was not very familiar with this subsystem, but I chase down
-> __device_reset(), and I found the return was coming from:
+Changes in v2:
+- Fix commit message as suggested by Dmitry
 
-> 	int __device_reset(struct device *dev, bool optional)
-> 	{
-> 		acpi_handle handle =3D ACPI_HANDLE(dev);
-> 		if (handle) {
-> 			if (!acpi_has_method(handle, "_RST"))
-> 				return optional ? 0 : -ENOENT;
+ drivers/gpu/drm/display/drm_dp_helper.c | 69 +++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/dp.c              | 67 ------------------------
+ drivers/gpu/drm/tegra/dp.h              |  2 -
+ drivers/gpu/drm/tegra/sor.c             |  4 +-
+ include/drm/display/drm_dp_helper.h     |  2 +
+ 5 files changed, 73 insertions(+), 71 deletions(-)
 
-> > There's no specific handling for ACPI here. =20
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index dbce1c3f4969..e5dec67e5fca 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -838,6 +838,75 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+ }
+ EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
+ 
++/**
++ * drm_dp_link_power_up() - power up a DisplayPort link
++ * @aux: DisplayPort AUX channel
++ * @revision: DPCD revision supported on the link
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision)
++{
++	u8 value;
++	int err;
++
++	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
++	if (revision < DP_DPCD_REV_11)
++		return 0;
++
++	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
++	if (err < 0)
++		return err;
++
++	value &= ~DP_SET_POWER_MASK;
++	value |= DP_SET_POWER_D0;
++
++	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
++	if (err < 0)
++		return err;
++
++	/*
++	 * According to the DP 1.1 specification, a "Sink Device must exit the
++	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
++	 * Control Field" (register 0x600).
++	 */
++	usleep_range(1000, 2000);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_link_power_up);
++
++/**
++ * drm_dp_link_power_down() - power down a DisplayPort link
++ * @aux: DisplayPort AUX channel
++ * @revision: DPCD revision supported on the link
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision)
++{
++	u8 value;
++	int err;
++
++	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
++	if (revision < DP_DPCD_REV_11)
++		return 0;
++
++	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
++	if (err < 0)
++		return err;
++
++	value &= ~DP_SET_POWER_MASK;
++	value |= DP_SET_POWER_D3;
++
++	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_link_power_down);
++
+ static int read_payload_update_status(struct drm_dp_aux *aux)
+ {
+ 	int ret;
+diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+index 08fbd8f151a1..990e744b0923 100644
+--- a/drivers/gpu/drm/tegra/dp.c
++++ b/drivers/gpu/drm/tegra/dp.c
+@@ -255,73 +255,6 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
+ 	return 0;
+ }
+ 
+-/**
+- * drm_dp_link_power_up() - power up a DisplayPort link
+- * @aux: DisplayPort AUX channel
+- * @link: pointer to a structure containing the link configuration
+- *
+- * Returns 0 on success or a negative error code on failure.
+- */
+-int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-{
+-	u8 value;
+-	int err;
+-
+-	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+-	if (link->revision < 0x11)
+-		return 0;
+-
+-	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+-	if (err < 0)
+-		return err;
+-
+-	value &= ~DP_SET_POWER_MASK;
+-	value |= DP_SET_POWER_D0;
+-
+-	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+-	if (err < 0)
+-		return err;
+-
+-	/*
+-	 * According to the DP 1.1 specification, a "Sink Device must exit the
+-	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
+-	 * Control Field" (register 0x600).
+-	 */
+-	usleep_range(1000, 2000);
+-
+-	return 0;
+-}
+-
+-/**
+- * drm_dp_link_power_down() - power down a DisplayPort link
+- * @aux: DisplayPort AUX channel
+- * @link: pointer to a structure containing the link configuration
+- *
+- * Returns 0 on success or a negative error code on failure.
+- */
+-int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-{
+-	u8 value;
+-	int err;
+-
+-	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+-	if (link->revision < 0x11)
+-		return 0;
+-
+-	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+-	if (err < 0)
+-		return err;
+-
+-	value &= ~DP_SET_POWER_MASK;
+-	value |= DP_SET_POWER_D3;
+-
+-	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+-	if (err < 0)
+-		return err;
+-
+-	return 0;
+-}
+-
+ /**
+  * drm_dp_link_configure() - configure a DisplayPort link
+  * @aux: DisplayPort AUX channel
+diff --git a/drivers/gpu/drm/tegra/dp.h b/drivers/gpu/drm/tegra/dp.h
+index cb12ed0c54e7..695060cafac0 100644
+--- a/drivers/gpu/drm/tegra/dp.h
++++ b/drivers/gpu/drm/tegra/dp.h
+@@ -164,8 +164,6 @@ int drm_dp_link_remove_rate(struct drm_dp_link *link, unsigned long rate);
+ void drm_dp_link_update_rates(struct drm_dp_link *link);
+ 
+ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link);
+-int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link);
+-int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link);
+ int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link);
+ int drm_dp_link_choose(struct drm_dp_link *link,
+ 		       const struct drm_display_mode *mode,
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index f98f70eda906..21f3dfdcc5c9 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2666,7 +2666,7 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
+ 	 * the AUX transactions would just be timing out.
+ 	 */
+ 	if (output->connector.status != connector_status_disconnected) {
+-		err = drm_dp_link_power_down(sor->aux, &sor->link);
++		err = drm_dp_link_power_down(sor->aux, sor->link.revision);
+ 		if (err < 0)
+ 			dev_err(sor->dev, "failed to power down link: %d\n",
+ 				err);
+@@ -2882,7 +2882,7 @@ static void tegra_sor_dp_enable(struct drm_encoder *encoder)
+ 	else
+ 		dev_dbg(sor->dev, "link training succeeded\n");
+ 
+-	err = drm_dp_link_power_up(sor->aux, &sor->link);
++	err = drm_dp_link_power_up(sor->aux, sor->link.revision);
+ 	if (err < 0)
+ 		dev_err(sor->dev, "failed to power up DP link: %d\n", err);
+ 
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 5ae4241959f2..f9dabce484a7 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -566,6 +566,8 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
+ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+ 				     enum drm_dp_phy dp_phy,
+ 				     u8 link_status[DP_LINK_STATUS_SIZE]);
++int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision);
++int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision);
+ 
+ int drm_dp_dpcd_write_payload(struct drm_dp_aux *aux,
+ 			      int vcpid, u8 start_time_slot, u8 time_slot_count);
+-- 
+2.43.0
 
-> Do you mean no _RST method as stated above?
-
-That's only happening in the case where the device has an ACPI handle,
-the SPI driver has no idea why the reset API failed to look up a reset
-controller.  Your change is to the SPI driver, not the reset framework.
-
-> > It's also not clear that this is a false positive, the
-> > driver did indeed fail to reset the device and especially for the error
-> > handling case that seems like relevant information.
-
-> If the driver failed to reset the device, then device_reset_optional()
-> it will return an error code, but it will not return an error code if
-> the RST method is not found, right?
-
-> Sorry, if I am mis-understading the code here.
-
-Clearly if no reset controller is available then the driver will have
-been unable to reset the hardware.  That seems like something it
-actually wanted to do, especially in the error handling case - it's a
-lot less likely that we'll recover things without the reset happening.
-During probe it's possibly not so urgent but at other times it seems
-more relevant.
-
-> > At the very least the changelog should be clarified.
-
-> What would you add to the changelog to make this clear?
-
-For starters the mention of ACPI is irrelevant to what the SPI driver is
-doing.  This sounds like a change specific to ACPI but it affects all
-users.
-
---mKVuPqVh/OxM585l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfYWscACgkQJNaLcl1U
-h9CdMwf9HG+W0/aFm8iS2Lnww7hNSddYKsFT9JGqqbd6NHP0gTTAJcjrJmauPW/+
-uRbvYzVP7ps9l53qUJZaYoY2nbrywHmog1aV4bdes+XrWGLOixff+NsV7P3OmleR
-DquV/mN6H1IQ4C8uCPJUE4br/wfqNakpThSRXAAhhYgShwm38WMAjH2fV1XprU4o
-P2FAjBQAWXPq6HdQ96zkNSWhgyLk13F1vHT8YBCaCnpZ+EFwM4gtK0vFxBNzyCzh
-o5v5BV9TlA+U1jJviDltp4BYQ7ZmHcJehbEIxJNJSWO3fDh/IHPp2LodWYDs5GJh
-NtFMyB/t6cj2H0ED1Uq2WXwvDwvA3w==
-=zlnz
------END PGP SIGNATURE-----
-
---mKVuPqVh/OxM585l--
 
