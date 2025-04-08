@@ -1,62 +1,62 @@
-Return-Path: <linux-tegra+bounces-5851-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-5834-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CCFA8137D
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Apr 2025 19:24:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D11CCA81307
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Apr 2025 18:56:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2FBC3B4B0A
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Apr 2025 17:24:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A5324C405D
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Apr 2025 16:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3CF6238D39;
-	Tue,  8 Apr 2025 17:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB11A23718D;
+	Tue,  8 Apr 2025 16:54:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MOewCa5l"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AEMfWwI5"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2079.outbound.protection.outlook.com [40.107.100.79])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F750237163;
-	Tue,  8 Apr 2025 17:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF42F237703;
+	Tue,  8 Apr 2025 16:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.84
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744133059; cv=fail; b=O+pnb4lR3+gk+e44gdLVbreVa1I7EnEL9dDO8dLxd3KDWVkzvbMtObOr5vTTJr1iE0fqVLHOnovmu1jCEJSmn85yW7DA4kyM289NsE7hicg4z1EdfBt4XMOO4x9PwaOpqnIk3HSD/lHvBTeeGdIRAcn2chFLd2RogAbhEE+3RgY=
+	t=1744131266; cv=fail; b=YzE/OKm17mGiaAQPam0pS7PBQt7aaBTDZ887n1IKWEdDV1crgh0O+08z9Ah7ZwJmmvMLDW/NFq9rxWpBqMyDgSPS32pZ5+lgu8tfa2lJ+eka5qm6Wo78De0bVM24i1gmFkPJy+BQm4Po9Bz/y3gcEpVoBztjmaZMf+OLlIUU9uU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744133059; c=relaxed/simple;
-	bh=jTw0TnZdImVdHssgmdd5JvJWlUNs7mitYYuV3E+c3kw=;
+	s=arc-20240116; t=1744131266; c=relaxed/simple;
+	bh=y1k1jt2PbqgpOzmOj87gm8x5RZvROdkCeQEd0+akElo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=g9MzSF5QU/JGYcmWLCekpSpy7ADbnEp05AoOn0IK0fmQXufGW/AcS28MHPDMtu+KYLRKN2qrp8jYrrmoQPmJZH6MxYpBfz/kWxldnWd7p3QQwn/8iJZE0GYXL4yXwTE58Nat8ZvddQFG1sn11Pjexn6clP1lxIdFI/xcTLi3PWE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MOewCa5l; arc=fail smtp.client-ip=40.107.100.79
+	 Content-Type:MIME-Version; b=VU3JVZ2ZsuHeAJqD6nkHEXWZS9Pl1kiOt+6HjvrCvR7hXrwMRsQAAYps2OW8DfiNAdIUKkImntUrAOrcOxlxhYR1xQMg6ICfNxO2k7JCFatMVy9Yz/zanGyrUrylYA6Vgjm5DhWfu3th4qo/7xZW0l1LdGS54RzLz2ABrJ9yQdw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AEMfWwI5; arc=fail smtp.client-ip=40.107.93.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o8q6NzVeBqOoa6ba5bDETo2/mZl0Y5l4jb7Is2rYCL6NXbMdeiDRfy9aT7eVMJ0edGR4JP5UrxciI51U+sCxZdfJ/3wPwN/M5VSzG8kDsP1L8ZRzpfh0CFFJiYJHVWGBrsd3WMGdfy4i9VzK7r7jZAE3FuXrM2vEumWMgsdrM/NWvSJx8iZcgRmGmh78m68UuXNH8P2KktDSGQ6bGwQvCB9mgNFZPPHc0gQ/a9ZBaFS672fUraEOsI+xc5e7n63wxs1zT+YZU55hpPcJaDqwDH61b13THwzDB1mN1QiafsXHGXjQ/+lR5NyfuZidhdCsyZ+6QK+XwMT1Zup8M0dqhQ==
+ b=SAEBhMjzW5n3+n1aLfC8f4yLResp9ho+cyBH3WHdJgyVvD1/uZVuK/BR0SRxfmAoih860tSKEU3GwZvxvVUvdHqii1LGWNZ/APc7M9C7gfmMX339MWiEt/YAJrKwX8/V7d9fen740I6rBysjOjVxaIsA4o+IkgHJOULNuK97xDS7yIOJjbSOJ8YaNLKxAryxxliGbvkcmQqLd2X+d6rxYpIaGh/HkJyzl2bSHqI2vOom95szdyAe7BrbYVMnUe1j+tckH66RudhxV1zRo7FWYzYLLt90qQGl1R+q8qwx5PkS+nD/zZWV3NMN7NYBABFp7Kt7ASXARBDwC1ttOPvGIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+khpEJOPXtsV9nyj1OYsnGNYTGbZDVg/JxrXC/Gdxno=;
- b=o/KbMvSC44A/3YfpgoutT+RngOeDI2KCEDPhoqujIRS0TMxw6cG/gylGBpJo3V3wFuN08cheqBZ1By8nqjeiYQCfRU2dws1nozXOPqxtMMUuWJOWceKD4ANR1uIdLTusni/nPBVWlMEisigEkRy0qPV91B8RdcnvnaqostLjDaQgKwxZwkehN3BjWGVYIO8obMCyFsqVUAQNJJ3LE+o7XMwV0xLWDWvAX3yP+vpcEHUM5xF9kdUt49896eWzahGyjJo2yKPD4zqZTyoSn/pkswCXeRS7mgdz/K0ZhTRROPoZ8D5EN81vSbTm4IOtSbzoHYFtd6Wt5oWDq+ye1DK2EA==
+ bh=8yWR11U09nyhGLEmSthuTAaf3mrkamzIJMdLWHxAsZQ=;
+ b=Sldpk1HojGw5d5/rO5III5kq9S8Qzvg1mGNnB2JkzYhzfRxjPTaMUo2OgXykTQpcG283aIaNf54hVkd+5CxJzDDu5zt4GjC7yM/tFBQ8X50o5FwbR1a9NEqvGP5LmYgyaZVgKvgWDcMwSSYCv0WZ5ejnmHACzf/yWaramZp5W95bt7pJBqe+hBe+/MOUGpJp8AxPCc1cYpQjxo+wrQdGDWc4X2nDqDl6iYQ9PaJkT05F4VtYEWj9MYmYdaS08mRgG6JhhyQPEjuWP5bzbLeh/W+RZh96Z1oUWzoBO1/zJaupBVGQfkk5JeiqvzTVS0haZKh0WlNA3VkbSvaKeSRPXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+khpEJOPXtsV9nyj1OYsnGNYTGbZDVg/JxrXC/Gdxno=;
- b=MOewCa5l4IHoi75/yp/GJf+nDdPP2GKaZaxiqw1DKPl0mmhFiGWitjsnORfw31z7smdbXRY1FTxVr8By0S8wqJiOHtffb+1cZw61y3QBb7+nTuaPEWYY6W5QQYd7uRQ4/zz9R9RsPqMFBiN7OGDvBoOGoKmHDIozR9UyOotqdm0Lf/rsrwqWPJk6hkemUJZJksoV7nyvxXK76GGCurN5zbwsufyk8tdsUkL4sXMBJFqsWtCurygkBE9dQA1ddgMXSCUlHv2jEg6tgvCI37sDreTcVIs6rst3kHgXvVlBEIYrxImwfo0YsAZYt6OzC4itCPTUWv3Mgu0fxKS8ZpwnCg==
+ bh=8yWR11U09nyhGLEmSthuTAaf3mrkamzIJMdLWHxAsZQ=;
+ b=AEMfWwI5BeW/33U6uL3c09zYcgiFco/vrUXyrVr/ZQTz54cZtoBqP4smMxEozs7MJETmfJdEdYBNOHdaDuBhJIgfA26BCXW2U18Q7Ji7q+SUWWqnclFeAntj2kHADRWxuw94ha3hldVZVKrwzZM7wuep2iPvAssHurg18KJZ1o1zcbGDpXzTbhrGqhL44Spdf7SododYallXCKkegh2L1ZjsS4QmpCNnpru9J4CghcW+99I7jAEZreZBzrS0dmyqRv5XXMBccm2+aGk4vtpNKBWJAPFRF3o06IryGvKTTiDZMdVmd4WJJwhrOhjAxf+v5cNdz5HPxcUhKF0Kp00N4w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CY3PR12MB9579.namprd12.prod.outlook.com (2603:10b6:930:10a::8) with
+ by BL1PR12MB5971.namprd12.prod.outlook.com (2603:10b6:208:39a::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
- 2025 17:24:12 +0000
+ 2025 16:54:17 +0000
 Received: from CH3PR12MB8659.namprd12.prod.outlook.com
  ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
  ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8606.028; Tue, 8 Apr 2025
- 17:24:12 +0000
+ 16:54:17 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Alexandre Ghiti <alex@ghiti.fr>,
 	Alim Akhtar <alim.akhtar@samsung.com>,
@@ -100,15 +100,15 @@ Cc: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
 	David Rientjes <rientjes@google.com>,
 	Mostafa Saleh <smostafa@google.com>,
 	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v4 18/23] iommu/riscv: Update to use iommu_alloc_pages_node_lg2()
-Date: Tue,  8 Apr 2025 13:54:06 -0300
-Message-ID: <18-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
+Subject: [PATCH v4 19/23] iommu: Update various drivers to pass in lg2sz instead of order to iommu pages
+Date: Tue,  8 Apr 2025 13:54:07 -0300
+Message-ID: <19-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
 In-Reply-To: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
 References:
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN8PR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:408:94::42) To CH3PR12MB8659.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR15CA0056.namprd15.prod.outlook.com
+ (2603:10b6:208:237::25) To CH3PR12MB8659.namprd12.prod.outlook.com
  (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
@@ -117,141 +117,274 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CY3PR12MB9579:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc0e6c3f-f85f-4912-f83d-08dd76c22dab
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BL1PR12MB5971:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35ec5830-dad7-4a26-0c87-08dd76bdfdf0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2q6SK4xofIu4APGqyirFzl/c8jxq0ZjQ3bY88ng6Rn7AuTnInsz+hbJVnMVY?=
- =?us-ascii?Q?OxC2M77bUyoyW1YTSpsWp/1jSJES+yXerdZQlrB4qtkV4SOX5r6vNXGsgm3R?=
- =?us-ascii?Q?ns9ZG44kIBdGIikeUL5BdkXRzvmWvutmIXMAumYHyq/RNF7BpsyCAw1ysRTw?=
- =?us-ascii?Q?900UMemplkRLv8haj1BzZ+ren8MOQvHOQ2U76ZeVrFC5cAz+BzQc0Fj8D0nQ?=
- =?us-ascii?Q?2sWlXeWEd0Ji0lDAZhBJhS4j8Qfz0Tkc8rU23ZFjme+8KIBgfHKEb+i1CU6C?=
- =?us-ascii?Q?jGgx91bqU0aoswKv17qFbXCFZmX8pdl4D2pNN0u/FiRBDAKJzT8HS5QlRM8r?=
- =?us-ascii?Q?U1yfr1nCc2JSjb5xXArMO1zSJQ4+2WhAxSRW2dtXI2oahbRWz5F1euKnKg2y?=
- =?us-ascii?Q?hYx+WYeSyqOGanzFPRy7e41M3pLiqBNdIl1clMhgIBdxZDDD+R2cgnB2aZo8?=
- =?us-ascii?Q?YHqir6mLPzmN3826fC++EMk2hcGv1ajo2VRn3DtW9pEdGe9WmZw3FOrUQyjW?=
- =?us-ascii?Q?EuX+BV7555nDcTxMO6BneiIGxktpDrozifMpCQ8UrYWrJXX177ApS6fyo+a7?=
- =?us-ascii?Q?JIh6kzmcbXdI84+M0UHvQHots5YMbZI0M8KHfeTlJmhKzmcuqrsqkqBK6ey5?=
- =?us-ascii?Q?BUgPlCruH3bDT1onnpJ4hE0P3GWja6DfxPw7rQi5aIZpORRVfKeM8XdXkdQ/?=
- =?us-ascii?Q?SAgGG3sKNy0/EU5ZviugYR1ZhUgIeXMqSaibKv/KngP4yvdfGoTFSvxs8eov?=
- =?us-ascii?Q?b8/rtIBKr/OohryCiDQhwzIgS31ODHzGjSLd3HFH90ypFsSZcrYQzfX0QynM?=
- =?us-ascii?Q?aHO4G1TEM166GpqqIXr31tOwAYKPcJUcKj7O1w4mT146/OJ3/SPKxLujWTts?=
- =?us-ascii?Q?AwCWI5vhmjVrNL5Mylb7hRKieT03RAPdrRJpRKTvuJ9wjYv4o4YM8Fu09gvP?=
- =?us-ascii?Q?u1zUjtFa4V91GcIsndq6WSIQRoJHJuiFfzhmDMLhXtb7elWQIDAlp++RpSoT?=
- =?us-ascii?Q?SBXjPUuj6mG2DE2qxtUcYX1sKj2+/Nhha8jmTjSlAP6jrQ5KDeYv/IzNT3gN?=
- =?us-ascii?Q?OPh1Sj2wPeOweKLtBVnGuAVOcwFfa1t6cbXxkM+kUyNaXkJzhSYQ6dVSA2ez?=
- =?us-ascii?Q?DM/Yy9z20FjdYj+Pz3vSGvBgCE9s8mYW3NYdotxuR4NWd+MYmse8DGzev+v/?=
- =?us-ascii?Q?MriXxLOpGDNKT93rIRpwiGn6iQyihK4e27r/sKqtO2jPnCoZ5//7Ex0cofb4?=
- =?us-ascii?Q?HbeXsZo7GsFDkcy0Y0ZqwvyxFse+0rS9sdD5xpiHI/ndVjN+073ACLRhOIDJ?=
- =?us-ascii?Q?lFPutwkY3957pfEHdqF2M0+iaGbhqBeE2izJX0iIlnqCBSWU82L3C1pqo9is?=
- =?us-ascii?Q?dOLl+kNVG9XHOnt3vMcm0bpSPQFdCJI6jEomnWFM+hkpZoH0V9dmPKq58YB9?=
- =?us-ascii?Q?alyVxnwg6cSpDXJYOo3zQyUkYNSNNkVtL1xERQpRgZ+UI0HzJSb8yA=3D=3D?=
+	=?us-ascii?Q?TiJRofcbq3KLQQn+qwgp12jT8w0iS9XHuw6saDZJp0rm0F62rSsrl/2JIgFA?=
+ =?us-ascii?Q?lzPF1vJ6z29t18b5jQPOst5YGI8Skh/GbhTQMqOHRRWNuU9MB+Pjq1b1Yo55?=
+ =?us-ascii?Q?9EASnnEQh83J2AFO7Vn/bp4tIn8K5OTZ39u1ZDAo3qazTpJdVvGIrLWZV3DH?=
+ =?us-ascii?Q?AfAbMHIyBNt6P1lADmai5ZWQDLPeYP9VRysyJBwdgaYBtSVDyTZU/Dq4Algu?=
+ =?us-ascii?Q?nth4mjsIvSd2jvJd2/c25s5RcUFqxaiKiUljzzEfEn0JHhIdYBW6jq1bS9Ob?=
+ =?us-ascii?Q?eQkhyd5MyPowvcP7xXA7W+R0jOA5xVueDIQNewEOXMaWio2Vq3R/ZG7Ag42k?=
+ =?us-ascii?Q?rreqzp1XJJTceLUjpkuVLvAb4ZnIiId6bBam8lfmKRLvDUoIvcGw2wJQTVHl?=
+ =?us-ascii?Q?4nHMG9sZJII56LMLfJS9SeoxaAEpkqsAC68RykvaT2bAGRmHZSV2i5TOyd0W?=
+ =?us-ascii?Q?DBuBFK/KJoLQEzYOKKmfCFT9TaabkcYHOhmuIePBJvfEdESyQVkgXynLjBYH?=
+ =?us-ascii?Q?ph4Y3dTh0EXK+zp2gletRoGE9iKO+pGzpZR3swLr4BtqLScFPPl3Hs9Ozsrw?=
+ =?us-ascii?Q?mCd0F9zm81H2aJ+9eLj4jh95vb41trPMjzVKAEKjzupkJ3tpfNe0txNPNtSB?=
+ =?us-ascii?Q?sN5S+qotUi5qQtVMUS03siDftWWRnZiMFwT7I8xeVmjxhFlsO2jKzU3J8Kjq?=
+ =?us-ascii?Q?SyQjkPe9QPvt+pXGWzqon7Z3kncO3qbqyNF27SGdcSBMREbHA6VeBD0aC/aY?=
+ =?us-ascii?Q?TzYiph1YIh7I32TfHANtDJrAqUE4tafxNeqP65Y9TVc6xwlAhXu9366/x4/i?=
+ =?us-ascii?Q?YxwZ2k1aNIEV4DRM71vRz5v+VrQgmt8IluR9t5lcf3ujdpVi8CWSz5KcW0Eh?=
+ =?us-ascii?Q?qjf4cDgZ5NbSYK2X00gTQIqkFtqSY++5TSJPxe7W/pzWwp66tsZlhHhfuEC3?=
+ =?us-ascii?Q?hSjTNDwEYdAEdQv6qaIoK+GxUoFKElLEphenGflR7lzyyekBMO3f3RwmRl85?=
+ =?us-ascii?Q?JYUt9hjoBfu1N/3Yujhd1ic8Vh0ReTRc9XXhzwxno6we9v/slr9j0OJz1htp?=
+ =?us-ascii?Q?J7dBASGuDaFbzU28RQK5jpGA1bWAF9X6s8Vp1h4vcA2Qbb337RQLaLTAppYU?=
+ =?us-ascii?Q?FThwQKgmAYSUsQYmt2PySYM3NdLT7qIgB3LrB1L0CmXyeGvQ2ih5j5gLnhLt?=
+ =?us-ascii?Q?0wVtmgDT6ziwSv8EKJl59/ha6RggXSAoR9sNMGEq+ojDOHGYCtTC2ebijt2a?=
+ =?us-ascii?Q?Zcl/GDSxPLBN9YEh4Qpo+0ueV5/t15YD/789+Bsarirlrx9t7aHfKKm6/JMg?=
+ =?us-ascii?Q?ufQ9hVqLb00kGA51j+Q2wh6TMrs4YN84FWhBHLS9SBz/o+dOyOt0IXkXXFD1?=
+ =?us-ascii?Q?6zHZhYjFC7iPEWHJHCyCqz/fFNRHV9/DKPmelarGp40QM/xYH5xghEaFTW8i?=
+ =?us-ascii?Q?5UXY7azRg3wlcN5jOEFnl/Pme+Glz22cRMY+EimNNUxtFxChkAmQvw=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1BobYXvJn70Qh5Cjl6MJ3VaDon0GbhrmpJKr51iabk26t8yvYJ33d/9F34qI?=
- =?us-ascii?Q?6eqozIQGdYv/H9SRi58IsOjLv3doRHJpm+apPrgTfr3WvUZf7RMFIF8M0lVd?=
- =?us-ascii?Q?d3lu5EMFq4GBrwEx3h1DKss9RRQrMg3Y90ZJqSemftRuG3k92hwd6zYIXQ9G?=
- =?us-ascii?Q?B2qic1s8gRyOEa8mZggf136G5BwHDRPAOq+Sa7UPHxyutuqd357cyzeHUJAa?=
- =?us-ascii?Q?MhA4TUy8c5OP5cFzqVBLm3SUt5VnvtYZ2WaFCmg8yE64CY0OZCInKjqFqi+U?=
- =?us-ascii?Q?KasAZ3vmTbG4ZyJzj8JVmOgXaUlKT18KYD0qW9I6msdB41S+JiCCmgPAjhEO?=
- =?us-ascii?Q?75uAN5GL89ABljUbQ+Uqie854qOU1q4CMpUpcnNjHUJ5+p5ruj+0yxYsfVHz?=
- =?us-ascii?Q?GvQBG0fs00xw9NNH9CP4gwsFy0J9KBYtMaY8eZAsma6+QtenuSKoXgtttjLb?=
- =?us-ascii?Q?24ndSYrBrBgzIklKRPvqzIj5AXBaY7uY1v9Rd5ibhH9/NXQSj7qENqIiDw8O?=
- =?us-ascii?Q?ESwHABnjS7ePsHskD5meNgna67HXymYCZgF1stEd94ZpvQFoVypsvUHF4RJo?=
- =?us-ascii?Q?QY5gO+9QWRzHbRVr1ttqpJXtG1vzlnt1CY7bKJJufJzop4m9c6PJrqQJXZ0y?=
- =?us-ascii?Q?V7MzkbgySnwfg7loArBCjBkTUXwJt+0xF2DT+GjIp9P/dqTW3wXzMAKs+5Zn?=
- =?us-ascii?Q?VEnoJdCi2ZRAeim4H7n5GRY4sjihkvIEftfMMKDGhw8K1KommgJNJyMBAjQU?=
- =?us-ascii?Q?c1XNGfwOP3V9ISZFQGBpvwM3ImW3zTmeC4jaedMplwNPv3hxWgbtTqDsnhKJ?=
- =?us-ascii?Q?SExqOaA+bxTitZvHqBCipG2HeeauzmlL7LQdjXSSeI0CbEPZ/jJU0hmVj+iQ?=
- =?us-ascii?Q?3/OZpwP8Nb96Hyqr9vc6LyNafF9igsVp/6VV9DBqz+AXvxg1l10vPcWL4mHM?=
- =?us-ascii?Q?0Fs6XW8XLGhN4P7T8+GYZBB8CFyHQCQ4qoXrmnknBOh4ADDvFCljFI6asqew?=
- =?us-ascii?Q?MHvIA1+nltZMyOPHwsB8kDJ9vWtjqn/MukV/uKUagRB99KbKyL+LbhHL/sZS?=
- =?us-ascii?Q?3RIVgI1vwn7pj1Z5KDgQprrujTKXK7QrFlRMlJHOOdQvVuKF7RtCWsGipHOT?=
- =?us-ascii?Q?362c4X6WCR04E1kxKF427WwTKVJLKuUlSu22kuvsTlHsH7nKxwztuFhfoaax?=
- =?us-ascii?Q?pIw6/69Zq8sTtymFe1xDIzITsTxq1pdzfvEaRvrVzzzJdbW2MMdVnPt//rK4?=
- =?us-ascii?Q?o+5WgRvlCTk22NX+yMs8l7t8LSeNnZQ1POr1/YCv1OrK/YKTEIA+TEtsvUGW?=
- =?us-ascii?Q?iXy4yqtp1rsX8BKhyJnaQqRvsJm949VnLxAVdU+CrLz+SEKKUWNidMyCK03m?=
- =?us-ascii?Q?8mQ0RTkul4mexs2j9VJ2fG8gt+LftkHgepwj3eJ2tdJ7fyGl9QsfHqaqiglW?=
- =?us-ascii?Q?8bsAg7ES1DCASgeqd27zEKj5RfE1ztj/+AwfVA1PuwvmWYzj7bjrFDxv2TKS?=
- =?us-ascii?Q?7fuxrSoowxaiNKbeqUCaVXr/sbJxtZMw0qOMXRf81R2B3iAqJGxM94ubY7Mg?=
- =?us-ascii?Q?j7sgz7z+0C0YYltMI/Lbr2gRj0vAUzT6Yne1EFCI?=
+	=?us-ascii?Q?rKIBDwvrKo49wCRT2/lLVx5yElcb5aFYr0UpkLmU+rCyZv793YdLlrQK4Syh?=
+ =?us-ascii?Q?QYH+3suWRiLviWgp2DOySxv+8qLN5h5xp0obiPHHaHOxIapClvH/S3btuHgH?=
+ =?us-ascii?Q?xzIodFl0LRJbvF7pwq4Vz9xbB4mm47BRDq7bll24sKJWFa22df11abEBqm7Q?=
+ =?us-ascii?Q?EatZD3vejd85giBOp2XCnjTbcPp/3blgid5e7ztZDypXTZlW1HhJ7KLn6va+?=
+ =?us-ascii?Q?bWhWXBiyrsqEvXKHdYx4/pU6PJpOVb8BMvBgnNKMItWJs6iOpMDOVNuI6nmC?=
+ =?us-ascii?Q?9LZnPecBY3Y/FRLllGTFAFYUGNE7Q+3+5pZe7ivQ2Sf3SLa3sC4x8skpFnNS?=
+ =?us-ascii?Q?n4yX1ao3cWNINEryy6qVTt+KnsA521p4bV+8gDb3RXeek4iKxCWYa3ohu8gR?=
+ =?us-ascii?Q?7hcaH1cujSsyVwkPQUoyW7rnZ6IsyFd5iuHYpc0dohMol/5gFKy2FRBjiPpu?=
+ =?us-ascii?Q?k8cM1dIXLOLt73BjQz78Oc3LTtm/3yVC3RDm+jjZoqH+CO9t+tE8yXiwRy5P?=
+ =?us-ascii?Q?Ps8HwOX1Qism+VMmOmRO9y+QOqYZlDZeiWzwbD0h7Oi+hgduK0E/zk8/W0+/?=
+ =?us-ascii?Q?1/HYdU4ELRLGLhXo6jnV7MOmA8jLN52eNH7SxE12RTyVQGfPbxWMBZvOWiR1?=
+ =?us-ascii?Q?FHYJ/kDfQs85WtjRwGUlzZtX9QUIy8ovAJr3NHS/M3mHJU2PQOXAoWRMH9G4?=
+ =?us-ascii?Q?f0FDReGHfhPkd2oZL84+GEdybjKFHzyrsdbUlTGU2MApSPv0W6b9KuH1Ic+h?=
+ =?us-ascii?Q?l4ygzT3O58l2QTy1V+B0cArm3YBPs1kNLiQBmGhIiU7p500uh3l/kmR1Sl5o?=
+ =?us-ascii?Q?iZJiHCXRQKlVuJ5uazPsxlZ3erPpMdGYu9m/sSkr26WkYt0R8hZ6ZsoWYMkW?=
+ =?us-ascii?Q?sVNUB3xH2WQ5nOn/iE4e4a/uGG9Y4hObWHcvd6Ca8ogSfapyJOZdYk6ASgqy?=
+ =?us-ascii?Q?Kun4VMUr/hn8b8RaZOtOwTQwxcGte4lmn/GXbykYXXYNzjbDrZAN0gCFtePU?=
+ =?us-ascii?Q?8zvzZ5m5Mg6aQKOCzflPdzULFe9h8wP+pM3qrZKn7KXiSLzaYhrk/MlDrNq2?=
+ =?us-ascii?Q?KBRJ1OrVYdA60grESyduAMWd2+fHNCBlqzl1STQubQnNSQ3y7aUYkjl6ZFvU?=
+ =?us-ascii?Q?RcfbCsWWq2enfHYxRK/p0a0empQJM2TFjwNPNgF3e7r4WewWXfwX12nFLyAG?=
+ =?us-ascii?Q?JB3vMGZAgJX8hn+xstBera9CXjxOsybC3GMRFSpUEluPpDz96Y58mN1W5+tN?=
+ =?us-ascii?Q?+JMkvb9Mlt9J/22EeDYXrky9g56f4j1QO21eU3KysOTjhvIqVH91eUERxERZ?=
+ =?us-ascii?Q?H5RkFNHFDYAwRF8DPbBvwkspYbrEYkG49kmELivoMnpfqCVg2YOYiLQZF7Vp?=
+ =?us-ascii?Q?hzuXcPgejfKMvv1GQ1N1TC59RNynrBuLkFYybG7WXgcFPqSADiIb1kOpOGE0?=
+ =?us-ascii?Q?GsrA/h7SNdjIXN3scyl+3cfOUeUDY2WO0N7qs1rKynGWy3n7Ul/8mc8VkVmZ?=
+ =?us-ascii?Q?1HOTvUcdrmZIwyrKu+8f0Dzinn/3EFIiQEQ2Nj7Zup1+Gh+h9o2VO0TocRtH?=
+ =?us-ascii?Q?wkAS7rA0fl87Z/rOoWjsug0KiUqZv05J/sBmsegc?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc0e6c3f-f85f-4912-f83d-08dd76c22dab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35ec5830-dad7-4a26-0c87-08dd76bdfdf0
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 17:24:11.9985
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 16:54:14.1851
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: at3CBa+6N/U+GFweHWK5+Uo/I3Pt+9lYoB8IEV1ZzY03luPxiMStdVos+evIylNy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9579
+X-MS-Exchange-CrossTenant-UserPrincipalName: VTqhVCF5FYo0YH614cpzKXfBE4EOst0XPdMz7Mj7uBQ+YIXxd9c7au+I7GyAA+Tc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5971
 
-One part of RISCV already has a computed size, however the queue
-allocation must be aligned to 4k. The other objects are 4k by spec.
+Convert most of the places calling get_order() as an argument to the
+iommu-pages allocator into order_base_2() or the _sz flavour
+instead. These places already have an exact size, there is no particular
+reason to use order here.
 
-Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/iommu/riscv/iommu.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/iommu/amd/init.c        | 29 +++++++++++++++--------------
+ drivers/iommu/intel/dmar.c      |  6 +++---
+ drivers/iommu/io-pgtable-arm.c  | 12 +++++++++---
+ drivers/iommu/io-pgtable-dart.c | 12 +++---------
+ drivers/iommu/sun50i-iommu.c    |  4 ++--
+ 5 files changed, 32 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
-index 2750f2e6e01a2b..8835c82f118db4 100644
---- a/drivers/iommu/riscv/iommu.c
-+++ b/drivers/iommu/riscv/iommu.c
-@@ -65,13 +65,14 @@ static int riscv_iommu_devres_pages_match(struct device *dev, void *res, void *p
- 	return devres->addr == target->addr;
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 13b5f83e642369..df1094893eb0d1 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -626,8 +626,8 @@ static int __init find_last_devid_acpi(struct acpi_table_header *table, u16 pci_
+ /* Allocate per PCI segment device table */
+ static inline int __init alloc_dev_table(struct amd_iommu_pci_seg *pci_seg)
+ {
+-	pci_seg->dev_table = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+-					       get_order(pci_seg->dev_table_size));
++	pci_seg->dev_table = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
++						  pci_seg->dev_table_size);
+ 	if (!pci_seg->dev_table)
+ 		return -ENOMEM;
+ 
+@@ -707,8 +707,7 @@ static void __init free_alias_table(struct amd_iommu_pci_seg *pci_seg)
+  */
+ static int __init alloc_command_buffer(struct amd_iommu *iommu)
+ {
+-	iommu->cmd_buf = iommu_alloc_pages(GFP_KERNEL,
+-					   get_order(CMD_BUFFER_SIZE));
++	iommu->cmd_buf = iommu_alloc_pages_sz(GFP_KERNEL, CMD_BUFFER_SIZE);
+ 
+ 	return iommu->cmd_buf ? 0 : -ENOMEM;
+ }
+@@ -811,14 +810,16 @@ static void __init free_command_buffer(struct amd_iommu *iommu)
+ void *__init iommu_alloc_4k_pages(struct amd_iommu *iommu, gfp_t gfp,
+ 				  size_t size)
+ {
+-	int order = get_order(size);
+-	void *buf = iommu_alloc_pages(gfp, order);
++	void *buf;
+ 
+-	if (buf &&
+-	    check_feature(FEATURE_SNP) &&
+-	    set_memory_4k((unsigned long)buf, (1 << order))) {
++	size = PAGE_ALIGN(size);
++	buf = iommu_alloc_pages_sz(gfp, size);
++	if (!buf)
++		return NULL;
++	if (check_feature(FEATURE_SNP) &&
++	    set_memory_4k((unsigned long)buf, size / PAGE_SIZE)) {
+ 		iommu_free_pages(buf);
+-		buf = NULL;
++		return NULL;
+ 	}
+ 
+ 	return buf;
+@@ -913,11 +914,11 @@ static int iommu_init_ga_log(struct amd_iommu *iommu)
+ 	if (!AMD_IOMMU_GUEST_IR_VAPIC(amd_iommu_guest_ir))
+ 		return 0;
+ 
+-	iommu->ga_log = iommu_alloc_pages(GFP_KERNEL, get_order(GA_LOG_SIZE));
++	iommu->ga_log = iommu_alloc_pages_sz(GFP_KERNEL, GA_LOG_SIZE);
+ 	if (!iommu->ga_log)
+ 		goto err_out;
+ 
+-	iommu->ga_log_tail = iommu_alloc_pages(GFP_KERNEL, get_order(8));
++	iommu->ga_log_tail = iommu_alloc_pages_sz(GFP_KERNEL, 8);
+ 	if (!iommu->ga_log_tail)
+ 		goto err_out;
+ 
+@@ -1012,8 +1013,8 @@ static bool __copy_device_table(struct amd_iommu *iommu)
+ 	if (!old_devtb)
+ 		return false;
+ 
+-	pci_seg->old_dev_tbl_cpy = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+-						     get_order(pci_seg->dev_table_size));
++	pci_seg->old_dev_tbl_cpy = iommu_alloc_pages_sz(
++		GFP_KERNEL | GFP_DMA32, pci_seg->dev_table_size);
+ 	if (pci_seg->old_dev_tbl_cpy == NULL) {
+ 		pr_err("Failed to allocate memory for copying old device table!\n");
+ 		memunmap(old_devtb);
+diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+index 14bc39b2cdd528..10374b684d6dbc 100644
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -1681,7 +1681,6 @@ int dmar_enable_qi(struct intel_iommu *iommu)
+ {
+ 	struct q_inval *qi;
+ 	void *desc;
+-	int order;
+ 
+ 	if (!ecap_qis(iommu->ecap))
+ 		return -ENOENT;
+@@ -1702,8 +1701,9 @@ int dmar_enable_qi(struct intel_iommu *iommu)
+ 	 * Need two pages to accommodate 256 descriptors of 256 bits each
+ 	 * if the remapping hardware supports scalable mode translation.
+ 	 */
+-	order = ecap_smts(iommu->ecap) ? 1 : 0;
+-	desc = iommu_alloc_pages_node(iommu->node, GFP_ATOMIC, order);
++	desc = iommu_alloc_pages_node_sz(iommu->node, GFP_ATOMIC,
++					 ecap_smts(iommu->ecap) ? SZ_8K :
++								  SZ_4K);
+ 	if (!desc) {
+ 		kfree(qi);
+ 		iommu->qi = NULL;
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 08d0f62abe8a09..545229cf62d2d4 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -263,14 +263,20 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+ 				    void *cookie)
+ {
+ 	struct device *dev = cfg->iommu_dev;
+-	int order = get_order(size);
++	size_t alloc_size;
+ 	dma_addr_t dma;
+ 	void *pages;
+ 
++	/*
++	 * For very small starting-level translation tables the HW requires a
++	 * minimum alignment of at least 64 to cover all cases.
++	 */
++	alloc_size = max(size, 64);
+ 	if (cfg->alloc)
+-		pages = cfg->alloc(cookie, size, gfp);
++		pages = cfg->alloc(cookie, alloc_size, gfp);
+ 	else
+-		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
++		pages = iommu_alloc_pages_node_sz(dev_to_node(dev), gfp,
++						  alloc_size);
+ 
+ 	if (!pages)
+ 		return NULL;
+diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
+index 8b5403aae8c0ca..679bda10479776 100644
+--- a/drivers/iommu/io-pgtable-dart.c
++++ b/drivers/iommu/io-pgtable-dart.c
+@@ -107,13 +107,6 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
+ 	return paddr;
  }
  
--static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu, int order)
-+static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu,
-+				   unsigned int size)
- {
- 	struct riscv_iommu_devres *devres;
- 	void *addr;
+-static void *__dart_alloc_pages(size_t size, gfp_t gfp)
+-{
+-	int order = get_order(size);
+-
+-	return iommu_alloc_pages(gfp, order);
+-}
+-
+ static int dart_init_pte(struct dart_io_pgtable *data,
+ 			     unsigned long iova, phys_addr_t paddr,
+ 			     dart_iopte prot, int num_entries,
+@@ -255,7 +248,7 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
  
--	addr = iommu_alloc_pages_node(dev_to_node(iommu->dev),
--				      GFP_KERNEL_ACCOUNT, order);
-+	addr = iommu_alloc_pages_node_sz(dev_to_node(iommu->dev),
-+					 GFP_KERNEL_ACCOUNT, size);
- 	if (unlikely(!addr))
+ 	/* no L2 table present */
+ 	if (!pte) {
+-		cptep = __dart_alloc_pages(tblsz, gfp);
++		cptep = iommu_alloc_pages_sz(gfp, tblsz);
+ 		if (!cptep)
+ 			return -ENOMEM;
+ 
+@@ -412,7 +405,8 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+ 	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
+ 
+ 	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
+-		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
++		data->pgd[i] =
++			iommu_alloc_pages_sz(GFP_KERNEL, DART_GRANULE(data));
+ 		if (!data->pgd[i])
+ 			goto out_free_data;
+ 		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
+diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+index 6385560dbc3fb0..76c9620af4bba8 100644
+--- a/drivers/iommu/sun50i-iommu.c
++++ b/drivers/iommu/sun50i-iommu.c
+@@ -690,8 +690,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+ 	if (!sun50i_domain)
  		return NULL;
  
-@@ -161,9 +162,9 @@ static int riscv_iommu_queue_alloc(struct riscv_iommu_device *iommu,
- 	} else {
- 		do {
- 			const size_t queue_size = entry_size << (logsz + 1);
--			const int order = get_order(queue_size);
- 
--			queue->base = riscv_iommu_get_pages(iommu, order);
-+			queue->base = riscv_iommu_get_pages(
-+				iommu, max(queue_size, SZ_4K));
- 			queue->phys = __pa(queue->base);
- 		} while (!queue->base && logsz-- > 0);
- 	}
-@@ -618,7 +619,7 @@ static struct riscv_iommu_dc *riscv_iommu_get_dc(struct riscv_iommu_device *iomm
- 				break;
- 			}
- 
--			ptr = riscv_iommu_get_pages(iommu, 0);
-+			ptr = riscv_iommu_get_pages(iommu, SZ_4K);
- 			if (!ptr)
- 				return NULL;
- 
-@@ -698,7 +699,7 @@ static int riscv_iommu_iodir_alloc(struct riscv_iommu_device *iommu)
- 	}
- 
- 	if (!iommu->ddt_root) {
--		iommu->ddt_root = riscv_iommu_get_pages(iommu, 0);
-+		iommu->ddt_root = riscv_iommu_get_pages(iommu, SZ_4K);
- 		iommu->ddt_phys = __pa(iommu->ddt_root);
- 	}
+-	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+-					      get_order(DT_SIZE));
++	sun50i_domain->dt =
++		iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32, DT_SIZE);
+ 	if (!sun50i_domain->dt)
+ 		goto err_free_domain;
  
 -- 
 2.43.0
