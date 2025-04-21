@@ -1,119 +1,101 @@
-Return-Path: <linux-tegra+bounces-6039-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6041-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DD9A95142
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 14:58:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2113A9535A
+	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 17:08:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A16D17151F
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 12:58:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14716172DAC
+	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 15:08:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED19264FA6;
-	Mon, 21 Apr 2025 12:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hOJYzMKp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8541E130F;
+	Mon, 21 Apr 2025 15:07:41 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BE91DB546;
-	Mon, 21 Apr 2025 12:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29521DED5C;
+	Mon, 21 Apr 2025 15:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745240310; cv=none; b=XjAhF27D66yJ/0VRa34Lhwshxo3nzXAbguO73dc3TcKGuk5FVonwMVC9Jw2e9ydKc13IEaxpoDxZ0FF3WCkEjg36L89mckoYVvJTeCYqSSw4yc40Q9egMIpPKctiC/vk60n8SG+h1tv1mJVjgNPAZ7zJgNa3UJUewr8hkQ8QiiA=
+	t=1745248061; cv=none; b=qm7LbrsdbCDcLKzLM4TOQwf/NDLmlTLqLWsw1fYukAiqw29OKQ2NLCu9xCuLJIfxWPEX39Ej2DjyESk7hqxbo/q2DcMABUN4x6L/KUwaN0qhKgABc8nn7NteyISXqpynYQPUv40litdBUGBrNBRNf0vsjEzEGpOr5O3k7SmN4aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745240310; c=relaxed/simple;
-	bh=scE+oan0V3netAVnAvlStP1ceftqTg7r+IH2oYiDtA0=;
+	s=arc-20240116; t=1745248061; c=relaxed/simple;
+	bh=dHbVgEuyWkzTQSqE2pRdwKjE+8/7vGcWKbOPvfMXWx4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDNk5lHRWkXMAIvQXiH+o6vlVEm/03rLIUYjvDj2vdsG6b8+kwu6WleanbIEme6bjEuIN5HpvcdGvMNX97YLd5M/NULvUSRK8URgrFmBpjavsCdxrOPd+yxusqSioMgqxd7AufH5+zKPF1jclAE2g3dUN+uPPpU/eUlQEw0HmrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hOJYzMKp; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745240309; x=1776776309;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=scE+oan0V3netAVnAvlStP1ceftqTg7r+IH2oYiDtA0=;
-  b=hOJYzMKp0lhGZ7TSVyrm0sTHH/Gz47pSB02Y2xGQEuJIMQ+3HJxmLeGn
-   rzGMgLh+o41bPIu9gxBIAPDOgcfReLUfP2+dPs5RNy8UDNKzYNbix8kgP
-   iqWDITwV5b4anueUF2zqnWWl2WKaT98m5VzKGvKLRuoEoqgWqcpdi2cfW
-   nDS8QsgbUVhfotbXZzbZit0crQqD8Y5zHn4i35yyMfvBVoCM002l7RmgS
-   kVurj620U04SqCHhffS6g2brnL2uFdpBdzGbTlIsXgKrzIM+p8HGD1hno
-   KDv4buhM5MAxJv9JJU9wuRZ1565xhi5/ExNrdCE9PwzQ45TWunNLIXiVF
-   g==;
-X-CSE-ConnectionGUID: zpg5nw5aQY+D5iR2zeo+mA==
-X-CSE-MsgGUID: IfQvi4qgTLa7ZfMO9ox1EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46901430"
-X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="46901430"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 05:58:28 -0700
-X-CSE-ConnectionGUID: xw4oGS9qTp6pCxf+CYcwUA==
-X-CSE-MsgGUID: 3qeUjkA+TPa1bVpKzRS+nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="132229155"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Apr 2025 05:58:25 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u6qj8-00007j-2d;
-	Mon, 21 Apr 2025 12:58:22 +0000
-Date: Mon, 21 Apr 2025 20:57:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YPH2w5o7WCBHghXbwtLrD70OmMHmUjwGWn+WVzo/BXlMOKhr1LDlRfjY2nvE89XPEpkpuU156NylRmmXbHvagzSmovqpRqw04q9Cq9mv5EW1I0e6/27w0j/nR6IX/YC+y9FNuUI+7GcqaFqaL68BkU9oBMmw4JZT8Xy2BGzxRoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=basealt.ru; arc=none smtp.client-ip=193.43.8.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=basealt.ru
+Received: from localhost (broadband-46-242-4-129.ip.moscow.rt.ru [46.242.4.129])
+	(Authenticated sender: gremlin)
+	by air.basealt.ru (Postfix) with ESMTPSA id A0EB523399;
+	Mon, 21 Apr 2025 18:07:28 +0300 (MSK)
+Date: Mon, 21 Apr 2025 18:07:28 +0300
+From: "Alexey V. Vissarionov" <gremlin@altlinux.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: "Alexey V. Vissarionov" <gremlin@altlinux.org>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
-	Aaron Kling <webgeek1234@gmail.com>
-Subject: Re: [PATCH 2/2] PCI: tegra: Allow building as a module
-Message-ID: <202504212046.SmbccNZH-lkp@intel.com>
-References: <20250420-pci-tegra-module-v1-2-c0a1f831354a@gmail.com>
+	Uwe Kleine-Knig <u.kleine-koenig@baylibre.com>,
+	Nagarjuna Kristam <nkristam@nvidia.com>, linux-usb@vger.kernel.org,
+	linux-tegra@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH v2] usb: tegra-xudc: check ep and ep->desc before deref
+Message-ID: <20250421150728.GA32725@altlinux.org>
+References: <20250415174204.GB6814@altlinux.org>
+ <79265b11-c23a-4e4e-b7c3-6cf5b89b9977@nvidia.com>
+ <20250416095555.GB27292@altlinux.org>
+ <6e0b8bb7-c9c4-4625-bad0-552dcad89ea0@nvidia.com>
+ <20250416120000.GD27292@altlinux.org>
+ <f17d63cd-14a0-44bf-af9c-358d2a36b69d@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
-In-Reply-To: <20250420-pci-tegra-module-v1-2-c0a1f831354a@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f17d63cd-14a0-44bf-af9c-358d2a36b69d@rowland.harvard.edu>
 
-Hi Aaron,
+Good ${greeting_time}!
 
-kernel test robot noticed the following build errors:
+On 2025-04-16 10:13:05 -0400, Alan Stern wrote:
 
-[auto build test ERROR on e3a854b577cb05ceb77c0eba54bfef98a03278fa]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/irqdomain-Export-irq_domain_free_irqs/20250421-110400
-base:   e3a854b577cb05ceb77c0eba54bfef98a03278fa
-patch link:    https://lore.kernel.org/r/20250420-pci-tegra-module-v1-2-c0a1f831354a%40gmail.com
-patch subject: [PATCH 2/2] PCI: tegra: Allow building as a module
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250421/202504212046.SmbccNZH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504212046.SmbccNZH-lkp@intel.com/reproduce)
+ >> +	/* trb_phys_to_virt() dereferences ep; check it here */
+ >> +	if (!ep) {
+ >> +		dev_err(xudc->dev, "unexpected NULL pointer: ep\n");
+ >> +		return;
+ >> +	}
+ > Is this condition something that is totally under the kernel's
+ > control? That is, is ep always passed in by a driver and there's
+ > never a valid reason for it to be NULL?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504212046.SmbccNZH-lkp@intel.com/
+IIUC, the endpoints are reported by the device. But the device
+may be something like STM32 uC with malicious firmware.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+ > Then there's really no need for this check. In real life it
+ > will never trigger.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-ERROR: modpost: "__aeabi_uldivmod" [fs/bcachefs/bcachefs.ko] undefined!
->> ERROR: modpost: "tegra_cpuidle_pcie_irqs_in_use" [drivers/pci/controller/pci-tegra.ko] undefined!
+With real devices. But ready-to-use STM32F103C8T6 boards are sold
+for only 10...15 CNY, so one would need only to write a firmware
+and to flash it in the board using 20 CNY program-and-debug tool.
+
+ > Of course, if it is reasonable for ep or ep->desc to sometimes
+ > be NULL, then the checks should be made. But if that were true,
+ > I don't know why you would call dev_err().
+
+This was suggested by Jon Hunter on 16 Apr 2025 08:43:58 +0100 and
+I've agreed that would be wise.
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alexey V. Vissarionov
+gremlin נעי altlinux פ‏כ org; +vii-cmiii-ccxxix-lxxix-xlii
+GPG: 0D92F19E1C0DC36E27F61A29CD17E2B43D879005 @ hkp://keys.gnupg.net
 
