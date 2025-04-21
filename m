@@ -1,179 +1,110 @@
-Return-Path: <linux-tegra+bounces-6024-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6026-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A89EA94DAD
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 10:10:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB806A94DC3
+	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 10:13:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45E1418914BD
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 08:10:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C9523AD48B
+	for <lists+linux-tegra@lfdr.de>; Mon, 21 Apr 2025 08:13:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B7901D54F7;
-	Mon, 21 Apr 2025 08:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D12620F070;
+	Mon, 21 Apr 2025 08:13:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPWG3LlA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMUhLDZJ"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2040F1FDA;
-	Mon, 21 Apr 2025 08:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAB71C8605;
+	Mon, 21 Apr 2025 08:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745222997; cv=none; b=Do25Xf1hkPYO0qfKUMVoxzzm4VXjArTOvSd/LNN7swA1mEiWqJhIxwWMfXUUH2wG72iTla8EltSaAIXT85j11BQCzAn5Pqr/BJCIKuDiag2Z+02bt1Gl/CA9KXgjMqdYfdmn/wBEpVW9zWShSvm5fmzMh7LzsBSIM9KYN4zmpNg=
+	t=1745223216; cv=none; b=GWVOPnBTHZvdoPdrUaoezJukZW9bEDGq5Dgc+wJpfhfWbaLL8IdFi8y7PfY1LKK6HXE8Cm6PyRn8kGFxXQxUpHK3swiujTXOozRBaYMaLV8umegg2upvZ/y0CSb6OyqL4AI+4uj7vYndMUw6/P8An7AaCWo3T0DmG/1NvdsbTns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745222997; c=relaxed/simple;
-	bh=XpSVWIoRM/bSSzF4R1F4P4Y2Mzyol/7p7Paa0a0lh8c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WJac2A6bUQrrz2s+lBot7dW8R9LBKd/c7y+te6KMTNzbm30wS/AGe+jgjX7onqECs/Lq7LkmfetiUBhL+0S9pu+hPujjNO4a3PH4psPW97+Lkp7XA0CNvYmQfuCUkNN7PzVFcfDBbp+hoIObRX0ixeUB7YaUwuSbqGlc90KoVM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPWG3LlA; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so5275075e87.2;
-        Mon, 21 Apr 2025 01:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745222994; x=1745827794; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I2mjSQTce/ct1xp5p+D1e5MxdFlEqzn1xpx6QH6j78I=;
-        b=YPWG3LlAXARs1MeR4Jv9GU7FwFKOdtu+VAV1mNTeeu7THD+8KxMTea4lcj3KO2rzRq
-         fEHvnxi1JJB1mai6WyI2MJA1IbLQCYG2Db/3+VmYyWwLoX8cFhK3a/oalWlwCf9lfnqs
-         MYskGtKd52YUhHpaY6mtwzd9K17TvXA+Y99XwAHdRp5RlHeFpW6rmxQemLYpvemStUPS
-         sZGWv5pduUusMr+8lqfOU8PkDutL8W4kDDvyDIi7ppq1dP9JFpKm1MXsnwFKUbi3IdaO
-         HpscKPevMZOPxOfLjOjeTMpCuucvuJwzbQmuW//uOS0YxGJUGzR3ftueLdL98AYUYPlQ
-         mxdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745222994; x=1745827794;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I2mjSQTce/ct1xp5p+D1e5MxdFlEqzn1xpx6QH6j78I=;
-        b=gKqmPbrty7V9a9tK6tUUgptAF4jSvB6ck+SGkJkFeVDqOf8Mwg3Luk7sPCiKNaFvVq
-         QXVViL8mZxntxN02NJBzmOSfxqcz1w39lM2couAE01p9h9PtiJjJYpgDh/oEN77MQ8oy
-         kTXezM1+2C5UZHRx75IZS3VLb1O5ocmm7TEocrRPGf9tLs3EtSCTckJoLdmNhxK1ICRf
-         84x7V5oPIn7JX+gwOKHPqZDvm6UzElVhtHn5tE4Vi9B7EEuHNxtK/qgeqyzRfEmh8nKb
-         t/sI70iV1VZrEi1pR8Tchjj77n1ny8glrwU5ON3sshvFsXJvnbYhd9hCRLgdLIgX+xEk
-         WHZw==
-X-Forwarded-Encrypted: i=1; AJvYcCW08s3Rh8sgSANNnXW25+9VLLPG9HiMztD87uyU0qlFVkx2MazfmdzOhepe6+rSKxhdm2b+wsVptsUg@vger.kernel.org, AJvYcCWHv11ZLJhAEa2Q/lJEcNu2Jq7NBVsXJe120qxb8jgfXaKR/+iHrC+k4ZQuw/muJhqvsNdnm3dbBZgXNR4=@vger.kernel.org, AJvYcCXzDnR2wGJiDn1zy+wB4kXXQ9sYJug2Ajias2Jfhxka/rRdsUmbL3kTb+4k6NWXGHL/QLmJFLfUEKMawo8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycNC+8+3Uvj+E4XE76oq6BBnzYZN9HImuy3lMxqnPq67efUYUx
-	6PP7fVS948Z2NNfiPyJ9yU9U+Sj0PIOh1QvQUKl1MBBm9AmW1jGSLLQR9M5RoFPwpGCecbJw9Gv
-	nlMOPP+EyBw9iWFjNjcaMseCXS1VkFi9F/J8=
-X-Gm-Gg: ASbGnct5CuOgaVL4I++XJvrj/7yCNO4QPxkPRl97J9YBtKiqiJK7nqc2RBXJkISWiGu
-	CpkOaYb1po9GJ7t10yeMo+0x6wKinSMNnolHfplZuAsUxI4Eb6cntJMidMMD9QjfORop0DHhRDs
-	CgVDjOLzCMpe5Ui7pVNEtD0r85p0veDR0U
-X-Google-Smtp-Source: AGHT+IGGnwYms/bwQR4bfKLFxhGYy6bjC9kpgReShLXDrZx0BD5MBp6fWCsOgOl04IWSsloNeftYWOCMqI0GGiljTE8=
-X-Received: by 2002:a2e:a808:0:b0:30b:9813:b002 with SMTP id
- 38308e7fff4ca-3109054a531mr36843501fa.30.1745222994000; Mon, 21 Apr 2025
- 01:09:54 -0700 (PDT)
+	s=arc-20240116; t=1745223216; c=relaxed/simple;
+	bh=YKZ1FL0fNS0oYeN9YSlOYG2O01H5uqXci4arY1uaZ4M=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YOT9Ad8VB7hL0zenxKgh3EahE2zuiVLFUD/xXwpbetyBEayELJlenxNpUx+EIkIJVFDi/kyWODMU80gJrBA/WrnKf8Go3Pha3qf6PWQRM+e1ocQtslgZwXYLQEyyskS8qWtHMhO0jpaFSaTFDwBtqczPbRaYR1cQwqdXCI5R1VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMUhLDZJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BB2FC4CEEB;
+	Mon, 21 Apr 2025 08:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745223215;
+	bh=YKZ1FL0fNS0oYeN9YSlOYG2O01H5uqXci4arY1uaZ4M=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=nMUhLDZJl9Mh30GZlM4kiXW4kA56cZmo3Rh89IC2eHaMDofArKDrmalsYB3KuWK/k
+	 AohPr0kg0ESVXg985obJmbFwDga70IAGA/PyeYgHu3/c63dyniwVlYM2GLtT17K3Yk
+	 ZXFCoEEz2Wvhy6aglXFCfoXAk+hE3d6hv+SoxPj7JeJCCcUFEiVoVfVQSANOwp/4sh
+	 Cgf/qdWmxyUHb4GGoEuKzj5DkkceDQ7mcVb4c+X0vDGELIk1lSCrCEJEvjcR/HiRZZ
+	 v3li5cTtbA8yWAsx+dU5eMeVWrapfeCoQveH8u8DeQAyAU0DB7BA1rL1NCDPvhFJCR
+	 Z74cxxtHoiUhA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C63FC369AB;
+	Mon, 21 Apr 2025 08:13:35 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v2 0/2] Support building tegra124-cpufreq as a module
+Date: Mon, 21 Apr 2025 03:13:30 -0500
+Message-Id: <20250421-tegra124-cpufreq-v2-0-2f148cefa418@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250420-pci-tegra-module-v1-0-c0a1f831354a@gmail.com>
- <20250420-pci-tegra-module-v1-2-c0a1f831354a@gmail.com> <pgp3cdksefn2z4n2hlyhftbdlfwyx7gbol7q6wdj5j4brux3cw@thts2qcahdw3>
-In-Reply-To: <pgp3cdksefn2z4n2hlyhftbdlfwyx7gbol7q6wdj5j4brux3cw@thts2qcahdw3>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Mon, 21 Apr 2025 03:09:42 -0500
-X-Gm-Features: ATxdqUGjmCjoWgRy9CFGvBYM3AO3yhleNveM0vXHl0xHTlWPrWFnQUy71zJlHaA
-Message-ID: <CALHNRZ9R4SWtzAYocY9X7D9hm4mXeWKhdo_rk5UmRPVGD-vbBQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] PCI: tegra: Allow building as a module
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACr+BWgC/2WNywrCMBBFf6XM2shkiJW68j+ki5BM0gH7MKlFK
+ f13Y3Hn8hy4566QOQlnuFQrJF4kyzgUoEMFrrNDZCW+MBDSCQ1qNXNMVpNRbnqGxA8VfGNM8I5
+ rclBmU+Igrz15awt3kucxvfeHRX/tL0b4H1u0QoXWnANrqrHR19hbuR/d2EO7bdsHIB6aDbAAA
+ AA=
+X-Change-ID: 20250401-tegra124-cpufreq-fd944fdce62c
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745223214; l=947;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=YKZ1FL0fNS0oYeN9YSlOYG2O01H5uqXci4arY1uaZ4M=;
+ b=r+t8R12J9K6HoVxKRR1im5Q3oEBYOPWgY2nTw6QjMOaZYNb4fLfpmyaStn2uE2lIvZlQGr7Ss
+ BVfvN+pG2YaAW0pQIMWkoPzX6j/LZiZlaQ2ZVEZiXwiTDw7LKIdlVgO
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-On Mon, Apr 21, 2025 at 2:52=E2=80=AFAM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
->
-> On Sun, Apr 20, 2025 at 09:59:06PM -0500, Aaron Kling via B4 Relay wrote:
-> > From: Aaron Kling <webgeek1234@gmail.com>
-> >
-> > The driver works fine as a module, so allow building as such.
-> >
->
-> In the past, the former irqchip maintainer raised concerns for allowing t=
-he
-> irqchip drivers to be removed from the kernel. The concern was mostly (af=
-aik)
-> due to not disposing all IRQs before removing the irq_domain.
->
-> So Marek submitted a series [1] that added a new API for that. But that s=
-eries
-> didn't progress further. So if you want to make this driver a module, you=
- need
-> to do 2 things:
->
-> 1. Make sure the cited series gets merged and this driver uses the new AP=
-I.
-> 2. Get an Ack from Thomas (who is the only irqchip maintainer now).
+This adds remove and exit routines that were not previously needed when
+this was only available builtin. It also converts use of an unexported
+function to a more sane alternative.
 
-Should this be a hard blocker for building this one driver as a
-module? I did a quick grep of drivers/pci/controller for irq_domain,
-then compared several of the hits to the Kconfig. And every single one
-is tristate. Tegra is by far not a unique offender here.
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+Changes in v2:
+- Replace patch 1 with a patch to not use the unexported function
+- Update patch 2 to add remove and exit routines
+- Link to v1: https://lore.kernel.org/r/20250420-tegra124-cpufreq-v1-0-0a47fe126091@gmail.com
 
-Sincerely,
-Aaron
+---
+Aaron Kling (2):
+      cpufreq: tegra124: Remove use of disable_cpufreq
+      cpufreq: tegra124: Allow building as a module
 
->
-> - Mani
->
-> [1] https://lore.kernel.org/linux-pci/20240715114854.4792-1-kabel@kernel.=
-org
->
-> > Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> > ---
-> >  drivers/pci/controller/Kconfig     | 2 +-
-> >  drivers/pci/controller/pci-tegra.c | 3 +++
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kc=
-onfig
-> > index 9800b768105402d6dd1ba4b134c2ec23da6e4201..a9164dd2eccaead5ae9348c=
-24a5ad75fcb40f507 100644
-> > --- a/drivers/pci/controller/Kconfig
-> > +++ b/drivers/pci/controller/Kconfig
-> > @@ -224,7 +224,7 @@ config PCI_HYPERV_INTERFACE
-> >         driver.
-> >
-> >  config PCI_TEGRA
-> > -     bool "NVIDIA Tegra PCIe controller"
-> > +     tristate "NVIDIA Tegra PCIe controller"
-> >       depends on ARCH_TEGRA || COMPILE_TEST
-> >       depends on PCI_MSI
-> >       help
-> > diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controlle=
-r/pci-tegra.c
-> > index b3cdbc5927de3742161310610dc5dcb836f5dd69..c260842695f2e983ae48fd5=
-2b43f62dbb9fb5dd3 100644
-> > --- a/drivers/pci/controller/pci-tegra.c
-> > +++ b/drivers/pci/controller/pci-tegra.c
-> > @@ -2803,3 +2803,6 @@ static struct platform_driver tegra_pcie_driver =
-=3D {
-> >       .remove =3D tegra_pcie_remove,
-> >  };
-> >  module_platform_driver(tegra_pcie_driver);
-> > +MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
-> > +MODULE_DESCRIPTION("NVIDIA PCI host controller driver");
-> > +MODULE_LICENSE("GPL");
-> >
-> > --
-> > 2.48.1
-> >
-> >
->
-> --
-> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
-=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
-=E0=AF=8D
+ drivers/cpufreq/Kconfig.arm        |  2 +-
+ drivers/cpufreq/tegra124-cpufreq.c | 31 ++++++++++++++++++++++++++-----
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+---
+base-commit: 91e5bfe317d8f8471fbaa3e70cf66cae1314a516
+change-id: 20250401-tegra124-cpufreq-fd944fdce62c
+
+Best regards,
+-- 
+Aaron Kling <webgeek1234@gmail.com>
+
+
 
