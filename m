@@ -1,294 +1,193 @@
-Return-Path: <linux-tegra+bounces-6203-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6205-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018A0A9FD6F
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 01:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0958A9FDD0
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 01:35:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 492F51704BA
-	for <lists+linux-tegra@lfdr.de>; Mon, 28 Apr 2025 23:03:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 970AF465638
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Apr 2025 23:34:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A5F20F089;
-	Mon, 28 Apr 2025 23:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03A821516B;
+	Mon, 28 Apr 2025 23:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="JLdstz76"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SV1N9If/"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2078.outbound.protection.outlook.com [40.107.102.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EFE154BF5;
-	Mon, 28 Apr 2025 23:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF32215063;
+	Mon, 28 Apr 2025 23:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.78
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745881378; cv=pass; b=fY/8eMm+DnSRy56GXYW018gNbKqZ+GQJcxP9Sw8/nS2v7aIZ7ZNnxxzwwkpjLVJyqQAAV2M/L22hCeI6JUG7Mcqss9f4c+JOl0m3fw3f4ri7duzprMe5oUHSEOGI1/MeUcBbzecRONf9MaPjpiPqg8OgVSvBvwbIh+H/7Yu8MNc=
+	t=1745883274; cv=fail; b=OmAubeIKNLeWxAzdET4yoq8+KP49FMUYY9BaRegVWLH7HoxSX/LyjZsLSqij9odKTSixELlqAkahpPQaRAVUTKe4u6G5ek4jgagYvbjYw+E8frM7GUDW8ZpWueD9SB4e/QGF4vAuKFFdGqaAdpCffLwPzIFApz/WpUovbWOp7sU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745881378; c=relaxed/simple;
-	bh=ownss69Dxsb+YgyEfJTNQjd70aYi8CWtjQwBU6ISDCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OcscaOJaeMIwWP562ko1HriGHoRJl7/tzMIwjvAGmgHq2Uhxr0FSAVCDicLKZGQPWQ/m+xiK5oKHKOijRdQfbpYlzKUyiv5UZz/y3ToSexhawFCVAJTn2d6NHjnmV/b0+UBxDzAAxcXSyRxS2LrCX8IRDy2JsUcfxVxwsEgf36c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=JLdstz76; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1745881349; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=KmFn90xU9KVcVyFi1smTfbCt78dJ2i5CHivqNI044dh9j3dJik0nzZzOZfZP+GzUdJiELvGEalrZ4ICruDgGM3wDIYEXYotiL+gPjvCuXi1CXOYq/TX1rEGCAE5nsx5M87+En4LKrEMHolr8hLIuZa7BlXfBSnBVS+ESb0OKFH4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1745881349; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=RhkTUI9XE9KtR01w6s10olcqVKXI9TeKkCq9NLvPXLI=; 
-	b=fqUOSyEX0hAScy/mkLCEYonSxVpAxvLqaCgzm+wJwtgomIJDD6IVowzvFXruav55sJqDMq1Lt2j1rhUNZRbQLC6ItViNAg4kRlj91iT8Ad4i3WGIzSBCtH+Mr/mg4Z4Fo0s+gkQs6YyhumGOU2KBQwhRSa30zo8drckcuwDLa1A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745881349;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=RhkTUI9XE9KtR01w6s10olcqVKXI9TeKkCq9NLvPXLI=;
-	b=JLdstz76na+V3rurXlpU4A2AIYOS4NutobLQh5VZXlnT/KF/d87XlVNv686tpzHW
-	7fOduS0aeU31doZB3EnbrGJlyUAPJnUoxGCKTJ4nslTqziv6vfdPM4VucrPAdhXhl+3
-	kSDln9lisdGjBCSJSMYHlN/KfEBtQTdD/5aUbMjY=
-Received: by mx.zohomail.com with SMTPS id 1745881346002522.8861982694854;
-	Mon, 28 Apr 2025 16:02:26 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 455301806F3; Tue, 29 Apr 2025 01:02:21 +0200 (CEST)
-Date: Tue, 29 Apr 2025 01:02:21 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Heiko Stuebner <heiko@sntech.de>, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Aradhya Bhatia <a-bhatia1@ti.com>, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] power/supply: Add driver for Pegatron Chagall
- battery
-Message-ID: <22du3s2n3pcyivw7ktpqcvyvady24qggiqouz5hqzoca2tzyqd@vdi5qbtdkrgj>
-References: <20250413111033.11408-1-clamor95@gmail.com>
- <20250413111033.11408-4-clamor95@gmail.com>
+	s=arc-20240116; t=1745883274; c=relaxed/simple;
+	bh=OCbMJINOZt0yexPMUXzUPc8PnFvU+TvLeNk2ZlSx4Rg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTPKGAPhakccvKhRA4Wqe9ZnDkXrhuVQAfVy77oX522splkLdEi7jhucW62PqOTuRsX2w0amvwiDKI7A3OcI8heBfqC9z3hlMDvEN+VHZGuUNhsbnquvGkLDwPk4igfOr9+siY6tcTtihr9VZ30/cTB6JrJYGpJvgC6tf3Jopf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SV1N9If/; arc=fail smtp.client-ip=40.107.102.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iRkZn7NAaMSj5KHMLwXIJldMfHYY9Y6TgSCy21c2poyAHqGmD7X9d2QOrIusdOHVIkjxv746De6Vlpme332a6lmklBHpLrMkJYWSHp2zOZEC+mM2lZsqHLCxBv+8DqC7kmwf6jAEy219+79MtiyyQ+7DU6kvbFQpjeB7WfQcTOhBnhTuWnT0Os0/k/+pSKnDCXbaWeecO79hMgyRMkmntZRyePZmdaY/cdGRB5sgDsf+fVNfiX1Zsqvl2IazitxHly7V+O9eICugCI8a7nfC7V0At+ng0a1HxUJ6fNldxH65zaJG6MvhvrLyPT74X1kfk5Gt/js3Giu2gaqwxtVy2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7F7hl0sOww4JlJxvvJwWxhZL1ILZkPC7U0wHzjT7O0U=;
+ b=stJZpDKWpkRrRmIbJ78/S//I1NN+NeAlrxlwgI6svXqv1H1FTYWGyrpp7ZF4FE3E/KGbwRUcqHD61Oa7h+DHkY126L8nWqpYECDjjmXp8DLPtW+soq0XFSCht/KoSKuva3njAAI7M2XZCMV0GzZcfhWrdOE2qUPzD5PmqqYzhHoYJ7SR1pGPZPtQs/UE3lJPxuZ+pGQlLGAWIoEhqVDmOfEqoHMYy4tHUqo9/wL3oPOSGpD7ga+zCQUo9QTxWPJepUy3WZH0EtCDz8ngOpgzISDTKI6o9BAav7U6RT+K7+oJrFhSue8t6RNEoH15KiH1AglaG/d6imIOP4fVHJXLag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7F7hl0sOww4JlJxvvJwWxhZL1ILZkPC7U0wHzjT7O0U=;
+ b=SV1N9If/8xTtQh0h0x0+cdJs3RuiFUDfB0wdIP8Dj6/ZOoQTja9CBV4wKb+LVZv473nIZSqnTUb78Wy6nRVoEJo8Rwi7ed6N7qpVtgYFi5H1QdlApKtVHDoefWXy3dkGPhxweDTuUWpVpEje7xDjxzL+mRBXKt9lHRu+Tc7SYys/Tof4xplt71Kf+g4qf8w86YPPxqR7YiUbYXfXpNgGC63rc1to67DvL54RoskNAhEynYvtcqwNT57ygHox87Yv11ZrJUQRGTe190HfKUEB/2m7cn5l8wHxeKrNWbmTIs7zOrIYG4eAdFdgBs528FbaXdnnZ+JDVAYYM8xmMc/Tlw==
+Received: from PH2PEPF00003858.namprd17.prod.outlook.com (2603:10b6:518:1::7a)
+ by IA1PR12MB7493.namprd12.prod.outlook.com (2603:10b6:208:41b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Mon, 28 Apr
+ 2025 23:34:29 +0000
+Received: from CY4PEPF0000EDD2.namprd03.prod.outlook.com
+ (2a01:111:f403:f912::1) by PH2PEPF00003858.outlook.office365.com
+ (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.22 via Frontend Transport; Mon,
+ 28 Apr 2025 23:34:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000EDD2.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 23:34:28 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 28 Apr
+ 2025 16:34:18 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 28 Apr
+ 2025 16:34:18 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Mon, 28 Apr 2025 16:34:16 -0700
+Date: Mon, 28 Apr 2025 16:34:14 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Pranjal Shrivastava <praan@google.com>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>, <bagasdotme@gmail.com>, <robin.murphy@arm.com>,
+	<joro@8bytes.org>, <thierry.reding@gmail.com>, <vdumpa@nvidia.com>,
+	<jonathanh@nvidia.com>, <shuah@kernel.org>, <jsnitsel@redhat.com>,
+	<nathan@kernel.org>, <peterz@infradead.org>, <yi.l.liu@intel.com>,
+	<mshavit@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
+Subject: Re: [PATCH v2 08/22] iommufd: Abstract iopt_pin_pages and
+ iopt_unpin_pages helpers
+Message-ID: <aBAQdq0jeoCdKdsC@Asurada-Nvidia>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <d44272c153e7596c3cef716044de3dc6c2a8254a.1745646960.git.nicolinc@nvidia.com>
+ <aA_hm_AD4Xzm3qJZ@google.com>
+ <aA/9TZq99TF+MRYv@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iy6xjdlnbcua5d4x"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250413111033.11408-4-clamor95@gmail.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/245.863.17
-X-ZohoMailClient: External
+In-Reply-To: <aA/9TZq99TF+MRYv@Asurada-Nvidia>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD2:EE_|IA1PR12MB7493:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7bff512-626c-4772-571b-08dd86ad3838
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ZHfmfJii5Q18q1THjNj29q2gldetTaDkKNDCmhAkDqTb95xLLScWTIqmhDom?=
+ =?us-ascii?Q?ssUAvBqvElkV3SEy4qULK7CXwMoCRd1KV5gHPjd82mpFEWrtbEeVgVIjFzh6?=
+ =?us-ascii?Q?Sa0ZAYJF1chsx5Sd/qDfQPFaaPlU1Rkg4mhGqXXqeqEE9B7WTadbFFZpzyQF?=
+ =?us-ascii?Q?/0pqmFYo7aYKzhUnlNH2Ut3t50vfJIbiKW5c80yco6av9UQNG28B19yMgG82?=
+ =?us-ascii?Q?mnhTXsL4nHabCgHaMifvG42ub3/q4quzqLhp/6gwHjMovHl7HFjQk0neQFh2?=
+ =?us-ascii?Q?0UkVvAPwO4SRX6BQs8zKoy5Wb95Ior3hm3JYPEvGSAPFtHPGhwj7SDCb35WL?=
+ =?us-ascii?Q?VgNY9SYAnQQ8fYrPX2LaXcuDsG46Bi5YbYh2jMurxGMAQrtuGMFQ8l1u0AI5?=
+ =?us-ascii?Q?LzypmnIduV+at9VJ87eNqoTE87Hm49Q+nb/u37ddY6dDuJjuRa+QVnyBGn0Y?=
+ =?us-ascii?Q?6xltNU1u95CBUqbEw96aMrYKi8hm2xI0NpTUcCEeShUFb8ZPuIOSS5hwai3c?=
+ =?us-ascii?Q?71Cy98ctDUhTAa8K5XIKDMa5saroOf3krMAAcvm3e46QO2ITQ8OrmrqydeT5?=
+ =?us-ascii?Q?Cx3uSCJX5VHo82gZ7Oe+yLqYmFLmjO0wjwK8e8p0AYuLGqvyKd3E6ZfxK/9B?=
+ =?us-ascii?Q?dpmHyUg1CFuqrFOq1EDTBn+UDeKL3nbRdsfiJYjlKDKGFTibKha0HY9BpAJs?=
+ =?us-ascii?Q?OqDRbobSE7uTWe6sYMhtkTFvO9c3YXE4XiOvW/P3IVfOcN7t5WG+LzqMc4LZ?=
+ =?us-ascii?Q?pbLz3HI+nqDcNR/ebLBHjtbwjWyW4Qnjj2vwaAIEtDKS8f8IBieUnuV0KNoP?=
+ =?us-ascii?Q?ptVStAHKMDes7KoKqIvlVMM0Na0RSo22Xyfzo/YrtzHt1XSkeiP0TbemP0tu?=
+ =?us-ascii?Q?Otcd2MqgoI0btHb5QmSXRA7PGCfPeYz5JwgRjrnabDQreSMZWP3nodvCYCiU?=
+ =?us-ascii?Q?+nODoPFvyr6qQOoVwanxMuY6eEwl0LaEbcwqyOZ7REXKe5RfAYpxqIlCr+Jr?=
+ =?us-ascii?Q?FR11g1hEfMFrHyt+Yq1NwC8bD3yDJMoiUzSzE+zd8CFEc6RFfr+Dz72L6yCX?=
+ =?us-ascii?Q?SxnkdrcnCcnYdP7C42IILzjzaBe6ZYdbRPpx8zt+Ak07tDKqg+0mSX+vYfUk?=
+ =?us-ascii?Q?brFqpO4JINbeX3Li2sG/nDAYmzredCineW/4UC747G+VTkR2GBjNDhm8FF/B?=
+ =?us-ascii?Q?ebT6DKg4clkKwt/mwe1asC5jK4V8sz+k2/gLIIOoCpGqzlv1TVbb1coeihCd?=
+ =?us-ascii?Q?M3ZNJJqMxymDXVSzYyOFkpu9yRXLvmk47fjSvLoEcQD4CWdYyusZyfohQpMA?=
+ =?us-ascii?Q?UaFcESj+2LLXYE/8SKWRunmDv3NsQfAqWn31gJ7CWguZPgHYwS6Y7435yCYS?=
+ =?us-ascii?Q?d+D5xlnziHokutJ2814EalWqM+lRXzTQ/wCED8GpNNv74t3Sa/olosQsloX+?=
+ =?us-ascii?Q?VZWDnvBzXFqIZEf8n1JHdxei8ar7yX7ixfwRKNBP0KyGVuMt507vAIm9NYJw?=
+ =?us-ascii?Q?JYB2Aq3te22S+ie/drxcA7e/ZxxynKqXNWBD?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 23:34:28.5997
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7bff512-626c-4772-571b-08dd86ad3838
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD2.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7493
 
+On Mon, Apr 28, 2025 at 03:12:33PM -0700, Nicolin Chen wrote:
+> On Mon, Apr 28, 2025 at 08:14:19PM +0000, Pranjal Shrivastava wrote:
+> > On Fri, Apr 25, 2025 at 10:58:03PM -0700, Nicolin Chen wrote:
+> > > +	iopt_for_each_contig_area(&iter, area, iopt, iova, last_iova) {
+> > > +		unsigned long last = min(last_iova, iopt_area_last_iova(area));
+> > > +		unsigned long last_index = iopt_area_iova_to_index(area, last);
+> > > +		unsigned long index =
+> > > +			iopt_area_iova_to_index(area, iter.cur_iova);
+> > > +
+> > > +		if (area->prevent_access ||
+> > 
+> > Nit:
+> > Shouldn't we return -EBUSY or something if (area->prevent_access == 1) ?
+> > IIUC, this just means that an unmap attempt is in progress, hence avoid
+> > accessing the area.
+> 
+> Maybe. But this is what it was. So we need a different patch to
+> change that.
 
---iy6xjdlnbcua5d4x
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/4] power/supply: Add driver for Pegatron Chagall
- battery
-MIME-Version: 1.0
+Rereading the code. The prevent_access is set by an unmap(), which
+means there shouldn't be any pin() and rw() as the caller should
+finish unmap() first.
 
-Hi,
+In the newer use case of vCMDQ, it's similar. If VMM is unmapping
+the stage-2 mapping, it shouldn't try to allocate a vCMDQ.
 
-On Sun, Apr 13, 2025 at 02:10:32PM +0300, Svyatoslav Ryhel wrote:
-> The Pegatron Chagall is an Android tablet utilizing a customized Cypress
-> CG7153AM microcontroller (MCU) as its battery fuel gauge. It supports a
-> single-cell battery and features a dual-color charging LED.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
+-EBUSY makes some sense, but -EINVAL could still stand.
 
-This looks mostly good to me, but I have some comments.
+So, I am leaving it as is, since this patch is just about moving
+the functions for sharing.
 
->  drivers/power/supply/Kconfig           |  12 +
->  drivers/power/supply/Makefile          |   1 +
->  drivers/power/supply/chagall-battery.c | 308 +++++++++++++++++++++++++
->  3 files changed, 321 insertions(+)
->  create mode 100644 drivers/power/supply/chagall-battery.c
-
-[...]
-
-> +static void chagall_leds_status_update(struct chagall_battery_data *cg, =
-int state)
-> +{
-> +	switch (state) {
-> +	case POWER_SUPPLY_STATUS_FULL:
-> +		led_set_brightness(&cg->amber_led, LED_OFF);
-> +		led_set_brightness(&cg->white_led,  LED_ON);
-> +		break;
-> +
-> +	case POWER_SUPPLY_STATUS_CHARGING:
-> +		led_set_brightness(&cg->white_led, LED_OFF);
-> +		led_set_brightness(&cg->amber_led,  LED_ON);
-> +		break;
-> +
-> +	default:
-> +		led_set_brightness(&cg->amber_led, LED_OFF);
-> +		led_set_brightness(&cg->white_led, LED_OFF);
-> +		break;
-> +	}
-> +}
-
-Instead of doing this, you should setup LED triggers when
-registering the LEDs. The white LED can use power-supply's full_trig
-and the orange LED can use power-supply's charging_trig, which
-should have the same effect.
-
-> +static const enum power_supply_property chagall_battery_properties[] =3D=
- {
-> +	POWER_SUPPLY_PROP_STATUS,
-> +	POWER_SUPPLY_PROP_PRESENT,
-> +	POWER_SUPPLY_PROP_VOLTAGE_NOW,
-> +	POWER_SUPPLY_PROP_VOLTAGE_MAX,
-> +	POWER_SUPPLY_PROP_CURRENT_NOW,
-> +	POWER_SUPPLY_PROP_CURRENT_MAX,
-> +	POWER_SUPPLY_PROP_CAPACITY,
-> +	POWER_SUPPLY_PROP_TEMP,
-> +	POWER_SUPPLY_PROP_CHARGE_FULL,
-> +	POWER_SUPPLY_PROP_CHARGE_NOW,
-> +};
-> +
-> +static const unsigned int chagall_battery_prop_offs[] =3D {
-> +	[POWER_SUPPLY_PROP_TEMP] =3D CHAGALL_REG_BATTERY_TEMPERATURE,
-> +	[POWER_SUPPLY_PROP_VOLTAGE_NOW] =3D CHAGALL_REG_BATTERY_VOLTAGE,
-> +	[POWER_SUPPLY_PROP_CURRENT_NOW] =3D CHAGALL_REG_BATTERY_CURRENT,
-> +	[POWER_SUPPLY_PROP_CAPACITY] =3D CHAGALL_REG_BATTERY_CAPACITY,
-> +	[POWER_SUPPLY_PROP_CURRENT_MAX] =3D CHAGALL_REG_BATTERY_CHARGING_CURREN=
-T,
-> +	[POWER_SUPPLY_PROP_VOLTAGE_MAX] =3D CHAGALL_REG_BATTERY_CHARGING_VOLTAG=
-E,
-> +	[POWER_SUPPLY_PROP_STATUS] =3D CHAGALL_REG_BATTERY_STATUS,
-> +	[POWER_SUPPLY_PROP_CHARGE_NOW] =3D CHAGALL_REG_BATTERY_REMAIN_CAPACITY,
-> +	[POWER_SUPPLY_PROP_CHARGE_FULL] =3D CHAGALL_REG_BATTERY_FULL_CAPACITY,
-> +};
-
-Please use the same order for chagall_battery_prop_offs and
-chagall_battery_properties. Makes it a lot easier to see
-that all options have been covered.
-
-> +static int chagall_battery_get_value(struct chagall_battery_data *cg,
-> +				     enum power_supply_property psp, u32 *val)
-> +{
-> +	if (psp >=3D ARRAY_SIZE(chagall_battery_prop_offs))
-> +		return -EINVAL;
-> +	if (!chagall_battery_prop_offs[psp])
-> +		return -EINVAL;
-> +
-> +	/* Battery data is stored in 2 consecutive registers with little-endian=
- */
-> +	return regmap_bulk_read(cg->regmap, chagall_battery_prop_offs[psp], val=
-, 2);
-> +}
-> +
-> +static int chagall_battery_get_property(struct power_supply *psy,
-> +					enum power_supply_property psp,
-> +					union power_supply_propval *val)
-> +{
-> +	struct chagall_battery_data *cg =3D power_supply_get_drvdata(psy);
-> +	int ret;
-> +
-> +	switch (psp) {
-> +	case POWER_SUPPLY_PROP_PRESENT:
-> +		val->intval =3D 1;
-> +		break;
-> +
-> +	default:
-> +		ret =3D chagall_battery_get_value(cg, psp, &val->intval);
-> +		if (ret)
-> +			return ret;
-> +
-> +		switch (psp) {
-> +		case POWER_SUPPLY_PROP_TEMP:
-> +			val->intval -=3D TEMP_CELSIUS_OFFSET;
-> +			break;
-> +
-> +		case POWER_SUPPLY_PROP_VOLTAGE_MAX:
-> +		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-> +		case POWER_SUPPLY_PROP_CURRENT_MAX:
-> +		case POWER_SUPPLY_PROP_CURRENT_NOW:
-> +		case POWER_SUPPLY_PROP_CHARGE_FULL:
-> +		case POWER_SUPPLY_PROP_CHARGE_NOW:
-> +			val->intval *=3D 1000;
-> +			break;
-> +
-> +		case POWER_SUPPLY_PROP_STATUS:
-> +			if (val->intval & BATTERY_FULL_CHARGED)
-> +				val->intval =3D POWER_SUPPLY_STATUS_FULL;
-> +			else if (val->intval & BATTERY_FULL_DISCHARGED)
-> +				val->intval =3D POWER_SUPPLY_STATUS_NOT_CHARGING;
-
-Have you tested this path? POWER_SUPPLY_STATUS_NOT_CHARGING is
-intended to be used when the battery is neither charging nor
-discharging. Does BATTERY_FULL_DISCHARGED mean, that the battery
-is fully depleted and not providing any energy at all? Or is this
-some kind of "battery level is criticial, you should attach a
-power-supply now or the system will be turn off by itself soon"?
-
-> +			else if (val->intval & BATTERY_DISCHARGING)
-> +				val->intval =3D POWER_SUPPLY_STATUS_DISCHARGING;
-> +			else
-> +				val->intval =3D POWER_SUPPLY_STATUS_CHARGING;
-> +			break;
-> +
-> +		default:
-> +			break;
-> +		}
-> +
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void chagall_battery_poll_work(struct work_struct *work)
-> +{
-> +	struct chagall_battery_data *cg =3D
-> +		container_of(work, struct chagall_battery_data, poll_work.work);
-> +	u32 state;
-> +	int ret;
-> +
-> +	ret =3D chagall_battery_get_value(cg, POWER_SUPPLY_PROP_STATUS, &state);
-> +	if (ret)
-> +		return;
-> +
-> +	if (state & BATTERY_FULL_CHARGED)
-> +		state =3D POWER_SUPPLY_STATUS_FULL;
-> +	else if (state & BATTERY_DISCHARGING)
-> +		state =3D POWER_SUPPLY_STATUS_DISCHARGING;
-> +	else
-> +		state =3D POWER_SUPPLY_STATUS_CHARGING;
-
-This basically duplicates the logic from chagall_battery_get_property(),
-so put the translation logic into a helper function and use it in
-both places.
-
-Greetings,
-
--- Sebastian
-
---iy6xjdlnbcua5d4x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmgQCPkACgkQ2O7X88g7
-+pq1ig//fof6Fhl3SUpeNdPzt3Kv9vb2WmT7KdZWwHb8NtR21x0fBdMWJBnwIkjZ
-SEbWAPAHTLB5sepeDNgtdWu2h9cGGFuOygbhGU3W2sd/hSvl6su30pM/GcnjUdjS
-Y0cnzbiRIKGFAwoZQFdwOSy2HSnZEuBXdxV55RycV1Zeq7pLAoNDzGKnlYmHCbzZ
-JopP2mS2n9wYmzHoBZXUNq2AtFHhp2I+39u8867yRKqrJUdJh51QYHrNb1vv5eKo
-wH17kRiT+7yQcX5O8/nQlI1/4eU26uPErxmaQFmN+Z8Ceo/hvbpVO+8+8gm3C4jA
-onj5QFCrZ/YExn/+yAunw4DFbSXbq354onU+lY6yn5LeKP7NsFUS4Ez8hnm9z6gn
-mMArqLXnUVyQMp6C+Ld7IcSq5CW6nQPJrwpony6Rmhs83mRRyV2Y560THmIczp/H
-9lIWiFOIPyXlGPfETDE4a3jIClHQB8+XKQOAZ9gG2xGaMz1af/evpRfbWRWo/lS5
-33bzC2DjGrXt63fvYEXH0yGHysaIRq9neL4cKCvCxM5z8VzwMlWWunYfJBC5m6pm
-4+0GEW/euOMBRaoNJdSw0NORLMyQl5//E8I1MDgD6ZB7t/dvjwOMQiDVShx+SXfi
-gDdtHPRUWsYCyqDEjD53MjA/UmL1gBbTtqREhK6gDxezNqVIc/0=
-=3MAE
------END PGP SIGNATURE-----
-
---iy6xjdlnbcua5d4x--
+Nicolin
 
