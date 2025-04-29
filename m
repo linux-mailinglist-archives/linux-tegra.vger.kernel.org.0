@@ -1,131 +1,153 @@
-Return-Path: <linux-tegra+bounces-6285-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6286-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89FAAA3979
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 23:34:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BAAAA398D
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 23:36:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4913B4A1E31
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 21:34:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 167629A88E9
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Apr 2025 21:35:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32EDE270578;
-	Tue, 29 Apr 2025 21:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4CAA26FD83;
+	Tue, 29 Apr 2025 21:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPAIY7fK"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z+Q9eO8x"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E3226988C;
-	Tue, 29 Apr 2025 21:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E482026F477
+	for <linux-tegra@vger.kernel.org>; Tue, 29 Apr 2025 21:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745962428; cv=none; b=SRD1VvOGR6wD1po35+ulaREc1LHslcUluSzQO11+J7Z3jxZl2D1PgCP4jCMWjFgB9NfrpTh/3l1nCWGkQptHMAEu8xwN5yl0kFeDAVO1PYSlqDzsO18OysNkVuLQ2pDHe0H9u+I6mAFNJNP986J6eyPnVe3CSc8rFV/kE1nVebE=
+	t=1745962521; cv=none; b=ush0P8UisGtBmnPhaGIKZQa8whUYqpjP3mcD6yfPRrh1nVk34uhNO4pUzrYMZRxNaZ3qFieWxaHuXRwNVdTCRvY31USH+8gkQ01RdJzbGkFr+hQAVwfY2rLpvEozj8nEgbTNTHPdNqf5Y96UVs9OP1evmEcOn7T/zUVPK/xMAyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745962428; c=relaxed/simple;
-	bh=XLawiZSXPo98FH4XDvhI8c6FZC3Krxw6e6hl73tNG2g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XKdkwixCjw70yaasfPcQ6m3EO3e9ol1zAdfsX/EJa3xhXFTcj61B0BtI4t73ayQPqM2jyrixCkbTez18Mp6+/91NoIJUyUx8RzJtB2a93slcshLqYxK2VE6ISkS6E5gejM9s68CnBHoCt18PlwHOoDsTg0eQxSAFR1DnwMfl1qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPAIY7fK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 87BCDC4CEEE;
-	Tue, 29 Apr 2025 21:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745962427;
-	bh=XLawiZSXPo98FH4XDvhI8c6FZC3Krxw6e6hl73tNG2g=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dPAIY7fKukFwxqTyPJVm9IizvHsGdiYZ2QkSpkdOP1i5UI1Z4W87FVcweP1l6tL1/
-	 fWR63BnL0PC6BZQeHbr0L9wFKDvVYcwZ6eX/k7hK3gGzXYzpnf9FENFu/+VbmzNFHt
-	 NetSjEXFT1PMLyEnMYO8FQ+Y+9YVPdaKnUnFn9tkP2yJGL61O2+GU90kdQJEd67OKW
-	 b5RNZDQI/l3/E8b7GjTtn+nL80EoOAByq+vBa3LW56kFX161gQFaWY56Sm547NfUHT
-	 HLnFX0vbW220t4P6ziT5a9PqPbIlNcCL788leR2ZH6dQgYv3eR2z3GGjlqCarWF8Bb
-	 VBTSPRKZH1yhA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E41DC3ABAA;
-	Tue, 29 Apr 2025 21:33:47 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Tue, 29 Apr 2025 16:33:33 -0500
-Subject: [PATCH 4/4] arm64: tegra: Add Tegra186 pin controllers
+	s=arc-20240116; t=1745962521; c=relaxed/simple;
+	bh=JFtp/04AN6971ALn40g4bC8CVWUHKgt3AbR5wojCJVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3LNrHe4+EcV4Qrsj1L7ijwAjZVFMqu3b4jdvJ7h2+DA0GAf/Ss5VT6oPrlLyZ4rJ/JLUjbgE24w0xydArRysWxyFcy/9KV6jDnOCcO9eJeaUbyALbsRqYtUOjnUcOvc4cQ88Xq6uHA7aLWGnq46nxKKHwkwJs1zRlNQHqViKwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=fail smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z+Q9eO8x; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=google.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2240aad70f2so240315ad.0
+        for <linux-tegra@vger.kernel.org>; Tue, 29 Apr 2025 14:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745962519; x=1746567319; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mpYoUff4tpb7ZnYnv11tnvX2uEPBYr9ascXUqkCwOTE=;
+        b=Z+Q9eO8xeLCUuo/zkudd1dLWzxcNVjezyNiWJnWo5t2NBqP2/gndruzvGck4whmIpf
+         3F7EWJq3FFBl9hBOUZ6HKWb/W5eYowm7m9AfwjHzAIjH8J7WYRkOf8ga8xJEJ1B48knM
+         2oBZ4gSsPJkWa2hDYd/D6lHKh+M6zVIiPBOQAyFMM2Ckqjg0vonp0JuxudO6qK064UmE
+         rrDC29NTut3AJvmXvbOdvOxVwz2dwZkVaim0E6I5vqI4ORZjMVeeN3Su0AMd/XreXuc9
+         33o0z31VlRCe1zcCHkLbgmelIsrI17mvFsQmbkFTH/8lfJzaJvs8i3jS6DFXNGR9vG9/
+         /9rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745962519; x=1746567319;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mpYoUff4tpb7ZnYnv11tnvX2uEPBYr9ascXUqkCwOTE=;
+        b=OlKhQ7qBBXqEhU7fG6tFgNhesqzU6X5oWwcUVSnDZD2Y+z+HEZ1gVcXmAAdmyDFMmv
+         Fqv8Ha6lygdLSPV2QlYlGktai4G6x/z4+I8JIr47pgi8r/FjnH9SD7iyULumPSu5+EIn
+         LZDNZjCf377IYK5ablpRKK8ChxS19vFRrdNXvW8gUstmE6qfmy8qaHqhZRhCDdoVHr/D
+         L4VJ9GEGY6HZEMbgjmZc6mIR6Yk+EZT+C8U2lq++aZeZHZrNZC3LUa6GlcUgJ8n0vuBf
+         LBRBbGk7NEZbbjhT6pM8x5rFf/ZMQmLZ95ilRyl3lZT1HrwOs+Cub5mgNuPGBF84M1JD
+         iDVA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5CPGjaQo19XNRQuCRcP72vjM9vDCuWF9VcveKMPqo6xX84abAB9JWWQ6Mcnc8F6fIEFNSeyjtCu5GQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq8MY/qLSz7YF0YmZeffzIDkeasWrR3InTZrIsAG2tgdYO0QTK
+	0ZOs6S9Q/KWEtGuDIfu13TRPpRbHuc8fqMFRddO9raFZjdpNjymTa6b8+R9w7g==
+X-Gm-Gg: ASbGncsUhahDlCsKGHp3pQQEyHIAX1Yj1i8rTQdDTv/R4dTF/MydDBABkKs2zK60ZE9
+	mMdUlh3XsxdApOXkq67KPvpqAkruy/xDWok6GfnLE3j6zp4ov4xKNRWrE1foU9+bplcNKvyZmEX
+	ixCLTkXfpt+uS3X2lUq5KNV2BoPeJYHxA9ofusMGp0GtMbKoDcOSt4qt2qj7AkuLJYpKn/Pw9Bz
+	/HrnfraBOby7y0OCXh/vau9+29lB3QbXz0Cc0Fd6pFXEPEApcT8Ws4s7/av0M3KWRI3l5aW6ZzC
+	NTldbs4IlsFUVlzmuW7A6tTwQfF16z5vHL4JoNI4Al3t0CTfoA01TqJow1Oy3z/+K/+3Mqoa
+X-Google-Smtp-Source: AGHT+IEiAc8Ows6C4iR4kgPCFAlWxuerupIBpLK64UuYqayp18C/qOLe733Vqo0YiAcQG8JFaBI7KQ==
+X-Received: by 2002:a17:902:f681:b0:200:97b5:dc2b with SMTP id d9443c01a7336-22df54469b2mr228275ad.15.1745962518918;
+        Tue, 29 Apr 2025 14:35:18 -0700 (PDT)
+Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a3480f08csm42489a91.39.2025.04.29.14.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 14:35:18 -0700 (PDT)
+Date: Tue, 29 Apr 2025 21:35:07 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 13/22] iommufd: Add mmap interface
+Message-ID: <aBFGCxcTh54pecsk@google.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <7be26560c604b0cbc2fd218997b97a47e4ed11ff.1745646960.git.nicolinc@nvidia.com>
+ <aBE1gUz9y415EuBQ@google.com>
+ <aBE38GwvGBnpRNLc@google.com>
+ <aBE47aySzDp2lsAz@Asurada-Nvidia>
+ <aBE800DsAOOZ4ybv@google.com>
+ <aBE/CD4Ilbydnmud@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-tegra186-pinctrl-v1-4-722c7c42394e@gmail.com>
-References: <20250429-tegra186-pinctrl-v1-0-722c7c42394e@gmail.com>
-In-Reply-To: <20250429-tegra186-pinctrl-v1-0-722c7c42394e@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745962426; l=1340;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=nlBNe2tmaWa/9hjMpL12OUQ3+yLCwSi7g9iNZUe7fx0=;
- b=PHL9o8X4kHc29B9os6pRSftB7NaZVGlgAwJuzza09Hgm8RUkBw/gVAFXOneY0Wf464twm7ADu
- t0sq/QfFL05D93yKmq1qEJgHdHTFEg+uajuCZxr7jmIyD4WRkjHsIWK
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBE/CD4Ilbydnmud@Asurada-Nvidia>
 
-From: Aaron Kling <webgeek1234@gmail.com>
+On Tue, Apr 29, 2025 at 02:05:12PM -0700, Nicolin Chen wrote:
+> On Tue, Apr 29, 2025 at 08:55:47PM +0000, Pranjal Shrivastava wrote:
+> > On Tue, Apr 29, 2025 at 01:39:09PM -0700, Nicolin Chen wrote:
+> > > On Tue, Apr 29, 2025 at 08:34:56PM +0000, Pranjal Shrivastava wrote:
+> > > > On Tue, Apr 29, 2025 at 08:24:33PM +0000, Pranjal Shrivastava wrote:
+> > > > > On Fri, Apr 25, 2025 at 10:58:08PM -0700, Nicolin Chen wrote:
+> > > > > > +	struct iommufd_mmap *immap;
+> > > > > > +	int rc;
+> > > > > > +
+> > > > > > +	if (WARN_ON_ONCE(!immap_id))
+> > > > > > +		return -EINVAL;
+> > > > > > +	if (base & ~PAGE_MASK)
+> > > > > > +		return -EINVAL;
+> > > > > > +	if (!size || size & ~PAGE_MASK)
+> > > > > > +		return -EINVAL;
+> > > > > > +
+> > > > > > +	immap = kzalloc(sizeof(*immap), GFP_KERNEL);
+> > > > > > +	if (!immap)
+> > > > > > +		return -ENOMEM;
+> > > > > > +	immap->pfn_start = base >> PAGE_SHIFT;
+> > > > > > +	immap->pfn_end = immap->pfn_start + (size >> PAGE_SHIFT) - 1;
+> > > > > > +
+> > > > > > +	rc = mtree_alloc_range(&ictx->mt_mmap, immap_id, immap, sizeof(immap),
+> > > > > 
+> > > > > I believe this should be sizeof(*immap) ?
+> > > > 
+> > > > Ugh, Sorry, shouldn't this be size >> PAGE_SHIFT (num_indices to alloc) ?
+> > > 
+> > > mtree_load() returns a "struct iommufd_map *" pointer.
+> > 
+> > I'm not talking about mtree_load. I meant mtree_alloc_range takes in a
+> > "size" parameter, which is being passed as sizeof(imap) in this patch.
+> > IIUC, the mtree_alloc_range, via mas_empty_area, gets a range that is
+> > sufficient for the given "size". 
+> > 
+> > Now in this case, "size" would be the no. of pfns which are mmap-able.
+> > By passing sizeof(immap), we're simply reserving sizeof(ptr) i.e. 8 pfns
+> > for a 64-bit machine. Whereas we really, just want to reserve a range
+> > for size >> PAGE_SHIFT pfns.
+> 
+> But we are not storing pfns but the immap pointer..
 
-Add the device tree nodes for the MAIN and AON pin controllers found on
-the Tegra186 family of SoCs.
+Ohh... so we are storing the raw pointer in the mtree.. I got confused
+with the `LONG_MAX >> PAGE_SHIFT`.. Sorry about the confusion!
 
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 2b3bb5d0af17bd521f87db0484fcbe943dd1a797..576a4d8e0f9dbe4ef43f60b9222c1c03f7440aab 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -36,6 +36,12 @@ gpio: gpio@2200000 {
- 		interrupt-controller;
- 		#gpio-cells = <2>;
- 		gpio-controller;
-+		gpio-ranges = <&pinmux 0 0 140>;
-+	};
-+
-+	pinmux: pinmux@2430000 {
-+		compatible = "nvidia,tegra186-pinmux";
-+		reg = <0x0 0x2430000 0x0 0x15000>;
- 	};
- 
- 	ethernet@2490000 {
-@@ -1272,10 +1278,16 @@ gpio_aon: gpio@c2f0000 {
- 		interrupts = <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>;
- 		gpio-controller;
- 		#gpio-cells = <2>;
-+		gpio-ranges = <&pinmux_aon 0 0 47>;
- 		interrupt-controller;
- 		#interrupt-cells = <2>;
- 	};
- 
-+	pinmux_aon: pinmux@c300000 {
-+		compatible = "nvidia,tegra186-pinmux-aon";
-+		reg = <0x0 0xc300000 0x0 0x4000>;
-+	};
-+
- 	pwm4: pwm@c340000 {
- 		compatible = "nvidia,tegra186-pwm";
- 		reg = <0x0 0xc340000 0x0 0x10000>;
-
--- 
-2.48.1
-
-
+> 
+> Nicolin
 
