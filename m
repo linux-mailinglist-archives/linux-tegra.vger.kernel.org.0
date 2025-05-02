@@ -1,97 +1,52 @@
-Return-Path: <linux-tegra+bounces-6390-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6393-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD36AA78C8
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 May 2025 19:45:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA61BAA79B4
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 May 2025 21:00:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D2C31BC0271
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 May 2025 17:45:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A48F51C05A90
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 May 2025 19:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F17525DB1B;
-	Fri,  2 May 2025 17:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7A11EF368;
+	Fri,  2 May 2025 19:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZfT8qh63"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1hAeUd3"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6FA255E30
-	for <linux-tegra@vger.kernel.org>; Fri,  2 May 2025 17:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188A817A31D;
+	Fri,  2 May 2025 19:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746207901; cv=none; b=IdkRNzcHOTrpdKbQpw+ProIEkLdJDC4GyzP83zdP1sE3cxo7PYwE2ev7ZZnOnf1Xrvg+HjDJDVHXPiKrZ5CW28vWZtBlaoW2nv7ROLSkok9TsYiyDaPC166Yf85lT0+OvXmFkLXuUnUtLgjwS3Nlf8X1cPdlXtrEuVoafQvuAAE=
+	t=1746212445; cv=none; b=DthoJ4zZZehktimG5ITOBNa+qOoyZ6nVWjs3yd1kwRxo8uwpTjSe2NBFW1AYkB3Z5gewdmQkjQz7JfQo+aF3YuutWNESYE32TTDN0PdnPQr45KuwYwAlCkWnHVINf4PVKo06axMZr8vepSl1noK7sIDdrzcwrIJgflDLri7/U48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746207901; c=relaxed/simple;
-	bh=XmCGPi5E/4vdLYqfzcEUuIa7Pjd6veLPx7s/gT1s0z0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cmw+646gq0inTQPgEjIROQSFil0VtpsrbuBSDpywgHlfhhQt0sFEE0K0Qsc9HYt/E0gRWR6izkMAtYjYRn4K7uGpkFn0IwdB0wpxZDr2detl0ghwD8XncPrTmU2hYcjPMcs17L5muLIzClreRJxQyEqErEeqEEhAWsLRKo/RyVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZfT8qh63; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227a8cdd241so30424855ad.3
-        for <linux-tegra@vger.kernel.org>; Fri, 02 May 2025 10:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746207899; x=1746812699; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dY8M+VLKea8pjpC946v5/t8PrnnUb0Gzxs+7tzVnLLg=;
-        b=ZfT8qh63//vQIKv+aV+pTKMNJSSjvLT94HkI9it5Jn5Lrufb7peCm8wUTuJpnfo/ye
-         UthcD5b7RleAhGAsixdB2GixpqQjAB9+HqsNmWbGlezGFqSx22VFJTJiSvyrox/n6Icf
-         K77bNvG8zu4fY+r/AfpLe6xuF9JCrjvc3chodM/LzqN0ACA8W5wOwNb80cchg+M/n/9W
-         BtopYKzjhNzoz/Mjj1rnJQ/MQ5uZZD+DWG+enEdFTzfQhmWwYc69OTs/2/s4v/guugbZ
-         AO7otwmEVRO+NBtCq0408ZJf3H7uzWZHmPE7A2OvDNw3geQtrYk0HefqjR5gx+4izAzk
-         lwLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746207899; x=1746812699;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dY8M+VLKea8pjpC946v5/t8PrnnUb0Gzxs+7tzVnLLg=;
-        b=CbUh2weu+9luTDXTqmbk5oIyhHHjYB1dLzJ6jlSbn1DHsBxNZgvLv/ep+At2O5ILbC
-         ynk0LaBLqDoOYOPoQ8nkuHccbIXsMPFUA06pSZO3UnWTPJC9qR/doE+NYX8L1eN+35SV
-         KkbI3MVsiMOj5ZGckuhaOsgz9wGZlrU8FtSDGB17Wn82ZTtQoDJZJ2LLBx9CyYmKfaXf
-         C7UhXq90++hFxsyCnsDzHPEyAl1tQW1PKrOp0O4uReOSSvGgWyihg8tFaanfebCZk+Nk
-         H5bryAi8e2NE3/SY3wsJfen5UnusIikXsiEeWFufljz+Wh5DYsnMBkCSQHXmexqkddHC
-         9oSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVz4LkqNSEA5wMFkbe89GsrWGeTs+ROZV/1gDcgm51b1De3rqG/6xNKUhwrFeGl3GN2ZU1F/mxM94f7iA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYK7CviTBID9eiRecUiADPwQGMJlSus7ki3Z1hkzWSK0ZW6y2+
-	k8M3Lnmuwfg3uCtpe0xC50YeiLs/9knkHu1YHl3NCfUE0MiQ1IJEcsR2+RDLxbbXmnyTnxtiwBs
-	=
-X-Gm-Gg: ASbGncsTOOORe+R7ALnbDWh2EAcHZ3ElJ0u87YaQKjtT9ySSfRVfK1HSxTTqHdKZaWJ
-	2qxiQBlLSaq/BzJ+3syzpILrYWrZmKYEA6chLGi9MQH9bsVuplKsZCpG3ePSWSyVdTYPL4QxEIF
-	GHfsJr1c1y8GU2IbnHP1q0kEmZx17Ws8/qdCtLiv/iqRUkaG7KtmEb5vj23atNBZhPlRcjYW1DJ
-	L0zRlrJ/aOesp9ub2H1QICeUzNXThzhfJX4KZmubTee7vZ71SM1MCTn8GdhSp2KDF55C1bW4RQd
-	emA4vtQTupo5+zRZqRDtJ7Bw6eqbPbeqECkbGen7KZCDNJHKnaHyC6+B
-X-Google-Smtp-Source: AGHT+IHXWlUErao4J1U1mlwJYk9ATwc8DlkGhI6ADj3IGLu/xR9EZ4EkOFgQ2fo9wnmS3hLmuShE4g==
-X-Received: by 2002:a17:903:187:b0:223:517a:d2a3 with SMTP id d9443c01a7336-22e1032f5a2mr56701275ad.17.1746207898939;
-        Fri, 02 May 2025 10:44:58 -0700 (PDT)
-Received: from thinkpad.. ([220.158.156.122])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e150eae99sm10608815ad.19.2025.05.02.10.44.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 10:44:58 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: lpieralisi@kernel.org,
-	Hans Zhang <18255117159@163.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	christophe.jaillet@wanadoo.fr,
-	thierry.reding@gmail.com,
-	kw@linux.com,
-	robh@kernel.org,
-	bhelgaas@google.com,
-	jonathanh@nvidia.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [v3] PCI: tegra194: Fix debugfs directory creation when CONFIG_PCIEASPM is disabled
-Date: Fri,  2 May 2025 23:14:50 +0530
-Message-ID: <174620787968.116062.4174884576928380234.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250407124331.69459-1-18255117159@163.com>
-References: <20250407124331.69459-1-18255117159@163.com>
+	s=arc-20240116; t=1746212445; c=relaxed/simple;
+	bh=so9xiW1S4t/puW+TSopXdW0I81Cxz+S5s0PV6OPTll8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FO3qJ5vZlPgxpfoHQubaLgxLZT7SXCpPFLeJpdwdQvEarACAJPS1GGbJbP5NjnTKngVeZfbtEvMHb6vjCYxdhF7oUhdz6hAvdY7etSEnjCbB6dI+xlziwA9hVfmgKvbmEd0s1P7TTgsaSDaO7QdN/I7H/HN/DI9/0flQ4xELgOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1hAeUd3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 89DCCC4CEE4;
+	Fri,  2 May 2025 19:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746212444;
+	bh=so9xiW1S4t/puW+TSopXdW0I81Cxz+S5s0PV6OPTll8=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=A1hAeUd3OZWDQZh+v+j/tLjigeBAAgfsVPmHdHY8EDt3JMMfApOESVmoaFjjwuR1Z
+	 oUQRB+lpXb/XiHVCa+UaVm501Fsk7kbCxg6KM48AyKJ26LDsUH8juSc4fprdJBkVSr
+	 YPP3svc3Zc0g+ZAq91TGh7B+kNObQm/Rhu5ax2nt/LyV7giLDTI+Idae5kK5/B7J75
+	 0w/2JNPBtYAOEMCey9k+fcxhDjLFgNgliCHXvj74TR/F7+nMOXrug6fgM3cz0MxxpS
+	 3Kly3J4rTlgKG/JG6n8aKigpHbJbJQiOYbvFbVJ1yQ6WQ5Hx0W3m9E8oP14JqJjETe
+	 te8B7/BBa2v8Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC20C3ABAC;
+	Fri,  2 May 2025 19:00:44 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v3 0/4] PCI: tegra: Allow building as a module
+Date: Fri, 02 May 2025 14:00:28 -0500
+Message-Id: <20250502-pci-tegra-module-v3-0-556a49732d70@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -99,29 +54,68 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEwWFWgC/23NQQ6CMBCF4auQrq3plCLIynsYF6UMMAlQ0mKjI
+ dzdghsSXf6TzPcW5tERelYmC3MYyJMdY6SnhJlOjy1yqmMzKWQmUkj5ZIjP2DrNB1s/e+S5qWo
+ wGeZCNyy+TQ4beu3k/RG7Iz9b994XAmzXL6ak+MUCcMGN0NAUcSxT+tYOmvqzsQPbsCCPQPEHk
+ BsAoFV1BanU5Qis6/oBPXKM7PEAAAA=
+X-Change-ID: 20250313-pci-tegra-module-7cbd1c5e70af
+To: Thomas Gleixner <tglx@linutronix.de>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746212443; l=1155;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=so9xiW1S4t/puW+TSopXdW0I81Cxz+S5s0PV6OPTll8=;
+ b=jzbeQQRcoQ48RuQVHs8LZsVlZt97xOuoIiLY7mWldxO2XwgDv7bAYx6iCFKObhSCmBYyE5M51
+ sYUM+fvmnBcAY+OCeefnCILMrYh42bVKd5IoTmfeBmEnRt7bSZRAahy
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+Changes in v3:
+- Add patch to drop remove callback, per request
+- Link to v2: https://lore.kernel.org/r/20250428-pci-tegra-module-v2-0-c11a4b912446@gmail.com
 
-On Mon, 07 Apr 2025 20:43:31 +0800, Hans Zhang wrote:
-> Previously, the debugfs directory was unconditionally created in
-> tegra_pcie_config_rp() regardless of the CONFIG_PCIEASPM setting.
-> This led to unnecessary directory creation when ASPM support was disabled.
-> 
-> Move the debugfs directory creation into init_debugfs() which is
-> conditionally compiled based on CONFIG_PCIEASPM. This ensures:
-> - The directory is only created when ASPM-related debugfs entries are
->   needed.
-> - Proper error handling for directory creation failures.
-> - Avoids cluttering debugfs with empty directories when ASPM is disabled.
-> 
-> [...]
+Changes in v2:
+- Add patch to export tegra_cpuidle_pcie_irqs_in_use as required when
+  building pci-tegra as a module for arm
+- Drop module exit to prevent module unloading, as requested
+- Link to v1: https://lore.kernel.org/r/20250420-pci-tegra-module-v1-0-c0a1f831354a@gmail.com
 
-Applied, thanks!
+---
+Aaron Kling (4):
+      irqdomain: Export irq_domain_free_irqs
+      cpuidle: tegra: Export tegra_cpuidle_pcie_irqs_in_use
+      PCI: tegra: Allow building as a module
+      PCI: tegra: Drop unused remove callback
 
-[1/1] PCI: tegra194: Fix debugfs directory creation when CONFIG_PCIEASPM is disabled
-      commit: ed798ff1c52f6fe232ce2e24e68fb63f5470ab97
+ drivers/cpuidle/cpuidle-tegra.c    |  1 +
+ drivers/pci/controller/Kconfig     |  2 +-
+ drivers/pci/controller/pci-tegra.c | 24 ++++++------------------
+ kernel/irq/irqdomain.c             |  1 +
+ 4 files changed, 9 insertions(+), 19 deletions(-)
+---
+base-commit: 18352e73612d60b81790d2437845276ae499b64a
+change-id: 20250313-pci-tegra-module-7cbd1c5e70af
 
 Best regards,
 -- 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Aaron Kling <webgeek1234@gmail.com>
+
+
 
