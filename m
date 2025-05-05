@@ -1,62 +1,62 @@
-Return-Path: <linux-tegra+bounces-6461-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-6463-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC08FAAA34A
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 May 2025 01:12:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B7AAAA82C
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 May 2025 02:49:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4ED861899D1E
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 May 2025 23:12:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D652A5A3344
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 May 2025 00:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F6D92F153D;
-	Mon,  5 May 2025 22:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AFCF345677;
+	Mon,  5 May 2025 22:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BwgDwiFY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRN59nBj"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51F12F1535;
-	Mon,  5 May 2025 22:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFA9345670;
+	Mon,  5 May 2025 22:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483822; cv=none; b=Yx39xrUgqz6OxbrV/TUXXb3ch5yfyvv0diDija6t0xLUfvP39VjVFUreR3p19cV2a8YxRNShq776LODGe24aIADNUfqY2ju4Y0tn6xOQfHR8SF1Fil1GwOTZUlWy3mb8V4ZIEKElGmuSj2EWYJeZb+Qn7hKVX0wNJbPOJRm9+RU=
+	t=1746484718; cv=none; b=Y/555RnPIv1SuncF6TiDGFrC9kR17hw30fmVWyD9AZ/vFkTWkXGHUBaXsDF4FFHkqzI5ANw3AHqTYbdYC9fkF/2RP+ZCaZtuUHQyrZkrsHTjdv4uTwq5vInL5gOhI3pbLJOU39f1floeZGrzvMip8w4I6AyINcRXx1afXImMhEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483822; c=relaxed/simple;
-	bh=o2nRDv428v4MvnR0vHSeeoTJRiIo3h6mJurHS12K5IQ=;
+	s=arc-20240116; t=1746484718; c=relaxed/simple;
+	bh=1YTU3ESkwdVv6RB5nNltndQ7yTD5PJSLow+2vvkOpvw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=POxUH7MlF60A4DssHLBzMgqJgaa074lna6I+q69xVnOWnI5ij3+Polnspy4jksjJOXoKa/ghiX2k/eMvCfr4tkEFP2KofF24ADEC13OYnF8UbIa64+uCPGzrlSjDcU/5b8WWlZBR1mo7MUdrZseRD4TaHkChtBeJN3KTQgWKsOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BwgDwiFY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299E7C4CEE4;
-	Mon,  5 May 2025 22:23:40 +0000 (UTC)
+	 MIME-Version; b=pUJnUdlAYdJie2QVJgx8CXfI3/bszD4SaL4Js4rrK32CeIGaE7cFOw6DvtmHi4EU6RsFdfzbUinOkfMmB4sdFVWrEcdhLE79ezFc8c+4N+hodioeRmjWww1MuUGY+PkxGAyte+YLTf5/jFmM2nL79ytB+edEcZmsMgeckz0dQ6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRN59nBj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB86C4CEE4;
+	Mon,  5 May 2025 22:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483821;
-	bh=o2nRDv428v4MvnR0vHSeeoTJRiIo3h6mJurHS12K5IQ=;
+	s=k20201202; t=1746484717;
+	bh=1YTU3ESkwdVv6RB5nNltndQ7yTD5PJSLow+2vvkOpvw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BwgDwiFYhVzPpKEIrq/Abp7OOaGY1TGW0FAuPw0dLG8DZCguDTlSeGn3FZWfaEO5K
-	 IPLAGYQ5IdrFCIPfUvP1oIqJb6Qg8gpzsKoEyB/V33foGRUq0XE36AF/d/c6Y0Qihr
-	 9S/+RXqfFmDBz15VaacW5UYXhFNx6mPgeN4DooMyxkpAlcpJ7mZvwnL7tmLGR7KJ9E
-	 aQ5qera25xMipbslLVYp/A5REw2uIV6wHh4TVJbTe1Aghacl33e087b29/PgbGF3EK
-	 Q6Bf7YrBK840r2dX4ziwE/s9t/cQtzXocqgc6HFyoqy3fpLvK2WAZ7637v1AOcBPzs
-	 otCaGEVJBbVnA==
+	b=bRN59nBjlmXmr48hq8ZHw2i3Qp0sClywaTQe83HIPhw2o2PDi++8plGPRfK5x8vRU
+	 mDwEva1XMKRofsEomRejajl1JQeEYTXf2lKDgPnPUoN/AmYPHaMpcGkAPCs9qIyQ7X
+	 mfKT/oA+QgBp7cJIBtcJV1WDHZpqNYP2U1gi2y2C0AOl9qvIVyOAck7z71iWrsvYMd
+	 blDI5bMambQbIXg/X8xqC/k+I4KRk0wpdXSgbeEBSPX320do3Cpu+J8bbChK3JrgW4
+	 B+KldZxNDbmFYIE5Tr3jh8kFUTxce9buYPqg6BssM2kViCSR3oGEJTsAmG4oGB4CS0
+	 /U3YwPqDIQjeg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Svyatoslav Ryhel <clamor95@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
 	thierry.reding@gmail.com,
 	jonathanh@nvidia.com,
-	devicetree@vger.kernel.org,
+	pshete@nvidia.com,
+	peng.fan@nxp.com,
+	linux-gpio@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 234/642] ARM: tegra: Switch DSI-B clock parent to PLLD on Tegra114
-Date: Mon,  5 May 2025 18:07:30 -0400
-Message-Id: <20250505221419.2672473-234-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 625/642] pinctrl: tegra: Fix off by one in tegra_pinctrl_get_group()
+Date: Mon,  5 May 2025 18:14:01 -0400
+Message-Id: <20250505221419.2672473-625-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -71,34 +71,37 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Svyatoslav Ryhel <clamor95@gmail.com>
+From: Dan Carpenter <dan.carpenter@linaro.org>
 
-[ Upstream commit 2b3db788f2f614b875b257cdb079adadedc060f3 ]
+[ Upstream commit 5a062c3c3b82004766bc3ece82b594d337076152 ]
 
-PLLD is usually used as parent clock for internal video devices, like
-DSI for example, while PLLD2 is used as parent for HDMI.
+This should be >= pmx->soc->ngroups instead of > to avoid an out of
+bounds access.  The pmx->soc->groups[] array is allocated in
+tegra_pinctrl_probe().
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Link: https://lore.kernel.org/r/20250226105615.61087-3-clamor95@gmail.com
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Fixes: c12bfa0fee65 ("pinctrl-tegra: Restore SFSEL bit when freeing pins")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reviewed-by: Kunwu Chan <kunwu.chan@linux.dev>
+Link: https://lore.kernel.org/82b40d9d-b437-42a9-9eb3-2328aa6877ac@stanley.mountain
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm/boot/dts/nvidia/tegra114.dtsi | 2 +-
+ drivers/pinctrl/tegra/pinctrl-tegra.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra114.dtsi b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-index 86f14e2fd29f3..6c057b5069514 100644
---- a/arch/arm/boot/dts/nvidia/tegra114.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-@@ -139,7 +139,7 @@ dsib: dsi@54400000 {
- 			reg = <0x54400000 0x00040000>;
- 			clocks = <&tegra_car TEGRA114_CLK_DSIB>,
- 				 <&tegra_car TEGRA114_CLK_DSIBLP>,
--				 <&tegra_car TEGRA114_CLK_PLL_D2_OUT0>;
-+				 <&tegra_car TEGRA114_CLK_PLL_D_OUT0>;
- 			clock-names = "dsi", "lp", "parent";
- 			resets = <&tegra_car 82>;
- 			reset-names = "dsi";
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
+index 27823e4207347..edcc78ebce456 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
+@@ -305,7 +305,7 @@ static const struct tegra_pingroup *tegra_pinctrl_get_group(struct pinctrl_dev *
+ {
+ 	struct tegra_pmx *pmx = pinctrl_dev_get_drvdata(pctldev);
+ 
+-	if (group_index < 0 || group_index > pmx->soc->ngroups)
++	if (group_index < 0 || group_index >= pmx->soc->ngroups)
+ 		return NULL;
+ 
+ 	return &pmx->soc->groups[group_index];
 -- 
 2.39.5
 
