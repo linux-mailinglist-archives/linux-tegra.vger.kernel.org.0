@@ -1,151 +1,115 @@
-Return-Path: <linux-tegra+bounces-7120-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7122-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DEDACB80B
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Jun 2025 17:35:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE66ACBF45
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Jun 2025 06:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 993841948146
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Jun 2025 15:26:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 431013A327A
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Jun 2025 04:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA36239E75;
-	Mon,  2 Jun 2025 15:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q1Ht0zWV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2BD18DB26;
+	Tue,  3 Jun 2025 04:41:50 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F72239E69
-	for <linux-tegra@vger.kernel.org>; Mon,  2 Jun 2025 15:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4516190068;
+	Tue,  3 Jun 2025 04:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748877550; cv=none; b=NTtCXW4t+btYrH2j7N7jcdCREnBNqPM1RPRPlm75YlqDHDwyv8pJA13IdIKelqv2kC1ckhyULx8Uaqi/CcUBlen9T2nhwL+VZsI3obVGU+t8Ya8U/aQAZ7SJ9Wx5JN/102IHrE2SgBeJUdrOGcf9XrHewMt1oPPTHPyvgovPnww=
+	t=1748925710; cv=none; b=b+edewXKXh+MmaeAQ8KnIpAinZJtxzzE28jAMeN911Yki17QPcXtBbHMYEkpDtiR/gscz3ufU3zuF3Klai23e8QJo+Ieyy/eNS46D9JwiL4Qy1t3V6YbvpUoUDuUerWBLZZ/I1M7uEMurDm4yVjDogEVCr4s0Rk3sSVdSQ2HKu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748877550; c=relaxed/simple;
-	bh=GxbSdL0PyZ8UlejUoxlDIdlFpATxnSdyF2KX6oHR03A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aCybeJryPzWkwXZf+ivc8XOrj6QJhVfFy5NHeEQ1yLdd0DIYq05w+96nxPQftS8omsBgPL2MDQw2TJQZynQPcGNiKMSR1PqbHu2daYyGgpcp4FogCIdRihRB1UUl+rpq326KXJtRadY9Bf+lIkDUW0tcoV4PwXG3AWZQv976yyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q1Ht0zWV; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a5123c1533so127928f8f.2
-        for <linux-tegra@vger.kernel.org>; Mon, 02 Jun 2025 08:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748877546; x=1749482346; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h4kATdXtYuRJowbluuoUfq4iaqlYfYT07dwMRu/eijw=;
-        b=q1Ht0zWVmXyQXOxoXmReB/1O6jeMdlz5oaNDqn+KKfsTcemeYF/cWZff6Jucji0rZx
-         L9BuslqtLxJHpy2EaXOX3uNx5u9qZmdYMW1FJFkgdVLTI3W+g02DIhsj45UGQL8uFgKj
-         QVE2LMVrATzGalVID2OybgjblihUuI0LoOUALUaI0YjjmmutX5rv5vgK1YNuSB/HRn15
-         p83eNbwJeY4LPD6KZqGewBAcNaluhiDxtec1at/zWZZz2CPHsz+uyLaVShpJk2oIAZNZ
-         HMDE0QHiJ22gy15jTq07FOrXi0icJltEKeYAh1/qh+eY4i2aiLtwz9f6uK5h2C/1F23X
-         mUWg==
+	s=arc-20240116; t=1748925710; c=relaxed/simple;
+	bh=BED0WVH0ui801+fOhuTnComAdNPJBDfJ7ZYmPTvoYyA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wcmfan3bNLUACNPpJ3MkFVmEWx3xvfhkZNKLXImq4x7EVEKpz0KwxMSMnty1ZAQoB90DGt8D8QFiWD4abbI8wT1e6KAbn8ZcpTdjAY0GYQirxYp3Vehc/mXciJOKHuHgdbnyu7tiHOWv5W40cw1p0WKBrgH+Q9tcjqzqzIl4pTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3105ef2a08dso42637591fa.0;
+        Mon, 02 Jun 2025 21:41:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748877546; x=1749482346;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h4kATdXtYuRJowbluuoUfq4iaqlYfYT07dwMRu/eijw=;
-        b=WQGTtPWomiJ6Dx7YsoTfjGGRKn1Mfpn/DoJcrgSaJXtUo1RkvklnymQ1a/oeb9XOD5
-         +mX9lCFVrlZIAJQvBrji74sBFVmvAqjwIIqwNv3jWcJpj/blEA7po5BLOkFxKDh+Fr1P
-         3wJwweDht7NNnZTTd7Gbd5Sptcp72kbmoDzZ5kTW7hnPyr3CawRRYePWS9wqH6lttdzV
-         PGDoTbTPMsF5/aRJLVvcjAkmcQtpttCtGGdbkryp7Kx+wnp/DwdPZw6hE7gzunu5prA4
-         54VROxKlwOFssiWuGA3SyLnNYjs+ZP1VM2eH1csAFl/B+ZB/49e8zeggDsT48fLa/NyL
-         HIQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAwHv5+Upm0KEbVM+TSL7qeTYvXxr1wZR1zmegwo8xvPeSpXAP1cw53dAXVxuK+8JXhXDOqMKtNEUgeg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAj+eyDgeU5ajE15/8MTgUBhcGnyGNouue2HE1P78nu7mDuhF/
-	jsrfigmtV9gRm8jjgWCVF+pddDLaTB9Ru9DbhKbxGyBnmDoZallTMPxPw66GTvLWdxw=
-X-Gm-Gg: ASbGncv9NwokZguQ+A5dttzeP/j1HbF97svolpMbP7gxd9GjCVJ5H9sTLAZVKo68iQY
-	F8l5BljTwuIDGF0+mvULLkf/Vm5hemdVCV3xJ08rtyfb+X8A38wU3P/ub2g06CStzMqodNOTKLu
-	k4gcvdn4CA9EamFVPA5z5ewbaQv6SOFM5mo9aA7JQ40Tx8sgHbXyZNaxA3b/axq6JGm6J3TxuX9
-	QrhBb/ibkRXlRX9knchAXGlG4PRqj7m4IP7kA5xOEyXWonxUf4qt/+t8/GNUvZ1FBrnMw8d4kwr
-	Mhg3ldCH0Xuh5Wq4J9c5cqdrwu+zZLzbYmWv5YbDDE6wQeJpmFy4+1brY7189P7pwURGcznXXaw
-	KKg==
-X-Google-Smtp-Source: AGHT+IGo3+b4mB4bJZk3jsrIr83JxAnU/93JoVte/2RVs9090BDS0xWFY0i+YN16EfaKcepr/Do0FQ==
-X-Received: by 2002:a5d:588f:0:b0:3a4:de13:2a25 with SMTP id ffacd0b85a97d-3a4f89dcb7cmr10264360f8f.45.1748877546552;
-        Mon, 02 Jun 2025 08:19:06 -0700 (PDT)
-Received: from mai.. (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe74111sm15619844f8f.56.2025.06.02.08.19.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 08:19:06 -0700 (PDT)
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: daniel.lezcano@linaro.org,
-	tglx@linutronix.de
-Cc: Jim Cromie <jim.cromie@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Marco Elver <elver@google.com>,
-	Nam Cao <namcao@linutronix.de>,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	John Stulz <jstultz@google.com>,
-	Will McVicker <willmcvicker@google.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Saravan Kanna <saravanak@google.com>
-Subject: [PATCH v1 7/7] time: Export symbol for sched_clock register function
-Date: Mon,  2 Jun 2025 17:18:51 +0200
-Message-ID: <20250602151853.1942521-8-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250602151853.1942521-1-daniel.lezcano@linaro.org>
-References: <20250602151853.1942521-1-daniel.lezcano@linaro.org>
+        d=1e100.net; s=20230601; t=1748925705; x=1749530505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BED0WVH0ui801+fOhuTnComAdNPJBDfJ7ZYmPTvoYyA=;
+        b=FDDxgwhtyhDogiBoT9bfjQ/ZYn/ZmQyxrO/JSH2VkB98zI7RmzdLZvhEkOKn7vpZXF
+         gz9yfqE90LfGJUjuIH/r/3V+lRWkbWjOiO3ANma5Z1TPHP/0inWl/Tq5bRpggiA1CiKq
+         UYf2PprsMDYRu0zPNF0KiJPcpdQc0hKyNhyFBjrTIW0NHPZGkijDZSP5LVqQHDi96/bs
+         1ZTDuMK/GL6wCp6V0X2lygI1PKFVLounnChAMqggXYt/tO1UO17ObU9ByKPBN372UAJL
+         iH56xek7rmRSBvW9+fo8S1k7uot+/oIN1pwWRY1xXz7sewGEQ4ZcwovG3dXnldr99MVS
+         HpRA==
+X-Forwarded-Encrypted: i=1; AJvYcCUICH54ZXlP91co8g7dmrmFVfNA5UEpcmgoujGP3ydQr8sNuFjReiBLGE7g4Dtw5nNqKduTZcu0pKyPCuU=@vger.kernel.org, AJvYcCX6lbDX/uKFSNW1uXpzTwXEO+mTb5KTRvxJVbptlCwaOjRmu9pX46xUDbnd4/hR2nAQiA564MOq2yvYneg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr0f4I7t2z48gWfen+L4YMDHL//vLXpw5KQq0hzj4eMvKqWh9V
+	Ai1kX7KH5IfklNRjtJBVueP5vX/VrdnijNlca0uwqyADs4FVdc8LH/uIicPY1zue/z0=
+X-Gm-Gg: ASbGncutAxz0+AjUEUezuaoKKTo6azMnaU2/Yh/ucGsfoitSxyknnpJfw+z3UKrVjKn
+	d+QNv4I+RmVu+fRb8B7ncwWN2TNSBWVH5p/KpFxFOEUSuDRYVv4vxOr/NuCaLafbxV2nEJIpSJ0
+	do28lXZR9QB9VztqTuizHHZ99p0kQWjkBgtXvXt1bC6B5NkV81UTvLkIjSjsdowE66Q5p9vKVGo
+	JpsGc2MM45ercXrcfymBq19picRXjIEj28+kWimvWRJZJW12kLarxsSKO8LkPRBModLti2zam5n
+	1wFqH5r2EdQcvzSbEFMpRlVU4rHZ+H1vytem7qEUnQj7XXWgmsMyCN38TV6oeFrbWI/mVrjFnFY
+	EGGTaNLEl
+X-Google-Smtp-Source: AGHT+IGgFpO75N47nbUbwh74cyP8vmUtPAl924Z67MsCs90Rc5Qz+koThhvs/XcVK6r2b2Q7km3eeg==
+X-Received: by 2002:a05:651c:1989:b0:32a:7122:58d8 with SMTP id 38308e7fff4ca-32a9e99cf44mr30204881fa.8.1748925704781;
+        Mon, 02 Jun 2025 21:41:44 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a85bc5039sm16590981fa.65.2025.06.02.21.41.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 21:41:43 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-32aa864e0e9so20770901fa.2;
+        Mon, 02 Jun 2025 21:41:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX36jYqwrjjqjjaz8JQYMb5ry43jhQxPAvKMWv/rfBK/DUjLdj6WQ5+/uI3nH5Pm0pA1WdqpCeikCleZoo=@vger.kernel.org, AJvYcCXB6RYFo5vCGU9EzDnzShVKqyGO9U4JC0Y3tE6fEevedREL/puwt8W9DoWRR4BRDW12OmKkgn7w5JmHZ4A=@vger.kernel.org
+X-Received: by 2002:a2e:bea5:0:b0:32a:8c7a:8350 with SMTP id
+ 38308e7fff4ca-32a9ea675f3mr36137841fa.30.1748925703708; Mon, 02 Jun 2025
+ 21:41:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250602151853.1942521-1-daniel.lezcano@linaro.org> <20250602151853.1942521-4-daniel.lezcano@linaro.org>
+In-Reply-To: <20250602151853.1942521-4-daniel.lezcano@linaro.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 3 Jun 2025 12:41:31 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67qHKVGdNDmg_mbT-bkhAmn=NxQBsRZMtGgpdOGh6Z37w@mail.gmail.com>
+X-Gm-Features: AX0GCFsButCX6XOPdUHg9gMIjlAItX_YWWR5mtXZWLyYajpbu0GEJNOaxHVxyxs
+Message-ID: <CAGb2v67qHKVGdNDmg_mbT-bkhAmn=NxQBsRZMtGgpdOGh6Z37w@mail.gmail.com>
+Subject: Re: [PATCH v1 3/7] clocksource/drivers/sun5i: Add module owner
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: tglx@linutronix.de, Jim Cromie <jim.cromie@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Marco Elver <elver@google.com>, Nam Cao <namcao@linutronix.de>, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, John Stulz <jstultz@google.com>, 
+	Will McVicker <willmcvicker@google.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Saravan Kanna <saravanak@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The timer drivers could be converted into modules. The different
-functions to register the clocksource or the clockevent are already
-exporting their symbols for modules but the sched_clock_register()
-function is missing.
+On Mon, Jun 2, 2025 at 11:19=E2=80=AFPM Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
+>
+> The conversion to modules requires a correct handling of the module
+> refcount in order to prevent to unload it if it is in use. That is
+> especially true with the clockevents where there is no function to
+> unregister them.
+>
+> The core time framework correctly handles the module refcount with the
+> different clocksource and clockevents if the module owner is set.
+>
+> Add the module owner to make sure the core framework will prevent
+> stupid things happening when the driver will be converted into a
+> module.
+>
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Export the symbols so the drivers using this function can be converted
-into modules.
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
----
- kernel/time/sched_clock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/time/sched_clock.c b/kernel/time/sched_clock.c
-index cc15fe293719..cc1afec306b3 100644
---- a/kernel/time/sched_clock.c
-+++ b/kernel/time/sched_clock.c
-@@ -174,8 +174,7 @@ static enum hrtimer_restart sched_clock_poll(struct hrtimer *hrt)
- 	return HRTIMER_RESTART;
- }
- 
--void __init
--sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
-+void sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
- {
- 	u64 res, wrap, new_mask, new_epoch, cyc, ns;
- 	u32 new_mult, new_shift;
-@@ -247,6 +246,7 @@ sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
- 
- 	pr_debug("Registered %pS as sched_clock source\n", read);
- }
-+EXPORT_SYMBOL_GPL(sched_clock_register);
- 
- void __init generic_sched_clock_init(void)
- {
--- 
-2.43.0
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 
