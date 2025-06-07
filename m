@@ -1,121 +1,239 @@
-Return-Path: <linux-tegra+bounces-7195-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7197-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48222AD00AF
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Jun 2025 12:46:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9889AD0B97
+	for <lists+linux-tegra@lfdr.de>; Sat,  7 Jun 2025 09:32:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 369A91897979
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Jun 2025 10:46:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D68FF3AC42B
+	for <lists+linux-tegra@lfdr.de>; Sat,  7 Jun 2025 07:32:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F4F287515;
-	Fri,  6 Jun 2025 10:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="Xc9ZCPYr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D82711C5D44;
+	Sat,  7 Jun 2025 07:32:19 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D8A28643F;
-	Fri,  6 Jun 2025 10:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD94D2B2D7;
+	Sat,  7 Jun 2025 07:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749206767; cv=none; b=KOOt09dkz+XFJoN9ydCn54Pbm40hucp4pUSHlpFZCNSwZ/tC4YHpd612lhbkg0raesApbrazMQyPQ+Dx540lUm0QMfh89UQSmtil42m7kRWAVFP9aadeLNljQzV42DLhwoQuV+N2WsSlZEY89XDr+QRn7g1yCNgcNu/A17aj4+8=
+	t=1749281539; cv=none; b=g98FmOaGq5CEjQZbNwVgxpXiDz/Go6PKmDTlmRzlXb49JcDQdS1sC0RS31u7ZUW3vttJDAe0uQGWx+4SjUpohcQWt0F4TrlSP6FBiSQu1rPI2eXGyF+caC2Xp/h9wQVHscPAlkUoWlbn3bngBYfdATwTMZrpqGGugQiek2moHQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749206767; c=relaxed/simple;
-	bh=+723/NY6KvxdN/NVCwc/Xg4at7iqHe19s5FcoIyfirg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Fxsq6Qd9RLHu9xuX/h99LAv1YbYcJVn6ySDsncIIfFg58lK6XZ0AFWNlcGRqCRQ8EDbmrYYdEur9ZAMHwiMTGIQovapHHglVsaHgIUe18G6a54pW+ZLCEwtv00cKtyXcglpMB0iqARTZBzcMw0S+3rWw4EhPz/9PAhTE7RG/siw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=Xc9ZCPYr; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 5A3AD6002C18;
-	Fri,  6 Jun 2025 11:45:57 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id DAvTjK_YH0C4; Fri,  6 Jun 2025 11:45:52 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 810AB6003C3B;
-	Fri,  6 Jun 2025 11:45:51 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1749206751;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g3RaW7nJDY4u0LgCaykCArI3bAHh2H+SVvOp/hfhgUg=;
-	b=Xc9ZCPYrHFG5E5SkpLETHHz2Kkbzf5BzgsIeC7MhYq8dyOF4d8glxXhgu0rbb3jkMaDiHp
-	8qUTrvEdB9rYPUSBg2WQ88eaDohmZegGtvakWR1o7C+PHYslhg4cONyvF034pdaYhFwc7w
-	9r5nKQnYON05kBIiDk3NF6yInetiMpI=
-Received: from [192.168.1.151] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 5B86336008B;
-	Fri,  6 Jun 2025 11:45:51 +0100 (WEST)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Date: Fri, 06 Jun 2025 11:45:36 +0100
-Subject: [PATCH 3/3] arm64: tegra: Add NVJPG node
+	s=arc-20240116; t=1749281539; c=relaxed/simple;
+	bh=wRDzN9iQ6/0S6lk+uKXPmqA5/+hY8ARSmqr3+8dxM2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j/2LCsy5FbDKLS2nix4UJ53JFeqtWwWfTEAy+DS3gDLu4dkgVpT8cLTFIuKynFjFT5kBzRQ4fDzXEByY0BprQzFXkyDKFpfkAPdPz0s2iofhoeRisnGtHqHEt2JxsXmoU/6GXzBFecL2W0Khqj4uawtQjOfhDEB619XeRJhSsL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.3])
+	by gateway (Coremail) with SMTP id _____8DxOGr86kNoDRUPAQ--.43912S3;
+	Sat, 07 Jun 2025 15:32:12 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.3])
+	by front1 (Coremail) with SMTP id qMiowMDxu8Tw6kNo4JwOAQ--.43155S2;
+	Sat, 07 Jun 2025 15:32:06 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Adrian Hunter <adrian.hunter@intel.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	linux-mmc@vger.kernel.org,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Ben Dooks <ben-linux@fluff.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Al Cooper <alcooperx@gmail.com>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	imx@lists.linux.dev,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	openbmc@lists.ozlabs.org,
+	Michal Simek <michal.simek@amd.com>,
+	Joel Stanley <joel@jms.id.au>,
+	linux-aspeed@lists.ozlabs.org,
+	Aubin Constans <aubin.constans@microchip.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Yixun Lan <dlan@gentoo.org>,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-tegra@vger.kernel.org,
+	Hu Ziji <huziji@marvell.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH v3 00/35] mmc: Cleanup sdhci_pltfm_free()/sdhci_free_host() usage
+Date: Sat,  7 Jun 2025 15:31:50 +0800
+Message-ID: <cover.1749127796.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-diogo-nvjpg-v1-3-5f2c36feeb39@tecnico.ulisboa.pt>
-References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
-In-Reply-To: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749206748; l=1018;
- i=diogo.ivo@tecnico.ulisboa.pt; s=20240529; h=from:subject:message-id;
- bh=+723/NY6KvxdN/NVCwc/Xg4at7iqHe19s5FcoIyfirg=;
- b=vLVZFQrZn4UcAC2DS79V2Tka/+rkbmSG2SzFuLdk4ZaguRvAfmXaJBG5imLAXrQZTN3HcBvjK
- 2koOIxwEcb8CUFXkIxVk29ff3avixffo84Bk5LHkmdxtHFSMpUXoJBU
-X-Developer-Key: i=diogo.ivo@tecnico.ulisboa.pt; a=ed25519;
- pk=BRGXhMh1q5KDlZ9y2B8SodFFY8FGupal+NMtJPwRpUQ=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMDxu8Tw6kNo4JwOAQ--.43155S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Xw4Utr1UGF4DGFW7Gr17Jwc_yoW7Ar1rpa
+	ySqrWa9r43Cr95WrZxJw1UZw15Xr4rX39Fgry5tw4FqFW3Ca4UKrsrAFy0qryDZ3yxJr48
+	t3WDJw1UGr95K3XCm3ZEXasCq-sJn29KB7ZKAUJUUUjk529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_GFv_Wryle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
+	WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVW8ZVWrXwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUqPrcDUUUU
 
-The Tegra X1 chip contains a NVJPG accelerator capable of
-encoding/decoding JPEG files in hardware, so add its DT node.
+Hi all:
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+After the first part of the cleanup[1], there are sdhci related
+drivers that need further cleanup.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 6f8cdf012f0f12a16716e9d479c46b330bbb7dda..087f38256fd40f57c4685e907f9682eb49ee31db 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -253,7 +253,13 @@ vic@54340000 {
- 		nvjpg@54380000 {
- 			compatible = "nvidia,tegra210-nvjpg";
- 			reg = <0x0 0x54380000 0x0 0x00040000>;
--			status = "disabled";
-+			clocks = <&tegra_car TEGRA210_CLK_NVJPG>;
-+			clock-names = "nvjpg";
-+			resets = <&tegra_car 195>;
-+			reset-names = "nvjpg";
-+
-+			iommus = <&mc TEGRA_SWGROUP_NVJPG>;
-+			power-domains = <&pd_nvjpg>;
- 		};
- 
- 		dsib: dsi@54400000 {
+This patchset is the second part of the cleanup series, and since sdhci has
+sdhci_alloc_host() as the general interface, our main job is to clean up
+sdhci_pltfm_free() and sdhci_free_host().
 
+[1]: https://lore.kernel.org/all/cover.1748933789.git.zhoubinbin@loongson.cn/
+
+Thanks.
+
+-----
+V3:
+- Collect Reviewed-by and Acked-by tags.
+Patch-19:
+  - Use dev_err_probe() to cleanup the code.
+Patch-32:
+  - Fix build warning by lkp:
+	https://lore.kernel.org/all/202505300815.tjQRQD6z-lkp@intel.com/
+
+Link to V2:
+https://lore.kernel.org/all/cover.1748515612.git.zhoubinbin@loongson.cn/
+
+V2:
+- Collect Reviewed-by and Acked-by tags.
+
+Patch-01:
+ - Set sdhci_free_host() to empty, rather than dropping it.
+Patch-07:
+ - Set sdhci_pltfm_free() to empty, rather than dropping it.
+Patch-22:
+ - As requested by Yixun, retain the goto scheme.
+Patch-35:
+ - New patch;
+ - Since all calls have been cleaned up, sdhci_pltfm_free()/sdhci_free_host()
+   are now dropped directly;
+
+Link to V1:
+https://lore.kernel.org/all/cover.1747792905.git.zhoubinbin@loongson.cn/
+
+Binbin Zhou (35):
+  mmc: sdhci: Use devm_mmc_alloc_host() helper
+  mmc: sdhci-acpi: Drop the use of sdhci_free_host()
+  mmc: sdhci-milbeaut: Drop the use of sdhci_free_host()
+  mmc: sdhci-pci: Drop the use of sdhci_free_host()
+  mmc: sdhci-s3c: Drop the use of sdhci_free_host()
+  mmc: sdhci-spear: Drop the use of sdhci_free_host()
+  mmc: sdhci-pltfm: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-bcm-kona: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-brcmstb: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-cadence: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-dove: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-esdhc-imx: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-esdhc-mcf: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-iproc: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-msm: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-npcm: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-arasan: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-aspeed: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-at91: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-dwcmshc: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-esdhc: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-k1: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-ma35d1: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-of-sparx5: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-omap: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-pic32: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-pxav2: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-pxav3: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-sprd: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-st: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-tegra: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci-xenon: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci_am654: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci_f_sdh30: Drop the use of sdhci_pltfm_free()
+  mmc: sdhci: Drop sdhci_free_host()/sdhci_pltfm_free() interface
+
+ drivers/mmc/host/sdhci-acpi.c       |  3 ---
+ drivers/mmc/host/sdhci-bcm-kona.c   |  2 --
+ drivers/mmc/host/sdhci-brcmstb.c    |  1 -
+ drivers/mmc/host/sdhci-cadence.c    | 21 ++++++------------
+ drivers/mmc/host/sdhci-dove.c       | 12 ++---------
+ drivers/mmc/host/sdhci-esdhc-imx.c  |  3 ---
+ drivers/mmc/host/sdhci-esdhc-mcf.c  | 25 ++++++----------------
+ drivers/mmc/host/sdhci-iproc.c      | 18 ++++------------
+ drivers/mmc/host/sdhci-milbeaut.c   | 19 ++++++-----------
+ drivers/mmc/host/sdhci-msm.c        | 11 ++++------
+ drivers/mmc/host/sdhci-npcm.c       | 15 +++----------
+ drivers/mmc/host/sdhci-of-arasan.c  | 26 +++++++----------------
+ drivers/mmc/host/sdhci-of-aspeed.c  | 10 ++-------
+ drivers/mmc/host/sdhci-of-at91.c    | 30 ++++++++++----------------
+ drivers/mmc/host/sdhci-of-dwcmshc.c | 14 +++++-------
+ drivers/mmc/host/sdhci-of-esdhc.c   | 11 ++--------
+ drivers/mmc/host/sdhci-of-k1.c      |  1 -
+ drivers/mmc/host/sdhci-of-ma35d1.c  | 23 +++++++-------------
+ drivers/mmc/host/sdhci-of-sparx5.c  | 24 +++++++--------------
+ drivers/mmc/host/sdhci-omap.c       | 21 ++++++------------
+ drivers/mmc/host/sdhci-pci-core.c   |  9 ++------
+ drivers/mmc/host/sdhci-pic32.c      |  9 +++-----
+ drivers/mmc/host/sdhci-pltfm.c      | 16 +-------------
+ drivers/mmc/host/sdhci-pltfm.h      |  1 -
+ drivers/mmc/host/sdhci-pxav2.c      | 26 ++++++-----------------
+ drivers/mmc/host/sdhci-pxav3.c      |  7 +-----
+ drivers/mmc/host/sdhci-s3c.c        | 16 ++++----------
+ drivers/mmc/host/sdhci-spear.c      | 11 ++++------
+ drivers/mmc/host/sdhci-sprd.c       | 33 +++++++++--------------------
+ drivers/mmc/host/sdhci-st.c         |  6 ++----
+ drivers/mmc/host/sdhci-tegra.c      |  9 +++-----
+ drivers/mmc/host/sdhci-xenon.c      | 15 +++++--------
+ drivers/mmc/host/sdhci.c            |  9 +-------
+ drivers/mmc/host/sdhci.h            |  1 -
+ drivers/mmc/host/sdhci_am654.c      | 20 ++++++-----------
+ drivers/mmc/host/sdhci_f_sdh30.c    | 13 ++++--------
+ 36 files changed, 135 insertions(+), 356 deletions(-)
+
+
+base-commit: d2c6acff6386f43ed307822454b970c831c48f1b
 -- 
-2.49.0
+2.47.1
 
 
