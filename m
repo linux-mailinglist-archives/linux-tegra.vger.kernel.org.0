@@ -1,66 +1,80 @@
-Return-Path: <linux-tegra+bounces-7313-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7315-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E081AD70AE
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Jun 2025 14:45:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE56AD70E2
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Jun 2025 14:55:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2EE03AF7E8
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Jun 2025 12:45:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0C583A83D9
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Jun 2025 12:55:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7631A315C;
-	Thu, 12 Jun 2025 12:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CD2239E8B;
+	Thu, 12 Jun 2025 12:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="NTn8e+6g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIJG8GHd"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87502F4306;
-	Thu, 12 Jun 2025 12:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A014B222574;
+	Thu, 12 Jun 2025 12:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749732328; cv=none; b=qirKPD2rQlspTAFQ9xMzaPrkn/C2aM1O7896mmMOrTBIXonA3KYn39sVIcWRwgRUwmRTq9UuOpzxq+8sYOhnvrKvJGZRqRqF34H6472XCnEx4LVt2XseBsqcgPYllHZjCe77cqJbVvaBU9MkgNxXrSl7Gl5QctUKdqIhVTSmjn4=
+	t=1749732932; cv=none; b=IWoKlf+FLgsTvUCTdatzJor5+UAwuly6GhuIRkngbuofg5IluJlZUP/O7fWWyNzHkJPZVxl4dhIgYMJyysZchA6xprcEEDsVmKcAp1xy9CPsexLBHXivMjrC0vJSVLWC1YGhMfyREiQinQWHvEtXuev+BVipvLOTbiOhksJle98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749732328; c=relaxed/simple;
-	bh=8MKRQTb/7JzqiplCl8iXB7PfHb6PwfHGnuzaemLIaj8=;
+	s=arc-20240116; t=1749732932; c=relaxed/simple;
+	bh=dP3SRX/cv37DsGg35U7B1sRrw0buqGQozmHVM2Feb4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B4gOe0wEdjeVr5yaJo5f8RaCLx8hDS4wrZFYCCE4xG4AZ1RQ51z+H13aqgmPW80bgbW1pbyNc+vtyC9UPKVSF3hNESa5mWZQBF8d+cYxyjrk2/HZBrVgvhDTGE4zfuGfKZy476KLOe0uBDY5Dqms8jW2maSILhBjX0QZIqelaR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=NTn8e+6g; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=23ZG+xJSw4YpAjmPdytqobZOImtcUHEUQlR+e/rQiqI=; b=NTn8e+6gKdA3pIbp0py+2v72Mi
-	jTjyRpKf6fLT7hpmfyodEh7uknxaaSBFccw61FIxbUPhz5+05UVGkAbKoa1uQSYbW6UgkBo85/L0G
-	/9F7l5826yfE8XQr3N0hpst+Fk8xhcwYnifPsU5AelPsi2sImXP76Bh/wrAOgikqSthw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uPhIv-00FXUq-UD; Thu, 12 Jun 2025 14:45:13 +0200
-Date: Thu, 12 Jun 2025 14:45:13 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Subbaraya Sundeep <sbhatta@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org,
-	Alexis Lothorrr <alexis.lothore@bootlin.com>
-Subject: Re: [PATCH] net: stmmac: Fix PTP ref clock for Tegra234
-Message-ID: <353f4fd1-5081-48f4-84fd-ff58f2ba1698@lunn.ch>
-References: <20250612062032.293275-1-jonathanh@nvidia.com>
- <aEqyrWDPykceDM2x@a5393a930297>
- <85e27a26-b115-49aa-8e23-963bff11f3f6@lunn.ch>
- <e720596d-6fbb-40a4-9567-e8d05755cf6f@nvidia.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3vZQGIClkA2bk64aH/cqRfiqo6cAxlpFRcBcECYDx5OhUxwMTk88hqWyrI+wM6W9FLx4wu/XsyipGJn1DvOSpoRg45hpXkkBekx4QW4I+cGsWzO+/BK0IemIwjCwkM95b68cAemPD/c3wnQ6Vo4QqKuT9QrLsFz7QfXReTqYZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIJG8GHd; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749732931; x=1781268931;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dP3SRX/cv37DsGg35U7B1sRrw0buqGQozmHVM2Feb4s=;
+  b=VIJG8GHdTw8jPikhH9u/u65xA9Sy/i6v19kShLW2Y+Fth+uXYAUf4KJl
+   aovWyl/zkHRxVTMzKCvvQe1Pmoa2TmJQyP+3fvW5sYmdr+TMvbOe1wVJc
+   wGbfLWeKRndQGY+vcR46OVY9d32MxGr690/vC0xjQvtHEnOJ9t0eSOW16
+   B+5wQxWKdveoQhjCuvTMT00STnFQaF/3oZOsNRQQG2u4uu/YxO8femXTT
+   cdbsGp4UFpgPvZW/oMGdEfMH/QUMZsxe9mZ1BtGAqZ/ss/H4k1MtXPjcs
+   hdCpRA9mE8X/2Geg55GSul7e5XY7DEGWR6VpAWhTtdoyRwsv2PMD7Cgw+
+   A==;
+X-CSE-ConnectionGUID: 2LJLMr4gR5OE/j893IcckQ==
+X-CSE-MsgGUID: LMJ7fseEQpa6QLh1Etgj6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="54538205"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="54538205"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:55:30 -0700
+X-CSE-ConnectionGUID: bQREP0MoTt6cbAdraUhGWA==
+X-CSE-MsgGUID: rli+VdjxRTaUK+BP6L+FeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="184745704"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:55:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uPhSk-00000005xBk-0X8p;
+	Thu, 12 Jun 2025 15:55:22 +0300
+Date: Thu, 12 Jun 2025 15:55:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Akhil R <akhilrajeev@nvidia.com>, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+	ldewangan@nvidia.com, digetx@gmail.com, p.zabel@pengutronix.de,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] i2c: tegra: make reset an optional property
+Message-ID: <aErOOSxt0ovCIeSA@smile.fi.intel.com>
+References: <20250603153022.39434-1-akhilrajeev@nvidia.com>
+ <20250603153022.39434-2-akhilrajeev@nvidia.com>
+ <7sncphuidgiz6orsocixgybm2npcsjrdm7gnl3e52vfms2polu@4mmhdtc4zg5x>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -69,61 +83,53 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e720596d-6fbb-40a4-9567-e8d05755cf6f@nvidia.com>
+In-Reply-To: <7sncphuidgiz6orsocixgybm2npcsjrdm7gnl3e52vfms2polu@4mmhdtc4zg5x>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jun 12, 2025 at 01:26:55PM +0100, Jon Hunter wrote:
+On Thu, Jun 12, 2025 at 02:57:36AM +0200, Andi Shyti wrote:
+
+...
+
+> > +static int tegra_i2c_master_reset(struct tegra_i2c_dev *i2c_dev)
+> > +{
+> > +	if (!i2c_dev->hw->has_mst_reset)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	i2c_writel(i2c_dev, 0x1, I2C_MASTER_RESET_CNTRL);
+> > +	udelay(2);
+> > +
+> > +	i2c_writel(i2c_dev, 0x0, I2C_MASTER_RESET_CNTRL);
+> > +	udelay(2);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
+> >  {
+> >  	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
+> > @@ -621,8 +641,10 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
+> >  	 */
+> >  	if (handle)
+> >  		err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
+> > -	else
+> > +	else if (i2c_dev->rst)
+> >  		err = reset_control_reset(i2c_dev->rst);
+> > +	else
+> > +		err = tegra_i2c_master_reset(i2c_dev);
 > 
-> On 12/06/2025 13:10, Andrew Lunn wrote:
-> > On Thu, Jun 12, 2025 at 10:57:49AM +0000, Subbaraya Sundeep wrote:
-> > > Hi,
-> > > 
-> > > On 2025-06-12 at 06:20:32, Jon Hunter (jonathanh@nvidia.com) wrote:
-> > > > Since commit 030ce919e114 ("net: stmmac: make sure that ptp_rate is not
-> > > > 0 before configuring timestamping") was added the following error is
-> > > > observed on Tegra234:
-> > > > 
-> > > >   ERR KERN tegra-mgbe 6800000.ethernet eth0: Invalid PTP clock rate
-> > > >   WARNING KERN tegra-mgbe 6800000.ethernet eth0: PTP init failed
-> > > > 
-> > > > It turns out that the Tegra234 device-tree binding defines the PTP ref
-> > > > clock name as 'ptp-ref' and not 'ptp_ref' and the above commit now
-> > > > exposes this and that the PTP clock is not configured correctly.
-> > > > 
-> > > > Ideally, we would rename the PTP ref clock for Tegra234 to fix this but
-> > > > this will break backward compatibility with existing device-tree blobs.
-> > > > Therefore, fix this by using the name 'ptp-ref' for devices that are
-> > > > compatible with 'nvidia,tegra234-mgbe'.
-> > 
-> > > AFAIU for Tegra234 device from the beginning, entry in dts is ptp-ref.
-> > > Since driver is looking for ptp_ref it is getting 0 hence the crash
-> > > and after the commit 030ce919e114 result is Invalid error instead of crash.
-> > > For me PTP is not working for Tegra234 from day 1 so why to bother about
-> > > backward compatibility and instead fix dts.
-> > > Please help me understand it has been years I worked on dts.
-> > 
-> > Please could you expand on that, because when i look at the code....
-> > 
-> > 
-> >    	/* Fall-back to main clock in case of no PTP ref is passed */
-> >   	plat->clk_ptp_ref = devm_clk_get(&pdev->dev, "ptp_ref");
-> >    	if (IS_ERR(plat->clk_ptp_ref)) {
-> >    		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
-> >    		plat->clk_ptp_ref = NULL;
-> > 
-> > if the ptp_ref does not exist, it falls back to stmmac_clk. Why would
-> > that cause a crash?
-> >  > While i agree if this never worked, we can ignore backwards
-> > compatibility and just fix the DT, but i would like a fuller
-> > explanation why the fallback is not sufficient to prevent a crash.
-> 
-> The problem is that in the 'ptp-ref' clock name is also defined in the
-> 'mgbe_clks' array in dwmac-tegra.c driver. All of these clocks are requested
-> and enabled using the clk_bulk_xxx APIs and so I don't see how we can simply
-> fix this now without breaking support for older device-trees.
+> Can you please take a look here? Should the reset happen in ACPI?
 
-So you can definitively say, PTP does actually work? You have ptp4l
-running with older kernels and DT blob, and it has sync to a grand
-master?
+This is a good question. Without seeing all the implementations of _RST method
+for the platforms based on this SoC it's hard to say. Ideally the _RST (which
+is called above) must handle it properly, but firmwares have bugs...
 
-	Andrew
+TL;DR: I think the approach is correct, and if any bug in ACPI will be found,
+the workaround (quirk) needs to be added here later on.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
