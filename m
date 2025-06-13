@@ -1,189 +1,119 @@
-Return-Path: <linux-tegra+bounces-7356-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7358-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D1CAD8C2A
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Jun 2025 14:31:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC4AD8D64
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Jun 2025 15:43:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C9623AD661
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Jun 2025 12:30:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A097A1694C4
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Jun 2025 13:43:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9273C26;
-	Fri, 13 Jun 2025 12:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EA9A18DB2F;
+	Fri, 13 Jun 2025 13:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xw5UD+My"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="222hSjZA"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D681DDD1;
-	Fri, 13 Jun 2025 12:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065DB7263F;
+	Fri, 13 Jun 2025 13:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749817842; cv=none; b=o5EEZpJveXQBexTY+a1xfH4W2doIDNDpH6nfTofbLPnKcI20w2p2xDiI/veaCY9xJeDS1EPtnGpO5UQ17tJx5dedhVf/IQ/blA83hcVHGaLjsfBOe8OukdSlNkGehuDEj055WMKVk+sBEMSNo5pD+HIchQupYY6h8RZ7cFow0Uw=
+	t=1749822117; cv=none; b=ZLwVf5OmuZGLBGXZyAzCLs/WBzG7mEzkYzrDEEdtXFaC+GR3vjM+N3mgt+BV5NwPVD+kGpBscoBSEhJ7enV5OsMzKSQ8sjriJ4C01/t3VoDjzHR0FQVBbNundvFeWngMEeCFyZ53LFzo9tQ07B1SMnSL6Hqy7UtqvP6fQYmlHlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749817842; c=relaxed/simple;
-	bh=dirYhv9VT2S9TTUD3pIN80CKZ7uxHA8Zrru+Tpjkb5s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d/K1oiw+aitEPIDawbzuFkqC3jeWbqcI3JqfiUaMB2zc2y8092BW5c8NK+1zksJK8iVD0GL6UBJW/M2a0KJpviaK88ET9b10hG4iZtxxqNJUQ2J5xkxevBhbennhAQNdj0qg1IffAllUTK7H3N4id6aMhW5ei7OKVIFDQEBQDnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xw5UD+My; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a548a73ff2so2034185f8f.0;
-        Fri, 13 Jun 2025 05:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749817839; x=1750422639; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDahtSYkj+HkMH3zYP8DVq39ggZjJyBAZAxdjk4esRw=;
-        b=Xw5UD+MyHzF9VAKtk9hFx+Vp8LSJKq/nxOPTFRW4Gm5ib4aIibQ3yc5N26JJmj8YPO
-         8VWv58lXq/+1KSs2d1zOJnpJy3oF769PM4TuOEn6jZ0o5RMCGmhAOWHr+5ykD2+PU71b
-         gxlhXyiP8H+xfCJ/FWfqNzRPX93aM74FCX6Z+HM2tdqzWI8OVhFdmpSsxZTqqg9RDrJ0
-         xkzIUZP/SB1DrYu22LlLskHqBkmp1JbZryd+bsLXa+jUEtB7iZNlow7mWN5T+KYuL5GF
-         rhSILzj2zSLP16razfY5wFW+AXxYHrD8dl2TEmuLjuHFOkPWOPqnuFa4bJCEB1gTZS5D
-         +8vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749817839; x=1750422639;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FDahtSYkj+HkMH3zYP8DVq39ggZjJyBAZAxdjk4esRw=;
-        b=cLmSRX1VszaUmy5H7yGGjEGS4tmbujuOY7TiHinLKG+tkYOq2ibPUUTOBKz5AGOQ/q
-         7fTBzQUS6b+M6TdNtxeSCrP8k8xVCHCBiA0CVj3j7eRsM/a62o4mygEJ3kgx2Cs5WblS
-         UKMZF/2sLlh0AqRmNhqHEwR8VgKQ4lJz68kFawYBf/ELzSxGrrMsV+uLxWljewV9CIY7
-         KNcZAMJqQwubz2L8o5BvV6goaXIoMMlGVRzED/MX0nMi3mWoUJQap4YZEn028i/j1WkV
-         thBQF7TtNZyFeSu5TMZw/83wmK1qsR1sIAa6k1LPM0Fs0jn90u0S09C+53OaHttBSnTJ
-         BtTA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7lQqXzzLd8UWXFDscwVT/Lf0GHZiKVil2wY/titkHx+T/dDPgZmn5H17QesxS2AVh8EttbCbUKZE=@vger.kernel.org, AJvYcCXPQEybSKDV3mR3RU6NDzawXNk/+AQEX7rIuNKjvVvUbigjGusSd6VNU6OG6bDg9xAOmESzy5cQ3e2X904=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDV/2EHLkb96gcG/+TIMivDaMPfxTjpL4kBdwBkdMc6ED2UfSn
-	YP11tqZKI2HQHj50oeb/iSw4CzetTEgdB6hAZCRy2NKVgUAp+dXZ/sA29oOxyw==
-X-Gm-Gg: ASbGncsONEm9afrHiKJU9Y38apNe1hnen1XJ1Av0DihitOWuLoTVwB10CaSIK3j3HHX
-	G8Gqif1Qq0bdFXhszZ19/iULDMqCNVJugXDSazNQi77BBPtyitCA/dFtGvHW4gNeXWRfOEw/P9U
-	/7xVzhFWSc7XNSBYdcICSYA0D3rt2bH9Nlr3bz0vC5nfZN7ZmWlRl7CYp/EX4B+kTkaMx/8Qlpx
-	yByNPaZE2zR6EfJ0HU6Xwsuj/+w20T+CSEuFtqI53hyQMeWHJ8Y2gziMm9Un1kql64tlBQnQgQP
-	OondyxqOT3aeyHD/qV2TjOG7wactj0SzlEpWUVzKDD5QkDDwxWlt+9lCNzEDCYJxw8dq/wL/SL1
-	nu9Ndgs8t3hINhfFTSmYNExfq3tiAWVEcHzpaEwZZs1hvjagXYMUgnw==
-X-Google-Smtp-Source: AGHT+IHuJ5xo7QniB5DnKQzH5ZflLS/T2ofG5VoQUjB/z36gjes12Eh7vW/JEPoz0V6HghfrPuZ+iA==
-X-Received: by 2002:a5d:584c:0:b0:3a5:2f6a:ccd5 with SMTP id ffacd0b85a97d-3a56873dc7cmr2597097f8f.49.1749817839013;
-        Fri, 13 Jun 2025 05:30:39 -0700 (PDT)
-Received: from localhost (p200300e41f4e9b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4e:9b00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a568b18f96sm2305444f8f.66.2025.06.13.05.30.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 05:30:38 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Vishwaroop A <va@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-spi@vger.kernel.org,
+	s=arc-20240116; t=1749822117; c=relaxed/simple;
+	bh=0nIyZ4MyeDdeiSp51SkAsGuluPdWk/x8w7SsHD1HA3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JfHoZSgIEVZ4Mw+9A4wqZvmdCRd1ohOOAxEsZkiXmDTzLR5EVkTaEfhEfIlA/gLdSndPvuzeazBglXO6z59u5vQxnCWgepUq3fr0HrZUJqkTqOaZpA5akqmvcV+ttFNARHrwbiVyD/bFb8sle6MYw9sl5zvnffWbp1D08+pNTCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=222hSjZA; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=J/1VT1Crk7ORRo4wf/zc9vgitXeT8UirNNabBH7Vvzo=; b=222hSjZA/oyZs4ilTUB7c2JN2w
+	8cX5Yxn2Zp9N+h782WqqlOhuZmVrdeD6Jmahj7RgXZzZVEgh/bFc5TkHDymHdekvT0VbQRrWeGfER
+	aOFyJaSQ5EZ2T3y6r00r+OxLBpFyCptDVqXVbKC4fMbkvhOSaR8v28FkxBWPtHQTuqDs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uQ4MP-00FiS1-4i; Fri, 13 Jun 2025 15:22:21 +0200
+Date: Fri, 13 Jun 2025 15:22:21 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Subbaraya Sundeep <sbhatta@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
 	linux-tegra@vger.kernel.org,
-	Brad Griffis <bgriffis@nvidia.com>
-Subject: [PATCH] spi: tegra210-qspi: Remove cache operations
-Date: Fri, 13 Jun 2025 14:30:37 +0200
-Message-ID: <20250613123037.2082788-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	Alexis Lothorrr <alexis.lothore@bootlin.com>
+Subject: Re: [PATCH] net: stmmac: Fix PTP ref clock for Tegra234
+Message-ID: <5a3e1026-740a-4829-bfd2-ce4c4525d2a0@lunn.ch>
+References: <20250612062032.293275-1-jonathanh@nvidia.com>
+ <aEqyrWDPykceDM2x@a5393a930297>
+ <85e27a26-b115-49aa-8e23-963bff11f3f6@lunn.ch>
+ <e720596d-6fbb-40a4-9567-e8d05755cf6f@nvidia.com>
+ <353f4fd1-5081-48f4-84fd-ff58f2ba1698@lunn.ch>
+ <9544a718-1c1a-4c6b-96ae-d777400305a7@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9544a718-1c1a-4c6b-96ae-d777400305a7@nvidia.com>
 
-From: Thierry Reding <treding@nvidia.com>
+> > So you can definitively say, PTP does actually work? You have ptp4l
+> > running with older kernels and DT blob, and it has sync to a grand
+> > master?
+> 
+> So no I can't say that and I have not done any testing with PTP to be clear.
+> However, the problem I see, is that because the driver defines the name as
+> 'ptp-ref', if we were to update both the device-tree and the driver now to
+> use the expected name 'ptp_ref', then and older device-tree will no longer
+> work with the new driver regardless of the PTP because the
+> devm_clk_bulk_get() in tegra_mgbe_probe() will fail.
+> 
+> I guess we could check to see if 'ptp-ref' or 'ptp_ref' is present during
+> the tegra_mgbe_probe() and then update the mgbe_clks array as necessary.
 
-The DMA memory for this driver is allocated using dma_alloc_coherent(),
-which ends up mapping the allocated memory as uncached. Performing the
-various dma_sync_*() operations on this memory causes issues during SPI
-flashing:
+Lets just consider for the moment, that it never worked.
 
-[    7.818017] pc : dcache_inval_poc+0x40/0x58
-[    7.822128] lr : arch_sync_dma_for_cpu+0x2c/0x4c
-[    7.826854] sp : ffff80008193bcf0
-[    7.830267] x29: ffff80008193bcf0 x28: ffffa3fe5ff1e908 x27: ffffa3fe627bb130
-[    7.837528] x26: ffff000086952180 x25: ffff00008015c8ac x24: ffff000086c9b480
-[    7.844878] x23: ffff00008015c800 x22: 0000000000000002 x21: 0000000000010000
-[    7.852229] x20: 0000000106dae000 x19: ffff000080112410 x18: 0000000000000001
-[    7.859580] x17: ffff000080159400 x16: ffffa3fe607a9bd8 x15: ffff0000eac1b180
-[    7.866753] x14: 000000000000000c x13: 0000000000000001 x12: 000000000000025a
-[    7.874104] x11: 0000000000000000 x10: 7f73e96357f6a07f x9 : db1fc8072a7f5e3a
-[    7.881365] x8 : ffff000086c9c588 x7 : ffffa3fe607a9bd8 x6 : ffff80008193bc28
-[    7.888630] x5 : 000000000000ffff x4 : 0000000000000009 x3 : 000000000000003f
-[    7.895892] x2 : 0000000000000040 x1 : ffff000086dbe000 x0 : ffff000086db0000
-[    7.903155] Call trace:
-[    7.905606]  dcache_inval_poc+0x40/0x58 (P)
-[    7.909804]  iommu_dma_sync_single_for_cpu+0xb4/0xb8
-[    7.914617]  __dma_sync_single_for_cpu+0x158/0x194
-[    7.919428]  __this_module+0x5b020/0x5baf8 [spi_tegra210_quad]
-[    7.925291]  irq_thread_fn+0x2c/0xc0
-[    7.928966]  irq_thread+0x16c/0x318
-[    7.932467]  kthread+0x12c/0x214
+If we change the device tree to the expected 'ptp_ref', some devices
+actually start working. None regress, because none ever worked. We can
+also get the DT change added to stable, so older devices start
+working. We keep the code nice and clean, no special case.
 
-Fix this by removing all calls to the dma_sync_*() functions. This isn't
-ideal because DMA is used only for relatively large (> 64 words or 256
-bytes) and using uncached memory for this might be slow. Reworking this
-to use cached memory for faster access and reintroducing the cache
-maintenance calls is probably worth a follow-up patch.
+Now, lets consider the case some devices do actually work. How are
+they working? Must it be the fallback? The ptp-ref clock is actually
+turned on, and if the ptp-ref clock and the main clock tick at the
+same rate, ptp would work. I _guess_, if the main clock and the
+ptp-ref clock tick at different rates, you get something from the ptp
+hardware, but it probably does not get sync with a grand master, or if
+it does, the jitter is high etc. So in effect it is still broken.
 
-Reported-by: Brad Griffis <bgriffis@nvidia.com>
-Fixes: 017f1b0bae08 ("spi: tegra210-quad: Add support for internal DMA")
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/spi/spi-tegra210-quad.c | 14 --------------
- 1 file changed, 14 deletions(-)
+Can somebody with the datasheet actually determine where ptp-ref clock
+comes from? Is it just a gated main clock? Is it from a pin?
 
-diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
-index 3581757a269b..3be7499db21e 100644
---- a/drivers/spi/spi-tegra210-quad.c
-+++ b/drivers/spi/spi-tegra210-quad.c
-@@ -407,9 +407,6 @@ tegra_qspi_read_rx_fifo_to_client_rxbuf(struct tegra_qspi *tqspi, struct spi_tra
- static void
- tegra_qspi_copy_client_txbuf_to_qspi_txbuf(struct tegra_qspi *tqspi, struct spi_transfer *t)
- {
--	dma_sync_single_for_cpu(tqspi->dev, tqspi->tx_dma_phys,
--				tqspi->dma_buf_size, DMA_TO_DEVICE);
--
- 	/*
- 	 * In packed mode, each word in FIFO may contain multiple packets
- 	 * based on bits per word. So all bytes in each FIFO word are valid.
-@@ -442,17 +439,11 @@ tegra_qspi_copy_client_txbuf_to_qspi_txbuf(struct tegra_qspi *tqspi, struct spi_
- 
- 		tqspi->cur_tx_pos += write_bytes;
- 	}
--
--	dma_sync_single_for_device(tqspi->dev, tqspi->tx_dma_phys,
--				   tqspi->dma_buf_size, DMA_TO_DEVICE);
- }
- 
- static void
- tegra_qspi_copy_qspi_rxbuf_to_client_rxbuf(struct tegra_qspi *tqspi, struct spi_transfer *t)
- {
--	dma_sync_single_for_cpu(tqspi->dev, tqspi->rx_dma_phys,
--				tqspi->dma_buf_size, DMA_FROM_DEVICE);
--
- 	if (tqspi->is_packed) {
- 		tqspi->cur_rx_pos += tqspi->curr_dma_words * tqspi->bytes_per_word;
- 	} else {
-@@ -478,9 +469,6 @@ tegra_qspi_copy_qspi_rxbuf_to_client_rxbuf(struct tegra_qspi *tqspi, struct spi_
- 
- 		tqspi->cur_rx_pos += read_bytes;
- 	}
--
--	dma_sync_single_for_device(tqspi->dev, tqspi->rx_dma_phys,
--				   tqspi->dma_buf_size, DMA_FROM_DEVICE);
- }
- 
- static void tegra_qspi_dma_complete(void *args)
-@@ -701,8 +689,6 @@ static int tegra_qspi_start_dma_based_transfer(struct tegra_qspi *tqspi, struct
- 				return ret;
- 			}
- 
--			dma_sync_single_for_device(tqspi->dev, tqspi->rx_dma_phys,
--						   tqspi->dma_buf_size, DMA_FROM_DEVICE);
- 			ret = tegra_qspi_start_rx_dma(tqspi, t, len);
- 			if (ret < 0) {
- 				dev_err(tqspi->dev, "failed to start RX DMA: %d\n", ret);
--- 
-2.49.0
+If it does actually work, can we cause a regression by renaming the
+clock in DT? I _guess_ so, if the DT also has the clock wrong. So it
+is a fixed-clock, and that fixed clock has the wrong frequency set. It
+is not used at the moment, so being wrong does not matter. But when we
+start using it, things break. Is this possible? I don't know, i've not
+looked at the DT.
 
+Before we decide how to fix this, we need a proper understanding of
+what is actually broken/works.
+
+	Andrew
 
