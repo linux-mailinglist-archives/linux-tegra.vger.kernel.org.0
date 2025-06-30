@@ -1,140 +1,121 @@
-Return-Path: <linux-tegra+bounces-7588-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7590-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FC9AED113
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Jun 2025 22:56:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CE1AED558
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Jun 2025 09:13:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A6C43AD0F4
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Jun 2025 20:55:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74920166C04
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Jun 2025 07:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BFC622F74A;
-	Sun, 29 Jun 2025 20:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EFC821019C;
+	Mon, 30 Jun 2025 07:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JafR0q7V"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="NFaZ1cW4"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6F31F0E55;
-	Sun, 29 Jun 2025 20:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284478F24;
+	Mon, 30 Jun 2025 07:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751230568; cv=none; b=tBmyy6kZn2MlKFGXnEpFb/ZmBz3nSl2ZQMHKOkxxhvdFOFZ8OMzn7G7LUFKPHhsf3NMG5OZ400Ed9GGnsjFdnyAyEHtCLHOLBPABKDsYjrtZE/qqHQEgZfYxiiuCXAALxw2tmi/jC8NCADjC40kNuF+tqCMSuOwFC+YDdCW9N4A=
+	t=1751267588; cv=none; b=IMUUa9EZHgLFF/fKzJnHj0LOzmmEHJwKc/6zOfsZjUUxWIqzn+xnI1CGfIWdZLG25VYU4nbYggm8sJZLvD8yrgKLw3V0qz9HnyNKnHNCo9aNQQWu2n6FVmlTDX47/hxxdd4Qf9xAjwCztr7uB0IpLY+5O+51GzAR260tQNu1xdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751230568; c=relaxed/simple;
-	bh=wxPOxZ/UV/k3nkqU8M9ommX7Jy3RtmifN1Lsn4mr+AY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2aWwJIzshFQN4wNr6Wcw/WJVej6cV3YckeBcMj5OAlRSc8i5o/9GlRYx0adI32rUGh1XPIc2gzhSN8g9P7+ubtRrHWQkkVc100kZkfyjxkPHgO5UWFLaSslhdAVMf2XOf52elU1K0wyQsJWfyGDv2IJ3kphgoZcMoOZ41qQOws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JafR0q7V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE970C4CEEB;
-	Sun, 29 Jun 2025 20:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751230567;
-	bh=wxPOxZ/UV/k3nkqU8M9ommX7Jy3RtmifN1Lsn4mr+AY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JafR0q7VK1QSCjrMj0r8VwcsPzjNxnYBbF9x1UCwj5ay0PIUprwQRy73UGFxP+YLa
-	 UVVE7jHIrLp1JoHbGJ8cV7v+azD+e0iXxky27zPnOq4SyYtkJMfpdLqqYxUhX5qJH2
-	 jhFdMkuEVIJbWh72I8+w86MjFHk4LiS75EBgrUDUu8aZIa84KYAuEWKkMIcCNHeNi/
-	 BlV9jSJCnbFWWcFUh9eipj/iNexN3a9ANdxefeYo9OVRxW1gSNxOML3DzlOe5I2Ocr
-	 pkaU+54zZPxoifiAGbwKntn6WjiA0mKwDTKQYYCjDTvfbYWkgQJGrNT24Wa8MGuxzU
-	 aTaTbLFN0VfJw==
-Date: Sun, 29 Jun 2025 22:56:01 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: register_syctl_init error in linux-next-20250612
-Message-ID: <4s3egeo2fhq6hk7pcsxplsqomiiw6vbnnswhimlekfrl6tsixt@wzf5x63pdvp6>
-References: <20250612175515.3251-1-spasswolf@web.de>
- <vvorpevngfle6budlgqhmj3f25lb77czzyvd5aa6jil7zkaqgp@weanygri324r>
- <11898dd756020687c2016a37af3c948b350bdbbc.camel@web.de>
- <szadjbcldmcirdtgiv6wowqumlk4cbthb37f3e42lzcbt4tnla@ilp4m6quqk4b>
- <6eb19bee-c553-4a28-9342-b2b218deabe7@nvidia.com>
+	s=arc-20240116; t=1751267588; c=relaxed/simple;
+	bh=a0mOBBVvKHJ/p2pgWeUj2C0zQvdkOKWWtMUYv9nVwY4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h1XylhgwfYHlyqv+LQ1QvQAVh9sgm2IaKKHe83ZYX3oPA3rVdrUpW48Jx103UnNMce7iItsykKCZtiDRmtKJx9vlHVctpf0So4yxqkHmhEZuSBSxpdMdM8wuOA97xGIE87iRlDiX5/HogeVvlpGdJfg6dwqAsk2IMQ4fEKBxy/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=NFaZ1cW4; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=hdpPcH72q71eFKMVk37M5XbLZ4kKadKnisDL++Ydm+w=; b=NFaZ1cW4W6ByCiKmTde1ZePKCJ
+	43LK9PnLdTN7kpwb4rGLfvELiphWVDL65ANp8TCqExFHc7WCEd1957r/VbyI8OZ3WgYq/RU+YNqte
+	i7uQnJAFDQP3LlicQDfrWk3wyTlCqrYtpsQJqd8HDS+8aXmHjzvcbz1WJuPis4H0DYaOZvJ61d04g
+	eA3mrIOQ+N1QhP00S8JaISLfkBa+u1QqZ9nw0YqSStp5g50tHZhWQNdC6MYCpg6zB0Yy6UmoHNnRJ
+	lmEehZBIc/JPQle0y7hZ4qVMPXAgdX+7DxYDQM0lwZQDyhiN1Nd1Q1AjsrJnCzJebhwJWwF0ExYxk
+	1GwrpFoQ==;
+Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
+	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <cyndis@kapsi.fi>)
+	id 1uW7lC-00A4zL-2n;
+	Mon, 30 Jun 2025 09:12:59 +0300
+Message-ID: <0bed2152-8bf7-4091-8c2d-126f1ec3be5b@kapsi.fi>
+Date: Mon, 30 Jun 2025 15:11:34 +0900
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3a3woiyuowbqzbpf"
-Content-Disposition: inline
-In-Reply-To: <6eb19bee-c553-4a28-9342-b2b218deabe7@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/tegra: Add NVJPG driver
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250611-diogo-nvjpg-v2-0-01f8c76ea90f@tecnico.ulisboa.pt>
+ <20250611-diogo-nvjpg-v2-1-01f8c76ea90f@tecnico.ulisboa.pt>
+Content-Language: en-US
+From: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <20250611-diogo-nvjpg-v2-1-01f8c76ea90f@tecnico.ulisboa.pt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
+On 6/11/25 9:18 PM, Diogo Ivo wrote:
+> ...
+> +static int nvjpg_load_falcon_firmware(struct nvjpg *nvjpg)
+> +{
+> +	struct host1x_client *client = &nvjpg->client.base;
+> +	struct tegra_drm *tegra = nvjpg->client.drm;
+> +	dma_addr_t iova;
+> +	size_t size;
+> +	void *virt;
+> +	int err;
+> +
+> +	if (nvjpg->falcon.firmware.virt)
+> +		return 0;
+> +
+> +	err = falcon_read_firmware(&nvjpg->falcon, nvjpg->config->firmware);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	size = nvjpg->falcon.firmware.size;
+> +
+> +	if (!client->group) {
+> +		virt = dma_alloc_coherent(nvjpg->dev, size, &iova, GFP_KERNEL);
+> +
+> +		err = dma_mapping_error(nvjpg->dev, iova);
+> +		if (err < 0)
+> +			return err;
 
---3a3woiyuowbqzbpf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This needs to check the return value of dma_alloc_coherent. Looks like 
+this was fixed in vic.c by Robin 
+(5566174cb10a5167d59b0793871cab7990b149b8) but the issue persisted into 
+nvdec.c in parallel, so it needs to be fixed there as well. I can send 
+out the fix for nvdec.c.
 
-On Fri, Jun 27, 2025 at 12:02:48PM +0100, Jon Hunter wrote:
-> Hi Joel,
->=20
-> On 20/06/2025 10:42, Joel Granados wrote:
-=2E..
-> > +		.data		=3D &max_lock_depth,
-> > +		.maxlen		=3D sizeof(int),
-> > +		.mode		=3D 0644,
-> > +		.proc_handler	=3D proc_dointvec,
-> > +	},
-> > +};
-> > +
-> > +static int __init init_rtmutex_sysctl(void)
-> > +{
-> > +	printk("registering rtmutex");
-Well that just slipped in there undetected :).
+With that fixed,
 
-> > +	register_sysctl_init("kernel", rtmutex_sysctl_table);
-> > +	return 0;
-> > +}
->=20
->=20
-> With recent -next trees I am seeing the following kernel warning when
-> booting -next on our Tegra boards ...
->=20
->  boot: logs: [       0.231226] WARNING KERN registering rtmutex
->=20
-> This warning triggers a test failure for us because this is a new/unexpec=
-ted
-> warning. Looking at the above it seems that making this a pr_debug() or
-> pr_info() would be more appropriate. Let me know if it is OK to update th=
-is.
-this is just a debug print statement that made its way to next. I'll
-remove it. Thx for the report.
+Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
 
-Best
->=20
-> Thanks!
-> Jon
->=20
-> --=20
-> nvpublic
->=20
+Thanks!
+Mikko
 
---=20
-
-Joel Granados
-
---3a3woiyuowbqzbpf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmhhqFIACgkQupfNUreW
-QU/4Twv/YnX5yNyWtYD3GHMdqa+5hv6IQk3y+7xhOJTQqTRWU5fhowWTXIYq56uh
-5ftswx9HQVOYMf3jbp0o1xTwC4f1AQk8nQzbacmVfj2ZX3XwB0N9xVAumeWCXQc4
-mP36k+ixQSE3YqSDAmuBOMdyIpk0GaqepxXDdgEYHQ9OFLJFsqIrcUrQX41sA3Gd
-xMpjzkgHCg4+KIE7ow5e3u3SuwS0aaPDylNWXDp8fQI5K03FIwvDOgImR0dHk9hK
-LjODXVr6ZN2b4/sYVveAGOKMmwBpON2gHQzpJmf9QRSz0kjp8odYmiUvSoE3D2fP
-rtN0Xh2FVIeLA/jPU9iozuWzHQSZl5EuHc81k3kRlKVbvuR9cdCN4zNsfK2Bh0Sg
-U3u9zZz9GdUO7CywZqSdPft+KsMZsOOM6cbpIb2WL1EkcjQN58eXGLTk904wMymw
-R53xfWZtroYO4+5xANOXAZglx2bEzOa8Q1Q7MmC9ps9s/m9kGydP5oI1pYAlqnlJ
-Z1+0F/TC
-=ZAFG
------END PGP SIGNATURE-----
-
---3a3woiyuowbqzbpf--
 
