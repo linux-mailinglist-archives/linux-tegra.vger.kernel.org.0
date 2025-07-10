@@ -1,121 +1,164 @@
-Return-Path: <linux-tegra+bounces-7867-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7869-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E67AFF541
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 01:14:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB44AFF6F4
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 04:45:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D1CC587562
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Jul 2025 23:14:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F22B1C40753
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 02:46:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EDA7268FDE;
-	Wed,  9 Jul 2025 23:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0E422236F4;
+	Thu, 10 Jul 2025 02:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UVVyNcNf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZOBh7sv"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8DB25F97E;
-	Wed,  9 Jul 2025 23:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BB81FDD;
+	Thu, 10 Jul 2025 02:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752102860; cv=none; b=SV17d31H6p0rkkPp2pvQ3z1qfen2L4Ig9PEM2SgIJdvtIPdDYFnuD3w7S/uzGqQXplKzz65h43s2kIBAKXIzVf5XVkiPR0LqvvnAgWBTcD2bpu1G8CAkkIORoteeUpNlS27lGlOKHnHX1PkIufhtbv+d/W2w1K8NWCRxKP2ndas=
+	t=1752115541; cv=none; b=MVYQxqZG7pKdRHdArGGwDl1EiqlhrVvp5rztbJsh5B5vi/3ezAYitDcN9PNfTZi4alFybR5B8KMO39KNd6X2VHIoMEM8/t6LN7xelFAzmQOrFQkOop/0SK5LXgXoqCBshbCxRo6ZT6zQbNank6tiLjs2j5EH0PjgKsW8a7sfZR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752102860; c=relaxed/simple;
-	bh=QGDQqG/SSiS2zbaufLWehCumLeUtHX5vmGMGi5BUn2Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NdMaGqBPY2YKhijNI7W3JzW/udsThyNM+b6xa2o9/1y0qLL0aR+PGOSwfX64MVhZ5dwDpAMD81HKtL6pR6BEV97a6iKodrm8MuhCaQCMg7IWLUhegMfeYHQvmTArpmQLoUzeMCBhLli9toohFGEoMU5x9nUDJHqNC3qATKztq+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UVVyNcNf; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a51481a598so252379f8f.3;
-        Wed, 09 Jul 2025 16:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752102857; x=1752707657; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oicoRjD6gtaEj60f3J9lS1Htl40hJZixmpVAIyBkxLg=;
-        b=UVVyNcNfHlZMKVZ4+hYjMadEg4rPQmZwlukwN6PX5vvptXMDq1VBidB9dFe8Nkx0su
-         bCY3Wx+T1UWFynQrFEy5byJaYKmgBmobDvpmcqKPjfBgBmx5BW4tDabneoGbg5iMZV2x
-         8GZuA7WJq1GJpC+rVAJwXKv8g3QbCtKqwTf85OxZ1U/Dg3l3xlKqh2MPH2ZXYn3cMq4O
-         0t5djMrVOjorE52QMZGhM7Dzg1TkqFccqGZfktc47zNzFQ3TFdneMJHOG8FNTCT3rTBV
-         fDpB2BiDGgW/XB/FqpHZCVpz1eTyWuv935JQaBB4FiJ3yYULJ7/gZtJqqPJdpY93ebk7
-         nmjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752102857; x=1752707657;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oicoRjD6gtaEj60f3J9lS1Htl40hJZixmpVAIyBkxLg=;
-        b=XeCzT99fdYA2Hkk4NT0wfnjNh8E37CK5zE10f0qdTvmLOfy/zsFO3+WbZPFumA56JL
-         Ov+f0sWvJigNSME13rkywgK41On7dKg9abFPTrL6zAKTDbbnWo6bg5+AF70XBnUbQ/WH
-         Mn5ZXMXSYMSydhhB5P/NB6QgHGYn9TiP1+Sw7AY+aKRiE5gS1lBSBim9ST9R0Ti1GH7k
-         4IP9EpyBFx3MRGvKRW98i6lOBviy9SIZOxdpMJEr1u6hvGK55DL/Yw5ZKqzebAyX9ueV
-         o5+3yArjE0JJHFwF8KGUgip0dfxIsQG+abGsHOvE/uWjBeAbHxY+wZuimaVQ53kWTaD9
-         5dUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUheBxilWgSfFoWgARxGZvPiBNRXEOG8SxlLwSN1goMCBMN1BfgltRj758+nY0O68lrB/MXyo69KFol@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPy/m+dAhAIhAEgH/PAvpT4AgYuj0MwSaAkfllyKMVdtMUaP+Q
-	wC4lrWNmiIK2B8pGHCnsHZab7V4fuEjPxuV+OhNdlzrEaFqgbnNGUtIO
-X-Gm-Gg: ASbGnctE5/lEkz5eZ5JTRrfpu8TlOhcakPwOjccsVapJnj/RFUVi4tuKdIz74Jx7W0p
-	EsC1xbY9MDL7UO6EEbe6e7ZKide77xZlwhqIy27MD6LRLMVHLti83+XBTvyDNpmyL8D1SJZ/dj8
-	gB3LGe3yrpdfnjJ21WGhnJnpmZVvrVB0NGHV8Cr52TROnzMee65KTHilaqwfo6wlyfZxgA1voU6
-	nOGaBcI5cLs06KggLdMQGCXH1aBbjsRPp1Sp1vyHW9k1t7JKPAIw9ji5mpc+qNNZICNoLe8/7zo
-	Ct2MQLHd6Q3qRHQZ0EnMvxZSbUolRRdwIk1PXdKd1c2IiO/ORCmXVH8SPo4ICNCpwmtvdcgKv/Q
-	mxVR1jtImn0wlrrZeeI88M8Eyxb/vqv5XoBG9G8lxVvwKKu7neReYyqKm/Heqwv7q
-X-Google-Smtp-Source: AGHT+IEeIxIiPUuQMg+0LzXiKHb+lIgF9LJ9CFm6uIp861pwDP7vJsT4ai1T+DBcLw/2zhiAUXbu7A==
-X-Received: by 2002:adf:9dc5:0:b0:3a6:d6e4:dffd with SMTP id ffacd0b85a97d-3b5e86721eemr393068f8f.14.1752102856956;
-        Wed, 09 Jul 2025 16:14:16 -0700 (PDT)
-Received: from localhost (p200300e41f4e9b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4e:9b00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b5e8dc22a8sm215669f8f.34.2025.07.09.16.14.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 16:14:15 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-tegra@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/4] arm64: defconfig: Enable Tegra241 and Tegra264
-Date: Thu, 10 Jul 2025 01:14:01 +0200
-Message-ID: <20250709231401.3767130-5-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250709231401.3767130-1-thierry.reding@gmail.com>
-References: <20250709231401.3767130-1-thierry.reding@gmail.com>
+	s=arc-20240116; t=1752115541; c=relaxed/simple;
+	bh=eUk6e7AZRF7cb9xdrd8ekZHvFdTxe6DSM8C/y5EDFAY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=YrdYlPlMa9dOrkMXzE6cCV/Sg6QMT2Yijxc54dy6eX4Jk4mfwCzhFQGpf8T6rPDu50WX6lAyO7s3Wf0eiaz5DBNQ705vEnQirWbDY8Sx9EsAQsY0OuEzN7tcAsj0YbcQYBCuTATnigwcXVmKCUUsNEwuFKlA6CsEUXDHZYT9xT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZOBh7sv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A30C4CEEF;
+	Thu, 10 Jul 2025 02:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752115541;
+	bh=eUk6e7AZRF7cb9xdrd8ekZHvFdTxe6DSM8C/y5EDFAY=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=BZOBh7svNUr5nkT1+RXSjYuoZH7nlJwIM+KWR8RJI9SvR0VxfDG0HLPCEiE+4B0LP
+	 axNwWtnxHl8RlEnzcWK/7R5pQqfTlncrvEZyv9kW9XukMFKNvt/1tI5Pye+H/ScYjm
+	 FFyFJ6sOG1bGKm6CTiZFnsp0F8zNySScSFC7X7Wj8lXmyIAQbb8VlMi7Ca7P47k/bs
+	 g8Ei3n5qYqsj8EVBGW8EyQqAO/sK4UFfxYVr/1H3+GSfxK6d/1ozh4voOE0ACNIazJ
+	 b9n+R4x9a9YcFVkRAE2S7PI9IJI+lXoM5nkCJyc9MvbUfKLfhwZqykM0g86uikQ4tU
+	 E0fpNeCeVyZ8g==
+Date: Wed, 09 Jul 2025 21:45:39 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+To: Thierry Reding <thierry.reding@gmail.com>
+In-Reply-To: <20250709231401.3767130-1-thierry.reding@gmail.com>
+References: <20250709231401.3767130-1-thierry.reding@gmail.com>
+Message-Id: <175211539720.410893.5566510176831399738.robh@kernel.org>
+Subject: Re: [PATCH 0/4] arm64: tegra: Add Tegra264 support
 
-From: Thierry Reding <treding@nvidia.com>
 
-Enable the configuration options for these newer generations of Tegra so
-that support for them gets built by default.
+On Thu, 10 Jul 2025 01:13:57 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> This adds support for the Tegra264 SoC as well as the engineering
+> reference platform that goes with it. There isn't too much here yet, but
+> it should enable users to boot into an initial ramdisk. Patches to
+> enable access to the root filesystem are in the works but not quite
+> ready yet.
+> 
+> Thierry
+> 
+> Thierry Reding (4):
+>   arm64: tegra: Add Tegra264 support
+>   arm64: tegra: Add p3971-0089+p3834-0008 support
+>   arm64: tegra: Add memory controller on Tegra264
+>   arm64: defconfig: Enable Tegra241 and Tegra264
+> 
+>  arch/arm64/boot/dts/nvidia/Makefile           |   2 +
+>  .../boot/dts/nvidia/tegra264-p3834-0008.dtsi  |   7 +
+>  .../arm64/boot/dts/nvidia/tegra264-p3834.dtsi |  30 ++
+>  .../nvidia/tegra264-p3971-0089+p3834-0008.dts |  11 +
+>  .../dts/nvidia/tegra264-p3971-0089+p3834.dtsi |  14 +
+>  .../boot/dts/nvidia/tegra264-p3971-0089.dtsi  |   3 +
+>  .../arm64/boot/dts/nvidia/tegra264-p3971.dtsi |   4 +
+>  arch/arm64/boot/dts/nvidia/tegra264.dtsi      | 415 ++++++++++++++++++
+>  arch/arm64/configs/defconfig                  |   2 +
+>  9 files changed, 488 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3834-0008.dtsi
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3834.dtsi
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dts
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834.dtsi
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3971-0089.dtsi
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p3971.dtsi
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra264.dtsi
+> 
+> --
+> 2.50.0
+> 
+> 
+> 
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 5abe148c35de..417c35fa7ad4 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1518,6 +1518,8 @@ CONFIG_ARCH_TEGRA_210_SOC=y
- CONFIG_ARCH_TEGRA_186_SOC=y
- CONFIG_ARCH_TEGRA_194_SOC=y
- CONFIG_ARCH_TEGRA_234_SOC=y
-+CONFIG_ARCH_TEGRA_241_SOC=y
-+CONFIG_ARCH_TEGRA_264_SOC=y
- CONFIG_TI_PRUSS=m
- CONFIG_OWL_PM_DOMAINS=y
- CONFIG_RASPBERRYPI_POWER=y
--- 
-2.50.0
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250709 (best guess, 1/2 blobs matched)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/nvidia/' for 20250709231401.3767130-1-thierry.reding@gmail.com:
+
+In file included from arch/arm64/boot/dts/nvidia/tegra264-p3834.dtsi:3,
+                 from arch/arm64/boot/dts/nvidia/tegra264-p3834-0008.dtsi:3,
+                 from arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dts:5:
+arch/arm64/boot/dts/nvidia/tegra264.dtsi:3:10: fatal error: dt-bindings/clock/nvidia,tegra264.h: No such file or directory
+    3 | #include <dt-bindings/clock/nvidia,tegra264.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[3]: *** [scripts/Makefile.dtbs:131: arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:554: arch/arm64/boot/dts/nvidia] Error 2
+make[2]: Target 'arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: nvidia/tegra264-p3971-0089+p3834-0008.dtb] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+make: Target 'nvidia/tegra210-p2371-2180.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p3450-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3737-0000+p3701-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3740-0002+p3701-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3737-0000+p3701-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra186-p2771-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2371-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p3509-0000+p3668-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3768-0000+p3767-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-sim-vdk.dtb' not remade because of errors.
+make: Target 'nvidia/tegra186-p3509-0000+p3636-0001.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p2972-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-smaug.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p3509-0000+p3668-0001.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3768-0000+p3767-0005.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2571.dtb' not remade because of errors.
+make: Target 'nvidia/tegra264-p3971-0089+p3834-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra132-norrin.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2894-0050-a08.dtb' not remade because of errors.
+
+
+
+
 
 
