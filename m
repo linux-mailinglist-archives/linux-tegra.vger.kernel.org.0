@@ -1,182 +1,273 @@
-Return-Path: <linux-tegra+bounces-7916-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7919-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96280B009A7
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 19:12:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E097B00E19
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 23:46:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 731271C870ED
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 17:12:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDE773A24E9
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jul 2025 21:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45A372F0C4B;
-	Thu, 10 Jul 2025 17:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0809A28D8CC;
+	Thu, 10 Jul 2025 21:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JGzv22ko"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bDsfn0Dk"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CEB42A9D;
-	Thu, 10 Jul 2025 17:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752167543; cv=fail; b=T+ZGsR5s0RW4KZs761yREISLWjEaExVq+icZdo0Mt9BPu9mtOhU6EDMYZiqoiu4GWMlLqgtYcLo9+l90vsU2uXDbbsgYtrg3NmR0S9FMMIyuN3mw3hq1EuAK230kR36VEvziylL+5p68nRfp5q6AUX/JyxxsfmtavEYcW7ImBJQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752167543; c=relaxed/simple;
-	bh=1SaYCsmGE/V9seXF9yyEAHWs8D4sVOHPuCo6Q1CrLvo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bkJz7HAJismk03+ml/+jcX3mF00VA4mTsxPDm/0ckfg77KY4gCLtZy5Lyi4//Yz9ckk6yf9p8Iv4r3/yJJKKArhNf+QC0d4bhkrTRRN4ZiRa53GGdA8KV42Snn9XTr47qw9jdKarN3u7s+CI/Io8oyA2EwJOzs18fpSIaG6BwlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JGzv22ko; arc=fail smtp.client-ip=40.107.94.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AqMAaGZS6JSFNaF+YFPrf3e2jPNE57RnUVlcIwrARbjyvrjUWe3cUXrzr9yFtmr6XILw4Ef9PAy/waPzSm6sYVWSQPWjTYSlPBTx8FMxUWAaT9E7lGuO94QdbqviW+MdKxM1neb3F9tWKL3HPtjDfv4QkK78yrYJgoHVZt6B3Sul8a3KlXf5KjMPYx1a5Tx6Z4gZ8BCaqFE2vKlF4JpvbNCwAXV74wfV/R6CdXfZkaq6IEjxZDpKkHDf1aYefIGrgNaS+RbYYz20R+OPBcvStYLZxyaWetFazMr8zbiT4vgN+n9ShuPhrC5/qHORuhb8eOuYVMTqMMDScPDZm+FWrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HWVRkHrf5zU7DoxtYe1u38EE3dbybhaF26iF6PRnXUg=;
- b=kGTrHgG5+Lp7lofY0ya9nrvJ0ZlXApCjYypSqoWiaGZeil5SMmB/D3bOTv3jUsXYD0O8ticB28ZQkMI+qQGbUJRoeGsi+U9Nz/h3GlO3m1Bc6gCNgWXy/fgeGjAfm+vtgFu8Kj/rKwtWSSJ9sXqGyPdFQvehESvatwSTL9lDJZ4gbKw06i9p9aao/O5QndlpQMkP5JeyKyGBlrDHClNl10C4FARpe/yjQY4J0pK2UYeiPeMHU4doebdVxZD2xq9EGi8HBTxVwlBSWB9+Me4uJBqEhATxYjHdrjvRAjFrEaLO1SB2cfmHzm0Da6D/Nrd24pDMpo58KkBo1+V/VeeYwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HWVRkHrf5zU7DoxtYe1u38EE3dbybhaF26iF6PRnXUg=;
- b=JGzv22kou/tWuyrkvOdoZUqiQBZfdOj6C0QKPz2K2Qf8jKzQDmTTc7UuE1GzowFLiLpRdvRhefUTF2R+2UuuziFhggOHUB66boyxRheprx2eUpi5T+lUOYfX6dhZt94js296pVg+njy4Aymc2G8oYS9S/Awgj5R9n3iJkNJcFwacVSU/+yv4CqwXcambZj7NtmMNmnjKV5Eg9nlkqVelCfvxfA8d85XXL7LshrsxjpCV364HRJtMuzx+CawT4B4mnNwnOneSvRIvxcdxzPus19ki7YHefaRRzuVnQdm+jtOdtsIOylvdfVnsibNfIcCL9aotXT1ySFGTKQDYrzGZyg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CH3PR12MB8259.namprd12.prod.outlook.com (2603:10b6:610:124::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.28; Thu, 10 Jul
- 2025 17:12:18 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8901.024; Thu, 10 Jul 2025
- 17:12:18 +0000
-Date: Thu, 10 Jul 2025 14:12:16 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com,
-	corbet@lwn.net, bagasdotme@gmail.com, will@kernel.org,
-	robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
-	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
-	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
-	yi.l.liu@intel.com, mshavit@google.com, zhangzekun11@huawei.com,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
-	vasant.hegde@amd.com, dwmw2@infradead.org, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v9 22/29] iommufd/selftest: Update hw_info coverage for
- an input data_type
-Message-ID: <20250710171216.GR1599700@nvidia.com>
-References: <cover.1752126748.git.nicolinc@nvidia.com>
- <f01a1e50cd7366f217cbf192ad0b2b79e0eb89f0.1752126748.git.nicolinc@nvidia.com>
- <aG-fZv39ci6yip3z@google.com>
- <20250710153202.GO1599700@nvidia.com>
- <aG_togvop53dLSZM@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aG_togvop53dLSZM@google.com>
-X-ClientProxiedBy: SJ0PR05CA0036.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::11) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA34292B4A
+	for <linux-tegra@vger.kernel.org>; Thu, 10 Jul 2025 21:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752183952; cv=none; b=JSKgffxy0sexjpO8hiXwk6IWbGlqgZkX6SkcPzVskCAgnAxkpon59MZiYFstsH39qRBLuID8+I4BwoBm5Bpn8OQf5xMYYUMoewbMKzNsZEjr4LM1/46ymaEk7K/7KX8esQ3dz7KRzJUuUBqoGVVLiuB9M6wCQou5gIjta98u+a0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752183952; c=relaxed/simple;
+	bh=zfaKbsjTIJUhXHmziLeatyZLED8TfK/HMSac+637Klw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=C+y2JzVkPXJMUMGk/eIncDeTs4OUMb1ZOcgd2XmAWBHByDgGdoPN0s81qLByEdVeJeLbu5OA4locvVpQE/bTwnRMmW1Za/oxGofyjn/sfIOckMmOCp9IZcNho5knYOZ7TfpDd6tphHt59oOXjUjtMiS+Bb19DE07QatIfwmG3IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bDsfn0Dk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752183950;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2nR8oPeDizANp1JR9NBRrDAUbozrEEG5H7dIC150e9E=;
+	b=bDsfn0DkjiQJo1aXuyaFrP1hjmD9MZPz/mEjBF/bXwnhbP+S/XB5SKlIWmL+cx3HAI6/ee
+	m4epsOJAammxjp4y/VOnlLAfV4kj7cRhMRjkLhviqOO2xMel+ppt0EtU30hgJ5MyH1zC4B
+	Nz4RvqWUy1hxmASgB+kxttILTW7ffJ4=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-224-pfYvU9ZNNVW2mTOQCvrrHg-1; Thu, 10 Jul 2025 17:45:43 -0400
+X-MC-Unique: pfYvU9ZNNVW2mTOQCvrrHg-1
+X-Mimecast-MFC-AGG-ID: pfYvU9ZNNVW2mTOQCvrrHg_1752183942
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-61200aa771dso809002eaf.3
+        for <linux-tegra@vger.kernel.org>; Thu, 10 Jul 2025 14:45:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752183940; x=1752788740;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2nR8oPeDizANp1JR9NBRrDAUbozrEEG5H7dIC150e9E=;
+        b=e0xAg7vFXIxJBGuWgqkOz7+B8zZH1u6Mdk7DQE6BspcSQV1viJ3843qVuFio07FNU4
+         3+9Go14UkrrUaAFUURMQJ0DomoteCKvPpd/lhBYkWKgjVsStd2fDpSGqF4LZI4UTUDdh
+         P/iyzLN147u/8DfoEC15+LKVqMXd7Y1GB/UUhUO3VVScKQqoMBFjJCCIhWYn8SaPts+t
+         0gu4ZyY666D8Xzedbui0TUv3kFTolFnMhSSw0yvGTir2QwAqlDmCOsIoa0+dtCTPaDO8
+         kpPLr23yFPM33wQpkRRwB79TpYhKQJCxqcI6QE0Vbdwagxo0kot+M+/Sc9QLkxgUcskw
+         dBfw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7EP4xTsg3nx0ZPyrZPOOpw7+wgr/uQPqFGgVZK8Kh19eayiFjI48RMV2fWMsZa4nimeUKBJLfCl+ZuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+j5J41jp7pG6N/ziX6XKdgrjzPo1eUTEIW7MjWwrlonTs6jTg
+	KWxxoUeFnyT3VUb1aASCGHyqWD02t6SNNPgT52pak2+Y4c/svdAGMMqiWU3NC0XY8NyQw24gIID
+	OkO72d2tC2ZM6G9I+fPydtWJVfN8t+2LKXGIb99BDHzGGnUJTincnnx6IGrNLzVwT
+X-Gm-Gg: ASbGncuPqZmXo+GgBS/tfwu0S10H+a0cJlMSacvI522QT1Ua92t7QLRFqXi49JhMFLZ
+	KPqdSjKGwzGDfVDisOWLSL8zZj9k6AdLro/2LlDN+dXjjjhbcCTWBsFnwOnpFt84+KV09ikxNl6
+	7KD87uP015EDqPOfjj632bHfz6Z7E19Dyw0n2eTPFfB470085hAomKvJUrgXjJHNq/blbmg4D2k
+	Hg5sjINrQsdo8zJMOdgMjNKU+q7mqjVkLAhMq1pXUbwwcrEBQhC/uUoehwzGxW+0WxGYPO+3hQn
+	6GvsvwmNDMOaUm92W+9UX3W0WyOVh5LPlzRbUEcTS2M4
+X-Received: by 2002:a05:6808:5242:b0:40a:561a:9e8c with SMTP id 5614622812f47-41537567287mr381012b6e.3.1752183940561;
+        Thu, 10 Jul 2025 14:45:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGS2ydIqC7N3ypSjKNKB/xVuCJZSu15TeV2crSJSiS9mMLiIvIupf3/H79OOLOFsQdfgJIMDQ==
+X-Received: by 2002:a05:6808:5242:b0:40a:561a:9e8c with SMTP id 5614622812f47-41537567287mr380988b6e.3.1752183940159;
+        Thu, 10 Jul 2025 14:45:40 -0700 (PDT)
+Received: from [10.144.155.224] ([2600:382:8102:a87a:c1c4:9ad5:f0c:c0f7])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-41419baa00dsm345483b6e.22.2025.07.10.14.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 14:45:39 -0700 (PDT)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH 0/6] clk: tegra: convert from clk round_rate() to
+ determine_rate()
+Date: Thu, 10 Jul 2025 17:45:12 -0400
+Message-Id: <20250710-clk-tegra-round-rate-v1-0-e48ac3df4279@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB8259:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f031938-cbd8-46fe-d5c5-08ddbfd4ecec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?utvDYeSAiagQTZr/1QKn+0AM2od/M4zSMO12ib6AQiW+QYRSEy1X9mtzpxfg?=
- =?us-ascii?Q?pRJBYKajAzwVUN1QJQ/rIGCNAx+hOuZ88p1N2cYGMebFMg2ksFWNtZqUccyU?=
- =?us-ascii?Q?d7JvjMAPYg7zY1+BaljOPx3TfAoV8MFa5cqL/QgFVtfvbqjgOwEICrXgSANs?=
- =?us-ascii?Q?ZEUjmqOkNtLCOrPklZOiaJr0voHZQjMUK94lsYLJ5kY6DRT6rkUlrh1tH4s/?=
- =?us-ascii?Q?0YmIIieo0EWOo++BiKnfOHiLhAFwMT/Z383XUq2kPC5Ph3E8LYh8+5j2TYAO?=
- =?us-ascii?Q?6szbW787y4m5OkvUb7j5xgj+jnzYLQPHORA9lptz2e4rqttb/zx/Av/qXRsT?=
- =?us-ascii?Q?5IPbr6dxzcV5qf3UFub9uDLLpOKaHKhoGbS1YEb3usdGVyER75PXrNF/Ntmi?=
- =?us-ascii?Q?hv1zdAnxWFycFaOEKbiMr/BNRzIccOSixFNzq7g+NPZQxuTyg9ZKJ2Ra4DKv?=
- =?us-ascii?Q?F0AmfVpvEyK0UqKav5sQRG5Fud1a8WDNbZ+RHM8ttpx47Xx/ODvRxA3G2seE?=
- =?us-ascii?Q?N1jbvwSPZWDQqY3IkN1nZBZ8suL2CvajKlDbndPSmsWJAKE81smZKCgTqilc?=
- =?us-ascii?Q?8hyhBFELYfRg25Zcr3mwpsi4Ky8gb5bxt4CJY+EQeQ9x3u5tixZRcD7nM1sr?=
- =?us-ascii?Q?Rq8241K6dRx4B7icoFsQdFxvDkquRgrkyDOLw6pcXJfs7VNKm9iU0ZDrrNPM?=
- =?us-ascii?Q?ajzr0G5BP4DPkrbrJOtGao+6m7+3xPsBMHL7Q90RxIiPjqYmbr1xeoicyoEd?=
- =?us-ascii?Q?wsSmIPd4BPdHXVySWQT5PoSAggpwVHaDtAgI/serfPK/AqplB1+SZkMQaP7H?=
- =?us-ascii?Q?JtypZK0KbQd5LiciaykEX+T6q2qWrNjAbWoAb9A/bc447Wm9pa/25GU82hc8?=
- =?us-ascii?Q?efwDUY3dDcXi0/bsKW66if0id/3zdbb7URBdIsAMUyjFEOCKgz1K6qR1yJfy?=
- =?us-ascii?Q?roDKhW4zWIZC+MywY82R+gTAMar1T+Ar+dhcU5cdEqm3geqFMmJxctkFWGwu?=
- =?us-ascii?Q?WVjbz0iVLKvxSG7IMetGMG/KgCCsUpsEGD1ozbQI+cEJJqOCfDNFL05S6GBe?=
- =?us-ascii?Q?ojT1b74un3xwCsNAgunf28QLJP5HqfdqW7WVEfgsgnrNXzmi0TiD6L4N+1vH?=
- =?us-ascii?Q?RaJRc8Nicn/3Kod3rKiuKjJdmPjSNcefiz4UsdAjikS3USeQUx9PM3vrFBoS?=
- =?us-ascii?Q?8L+kuYHv8fddRsKJ2l0PgoHQ+/6PcREYwHR7SV960lxAVVspEOIPTFkGbeH2?=
- =?us-ascii?Q?C+ekUHYcs/KTK4/MpXzkz55WNnnCt+GCzRtcbvx5ALFahm8xjb76i2YnjnAe?=
- =?us-ascii?Q?XPa7Xn8OfCV+JYzANgER4fyaWjGe4Nh4ItsMSpNe7vFXokaUJyqdXVXApoCe?=
- =?us-ascii?Q?P68Wo+g4Wh0wNz9TnoBzvbMIf8MLII2KUn9rzi+rZuQCiSkg0wHEcImPTYuP?=
- =?us-ascii?Q?hfmBHlJsLgE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?v4LYNcOjz/a0BpTwbnG+D9qHqMbprHaVpLMirS3zwkFQZgwJRDRokZI+keG0?=
- =?us-ascii?Q?u2OO2gSSG9FLRNK0OC9F5CtwNlbWaFRnuV/EL1Mek+Lhrzu8vrwIa7I5Tf9i?=
- =?us-ascii?Q?QWxKnySN2OlrX1XgP5e5+VDk3jX09dxEHNXUTSOKmhNijye6o3AzOgHOjXIg?=
- =?us-ascii?Q?zc7I18LpftYdJJbarLigAeuSVguCFpJTnjvWQTxOXXWSGYGH1/VSRd4qFTo9?=
- =?us-ascii?Q?DC919JtEc8+G+HgCPFgW8KCbma4G7cGQPH9ZStF1u78A6w52IORfDVGX85dR?=
- =?us-ascii?Q?ReKO7ZlIFGHfKleNMoa5q3OF/7J1jtSLumCmxIQLiFqMU/jMyq6wTGfkyKdL?=
- =?us-ascii?Q?NPg4a0FVp4JKW6dMiiVa6wKDpnDr6SZsBfSLz7Rr0N4uDPSKmQa720Xw+OGk?=
- =?us-ascii?Q?lO85lbrJgQnkIkRe9ZgXKRna/voSEMPYFn3Smac6eoyUBYDV1q0Ma9suNOxg?=
- =?us-ascii?Q?Bn4k3FA3/lUlw5umGZFRGRZKKVkiH/AvU70qViah8WGVCA+SIgA+VG5MOskt?=
- =?us-ascii?Q?wLDPitKW08kS/5rKwS9wwIOcjRQ5t8KntyQ7EM5cBcS7gzbq45vAhPqRelwJ?=
- =?us-ascii?Q?CeV1RJBMORGytUTP65FCVJJMLARZ4BA1HctLMp6Xzts45OBzDR3mue95JIJS?=
- =?us-ascii?Q?6i/pba2NZtpy8YEVp9B0GELb5p/qs8nTf3oazW6ioz9EWKydKXBG1c30JFpG?=
- =?us-ascii?Q?HjIS+uyyeGWbBbaACnBdg9RtzPyIN30YN716UkYzTp1c9MpyHGYvtbo1puN8?=
- =?us-ascii?Q?4RtC6gCAz+EAvdVQ3XaCt+USpURpJRDIErxnL9++KDBy6AC3xwPsQ0bJEX4Q?=
- =?us-ascii?Q?trDcgL2q7oJ72nXOPme9wrdUHf93t0NDDHQkDF/3hOhAfiFnOLdP2O2JrXKf?=
- =?us-ascii?Q?Sd3wKtjHFFgXz7V8Sugl4e6RICI7DUrMziXEYjVJd9FFRmRQ22i7eg5C+SPw?=
- =?us-ascii?Q?zbL+TH+VawAU9ARW5wstEBQF7A9AM4oKb28VLjh2CZdfYfuJxK0hPEs/fECk?=
- =?us-ascii?Q?SdHFnch842UVeQqEu/T5oiHnRB6xcUEaoNdJoz5Nc89dL8OAt2TGCKMqVI5j?=
- =?us-ascii?Q?wSyPTHR+NiuwVnad/2ldfDtUuAG4Shlsxq3C/NcxCVV7IRPCKP0AyMFAxs5A?=
- =?us-ascii?Q?MmKBedtE3eeZr5LaDmKZIb+tV7XVtnG0yYestZ9glPsVcNpXZCs6gxMFYTgC?=
- =?us-ascii?Q?TqFZJFv6R6b6tFQ/D0Jcp8JX5rSuE3xJ98pIeX/m/nS9UiGmNplA+uzqs1oh?=
- =?us-ascii?Q?YthZG0i/hhW9/awx/duT10O//9vVwETlR2JRLkt2AAB2l9d+En0fs70Ld7MC?=
- =?us-ascii?Q?JVGqWH1VYOU60MHmYr0Pk7K8PQWck2fO0t66lgjxVq/A33zfWOKU6GMzfFyC?=
- =?us-ascii?Q?8BC2FQl3xVFnepGaLfxTTnXfQJMBMhYdlxOT5XFwyKGZDtvSHYvrEoV/amSq?=
- =?us-ascii?Q?LnvFnsJsBbXRn1Z/nuElkA+X8D7OJ7i7S5FDCTv4NO/yNYHubi3+94cLqZrD?=
- =?us-ascii?Q?IqYMRRQyBotM5L9enb0XNHPbgL016pxvOEpwk7TmgiBFvtkm9FEzq9y4G+DA?=
- =?us-ascii?Q?UR8eWbRMtvmf1zbCrhZRr8RGjeB6BNSvf8ZXaR9L?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f031938-cbd8-46fe-d5c5-08ddbfd4ecec
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 17:12:18.7491
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FRfyz9ScGuIgD2EN8cF11ns/U2LA6lbLpf3pSAmNwnxm4iwUmu9QC7uZmujlbpcy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8259
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGg0cGgC/x3MSwqAMAwA0atI1gbagt+riIsSowalSqoiiHe3u
+ HyLmQciq3CENntA+ZIoW0iweQY0+zAxypAMzrjCVNYgrQsePKlH3c4woPqDseCGyNZl3TiClO7
+ Ko9z/tuvf9wMQ0irmZgAAAA==
+X-Change-ID: 20250710-clk-tegra-round-rate-5e9cc186892c
+To: Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752183937; l=5139;
+ i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
+ bh=zfaKbsjTIJUhXHmziLeatyZLED8TfK/HMSac+637Klw=;
+ b=hHP8hjDdq+Hf7u4Bde6o43O1tYdLVAMLKLlWelILbNA6pcpdIRkJ+ww0xIC5nKyF1uyIWDVSq
+ r1EMB7T+SKyBKiQ5dbzV5lY7ABM2CptyK85fXHvSWhNHpObGqLR2xUO
+X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
+ pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 
-On Thu, Jul 10, 2025 at 04:43:14PM +0000, Pranjal Shrivastava wrote:
-> On Thu, Jul 10, 2025 at 12:32:02PM -0300, Jason Gunthorpe wrote:
-> Alright, this was on the `for-next` branch when the head was at:
-> 3e2a9811f6a9cefd310cc33cab73d5435b4a4caa
-> iommufd: Apply the new iommufd_object_alloc_ucmd helper
-> 
-> But I see that on `for-rc` [1] the fixes are merged.
+The round_rate() clk ops is deprecated in the clk framework in favor
+of the determine_rate() clk ops, so let's go ahead and convert the
+drivers in the clk/tegra subsystem using the Coccinelle semantic patch
+posted below. I did a few minor cosmetic cleanups of the code in a
+few cases.
 
-Yes, Linus discourages back merging rc without a going forward
-justification, like following patches need the rc patches. Fixes some
-bug is not a justification...
+Coccinelle semantic patch:
 
-Jason
+    virtual patch
+
+    // Look up the current name of the round_rate function
+    @ has_round_rate @
+    identifier round_rate_name =~ ".*_round_rate";
+    identifier hw_param, rate_param, parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    	...
+    }
+
+    // Rename the route_rate function name to determine_rate()
+    @ script:python generate_name depends on has_round_rate @
+    round_rate_name << has_round_rate.round_rate_name;
+    new_name;
+    @@
+
+    coccinelle.new_name = round_rate_name.replace("_round_rate", "_determine_rate")
+
+    // Change rate to req->rate; also change occurrences of 'return XXX'.
+    @ chg_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier ERR =~ "E.*";
+    expression E;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    -return -ERR;
+    +return -ERR;
+    |
+    - return rate_param;
+    + return 0;
+    |
+    - return E;
+    + req->rate = E;
+    +
+    + return 0;
+    |
+    - rate_param
+    + req->rate
+    )
+    ...>
+    }
+
+    // Coccinelle only transforms the first occurrence of the rate parameter
+    // Run a second time. FIXME: Is there a better way to do this?
+    @ chg_rate2 depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    - rate_param
+    + req->rate
+    ...>
+    }
+
+    // Change parent_rate to req->best_parent_rate
+    @ chg_parent_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    - *parent_rate_param
+    + req->best_parent_rate
+    |
+    - parent_rate_param
+    + &req->best_parent_rate
+    )
+    ...>
+    }
+
+    // Convert the function definition from round_rate() to determine_rate()
+    @ func_definition depends on chg_rate @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier generate_name.new_name;
+    @@
+
+    - long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+    -               unsigned long *parent_rate_param)
+    + int new_name(struct clk_hw *hw, struct clk_rate_request *req)
+    {
+        ...
+    }
+
+    // Update the ops from round_rate() to determine_rate()
+    @ ops depends on func_definition @
+    identifier has_round_rate.round_rate_name;
+    identifier generate_name.new_name;
+    @@
+
+    {
+        ...,
+    -   .round_rate = round_rate_name,
+    +   .determine_rate = new_name,
+        ...,
+    }
+
+Note that I used coccinelle 1.2 instead of 1.3 since the newer version
+adds unnecessary braces as described in this post.
+https://lore.kernel.org/cocci/67642477-5f3e-4b2a-914d-579a54f48cbd@intel.com/
+
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (6):
+      clk: tegra: audio-sync: convert from round_rate() to determine_rate()
+      clk: tegra: divider: convert from round_rate() to determine_rate()
+      clk: tegra: periph: divider: convert from round_rate() to determine_rate()
+      clk: tegra: pll: convert from round_rate() to determine_rate()
+      clk: tegra: super: convert from round_rate() to determine_rate()
+      clk: tegra: tegra210-emc: convert from round_rate() to determine_rate()
+
+ drivers/clk/tegra/clk-audio-sync.c   | 10 +++----
+ drivers/clk/tegra/clk-divider.c      | 28 ++++++++++++-------
+ drivers/clk/tegra/clk-periph.c       |  8 +-----
+ drivers/clk/tegra/clk-pll.c          | 52 +++++++++++++++++++++---------------
+ drivers/clk/tegra/clk-super.c        |  9 +------
+ drivers/clk/tegra/clk-tegra210-emc.c | 24 +++++++++++------
+ 6 files changed, 72 insertions(+), 59 deletions(-)
+---
+base-commit: b551c4e2a98a177a06148cf16505643cd2108386
+change-id: 20250710-clk-tegra-round-rate-5e9cc186892c
+
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
+
 
