@@ -1,52 +1,52 @@
-Return-Path: <linux-tegra+bounces-7979-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-7982-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E375B04FEF
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Jul 2025 06:05:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC29B05009
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Jul 2025 06:05:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B60244E04CD
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Jul 2025 04:04:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 519684A761C
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Jul 2025 04:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911562D6638;
-	Tue, 15 Jul 2025 04:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F5502D9783;
+	Tue, 15 Jul 2025 04:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOzBX4Bd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6O04kvv"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7712D46DD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F6C2D63F4;
 	Tue, 15 Jul 2025 04:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752552232; cv=none; b=lyEVlMUhgnAThPE/0RVO2+6h8+y3SR+A6Ne/owWGxrHQHmPz+umL6eEJgKpZ2LKluQRZjWE7mx5D6GB+dvuretyPLw1bBkS2ailhrzBK5OwWsyvjQcfkEua/KEUKCaNSzydocbo5p/iJUnINA7bt0cv/6GNvRqx9RF6F/QyvQbM=
+	t=1752552232; cv=none; b=SD+WCEnSaQEThHiHzPRG171gEQSNPK9ih9Smi9M88gj68J6ZSUq+PMVJNjyjSD0T/67jELTzFFhVYjEBaJ8di12CNk3wrVLqZ0Bho2q8FUQb8G/SylZNWEA9EWyRi8QOXZd1qqAei6sfENLHz8ENB3KVMX4a7KtO+8ni7OIoQ3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752552232; c=relaxed/simple;
-	bh=3vbgZyoOzJWVkFYh6VTooz49lAPSd9vdeX5UjyFPhdY=;
+	bh=htHW6rtHg7NSjIcI/4lWhbhWmP6UNSBw9fjzNoVOG+c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sUuIvPlc4WeUuxeXa1nmrB3l3KF+dmfyWqRpQH3uYy0onjferDiAIqsjHjVL9MGswlPtVYr9lOTjS873cztM/620Bno9Orw3mPd6vsYG9O0eD84I//k25gfVa8GhRdlZ+t9CaH7ZMMQbuesmZr+y0rGzhw5YSvTfqdXgrmL7wvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOzBX4Bd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C21EBC19423;
-	Tue, 15 Jul 2025 04:03:51 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=CswJ26wJc+h2/3Y74HKXyCCo/+2u1pqvRTshXQBrpWHZz0L+dUGrA9CjK/AyHFqWv8n8sBcJ13CoLSKmhHvnfgzWa2cjm3lLXdGNIXWNg5+v+h+kOh9HHTk5ZvHo0Ip98JFs2SKFH+/gnOVx9pqiOFoGGwmnUvWBiTe6tbssu7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6O04kvv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D593FC4AF52;
+	Tue, 15 Jul 2025 04:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752552231;
-	bh=3vbgZyoOzJWVkFYh6VTooz49lAPSd9vdeX5UjyFPhdY=;
+	s=k20201202; t=1752552232;
+	bh=htHW6rtHg7NSjIcI/4lWhbhWmP6UNSBw9fjzNoVOG+c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MOzBX4BdkcEz1YZONKBIEBKm/w63+UQs7+AuRythm/Oh8nX4jKclbXU2uyYqKwNbi
-	 jXlnYJXn3SFwn3XP06aAp7vt9pTpchoBGrPJw/OW2d0WS/JKznKLGbjRAlTTjC00Bm
-	 yaX5eixlb3BpOuWlPqvisE5ztzJriVD8kVVS+ksFQ9A8b5AZKhsIifXTL1xJ5yqMpc
-	 Vf8YK94TD1ZGwmHhn/TM6Qtm+7FRsWG+88mQfam/J2tdeWFAhwT7S6/UM3WQnzIJkx
-	 2wUSJZXwKmj+alB3yltpgfW32X4kXABTrj0+tNnG0cBQn1phPRVKNpki/0LpZw32/v
-	 jEn+Dgr4Ec40g==
+	b=F6O04kvvIj2entXcpHjijwWVFKNbId5Ft7+2xkar8HPtwglWLAu3b62JxMSlHwvi4
+	 zA3rR33pp+21x37MHL7RkNQJ1oFYUb6dMdO3TV1qebXQBqbcFZq4+bS9gnkzvdHvJg
+	 MJFR8T5Dxoier5Q5BYDKb48TcCQRUb+k2+C5ux4V4pfkaPsTjHZ8cLFNtYpJYeLnhc
+	 9QstN6ruwurdg9vK5u5h6MuH3Hks6QTCq+/7sAUIVdQfwEonZQKr5jez8ZXV60QpAc
+	 c42tgrRMpCrn6xaXDmnWkXXrjhJo2fLQ/UJU+IjrYEuEIKipEwfyrUpK2xRB/N4pDT
+	 +0cg5Obh6xFmw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC16C83F22;
-	Tue, 15 Jul 2025 04:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C405BC83F2D;
+	Tue, 15 Jul 2025 04:03:50 +0000 (UTC)
 From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Mon, 14 Jul 2025 23:02:59 -0500
-Subject: [PATCH 16/17] arm64: tegra: Add Tegra210B01 support
+Date: Mon, 14 Jul 2025 23:02:47 -0500
+Subject: [PATCH 04/17] dt-bindings: usb: tegra-xudc: Document Tegra210B01
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-t210b01-v1-16-e3f5f7de5dce@gmail.com>
+Message-Id: <20250714-t210b01-v1-4-e3f5f7de5dce@gmail.com>
 References: <20250714-t210b01-v1-0-e3f5f7de5dce@gmail.com>
 In-Reply-To: <20250714-t210b01-v1-0-e3f5f7de5dce@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -78,11 +78,11 @@ Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
  Aaron Kling <webgeek1234@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752552229; l=1982;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752552229; l=1146;
  i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=ttd5rUNPwZRMhsRQKkGWJfHHoJfZzc3FeVaJMr3kaiQ=;
- b=V7YYm/8SDSYxjrFYhexfVPwU4NHOHbtDeT+FeEtB/40Estcu06tC7OoY8L2RhzQQt7UBi+nCE
- Zd3vX2DCKITDJpzTW6DEKqcIEz1JpK6PE86u8kC+TU0LoKY3WEMTEnX
+ bh=Jyy45qLdZDq9DiQVnsxM/Qp0gR79KFt6neXymT4FCWQ=;
+ b=TcCa6TVpGjZW7jzTH8gjJ6dgjSh/2EdBKGUTbaM2ZDtD0kBy23zs1eI/CDye8JwKO2xOUgB31
+ lQDc77DFvRuA+nPAP4zJoCewfmgWm9F49iS26kbUgAvOq9BDkIfHDPO
 X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
  pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
 X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
@@ -92,88 +92,34 @@ Reply-To: webgeek1234@gmail.com
 
 From: Aaron Kling <webgeek1234@gmail.com>
 
-Also known as Tegra X1+, the Tegra210B01 has higher CPU and GPU clocks
-than the original Tegra210.
-
-Add a SoC-level device tree file that describes most of the hardware
-available on the SoC. This is derived from the Tegra210 dtsi, as they
-share a lot.
+Extend the Tegra XUSB controller device tree binding with Tegra210B01
+support.
 
 Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210b01.dtsi | 64 +++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210b01.dtsi b/arch/arm64/boot/dts/nvidia/tegra210b01.dtsi
-new file mode 100644
-index 0000000000000000000000000000000000000000..87e55af3ed2466c5d353dbd8706230aef97b90f7
---- /dev/null
-+++ b/arch/arm64/boot/dts/nvidia/tegra210b01.dtsi
-@@ -0,0 +1,64 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include "tegra210.dtsi"
-+
-+/ {
-+	compatible = "nvidia,tegra210b01", "nvidia,tegra210";
-+
-+	host1x@50000000 {
-+		/delete-node/ sor@54540000;
-+		/delete-node/ dpaux@545c0000;
-+
-+		dc@54200000 {
-+			nvidia,outputs = <&dsia &dsib &sor1>;
-+		};
-+
-+		dc@54240000 {
-+			nvidia,outputs = <&dsia &dsib &sor1>;
-+		};
-+	};
-+
-+	clock@60006000 {
-+		compatible = "nvidia,tegra210b01-car";
-+	};
-+
-+	i2c@7000d100 {
-+		/delete-property/ pinctrl-0;
-+		/delete-property/ pinctrl-1;
-+		/delete-property/ pinctrl-names;
-+	};
-+
-+	pmc@7000e400 {
-+		compatible = "nvidia,tegra210b01-pmc";
-+	};
-+
-+	bpmp@70016000 {
-+		status = "okay";
-+	};
-+
-+	usb@70090000 {
-+		compatible = "nvidia,tegra210b01-xusb";
-+	};
-+
-+	padctl@7009f000 {
-+		compatible = "nvidia,tegra210b01-xusb-padctl";
-+	};
-+
-+	usb@700d0000 {
-+		compatible = "nvidia,tegra210b01-xudc";
-+	};
-+
-+	thermal-sensor@700e2000 {
-+		compatible = "nvidia,tegra210b01-soctherm";
-+
-+		throttle-cfgs {
-+			heavy {
-+				nvidia,cpu-throt-percent = <0>;
-+				nvidia,gpu-throt-level = <TEGRA_SOCTHERM_THROT_LEVEL_NONE>;
-+			};
-+		};
-+	};
-+
-+	clock@70110000 {
-+		compatible = "nvidia,tegra210b01-dfll";
-+	};
-+};
+diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+index c6e661e8915ca4d3e905331299d981f4d3964314..4574e66e7c1d3d3c918991920bbf4f3ea0ee6ab2 100644
+--- a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
++++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+@@ -20,6 +20,7 @@ properties:
+     items:
+       - enum:
+           - nvidia,tegra210-xudc # For Tegra210
++          - nvidia,tegra210b01-xudc # For Tegra210B01
+           - nvidia,tegra186-xudc # For Tegra186
+           - nvidia,tegra194-xudc # For Tegra194
+           - nvidia,tegra234-xudc # For Tegra234
+@@ -130,6 +131,7 @@ allOf:
+           contains:
+             enum:
+               - nvidia,tegra210-xudc
++              - nvidia,tegra210b01-xudc
+     then:
+       properties:
+         reg:
 
 -- 
 2.50.0
