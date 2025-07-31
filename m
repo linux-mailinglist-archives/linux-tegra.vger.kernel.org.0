@@ -1,154 +1,141 @@
-Return-Path: <linux-tegra+bounces-8189-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-8193-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEA2B1786E
-	for <lists+linux-tegra@lfdr.de>; Thu, 31 Jul 2025 23:49:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA701B178A6
+	for <lists+linux-tegra@lfdr.de>; Thu, 31 Jul 2025 23:59:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 700FC17EA51
-	for <lists+linux-tegra@lfdr.de>; Thu, 31 Jul 2025 21:49:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95ABE3AF706
+	for <lists+linux-tegra@lfdr.de>; Thu, 31 Jul 2025 21:59:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A79264A86;
-	Thu, 31 Jul 2025 21:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B6326C3A6;
+	Thu, 31 Jul 2025 21:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QV9yLurG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQ8SuycP"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788192676CD
-	for <linux-tegra@vger.kernel.org>; Thu, 31 Jul 2025 21:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D325CC52;
+	Thu, 31 Jul 2025 21:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753998567; cv=none; b=mvj+D2xx56pYKJjHxCUq9aVn6EHVKZEbqRVWQXQAQq9NE9wWPMq5ICHmUIJ2SexbBQRK9YIx+d+bQ9FebalIjenxcdXmC5L3niNg5ebh2FxwIIrdIQ6jaxh56KYJa3qoRsQAE6TC8U6NFN1Bgs59dsxLFyCdKZIg7gCvYTXzkvo=
+	t=1753999170; cv=none; b=ZbpPbjMQtjrl0BqZ/CyRVh0KyQHqwUOwHX22Jo6RFapPwnxLd5ub7N0WAwVV00WHL5Vl4LSQ75kkRiB2qWYHOyi0uG4EqTqASo7FJveE5xJmdG90Qwwz/PiEbz8v9RrGfdoNj6vN7Vmc0FeNsIoCQJbO793OXPxEdHDWnmzVSKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753998567; c=relaxed/simple;
-	bh=TxD+9rojK1RgzdLtnmu4LcUnXijBj9O4CO1tWf7eoKM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5mB/OCyyyAzu+cvo6uNldBHr1YKwLkl5MTCyiv2SPTXx5ahPtwnheQPP6lunzgaeZg8+G5fnnSCR5MtybZ/KrjzPUprHw/weF23J5FOy+T6Ti0OY5bPoIYdFJgFs/LNgeJlRvyiV+Do6Awm4wRLJcC0KOTS1ik2g6p0yRUcJfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QV9yLurG; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553d771435fso1461263e87.3
-        for <linux-tegra@vger.kernel.org>; Thu, 31 Jul 2025 14:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753998563; x=1754603363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4c29f/vxp+ZpDvU68i/43QALO7bFZz1jNRt6jP0X7NA=;
-        b=QV9yLurGs7i0GiuVLiIKrdn3/F3a4ZR4MbnrGtRFpR13A3GPvOJWrZ1Vlntrsff8DR
-         gm/h+9+pvAw/wVPr4Qpd/ecBPpDFv7wd5YGf35lMd14KwqBvRCEg6pj+tYSZNv1Ifi0p
-         NW6K2EhmuBc1bnDQwfw+5ypQhCE9OLhRHLLZgLFxT8bqNCeUe79+2g18tNMtiH+WhOKP
-         s7J69v88E9Rj4C3oGYjyx52x1HFzk8IHDVlcR2zXyPkILSAUPrRsr1z/0nKI5bxE4FfF
-         mGxLt4/bFTK65vknehiFKWKAo/nYFzrW2zzl6GXURAye62LQtp8yt0KxugMXHTtI/0zE
-         jXWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753998563; x=1754603363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4c29f/vxp+ZpDvU68i/43QALO7bFZz1jNRt6jP0X7NA=;
-        b=nQ67uAm5FPKmvn5OjNXY8cPlUn7PZl9RWxIsas2tfpsb+42IhEjgda115C4JeJy1tv
-         cC10qR6dNfC2a9IRphPe6s2Gt1X3+/5WzaQ7HnRKg7H13VH9L5clJE+7kG7rTnUAwCnE
-         NM6WKn4onOZZLXMHjCMa3OHTAHfUHFbqlN2lYToDL22XhsCpm49UPgofgGNgsxQSL1xf
-         uA6J7DDeieQ0+KcmAOfPYiwvVQlt4UYv9xYASqcWrzjVofw9UCDzOkFVSiXPKdidyqsa
-         ywBaWoMvtuwnFwwMQ63Xw84q974V67QoRCz5iRZmOP0DHb5n2cdzjS+Z2S0EwQWGcdQt
-         dEBg==
-X-Forwarded-Encrypted: i=1; AJvYcCXWTBWd2TuVvrddfwqSVdL9qOwKJfly0mxBWTArEEYOdGM/HNIzwLM99uncT/+T/Uvb4dpaEmi268cy2g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxopSZnt07EeKB/IHuPKvSyykvx3jZvdS+HX5P76u7J8zhQGpw
-	oNxBTfXj/8QX8oNsg/bf0cBk7aWHba98kDlxRdHqxj8tKTrW0xoT7j5OjajebPc5ppSbx2r3i7i
-	uh3YzkOyHO9EHuyydo9EVCgr0M2nVGxmYl62taUY=
-X-Gm-Gg: ASbGnctTf7DOh86ASg25zAnfPxQS+Wf3aEfHQ2/xok0RoopcbnhVWxPt6QWPzV7ImgV
-	uDplSF6qfMorWT0ofLacjVKJJ+BLDMHWUVXMKOuwutfUwijGT8mpGIk6W1HVoNxmlzAofNBwCRE
-	4zaTfOJGEROVBGw+BwatyGdtGIj2hgrCaVIvLJmnYnXU7HWvjD0icd3rKOQkfCYAJTKwBBF5v6h
-	08yfT0=
-X-Google-Smtp-Source: AGHT+IF8D2sr/JiAiNQTvCUOQZFl5OBjpor79Ab1Io8iaTM5luEmiS7GuwPXDeGMqChiRY13xfc1+DO2GGb+vvD7SCo=
-X-Received: by 2002:a05:6512:3f0e:b0:553:522f:61c9 with SMTP id
- 2adb3069b0e04-55b7bffc76dmr2724433e87.1.1753998563396; Thu, 31 Jul 2025
- 14:49:23 -0700 (PDT)
+	s=arc-20240116; t=1753999170; c=relaxed/simple;
+	bh=VTivWzBig8qO+f9kiueL0YgCcL2cFIHpCmHWMnbJp1Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EFzbUcGCLm/QFH92jYA7Is03fz47OQ2pZ8oNo7rTOIVDOxJkhOs5qnuSQnmluMNR9dsPN25X5EsHD17h9YugJxDOz9qHmp0ypiLg6W+MZg4HCbF9HD/f43fyl+ulloOwwfK8HkymIne2Hk8DXbCADLuSZEBGqSzJ/KUkvvLg8SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQ8SuycP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 93C55C4CEEF;
+	Thu, 31 Jul 2025 21:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753999169;
+	bh=VTivWzBig8qO+f9kiueL0YgCcL2cFIHpCmHWMnbJp1Q=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=SQ8SuycP/YmL6RGqwpSfq3y1YWu9Z9Tn5Oac8fEqhD8vq085r1zCVnnczeuECB3jm
+	 rtkOSUn9m9dFhYAjdUSq2knM1X+cS2dQGdyaJFC+NGVy9jPew2UizQjJWQyeR8/Qj3
+	 rTp2ni/xUeH46bUbzAMMYfbNl4PZJHq8IYxtzjkRdrjbhYUlmwq7EsQkdUPtwnJuS2
+	 Ci1YZokaFybIRYYOtP2GooOgp1BvsaMqXTmxfSQd+/KdHlYwXl9wPsG3V3L3krImje
+	 uoH0/h3Tl9mfn8tMuRJXa15IAkeXLLSitlc9zEj1NrHN9JnEiC72xHzEdQmZLLHvI6
+	 4mZBImTzE1VEA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1F2C87FD3;
+	Thu, 31 Jul 2025 21:59:29 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v7 0/3] PCI: tegra: Allow building as a module
+Date: Thu, 31 Jul 2025 16:59:23 -0500
+Message-Id: <20250731-pci-tegra-module-v7-0-cad4b088b8fb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALHNRZ98_gh5dKw_GoayG4ieU3TWYAFFt29=495g4+dNLzwjbg@mail.gmail.com>
- <73cbbuahttztsfkz36ndl7mla5dswo4wjqvzvuuajfuuxdo3gn@eiq3q2jniajw>
- <CALHNRZ_Tf=EPpPCpc60SF=um1oZ7gDnWdBxCfD=GrXUo6sOwOg@mail.gmail.com> <CALHNRZ9FE-WppDo02u3SkYjUkgtEpxj=H1V2pT_Stmtze3THpw@mail.gmail.com>
-In-Reply-To: <CALHNRZ9FE-WppDo02u3SkYjUkgtEpxj=H1V2pT_Stmtze3THpw@mail.gmail.com>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Thu, 31 Jul 2025 16:49:12 -0500
-X-Gm-Features: Ac12FXxf42lpDlxks88XBTIlM2tgKHzzS6Sc2FtLG4xCJl4cCq_xiZCx6tV9Jd4
-Message-ID: <CALHNRZ9LPpkwwVy517DdzOuHi4zhFuxdkYS5sQJsiSq9vuohhA@mail.gmail.com>
-Subject: Re: [BUG] cpufreq: tegra186: Denver cores do not register
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sumit Gupta <sumitg@nvidia.com>, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADzni2gC/4XPQWrDMBAF0KsErasijTSSnFXvUboYy2NHEMdBT
+ k1L8N0rp4ua2NDlH5j3+Xcxck48iuPhLjJPaUzDpQT/chDxRJeOZWpKFqAAldFGXmOSN+4yyX5
+ oPs8sfawbHZG9olaUt2vmNn09yPePkk9pvA35+9Ew6eX6i1lQW2zSUsmoSLehlKGlt66ndH6NQ
+ y8WbII1EHYAWACtydaVBmvdM2D+AFSwA5gCIDqylTfQePUM2DWAO4AtgAqhRoRoa72ZgP8BWIA
+ AnohiVYV6A7g14HcAt0xo2TjDREbBGpjn+QcAOCpn9QEAAA==
+X-Change-ID: 20250313-pci-tegra-module-7cbd1c5e70af
+To: Thomas Gleixner <tglx@linutronix.de>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753999168; l=1947;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=VTivWzBig8qO+f9kiueL0YgCcL2cFIHpCmHWMnbJp1Q=;
+ b=KNtTCfJzfNcIdkIiqUNgC5pYjwVCbgCsyt3Nc1YILP491nrjHJS8VDoZD1RNGygiRZ8ix5rcj
+ FUGA10pVnL9Dn+gVPl0fIO2uAY6mXjMAnv18S5+kITIONZ8ck7l9fQl
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-On Mon, Jul 14, 2025 at 1:21=E2=80=AFAM Aaron Kling <webgeek1234@gmail.com>=
- wrote:
->
-> On Mon, Jun 30, 2025 at 2:39=E2=80=AFPM Aaron Kling <webgeek1234@gmail.co=
-m> wrote:
-> >
-> > On Tue, Jun 10, 2025 at 4:20=E2=80=AFAM Thierry Reding <thierry.reding@=
-gmail.com> wrote:
-> > >
-> > > On Sun, Jun 08, 2025 at 10:09:01PM -0500, Aaron Kling wrote:
-> > > > The boot logs when using the L4T r32.7.6 boot stack without u-boot =
-show:
-> > > >
-> > > > [    2.648162] cpufreq: cpufreq_policy_online: ->get() failed
-> > > >
-> > > > I have traced this down to ndiv [0] being read as 0 for cpus 1 and =
-2.
-> > > > Prior to "Share policy per cluster" [1], this would also fail for c=
-pu
-> > > > 3, one of the a57 cores; but with the policy for 3 being shared wit=
-h
-> > > > 0, the driver no longer tries to read its registers directly. This
-> > > > issue has existed since at least 6.1, which is the earliest I've tr=
-ied
-> > > > to use Tegra186 on a mainline kernel.
-> > > >
-> > > > I've tried to compare this driver to the downstream 4.9 version, wh=
-ich
-> > > > does work as expected, but I do not see any differences to the
-> > > > register offsets being read. If I hardcode ndiv to 35 for the faili=
-ng
-> > > > cpus to match what the downstream driver gets and what the other cp=
-us
-> > > > get with this driver, scaling appears to work properly. But that's =
-not
-> > > > a proper fix. Does anyone know why the registers for cpus 1-3 aren'=
-t
-> > > > read properly while 0,4-5 are?
-> > > >
-> > > > Sincerely,
-> > > > Aaron Kling
-> > > >
-> > > > [0] https://github.com/torvalds/linux/blob/19272b37aa4f83ca52bdf9c1=
-6d5d81bdd1354494/drivers/cpufreq/tegra186-cpufreq.c#L117
-> > > > [1] https://github.com/torvalds/linux/commit/be4ae8c19492cd6d5de61c=
-cb34ffb3f5ede5eec8
-> > >
-> > > Adding Sumit who usually knows this kind of thing.
-> > >
-> > > Thierry
-> >
-> > Friendly reminder about this question.
->
-> Re-reminder about this question. Even a 'I don't know' and 'works on
-> the regression bench' would be useful. Though I would have followup
-> questions if this issue doesn't happen on the benches.
->
-> Aaron
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+Changes in v7:
+- Rebased on 6.16
+- Updated mailing address list
+- Link to v6: https://lore.kernel.org/r/20250507-pci-tegra-module-v6-0-5fe363eaa302@gmail.com
 
-Re-re-reminder about this question and the followup question.
+Changes in v6:
+- Remove unused debugfs cleanup function, as caught by kernel ci
+- Link to v5: https://lore.kernel.org/r/20250505-pci-tegra-module-v5-0-827aaac998ba@gmail.com
 
-Aaron
+Changes in v5:
+- Copy commit message exactly word for word on patch 1, as required by reviewer
+- Delete remove callback in patch 3, per request
+- Don't clean up debugfs, per request, which drops patch 4 entirely
+- Link to v4: https://lore.kernel.org/r/20250505-pci-tegra-module-v4-0-088b552c4b1a@gmail.com
+
+Changes in v4:
+- Updated commit messages for patches 1 and 2, per review
+- Link to v3: https://lore.kernel.org/r/20250502-pci-tegra-module-v3-0-556a49732d70@gmail.com
+
+Changes in v3:
+- Add patch to drop remove callback, per request
+- Link to v2: https://lore.kernel.org/r/20250428-pci-tegra-module-v2-0-c11a4b912446@gmail.com
+
+Changes in v2:
+- Add patch to export tegra_cpuidle_pcie_irqs_in_use as required when
+  building pci-tegra as a module for arm
+- Drop module exit to prevent module unloading, as requested
+- Link to v1: https://lore.kernel.org/r/20250420-pci-tegra-module-v1-0-c0a1f831354a@gmail.com
+
+---
+Aaron Kling (3):
+      irqdomain: Export irq_domain_free_irqs
+      cpuidle: tegra: Export tegra_cpuidle_pcie_irqs_in_use
+      PCI: tegra: Allow building as a module
+
+ drivers/cpuidle/cpuidle-tegra.c    |  1 +
+ drivers/pci/controller/Kconfig     |  2 +-
+ drivers/pci/controller/pci-tegra.c | 35 ++++-------------------------------
+ kernel/irq/irqdomain.c             |  1 +
+ 4 files changed, 7 insertions(+), 32 deletions(-)
+---
+base-commit: 038d61fd642278bab63ee8ef722c50d10ab01e8f
+change-id: 20250313-pci-tegra-module-7cbd1c5e70af
+
+Best regards,
+-- 
+Aaron Kling <webgeek1234@gmail.com>
+
+
 
