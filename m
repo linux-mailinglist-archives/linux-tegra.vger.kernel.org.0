@@ -1,110 +1,121 @@
-Return-Path: <linux-tegra+bounces-8394-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-8397-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBDCB23A07
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Aug 2025 22:33:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2066B23A9A
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Aug 2025 23:24:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C2571A27AE6
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Aug 2025 20:33:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F379A16D144
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Aug 2025 21:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA3862D0600;
-	Tue, 12 Aug 2025 20:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D2C72D7387;
+	Tue, 12 Aug 2025 21:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ey348pIx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFcZs2kR"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94A92F0693;
-	Tue, 12 Aug 2025 20:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB59A2777E8;
+	Tue, 12 Aug 2025 21:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755030796; cv=none; b=VN8NkeDywdTYeT9OQoFRFWG4Fs3Vm/lBT9ryEOuvMSU+jgXPpn4oWHz2s2//wmfWHzzYhMRzX7z86rKmrL/xYgCf8kXj+mFcqra/uEHldHFY0776Vnnk4Zs7CR/h6yMi/ZEb+ZxbuYvyPV0Xo+oVZNHiKSD/Ani1yQORyqq1TH8=
+	t=1755033885; cv=none; b=H8sJ1pL2NQGlPvpbTrEsqFc22l8wb771gG1rgPphqi+nJcVI7DEddYb8L04Tpfc/TbldR6XJunf9e463xyLTyXlG/a7010bZ0Z6Fk3VcjupDh9H2IKtbTXNcuXkzPVe2bBjKihCbfdAYbtHIuaN3o2VtII6cTWLjIrs3pbuPxUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755030796; c=relaxed/simple;
-	bh=uwbhXIneRmsaZaWvxLCpVQGXbk9Wr+ul8nmFQxg5e64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YVJABLHpkP7gJ2CWKX7OhHJSZ16Plv3Hv9SpCs0j2CbrrAXmUKo3RoweJyh/GVlEWQMSbGXsDuYlnsNHxdOeMmgniJUppjCTPWHkp/NX1Q/vu0mT8sOM+LEe37YpJEVD739Vcc8Lo6mR0cQ7n7OETOKwMBEimYyWp5sAfmwYKhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ey348pIx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B056AC4CEF0;
-	Tue, 12 Aug 2025 20:33:13 +0000 (UTC)
+	s=arc-20240116; t=1755033885; c=relaxed/simple;
+	bh=Dpv1oPQG74ZYLF+MG89cus6fJnJbgGSnLUHZdOkHhkA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nBNnVeFlXN++kbjxmtVttdIit8FYhMj3gTSq3WC9zlRXaHavB4MzsDbtS4LPmbHsb2B77ZAxNFVQYqvF/3HFDStezN7H3v1SKRFqTkshtU19QBPCrw7febDuH4DWGYnpothq0dHL9/inR8wWEJ4UDyF8RoHRL7b4XJz5s/BCVqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFcZs2kR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 673AEC4CEF0;
+	Tue, 12 Aug 2025 21:24:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755030794;
-	bh=uwbhXIneRmsaZaWvxLCpVQGXbk9Wr+ul8nmFQxg5e64=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ey348pIxSmFm/UuOuwlV3pkJy5dMXtVoasKq52qo7O4uY0j2SJbbn6qngNNJBcBHW
-	 X9Q11QGg5IQebv64cEGTwnMIF9xB37Qt9OLbVilFMMjHJvXxfkIU6RzPd0tUgwLroD
-	 AsYkvpxBbdzty+v9+//6RFeHzYdGtfyw4KN3+jfi09MUXZnHbJ9r5SeuNSy9yO00jX
-	 /sek+IMGEQ+w4vh8He+bZr0DZwnm0tNdAOnKEs1SoNwjsMv/vxJlrM9uoBrVzOQwWm
-	 q9J0P581vrR5fy1MVSAenZ4R+9X95afhO9ruvsra9bIpGn3ropkCR580C27pEcTfgZ
-	 D0kKpJoI3CQQw==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: dma: nvidia,tegra20-apbdma: Add undocumented compatibles and "clock-names"
-Date: Tue, 12 Aug 2025 15:33:07 -0500
-Message-ID: <20250812203308.727731-1-robh@kernel.org>
-X-Mailer: git-send-email 2.47.2
+	s=k20201202; t=1755033885;
+	bh=Dpv1oPQG74ZYLF+MG89cus6fJnJbgGSnLUHZdOkHhkA=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=aFcZs2kRnESxCNSzFaIigjm+lJrVETBlzHhA1EMtyoMOI1xv+V0BUJRt687FbE1KM
+	 2xDVQEuGFwrkSBtcrzqAbdJGYIP1LYRILpuJQC05WNdjhneCRz/Nz9OvpxKx42kzz4
+	 fCYG80IfyC2WsFDWXmyApFS39X9aEmhdbwL7isAuxDbp9rjxgSZWxZzdUmjEdBvVrz
+	 vsFai37kQAyoPicAJYML1ei81toATNuuzEznbY2dlRUzlq4p+khkD7mOekCNnnSW6k
+	 HAGDt5uv9ofNeYeahdmDMbWo1xCUL/zhOM1ulvJ7o5UoXax4jx1jw3c+aQhcWSBXP1
+	 MxSjMwTafoU4Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5807FCA0EDC;
+	Tue, 12 Aug 2025 21:24:45 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v3 0/3] pinctrl: tegra: Add Tegra186 pinmux driver
+Date: Tue, 12 Aug 2025 16:24:39 -0500
+Message-Id: <20250812-tegra186-pinctrl-v3-0-115714eeecb1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABexm2gC/23OSw6DIBCA4asY1qWBAVG76j2aLhQGJfEVMKSN8
+ e5Fu2iTdvlPMt/MSgJ6h4FcspV4jC64aUwhThnRXT22SJ1JTYBBzgQr6YKtr3mp6OxGvfieqpx
+ b2zQNllyRtDZ7tO5xkLd76s6FZfLP40Lk+/SNSah+scgpowWALrQEUUm8tkPt+rOeBrJjET6A+
+ vdNhATkDIzkViAa8w1s2/YCxaQ4DvEAAAA=
+X-Change-ID: 20250308-tegra186-pinctrl-651ffbbbe816
+To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755033884; l=1385;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=Dpv1oPQG74ZYLF+MG89cus6fJnJbgGSnLUHZdOkHhkA=;
+ b=+vr+CNjojq1xVphpGn0Tq+9eXtmNHftCVnsWUizbQ1tZ7hiFuCn5eBh7/C3TuIBy7UF+eAKG5
+ iQ8k4EUtK1rBoyxoD+0U3yNUsA/uH74/dCNzeRMRCVDRZM6kUWDxJ3a
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-Add the undocumented NVIDIA APBDMA compatibles and "clock-names" which
-are already in use. There doesn't appear to be any per compatible
-differences.
+This series adds support for Tegra186 pin control, based on a downstream
+driver, updated to match the existing Tegra194 driver.
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- .../bindings/dma/nvidia,tegra20-apbdma.yaml          | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Changes in v3:
+- Fixed some spacing and formating issues in patch 2
+- Link to v2: https://lore.kernel.org/r/20250608-tegra186-pinctrl-v2-0-502d41f3eedd@gmail.com
 
-diff --git a/Documentation/devicetree/bindings/dma/nvidia,tegra20-apbdma.yaml b/Documentation/devicetree/bindings/dma/nvidia,tegra20-apbdma.yaml
-index a2ffd5209b3b..ea40c4e27a97 100644
---- a/Documentation/devicetree/bindings/dma/nvidia,tegra20-apbdma.yaml
-+++ b/Documentation/devicetree/bindings/dma/nvidia,tegra20-apbdma.yaml
-@@ -18,10 +18,17 @@ maintainers:
- properties:
-   compatible:
-     oneOf:
--      - const: nvidia,tegra20-apbdma
-+      - enum:
-+          - nvidia,tegra114-apbdma
-+          - nvidia,tegra20-apbdma
-       - items:
-           - const: nvidia,tegra30-apbdma
-           - const: nvidia,tegra20-apbdma
-+      - items:
-+          - enum:
-+              - nvidia,tegra124-apbdma
-+              - nvidia,tegra210-apbdma
-+          - const: nvidia,tegra148-apbdma
- 
-   reg:
-     maxItems: 1
-@@ -32,6 +39,9 @@ properties:
-   clocks:
-     maxItems: 1
- 
-+  clock-names:
-+    const: dma
-+
-   interrupts:
-     description:
-       Should contain all of the per-channel DMA interrupts in
+Changes in v2:
+- Don't allow underscores in node names in patch 1
+- Rebase on v6.16-rc1
+- Patch 2 was picked up and thus not in the rebase
+- Link to v1: https://lore.kernel.org/r/20250429-tegra186-pinctrl-v1-0-722c7c42394e@gmail.com
+
+---
+Aaron Kling (3):
+      dt-bindings: pinctrl: Document Tegra186 pin controllers
+      pinctrl: tegra: Add Tegra186 pinmux driver
+      arm64: tegra: Add Tegra186 pin controllers
+
+ .../bindings/pinctrl/nvidia,tegra186-pinmux.yaml   |  285 +++
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           |   12 +
+ drivers/pinctrl/tegra/Kconfig                      |    4 +
+ drivers/pinctrl/tegra/Makefile                     |    1 +
+ drivers/pinctrl/tegra/pinctrl-tegra186.c           | 1979 ++++++++++++++++++++
+ drivers/soc/tegra/Kconfig                          |    1 +
+ 6 files changed, 2282 insertions(+)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250308-tegra186-pinctrl-651ffbbbe816
+
+Best regards,
 -- 
-2.47.2
+Aaron Kling <webgeek1234@gmail.com>
+
 
 
