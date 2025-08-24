@@ -1,52 +1,81 @@
-Return-Path: <linux-tegra+bounces-8635-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-8637-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384BDB32CA9
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 Aug 2025 02:08:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F124B33239
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 Aug 2025 21:05:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19B9C1891B69
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 Aug 2025 00:08:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 349E117FE7B
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 Aug 2025 19:05:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7383D4A28;
-	Sun, 24 Aug 2025 00:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7A63238149;
+	Sun, 24 Aug 2025 19:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SS6KRbjr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xt+BweIj"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92A728E7;
-	Sun, 24 Aug 2025 00:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7529D221FB6
+	for <linux-tegra@vger.kernel.org>; Sun, 24 Aug 2025 19:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755994092; cv=none; b=lkVSvkWYsjrZZTexOAYK90kO/SgEuqAcNHOLsAe/9pJeOSShEo7M8uNRJVbcmHUl0Z9AHBA5V+6oZ22zUrrgvHbOOtQTrt3GH0G4UZ1Ext6VUW3PvDSaUam8sHCOoi+MIBpovNHP3dm7Jh64CxF63f6Fw4NOjXo0f2hDy0+McTE=
+	t=1756062293; cv=none; b=hOYL7U7SfOsN8co0tZvEWbbpjcQI1w1VW6QkJgCmk74ToCCBX/LpDGX/p63bDni7Gb/DwnZtMRNrTklfx5JXkHFMYAdPVSkY2PHFWb5zTyWPOmE0Qnx/1WPu2ZLDeNaugER4RtuYXFNh95cikWclJDM+0S39B05U3245zKYkDMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755994092; c=relaxed/simple;
-	bh=p6tdH8tBUzTt3XM9QotbHtv99ePeCk312qZmjfd1qS0=;
+	s=arc-20240116; t=1756062293; c=relaxed/simple;
+	bh=UP+AYol+DY8UTEmT5RaSgfZsggShtTb7514fxVj9jCY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mAD8+jIHWKUKwVUoALQU/6JKGt7qNIzs4pKUUCcK7CZjaWAVBvErvCY8D4g5SBpFZt0SWC+sILpJdUqGK3jW69QISGpZhE9fwPoAKBw0P1ywsY1cRkuVfMgvlANuW7UUj7iMFpPrqiBNQL8+avc9Y/ZOqahLbob0kPisBZsPZaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SS6KRbjr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Ht26JN6V8aJTQSiAdIEAXi691XkBeaZpaNivjGEiewE=; b=SS6KRbjrVcqOSsWL5xnae64XvZ
-	lhA1rbp/6RT3BrbzxWLxiiqbhKyln8qBquir2RAOdfq5NmNvargMVGKQxzMBauHfkLcbOJx/P0h45
-	8+Yp0dpURrNab+GT+ulQoYCvOMMFvOIbG87uAYik2in3/TTTL7QIK0kDX0ZHKYEvKv76MsZao/DHZ
-	nILNaJlsAr1xlWYl5WP8CRRt7x/uaVZME4GyHPduFZefxoZBW4CAxBkMGVw5AiNcbdt6UiMFdCvdp
-	UBDwHLgQgjuLIPB/1UOR7/bVNqMl9B3YaggYND54f4Z+wY0fp4wItmk5cIyD+shRKJAGOBjMQwrWc
-	h8TIli3g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upyHG-00000005U69-021J;
-	Sun, 24 Aug 2025 00:08:06 +0000
-Message-ID: <d35459bc-cf52-4fd5-886a-e9f6db7fda5e@infradead.org>
-Date: Sat, 23 Aug 2025 17:08:05 -0700
+	 In-Reply-To:Content-Type; b=cy12Y/rar2A76nOJhrTYJamJlqfXrX10kPXPVILNvNwG4FmLpqnA02eRNyA+IVQgRgtkgB43HnuYjbWE87Ycb2onswvPcBwsBOWWFOQ3KnnwlfDRo+88GGwPzgQX222iOMeApbsycpwqD4b97IOhBiUud8M9XdoPPQkPVPWhPxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xt+BweIj; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55f452b678dso17963e87.2
+        for <linux-tegra@vger.kernel.org>; Sun, 24 Aug 2025 12:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756062288; x=1756667088; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=xt+BweIjZ9gyWWKUxS3RYMaB9pwRpO0pNpbeP7xasGsGNN3QfOMFeqP+AWSUB7CXi4
+         K97dymZmnzLNS1iLlmg2YltHWBEmCqaIgLBcKAgsh0Tnj3B5vmBdu0id3heOFTxKnvUu
+         PB6FHw5Z5s/TkvosfV4u/Ycpdtmyv6KQMOcV1tY13CT8jAY0yNG4Cp/3UTL3nuQ/+fha
+         CM2VayOWDYdmBasVIGxZNqKn+fvgHGMM5g/J1Xi/0GUVuRl8jtYo1bWQkUfBEFExf52I
+         u5CWucaLQcCI8kIZxu4dbrGLuhmzF+SFQ51k2VfN2GP0XFPZQ+PC7gE0CsvN4k1twteR
+         90Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756062289; x=1756667089;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=hv4EmA+vwjuSIyL6juxJTGuBSXylP3GhYZenAgWIfJScjTHOESP+mf25q6HAkm7I86
+         cLLBlwR+lIiNAl25bV02C+NKPjYYcRNyEPkcfS6l9FvP4Sh/FGIM1cUABqu6ffIakLjt
+         WkQy4cKqyKRIUPNiWfUf7arr4srTpqnZQdFraOeZUBd/aNEbvMd1FZnXRyEzCOt5uOYi
+         8NrbCpnGjkHivXbhklOBXZPHEg6a3Urwi0fKlwEsPM/xUSwSO15PMojFUJ64ZJDQVgBu
+         6KpXT9536bMy11u+1CUzfHKaQ8lBcQ1K06shrqU5e+g2PqNauIZIC0BGRe6T8h3dQJcV
+         iSZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWaCRA7NjkGUWbrRdOa+kRKZTY6wqPzuqnnC5JBjcX6t2VdEa7NE1EJyoifNKe6JeBRSCP0jIy2NgmDpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywcwb7A0mIHixczONuPZRULobVV0bgI63DDLDEZyXVx96UKFUNJ
+	dNVyIygCqzzRNFqFr6nKg87R/IypLvk9mc8r04wpEoSZ0PSu+X+/HnqjTVYoG6Bvh3Y=
+X-Gm-Gg: ASbGncvpuif29QD1sBZrSJb2PnbGrP73pym92FezlETgUlPnLbNwWORQNOMmb0csgr8
+	/jCQS4sgjHvsOvAvuLRcIxBeDZYB1pOpFWGrgaGdcgce5XvFCSJfaKCNZnIUX7OYTvAfzctWD1i
+	ESLjy9StL1uqJ4SdmccY3Iq5uNJxaWbmfCAPq068Loa/3QiJBCPNxjrOhaIi/EZVAczx9j03Ilc
+	S1d7Z9ey7G8VhhGSSYFToXn2yu5XHqwTHmpblyg0oC471O1Gy6vS1DSGpEaspQk9p0hiDwKtL3b
+	3qTzVMTHKOIlXyOG4tHJiPuqUFmrYMwnmK2vgd8XO1cV3flUtmrIN0xH7QcKrQxOYnREA1A6Agk
+	841hSTab4/8Ij2LJQNZNkRabKXu25iXeqwXD9jCYLNDAeUAa4gE6Z0FFIm9o/VEroM5UfGxW1TQ
+	0O
+X-Google-Smtp-Source: AGHT+IFyrm2w79r4qu/FnmHu4qBJdoxQ8tpCUb7HA7mtPlKxjeyzi9xJQ9J7AuBmZ4uek0zzq2ON9Q==
+X-Received: by 2002:a05:6512:a85:b0:553:24b4:6492 with SMTP id 2adb3069b0e04-55f0cd6ef0bmr1246189e87.5.1756062288277;
+        Sun, 24 Aug 2025 12:04:48 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c8bb4esm1204996e87.75.2025.08.24.12.04.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Aug 2025 12:04:47 -0700 (PDT)
+Message-ID: <fb733991-857c-4a5b-ba20-d8bd557a4339@linaro.org>
+Date: Sun, 24 Aug 2025 22:04:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -54,104 +83,109 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] cpufreq: CPPC: add autonomous mode boot parameter
- support
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
- ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com,
- perry.yuan@amd.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- bbasu@nvidia.com
-References: <20250823200121.1320197-1-sumitg@nvidia.com>
- <20250823200121.1320197-8-sumitg@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250823200121.1320197-8-sumitg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 19/65] media: camss: Replace .open() file operation with
+ v4l2_fh_open()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
+ <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andy Walls <awalls@md.metrocast.net>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
+ <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi Jacopo, Laurent,
 
+thank you for the nice clean-up.
 
-On 8/23/25 1:01 PM, Sumit Gupta wrote:
-> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
-> autonomous performance selection at system startup. When autonomous mode
-> is enabled, the hardware automatically adjusts CPU performance based on
-> workload demands using Energy Performance Preference (EPP) hints from
-> the OS.
+On 8/2/25 12:22, Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> This parameter allows to configure the autonomous mode on all CPUs
-> without requiring runtime sysfs manipulation if the 'auto_sel' register
-> is present.
+> The custom video_open() function in the camss driver open-codes the
+> v4l2_fh_open() helper, with an additional mutex that protects the whole
+> function. Given that the function does not modify any data guarded by
+> the lock, there's no need for using the mutex and the function can be
+> replaced by v4l2_fh_open().
 > 
-> When auto_sel_mode=1:
-> - All CPUs are configured for autonomous operation during driver init
-> - EPP is set to performance preference (0x0) by default
-> - Min/max performance bounds use defaults
-> - CPU frequency scaling is handled by hardware rather than OS
-> 
-> Also ensure that when autonomous mode is active, the set_target callback
-> returns early since hardware controls frequency scaling directly.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-
-
-> ---
->  .../admin-guide/kernel-parameters.txt         |  12 ++
->  drivers/cpufreq/cppc_cpufreq.c                | 171 ++++++++++++++++--
->  2 files changed, 168 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 86f395f2933b..ea58deb88c36 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -911,6 +911,18 @@
->  			Format:
->  			<first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
->  
-> +	cppc_cpufreq.auto_sel_mode=
-> +			[CPU_FREQ] Autonomous Performance Level Selection.
-> +			When Autonomous selection is enabled, then the hardware is
-> +			allowed to autonomously select the CPU frequency.
-> +			In Autonomous mode, Energy Performance Preference(EPP)
-> +			provides input to the hardware to favour performance (0x0)
-> +			or energy efficiency (0xff).
-> +			Format: <bool>
-> +			Default: disabled.
-> +			0: force disabled
-> +			1: force enabled
-> +
->  	cpuidle.off=1	[CPU_IDLE]
->  			disable the cpuidle sub-system
->  
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 5e1bbb5f67b8..bbf654c56ff9 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-
-[snip]
-
->  
-> +module_param(auto_sel_mode, bool, 0000);
-
-Hm. Is this changed to readable at some point or
-does it stay invisible?
-
-> +MODULE_PARM_DESC(auto_sel_mode, "Enable Autonomous Performance Level Selection");
-> +
->  module_exit(cppc_cpufreq_exit);
->  MODULE_AUTHOR("Ashwin Chaugule");
->  MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
-
-For Documentation/:
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
 -- 
-~Randy
+Best wishes,
+Vladimir
 
