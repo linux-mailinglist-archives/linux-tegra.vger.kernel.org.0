@@ -1,107 +1,115 @@
-Return-Path: <linux-tegra+bounces-8834-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-8836-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF1AB3B053
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Aug 2025 03:16:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43A2B3B125
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Aug 2025 04:48:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BBCB1C261B6
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Aug 2025 01:17:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 337BB1C83B53
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Aug 2025 02:48:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A60531C5D6A;
-	Fri, 29 Aug 2025 01:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94BAE21FF23;
+	Fri, 29 Aug 2025 02:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="slMLHvHy"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D497C1E50E;
-	Fri, 29 Aug 2025 01:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF74202C2B;
+	Fri, 29 Aug 2025 02:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756430200; cv=none; b=Al0MR3AJrtSNQB0sT1xGGxOpzzS4vRd31AY40j+pVR71jA0onWAvAiaJU/XJZgyYIByY+hzaZTJMIHD8BlpElGTfEO7zyMwZc5V0X2ZWMErhIH/gKNRCqliCIK1VJX/OsHxqeASehRMLcfnjINyWwgcLKUAor26sW/8MqEmLJI4=
+	t=1756435696; cv=none; b=kYWy5fmuUm6do44z+tEt17tFQo6em017gVEGaVekHzFEIpetVLFynBFFAJa6z7Fmujmquj3a3FAroNQzbBFNmDDyXDREajfWHqfZveIsc9e2rcuTDx6XnzN9w6UnsK4x5AZwp+3PYjpsOIZ9BMYzZ04ez5rb8wQopBsuDtgPyCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756430200; c=relaxed/simple;
-	bh=jyNEnstPpCxpbVZvmvw4NKKFu1d004FKb28fyp+CFGs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lD2tA21EayqmgzBYeEOtCt/KTxiN8bG8paTSVhK1YuPJ8Ng+yt3AApRpJTXWNyhcPIAPb2flsbGpf7awU88IJoC2/4tAdZuJEu+eD7p6apyRYO8DrJkM/WbTV7GPD2Tmdow9prILfasXis5kF6U3rltl6Rvp4f/I5joGyuPqszM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ca8b0a90847511f0b29709d653e92f7d-20250829
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:c6144118-40f8-4290-a542-c021c54fe52c,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:20
-X-CID-META: VersionHash:6493067,CLOUDID:c35cdfd2d88bc5c26236ec2aee26221b,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:5,IP:nil
-	,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
-	1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ca8b0a90847511f0b29709d653e92f7d-20250829
-X-User: xiaopei01@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <xiaopei01@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1134852438; Fri, 29 Aug 2025 09:16:29 +0800
-From: Pei Xiao <xiaopei01@kylinos.cn>
-To: sboyd@kernel.org,
-	thierry.reding@gmail.com,
-	linux-clk@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Pei Xiao <xiaopei01@kylinos.cn>
-Subject: [PATCH] clk: tegra: super: Fix error handling and resolve unsigned compare warning
-Date: Fri, 29 Aug 2025 09:16:24 +0800
-Message-Id: <03d0c47832c7a0fdc19733d15077197ad2c54946.1756430095.git.xiaopei01@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1756435696; c=relaxed/simple;
+	bh=F7mq3mQpR2KiFF/AsoLrSfDqZtvtQRQwU8TA3URhotg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iNB3zT1DqjS50o/kDBl+SNkF67/kXpU7AB/h9WddmLeZ77GqQmkYEh0xStfE5r+s4JuJypz/UVbYGx6QjiZiXBpp3ZOdmnetK0oJaxvleLq3rPWR5TgMEPTKFpJHdXadSd6XRPHgK3QiX9FFwSH7+10llpEoHtpl/Hj3DlSnbng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=slMLHvHy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6A8BC4CEEB;
+	Fri, 29 Aug 2025 02:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756435694;
+	bh=F7mq3mQpR2KiFF/AsoLrSfDqZtvtQRQwU8TA3URhotg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=slMLHvHyafDhPCe0/9oRwMQ2RedSYZsT+qxvwejiuTQF6Wb+dDxq6vODJcy9cmRxu
+	 3ozzxwpI/u/ZS0LEGDbX/5JMSRhhlqRlyni0bBRByRwGSB7vgfPg4OroxC5/FkpwX8
+	 +Lc3+GLSgkYT7rQS9tPwLjE096tbF/e6I7uH9KOeYj1VvLlWQLmbdRfXLa/X6u6YHe
+	 USX0npNafB3OcGXgyT05Gr93xK7/pz96lmYg337GEGkp0Klu7Yl9ESgb8dOg49Fbep
+	 8psESQSkj487WDX3qqR62W4FwbJdZ29Oo+an244qxOko/JSiuyncgfnzjGOu0LOsIP
+	 FNtpRnhU/XgtQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1554C8303F;
+	Fri, 29 Aug 2025 02:48:14 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v3 0/2] cpufreq: tegra186: Fix initialization and scaling
+Date: Thu, 28 Aug 2025 21:48:11 -0500
+Message-Id: <20250828-tegra186-cpufreq-fixes-v3-0-23a7341db254@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOsUsWgC/4XNTQ6CMBAF4KuYrq1pi0Bx5T2Mi9LOwCTyY4uNh
+ nB3Cys2xuV7k/fNzAJ4gsAuh5l5iBRo6FPIjgdmW9M3wMmlzJRQudCq4BM03khdcDu+0MOTI70
+ h8BJrRC1toY1iaTx62A5pe7un3FKYBv/Z/kS5tn/JKLngVYmVdhkI4+pr0xl6nOzQsZWMas/on
+ 4xKDFpEODuQIPM9syzLF+p8uT0DAQAA
+X-Change-ID: 20250826-tegra186-cpufreq-fixes-7fbff81c68a2
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Aaron Kling <luceoscutum@gmail.com>, 
+ Sumit Gupta <sumitg@nvidia.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-pm@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Aaron Kling <webgeek1234@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756435694; l=1054;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=F7mq3mQpR2KiFF/AsoLrSfDqZtvtQRQwU8TA3URhotg=;
+ b=hcKAb77AQTURPlJpbuRsaDf23cZNJC0uF3xq1QlBO+4Q1VRhNuTeQHpmXNZ4jVjEyAgD+AEq7
+ Wi0QuMejFeZBR2lqd5CUVhAlkWGvjLMtIkcpD6XCw07MIo0qWZGINYQ
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-./drivers/clk/tegra/clk-super.c:156:5-9: WARNING:
-        Unsigned expression compared with zero: rate < 0
+This series fixes an issue with shared policy per cluster not scaling
+all cpus and with some cores being initialized by the subsystem.
 
-The unsigned long 'rate' variable caused:
-- Incorrect handling of negative errors
-- Compile warning: "Unsigned expression compared with zero"
-
-Fix by changing to long type and adding req->rate cast.
-
-Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- drivers/clk/tegra/clk-super.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v3:
+- Use more clearly named variables in patch 2
+- In patch 2, fail probe if no cpu rates reported by bpmp
+- Link to v2: https://lore.kernel.org/r/20250828-tegra186-cpufreq-fixes-v2-0-fcffe4de1e15@gmail.com
 
-diff --git a/drivers/clk/tegra/clk-super.c b/drivers/clk/tegra/clk-super.c
-index 7ec47942720c..643b3cb83cd0 100644
---- a/drivers/clk/tegra/clk-super.c
-+++ b/drivers/clk/tegra/clk-super.c
-@@ -147,7 +147,7 @@ static int clk_super_determine_rate(struct clk_hw *hw,
- {
- 	struct tegra_clk_super_mux *super = to_clk_super_mux(hw);
- 	struct clk_hw *div_hw = &super->frac_div.hw;
--	unsigned long rate;
-+	long rate;
- 
- 	__clk_hw_set_clk(div_hw, hw);
- 
-@@ -156,7 +156,7 @@ static int clk_super_determine_rate(struct clk_hw *hw,
- 	if (rate < 0)
- 		return rate;
- 
--	req->rate = rate;
-+	req->rate = (unsigned long)rate;
- 	return 0;
- }
- 
+Changes in v2:
+- Set max freq instead of base freq in patch 2
+- Link to v1: https://lore.kernel.org/r/20250826-tegra186-cpufreq-fixes-v1-0-97f98d3e0adb@gmail.com
+
+---
+Aaron Kling (2):
+      cpufreq: tegra186: Set target frequency for all cpus in policy
+      cpufreq: tegra186: Initialize all cores to max frequencies
+
+ drivers/cpufreq/tegra186-cpufreq.c | 35 +++++++++++++++++++++++++++--------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
+---
+base-commit: 1b237f190eb3d36f52dffe07a40b5eb210280e00
+change-id: 20250826-tegra186-cpufreq-fixes-7fbff81c68a2
+
+Best regards,
 -- 
-2.25.1
+Aaron Kling <webgeek1234@gmail.com>
+
 
 
