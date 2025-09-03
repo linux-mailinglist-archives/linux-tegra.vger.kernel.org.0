@@ -1,157 +1,280 @@
-Return-Path: <linux-tegra+bounces-8968-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-8971-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9448CB42495
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Sep 2025 17:12:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68ACB424D6
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Sep 2025 17:18:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DB141BA2786
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Sep 2025 15:12:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A962188CA61
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Sep 2025 15:18:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B221F4C85;
-	Wed,  3 Sep 2025 15:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF7E237713;
+	Wed,  3 Sep 2025 15:15:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="pomIhLVH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Df2LGZhI"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468661F7575;
-	Wed,  3 Sep 2025 15:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D0F233136
+	for <linux-tegra@vger.kernel.org>; Wed,  3 Sep 2025 15:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756912321; cv=none; b=cMH+OUKRLKxLCTtEjnPGdGUFWUjEf5isi1zaBePQitaUZ/8qKR8lqovMiYWLRFfgIr1YgopXNdNC1dAWx9MqLNwoZBVJyv4XWfSl7DURazeUS9ByzdoQVkzdXSNJyn0Y4vesgECq0xuqtBhgRI4ItjEETvtGMYQqR+qVNejPMqk=
+	t=1756912540; cv=none; b=aBAB/ltWjQJz2rEIPwdpB7sAcEKdopC6mtXZDQwazjn7jAxU2vY6jgU9z7lAup3o3XWBpF+ASu4arDT7J2EYefeHUelTCos5wZ7XmQKJnBUPaSbay00WYtDwudlS0M1TD1lk63cCFc98JT+Ssa6nXjJAI3WCinEQCqWsCPus4JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756912321; c=relaxed/simple;
-	bh=fuzzdqflWKxJG/2KMhMC5oLTglkqDdupgl8/Aw9toTA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=plIj5bLt/4NOuW20jekEKHU2A/CCA/cL9OdZ7nkXDk6fB3N9ixk26i1bU4vjyJ1DJGaTvBCcqipyJXpTdJFMeBktpwhQ0B1anYhoFIDqNS+5/rUC1LtA8VuQI5FfZl101C3Q9YIhzmUiVUhu36PYzHF5TUTshfayGEXeoDA+lVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=pomIhLVH; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1756912313; x=1757517113; i=markus.elfring@web.de;
-	bh=fuzzdqflWKxJG/2KMhMC5oLTglkqDdupgl8/Aw9toTA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=pomIhLVH9JpLeqymo/d6RPIY+zdP+2nKSmCeyVnbvLEg4q1/gsmMg/guDps1k41B
-	 +1MG5242Xe1kxgnvY2XMqi/zP4ewofH8eLUTZ6ikkiouSW2bq+WMSZUZSDNgvliHR
-	 sujKAllYvopJCy6rZjj/I5hH2jyUdrnARm7njF0LHZ8+rTWBabtvbXf4hAv2bisa4
-	 5IR2idZTifeY39ZhbTGgW4QtlURq9vc193j7aE7evXZG7knJyhrTWQSkUdb1F+wrp
-	 SQSUVLTcUZwkNZh9qWQT/gKlYh4bfBJzGbb0nZOzPjg+pyViTNM56UZjVv1Xreivb
-	 R9WBQp/p6cAnIhD3Pg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.225]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mc1VL-1uKTzy0p7H-00ed5L; Wed, 03
- Sep 2025 17:11:53 +0200
-Message-ID: <a111df8d-0e1a-49d0-8bd4-9b41c60151d6@web.de>
-Date: Wed, 3 Sep 2025 17:11:51 +0200
+	s=arc-20240116; t=1756912540; c=relaxed/simple;
+	bh=Xu0cBEqi7Psy9OdAnHfnNSejeDcVKnoUS6N7NxTCby8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ffr7xSYDC3P8KyIIaPcLjfUdaZ9wG4QyenFoWzLKlQaZMzCd0/Ldv91rgG8CO0lio4DGYXU+wJDZudt65TXN6xDFQsZLLUdf1LBp9qof7u5u2RtrCJ3A3+ORXgE2lvoVs5d+g5FRNZ46D7I5Uxo1w0zxykx3T4JkcmLZccwsCFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Df2LGZhI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756912537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LdY3eJT+Y0XdvlnzE2zEJKsg9kAaBz/9qglzunIg0gk=;
+	b=Df2LGZhIZJGPiK5iGSSSaHoU9ZBn8wR6UjyO+jzZVom3CDfh8h3EcIVjHJOiCweainLdVp
+	SCGQQ1Y58c2/ltcAW1yS8/LfzborBZQ8u/wPPl2MyLZot+XH6pTwJzxq/Sy8+PVEUyQlu3
+	Vil9PXsl1fnDIaO1e9PW7FrnW8OCZmU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-684-gtaND0Z2OeexaRfIrWkuxg-1; Wed, 03 Sep 2025 11:15:36 -0400
+X-MC-Unique: gtaND0Z2OeexaRfIrWkuxg-1
+X-Mimecast-MFC-AGG-ID: gtaND0Z2OeexaRfIrWkuxg_1756912535
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-726aec6cf9fso10790876d6.1
+        for <linux-tegra@vger.kernel.org>; Wed, 03 Sep 2025 08:15:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756912534; x=1757517334;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LdY3eJT+Y0XdvlnzE2zEJKsg9kAaBz/9qglzunIg0gk=;
+        b=YJblervPl4QBrvvJY/UXxu5nl9y8j8c6dn9Wn9vWPaqQ8UsNr3ZWcsVyTD1s2Pl8x9
+         fgO4uXoRylyoXrLjgkFIL3lLqpqNyl143OR2QiD+wuUzEUMOlTyBlvrebarSjSDyXMOA
+         YuZKfIKoNy8r7WuZjnk/EaNIP2Y0lXTif8AVTMnbkJshLA8yS8/pVHl4OXdiOQLTFztb
+         +NZuSwYqh7beVIOLfzLZg6xYdihPOvkiV1xSqTBSV4zqOCqK91d/7FbUYX3geZ2w3Rdi
+         aCXla1s4A1SUfspLA1duFXVPzqa0knEhmPnVSuk4D98YzlzF0Qyi2GIWoi5ACnHOmods
+         UEug==
+X-Forwarded-Encrypted: i=1; AJvYcCXMwy9rGpA0kNQmECWgGRNPgOXAQWmdNbcj2BEsCi/EUuTCqsodfNIXi6IqyCSG2gq3Q3t+jy73aqAnQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVmF4UzUdsHIc01HrS9eTsZaTBz7EME4nJKWf3d+Ata/Z9mCu4
+	Y6hjI1EVHneaYxyuQSxmuTgDfq9KhqPCXfNiCS+4iqUpcGc8h+vYElPfuE8a/GZiIy+fg4mKgI6
+	9fzTdHQHojGgyOiHPmMtiuHpSnV+8wif+2GNH2iJXy7t34RnQnzA1i3uPKuyAV9w5E5mcttDKUu
+	c2suXnG/Txzt7KTNkZ3RlNgbmdcYzGLlkP6aPFySzPMSZa7h4=
+X-Gm-Gg: ASbGncs0YOoO2qFO73bWf5gJczZVqraPimjCQTrAG/VMz1VyIJyoGEFLdUIzT2/sG76
+	wM+yw41uF1GDRyfsE21+0OUpz/aCPRfV1g5uPrA02DrmIPuoafPqjPCVdc+/XNPZuyKfHA7LZzM
+	QDLH+sZqIpeLb957otykuxI9Fwf9qTTlbPwA277CKphOshDTu2Dqw+3l+rzP9Vw2m0rDgJZl+AW
+	kayk0ThYq7Oj18xLhHy8ZuLpsDTHU/wae3wAJODAumq5KOVIy7n6LPHq/V0IM8+rtMTK0uS1ylM
+	WigCTFnNgfjXMbwbeQmCVHho6o7b3ChBVVcrHcfX94LmbArVpDDHoHlWYxND4dAeA3s2QctMIlE
+	=
+X-Received: by 2002:a05:6214:76d:b0:716:17e0:2466 with SMTP id 6a1803df08f44-71617e02b67mr159467926d6.34.1756912530478;
+        Wed, 03 Sep 2025 08:15:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkWebP2Qk177v4NSM1pvKjg7uVb9XRiSsSjX1ArIElnPlsqqP/rGsp6ulP8idla98+4xureg==
+X-Received: by 2002:a05:6214:76d:b0:716:17e0:2466 with SMTP id 6a1803df08f44-71617e02b67mr159461546d6.34.1756912525636;
+        Wed, 03 Sep 2025 08:15:25 -0700 (PDT)
+Received: from [10.12.114.224] ([2600:382:850c:786a:ff8e:13a:e47c:3472])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ac16de16sm30827706d6.3.2025.09.03.08.15.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 08:15:24 -0700 (PDT)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH v2 0/6] clk: tegra: convert from clk round_rate() to
+ determine_rate()
+Date: Wed, 03 Sep 2025 11:15:01 -0400
+Message-Id: <20250903-clk-tegra-round-rate-v2-v2-0-3126d321d4e4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Miaoqian Lin <linmq006@gmail.com>, linux-tegra@vger.kernel.org,
- linux-phy@lists.infradead.org
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- JC Kuo <jckuo@nvidia.com>, Johan Hovold <johan@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Vinod Koul <vkoul@kernel.org>
-References: <20250903045241.2489993-1-linmq006@gmail.com>
-Subject: Re: [PATCH] phy: tegra: xusb-tegra210: Fix reference leaks in
- tegra210_xusb_padctl_probe
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250903045241.2489993-1-linmq006@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Vto5T7HMuhv4kLXfZikyR3WNBfDL8qO34gg6b1ELJlzDUv8vfLa
- MukUXfM+HWys/C+U+aQZX/H8YkvmBGqLW7DhJ7ZDnvTs2iv0Bknv4wBFyW6END5Qwhu/9AP
- 208f+MuTguFgnN3u/q1uQVd0qOz68xngXnz63F2ESBouG3iBoKhB1xF3SE7rA0j3QiC/761
- Fofy/dGCA9Dy6s/USFqhQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:34rJf0QV/6o=;z/hqGl9fupoaEARWp5RfPr3rCkc
- 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
+X-B4-Tracking: v=1; b=H4sIAHVbuGgC/x2MQQ5AMBAAvyJ7tkkVB74iDqsWG1KypZGIv2scJ
+ 5mZBwKrcIA2e0A5SpDdJ7B5Bm4hPzPKmBissbVpTIluW/HkWQl1v/yISidjtEhTMgZyTeUKSPW
+ hPMn9n7v+fT+G+jpKaQAAAA==
+X-Change-ID: 20250903-clk-tegra-round-rate-v2-af025bac94c1
+To: Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756912523; l=5345;
+ i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
+ bh=Xu0cBEqi7Psy9OdAnHfnNSejeDcVKnoUS6N7NxTCby8=;
+ b=NcgiVd9SVHO/Mdpi8r0JCLnx5fe5/PII/AMdsLbqulhKFwkgOZbUK4cYUnd4Ko03VbNBh82L/
+ Qy2Al6Q9Ao2DpmVWLyPovFd8KUFwookPysJXxiff6BX58YhhLTFZuza
+X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
+ pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 
-> Add missing of_node_put() and put_device() calls to release references.
+The round_rate() clk ops is deprecated in the clk framework in favor
+of the determine_rate() clk ops, so let's go ahead and convert the
+drivers in the clk/tegra subsystem using the Coccinelle semantic patch
+posted below. I did a few minor cosmetic cleanups of the code in a
+few cases.
 
-See also the commit bca065733afd1e3a89a02f05ffe14e966cd5f78e ("phy: tegra: xusb:
-fix device and OF node leak at probe") by Johan Hovold.
+Changes since v1:
+- Fix merge conflict against drivers/clk/tegra/clk-periph.c since
+  v1 was posted.
+https://lore.kernel.org/linux-clk/20250710-clk-tegra-round-rate-v1-0-e48ac3df4279@redhat.com/T/
 
-Regards,
-Markus
+Coccinelle semantic patch:
+
+    virtual patch
+
+    // Look up the current name of the round_rate function
+    @ has_round_rate @
+    identifier round_rate_name =~ ".*_round_rate";
+    identifier hw_param, rate_param, parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    	...
+    }
+
+    // Rename the route_rate function name to determine_rate()
+    @ script:python generate_name depends on has_round_rate @
+    round_rate_name << has_round_rate.round_rate_name;
+    new_name;
+    @@
+
+    coccinelle.new_name = round_rate_name.replace("_round_rate", "_determine_rate")
+
+    // Change rate to req->rate; also change occurrences of 'return XXX'.
+    @ chg_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier ERR =~ "E.*";
+    expression E;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    -return -ERR;
+    +return -ERR;
+    |
+    - return rate_param;
+    + return 0;
+    |
+    - return E;
+    + req->rate = E;
+    +
+    + return 0;
+    |
+    - rate_param
+    + req->rate
+    )
+    ...>
+    }
+
+    // Coccinelle only transforms the first occurrence of the rate parameter
+    // Run a second time. FIXME: Is there a better way to do this?
+    @ chg_rate2 depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    - rate_param
+    + req->rate
+    ...>
+    }
+
+    // Change parent_rate to req->best_parent_rate
+    @ chg_parent_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    - *parent_rate_param
+    + req->best_parent_rate
+    |
+    - parent_rate_param
+    + &req->best_parent_rate
+    )
+    ...>
+    }
+
+    // Convert the function definition from round_rate() to determine_rate()
+    @ func_definition depends on chg_rate @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier generate_name.new_name;
+    @@
+
+    - long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+    -               unsigned long *parent_rate_param)
+    + int new_name(struct clk_hw *hw, struct clk_rate_request *req)
+    {
+        ...
+    }
+
+    // Update the ops from round_rate() to determine_rate()
+    @ ops depends on func_definition @
+    identifier has_round_rate.round_rate_name;
+    identifier generate_name.new_name;
+    @@
+
+    {
+        ...,
+    -   .round_rate = round_rate_name,
+    +   .determine_rate = new_name,
+        ...,
+    }
+
+Note that I used coccinelle 1.2 instead of 1.3 since the newer version
+adds unnecessary braces as described in this post.
+https://lore.kernel.org/cocci/67642477-5f3e-4b2a-914d-579a54f48cbd@intel.com/
+
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (6):
+      clk: tegra: audio-sync: convert from round_rate() to determine_rate()
+      clk: tegra: divider: convert from round_rate() to determine_rate()
+      clk: tegra: periph: divider: convert from round_rate() to determine_rate()
+      clk: tegra: pll: convert from round_rate() to determine_rate()
+      clk: tegra: super: convert from round_rate() to determine_rate()
+      clk: tegra: tegra210-emc: convert from round_rate() to determine_rate()
+
+ drivers/clk/tegra/clk-audio-sync.c   | 10 +++----
+ drivers/clk/tegra/clk-divider.c      | 28 ++++++++++++-------
+ drivers/clk/tegra/clk-periph.c       |  8 +-----
+ drivers/clk/tegra/clk-pll.c          | 52 +++++++++++++++++++++---------------
+ drivers/clk/tegra/clk-super.c        |  9 +------
+ drivers/clk/tegra/clk-tegra210-emc.c | 24 +++++++++++------
+ 6 files changed, 72 insertions(+), 59 deletions(-)
+---
+base-commit: 5d50cf9f7cf20a17ac469c20a2e07c29c1f6aab7
+change-id: 20250903-clk-tegra-round-rate-v2-af025bac94c1
+
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
+
 
