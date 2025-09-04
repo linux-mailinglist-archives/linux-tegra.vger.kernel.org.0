@@ -1,47 +1,47 @@
-Return-Path: <linux-tegra+bounces-9030-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-9031-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B16B4467F
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Sep 2025 21:37:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A3DB448CD
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Sep 2025 23:49:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8EFBA41E67
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Sep 2025 19:37:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D7561BC3933
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Sep 2025 21:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D32026F445;
-	Thu,  4 Sep 2025 19:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF5D929C35A;
+	Thu,  4 Sep 2025 21:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJImzx5c"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRz18qze"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C58A1E7C03;
-	Thu,  4 Sep 2025 19:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ED0BA4A;
+	Thu,  4 Sep 2025 21:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757014617; cv=none; b=V1EUdfkggK82WE3ydw1G9A2NJxtYURAr1r00bS+Y51hqU9o/MAWlJWmxhW3isF9UYNHzpMaxrWnfvREc4ntR+siE97AOnFDQsmdoL9tQHEbhqj0jHh5tJW/wMZ30kFaw1rCXeOFrE7WNvzVCeg71j+mY7nQK7D0pP0VuaYZnILA=
+	t=1757022550; cv=none; b=plkj1VTARpBbN1d4nXVXCCqaZB6ZwyMuZ5jJQP0R6Q0Qhae803op1cWWgynaszntBj3TAJHabZuA0QMMOB5rpa4T3EAelYiB86+xU6Ef07XGU5M8ryfoLOv+bT+44LY16FEcCmkafYVnRNlGiXKD/i/G8i01Wovo/ruQIVAi+I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757014617; c=relaxed/simple;
+	s=arc-20240116; t=1757022550; c=relaxed/simple;
 	bh=TMssmfr6Ux793m0iP09iig4VNiue9TXEr6uOT9wRYhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0u1nCsOKUW1u7Xy7sVR+Uuok/4FtZDMYz3NOVH7H33VfuQq9f5LDArKYY+zN41x7mflCrBghCF/l5N7g153wkkgJsQdqhXu/5WntYkAKCeRhcrZIcw6U8AOLajOBbqN8zd8/uvoLzSlHE+aNIqvOkBDPxJxqpgFhkY/+RrkF0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJImzx5c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D15C4CEF0;
-	Thu,  4 Sep 2025 19:36:56 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=MF3Sh2Iefy6pg/cV29qctxbH4BJyaR6tBGB0Wep1Wm/vOk/DwK9eVzzU7SakPKkKL4qFweydGYms+R1fMr23D1IwGjI+3HWGOjd9TaUAZAFqqd66dVFRKPOn+w1iz2a1Gis0nlEw09BTK1AI/ROVOvNGqJJb1G5jap2fWMAApK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRz18qze; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2941C4CEF0;
+	Thu,  4 Sep 2025 21:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757014616;
+	s=k20201202; t=1757022550;
 	bh=TMssmfr6Ux793m0iP09iig4VNiue9TXEr6uOT9wRYhM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fJImzx5cDuiFeFmQSL8Cyu3xRKCrBD5sWxQ2Le0I56vnWdKFpLMCT9y4LXGoheCjY
-	 4QXC73XnTdYebcEo6/pf8gFMHgBckDeHAWJZqcFBUqPxRioOBJ2dgjHTIQOvMSR63/
-	 Vj2OYKwyMhFyQKyWSesD1d1jyIJalsxs2MCgcLsH0or3Y4TV+865UTp08IPD22zelf
-	 0BnaGNyTHvcENumpYw+yYS7iIbt5ZlgecRkzUL6UeZVlBJIFeA+nalxm8fHJvaVO7b
-	 ncJCn3Ii2lUfLgLSoQDYzdV9qlDC3t/LlpqncfplJHQK3SkUqn9zsWdvx7lY7kegTl
-	 WcjCbI5grRBuQ==
-Date: Thu, 4 Sep 2025 14:34:35 -0500
+	b=kRz18qzeLCcAzy4y8bhCvYXUvjJcV7sRjsZXK+MxYDMucIr1ggqDgC85YWNAemAWc
+	 rx5aIlmDWeB759ZUHkcYPTg+vfq7ZcQmG7toKdl0qWjgN3c+SpwEttVX7i13x0UMBY
+	 lge1x451WwrZgHE/3V6kbw3D0er6au0pfSYeM7CuCeh2hnG0paZg7c+HLAhKyNs6WE
+	 yUP42sNN4uyXVM1MOuTkosbdI2R+irloN/wbrQoQjSWpIYeE3+96eqvo625lztVLMV
+	 rAQWGjAKmm/XBCoqUSjIev582Me209rBfKN/QpfYXHO4EUC3wCFSgwBqJDr6RUHcWq
+	 8MONyy47FZRbw==
+Date: Thu, 4 Sep 2025 16:49:09 -0500
 From: Rob Herring <robh@kernel.org>
 To: Aaron Kling <webgeek1234@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>,
@@ -57,7 +57,7 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>
 Subject: Re: [PATCH v2 1/4] dt-bindings: clock: tegra124-dfll: Add property
  to limit frequency
-Message-ID: <20250904191702.GA42937-robh@kernel.org>
+Message-ID: <20250904214909.GA69864-robh@kernel.org>
 References: <20250903-tegra210-speedo-v2-0-89e6f86b8942@gmail.com>
  <20250903-tegra210-speedo-v2-1-89e6f86b8942@gmail.com>
 Precedence: bulk
