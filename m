@@ -1,284 +1,133 @@
-Return-Path: <linux-tegra+bounces-9138-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-9139-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4615FB4A16C
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Sep 2025 07:43:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA990B4A1F6
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Sep 2025 08:21:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 493FB1B27FAA
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Sep 2025 05:43:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1D391BC22A9
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Sep 2025 06:22:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410352F0689;
-	Tue,  9 Sep 2025 05:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB4A302172;
+	Tue,  9 Sep 2025 06:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dD0f0QVu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGCt/yNd"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2835D2264A3;
-	Tue,  9 Sep 2025 05:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30B118A93F;
+	Tue,  9 Sep 2025 06:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757396607; cv=none; b=MmDj47+rBolCKGESlTjKdMtqeKO1OJxW7J1FnmiqOqB5a5HqEGnY70Dqk97bmCVGRwdhanAQRAS/sdiI/9FdrjZbcQSKfLRiNWEagjl0FobE4E69bIDUIw9/PFFBy+U3CH+y35px1dCbZxlj7lCZn1sbvM/PVuFPdV2z+B8VDaU=
+	t=1757398894; cv=none; b=QoEzol28lzscz9KKmBkG20mSxWFEniagJrG730Lr+M4mp0tqkWl8qVvaFvMQHpxYL5wtBARGUzeKsE/bgBO6DL/yXqrNsO2pQwabkvL58pBnpTe9N+biETk+PZfFQnILImRlVAJ8K1QOjXG7darWdH+csLhMn5LNOjYZtwR0dlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757396607; c=relaxed/simple;
-	bh=1JLWB9NxHUYB0N6l6hiWHN/rHGZX8pA98KRFRV3h72Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BnK/y7+WK0HFsjrfvspZiWsSzUZGQo5WwpUX3cYQavjb58REXcNtUHS1NKSfY/1Mc5L4aa5w1dlRSILharBRZfQiextWXn6oIUTsE3wSgPb1CeiucoL6jUcq+fEsWyRSoaE5JFFtosuf4iVgl/WmSOkpN10zxEKEl8oyDX+QPjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dD0f0QVu; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-336ce4a894cso39182451fa.1;
-        Mon, 08 Sep 2025 22:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757396603; x=1758001403; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1G6Fm4HNrV/bD2bs71ctmqkCh2KbDqFBUWnpt06ckp8=;
-        b=dD0f0QVu+U2TUvR2HlvPKN28OTip5jypb4FQsReRkc+vu7jR7Xma+gmriEnOkjAXsz
-         sYzE9+AvHYT1vVkzG3D62rV0xM21drBwrfO78mc96dzkiqY3bJScMfiYTYY0KE4rKEbN
-         CE37Aqz8eJDJYrHq7hS6ziVA51r3FbLPFzn9VdsXueCw64YKRoPXwcrxVr4OFXGExMEk
-         21bfoEQ+rkrU2HyDkFZw73XyfW3wCIobhFUKsIxlmbs1LqchM5i7bYjAvXUgVJMzU3Jk
-         2g9sQ0wMspD3ysl9TPqxcP3FncDgq9iV0nbXEi7k6bkMA8lTQgOThdvmN3yum5lKX1tG
-         9bYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757396603; x=1758001403;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1G6Fm4HNrV/bD2bs71ctmqkCh2KbDqFBUWnpt06ckp8=;
-        b=Qnxq5nbm5sR5TrmiHLBw1HW/woV7Wa2qPHAQKsLmr55v+RVz/4MrICCasZc8oekyLx
-         17UYedrJX2UIowfbFKF/9PHG0jDesL5qlIbSZTX/PyLUmmecubpfAUvfcfykxBDYBX8i
-         XZHD2kwsGZonDhsavA5i0jxFnzJHhrdB+nDBWjtKkG/+26sJQcShqOYZwsFvRyQfYM3/
-         s0PgEAjQ+JZiwXbQq+j1RJVbKsmRVSBvo9HGXn+My2xo4eIclmIaXT5bYkHAUNaqooU4
-         c2k8YRa6Kf6yGIKGnOeVkzzYLgxsCSBjOnOkXZVdRnN+D3qDQJZUV3CF/cdZTac2w1yK
-         mACQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVCMueoYooEoDlCynrcGFBrhAeiPlswMDvmcxl//sGNzZRwbBZ4YVRjUH7mzCW5hiVEuZxTxjLt7kQ=@vger.kernel.org, AJvYcCXH1Jsn6p83EfFzz1Q5fGBImRtI1ma0ZkLbGm2Oi0qps0SylfQnvErWbamtDxvPqhaq/Y4PiMb4aZEF@vger.kernel.org, AJvYcCXJ5Kg+DlYI7HbguHsAJSAFKlvmUJixaqxQtmQSwiPztmxWMRekNlz0EmrSWD3cdTD3tgSoN4yXcGSqZFhd@vger.kernel.org, AJvYcCXQqSfm8NiNSg5uEeu68XeWDL2j1eVfnzhwD/8GGPf5K57IieN60OPGfCCljACeTs4jCKs0PvkDIQNSxCs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv3ACKzqjFUHNUgOSSuE60nkJBmn933VuQQ0auw1Cp2mahME7P
-	PXe2gkuJlGckJci0iQk8rTXQzeoRuEsfLxx66i6wFbtoMcLjsf23YDtt1+3Klqb9I8v2Pi9VeLP
-	+adJPhutb1vesM1RgVvFy/NNJORScd4EcI/Tx4io=
-X-Gm-Gg: ASbGncspXHrqxldgqooC43lDjhI3YSrTom24WjTA1gRak29xvW88gr5GLbEcqgH8pp5
-	IxrC34gg8xjFzkPUpHRDexrej2R9FxMFjmcHO//JvSY++O+wYRkqxIp2a/q0XTpz5Gx4SAcYAxb
-	KVDbLEnlbdbbApdT0iLjEx+xlHFa4DItHkIfMHDOY7fo2bhI9BtlgWGyaNhmgBBbZt90NI2DZN1
-	mCl7iAC7G/6SCyanA==
-X-Google-Smtp-Source: AGHT+IFnQAtfbNXUxujuvpaZBVeXodUsf4RXFRUXQ8ktfLXToDvcxeXnGxXIgaFmJAGt6UaM90HbCfaGi6DB9sgP+uA=
-X-Received: by 2002:a2e:be9e:0:b0:337:e190:6814 with SMTP id
- 38308e7fff4ca-33b5cfd0d57mr33329871fa.20.1757396602983; Mon, 08 Sep 2025
- 22:43:22 -0700 (PDT)
+	s=arc-20240116; t=1757398894; c=relaxed/simple;
+	bh=+TPugvusqL3MFUtqbV61oju44pY2erZnaLrcqrSXMw0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B+LaANm/uHp/v7vRrKBl6PUfqblFtZ4PzUYSE82G7TKWYtXK2rMXnN8f2uIskItG8WmKcJbs0yE5FiD0WRo/HSe9k6ejO4KOPUzUQzkj/KEcVsmMDkrIM8+J+UhhfhDnceVLkzZZwrkWh43hWPo34NwDNN+ocN/EKpTVzEaG3sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGCt/yNd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58897C4CEF4;
+	Tue,  9 Sep 2025 06:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757398894;
+	bh=+TPugvusqL3MFUtqbV61oju44pY2erZnaLrcqrSXMw0=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=MGCt/yNdmcqG8p1qc4nlUUsaE/rji/Hvi2RClXvtcKpZN3sxr7vJ7K4I8jHe9Dn9d
+	 eIdlm0AsALNbTHs8ZHZSHAS//iCzJuHXxKnkzJ+kyxLSgiEd/ra2wgBVnwWYfxs2tr
+	 Tf5giMSi68afW5b5VdYjcQ1VzwNQbSkw9ZPxfpVY3RzO0Gm8yD+0NV3R3EDmYcmIZF
+	 vOawIYCny3gzGzX70P6QC38RR7vWjpVQFdMX1iZjB2Tby6ofifpJwUGCTO11OMbSiG
+	 sL1JJeWqJIwgLPV1tvqkHtVhbbj62SYB7DXdO3oDZB/jmpIEA1uz0al/MBi9AVCnvR
+	 ohHmk1vWSwFVw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 449F9CAC586;
+	Tue,  9 Sep 2025 06:21:34 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Subject: [PATCH v2 0/8] Support dynamic EMC frequency scaling on
+ Tegra186/Tegra194
+Date: Tue, 09 Sep 2025 01:21:28 -0500
+Message-Id: <20250909-tegra186-icc-v2-0-09413724e781@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250831-tegra186-icc-v1-0-607ddc53b507@gmail.com>
- <20250831-tegra186-icc-v1-3-607ddc53b507@gmail.com> <20250901055322.eorgaa3sycydjrrj@vireshk-i7>
- <CALHNRZ_EbtHSXaDQ+1gGf3HjdyW5Q54EDN901-r8A_aXLbDJkw@mail.gmail.com> <20250903050107.sbri6snqrzq4hale@vireshk-i7>
-In-Reply-To: <20250903050107.sbri6snqrzq4hale@vireshk-i7>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Tue, 9 Sep 2025 00:43:11 -0500
-X-Gm-Features: Ac12FXzAJuPe-CvFuYuufxqv80GNsivKH6j8HchajG_Xb4CMnT3WaKxDxqCkLXs
-Message-ID: <CALHNRZ-qkhDc5uO8g18T97RgHZCQ59Zh2Vn+yEX-W3+GSfj_sA@mail.gmail.com>
-Subject: Re: [PATCH 3/8] cpufreq: tegra186: add OPP support and set bandwidth
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Sumit Gupta <sumitg@nvidia.com>, Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGjHv2gC/1WPy07DMBBFfyXyGqPxuH4kK/4DdeHHOLVEmtZOI
+ 1CVf8ckC2B5R5pzz32ySiVTZUP3ZIXWXPN8bQFfOhYu7joSz7FlhoAKLEq+0FicsJrnELjBvhc
+ CQjTmxNrLrVDKnzvu/XzkQvdHoy7HkXlXiYd5mvIydMKjNEn0QF5GqZPCmBKBcSfwijwKQAsEw
+ P7aNLnDRf+6hNsjtSK+l3OTfEpWBG0dDqtkPyaXXJe5fO07V7GrHBgp/k9aBQeuwcQYlPQKzNs
+ 4ufzx2pzZedu2b8KgVpoyAQAA
+X-Change-ID: 20250823-tegra186-icc-7299110cd774
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757398893; l=1966;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=+TPugvusqL3MFUtqbV61oju44pY2erZnaLrcqrSXMw0=;
+ b=iK2GdH/ePzlNW4B7UF/cmnZZrVv0wHjuHNsT2RcusqUZ7OYZEASWN+vKkZAZlkSFPJOfMqxax
+ ifP9WYAc3ebDwQHBOwdayPC2FLSYY/fPHm/Hb9Jc2zSqmeV5d+1zJop
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-On Wed, Sep 3, 2025 at 12:01=E2=80=AFAM Viresh Kumar <viresh.kumar@linaro.o=
-rg> wrote:
->
-> +Sumit
->
-> On 02-09-25, 12:21, Aaron Kling wrote:
-> > On Mon, Sep 1, 2025 at 12:53=E2=80=AFAM Viresh Kumar <viresh.kumar@lina=
-ro.org> wrote:
-> > > On 31-08-25, 22:33, Aaron Kling via B4 Relay wrote:
-> > > > +static int tegra_cpufreq_set_bw(struct cpufreq_policy *policy, uns=
-igned long freq_khz)
-> > > > +{
-> > > > +     struct tegra186_cpufreq_data *data =3D cpufreq_get_driver_dat=
-a();
-> > > > +     struct dev_pm_opp *opp;
-> > > > +     struct device *dev;
-> > > > +     int ret;
-> > > > +
-> > > > +     dev =3D get_cpu_device(policy->cpu);
-> > > > +     if (!dev)
-> > > > +             return -ENODEV;
-> > > > +
-> > > > +     opp =3D dev_pm_opp_find_freq_exact(dev, freq_khz * KHZ, true)=
-;
-> > > > +     if (IS_ERR(opp))
-> > > > +             return PTR_ERR(opp);
-> > > > +
-> > > > +     ret =3D dev_pm_opp_set_opp(dev, opp);
-> > >
-> > > Won't it be easier to use dev_pm_opp_set_rate() instead ?
-> >
-> > I'm not very familiar with the opp system. If I read correctly,
-> > dev_pm_opp_set_rate() will round to the closest rate while this code
-> > will fail if the exact rate isn't found. This code is based on the
-> > existing tegra194-cpufreq driver. And I'm unsure if this was done for
-> > a reason.
->
-> Sumit, any explanation for this ?
->
-> > I have seen unexpected rates returned from clk_round_rate in
-> > the development of this topic, so that could be related.
->
-> Right, but we should end up configuring a valid rate from the OPP
-> table.
->
-> > > > +static int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy =
-*policy,
-> > > > +                                         struct cpufreq_frequency_=
-table *bpmp_lut,
-> > > > +                                         struct cpufreq_frequency_=
-table **opp_table)
-> > > > +{
-> > > > +     struct tegra186_cpufreq_data *data =3D cpufreq_get_driver_dat=
-a();
-> > > > +     struct cpufreq_frequency_table *freq_table =3D NULL;
-> > > > +     struct cpufreq_frequency_table *pos;
-> > > > +     struct device *cpu_dev;
-> > > > +     struct dev_pm_opp *opp;
-> > > > +     unsigned long rate;
-> > > > +     int ret, max_opps;
-> > > > +     int j =3D 0;
-> > > > +
-> > > > +     cpu_dev =3D get_cpu_device(policy->cpu);
-> > > > +     if (!cpu_dev) {
-> > > > +             pr_err("%s: failed to get cpu%d device\n", __func__, =
-policy->cpu);
-> > > > +             return -ENODEV;
-> > > > +     }
-> > > > +
-> > > > +     /* Initialize OPP table mentioned in operating-points-v2 prop=
-erty in DT */
-> > > > +     ret =3D dev_pm_opp_of_add_table_indexed(cpu_dev, 0);
-> > > > +     if (!ret) {
-> > >
-> > > If you handle the error case here, then the below can move out of the
-> > > if/else block.
-> >
-> > I'd prefer not to deviate too much from the tegra194-cpufreq code this
-> > is based on, so the drivers can be more easily kept in parity to each
-> > other.
->
-> I am not sure if that is really important here. The kernel normally
-> contains code in this format:
->
-> if (err)
->         return;
->
-> keep-working;
->
-> If you want both the drivers to have similar code, then maybe that
-> code should be moved to another file and used by both. But we
-> shouldn't keep them same when we feel that we can do better.
->
-> > But I will look at making this a bit cleaner as per this and
-> > the next comment.
->
-> Thanks.
->
-> > > > +             max_opps =3D dev_pm_opp_get_opp_count(cpu_dev);
-> > > > +             if (max_opps <=3D 0) {
-> > > > +                     dev_err(cpu_dev, "Failed to add OPPs\n");
-> > > > +                     return max_opps;
-> > > > +             }
-> > > > +
-> > > > +             /* Disable all opps and cross-validate against LUT la=
-ter */
-> > > > +             for (rate =3D 0; ; rate++) {
-> > >
-> > > Maybe using while(1) would be more readable ?
-> > >
-> > > > +                     opp =3D dev_pm_opp_find_freq_ceil(cpu_dev, &r=
-ate);
-> > > > +                     if (IS_ERR(opp))
-> > > > +                             break;
-> > > > +
-> > > > +                     dev_pm_opp_put(opp);
-> > > > +                     dev_pm_opp_disable(cpu_dev, rate);
-> > > > +             }
-> > > > +     } else {
-> > > > +             dev_err(cpu_dev, "Invalid or empty opp table in devic=
-e tree\n");
-> > > > +             data->icc_dram_bw_scaling =3D false;
-> > > > +             return ret;
-> > > > +     }
-> > > > +
-> > > > +     freq_table =3D kcalloc((max_opps + 1), sizeof(*freq_table), G=
-FP_KERNEL);
-> > > > +     if (!freq_table)
-> > > > +             return -ENOMEM;
-> > > > +
-> > > > +     /*
-> > > > +      * Cross check the frequencies from BPMP-FW LUT against the O=
-PP's present in DT.
-> > > > +      * Enable only those DT OPP's which are present in LUT also.
-> > > > +      */
-> > > > +     cpufreq_for_each_valid_entry(pos, bpmp_lut) {
-> > > > +             opp =3D dev_pm_opp_find_freq_exact(cpu_dev, pos->freq=
-uency * KHZ, false);
-> > > > +             if (IS_ERR(opp))
-> > > > +                     continue;
-> > > > +
-> > > > +             dev_pm_opp_put(opp);
-> > > > +
-> > > > +             ret =3D dev_pm_opp_enable(cpu_dev, pos->frequency * K=
-HZ);
-> > > > +             if (ret < 0)
-> > > > +                     return ret;
-> > > > +
-> > > > +             freq_table[j].driver_data =3D pos->driver_data;
-> > > > +             freq_table[j].frequency =3D pos->frequency;
-> > > > +             j++;
-> > > > +     }
-> > > > +
-> > > > +     freq_table[j].driver_data =3D pos->driver_data;
-> > > > +     freq_table[j].frequency =3D CPUFREQ_TABLE_END;
-> > > > +
-> > > > +     *opp_table =3D &freq_table[0];
-> > > > +
-> > > > +     dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
-> > > > +
-> > > > +     tegra_cpufreq_set_bw(policy, freq_table[j - 1].frequency);
-> > >
-> > > Maybe a comment on why exactly you are changing the freq here ?
->
-> I meant bandwidth here.
->
-> > To my knowledge, this does not change any clocks. The intent here is
-> > to prime the interconnect data. In the pre-req series, there's a
-> > change that sets all clocks to max frequency during probe. Then my use
-> > case involves setting performance governor by default on some boots.
-> > During testing, I noticed that the interconnect data provided by this
-> > driver was all zeroes. Which led me to notice that set_bw is only
-> > called when the target frequency changes. Which wasn't happening
-> > because clocks were already set to max. If my understanding here is
-> > wrong or there's a better way to handle this, I will fix it.
->
-> There are a lot of synchronization issues here because we are trying
-> to set clk and bw separately. I guess other variables, like regulator,
-> level, etc. (if used) will also be out of sync here.
->
-> I think the right way to fix this would be to call set-opp for the
-> device, so all the variables are configured properly.
+This series borrows the concept used on Tegra234 to scale EMC based on
+CPU frequency and applies it to Tegra186 and Tegra194. Except that the
+bpmp on those archs does not support bandwidth manager, so the scaling
+iteself is handled similar to how Tegra124 currently works.
 
-That's what the tegra_cpufreq_set_bw function does. Matches the passed
-frequency in the opp table and calls dev_pm_opp_set_opp.
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+Changes in v2:
+- Use opp scoped free in patch 3
+- Cleanup as requested in patch 3
+- Move patch 3 to the start of the series to keep subsystems grouped
+- Link to v1: https://lore.kernel.org/r/20250831-tegra186-icc-v1-0-607ddc53b507@gmail.com
 
-Aaron
+---
+Aaron Kling (8):
+      cpufreq: tegra186: add OPP support and set bandwidth
+      dt-bindings: memory: tegra186-mc: Add dummy client IDs for Tegra186
+      dt-bindings: memory: tegra194-mc: Add dummy client IDs for Tegra194
+      memory: tegra186-emc: Support non-bpmp icc scaling
+      memory: tegra186: Support icc scaling
+      memory: tegra194: Support icc scaling
+      arm64: tegra: Add CPU OPP tables for Tegra186
+      arm64: tegra: Add CPU OPP tables for Tegra194
+
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 317 +++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 636 +++++++++++++++++++++++++++++++
+ drivers/cpufreq/tegra186-cpufreq.c       | 152 +++++++-
+ drivers/memory/tegra/tegra186-emc.c      | 132 ++++++-
+ drivers/memory/tegra/tegra186.c          |  48 +++
+ drivers/memory/tegra/tegra194.c          |  59 ++-
+ include/dt-bindings/memory/tegra186-mc.h |   4 +
+ include/dt-bindings/memory/tegra194-mc.h |   6 +
+ 8 files changed, 1344 insertions(+), 10 deletions(-)
+---
+base-commit: 1b237f190eb3d36f52dffe07a40b5eb210280e00
+change-id: 20250823-tegra186-icc-7299110cd774
+prerequisite-change-id: 20250826-tegra186-cpufreq-fixes-7fbff81c68a2:v3
+prerequisite-patch-id: 74a2633b412b641f9808306cff9b0a697851d6c8
+prerequisite-patch-id: 9c52827317f7abfb93885febb1894b40967bd64c
+
+Best regards,
+-- 
+Aaron Kling <webgeek1234@gmail.com>
+
+
 
