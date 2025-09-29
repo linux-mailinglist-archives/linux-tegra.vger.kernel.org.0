@@ -1,116 +1,143 @@
-Return-Path: <linux-tegra+bounces-9540-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-9542-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801CBBA976D
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 16:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91ACBA98D8
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 16:26:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 047631888150
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 14:02:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE1BC1896595
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 14:26:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B337D1FBC91;
-	Mon, 29 Sep 2025 14:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF31330B519;
+	Mon, 29 Sep 2025 14:25:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZiyiJkY1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jguj4Su+"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BF62AD31;
-	Mon, 29 Sep 2025 14:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEB825B1FF
+	for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 14:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759154492; cv=none; b=DAHejieLE4pdaNhZAVj8UUvm+d/0j/txqGB/jTu5eZmSzkrXHiAzQGdLHNU00DdGiv2NqAzTqvl8o+sgXcXw9uwZUou3apiMuWmwr+0HNpWnBTk7gXTJ2qFd5waapVoLgkUZEzZo+WP19KbFyh2XeW9sqncHpFw34UQJPoVZo68=
+	t=1759155924; cv=none; b=pALGcO2EZlKLq+NaFSgAHTtoZJj0smwsJET/ofvqjZ9lO2hXOr5Bfb6CnI/2l+7/edx3wJPpFu9tlBUunH8miuAM5dJ23fz6vgBojzVANAxoIl5qqKua0r2yNl+rLtqK+gsy8NKob4ZvZqxDuPVkS2EGEA+icN8JCxKSPCVmy8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759154492; c=relaxed/simple;
-	bh=AGBrlJgZMXwWrvzDJ0mbyXAW4IA6QpxXN4UJJSZ2Ugo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q17Z7WDu6KcbIDGibSfTIYe/fVf/1bdHSClhBE71HWOZ2NIlMnB2sqzXTojUtpEQIML4RyCaHst6NzzioSaJgzPr7neM9FHLArdLQ9UU3DdazP8RhIEgXgZPbTL3hD2iUC14YmqKJdrsnYTxvZeanPGExRuas4BljBT4scuZk44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZiyiJkY1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE87C4CEF4;
-	Mon, 29 Sep 2025 14:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759154492;
-	bh=AGBrlJgZMXwWrvzDJ0mbyXAW4IA6QpxXN4UJJSZ2Ugo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZiyiJkY1ok13BJg6ud1Zx8GmOYD1YFY+hEE+A6Qhu+aPow78hwcioGpnF2S88+2+f
-	 Q3ikYtlAVuPDyCT0ZUXj8JvuZPx1aL5tDkmFxBOBig0D0DxpjXR7XNqHFmVQlCMRLW
-	 YmKKsLtbCscxxKUG0+nl6Hu0DG/5lrhT+G/S5XhgTu/avQ9UBh55LRoR3KonhwX1xG
-	 hHztIG/p9vdilYziFhAeqsILLDHasO7mYdtnDyZmQu7xY+zdU5SLTxY3AkVdYBvM0X
-	 7A59u+eqR4Hv0Rbg6cqyHbcB6pmPhKD5aDjRCmeFmTioCEBSeintxP+MopI932ZnhS
-	 eFRSo4ZSLEj8A==
-Date: Mon, 29 Sep 2025 19:31:21 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Anand Moon <linux.amoon@gmail.com>
-Cc: Frank Li <Frank.li@nxp.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 2/5] PCI: tegra: Simplify clock handling by using
- clk_bulk*() functions
-Message-ID: <aw3flahx3g4exezj5245cgrixasshvf26yibctxsd3l42ygwke@equdzipwspvx>
-References: <20250926072905.126737-1-linux.amoon@gmail.com>
- <20250926072905.126737-3-linux.amoon@gmail.com>
- <aNbXdFPrDr8V2a+1@lizhi-Precision-Tower-5810>
- <CANAwSgT3inDQZ40uFtXwFze2m4hZUvnyKTek3PQ9jb6picgi-A@mail.gmail.com>
+	s=arc-20240116; t=1759155924; c=relaxed/simple;
+	bh=K85rkuCudYsXP5pYW/dzKbInwqXPQwsVrWQ5iHSeRC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dxthOoug2fHQVY1TnXT0j600HC+vL/t8RIFQWbvAM5TEQSCZQQGB1Qb1RoHDWAId+hXmQmGytiFr0xRvPdk9jLv82w+FnOL+Ojk7RproMmHOGjnE6bs3ZgeeTQuMJlYkpomfEBzUaGjwYACDen1Jg3tQQK/zpa224ipmNz2iSpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jguj4Su+; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-36bf096b092so65659041fa.1
+        for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 07:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759155919; x=1759760719; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DPPg9TIoZPnzthQd8E1VwdjwIEaEjaVDMMssW2mg+cY=;
+        b=jguj4Su+0loOcNAxNNxH55BAURnQfg2SYpHWQNmmQkSF0DVfime/13OeHnO7IWK5GP
+         4CWHbvDOwHLKk5ZfpTkQ8rrLJUat2Y4PRZZSPbm8739wIAbWD8KgAiLns96yYFtuBcTj
+         +H3l6deLYG5MTMzy8wJkeYPzJFCc+4Jumk2r0boyTpTkX+tWyzBmj8vQsIMJqMIgNyxW
+         nlumtuDXW6Zupae6ugyBlfQ5vc74x9IKxVv02sxaITPBAh1UsYZVgsXSK+wHyn9QZcGj
+         laXn3e+7WwJWrW7K47NwUSm0FiMMYI0H0BqhHCXkEQs7fyhYd2uKoAlUnqQ2eZCMSlgu
+         Uspw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759155919; x=1759760719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DPPg9TIoZPnzthQd8E1VwdjwIEaEjaVDMMssW2mg+cY=;
+        b=mvq7FqKQ2sFMnPoXy02nVVaNVtt/q730LPXyUGlKqtIJ1GtweQJ8Is20dziLKJn/hr
+         2+lIjtNAvCoc/gb2COzcJY0Y9KTya7YVBbVsN4pjkBDwYKEABNyzkKHCnpbCNBzaj7JK
+         +6lnhCl7CCBUL7t4bISjZwTorse2b+xHJgkqfYr26A1BtZAerAtPjJFMcWGtcibPTSsM
+         eXW298cJL6UY7LrizTb6q5yLw5ck8aNr+EMF2nNs21XWBUzzJBPBlnBLrJHanS7vd4Mg
+         bjDQAK3gI/4Om+tfiKI3bxfHc6JPwKriCOpzMON8lBTBFpTfFs+yRbvjmI1oSiy3rvww
+         nNkw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPOsii/twiPscFyr7QJHNE01e/ByaYJGZTsSIMmHEDtuvkeRzyht9migcFg4yYClIiNkX4ENwyHgxiwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOORHuNdKqsMZO+1iUZ+lo9lEXsgu+XiPzD6L2bNkSgqV7hgQy
+	FZkp4pNtN84aaTm95/mZu8iMEHBflV3ljms4kSL+VzlpLRy3jmo59Vkl
+X-Gm-Gg: ASbGnctoLuFStw+ZJ2PE+pGVuHLc8wAfEKypMGxEWfYGRswlS+AywpRrTcmnWHWr2K8
+	L/oH02GevrfLx805Q2GhXZcsj062cYh1Ta4qdwiO7hyX8J7s7iZWuxc7x6/UioypAQl7Zc4kVB9
+	XKfLmvSKPUpmHZTurc8dOEs25aYPUZML3leajTmv2DLmf01v99RajFgkendHim+WmbjJmgep/50
+	3kr0EcO4sbYeilgaAiwUayz7/KX6OEdmuye/X0VKSIZqSK5te+MtQ5wYKParXJFwiJ4E8pOcAsv
+	3IAuCBMIsg8R1XR2rkG0vjE0vBS1qyzZhsdcMVvGCoJshbDFcNe9A4F0Ax+2KIet5u1mkPDjqKZ
+	ozzdV5As3KtE7Ykz73wZmrx6z9gTuXJR61vE=
+X-Google-Smtp-Source: AGHT+IHxDGpQBwuQkWcBRlcxN2mP+i2I0/l8+XNF8RRMmqOhDyFCD+mEDRiLnbhKmmlYr8NSnFokUA==
+X-Received: by 2002:a05:651c:1986:b0:36d:755f:a6d8 with SMTP id 38308e7fff4ca-36f7d2cb85cmr46262991fa.14.1759155918449;
+        Mon, 29 Sep 2025 07:25:18 -0700 (PDT)
+Received: from xeon.. ([188.163.112.70])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3728c23e6c1sm13201001fa.52.2025.09.29.07.25.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Sep 2025 07:25:17 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/8] Add support for panels found in various Tegra devices
+Date: Mon, 29 Sep 2025 17:24:46 +0300
+Message-ID: <20250929142455.24883-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANAwSgT3inDQZ40uFtXwFze2m4hZUvnyKTek3PQ9jb6picgi-A@mail.gmail.com>
 
-On Sat, Sep 27, 2025 at 11:20:10AM +0530, Anand Moon wrote:
-> Hi Frank,
-> 
-> On Fri, 26 Sept 2025 at 23:42, Frank Li <Frank.li@nxp.com> wrote:
-> >
-> > On Fri, Sep 26, 2025 at 12:57:43PM +0530, Anand Moon wrote:
-> > > Currently, the driver acquires clocks and prepare/enable/disable/unprepare
-> > > the clocks individually thereby making the driver complex to read.
-> > >
-> > > The driver can be simplified by using the clk_bulk*() APIs.
-> > >
-> > > Use:
-> > >   - devm_clk_bulk_get() API to acquire all the clocks
-> > >   - clk_bulk_prepare_enable() to prepare/enable clocks
-> > >   - clk_bulk_disable_unprepare() APIs to disable/unprepare them in bulk
-> > >
-> > > Following change also removes the legacy has_cml_clk flag and its associated
-> > > conditional logic. Instead, the driver now relies on the clock definitions from
-> > > the device tree to determine the correct clock sequencing.
-> > > This reduces hardcoded dependencies and improves the driver's maintainability.
-> > >
-> > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > Cc: Jon Hunter <jonathanh@nvidia.com>
-> > > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> > > ---
-> > > v1: Switch from devm_clk_bulk_get_all() -> devm_clk_bulk_get() with
-> > >       fix clks array.
-> >
-> > why not use devm_clk_bulk_get_all()?
-> >
-> My RFC used this devm_clk_bulk_get_all() which could work for all the SoC,
-> However, Jon recommended switching to named clocks, following the
-> approach used in .
-> but Jon suggested to use clock names as per dwmac-tegra.c driver.
-> 
+Add support for panels found in various Tegra30 and Tegra114 devices,
+including panels in Tegra Note 7, Surface RT, Surface 2 and Ideapad
+Yoga 11 T30.
 
-The concern was with validating the DTS files with binding. Since it was in .txt
-format, validation was not possible. But you are converting it to .yaml, so you
-can safely use devm_clk_bulk_get_all().
+Anton Bambura (1):
+  gpu/drm: panel: add Samsung LTL106HL02 MIPI DSI panel driver
 
-- Mani
+Svyatoslav Ryhel (7):
+  dt-bindings: display: panel: properly document LG LD070WX3 panel
+  gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI DSI panel
+  ARM: tn7: adjust panel node
+  dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
+  gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel
+    support
+  dt-bindings: display: panel: document Samsung LTL106HL02 MIPI DSI
+    panel
+  gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry
+
+ .../bindings/display/panel/lg,ld070wx3.yaml   |  60 ++++++
+ .../display/panel/panel-simple-dsi.yaml       |   4 +-
+ .../bindings/display/panel/panel-simple.yaml  |   2 +
+ arch/arm/boot/dts/nvidia/tegra114-tn7.dts     |  13 +-
+ drivers/gpu/drm/panel/Kconfig                 |  26 +++
+ drivers/gpu/drm/panel/Makefile                |   2 +
+ drivers/gpu/drm/panel/panel-edp.c             |   1 +
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c     | 182 ++++++++++++++++++
+ .../gpu/drm/panel/panel-samsung-ltl106hl02.c  | 179 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          |  65 ++++---
+ 10 files changed, 495 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.48.1
+
 
