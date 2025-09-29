@@ -1,78 +1,78 @@
-Return-Path: <linux-tegra+bounces-9545-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-9547-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87D4BA98E5
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 16:26:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2218BA9905
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 16:27:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 176071C2C61
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 14:26:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C381189EDD7
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Sep 2025 14:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842B430C11D;
-	Mon, 29 Sep 2025 14:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3517430CD82;
+	Mon, 29 Sep 2025 14:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WtMI5uC6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtnqdVN8"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A74430ACF1
-	for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 14:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807E630C105
+	for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 14:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759155927; cv=none; b=Dlop+dMvcpKPMiwa27DgD9SeKWf6isS8zWP6LyZTKgQwEpCNlMnRm59r7zBXihydT03Laz4r3ZeTeuwUJfwCQcuvysK6ABKGAschcp/lQjlPEKwb1i3bxOhYTY5GpibimeD4XRP59Ir8LkEcCrXoHw1jdK43Ct5BnnpVSNgXWjU=
+	t=1759155930; cv=none; b=aIyNFe9x6c7L2G9ZZL9Di3rDJTnLst5ikNk/SIHqhWfpAfBcqKRTkF2TOjq8ZJHjM0fGi0auDEisqDRuf/DdqLoRo+sJULg+ZTMlI2fWYcUANT+wYB5DL2Vo1opVx6lQKT6c6HLIdoaQQNgje+VSSIcn55FEfoVfn5QdwGSq7uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759155927; c=relaxed/simple;
-	bh=kebRgWgjU4+QFooisivlKuz8gUSdZe1BvseOgEZtkVM=;
+	s=arc-20240116; t=1759155930; c=relaxed/simple;
+	bh=oP7HhF0VB7JfxRrl8HfKSpO38vChxQF+xud/drKx6Rk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eHErfD6bW54aAMZb7na+dowfbXrQCs1L7oXXsypqUzO/R57SMgiVgYUkc2NGadnGXLyLa2JEDTZSVUMGQKmALJdbtZ08Iy1IzCeWN4bL+C9VJ3M5YWureDnLuuL1HYHHMTYzCyMvuz2DD9Y/Uj0zxlYEG8V5s2yN7HbLqpURJzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WtMI5uC6; arc=none smtp.client-ip=209.85.208.171
+	 MIME-Version; b=ohL+WJz6kkpo0cVJvpowWXGf6ywLievdwAyA7xKSWLQJTN9+08v3FLjyarr6GQOIOnNbRR8/WvAYb0bsxFZABlqccFgbk56u8ovVNpbm+dyf1ULwDzZX78erUwCurglKdmD10HB6iEXvKvdym7v1711P20AIYtt8dGMvESEZDD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtnqdVN8; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-36a6a397477so45474371fa.3
-        for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 07:25:25 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-365df96398bso29431891fa.0
+        for <linux-tegra@vger.kernel.org>; Mon, 29 Sep 2025 07:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759155924; x=1759760724; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759155925; x=1759760725; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sh9DAofb5pc+fYQ7Puuw943vV9lmOx/AYaxuS09pAW8=;
-        b=WtMI5uC6qCIVL+3o2yjaN6GakQS4dQ3ghYq8AoaubFoji8dLbIpE8VDiyg+FQErxwj
-         rzKjiSrQkBkD3dlT9FoQASO3jYm4mKIR6ip+XqpuWbz1iSV9ZxKPdTEYPPNieLkpj3Zo
-         pRg9UfsfHdGbPQEmaXuv7fet7SM87LTDGlMD3SbuDXXwz8h2BcENnPVAyFRvH41JDsnu
-         5YaJy2PEMhL/ooWI9OjlKNejiSnB9uV1CrRXAfvTK7/3Pi0FwHLilpjeNkcJWfEm96S5
-         qHU5ManElj/irIG+7Pi9FcFA16Uel9aWRW0k8BpytK2a5mCw9B42LAXZ4/2X6Ud3lfed
-         wHfg==
+        bh=CR2DRLiDhu+KIUp//MexW+twJoNutw9NX8KBL+bDU8Y=;
+        b=EtnqdVN8cSZGbq6Izi3bf/IXC34vaUQXKxPobkKzo1OlOxda51J6wZzRJ/5fqCVFXF
+         h36OBK8+FmQtGTvEYHpafaHlmN+Eox/lsGRVhhbJXY9CwkL6SUFDTH9X0D6XzF7qdSNt
+         Kfdn4+tNqZoeNJf6XWnNZAGjgAJJ4jgQXhGo4SMdiYaQ1TRgl5HVL/eHbfqyEx/SbN14
+         whxEv1VcyuLH62giTne40AqYJQEfWplk8TNoOsnw0/kR6tOIHVgHrm+zhS6qQ/tZv1yL
+         ijGJt6UtO686XcZyOixm3n6TOkr7pC3Vnf5iC77UKrNJhCr/sWZ1/zCfCCtiVhbe9qum
+         LnNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759155924; x=1759760724;
+        d=1e100.net; s=20230601; t=1759155925; x=1759760725;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sh9DAofb5pc+fYQ7Puuw943vV9lmOx/AYaxuS09pAW8=;
-        b=X6Xy42ezSkIvZvoO+bVA9ZKz4Na2935ypjEPCsAjh5xor89RAhZnilfX4WP7N/LSSE
-         MCo4o6C/vnlPJ3l110ge75X6OZrsa3xwZXs10RwsdQ2j2tx62ejoeUqld2/zXpRoz1Un
-         YRYP0qgxp4MuGpT+4IlUpfizDfHDE4zYRCLTC+1uSBaRutfdxznF31nRXqPAFnEDqoSd
-         PfFM2JSFW66qDhK+ucvjcIcT2WqG/FqXblK8NmTHg4GQgeOjRykRzZowCNRMuXwMM/wZ
-         C43EeDlqJxDLaxctwZwjyypiYgAanzU0W1zj/w4fqddMe+iSBepkpgmG/OoXmMpg/nnK
-         Gm8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXuqCrretP3EuR2FPS1IcZp5BFO9ihCN2fXhLan3i1HZGtpyR0v6Z9SNhfzkrPBvMKc7Vl6UI4/SfhZRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzhF42HQxQiTdOl+slDkhZVAB14Kl0az8udgcLFoicwauZ32nZ
-	opieDZP+wZlmRmtRN+7j9ZTnvbBTNULE8LRfbWjlkAeuoJVKIxoU3eIK
-X-Gm-Gg: ASbGncuhQTtjphesBLqaDwyIq5UFfXtOI3/EILUH/F9xArTdYNazzsa9CyLUWkpQuRn
-	EAthG3FQqs77OujsUH42zYKdDBuCa1pHpmju5GMvHQi4pBH5JpHQcWw1B9ElggPal5/C1n3ZoeL
-	OEbcyXlmifOZ9LAErsdP64189nuI8UI8OM5BfIvf2Eh0Ll0v6y9yBToTfHqvu1EHy/zvvdoX5HE
-	Zs/qsKCtlZ8FChKKoLgIZalfU9E1oKXdxQjoxNF80fV8u33cimAJELY4BxI/NvYAUiNMal8MO3s
-	Plq5FjEkLg/mKJYu/tB7P9JhzLATiX/FIqpdkYHdH9SF1Kvu5tDfbKId88+jMlDVuG7C8E1x/3c
-	n5IBEHDco7S8YiQ==
-X-Google-Smtp-Source: AGHT+IHN0V6Vi0aPAu1d9d5AS3VfCD+ATABqrtHWzbt7i5cNrr6oVnwEDNT3Dh/t9jYOyViBE3w5uQ==
-X-Received: by 2002:a2e:be15:0:b0:36a:6540:3ba3 with SMTP id 38308e7fff4ca-36f7f932d9amr49253481fa.39.1759155923254;
-        Mon, 29 Sep 2025 07:25:23 -0700 (PDT)
+        bh=CR2DRLiDhu+KIUp//MexW+twJoNutw9NX8KBL+bDU8Y=;
+        b=WR9RV9wGuvD2+Vb4pErxdVRNVpXPRUWTrGJH2ZhjNT7NnpgOLGbksEbkiJcAggull4
+         2wNSv89ok+IssPGAKgFaN1BSF4g3NsEGl/hzbXtQURibTjuSBPkEtkN0i6oKeACgbUhi
+         BMSv5X6AOBA8+25VXc+JzQJVWQ2Sp0IKI4h1rR7vZ61ZriGi/yuFYGutGqApHJNc6CGS
+         S3sAz0gsfW49R+EAb8M2NySymdQ2aWARh+rgehCwoLAjNeqEqkFrJL6DI1uIQYyn3srB
+         WPbunBw7dFD+U6lXVXGPDZJ/pgJldkSdlgKLOfaI7CgZnMDYsXj1gbJNr9SOpGzRxHEr
+         GoHw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgfxa9PHEBoombPh+zbW5JXvzIZZCnkfqv95eVeEMyTIQnvVDS4T6gmhnp2JVcOklFCB2S5itco3SjRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywul9rgIygF3JRCGyxPZWwgqZfLJW99P4uf3B3q0SwPDC3LDK0w
+	6XBpodwxUPil1nDZ5s2i5syutH+jbEgxl/JmpQ3DG+p78iE6rgnI01Q1
+X-Gm-Gg: ASbGncvaAi8n8FlmP5yCKdk0k4tqNsV6vfDR/zwh/YrTV4h/TKYf/8k4CiuBgawJvEn
+	xigQF/QFbrGB20/J6AdfLd07nAWGFb/TdWizSHeR4mTnu5pZoTyZnBP6nB/syOfVvTOyZnLKLfX
+	kxffu+Z66Nzm/YFm6D+IgB7VNFNFLGM81tDXfvZsPUDETMpVEfpFfyOxf1gKNzaJNLT74Gq2WdS
+	wYEbk/1Hlyq/fAGp9EokykBIdWz86i2j43IRzBh/qkOcwQu29Esgk197d3P3RIiRPZ9YdpFkiME
+	7VWRqiR7F1vqCFUngexwH/Bb7kBrQU3P2yS7e3oAcF1PdTKBVVawNotIey9/kHoDthJmNCqAjgZ
+	s5FKfuDuVdLgSn4N5U3fyW6iz
+X-Google-Smtp-Source: AGHT+IFNjIFgX8uVUv3LKnu6a8HZNQrQoOWo+SvjXPGY7p7tT2SghjlapbxzZJoZAFXHw1IMl5Pu2Q==
+X-Received: by 2002:a05:651c:1117:10b0:371:7771:9f19 with SMTP id 38308e7fff4ca-372fa21bdfdmr2079601fa.7.1759155924484;
+        Mon, 29 Sep 2025 07:25:24 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3728c23e6c1sm13201001fa.52.2025.09.29.07.25.22
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3728c23e6c1sm13201001fa.52.2025.09.29.07.25.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 07:25:22 -0700 (PDT)
+        Mon, 29 Sep 2025 07:25:24 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -93,9 +93,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH v1 4/8] dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
-Date: Mon, 29 Sep 2025 17:24:50 +0300
-Message-ID: <20250929142455.24883-5-clamor95@gmail.com>
+Subject: [PATCH v1 5/8] gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel support
+Date: Mon, 29 Sep 2025 17:24:51 +0300
+Message-ID: <20250929142455.24883-6-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250929142455.24883-1-clamor95@gmail.com>
 References: <20250929142455.24883-1-clamor95@gmail.com>
@@ -107,26 +107,66 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document Samsung LTL106AL01 simple LVDS panel.
+Samsung LTL106AL01 is a 10.6" FWXGA (1366x768) simple LVDS panel found in
+Microsoft Surface RT tablet.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 5542c9229d54..93ddb3823d3d 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -268,6 +268,8 @@ properties:
-       - rocktech,rk043fn48h
-         # Samsung Electronics 10.1" WXGA (1280x800) TFT LCD panel
-       - samsung,ltl101al01
-+        # Samsung Electronics 10.6" FWXGA (1366x768) TFT LCD panel
-+      - samsung,ltl106al01
-         # Samsung Electronics 10.1" WSVGA TFT LCD panel
-       - samsung,ltn101nt05
-         # Satoz SAT050AT40H12R2 5.0" WVGA TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index ea2cdddb9b8f..6626393d7565 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -4144,6 +4144,37 @@ static const struct panel_desc samsung_ltl101al01 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct display_timing samsung_ltl106al01_timing = {
++	.pixelclock = { 71980000, 71980000, 71980000 },
++	.hactive = { 1366, 1366, 1366 },
++	.hfront_porch = { 56, 56, 56 },
++	.hback_porch = { 106, 106, 106 },
++	.hsync_len = { 14, 14, 14 },
++	.vactive = { 768, 768, 768 },
++	.vfront_porch = { 3, 3, 3 },
++	.vback_porch = { 6, 6, 6 },
++	.vsync_len = { 1, 1, 1 },
++	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
++};
++
++static const struct panel_desc samsung_ltl106al01 = {
++	.timings = &samsung_ltl106al01_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 235,
++		.height = 132,
++	},
++	.delay = {
++		.prepare = 5,
++		.enable = 10,
++		.disable = 10,
++		.unprepare = 5,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode samsung_ltn101nt05_mode = {
+ 	.clock = 54030,
+ 	.hdisplay = 1024,
+@@ -5302,6 +5333,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "samsung,ltl101al01",
+ 		.data = &samsung_ltl101al01,
++	}, {
++		.compatible = "samsung,ltl106al01",
++		.data = &samsung_ltl106al01,
+ 	}, {
+ 		.compatible = "samsung,ltn101nt05",
+ 		.data = &samsung_ltn101nt05,
 -- 
 2.48.1
 
