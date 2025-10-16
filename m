@@ -1,79 +1,78 @@
-Return-Path: <linux-tegra+bounces-9875-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-9877-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6B8BE1F4B
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Oct 2025 09:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A1FBE1F5A
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Oct 2025 09:42:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 95E434E8709
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Oct 2025 07:42:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 372054F4240
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Oct 2025 07:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29C812FC00E;
-	Thu, 16 Oct 2025 07:42:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19B6B2FDC52;
+	Thu, 16 Oct 2025 07:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k637RR6X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L53WD5cq"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757E2D0C94
-	for <linux-tegra@vger.kernel.org>; Thu, 16 Oct 2025 07:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB3D2FB084
+	for <linux-tegra@vger.kernel.org>; Thu, 16 Oct 2025 07:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760600545; cv=none; b=JpECaUAFJHGs+Bi++SGVE2gFw4Jut6OPOQDGT/HrIevOwrn5W0OiN3Ibtqm+BLLlxoUOyP7jCBqcyAuOMtwW1Kkaq307MOOpkginsMmqgp8IgHDaX/FvlA7L+VB8x/UEEAEhyPKuQoTusMSr5v3BzM+Cz9K+5enIU1/t4M7ZJvY=
+	t=1760600546; cv=none; b=HX7ptMVqQvv+bExTQQSkrXaaOrWJXW9PR+RfW2kCsXfHieceEoqrZhFpGAVIomdnq16v255c0NzhcD1YAcjU08LpAPTDsxucDPAlWfu36fx7S5NY2Ahyc9MkpSJ76G9s0oukm7uINDwkqQb8Aoig1gA3PtEriGdj0AWT8hFtdfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760600545; c=relaxed/simple;
-	bh=FkGRInyokXG5KJ+kNbqMo2+fNDp7XD2fsmE5VLy0RFk=;
+	s=arc-20240116; t=1760600546; c=relaxed/simple;
+	bh=1GMIgj9fa8qcijUI+RA/PiInAoio4qFaHVwg665u70Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e+pnmJRL5UJ/phPRYNQmkFw5GTJKeVAO01CtwA5EFVWcrLJqOPeLljWjXbQIB+EucFEMbPHypjRaXp5n9cg0igqjSQk4ZJSiTgtkljoya+2LYp94iJsMx+ESXMEGvK43j3D4eCRHL8jDIV0tN/jZJWMOTb9neSoxJeO4HLweEWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k637RR6X; arc=none smtp.client-ip=209.85.167.50
+	 MIME-Version; b=ETtKi/aBXh7MUd+H4ktGrToEiUVTf6oVI3nvI4jo1UNCpUbteonMBh0qN9dlRwvqhL04rBsYl5T+EgIn82dafQGVGzrVsObc1tvPKn7BBRWLXkCnypDno/TuE8RwNOvYMJOBye/DM5vdUPC0B1+EGQWwgMqZSTHpaFiexAxmUoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L53WD5cq; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-586883eb9fbso516828e87.1
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Oct 2025 00:42:23 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-376466f1280so3296831fa.0
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Oct 2025 00:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760600542; x=1761205342; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760600543; x=1761205343; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6OFHVsoqdL4FPop43Q5nsyfcnf+4nWBxo0n9KE3mG1k=;
-        b=k637RR6XHedi8yaJRkiZptXdraa3lA2GP7TsT49K7SQj80XRPDayVmTqb/x2yKZiOk
-         libL9sQQL1Vik3M0loZJeyy6IhTh5z5kNIdzVaDMdkYRErTik3V1Y9DHoGD/du7u82DB
-         hwqYK5Tvj3fw+encIewM2bMnBFQx3hgpzfKMoxzxGFOgMiRZrUjysyIf/HGZucDPmZRR
-         n3KRZtUlPppan7+Po6FgNNjJ6RsZ4qlTYUmZ+Ttq1zUgNe34D2O/OgLDe49WsDU8ivBr
-         Q3M8x1YhtHz3uEaENx01tiOyuNrqA3g4vNkZok7qYJ9yr0jWZ4fnXti70/xNE7LMRH0i
-         66fw==
+        bh=ia5UihKP5vENKa1ZWsO4hQ9tEZ1zR6aQObC7qlN+yRs=;
+        b=L53WD5cqZkf3Grf5Ny5ixH06yJZ6Zd6xcrPvucaISKp5w0no7oRZ1ndgWpoOBYsPje
+         gR3LzzUvrHoDRJIj57OePmoYD7xYa0gQrZ0Zt70+ibX7DcrwLJDZ6mFAa0JqFWcwHnIZ
+         5JswRRevK4L0LmiNuRzP3Wi6V8Tpqo2L69lQXsPJ808X3L33UzhD3FcNf3S2TgrrMp8C
+         sDTi6eaTDRvU7EtzCu1hMK62RjquJ2HS1hrUMCAbzNCiHVWyVrolJE4wadKHkYuntqyk
+         QguClvj3mRo1UpCodhYwsIWRx3J7SP8VtNQ+bjfIVsxd5RKJ4vajycvMsnW+aFpD0pA3
+         qT/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760600542; x=1761205342;
+        d=1e100.net; s=20230601; t=1760600543; x=1761205343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6OFHVsoqdL4FPop43Q5nsyfcnf+4nWBxo0n9KE3mG1k=;
-        b=VuREkZ2YFoDcd4ZUVXPaKjtW2EAE77wYZrm0OJnVzp+cRB9xAgBQKd7Nsz4HFAcLds
-         S5dvorNNDed/3ih6aSHkYU0G6XjgPVw5cixC41ZTe4NY8CdR4l+7pRD671/H76jHsb3+
-         KW/6O1WRTx5MSm/YuOFomamTQVYAOGeSkMOEr0wF0WEXVCuPlxSq8+AK8SBtWjVZi0W9
-         MrgR3x3Zr//o77tCaNN5sKo6IIw4U3zPTgmboZYEhXGE6gyC5BaQ2WbNTDqPcgSnCqM8
-         ka4MDRvEGsU2VbwYvjBDKD6n4cKQrFHG63SMF6Kc7anPX0WCLVLmKFcCqRalfFKTTFiT
-         prsA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Rygi4ho1DaZ7G4FxsdKgPyBdupkZ4tGofQkFnWFoUmTw3k5nZdOu4yomtavGytnqV1FEmjj4rohT9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdswxOhmpG6qFIznzx6QVFQH6CEhN5L0YwHKb/ixnUY8hj3py4
-	8/CAor5fXKsU3pOo5ZENVqEnVq4q87tIn7bpVrUORSyycD4PXc8/MlqR
-X-Gm-Gg: ASbGnctsMGeBUUxuVcRTiDnkgYJYgfeSPWf4ELfiWX0NQQ61rZ7xvZU/Aaw2fMPwM00
-	0d3Tk+EGK3AJdxfOj6k/F0IlZngzyEkdTnHKK0u+1/huY8PxXOH9CrRn9eu6OZodIBTGOwEEqde
-	uCYt8HgmzBaNkVP5J7/jjvzf/xtDsj5as5vQdxi+Tsselre51gPaSEYNRPh7DrD5WW1rJdsRqow
-	iCVNcc2R51Tcp5V4RXT1TbCNbf83wN+nSQvLqe6/yLBvft8tB67hbZ7jIXBx5TUyditStCZrxnk
-	wtrEAoEL8/xQDVvvIcLCUJLgFZ53ZC9q+LJeFIH+M5inxCg5Mvb8g+wgCVtKyn+5ZCz8DmmeNK/
-	GTK9dVvajPT5ynJ84y1Mj6VDJyfo9eFBoT7PSG4JByRgPJg/da8GlpkbZ3oTJdXnSENvCmwJd5u
-	3Bm1zUbdHWrJ37
-X-Google-Smtp-Source: AGHT+IEQ7WcXMMwyK2nxJArLctfo4cva0enT8AjYXTH9/BOo6BovSeeUah3crI2yt6sggvpHayBv2g==
-X-Received: by 2002:a05:6512:308d:b0:579:ec3a:ada2 with SMTP id 2adb3069b0e04-5906d7738b2mr10869982e87.4.1760600541764;
-        Thu, 16 Oct 2025 00:42:21 -0700 (PDT)
+        bh=ia5UihKP5vENKa1ZWsO4hQ9tEZ1zR6aQObC7qlN+yRs=;
+        b=PkrLfPL3VMbf+kfSNjyWn5QENyISmdOGffWnBgrN/5vel9OgEYt4yAfMp7Q8LxY8oi
+         pzsqDNIH7JXf1R3wQD6CIekK5IhPezfubUN2imhyFe4nvLrCf6L/LF8Ya2fpSmDhrMIT
+         z0irgnIglW0Or6WwuF+W03PWWz7ZSzwwWOBwpiZ1cd91+uqF2SGlm1NOyZFV8aI5V7J9
+         O1GROoZ4mWyK+2lvcntWfkQ7jSzESjzNvnzFLYGnQRVNHhAkelX6sPHWqcowPMrPqm6P
+         SmrRF/wPeORzJ7q23+ramM/yBKcKeRKxll+2Hts+tNR09HOUlG8NBP5i/dPX07sqNC/5
+         +D3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWJuZHwptJopvRr9qG+t670pyxrdAB+eJmxMBunumGyKF1oef2YTewf8K6ZTlYeF900SO130Zm6i7C38g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7B4e3Ptv/8rBq6IGLK+vVZD6rWwnfZB1obUeymQHm/QNgXKhA
+	+Omysa3VbI1ZDc7ERILy2KR2ZZStZWlsOQSqy2ithKqvCErVVDP5600N
+X-Gm-Gg: ASbGncvQoawzkqOT0nc2hFApL8e41XY9CKHsxhzuzHM/tajMpBEjQwel4ywB2M0BJ3G
+	+N1Vfk+s+1dLxnoEdKagZy2YXeDvdE63irSi0fnxOBNYwlVStu4gP2YrEpOQ01sfpHgizxqd/PR
+	Y/1RNGUf56GiqdL7Tb0O3+kWryQDxJVYediskDAp7Ur2A0z/Xvja76ROEuGWF0OE0Nd8FHCGq7L
+	yEu2SBQ1gxNUfYyR9g4m2A+5zvVzkofNko0eEbTSnY9qGjP21CSKBULkcLmp4kpn5IIBw/xlWKd
+	C7AByFXVoGhZCCgq2r9ymzhnjedPG+DxTvl3tTBESek61yS+IVJo9hgbBFAJHLD25s0t1Av8G56
+	R41tLVjgqI4zP+FUZXxvkZjfHUHFzDoOUv7v5TnS+r9AQ1XpqSQkPMH6fIE6FL5FSFrI=
+X-Google-Smtp-Source: AGHT+IH30WPk5mTWKUGkgpDqPD9jcWCWyb5Rjdc/LS292IWzNiQQP2senhWiVMmYVrWHo213ylX7tA==
+X-Received: by 2002:a2e:bd14:0:b0:372:9d94:8697 with SMTP id 38308e7fff4ca-37609f05411mr92467611fa.44.1760600542660;
+        Thu, 16 Oct 2025 00:42:22 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762ea14d46sm53226121fa.34.2025.10.16.00.42.20
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762ea14d46sm53226121fa.34.2025.10.16.00.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 00:42:21 -0700 (PDT)
+        Thu, 16 Oct 2025 00:42:22 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -85,9 +84,9 @@ To: Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 1/4 RESEND] dt-bindings: display: tegra: document EPP, ISP, MPE and TSEC for Tegra114+
-Date: Thu, 16 Oct 2025 10:41:49 +0300
-Message-ID: <20251016074152.8759-2-clamor95@gmail.com>
+Subject: [PATCH v5 2/4 RESEND] ARM: tegra114: add missing HOST1X device nodes
+Date: Thu, 16 Oct 2025 10:41:50 +0300
+Message-ID: <20251016074152.8759-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251016074152.8759-1-clamor95@gmail.com>
 References: <20251016074152.8759-1-clamor95@gmail.com>
@@ -99,177 +98,96 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current EPP, ISP and MPE schemas are largely compatible with Tegra114+,
-requiring only minor adjustments. Additionally, the TSEC schema for the
-Security engine, which is available from Tegra114 onwards, is included.
+Add nodes for devices on the HOST1X bus: VI, EPP, ISP, MSENC and TSEC.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- .../display/tegra/nvidia,tegra114-tsec.yaml   | 68 +++++++++++++++++++
- .../display/tegra/nvidia,tegra20-epp.yaml     | 14 ++--
- .../display/tegra/nvidia,tegra20-isp.yaml     | 15 ++--
- .../display/tegra/nvidia,tegra20-mpe.yaml     | 18 +++--
- 4 files changed, 102 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-tsec.yaml
+ arch/arm/boot/dts/nvidia/tegra114.dtsi | 64 ++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-tsec.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-tsec.yaml
-new file mode 100644
-index 000000000000..2c4d519a1bb7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-tsec.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra Security co-processor
-+
-+maintainers:
-+  - Svyatoslav Ryhel <clamor95@gmail.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
-+
-+description: Tegra Security co-processor, an embedded security processor used
-+  mainly to manage the HDCP encryption and keys on the HDMI link.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra114-tsec
-+          - nvidia,tegra124-tsec
-+          - nvidia,tegra210-tsec
-+
-+      - items:
-+          - const: nvidia,tegra132-tsec
-+          - const: nvidia,tegra124-tsec
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+  operating-points-v2: true
-+
-+  power-domains:
-+    maxItems: 1
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - resets
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra114-car.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    tsec@54500000 {
-+        compatible = "nvidia,tegra114-tsec";
-+        reg = <0x54500000 0x00040000>;
-+        interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&tegra_car TEGRA114_CLK_TSEC>;
-+        resets = <&tegra_car TEGRA114_CLK_TSEC>;
-+    };
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
-index 3c095a5491fe..334f5531b243 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
-@@ -15,10 +15,16 @@ properties:
-     pattern: "^epp@[0-9a-f]+$"
+diff --git a/arch/arm/boot/dts/nvidia/tegra114.dtsi b/arch/arm/boot/dts/nvidia/tegra114.dtsi
+index 4caf2073c556..8600a5c52be9 100644
+--- a/arch/arm/boot/dts/nvidia/tegra114.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra114.dtsi
+@@ -47,6 +47,45 @@ host1x@50000000 {
  
-   compatible:
--    enum:
--      - nvidia,tegra20-epp
--      - nvidia,tegra30-epp
--      - nvidia,tegra114-epp
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra20-epp
-+          - nvidia,tegra30-epp
-+          - nvidia,tegra114-epp
-+          - nvidia,tegra124-epp
+ 		ranges = <0x54000000 0x54000000 0x01000000>;
+ 
++		vi@54080000 {
++			compatible = "nvidia,tegra114-vi";
++			reg = <0x54080000 0x00040000>;
++			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&tegra_car TEGRA114_CLK_VI>;
++			resets = <&tegra_car 20>;
++			reset-names = "vi";
 +
-+      - items:
-+          - const: nvidia,tegra132-epp
-+          - const: nvidia,tegra124-epp
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
-index 3bc3b22e98e1..ee25b5e6f1a2 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
-@@ -12,10 +12,17 @@ maintainers:
- 
- properties:
-   compatible:
--    enum:
--      - nvidia,tegra20-isp
--      - nvidia,tegra30-isp
--      - nvidia,tegra210-isp
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra20-isp
-+          - nvidia,tegra30-isp
-+          - nvidia,tegra114-isp
-+          - nvidia,tegra124-isp
-+          - nvidia,tegra210-isp
++			iommus = <&mc TEGRA_SWGROUP_VI>;
 +
-+      - items:
-+          - const: nvidia,tegra132-isp
-+          - const: nvidia,tegra124-isp
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
-index 2cd3e60cd0a8..36b76fa8f525 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
-@@ -12,13 +12,21 @@ maintainers:
- 
- properties:
-   $nodename:
--    pattern: "^mpe@[0-9a-f]+$"
-+    oneOf:
-+      - pattern: "^mpe@[0-9a-f]+$"
-+      - pattern: "^msenc@[0-9a-f]+$"
- 
-   compatible:
--    enum:
--      - nvidia,tegra20-mpe
--      - nvidia,tegra30-mpe
--      - nvidia,tegra114-mpe
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra20-mpe
-+          - nvidia,tegra30-mpe
-+          - nvidia,tegra114-msenc
-+          - nvidia,tegra124-msenc
++			status = "disabled";
++		};
 +
-+      - items:
-+          - const: nvidia,tegra132-msenc
-+          - const: nvidia,tegra124-msenc
++		epp@540c0000 {
++			compatible = "nvidia,tegra114-epp";
++			reg = <0x540c0000 0x00040000>;
++			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&tegra_car TEGRA114_CLK_EPP>;
++			resets = <&tegra_car TEGRA114_CLK_EPP>;
++			reset-names = "epp";
++
++			iommus = <&mc TEGRA_SWGROUP_EPP>;
++
++			status = "disabled";
++		};
++
++		isp@54100000 {
++			compatible = "nvidia,tegra114-isp";
++			reg = <0x54100000 0x00040000>;
++			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&tegra_car TEGRA114_CLK_ISP>;
++			resets = <&tegra_car TEGRA114_CLK_ISP>;
++			reset-names = "isp";
++
++			iommus = <&mc TEGRA_SWGROUP_ISP>;
++
++			status = "disabled";
++		};
++
+ 		gr2d@54140000 {
+ 			compatible = "nvidia,tegra114-gr2d";
+ 			reg = <0x54140000 0x00040000>;
+@@ -149,6 +188,31 @@ dsib: dsi@54400000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 		};
++
++		msenc@544c0000 {
++			compatible = "nvidia,tegra114-msenc";
++			reg = <0x544c0000 0x00040000>;
++			interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&tegra_car TEGRA114_CLK_MSENC>;
++			resets = <&tegra_car TEGRA114_CLK_MSENC>;
++			reset-names = "mpe";
++
++			iommus = <&mc TEGRA_SWGROUP_MSENC>;
++
++			status = "disabled";
++		};
++
++		tsec@54500000 {
++			compatible = "nvidia,tegra114-tsec";
++			reg = <0x54500000 0x00040000>;
++			interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&tegra_car TEGRA114_CLK_TSEC>;
++			resets = <&tegra_car TEGRA114_CLK_TSEC>;
++
++			iommus = <&mc TEGRA_SWGROUP_TSEC>;
++
++			status = "disabled";
++		};
+ 	};
  
-   reg:
-     maxItems: 1
+ 	gic: interrupt-controller@50041000 {
 -- 
 2.48.1
 
