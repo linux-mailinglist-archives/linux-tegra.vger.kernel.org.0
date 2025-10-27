@@ -1,282 +1,204 @@
-Return-Path: <linux-tegra+bounces-10092-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-10094-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C21AC1072F
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Oct 2025 20:05:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3F7C11F95
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Oct 2025 00:20:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B812464798
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Oct 2025 18:59:41 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AB855501F24
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Oct 2025 23:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F160335093;
-	Mon, 27 Oct 2025 18:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1F332D437;
+	Mon, 27 Oct 2025 23:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="crH8EmHu"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="mdhrGGqo"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012011.outbound.protection.outlook.com [52.101.48.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08893346BB;
-	Mon, 27 Oct 2025 18:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761591316; cv=none; b=bfwcQ+BOpFl8zBlD3q1vUzv31uT0GEah04TcGrK5QQKeiq+r85qkUtXm98lTnJoKwbZAHrygDjeDowesMH+C6JHZwCxjk5v926HjRI8P0XuC20H5HdwV9KDIvEBh74aVL/WO6qOlt0mhsQloLCqjPbt7swri9anx3dAymMqgIwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761591316; c=relaxed/simple;
-	bh=GGEvEZvRaoIuFDYNvZvkDj01Ws1uqA3sPZnOQu42VM4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=emaDGZw5QIDDtkSAQhQKIHRInJFvNciuhiYP7sIW2L/4Su4fvQN0S13h80CMQSeqYDs69qVJeOA95EMUyIpo/Xg7rcWNShpty9MPgoVB+7FyihCdFqSWjkW4L4Z9ltFwnxGIxYwuzF6QLVfAUttl5/BH1X9lEo0b/21uDqO0mmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=crH8EmHu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B49AC16AAE;
-	Mon, 27 Oct 2025 18:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761591316;
-	bh=GGEvEZvRaoIuFDYNvZvkDj01Ws1uqA3sPZnOQu42VM4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=crH8EmHudGPM8e37FU+7DRJ2Dzqog99qvcRmRxP3T5MSA6YbpCD4GyfEh9yWtis2p
-	 e0BQ3yC1AqeMAn3yU3Jitw01qRsyU4ieeVue4qx1SsRtidmVL50gqleD9LC3aVvBLr
-	 KOck+oFHq/10Bfvfm84Vy7LbOxI+VXfq5yPO1Za4H7CWQeCnY86bD8+XzFAy+epXo/
-	 1juAgtdSinJkNnjqnr40rQW7SieDo73bbRsJOXynRyECZzr2JD7GgpxTqdfo7EXW/q
-	 3Mbcfh5S8qpcPrrV66pBV8NAohs8v4J8AndwV8SVy7biPjd4U084eJzhi0LJ8ofMpE
-	 bWGIBVgYEl15A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E06BCCF9E5;
-	Mon, 27 Oct 2025 18:55:16 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Mon, 27 Oct 2025 13:55:17 -0500
-Subject: [PATCH v4 3/5] memory: tegra186-emc: Support non-bpmp icc scaling
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A362E6CD0;
+	Mon, 27 Oct 2025 23:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761607147; cv=fail; b=qwTkLwGQGJ+ppZYG+zFL/ySQaBiycmdUdpFg38UzBkBpg+fWbpyyQflChOGtUutEfX/EmcE8j6Qtz64FobHWXY0rf/BAt185IT0Y3PzIp7DWKeI+MbS3GiUUhe2xTBTmLXke2SiKa43KBS/EwlDXvcXUokwXreqgH7IBXQN+m1Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761607147; c=relaxed/simple;
+	bh=1dLqmmZBNDKLin8ZOSmY86yMneKtKIUM5DYvbiA3FJo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5Vc4PBHHk70QGoqKvYG5HCvfV4DqSxzTJGMvSYcwcTvk1jF4dHdpTjja7/Lc4W0OQJ7Nu+58KsaqSHlGc+m5NHCkwJZSU+3lXotJs4L/swlfqRJ/QHx08nsoZXSi5BJxmTVTN3ln8oj4V0keI95lb+EtM2oA5Jp7f265CoK/Rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=mdhrGGqo; arc=fail smtp.client-ip=52.101.48.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AuRe8fE4zPgfktyNtevke/1EXcZ638kemfCks7E5ykkyfSlG4711npJdtTtu4vnEm/luEQG3n8/TxJr+eGW5mtMeep1mQ9h1YNlrQ6T+W5r7cg/yMqWGaV/6g5V+X3FU2wkyppNpsvtKV7fRXV7ZtkWBwNeynfVInk/fVqc2gre7CCjFSHYo24tqfJljITWEJ2Zu/6K4ssJP5nYsxS3DWyJS0Ar0SyPt2q5HSs9zgZ09/acLZnL7S0vcGvbcnFDdFAV24O5HbKlR7vncB/+bJSO44e1VK47ID3f5QwoiVSFtNPm48qR47SrG7QdxU5EPZzmvwD5k64x9itDNggRnEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V6WAveTRJpTI81HRvkYGG81+o9bPxldRAvLn8qBlcb4=;
+ b=y4vagTbGGnyo5/vciUTT8hpbFT7wQU87vsUh1kD0C701evscJ9LgC2laAAWr7mveWzTtdL6BZIKni+MVlSLfV/yAob/nPoG70cduBt45mz/iwgWsU9rAV+4eeyn6Jh4dp7xLV96E2ND220kBD3aKCMdMbFtzWYt/l8doLUzleZ7LchgwMUsu96FMDj/lFG3Q9jr2UcVFHsId4GXaQ45vJ3rt4Z/WqpchhlDOgfBq7BNPWOu9CYQO7vxuJhJrBzZMJeubzJGqIuxtHRADIAmCbSDNO5YzNMtC6Eu+mrNdflCoQmC5p4tEScq2oGkgnLPmovKkTx2Abry8uZCgpQfGIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V6WAveTRJpTI81HRvkYGG81+o9bPxldRAvLn8qBlcb4=;
+ b=mdhrGGqowGrSQRVmPfC7jYsXljzMqhFMsZPsEFQgRoZmwPhat1f1RK6o7EN6t8+3WJwIURI7Bai6GieTlugno2NK2/TruZk5ZhPp1kdYzkHQFm3vLZeHTO2JYtu0mkRcQYmn81+PoOsjf3XialMCyAx165jsQeE4mjW0GAzFUxiNn6Xy8oF9nRxCrwioz8wbWvt7+G/5AOpvZd3GLF6CNueUlJ8Ay102A/8abbIyuew9DDtJ4AoSEnJus+mSUJTGxcjx3c/f7fW6hnxxiZBux3yyp41V9HmN00/tE181I8fmGiTrctmKz3sW/HcS3V443Sy3mxPdJg3ZNXSas0dIrg==
+Received: from SJ0PR05CA0071.namprd05.prod.outlook.com (2603:10b6:a03:332::16)
+ by SN7PR12MB7809.namprd12.prod.outlook.com (2603:10b6:806:34e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Mon, 27 Oct
+ 2025 23:18:58 +0000
+Received: from SJ1PEPF00002325.namprd03.prod.outlook.com
+ (2603:10b6:a03:332:cafe::1c) by SJ0PR05CA0071.outlook.office365.com
+ (2603:10b6:a03:332::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.9 via Frontend Transport; Mon,
+ 27 Oct 2025 23:18:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ SJ1PEPF00002325.mail.protection.outlook.com (10.167.242.88) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Mon, 27 Oct 2025 23:18:58 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 27 Oct
+ 2025 16:18:57 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Mon, 27 Oct 2025 16:18:57 -0700
+Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 27 Oct 2025 16:18:55 -0700
+Date: Mon, 27 Oct 2025 16:18:54 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <joro@8bytes.org>, <jgg@nvidia.com>, <kevin.tian@intel.com>
+CC: <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
+	<robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
+	<jean-philippe@linaro.org>, <robin.clark@oss.qualcomm.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <yong.wu@mediatek.com>,
+	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
+	<tjeznach@rivosinc.com>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <heiko@sntech.de>, <schnelle@linux.ibm.com>,
+	<mjrosato@linux.ibm.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+	<iommu@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+	<patches@lists.linux.dev>
+Subject: Re: [PATCH v1 02/20] iommu: Introduce a test_dev domain op and an
+ internal helper
+Message-ID: <aP/93kMokMgaWEEK@Asurada-Nvidia>
+References: <cover.1760312725.git.nicolinc@nvidia.com>
+ <32ce256a2ece5d63e99d5858f953586859818ffc.1760312725.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251027-tegra186-icc-p2-v4-3-e4e4f57e2103@gmail.com>
-References: <20251027-tegra186-icc-p2-v4-0-e4e4f57e2103@gmail.com>
-In-Reply-To: <20251027-tegra186-icc-p2-v4-0-e4e4f57e2103@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761591315; l=5761;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=222sswwfBJV+dPNMrl15U4Icho4DcSw0wOpJlVxJSao=;
- b=rjad1WYlJMXjlqBfbvXz79t0Y09Vy5oD0DVu+z9g0hetg9tLLViNkUFiqPoPh1cOQ/qFfC902
- M0hEEf1B1FYCLedIam3WsB6d+xmjMG9v+P9RoZRLFJwMQXyKbK9ZCUz
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <32ce256a2ece5d63e99d5858f953586859818ffc.1760312725.git.nicolinc@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002325:EE_|SN7PR12MB7809:EE_
+X-MS-Office365-Filtering-Correlation-Id: 339f68d5-ca0d-4de3-8058-08de15af34d3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?EY0RXe2JNZaIt7N6Sh//f9nfYFie1PnWQ8W9sClSNlojBXTU5hbXHrYyf4DP?=
+ =?us-ascii?Q?QrPuv1nnNXO3uPvnQjAW8OUxQsjAZqmMhWD4tjyZg7AJ342dGisInoELu+/M?=
+ =?us-ascii?Q?iPdy2IwTDMQcZ1x18Fk4IL03h/DY4R9vbBgv/1BA8Rbv3lP2n5swfX/tI1JB?=
+ =?us-ascii?Q?yvcoFp6xBE4gcXNqdoUTH18ZhcAKB+LsibsVfdlEximUuGH6UY5qhivFW5rO?=
+ =?us-ascii?Q?A97VdveW00KK+kqAWD96Gb8hGv7C3hKIyh8++D6ci2fhjiVaBnd93ZFLmSGa?=
+ =?us-ascii?Q?4O4JdbOyRlyhSHoiSYah8nG14wSszHspI9TYmf6ZSF5J2sNdXF8r1GhQzCd3?=
+ =?us-ascii?Q?snOuG4qY54Y9WpCVvhf8lYkKhd7DJRjltqxGZrTZ2DDQzdwL38QzJfhuJ2SM?=
+ =?us-ascii?Q?Ienr/xISFC226JmNCxy7O5NJB2q6/2KsYDFF1Hd8JfmyCVWg8UXk3ulc7Eze?=
+ =?us-ascii?Q?S/X8trf0Skx1JgXHWzCw3C9TFLmrcAsx/Os2udcTTdle0vAq8KvmT1fLtqsx?=
+ =?us-ascii?Q?9Cwx1+U6V7IEWsSMPFvnMKA8XKERV/gHSNZ4HpqKNwms461hL4BV030nRXQL?=
+ =?us-ascii?Q?i8rHFFEWhy2X7VvDZAfrcsbVQaYOQnCbrJHFpnFRk4vJwaXwNr95VVATTsq2?=
+ =?us-ascii?Q?fq/vmZ86piPDn4TNvLIhp9etOoelGIL5wuGFQ57JDZypjOhnzVEL5m9reU4z?=
+ =?us-ascii?Q?JfJ0CZ2NqqAqaJYp035dui3K8rSl5/3Rb1Fyz50h0E+At6TRFjNBQG7mWYqL?=
+ =?us-ascii?Q?Okw3d20XVtc5Ppcw1431hs8Y+1MWb2tnnG/KcMr7lvcD4TWyB3fV37IPfs6E?=
+ =?us-ascii?Q?hW3c61DBqScTHxo3ATXOgBWwl33bC3kfCEHJSZpp8SaHuR2ux2WQbSuma62R?=
+ =?us-ascii?Q?OF7b3co5xk1Ffyxe5dyAwKcAbTrMkqUQ7adPbInMK7oC1TKr2taO8K6+/iB7?=
+ =?us-ascii?Q?UeSjArQjgzNc1LUJTUMkW/iNkvu8i4YHiCigeHfxXtCyjnKam2x/srlEaf+F?=
+ =?us-ascii?Q?qq1SXRPQYt20+IeliYx9D1U5ULppep3E651EeCyTtZKTHDmSpnG4C5Odojt8?=
+ =?us-ascii?Q?0BTTwypxP1pLeNEIME60WAg6VW+V0IBZpKpbpA2AiDnPfYK9F9gNFJ72h1zv?=
+ =?us-ascii?Q?AucYZtP59KFiN7McJJYi4Bucaw01yOwdBhY2jyOd+vL0RdWjM0AFyYzjIcLd?=
+ =?us-ascii?Q?xdxR3qe+MSJied8AlrI+kViJcp4OKs+87K9uiAC1iHW1PFff1aNlULD4R70x?=
+ =?us-ascii?Q?rTQYBfCL5y3ehHAPmyhMaXgKs1qQcAPz/U0sVBpYUbaR2wwSIeA7w+3sBpmN?=
+ =?us-ascii?Q?ntY0E0veEiI1IVbGrO+RPnIhU20LDU52Rf7UIuRlO/ABT0vIohYXNY6/HxAg?=
+ =?us-ascii?Q?EvBzxn3jkL1kLnvgJcuzfzEoahZ76EkzIJxt8qd0tGkTNAcK1Eqin/JCSBuA?=
+ =?us-ascii?Q?ZO7RafIATQ1xqCXd7wBbFVQCD8ubQApGT6kp0oJzpfnBcI3hMEzGyr1kQjYX?=
+ =?us-ascii?Q?n6VlFnfMQQT0qHkLpwQa8fIYxwryLtWWllgFEn72XRnQ6uQGfL64iD8HdDC7?=
+ =?us-ascii?Q?wlklxl5soIB1pDnpcmc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 23:18:58.2518
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 339f68d5-ca0d-4de3-8058-08de15af34d3
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002325.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7809
 
-From: Aaron Kling <webgeek1234@gmail.com>
+On Sun, Oct 12, 2025 at 05:04:59PM -0700, Nicolin Chen wrote:
+> @@ -3479,38 +3545,19 @@ int iommu_attach_device_pasid(struct iommu_domain *domain,
+...
+> -	for_each_group_device(group, device) {
+> -		/*
+> -		 * Skip PASID validation for devices without PASID support
+> -		 * (max_pasids = 0). These devices cannot issue transactions
+> -		 * with PASID, so they don't affect group's PASID usage.
+> -		 */
+> -		if ((device->dev->iommu->max_pasids > 0) &&
+> -		    (pasid >= device->dev->iommu->max_pasids)) {
+> -			ret = -EINVAL;
+> -			goto out_unlock;
+> -		}
+> -	}
+> +
+> +	ret = __iommu_domain_test_device(domain, dev, pasid, NULL);
 
-This adds support for dynamic frequency scaling of external memory on
-devices with bpmp firmware that does not support bwmgr.
+I realized that here it needs to be under for_each_group_device,
+as its following __iommu_set_group_pasid() calls attach_dev() on
+every group_device. So, the new code should run a test_dev() on
+every group_device to keep the consistency.
 
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
----
- drivers/memory/tegra/tegra186-emc.c | 132 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 130 insertions(+), 2 deletions(-)
+> @@ -3615,6 +3657,11 @@ int iommu_replace_device_pasid(struct iommu_domain *domain,
+>  	ret = 0;
+>  
+>  	if (curr_domain != domain) {
+> +		ret = __iommu_domain_test_device(domain, dev, pasid,
+> +						 curr_domain);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+>  		ret = __iommu_set_group_pasid(domain, group,
+>  					      pasid, curr_domain);
 
-diff --git a/drivers/memory/tegra/tegra186-emc.c b/drivers/memory/tegra/tegra186-emc.c
-index 9959ad5804b444b269456d1fbae87b4bc111661b..74be09968baa7a0fbdce4359f470ce56b18acb10 100644
---- a/drivers/memory/tegra/tegra186-emc.c
-+++ b/drivers/memory/tegra/tegra186-emc.c
-@@ -18,6 +18,17 @@ struct tegra186_emc_dvfs {
- 	unsigned long rate;
- };
- 
-+enum emc_rate_request_type {
-+	EMC_RATE_DEBUG,
-+	EMC_RATE_ICC,
-+	EMC_RATE_TYPE_MAX,
-+};
-+
-+struct emc_rate_request {
-+	unsigned long min_rate;
-+	unsigned long max_rate;
-+};
-+
- struct tegra186_emc {
- 	struct tegra_bpmp *bpmp;
- 	struct device *dev;
-@@ -33,8 +44,90 @@ struct tegra186_emc {
- 	} debugfs;
- 
- 	struct icc_provider provider;
-+
-+	/*
-+	 * There are multiple sources in the EMC driver which could request
-+	 * a min/max clock rate, these rates are contained in this array.
-+	 */
-+	struct emc_rate_request requested_rate[EMC_RATE_TYPE_MAX];
-+
-+	/* protect shared rate-change code path */
-+	struct mutex rate_lock;
- };
- 
-+static void tegra186_emc_rate_requests_init(struct tegra186_emc *emc)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < EMC_RATE_TYPE_MAX; i++) {
-+		emc->requested_rate[i].min_rate = 0;
-+		emc->requested_rate[i].max_rate = ULONG_MAX;
-+	}
-+}
-+
-+static int emc_request_rate(struct tegra186_emc *emc,
-+			    unsigned long new_min_rate,
-+			    unsigned long new_max_rate,
-+			    enum emc_rate_request_type type)
-+{
-+	struct emc_rate_request *req = emc->requested_rate;
-+	unsigned long min_rate = 0, max_rate = ULONG_MAX;
-+	unsigned int i;
-+	int err;
-+
-+	/* select minimum and maximum rates among the requested rates */
-+	for (i = 0; i < EMC_RATE_TYPE_MAX; i++, req++) {
-+		if (i == type) {
-+			min_rate = max(new_min_rate, min_rate);
-+			max_rate = min(new_max_rate, max_rate);
-+		} else {
-+			min_rate = max(req->min_rate, min_rate);
-+			max_rate = min(req->max_rate, max_rate);
-+		}
-+	}
-+
-+	if (min_rate > max_rate) {
-+		dev_err_ratelimited(emc->dev, "%s: type %u: out of range: %lu %lu\n",
-+				    __func__, type, min_rate, max_rate);
-+		return -ERANGE;
-+	}
-+
-+	err = clk_set_rate(emc->clk, min_rate);
-+	if (err)
-+		return err;
-+
-+	emc->requested_rate[type].min_rate = new_min_rate;
-+	emc->requested_rate[type].max_rate = new_max_rate;
-+
-+	return 0;
-+}
-+
-+static int emc_set_min_rate(struct tegra186_emc *emc, unsigned long rate,
-+			    enum emc_rate_request_type type)
-+{
-+	struct emc_rate_request *req = &emc->requested_rate[type];
-+	int ret;
-+
-+	mutex_lock(&emc->rate_lock);
-+	ret = emc_request_rate(emc, rate, req->max_rate, type);
-+	mutex_unlock(&emc->rate_lock);
-+
-+	return ret;
-+}
-+
-+static int emc_set_max_rate(struct tegra186_emc *emc, unsigned long rate,
-+			    enum emc_rate_request_type type)
-+{
-+	struct emc_rate_request *req = &emc->requested_rate[type];
-+	int ret;
-+
-+	mutex_lock(&emc->rate_lock);
-+	ret = emc_request_rate(emc, req->min_rate, rate, type);
-+	mutex_unlock(&emc->rate_lock);
-+
-+	return ret;
-+}
-+
- /*
-  * debugfs interface
-  *
-@@ -107,7 +200,7 @@ static int tegra186_emc_debug_min_rate_set(void *data, u64 rate)
- 	if (!tegra186_emc_validate_rate(emc, rate))
- 		return -EINVAL;
- 
--	err = clk_set_min_rate(emc->clk, rate);
-+	err = emc_set_min_rate(emc, rate, EMC_RATE_DEBUG);
- 	if (err < 0)
- 		return err;
- 
-@@ -137,7 +230,7 @@ static int tegra186_emc_debug_max_rate_set(void *data, u64 rate)
- 	if (!tegra186_emc_validate_rate(emc, rate))
- 		return -EINVAL;
- 
--	err = clk_set_max_rate(emc->clk, rate);
-+	err = emc_set_max_rate(emc, rate, EMC_RATE_DEBUG);
- 	if (err < 0)
- 		return err;
- 
-@@ -217,6 +310,12 @@ static int tegra186_emc_get_emc_dvfs_latency(struct tegra186_emc *emc)
- 	return 0;
- }
- 
-+static inline struct tegra186_emc *
-+to_tegra186_emc_provider(struct icc_provider *provider)
-+{
-+	return container_of(provider, struct tegra186_emc, provider);
-+}
-+
- /*
-  * tegra186_emc_icc_set_bw() - Set BW api for EMC provider
-  * @src: ICC node for External Memory Controller (EMC)
-@@ -227,6 +326,33 @@ static int tegra186_emc_get_emc_dvfs_latency(struct tegra186_emc *emc)
-  */
- static int tegra186_emc_icc_set_bw(struct icc_node *src, struct icc_node *dst)
- {
-+	struct tegra186_emc *emc = to_tegra186_emc_provider(dst->provider);
-+	struct tegra_mc *mc = dev_get_drvdata(emc->dev->parent);
-+	unsigned long long peak_bw = icc_units_to_bps(dst->peak_bw);
-+	unsigned long long avg_bw = icc_units_to_bps(dst->avg_bw);
-+	unsigned long long rate = max(avg_bw, peak_bw);
-+	const unsigned int ddr = 2;
-+	int err;
-+
-+	/*
-+	 * Do nothing here if bwmgr is supported in BPMP-FW. BPMP-FW sets the final
-+	 * Freq based on the passed values.
-+	 */
-+	if (mc->bwmgr_mrq_supported)
-+		return 0;
-+
-+	/*
-+	 * Tegra186 EMC runs on a clock rate of SDRAM bus. This means that
-+	 * EMC clock rate is twice smaller than the peak data rate because
-+	 * data is sampled on both EMC clock edges.
-+	 */
-+	do_div(rate, ddr);
-+	rate = min_t(u64, rate, U32_MAX);
-+
-+	err = emc_set_min_rate(emc, rate, EMC_RATE_ICC);
-+	if (err)
-+		return err;
-+
- 	return 0;
- }
- 
-@@ -329,6 +455,8 @@ static int tegra186_emc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, emc);
- 	emc->dev = &pdev->dev;
- 
-+	tegra186_emc_rate_requests_init(emc);
-+
- 	if (tegra_bpmp_mrq_is_supported(emc->bpmp, MRQ_EMC_DVFS_LATENCY)) {
- 		err = tegra186_emc_get_emc_dvfs_latency(emc);
- 		if (err)
+Needs the same fix above.
 
--- 
-2.51.0
-
-
+Nicolin
 
