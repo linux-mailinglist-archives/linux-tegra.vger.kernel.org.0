@@ -1,165 +1,278 @@
-Return-Path: <linux-tegra+bounces-10834-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-10837-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BE1CC97D9
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Dec 2025 21:29:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BED98CC98B8
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Dec 2025 22:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 416593001633
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Dec 2025 20:29:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E79A30361D6
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Dec 2025 21:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E35A3090C5;
-	Wed, 17 Dec 2025 20:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536EE30CDB3;
+	Wed, 17 Dec 2025 21:04:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFiZQQmU"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aSL6rIeM"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010001.outbound.protection.outlook.com [52.101.193.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F0B2C08B1
-	for <linux-tegra@vger.kernel.org>; Wed, 17 Dec 2025 20:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766003394; cv=none; b=R6WVDs7HX5YThqpXoJJB+QTvB7FVhrOp2plk57JHezuj/7J1iM7C8fP8OFYChggWpfAokd1KbaGi9W5FtBvphhBlwCF79ks8WViR6PP6fav2S4Md25XF9YD9GcP1eoelML/SYcA9GmT+4W6mTzVmDeS+o7TYhPcyPT3hrsnVNwM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766003394; c=relaxed/simple;
-	bh=I0QaxssPlYkK2KN89dk3oT/A0G5pLDJj6HbpOMyxDgE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WNHtKTQuBUwcv9h58ElbLSilJ/XhAEOaU7dTQcLoTRLOSH+av/sBopKP2S+7AJAI1L4kCl7+pB/DcDqcPTxV2dEyYusfOKSCimA81qAXEbfyogsHH+zUa4tqWIGe/X7AvijM3JjbkHO5OZs7520EWVIpiD1zYc19CkdDFoYJTVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFiZQQmU; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5943b62c47dso5998239e87.1
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Dec 2025 12:29:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766003391; x=1766608191; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I0QaxssPlYkK2KN89dk3oT/A0G5pLDJj6HbpOMyxDgE=;
-        b=hFiZQQmUKBMln/NzHSEgkboO0EMFAXqS9FmErovCq7gULjQmGezJv/j3sGTUB8VPQX
-         6TE7HC0WL3mlHU0xgLCPklL8ONZKvCsYes65JAD7P6IaXGRJFCSzi6iIMTkHeMceN+0v
-         R/wCXSIEDOZSjsrfUvrtx3F7oyuugKsx6ZXpSLFKlmfT0TMJXBifvSHKFyOy3VqtA606
-         GXIABU/h8tUXRgoA3msrQuwTIc34YQgRRhSrktH5EEHVX/I9pMQ6qUblX4KGYs+R76uD
-         k5l6VE3GR0eCiyVvRUwnSZUVcV+BZw64i25o8brwZGx1Gj1l7gZgW0sWxNy0OxSvCYlC
-         UHXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766003391; x=1766608191;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=I0QaxssPlYkK2KN89dk3oT/A0G5pLDJj6HbpOMyxDgE=;
-        b=sAZRBAE+VewPScQnY6dKgOUBUxejpJj981HyJL+Hm4dLDll3p6AyXo8jyRS5v/3eBR
-         Ix9PwOEqX02Iblirkkv/Aadi760JQJhn8l3Svzn99Op19vg8pQLyrwDn+xlAMqH+B1jQ
-         W7ksbXGPFOpKvmoh+Ym5qVQ2gU4Z+nLDtPgYOQgMBDkjNO/KZ1CVWyhy5WqU+Cj9yQaO
-         NZ3LWBsffFPlXQ1+yC5KZ+vuE9PGVXb2LBWlvl1lHvbHSuizN2gSuiAB5yLJHYvQPEM1
-         qCQ55jRm7ze9Ez2y1/AI7GcoATeW/kNAbnK7McGzuTU1htaerSUh4JHXnQ+dV7LymmG8
-         +u4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUXVJ2S6YyH/lGFUi6p3zPSbgMbxGJI4StDd668hDkLY8AV1j+X5qDSfTlxbMHkduNdCstY+QYteYB6tg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJveGYiIKBTNYVz0IsUqfz+/SkT6RQKpDXDv9ARvr4OnlBTtH/
-	3VPpYSsCjz/9aY4S0VukgdUT28e+Z5BirzWFmX0y4ZrQM1k/Nacp+Hamh33yqznCyQAnRVj4JO+
-	B9AaAJzdyLhXV8SR9psq3pSzoes4uBGA=
-X-Gm-Gg: AY/fxX6yqhrS/PKxpMmFrAJWXVKJh/1FkTeXcCP1KbAcEpF0aVI9DdAmHj9LFyPA/6I
-	5Zb1n5BMb3DaGu+RIVWVvc4vipB5HtJwihQC34Hzu24217C3jIpZfUEXdpzD3bWq7J4OcPPfDVH
-	0vX88ve8n9VMABQrmYd6xPGFS3pnuLecaJtlPEtoD0nJxQyzXa7G8BeIHqaWkSIczGt8prOBx3U
-	lPxuglNuNqERTUIMPkKnvSBJTRTxQt7e/+a5kATTTTX6Un9YyvkXljWSHhXX5fjQQvRA4s=
-X-Google-Smtp-Source: AGHT+IGSaILNaRarC8+vvU7EuRNihpCY/48ShEUWRbAX71tFMzIu4uKSf0sutUNzSYeLLOsL226XJuVMSmT/b4fSoUk=
-X-Received: by 2002:a05:6512:1156:b0:59a:11a4:4c29 with SMTP id
- 2adb3069b0e04-59a11a44c45mr435224e87.41.1766003390355; Wed, 17 Dec 2025
- 12:29:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB1F279327;
+	Wed, 17 Dec 2025 21:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766005491; cv=fail; b=FTy+o9vutWFAmCIbeaNjZSdRkIex7jMADEmBm96QWqWMvdazCVqstrfz6wanvxrG7uPQHiVEKYIju/QXcIWyoiVHhdyqvFdlGe/p3aVgv9azHHmD27govB88RmWvwp0oo1SNi+ErCN8v0WKXU2dZ6nMQgHzchPCZRBWCdk/SSe4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766005491; c=relaxed/simple;
+	bh=0A0fJHRO7+/Z4JiF5nl8H8AsF9ANXdd6f086hfr3M6M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kyZwp1ZvT994Tt0d7ntYaUlhGQ4T38XDsXmCNkPOU5+FfjANKRPkqmr3oRrStK+GjR61QjIDG0sUTSdi+zKENV2szO7pUpFT6TvFTkBadnE9/CWWY/TJuH/wTfNJpr92BDyzgk9sThEv2kcR3egkFP8IvfVu+uhXRqznjuQwgXk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aSL6rIeM; arc=fail smtp.client-ip=52.101.193.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dZlya1WLw+fzv3zoO3jWxs1EUjt8jmrc3Qp6D4iKxsw84n8yeRzKk2eMf0YI5XzvH8nTwPEZ1Pq4BPCzp7NxJmrgepUPg0r9J7Rj8g22c1VhAp8HBhHYSOPvjlYEAALmrHWObFKua+qErvMPBU0nyyq45xTiiwuE2m1VvDaqkWig8nJgWkBCgw/wXi03jNa/EzH8PyJVFqGMB+cl+J022j6oNlRJfmjPD9iuJ/P8S9VN7XfKz1g8zgJChomBgyhommMZxwzn3RXZQMTavPnbvhTYa0p+Ws6Zq1IxbBk5CgYTjftOxYd/fVkmiSqCmYglgA1hPBSS7lJrTudeGnYv2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nPwlol8cTJ3OiL8S/+oR/hoxZ7wSz1corMmCDHtZIOo=;
+ b=o3N6KhdPz+zhvBlEUW7Iz/y4DloHRj9kyf0eFcQSV5wBl1ZqHqTJzQ+QIa/BWIah68mv8JsQ8cTpquwRIm6UMEaDaHcBCvciEPymMTJC1VDOCljqaAPzQNn+BXj1crh/ChHuXwdrWN+3/9MDZ+aJZZ6EUTbbrz1YxilPphN5jbgbzgeIw/KqZLBITs6fkwbo4eLFpmD51mT8xJf8ZTYzdq7sy/k3l46bMqzPYVT3oqzzFNOMcykVdz4bGqRO3FZfOZg3JVz/XmaZEzPPRSLtsaRYyL4qrm3DD5FGu5WZyuZEBzShr8+w3EivVZ4fQ41PI1vS3rVls3cQyw1AOWxfeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nPwlol8cTJ3OiL8S/+oR/hoxZ7wSz1corMmCDHtZIOo=;
+ b=aSL6rIeMWWx6Qm6rlyPifQ8wRmti6mc+2Bxk2h/jxDEOI1d9vJ0L40pDMNh+JiK6Ef35dIVUszCo8ZNWlLTVSRCVR8N7xDGESocpF1kMkAyCC255Fg1Ptw1G6pnXk4oeev6bQ6ZOTRVEv/HSy2I7JmeETFr/GfN9CeBGQvn0gVBmhI7rFcWys10gDMsbfQVLFEx23xWZXJBO9aXTfqILlZy9AO6NA6vVTVwmyvFxFo8fJ0vr4ayTvuo1TABp4FfgXlGRVjMUmyoAwBs+p1t6sp2KkZ0QwRtapo+jjEksjUw6GCXHa+JCJv7xXWmkomaRmEKr8Lz2F2PMwDkIAmdcsg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com (2603:10b6:a03:4d0::11)
+ by BY1PR12MB8446.namprd12.prod.outlook.com (2603:10b6:a03:52d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 20:31:15 +0000
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9]) by SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9%7]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 20:31:15 +0000
+Message-ID: <fbde672b-611a-4d81-ac05-44e434bf70ae@nvidia.com>
+Date: Wed, 17 Dec 2025 20:31:09 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 3/4] dt-bindings: iommu: Add NVIDIA Tegra CMDQV support
+To: Ashish Mhetre <amhetre@nvidia.com>, will@kernel.org,
+ robin.murphy@arm.com, joro@8bytes.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, nicolinc@nvidia.com
+Cc: thierry.reding@gmail.com, vdumpa@nvidia.com, jgg@ziepe.ca,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+References: <20251215064819.3345361-1-amhetre@nvidia.com>
+ <20251215064819.3345361-4-amhetre@nvidia.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <20251215064819.3345361-4-amhetre@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0070.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2af::10) To SJ2PR12MB8784.namprd12.prod.outlook.com
+ (2603:10b6:a03:4d0::11)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027-tegra186-icc-p2-v4-0-e4e4f57e2103@gmail.com>
- <249bbe7e-e2da-4493-bdd5-8f4b17aff8fe@nvidia.com> <CALHNRZ8uPaKqSpFWkmYZn==Xw=rxh95Xm0_6LPN1HDj20zofqw@mail.gmail.com>
- <d16803e5-7b6d-4472-b50c-aa324cf52736@nvidia.com> <CALHNRZ83Q2Ha8VYoWAnqoCZQ=Fd9rtVRVLwRFxAY68ePQ29GHw@mail.gmail.com>
- <29cf2c16-3a0e-42c5-a083-16f77ae5d09a@nvidia.com> <CALHNRZ9KAv-hL6+6Uiaz2O2odm1rqMnjNxNVPsbCOdqX15KTuw@mail.gmail.com>
- <856447ae-4338-471d-a71f-a34aed749ac7@nvidia.com> <CALHNRZ9y0n6JNfeDUQgZoECkxo+We0_G8TP0H4advcSqrX86kg@mail.gmail.com>
- <f906f85f-b110-4328-b177-02fcdf7ffe53@nvidia.com> <CALHNRZ8go4ATHgJ4SE=7pkAMgRP_0tj5z4pDXjxicV9o7F13Ng@mail.gmail.com>
- <1b9f0b14-876c-4c6e-90eb-b04d016f88e8@nvidia.com> <CALHNRZ_GGAg_VP8gSdtw_1CA2A0netrOeA2+guZfxyG7POhHoA@mail.gmail.com>
- <adc7ca5c-69d8-4164-bd89-3381b101576a@nvidia.com> <CALHNRZ-SU_kyak_u6mfUZBHJ9Cph6=-edhL+yhRizu8DDy=Big@mail.gmail.com>
- <CALHNRZ9mfO_DQR-RuH_QH=18R8zTt9VqbPaVCdnDKUWzx1pm3Q@mail.gmail.com> <45057c95-1dba-4302-94fa-f63941ee2b20@nvidia.com>
-In-Reply-To: <45057c95-1dba-4302-94fa-f63941ee2b20@nvidia.com>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Wed, 17 Dec 2025 14:29:39 -0600
-X-Gm-Features: AQt7F2qVN5yX_6cKGG72rCEm9mQVm3ZGjk67T6z4GHpE9_yirrlYFXKGMXzv3LQ
-Message-ID: <CALHNRZ8gJbyuD+0yFQwCJ+g7OcffjkXopRSJKoDnr5WMmUVGwQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] memory: tegra186-emc: Support non-bpmp icc scaling
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8784:EE_|BY1PR12MB8446:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b43f11f-81c6-409b-7ac9-08de3dab3a05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cW96NHlWdVdVNjh5aEN0b2R6SW96N29xdXdvQWZWbGNPUytJdDdLMFhidXJ5?=
+ =?utf-8?B?RDlmQzRabGxydkx5dFRoM1dVOG1HU1k1a0ZscGltM21wQm8xcW15cDB4Qm5p?=
+ =?utf-8?B?Q043c09UWXhYU2pZc2NaMUE2MXd3UGpjWHNic2dDM1JxeFJIMDVLcTdzQVF0?=
+ =?utf-8?B?RkhWd1NFcGxpOUl0WTRDUHJYN0srQ0dYTXgzaWxjcmp5MGhybUxsVG81akVv?=
+ =?utf-8?B?TjBTNlBTc3Z1TEIzNmVUSEtvaEJiNG1OdWZuTjZqVDJRdGY5VDJnZjdZanZS?=
+ =?utf-8?B?YUp1VjJSN3pVQlVGcXJ2bks4WGRNVjBzaVc5NnJyRkptanFLRnJLV0JoR0lt?=
+ =?utf-8?B?cjlXZnpCc21BbUdES29BYkdIcHZXcElGd3phYXdQTFRzYVhqUHFtWEpXNEV4?=
+ =?utf-8?B?WDBXd1VFWTJYL3NxT2ZWZ2hNWnJIZE9mVlFWQUs0bWpXWHZ6MzdxdTF2LzdU?=
+ =?utf-8?B?ZEJRcTlrNEtXS2tyYXV1ODVSQXNEamRBTjJrMFhaQ0V0c05Ya0tlSk1ZNWZ3?=
+ =?utf-8?B?NjRPMWxhTmpaS0IzU2VwbVNHS1kzL05JY3RjZ1VVY0lNZXdNeGo4OGx3RlNr?=
+ =?utf-8?B?TDd4MDRJUFZseU91cVFQMEdBNGF0aUNPcEMwM2FUTnA5OVpyYVVPOWdCazBo?=
+ =?utf-8?B?Y1d6MFI2Qzc4aDl1TFdnbkdPWTZDUHIwWHFFMDVVUUp4M3RVeXh6N2hib0Zy?=
+ =?utf-8?B?bDgxdjZaTndPL0pnampKS2VVTW02TUN6cFdaSTIxRitwYWNJMWJ2elN4ekZI?=
+ =?utf-8?B?VXM1bTd3azdLaGorMC81TUpqN2lDLyt5Mm5oUlc3UWNSZWU3eElVcmpXZk83?=
+ =?utf-8?B?b1p0dVBEaGdEeEc5cmQvSE8vRWRqOHprdi9rTXB0RVVHMjVaZlNGVDd6Y3hD?=
+ =?utf-8?B?aDVSNUptM3cySjhHdDFsN2lxYzFZaEtEWWxPWmpmM1phbDcrQXZWYVdaWXk5?=
+ =?utf-8?B?dXcwanp0cGRoNnVPK0xxQ0ZpRUdJb3hzL3JNcno0RUJEdkRFU1dVTERlbXhx?=
+ =?utf-8?B?cTc1VzVhTndYWXdkbnBLNDJjdklZbEY4a2tQOENWWjR6b085UytBUXlHTFhp?=
+ =?utf-8?B?WDhuYjM1dTV5MFNkdHg2WERSeWNhWW5VZ2lTbHYxaXVkdzQ4N3VEK0ZSME9o?=
+ =?utf-8?B?Q2wzN1VycHJoRUo0bTg0Y3Jsdkx0YlY5VXlnL0l6R1pBcUI0TEV2blRoWkJG?=
+ =?utf-8?B?RW9qcU5jcGZ1ckNRSFFTRlBaOGFqN3VNbS9Fb3ZNSmVMa1VwbVk3Q01naDJZ?=
+ =?utf-8?B?Z2dCUjBUZ3h0ZUxlQzY0NU5WOWdsOU50VDA3WnBOS0JPeW8wZFArOGFrWFZR?=
+ =?utf-8?B?QTd3VlJGTGUxYXAxbjRKU0lpaHpxNi9qYkZDVE5ZYkQyR1J0Rlp5QTk0b2ZT?=
+ =?utf-8?B?aHdabW00MlN1NVoxTTd5QUhubmdjSjY5M1V2OC80S29SZUpXNERvQ2pFanF1?=
+ =?utf-8?B?RGt5cWllVWFiR3lEQVoyOGhJVXlRdzN1K3grVFhnTUMzUWhYTWxYZDNhWHVV?=
+ =?utf-8?B?eTd3ZWhyanhha01SUHlNTSsveTc4TTM2bnFJd0x5V1ZyaVAxTUp2cVp0NWNw?=
+ =?utf-8?B?eWpHdHc2b2NzK3N2d0VQbHJyb0FNL05wTHNrMEhJU1orajBIdjVkTnJ4VFlT?=
+ =?utf-8?B?L2J1UjU1VDJoYkRCY0NGRUZ3TEt2SHMwUmd4SUllWFQ1YXRrUzFZUEJhYmVS?=
+ =?utf-8?B?MU80R1BsVjh0M2ROU3F2emM1T21NTno1ZzBqVXk0S0ZlSGgxM2VhV05zK3R2?=
+ =?utf-8?B?WGIxdDFTSU1aV01pei90OW1MSjI3SHJrTVJBaVQvbXVoTVZ4T3ltSkhnb0px?=
+ =?utf-8?B?QkVMSHd0M2NsRVdTTk5EblU4NGNUeEU3N0lWdDhnQ2tPaFFFNVNZZ3lWZHlE?=
+ =?utf-8?B?TXo1UWZZeXpoU2lEWmZtTFVKYVMwQ1dHc0lxeFZKZUtYY2ZSWHZyOXFWNjYz?=
+ =?utf-8?Q?ZJERX/hNubU8HoO+1i9a31dmDjuYaflA?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8784.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YlBleTFJVU5xVXBNQVBFaFUxTndJRGJycURINTJsQWtDd0V0NmdCOCs4UXc2?=
+ =?utf-8?B?ajkzQnJiRlovTXdWT1I2clB0UitrQ2Z3MFVxRTZnSU9QeVdHL2tEMmpycnRV?=
+ =?utf-8?B?Y3l2bUJoSWFuZVBYQSs5S1VocWNka2xDSnZHZEZJdnVUTmtRd2xYV3dRUVdX?=
+ =?utf-8?B?UVN4NXNsb3BBMFh0ckpmT0UyZTdCdGorNFVVWThFRjVBZS94bDJZcTYzVEx4?=
+ =?utf-8?B?SXVJelBxYlBvUVZVa2o1NnJNM0xEV0p2QjhUUzVhamxFM1R2YlcwbkdZdnlo?=
+ =?utf-8?B?UnM4bTlTSklSS1BvSFZhclZEMmUvSm1NTCtwZnRFdmcxSXk4Y1BNeTV1cmE0?=
+ =?utf-8?B?Nkhwdmd4Q0dZT3A3RlJCNnlHNHVhWGNoQWhudXBYSFkxU1BHSGd3aHFOWExT?=
+ =?utf-8?B?bkJlcXEzcTZUUnhZQU9PbGt5NU9WYldvVUxXOXpCTEZrOGhjL0xadG5jV2th?=
+ =?utf-8?B?bEtOSlhuNExiWnFTb0lTM3o2b2RDWEdKa0pGNE5xSTRxK2UyU1pTTGFPK0hM?=
+ =?utf-8?B?ZW12RnBTTFZ0MkhiYXppSUh2YWhZcS9ObFJ1TS9VeUg4TVZiTG5rdU9QZGF5?=
+ =?utf-8?B?OEVyOXFQU3JOY05VK2dJYXkweHFwTHZzZ05DdytyWlRKak9pS2hkWnRoS05U?=
+ =?utf-8?B?L082R2pISGhqZjJMRDVjemhBd3B4dlZYN09Ea2ZqVUVCWFFZbnd2Si9YejJn?=
+ =?utf-8?B?K2RydjhHQTczWDhzaUpFWmh4WDBTRktmcGlCa1VLeWloSE1WdHV4ZXZ6Rjk5?=
+ =?utf-8?B?ell2UFJMa0J4SU55dFRqOVM2NTBsQ1hWMkptbXk0TUFUc2VpT2JJTHpKeTdk?=
+ =?utf-8?B?V213dktEdWtsbXpxNzBUVHU0Y0JqaEdSSXRPZGRTUEprVW1jTkljUUd4bHp2?=
+ =?utf-8?B?RThoSGpGVUpFZUYyVy9WWEtxdnZrZ09Qbmx2QUZORWVJSk5ML0FrN043MnFF?=
+ =?utf-8?B?clFMRXBJbzhIekwxT0RlM0tWZDJiSFdZc1pSVE9uNFRnTWU5SERrSkJUbUli?=
+ =?utf-8?B?ajJSazE2L0NmZWxncisxMVlIc3lxSEhqb0I3b0o5aXQySVNCZWwycUp5dGNW?=
+ =?utf-8?B?Ri90MDhJUHlyQzJSYjZxbGlKV1hBSGlpY1dKTkVmN01LNDJ2N3JpTGY3R05G?=
+ =?utf-8?B?YzVHU0xEdzBXcFFCTUxVV2hsZkRWelRIN0l2MG8rKzJSS1RQOHhSaCtwdHBo?=
+ =?utf-8?B?OXdLTDdKY2x2MmZFRVEvMWFpK1FRaTdEV0Vrbm9veVJKV0NhanlDOVFmSWNT?=
+ =?utf-8?B?TmFyWHJMMitEUXdFUWxlRXA1S2dHYjczZ2NIRWNQandJWjkyZnJ1NDZxRFJi?=
+ =?utf-8?B?QVFZUk5zZmtIdEtjeVVhcHFWc0Q2djVFbHRwcjRHejNNTHJGVG1GNDRUZHgr?=
+ =?utf-8?B?cE9adXlrc09NT3N5bzhhMkFxWXBDUllpN0U3S2NUYkdjMlRETVR3OEtRZW1H?=
+ =?utf-8?B?REVZeGgvaXJ0aWZHdkp3TUQ4L1dsbFE4bnhrYlh0a3pWdmtKcDJXZzZpRXNp?=
+ =?utf-8?B?QndoeS9OVk1KaGc5ZmIzQTJXM3BJUnJuQkZEZXpraDRNWW1PNUZEbzFPS0RT?=
+ =?utf-8?B?S3p0RnpnQ0ZyK2dCNmtPSjhac3BIWHJPd2ZQTTliM2NkeGJySXQ2NlBnb1BR?=
+ =?utf-8?B?M0g1TUxudEJmWjdBMEdiZFpVQU83N2x3SU5jdzJaek52Wkl1YTQvaXlqSWtv?=
+ =?utf-8?B?WGNETjByc055ZW94TjJuRHJ2R3FXWlNCN2ZyK1pqWEI2eDFYVTFvNmVNR1NH?=
+ =?utf-8?B?Y3NyZlZnL3pIY283YWxQRkRONklnRjhwZUl0Skp4V2cyeHd4MFB0MGducXYw?=
+ =?utf-8?B?Wjg4YXVyY2JyWXBnM2drWXFodUtuZ2s5T05TcU9jTjhJRlpEWEgxMzh0aldl?=
+ =?utf-8?B?TnBXazBrVWpZQStBVzV2d2dVRWgxb1Y0dU9VdzBZVERNeDhtcTQvTDdRQUZo?=
+ =?utf-8?B?bjBvNlhyOUFqazkrSFIwZDhESmhrTFc4bFVzT3BCb3haN1I5bzhrSkZBZTdG?=
+ =?utf-8?B?QlVLT25RZ3l1d0NoSnlrRGtWUHZnb3NSTTNrMEVlbjFOSGdZS0IrZSt0QS94?=
+ =?utf-8?B?ZFdidTdaT0VWWjZ4aS9GQit4amV2UDdBNTc4bGhTRkRCM2k5SUNkMW9Ic3p0?=
+ =?utf-8?B?RkR0a1lwcGRmMFBES0YrNE5Ia3VhTzRUeHZYMHdkUjBMSFpXZ3puRVVKSGJS?=
+ =?utf-8?Q?XsH0uW0Iq1veRUWyN7TDJpR2DLNA4bB8Mu78OR+7J5vh?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b43f11f-81c6-409b-7ac9-08de3dab3a05
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8784.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 20:31:15.6695
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O/VB0IT5VD5bbCmwPGLncxkNSGZH/dU7XFKRNG8AXECJnOmatZl1MEDUAf7YoIqyZz31tBaFaE7HYywgvn/1jA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR12MB8446
 
-On Wed, Dec 17, 2025 at 12:59=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> =
-wrote:
->
->
-> On 17/12/2025 18:39, Aaron Kling wrote:
->
-> ...
->
-> > To try to move a resolution along, let me try to enumerate the issues
-> > again. Again, please clarify should I have something incorrect or
-> > incomplete.
-> >
-> > 1) The primary issue is when an old dtb is used with this commit and
-> > the pcie driver is loaded. I can reproduce this issue on t186 and
-> > t194. If this becomes the sole remaining blocking issue, I would like
-> > for an exception to the normal rule be considered and this merged
-> > anyways. Since it does not cause a boot failure and distros package a
-> > new dt normally anyways. And to my knowledge, working around this
-> > would involve redoing part off the icc subsystem itself, a major task
-> > in comparison.
-> >
-> > 2) T194 is reported to have low clocks even with a new dt on the
-> > Nvidia regression bench. I cannot reproduce this, even with the pcie
-> > driver loaded. Can this be re-verified, please? And if it still
-> > happens, can logs from the failure be made available and/or more
-> > information provided as to the state of the unit? Like changes to the
-> > default defconfig, modules that get loaded, etc.
->
-> Can you list all the patches that need to be applied on top of the
-> current -next and I will run it through our testing to make sure I have
-> this correct.
 
-This series, message id:
-20251027-tegra186-icc-p2-v4-0-e4e4f57e2103@gmail.com. And the dt
-series, message id:
-20251021-tegra186-icc-p3-v3-0-68184ee8a89c@gmail.com. So, my build
-sequence is:
 
-git checkout next-20251217
-b4 shazam 20251027-tegra186-icc-p2-v4-0-e4e4f57e2103@gmail.com
-b4 shazam 20251021-tegra186-icc-p3-v3-0-68184ee8a89c@gmail.com
-LLVM=3D1 ARCH=3Darm64 make defconfig
-*edit .config to set CONFIG_PCIE_TEGRA194, CONFIG_PCIE_TEGRA194_HOST,
-and CONFIG_PCIE_TEGRA194_EP to =3Dy*
-LLVM=3D1 ARCH=3Darm64 make olddefconfig
-LLVM=3D1 ARCH=3Darm64 make -j33 Image nvidia/tegra194-p2972-0000.dtb
+On 15/12/2025 06:48, Ashish Mhetre wrote:
+> The Command Queue Virtualization (CMDQV) hardware is part of the
+> SMMUv3 implementation on NVIDIA Tegra SoCs. It assists in
+> virtualizing the command queue for the SMMU.
+> 
+> Add a new device tree binding document for nvidia,tegra264-cmdqv.
+> 
+> Also update the arm,smmu-v3 binding to include an optional nvidia,cmdqv
+> property. This property is a phandle to the CMDQV device node, allowing
+> the SMMU driver to associate with its corresponding CMDQV instance.
+> Restrict this property usage to Nvidia Tegra264 only.
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> ---
+>   .../bindings/iommu/arm,smmu-v3.yaml           | 30 ++++++++++++-
+>   .../bindings/iommu/nvidia,tegra264-cmdqv.yaml | 42 +++++++++++++++++++
+>   2 files changed, 70 insertions(+), 2 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/iommu/nvidia,tegra264-cmdqv.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
+> index 75fcf4cb52d9..1c03482e4c61 100644
+> --- a/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
+> @@ -20,7 +20,12 @@ properties:
+>     $nodename:
+>       pattern: "^iommu@[0-9a-f]*"
+>     compatible:
+> -    const: arm,smmu-v3
+> +    oneOf:
+> +      - const: arm,smmu-v3
+> +      - items:
+> +          - enum:
+> +              - nvidia,tegra264-smmu
+> +          - const: arm,smmu-v3
+>   
+>     reg:
+>       maxItems: 1
+> @@ -58,6 +63,15 @@ properties:
+>   
+>     msi-parent: true
+>   
+> +  nvidia,cmdqv:
+> +    description: |
+> +      A phandle to its pairing CMDQV extension for an implementation on NVIDIA
+> +      Tegra SoC.
+> +
+> +      If this property is absent, CMDQ-Virtualization won't be used and SMMU
+> +      will only use its own CMDQ.
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+>     hisilicon,broken-prefetch-cmd:
+>       type: boolean
+>       description: Avoid sending CMD_PREFETCH_* commands to the SMMU.
+> @@ -69,6 +83,17 @@ properties:
+>         register access with page 0 offsets. Set for Cavium ThunderX2 silicon that
+>         doesn't support SMMU page1 register space.
+>   
+> +allOf:
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              const: nvidia,tegra264-smmu
+> +    then:
+> +      properties:
+> +        nvidia,cmdqv: false
+> +
+>   required:
+>     - compatible
+>     - reg
+> @@ -82,7 +107,7 @@ examples:
+>       #include <dt-bindings/interrupt-controller/irq.h>
+>   
+>       iommu@2b400000 {
+> -            compatible = "arm,smmu-v3";
+> +            compatible = "nvidia,tegra264-smmu", "arm,smmu-v3";
+>               reg = <0x2b400000 0x20000>;
+>               interrupts = <GIC_SPI 74 IRQ_TYPE_EDGE_RISING>,
+>                            <GIC_SPI 75 IRQ_TYPE_EDGE_RISING>,
+> @@ -92,4 +117,5 @@ examples:
+>               dma-coherent;
+>               #iommu-cells = <1>;
+>               msi-parent = <&its 0xff0000>;
+> +            nvidia,cmdqv = <&cmdqv>;
 
-I then flash those with no modules, packaged with the simple ramdisk,
-and I get a shell at 11.2 seconds and emc rate is 800 MHz at idle.
+So I believe that this is a generic example for arm,smmu-v3, and so I am 
+not sure we want to be adding all these NVIDIA specific bits here. What 
+would be more appropriate is to add another example under the existing 
+example specifically for Tegra264.
 
-> > 3) Setting the max clock via debugfs fails when icc has pushed the
-> > current clock higher than the requested rate. This is a logic issue
-> > with all tegra emc drivers that implement dfs via icc. The suggested
-> > resolutions are to leave this as is to keep consistency with the
-> > existing drivers, perhaps updating all later, or to update the
-> > existing implementations in a separate series, then send a new
-> > revision here to match. I am personally unable to verify anything
-> > older than tegra124, however.
->
-> Thierry and I chatted about this last week and we feel that debugfs
-> should be able to override the current configuration. So this will need
-> to be addressed as well.
+Jon
 
-Alright. I will start looking at getting that logic straight, then
-upload a new series for the older archs and a new revision of this.
+-- 
+nvpublic
 
-Aaron
 
