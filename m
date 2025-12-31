@@ -1,93 +1,158 @@
-Return-Path: <linux-tegra+bounces-10935-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-10937-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BA1CEC0C1
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Dec 2025 15:02:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 722B9CEC2F7
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Dec 2025 16:42:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 886E73015176
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Dec 2025 14:01:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2CC8C300A364
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Dec 2025 15:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A604202997;
-	Wed, 31 Dec 2025 14:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB89E254B18;
+	Wed, 31 Dec 2025 15:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UYJujw5E"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k+jmFT8S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UVGpCY26";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k+jmFT8S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UVGpCY26"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AE01DE4E1;
-	Wed, 31 Dec 2025 14:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4859020299B
+	for <linux-tegra@vger.kernel.org>; Wed, 31 Dec 2025 15:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767189716; cv=none; b=kgBwTcEDuoINaCWLo0jxAUZA9zcOAPbUacoedhpW9A3/4XJzdkgV+kCZHToGZziK6HTGM+hspORigv8KrqOLXyq7qZZPziR8hSr9jliDb3laIrPWlzVePpvGayRAEu+RdqVxsww+zgg3GUg0d2iDvgHWhTNi19l5acAlHevh7Mk=
+	t=1767195737; cv=none; b=JDPRd1XoY7koQ4D3oQimm3L1dIHLHsYhMDj2Vd5WHfPQuUMuvjYzjiboTIZQRyBJXGW0taqdDxRWLeGwdWdA9/Xf3EwSem4EmXmldTQlDeCqJMAIlKAJpta/HNvyKGZq/SmqqzSF3w+vCOd3RQFhlL5Y+UJcflUepFdVj1d7R3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767189716; c=relaxed/simple;
-	bh=uDh9lHLHY8TtyrRiLXhdYQucDWHMnN+qKhDLba7ig2M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=aRUrltKgwkCfT4eGuOjavalF5M5e58pp1K3YjtDISn/6SGVyuYQfoR6BnGcSYqYjAvSgrxbimUQbsaMuOj6GREJ4m6QGZiY/oc/fOE5HtAO/OZBC6T2Pl6w1OvwzZX7XKwb76YLdPZvGjONeQ0nKIQXz6w+n5eJHM1cZVNwD8JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UYJujw5E; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8499E1A2563;
-	Wed, 31 Dec 2025 14:01:52 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5AF5960744;
-	Wed, 31 Dec 2025 14:01:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5BC46113B076E;
-	Wed, 31 Dec 2025 15:01:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767189711; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=uDh9lHLHY8TtyrRiLXhdYQucDWHMnN+qKhDLba7ig2M=;
-	b=UYJujw5Ea0Q6MDtyZOL+Luj+wyj7V+TLc0kzw8AKesh2J3AH+6gu8/igYzWQk7Ju/pHfPc
-	PZmiAGFcSCRtCSqaz7c8khOnxaeL6jtqwYWC6H4E7XgWpWV+/n5mte4lmjvQbj6b2yP0dp
-	d1WZ5imYokp9t7jEuLt8rRCP963V25ZidWcAJ9QgOJUtgEFbe5OEzBibX/u26VaJiCQGCT
-	4fVjHi4//nFZw6Y+zN6ISDnw1lLvMatN2gY1YL2Yr4sKkebal9jBWjmFo3zpL5rWQgO0wc
-	qe9n5Zbs/SYtfxjk7Pyjmy3Mh8A0xGT96xhHwx/gwGGVj2m0AyJNNp1bNGrj/Q==
+	s=arc-20240116; t=1767195737; c=relaxed/simple;
+	bh=Sm+IZKI6zp+FnsDeJw5OrXltyphTACRX1TEG8zdzgA0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W0rak8kk0zwQuR6JGIwrtewf7kYXfGoSOcH+OFpzxicKm+Z3LjaO/j1OaPIKNfCWEB4VluWINqYovSqCv9PCirjLTGvW7KVEzb+6QmlXtrqQFa2KTHP2EZ4mtZqm7JPnm7Vb2haiGNnlAhcyilwOz47dcxSGC/vxxyEKzsmQ0dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k+jmFT8S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UVGpCY26; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k+jmFT8S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UVGpCY26; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A83E15BD41;
+	Wed, 31 Dec 2025 15:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767195726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=riDiBNKVfzakOZ6Ubn9Z+y7BFRZ5STjXUvyVPT9tRF0=;
+	b=k+jmFT8Se5O2fb7PMLCrlgs524r4dpeikCPVWwoHphg7kbGsCz9i8uzLm9ZYUNvz0CF53c
+	nQ0BZlHL5BAvrQiwOZKdW8eIfihLGVlA05EO7DzmiUh/fpn9osypG5xMV+/ParNa3/nsF4
+	PElmIomt2zfrB3QrIjnp9qxRW/YV+0w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767195726;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=riDiBNKVfzakOZ6Ubn9Z+y7BFRZ5STjXUvyVPT9tRF0=;
+	b=UVGpCY26H0ItFqXCzv1ZuhA3gussK0mJGkThHPJgTpjAnekCJg2axADsx+/nxBe355H+3u
+	t1hoTXg+gdVLZJDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k+jmFT8S;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UVGpCY26
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767195726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=riDiBNKVfzakOZ6Ubn9Z+y7BFRZ5STjXUvyVPT9tRF0=;
+	b=k+jmFT8Se5O2fb7PMLCrlgs524r4dpeikCPVWwoHphg7kbGsCz9i8uzLm9ZYUNvz0CF53c
+	nQ0BZlHL5BAvrQiwOZKdW8eIfihLGVlA05EO7DzmiUh/fpn9osypG5xMV+/ParNa3/nsF4
+	PElmIomt2zfrB3QrIjnp9qxRW/YV+0w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767195726;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=riDiBNKVfzakOZ6Ubn9Z+y7BFRZ5STjXUvyVPT9tRF0=;
+	b=UVGpCY26H0ItFqXCzv1ZuhA3gussK0mJGkThHPJgTpjAnekCJg2axADsx+/nxBe355H+3u
+	t1hoTXg+gdVLZJDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A55D137FE;
+	Wed, 31 Dec 2025 15:42:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id V/3jFE5EVWkJaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Dec 2025 15:42:06 +0000
+Date: Wed, 31 Dec 2025 16:42:05 +0100
+Message-ID: <87fr8qy7xu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	mkumard@nvidia.com,
+	ddadap@nvidia.com,
+	sheetal@nvidia.com,
+	linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/tegra: fix a memory leak in hda_tegra_first_init()
+In-Reply-To: <20251228140530.3739960-1-lihaoxiang@isrc.iscas.ac.cn>
+References: <20251228140530.3739960-1-lihaoxiang@isrc.iscas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 31 Dec 2025 15:01:49 +0100
-Message-Id: <DFCGGX67KTAJ.NPWO4JKMA9TW@bootlin.com>
-Subject: Re: [PATCH v2 2/2] staging: media: tegra-video: move
- tegra20_vip_soc declaration to vip.h
-Cc: <linux-staging@lists.linux.dev>, <thierry.reding@gmail.com>,
- <jonathanh@nvidia.com>, <skomatineni@nvidia.com>, <mchehab@kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
-To: "Sun Jian" <sun.jian.kdev@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
- <20251231123955.277384-1-sun.jian.kdev@gmail.com>
- <20251231123955.277384-3-sun.jian.kdev@gmail.com>
-In-Reply-To: <20251231123955.277384-3-sun.jian.kdev@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: A83E15BD41
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,nvidia.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-On Wed Dec 31, 2025 at 1:39 PM CET, Sun Jian wrote:
-> tegra20_vip_soc is shared across translation units but is currently
-> declared via an extern in vip.c. Move the declaration to vip.h so users g=
-et
-> it via the header and we avoid extern declarations in .c files, matching
-> the pattern already used by tegra20_vi_soc and tegra210_vi_soc.
->
-> Link: https://lore.kernel.org/linux-staging/DFCAOR6T9DPE.2MOL0K9O3HP1N@bo=
-otlin.com/T/
-> Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
+On Sun, 28 Dec 2025 15:05:30 +0100,
+Haoxiang Li wrote:
+> 
+> Add azx_free_stream_pages() to release the resources allocated
+> by azx_alloc_stream_pages().
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # build tested
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+It'll be already called later at the destructor hda_tegra_dev_free()
+callback, so this change would be rather superfluous or harmful.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+thanks,
+
+Takashi
 
