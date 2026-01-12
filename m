@@ -1,116 +1,131 @@
-Return-Path: <linux-tegra+bounces-11105-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11107-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B85D12D29
-	for <lists+linux-tegra@lfdr.de>; Mon, 12 Jan 2026 14:32:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E508D12EF1
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Jan 2026 14:54:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 470593002179
-	for <lists+linux-tegra@lfdr.de>; Mon, 12 Jan 2026 13:32:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 750AB3015875
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Jan 2026 13:51:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAEAF30E84F;
-	Mon, 12 Jan 2026 13:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5DB35971E;
+	Mon, 12 Jan 2026 13:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxAntsnl"
+	dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="bZnFjsaK"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72B221D5BC;
-	Mon, 12 Jan 2026 13:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA071E1DF0;
+	Mon, 12 Jan 2026 13:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768224769; cv=none; b=u0yVJc33Ob/6CnFWUT7V1OmjnUnbJ+a4vzOiK4K4t+DiwsqxdhBncS/juOkm2V0eOfb8LmVLk4IpWjBlCHGekA1WG6nYHl+deedaejLtF0+cSwc/oZbhVvEPAww70BS/fmqDyyNqsfocrFjD8Ae+yWAQXhfCnqlAVZUXzwdAKbE=
+	t=1768225910; cv=none; b=SUmCS71wOiVzsdXocCilA8biOBXFmAH+fZcipvdzL6fQhLc9FnlRvjga5oVFKHZGtle4O0dZ1gOfYAWsuJf+qrO9Oa0qOq6OtyzrEdkBSxnVwOYFueV2Snk/CEuCvTYLf+2rnEeZ2f2mGiDYfZVV8seLeomuOP32yCgIqCXYpy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768224769; c=relaxed/simple;
-	bh=TvTemodO8ZOiq4qJMaD5+qVcIED0WAb96Y6XEj4ktW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ufj4yfcLyBm7wgJaKPLjDUDV4BRsrkZhYm3bV+6In1Vuu5A/QGKmFlxIbFe6N5HUmEKyodniYrmWmWax0oGQFrd8Tfzd8oW6d2Ur9fdHaw9Md1+iNRgy1jTs+nJE+SilBbkg5arqdcVcAh14wG85wXmar0GAf68KQSYGGYNpUDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxAntsnl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03E0C19421;
-	Mon, 12 Jan 2026 13:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768224769;
-	bh=TvTemodO8ZOiq4qJMaD5+qVcIED0WAb96Y6XEj4ktW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nxAntsnlW6zqS/xRCXDAGovRoBxUYIJEPwp00w1WLKBYgSnbVlSdZQ0ewWja72chW
-	 RIqa+RecVr8KBL1sp4odP7Coo7l7CyRPmm8mGp9MavvR1yuBUzjasLrOeJBMJVGPCT
-	 1OD/GsA+foW5/s0dtuvjPBx0ztKfFP0GqaaJd8Wzh+oQHEPXj9XRGiXqGThpNpDkh8
-	 4yL/nk88Msp7VZ/ny2M5w49LwZjY2bDKGLw7nzzXuF2Yc7IrL468GUFZK2gAZX+DgG
-	 vKCbfXwNDLNmpZW58n5jdImfyEa8m7jGyJ6jWBWAfy1ZIuZ8g3lB5/c2tX6g+m9XXW
-	 8AF4t4NqEYWqg==
-Date: Mon, 12 Jan 2026 13:32:43 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Sheetal ." <sheetal@nvidia.com>
-Cc: Sander Vanheule <sander@svanheule.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mohan kumar <mkumard@nvidia.com>, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [RFC PATCH v2 3/3] ASoC: tegra: Enable
- flat_cache_default_is_zero for audio drivers
-Message-ID: <46339904-debc-407e-bd94-82de26be5cf3@sirena.org.uk>
-References: <20260112042841.51799-1-sheetal@nvidia.com>
- <20260112042841.51799-4-sheetal@nvidia.com>
- <bea00d79-35df-43f8-8a3c-62d6db7952ef@sirena.org.uk>
- <cfa7045d-bec6-4b3c-8413-fbcf1f1543e5@nvidia.com>
+	s=arc-20240116; t=1768225910; c=relaxed/simple;
+	bh=5vRv/pZsfNb7lRuCrIFMf+OcHs4aWH+H1NEGFhzZhtI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SxmWBPHyMbzUJHxdhdkwBFw2xAIt4X7b9CirTG6zuIiUo+yNY99p0wnDdPrABtguq6jWV9WHzwumln0hdhAlgahdf7DZbsf0CwQ2fIb8mKmXuVQTQigEH53Q4s2s74+uEqhTb7N1X6cJZ8ORB+jrOvHwHn2ZD9AI6xhYQSZQ9rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=bZnFjsaK; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id E262B600025A;
+	Mon, 12 Jan 2026 13:45:40 +0000 (WET)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id T_Lsx4VB-hy2; Mon, 12 Jan 2026 13:45:38 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 86E536000256;
+	Mon, 12 Jan 2026 13:45:37 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail2; t=1768225537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i4mQuv4mU/Y/i+cCr+u9L7cjmQiPuxL604c9Tea/Ng4=;
+	b=bZnFjsaKx+kykBB7D5DFKZ6u726gLCXEeqVigQ8sT0jNAEdBAe4bII2FrXxXdxod2SYFsL
+	mw2YEwjBdJyoKl5nQ8QETnjhbiUgZldmjsRoqXfuFtUfMcRTkhb3zcgC1dla4ckKHjJ3wD
+	+2+X91U07EdIlRzKF+wdWGFrOtuzzb0f21rwo1lmah8kyf5nLvWU+SeVPSJpwPdPl6XJnY
+	666UtsxPmgs31pIFOhOVtAUUofQFgViL9RibK0XzEenXFBmTlcWwqrzS46Tu3r0W4sCD8x
+	SK5D03dNCYLcQa/O8bJu+30Qhy9e81XM0sRpKO8JCYuBD1iQzyB1AC2i7LLoXA==
+Received: from [192.168.2.110] (unknown [148.63.39.39])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 2936D36008B;
+	Mon, 12 Jan 2026 13:45:37 +0000 (WET)
+Message-ID: <7a723cf9-700f-460e-a4a9-3d0e1e81ef07@tecnico.ulisboa.pt>
+Date: Mon, 12 Jan 2026 13:45:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fspn8TNLtx/VwpuA"
-Content-Disposition: inline
-In-Reply-To: <cfa7045d-bec6-4b3c-8413-fbcf1f1543e5@nvidia.com>
-X-Cookie: A company is known by the men it keeps.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: tegra: smaug: Enable DisplayPort via USB-C port
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251226-smaug-typec_dp-v1-1-7eabcd59da4c@tecnico.ulisboa.pt>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <20251226-smaug-typec_dp-v1-1-7eabcd59da4c@tecnico.ulisboa.pt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hello,
 
---fspn8TNLtx/VwpuA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 12/26/25 12:17, Diogo Ivo wrote:
+> Enable both SOR and DPAUX modules allowing the USB-C port to transmit
+> video in DP altmode. Tested on several monitors with USB-C to HDMI
+> adapter.
+> 
+> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> ---
+>   arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> index 49bf23d6f593..b88428aa831e 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
+> @@ -31,6 +31,11 @@ memory@80000000 {
+>   	};
+>   
+>   	host1x@50000000 {
+> +		dpaux1: dpaux@54040000 {
+> +			vdd-supply = <&pp3300>;
+> +			status = "okay";
+> +		};
+> +
+>   		dsia: dsi@54300000 {
+>   			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
+>   			status = "okay";
+> @@ -58,6 +63,13 @@ link1: panel@0 {
+>   			};
+>   		};
+>   
+> +		sor1: sor@54580000 {
+> +			avdd-io-hdmi-dp-supply = <&pp1800>;
+> +			vdd-hdmi-dp-pll-supply = <&avddio_1v05>;
+> +			nvidia,dpaux = <&dpaux1>;
+> +			status = "okay";
+> +		};
+> +
+>   		dpaux: dpaux@545c0000 {
+>   			status = "okay";
+>   		};
+> 
+> ---
+> base-commit: c100317dc8c40c71bfb572353d87ca1735d39fd5
+> change-id: 20251226-smaug-typec_dp-197201aaadae
 
-On Mon, Jan 12, 2026 at 06:23:39PM +0530, Sheetal . wrote:
-> On 12-01-2026 17:56, Mark Brown wrote:
+Gentle ping on this patch.
 
-> > This doesn't apply against current code, please check and resend.
-
-> As mentioned in the commit message,
-
-> This patch depends on:
-> https://patchwork.ozlabs.org/project/linux-tegra/patch/20251217132524.2844499-1-sheetal@nvidia.com/.
-
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
-
-> Kindly let me know if any additional action is required on my part.
-
-Please resend when the dependencies are lined up.
-
---fspn8TNLtx/VwpuA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlk9/sACgkQJNaLcl1U
-h9BjjQf+Im05h4W4wxCIUJ/nhZMyQ+q5FFSfpVX1rEryssioOCO+bknehrRWzIT/
-tynfhaRgz5SN+y8Q2sE2en4Dv+oCZnPnjhEBbVxS0O729kBt+KQfaxI+QxEUokbg
-UhWvxlRGKY8r0ZdO4lUJ+3e7/bBd8Zu1IVn2/ijztzah3dHkPMKn7Gkxx2mK2Kgi
-QJKrqbKGAF41Fu8Lgyj+N+giN2wq73vKP4KN+1hT5X+pieVTgulJtuYJPlvX8noh
-H99tRhPYzppD7vXs8ed3v9QQtpHndVtnwt+6gCOfQ1iFbG2RFxXCqM5+TLGSQZVt
-5pyN9jxB2T3p7G0kR86N563YtmFJWQ==
-=Q8d5
------END PGP SIGNATURE-----
-
---fspn8TNLtx/VwpuA--
+Thank you,
+Diogo
 
