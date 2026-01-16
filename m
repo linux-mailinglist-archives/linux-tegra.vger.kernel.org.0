@@ -1,66 +1,66 @@
-Return-Path: <linux-tegra+bounces-11283-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11285-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7E2D2FC48
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 11:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F802D2FC5C
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 11:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4D766308C8F0
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 10:42:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 05EE93093079
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 10:42:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70B2361DA5;
-	Fri, 16 Jan 2026 10:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C16361DCA;
+	Fri, 16 Jan 2026 10:42:09 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4789A36167F
-	for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 10:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A94361674
+	for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 10:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768560128; cv=none; b=SUALiNL/pV0rdJlE0AEKmLKUcOyPEPUWamTOlXc7a7rW5spt7YhOumqw2suDrFjMEvkdP1oBaJlNW8EfkWh6PXQqTgOyuIqCAanBx7HM1A4nnKP+tAf0BkV73IJxWwXRR9eDWyTASEMwoS3E8XiWLsWVfCOVW37+q050gYd3iD0=
+	t=1768560129; cv=none; b=nLc7MPTnL2pWL9ltSBXzErxuoKZECZX8M4AJxr5PACcm5q+VPaaHW1rPpRoFGZqH4sKau1pkKbBaTFaFb8TTZHMP1VOcEUTaooxnj+KhsDbPOiy/w7rLEUeb49V5nhcn02oU7adYdq2Akh32XpoXgY6yWmY5K2mcpeT8ldfZhaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768560128; c=relaxed/simple;
-	bh=+gM/8rmoVUIhEKxbIe7M9zBfgjnLSTWPpirV2zKTD7w=;
+	s=arc-20240116; t=1768560129; c=relaxed/simple;
+	bh=rXTI3sY64hoG5V6aBH3z2wkNQ6wZUnODcq5kb+6G3tU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rQftTQeyIcF7/VIgPx7iymzXnn0CLbPKDP0KLqkPHpUUCAmZX/6jUTu/nhhERkySEArCc5wDP+/3XprpPWOH4gz026Q5S3zU22okXL0bVUzuoTy7mC5ebCnXVhT9UUZ/XWj+zf86XWO3fS0kmGBpE8vXJRVdtqYwf4QZqx3z+ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.170
+	 In-Reply-To:To:Cc; b=CLdndsOm9xdOgya3kyq3pTrLdcv3AdFLyXN9HPJveNsEZrDw0NnROaV7ba6JSCr5RtXBI9K6LqziWhs+Kje5vrWVgo52aR6GstuBY5V0pT/wiYZ6h7Rm3+3jMltLEY858Zv5P2wuZ6P6vg7Krnf73MoQXrkhVZriU+t8c44txW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-45c89d754dfso686467b6e.1
-        for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 02:42:03 -0800 (PST)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7cfca52ac2dso1205276a34.0
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 02:42:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768560122; x=1769164922;
+        d=1e100.net; s=20230601; t=1768560123; x=1769164923;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9/Q48q0IeRuhiLU39AjZe41jfSGMPYWViJGlNFlddxU=;
-        b=Y95gyY6ItzMqoEGVX3e4O5cVrCOkMnlwcT94J2uJ8hsq/diTemgdGQPwrvCReAEe2T
-         qfRpjkXJDCaFGArvFUebltVgLRcRNuV0xbql+j3qR1EnuIvqUqpJB5qKtq8JbwN0CXf/
-         BNipnJ6/5tNUiwAlTC6DCtMHopiKlAJ9Wp/Q+jFTylSvTaYXpX2xis30zJTQVOEU+moT
-         H6eYeQ/2Cn0zhx34F5pAxOiiFez+S/ugaVN/JxVvhiPRe8F3b0LoY/hJ6lrAqn/NkBtJ
-         QHQpoc6l+alCfOYpDcVhgv7GxZ2Ntv/UE53X6pr9gfxc8eGdcMPCfLqf6o0HvPSqKW4I
-         weCw==
-X-Forwarded-Encrypted: i=1; AJvYcCWtiJbTx+DTylLiNNQCGxY7fhTqhq/D+KTn1mkBHMUzK2ye6tSFLNpOijodDhtfXnJfOuQtNlYFQUKMfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEdNITCzbjyNqhJ0cSV3m1vU2RsQjyA9dgiQO3vIrBRRcM3M5U
-	2HmNNTQWwlywcICavE9PGe1PWEyci73I+lb6SET+NUcPKg5YTc6wmDtU
-X-Gm-Gg: AY/fxX46fkkXH9R8vru6SOVr224aLTWGNIOQGPWT5kIUmKhar+u4L55mQTItXmmLGZG
-	IHjDstSxmtJqdWh7UzkPrP0PbzdeAMqMU2lFl+fuPRmu47JAYA7MXSx7P3T2i2B++uuKilYNKkZ
-	Hcifbv+jXYSU5ENsuJS3RfXvcsEAHRegmq/7IM9lJiTf3nWoH1Kq3ecBfkPUPRO91/Mu+7C5bIz
-	rjYff/A/C24YvK1yxc8gi1x8ZLiNuLrd73jx7juA+YunCFGPW44fe0AAF+TkcIEUsozfm3AzBUk
-	ZPFEI1onhmB7REwFRXIRjXlipPqqYTsH0/juAvXuQNv+hPEANUILpo80z+60dSGkVk1krCt0aRB
-	3bN8TwCSmWHuW8oNytF0yFKIvvfpyw/dAEE9wPYJJji0YZ/8wVo9I2n790qb2fJ3H6yrQY1WcN9
-	gV7A==
-X-Received: by 2002:a05:6808:1987:b0:450:c58d:8c3a with SMTP id 5614622812f47-45c9c197324mr1174687b6e.46.1768560122245;
-        Fri, 16 Jan 2026 02:42:02 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:48::])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45c9e0086a4sm1159605b6e.12.2026.01.16.02.42.01
+        bh=0AA7Y0IuqP0pVl1HcO3QatRU7TWIdgT6ORxtlbMnz/0=;
+        b=EoKOVt7Wxx96IdH62s0003GA+vPgtn1ONdtep59jdb+cHLfnMZ7WaFvZ1mRj+HOU1z
+         DqWJgcMZa4F74HKiQmT0UxdNfN15W2/uO3Dhvymy9Z3EATgZxXn/reymq3P5aeN9Pkiv
+         EuOx5XzWiCm+JpfowXVoYHyK1P52xt4Y8udJq/9CF6ovIB0J+f1wi1+CCCVaGcHhTvci
+         7al4TnFqHwRcgnDY4iCMAMwBGDYPEz7LnQm11yIpfgTR27u+i5U8sxuj27F3sDMdu7Eo
+         o3DXqIcsGtEf7ztCWq0fn+nLIjBy1FLckWsJ19qb3dtaxhuXs6fA9+rZo1WRNh/LF4uY
+         W5kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5w5pKqGBSXHAeMdaRPmdgEJJkfvIr0Lxp5l8zS9aGBKTigQ+ITIe9jdtvoe7c+RrkdfFUN4n3Nl2CEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXHybUM5I9GetpIBHrmguvjvc8e3YAEegwM4DhD5Ib4711Z97C
+	PJnDvd0q/D7rTf1/kno2qw0IX4UnsdudupgWA036vHLa9+HVMTz3tl2u
+X-Gm-Gg: AY/fxX4LOl1dPVvb9B1H/lg2U0dT9zlrKbADuWcIUoB6Cb5utvJjsSMBohFbpZ1Hwaa
+	3edJ3wjotzcaDqfZ4ucZSVCS0pm3zdsnm1/2+pmiNpZUNcaYEoSoLU194LG9SHXcwMywylKBw/T
+	n5vC09nQancfnL8ZlVGOb7Ct9f8UKBk7aLjzkT8WUhhUMC4wk8X7araV69cTAuMJ73cLqoOdTkl
+	RSWJ70jl79Ty0Hvex/y4HXBkAw/y41S/fI8G8iSWhnW0nkx+c5vsy6x6tYxxT15kzd08IFvoqQ/
+	MAtYsr5TYC2Y43o5NFzgTQQeeSQUJRzUj3e8w0Pc0cB62D4MXnV5osDw6t5mpRWzsI0cuL6knwi
+	IYrGNBjVrioPt8qRM8P58QE44ukxKQSu5/96vs8NBb8hsHI5CyjqPmQ3zB3huDs3L43gYgYzUaA
+	==
+X-Received: by 2002:a05:6830:82e4:b0:7cf:d0b4:bab7 with SMTP id 46e09a7af769-7cfdee8f50emr1640254a34.34.1768560123395;
+        Fri, 16 Jan 2026 02:42:03 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf0d9142sm1480880a34.1.2026.01.16.02.42.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 02:42:01 -0800 (PST)
+        Fri, 16 Jan 2026 02:42:02 -0800 (PST)
 From: Breno Leitao <leitao@debian.org>
-Date: Fri, 16 Jan 2026 02:41:44 -0800
-Subject: [PATCH 4/6] spi: tegra210-quad: Protect curr_xfer in
- tegra_qspi_combined_seq_xfer
+Date: Fri, 16 Jan 2026 02:41:45 -0800
+Subject: [PATCH 5/6] spi: tegra210-quad: Protect curr_xfer clearing in
+ tegra_qspi_non_combined_seq_xfer
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-tegra_xfer-v1-4-02d96c790619@debian.org>
+Message-Id: <20260116-tegra_xfer-v1-5-02d96c790619@debian.org>
 References: <20260116-tegra_xfer-v1-0-02d96c790619@debian.org>
 In-Reply-To: <20260116-tegra_xfer-v1-0-02d96c790619@debian.org>
 To: Thierry Reding <thierry.reding@gmail.com>, 
@@ -82,71 +82,55 @@ Cc: Thierry Reding <treding@nvidia.com>, linux-tegra@vger.kernel.org,
  Breno Leitao <leitao@debian.org>, kernel-team@meta.com, puranjay@kernel.org, 
  usamaarif642@gmail.com
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1795; i=leitao@debian.org;
- h=from:subject:message-id; bh=+gM/8rmoVUIhEKxbIe7M9zBfgjnLSTWPpirV2zKTD7w=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpahXyLNJ7iq84eB82zOL5JoFiQtdRTUjOjHDHy
- fVQ9LMo6UGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaWoV8gAKCRA1o5Of/Hh3
- bQ9jEACbt6+1pTgBmYLHPVxF3SfGaQoSj+VK3AqdIwMH57jLykLhqPWDjGyEiEBOoFaDuidkye6
- CZvQ8mI5XH93opWhN294Ctp+Men+sJ1Y5GlVL6/20WnfB6MDLkZO0SoUxTkY6Ty0t82DHmHdWrg
- 0XdNzMDRpRt/dmfO3wvDBd7CXDNG/Mt1sno40TXqlRNOfDNc8pLTrtP2qOTPZEyN+CnHF0hxJwB
- MCmBdJN5pP4w1hdAVBDPEopagzKA1NtwVhkSMpIrxDyL+P0q89rnWzRDivcrn3c4jGVpJF34rGm
- WwJEEnLyYh4e/RJf7mM+pGxTFEHhl94Bnd9lfhViR4eNdmi51EEiaiOPd7sTtkonFk27sA3GJzO
- 6QBuF4tc0a6QIKfFAXXR9u5GajuQVKeOdq5aa7yU9mDIZEoUUV2oOGVQWc9ovJtLeiVS1lb+uD2
- nX1Ypfgezo8cdZtcLNT4NOG4LprtTkipiX1kDDOcOq7r+DH0KFxb2XzKhBbObCZOVCK3q5dXOmT
- RdolAzs3DXVDFt/qQIjIXOi+DeKwQ/eWeIiXRc2M00P/TpzVEldcETbI64ZrHy1UcFYQ59z55Ws
- Mc2pPBroAgksK/IVx2S1Wl8edU++R31E1mQDFTUEL3e/EgEf78VfhYjyJdlhzKqXwORuzENsxO6
- dbisWSdjANhedMg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1208; i=leitao@debian.org;
+ h=from:subject:message-id; bh=rXTI3sY64hoG5V6aBH3z2wkNQ6wZUnODcq5kb+6G3tU=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpahXyKDqDLy9UiFdHIdAnuTY95cnWgrnwOfWdb
+ X+yE3bypBGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaWoV8gAKCRA1o5Of/Hh3
+ bfe4EACtv6gkekdzoWC0uBpx8BTg11Qj2SxS+lMOa/KXjIBBZrx9Vq4YfUrFK0WRGupFU9VAA+6
+ E3rQLJ14PsLpEjBxO1imfKO4yNi6A10oCPKAmL9Svk5VgvPx3KbMcuc9dg8iPCW8aJjdg0rMj9b
+ sEyWXfoa1kIfUGqpSQ5ZyVbZ7qTl8ZBCOL8WRumWVda+QCYWQph8iFVVRoknhyejv1nx/KNbLua
+ yWAef/c6s8JdwA49o5TsD66LhOwDCTAw3B1zu0pgPbwJGd3BcY0DSsikVFs1UyyLl2jASseYPN6
+ A4VK8cpfci1rSIuXS7V57N0PRhcv4Jno8K06oZP59OqbFHCD+Q7lkGwBP+ojf+R46fmJChCywdZ
+ pLCYs64ioYh3CDNl6usNLABSMxF4U2x6ut4JX0zUECdzRowk4hB5ibbBSgzixZHXHcY5l1g2/Xj
+ waIXTFR6d20JspOHFu8qWBt93haW9vac8wrgm22s5oey13Wlb3k2a1LNZpWSuMo36Jzc7owoHSg
+ mleEkZW4yi3BWXat43Ys/gUixMlmPmsHBMTX25hPruCOWl4Fd9aXBHyhjLEfrZ+MxePO/+FN6jN
+ bjaBDCoEwdwUi8S01QE2iqtv01QNIEMpBQ4BVpNwRFvakn4jjhASR/8Dh1fX+pOAOiSNhTKJTZ7
+ 9J0z3FoDNW9SH2w==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-The curr_xfer field is read by the IRQ handler without holding the lock
-to check if a transfer is in progress. When clearing curr_xfer in the
-combined sequence transfer loop, protect it with the spinlock to prevent
-a race with the interrupt handler.
-
-Protect the curr_xfer clearing at the exit path of
-tegra_qspi_combined_seq_xfer() with the spinlock to prevent a race
-with the interrupt handler that reads this field.
-
-Without this protection, the IRQ handler could read a partially updated
-curr_xfer value, leading to NULL pointer dereference or use-after-free.
+Protect the curr_xfer clearing in tegra_qspi_non_combined_seq_xfer()
+with the spinlock to prevent a race with the interrupt handler that
+reads this field to check if a transfer is in progress.
 
 Fixes: b4e002d8a7ce ("spi: tegra210-quad: Fix timeout handling")
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/spi/spi-tegra210-quad.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/spi/spi-tegra210-quad.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
-index 15c110c00aca..669e01d3f56a 100644
+index 669e01d3f56a..79aeb80aa4a7 100644
 --- a/drivers/spi/spi-tegra210-quad.c
 +++ b/drivers/spi/spi-tegra210-quad.c
-@@ -1161,6 +1161,7 @@ static int tegra_qspi_combined_seq_xfer(struct tegra_qspi *tqspi,
- 	u32 address_value = 0;
- 	u32 cmd_config = 0, addr_config = 0;
- 	u8 cmd_value = 0, val = 0;
+@@ -1288,6 +1288,7 @@ static int tegra_qspi_non_combined_seq_xfer(struct tegra_qspi *tqspi,
+ 	struct spi_transfer *transfer;
+ 	bool is_first_msg = true;
+ 	int ret = 0, val = 0;
 +	unsigned long flags;
  
- 	/* Enable Combined sequence mode */
- 	val = tegra_qspi_readl(tqspi, QSPI_GLOBAL_CONFIG);
-@@ -1264,13 +1265,17 @@ static int tegra_qspi_combined_seq_xfer(struct tegra_qspi *tqspi,
- 			tegra_qspi_transfer_end(spi);
- 			spi_transfer_delay_exec(xfer);
- 		}
+ 	msg->status = 0;
+ 	msg->actual_length = 0;
+@@ -1368,7 +1369,9 @@ static int tegra_qspi_non_combined_seq_xfer(struct tegra_qspi *tqspi,
+ 		msg->actual_length += xfer->len + dummy_bytes;
+ 
+ complete_xfer:
 +		spin_lock_irqsave(&tqspi->lock, flags);
  		tqspi->curr_xfer = NULL;
 +		spin_unlock_irqrestore(&tqspi->lock, flags);
- 		transfer_phase++;
- 	}
- 	ret = 0;
  
- exit:
-+	spin_lock_irqsave(&tqspi->lock, flags);
- 	tqspi->curr_xfer = NULL;
-+	spin_unlock_irqrestore(&tqspi->lock, flags);
- 	msg->status = ret;
- 
- 	return ret;
+ 		if (ret < 0) {
+ 			tegra_qspi_transfer_end(spi);
 
 -- 
 2.47.3
