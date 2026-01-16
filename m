@@ -1,66 +1,66 @@
-Return-Path: <linux-tegra+bounces-11287-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11299-lists+linux-tegra=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8938CD2FC82
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 11:46:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8105FD31208
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 13:33:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9F18130987A6
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 10:42:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6CD68304225B
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Jan 2026 12:33:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D7F636167E;
-	Fri, 16 Jan 2026 10:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48C3C140E5F;
+	Fri, 16 Jan 2026 12:33:04 +0000 (UTC)
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88520361DB0
-	for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 10:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55FE79CD
+	for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 12:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768560129; cv=none; b=I9Om83Ksmpc3FC5CSvf65UEyq8rDpY3Q/Bun7lGLE7v/ESgYnDgnATXZRbr/lpFtva3AZcezPlilYdry1JGyFMB6w+g6mm0wb/X0BgdkbSIKcEp8GC8/R7Vy6D+rUnBkkf4O3PNtBo8Ayq4hRT0g9CSEpFFoRxm1xJeNC0nCd1k=
+	t=1768566784; cv=none; b=ScMpy0mwCm4X4cdBp9LtR7nSaAzLzuGuXeLlHM6uT0pzyH9q1RIq0iAQ6VL4I0+MKzmM50pnmSEAkJRk/dkH+RG5EzaKX4lsH4Di9Ey/Vqi5MqfQZKkQQkOuOP7zgbdhTiP4EfYQfI895pP/Vk9+GYRhDz2Unw3hhGdREPnB+Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768560129; c=relaxed/simple;
-	bh=A/vGZruJ9X8gRAZcaLKj0oeYi4fgmnrSS69XwprVzOU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A8z5HimWeBFLoBTUB7Ll+d7W24hfNWDzkewxhVg0IwWa8mC0o2zd7aUMQBAKtmiJgJr9jXaXtqj57jvGv32+2FdCCi1ic4XSya6zJkhJ08QioXrDXB4MnKx828NlvU1jmKLTCufcCZKeich0RTbLdEC/l6zNUnY2FonNDeI1DCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.177
+	s=arc-20240116; t=1768566784; c=relaxed/simple;
+	bh=qD3t8KkmryE8Q3sEWp1im89nOG2BoAsAGxlKbLR7bNI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LmWXnIUS2wu/ag2uKcGqFXy/gfSVJWkn1fbdyqpcZffm9okK9pFOpVQQmehNJvwr9Dtt/Z2nq3RE2fcuPsJsOTPJ6COCSNPweEwsx7czLklRtf/100Z9ms8zgel40XwFznzzc6edwNrg1IM2wzb8Cg3XPt6AK7e+zvdHxgjewko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-45c70afbeebso1111982b6e.0
-        for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 02:42:05 -0800 (PST)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-81f478e5283so1776017b3a.2
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Jan 2026 04:33:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768560124; x=1769164924;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q0ntyY9ECmhz223U3egy0DvK+OimABjT6thpgO5HCR4=;
-        b=FU2MVDQTZMa1CGrbOKvqUJxmrKLrlaZrwQzoHDcmUEP2LVl2hzAcXVACU6LRNaY4UE
-         4dCcwi5zG7WT+BTunWD22E7YoEQFIIVZB5ebMuJp9pCRP7sQqPoynxZaNkBEb0NY5JI3
-         oAz9tIsLz96zDFqoQ2HFagg/EODGO8m7ELKyETDmkV905wFUbky8KBEb2BaRYR3/Ye6c
-         Ev12qT5ATjDfteouSjqF2dRZVo/y47yjggoKbrA90bTOWSI+Y9G7y1kHf7Al6zUxXtCy
-         Zm0gUkMTlOQnyE/3IuOCVUvGu//axviPi+btrHDC9BwFwDlMgC1fFjE3g+dhI73Py2TY
-         0dcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUJRjPKoBmRqn96r6NhqB1aj8/KMFSkt79L6ZEF/mOEVAAv12fj3GilfesqiV1p6L9PjItblogEKTpVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHi+dXOqZ/oPPou5JGfjo0KK5zxSo1BW2drHBSbLeeIlhj/8dk
-	5YsmRqF4VHs0JRPeKFwaPDqb9Qb90MFF2ppUKxV6rRag6pqZXL6zGPfQ
-X-Gm-Gg: AY/fxX7zVDbpRlcjeTcxDQqPHwDk1wiAuy/8qIWbAiCSs1loZra6jYPcY1GJOkDkZgc
-	Mvx56ljsyAvqCB3SuPJwrXmdwPELJpnxvoT4LglqggcrDZPKj/jBsgweKVbHtRgA1Ne5YEIDxqE
-	nRdBO3FpkPiyUFcPkVInW+Pl2GHYFF8PDwIeFyMU3zI/p4d5qpK9hjmRV5HoMGqOIZOlKXUfgPe
-	fetZGwoCIvJ4wG6Bmphk3Ed4DyHqXhKCzuqCh3e4Gah1LYL/fIj6qJfKTeaGDzwCA+sDWVGY3qv
-	tr9WkM9TaBgpUsymrTBkZHohxYULU9wsfZCNI6hQoz75wFLWFTJQ63XZtJjwST17EwOJgIbYGVH
-	R7yoFIjE56qB3JMwV0jUqdD3RmSXqjUyt6uVNtsJepojB3Gzz3WCzWLJV55rUc9jntuc9KEIntN
-	KoNg==
-X-Received: by 2002:a05:6808:1207:b0:453:f85:79e9 with SMTP id 5614622812f47-45c9bf56a2emr1380611b6e.18.1768560124429;
-        Fri, 16 Jan 2026 02:42:04 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:72::])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45c9dec3567sm1108687b6e.1.2026.01.16.02.42.03
+        d=1e100.net; s=20230601; t=1768566782; x=1769171582;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RVLV19TawD5XZpUdbFIZpsowqiEtwSZoUGvKEVNvWDE=;
+        b=cwj8KY5CqZ6ASqhlCJs9uOXYvL1PEUmDcoN7OKR64GLuTU11L59O36SUefsZvwqczW
+         r58U4sI+m7FhTmGb4wwtH3GcgPZ1kpUdZSLlWMvX3hHq9p+cUPykHvB+AWSpozCvN4sm
+         g5/dxNWtcv+RqkudP6ayXQcLY2S3xVACW6oAsAe4igJUYqXj61Bqa3J6V8IS+cbdXS71
+         HhVealcs3MEsNmZkkIgmU5nZGBIj6Rbfj5ODWy7YzrBmlS8OCv6pAzR6TILBKv2hXJ7M
+         X0EO6Pu48PgLH+Ob5WvieiT1D/JXx6Z7xNsjsgKYHKJNQtAKs8KxZgEUpKpQd65/thwL
+         INww==
+X-Forwarded-Encrypted: i=1; AJvYcCUIRDPQXqHl/FJQhJIupoXsgI6aBSMDKUK+ckoGxzisP96+pIV/iaR/OCFK6ajTSyWJI0teDC+MoagYfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXCx4D6lD01TfW/upe58sb0gQdz/4PEIDs1T5h1GNr+jdjFStm
+	CPGE+udETsG4OWizy4Ez8PdC2KScYWkkX/luUbuCbTdBwU70gXpBhLcByCAV3g==
+X-Gm-Gg: AY/fxX7e8WvZ0rvhAntbphbjqvvDq/7B+4iFWhzAuqqaE2CA4eZEI/o4U8J9hu1Ofz/
+	mwfQ2rMWnYpeBVDwsx+eRHTfAXgJS/dRfOu4hwtts3JR1oycOTZlG7zW9RcOl29AVfBAUq9Btt1
+	BEXs59qtDR4z5vQ4Wv8nuWBnqkaEZo9zf2fe5Ere72O0zha0YICeTfXVC9DlmPAEADRL3xSS57z
+	kiMKoF/lRSQMjqiU0prLKsN7cbJs4ylSgSnwX5cmbzCKaOCaVDRsejVjKs2XaEJgWF8h79+q6On
+	7zIvYBqHn1zmXVVcbiFMSrYttlyNJgLdGUt297YubnscqpxhqNu3Gpmmbj+ivcCzbpA+aRpKx6+
+	/wM4K1hps1YdLaNOOtoqpljBTqtINzPH822LtAQdy+TOk3ucbJoGL6BqlCw22ecGmdTdVpoVzHu
+	k0aA==
+X-Received: by 2002:a05:6830:81f8:b0:7cf:da7d:5040 with SMTP id 46e09a7af769-7cfded6f064mr1774625a34.14.1768560115730;
+        Fri, 16 Jan 2026 02:41:55 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:71::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf2a5f02sm1468465a34.25.2026.01.16.02.41.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 02:42:04 -0800 (PST)
+        Fri, 16 Jan 2026 02:41:55 -0800 (PST)
 From: Breno Leitao <leitao@debian.org>
-Date: Fri, 16 Jan 2026 02:41:46 -0800
-Subject: [PATCH 6/6] spi: tegra210-quad: Protect curr_xfer check in IRQ
- handler
+Subject: [PATCH 0/6] spi: tegra-qspi: Fix race condition causing NULL
+ pointer dereference and spurious IRQ
+Date: Fri, 16 Jan 2026 02:41:40 -0800
+Message-Id: <20260116-tegra_xfer-v1-0-02d96c790619@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -69,9 +69,10 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-tegra_xfer-v1-6-02d96c790619@debian.org>
-References: <20260116-tegra_xfer-v1-0-02d96c790619@debian.org>
-In-Reply-To: <20260116-tegra_xfer-v1-0-02d96c790619@debian.org>
+X-B4-Tracking: v=1; b=H4sIAOUVamkC/yXMQQqDMBAF0KsMf20gSSFCrlKKxHSi40LLRIsg3
+ r1Yl2/zDlRW4YpIB5S/UmWZEck1hDymeWAjb0SCtz5Y57xZedDU7YXVhJT7h02h9bagIXyUi+z
+ /7Pm6Xbd+4rxeA87zBwuXlJBuAAAA
+X-Change-ID: 20260112-tegra_xfer-6acb30a6720f
 To: Thierry Reding <thierry.reding@gmail.com>, 
  Jonathan Hunter <jonathanh@nvidia.com>, 
  Sowjanya Komatineni <skomatineni@nvidia.com>, 
@@ -82,119 +83,141 @@ Cc: Thierry Reding <treding@nvidia.com>, linux-tegra@vger.kernel.org,
  Breno Leitao <leitao@debian.org>, kernel-team@meta.com, puranjay@kernel.org, 
  usamaarif642@gmail.com
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3608; i=leitao@debian.org;
- h=from:subject:message-id; bh=A/vGZruJ9X8gRAZcaLKj0oeYi4fgmnrSS69XwprVzOU=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpahXy8Cu2O+/SM4/4A32xveAysDh33iq6q4kwS
- 2LvH2qMizmJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaWoV8gAKCRA1o5Of/Hh3
- bRNrEACoJkv+kyHRIYdt3hZZpxrLMv8tCkPIuF8cR1aAAU4UvBY+550/SB+LOrQ8kPLADZ02uv7
- aRyoTCZmpEE69NjveIRwuVDB46mMstFtVP94Q55R2ty/qzyzKl/Ylhm4aFvZssC0cvi8o/YkEl9
- WUTogIAP75n19IwTygHb19ds2Gdq6lexyUu9yJaPh7w1H8f3ebpP8m2jFx/3j2Ie3i4IEF2DQjf
- CuPjBdARvDOnNXU4WttRpY3Ky/q0Vn7evNiTJA7UmqyQK9PydSvawmOsURORl2mMvE2Ri7l9bxM
- 336ynw93PsjjoS5dlqvxO8+D4vzTPl33nND2hJ5N7YXloI9oIphyCf69QWI8q0H3kv4zco3LaKr
- x9lOs+CaaZ/i7qxhm2rB4cBfk3RmySnLKxzEJmyACSMsAW5lYM8RnAvTK4nzYoImj+gcQscbVvm
- wtWh24Fk01M+NuvklOoPKIHUS+U2nxKVfvSBxZZQFJAxupLL3nV/cP7aLVl0OUeA1KPo4sIJ+0D
- CyKU/L9N5k6hbXPwNzv5+GT5ItHesBRgv7MRyMm8Ijx4ulCexft1fw1dW4u+RomA3pxnyRn+DT/
- +K6OReXiibMtFfR/07cRc7wNYMXTOR/zY3BW5BERV9Ij8UvX0TdOfVB9szHCOA+aszoF66XcLQR
- Q2dgibsWSj4+cXw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5022; i=leitao@debian.org;
+ h=from:subject:message-id; bh=qD3t8KkmryE8Q3sEWp1im89nOG2BoAsAGxlKbLR7bNI=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpahXx6Jy9ntHF0BqQauX2V9RiyvTKge/74KgBS
+ 9hKsnE//E+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaWoV8QAKCRA1o5Of/Hh3
+ bdGiD/9tEhwi2Msnv0oFN38RVhGI9fUUeGG8kb+u9ma/CiLgvhTYO/2ykMjAnOYghhAl/Usp4Rj
+ +tVUH4oB8zE5RPu6bljQJlN2LODGTqc4qV8HOKzJ+App6qgsRsnI6ItXIPKY+BYg9/88E+nDIXX
+ KNfqzbG4theM91N4XH79le6J7M5pnbndlEWwAHu1WBAEHEqFJDY81sitcxmGVmKEH/rPk1jolne
+ N5Hggmd6s35LV8NQv/KN4x0Bgeas/s5NJm0iqQ/3d/DT3F9Tel32jpwiQgzsLkjPgdf+HN40afD
+ A3xYVeEMtwX/YywdhETVB/YFFOtYXRXUYMy0d+xGYdoirk22b1izfng4ujEdshEl1diLS56pcDq
+ QwpvuIsc2Z4xP/G+2fLsiKyYAnrgSGiVrmOmc9wHLiekye9dVa8XzHOMprm80fj/lclcmG+GoG2
+ WADwv162XPhob9sAqj6qDpB07LguqLF0FBGPBU03DLaxbU0l8Sa6/0zQ4wqFTzJfNNZYcbuuXpm
+ /SqV01zOg0wutKUoY5gT+IfUEvD4xfUQcrii8UNtBXqNCWO0w3jDTcStG84xiPWOHLD6bKm5GJW
+ lkeGhTpk3q1MI9ZRx18e0/h8hVLditde5xT8c2nhz9dQLkvC7OBkR28X4h6+zRsxrfA0ji6GZe+
+ LQW32I42FtbKG9g==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-Now that all other accesses to curr_xfer are done under the lock,
-protect the curr_xfer NULL check in tegra_qspi_isr_thread() with the
-spinlock. Without this protection, the following race can occur:
+The tegra-quad-spi driver is crashing on some hosts. Analysis revealed
+the following failure sequence:
 
-  CPU0 (ISR thread)              CPU1 (timeout path)
-  ----------------               -------------------
-  if (!tqspi->curr_xfer)
-    // sees non-NULL
-                                 spin_lock()
-                                 tqspi->curr_xfer = NULL
-                                 spin_unlock()
-  handle_*_xfer()
-    spin_lock()
-    t = tqspi->curr_xfer  // NULL!
-    ... t->len ...        // NULL dereference!
+1) After running for a while, the interrupt gets marked as spurious:
 
-With this patch, all curr_xfer accesses are now properly synchronized.
+    irq 63: nobody cared (try booting with the "irqpoll" option)
+    Disabling IRQ #63
 
-Although all accesses to curr_xfer are done under the lock, in
-tegra_qspi_isr_thread() it checks for NULL, releases the lock and
-reacquires it later in handle_cpu_based_xfer()/handle_dma_based_xfer().
-There is a potential for an update in between, which could cause a NULL
-pointer dereference.
+2) The IRQ handler (tegra_qspi_isr_thread->handle_cpu_based_xfer) is
+   responsible for signaling xfer_completion.
+   Once the interrupt is disabled, xfer_completion is never completed, causing
+   transfers to hit the timeout:
 
-To handle this, add a NULL check inside the handlers after acquiring
-the lock. This ensures that if the timeout path has already cleared
-curr_xfer, the handler will safely return without dereferencing the
-NULL pointer.
+    WARNING: CPU: 64 PID: 844224 at drivers/spi/spi-tegra210-quad.c:1222 tegra_qspi_transfer_one_message+0x7a0/0x9b0
 
-Fixes: b4e002d8a7ce ("spi: tegra210-quad: Fix timeout handling")
+3) The timeout handler completes the transfer:
+
+    tegra-qspi NVDA1513:00: QSPI interrupt timeout, but transfer complete
+
+4) Later, the ISR thread finally runs and crashes trying to dereference
+   curr_xfer which the timeout handler already set to NULL:
+
+    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+    pc : handle_cpu_based_xfer+0x90/0x388 [spi_tegra210_quad]
+    lr : tegra_qspi_handle_timeout+0xb4/0xf0 [spi_tegra210_quad]
+    Call trace:
+      handle_cpu_based_xfer+0x90/0x388 [spi_tegra210_quad] (P)
+
+Root cause analysis identified three issues:
+
+1) Race condition on tqspi->curr_xfer
+
+   The curr_xfer pointer can change during ISR execution without proper
+   synchronization. The timeout path clears curr_xfer while the ISR
+   thread may still be accessing it.
+
+   This is trivially reproducible by decreasing QSPI_DMA_TIMEOUT and
+   adding instrumentation to tegra_qspi_isr_thread() to check curr_xfer
+   at entry and exit - the value changes mid-execution. I've used the
+   following test to reproduce this issue:
+
+   https://github.com/leitao/debug/blob/main/arm/tegra/tpm_torture_test.sh
+
+   The existing comment in the ISR acknowledges this race but the
+   protection is insufficient:
+
+       /*
+        * Occasionally the IRQ thread takes a long time to wake up (usually
+        * when the CPU that it's running on is excessively busy) and we have
+        * already reached the timeout before and cleaned up the timed out
+        * transfer. Avoid any processing in that case and bail out early.
+        */
+
+   This is bad because tqspi->curr_xfer can just get NULLed
+
+2) Incorrect IRQ_NONE return causing spurious IRQ detection
+
+   When the timeout handler processes a transfer before the ISR thread
+   runs, tegra_qspi_isr_thread() returns IRQ_NONE.
+
+   After enough IRQ_NONE returns, the kernel marks the interrupt as spurious
+   and disables it - but these were legitimate interrupts that happened to be
+   processed by the timeout path first.
+
+   Interrupt handlers shouldn't return IRQ_NONE, if the driver somehow handled
+   the interrupt (!?)
+
+3) Complex locking makes full protection difficult
+
+   Ideally the entire tqspi structure would be protected by tqspi->lock,
+   but handle_dma_based_xfer() calls wait_for_completion_interruptible_timeout()
+   which can sleep, preventing the lock from being held across the entire
+   ISR execution.
+
+   Usama Arif has some ideas here, and he can share more.
+
+This patchset addresses these issues:
+
+Return IRQ_HANDLED instead of IRQ_NONE when the timeout path has
+already processed the transfer. Use the QSPI_RDY bit in
+QSPI_TRANS_STATUS (same approach as tegra_qspi_handle_timeout()) to
+distinguish real interrupts from truly spurious ones.
+
+Protect curr_xfer access with spinlock everywhere in the code, given
+Interrupt handling can run in parallel with timeout and transfer.
+This prevents the NULL pointer dereference by ensuring curr_xfer cannot
+be cleared while being checked.
+
+While this may not provide complete protection for all tqspi fields
+(which might be necessary?!), it fixes the observed crashes and prevents
+the spurious IRQ detection that was disabling the interrupt entirely.
+
+This was tested with a simple TPM application, where the TPM lives
+behind the tegra qspi driver:
+
+https://github.com/leitao/debug/blob/main/arm/tegra/tpm_torture_test.sh
+
+A special thanks for Usama Arif for his help investigating the problem
+and helping with the fixes.
+
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/spi/spi-tegra210-quad.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Breno Leitao (6):
+      spi: tegra210-quad: Return IRQ_HANDLED when timeout already processed transfer
+      spi: tegra210-quad: Move curr_xfer read inside spinlock
+      spi: tegra210-quad: Protect curr_xfer assignment in tegra_qspi_setup_transfer_one
+      spi: tegra210-quad: Protect curr_xfer in tegra_qspi_combined_seq_xfer
+      spi: tegra210-quad: Protect curr_xfer clearing in tegra_qspi_non_combined_seq_xfer
+      spi: tegra210-quad: Protect curr_xfer check in IRQ handler
 
-diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
-index 79aeb80aa4a7..c0443c986dd9 100644
---- a/drivers/spi/spi-tegra210-quad.c
-+++ b/drivers/spi/spi-tegra210-quad.c
-@@ -1457,6 +1457,11 @@ static irqreturn_t handle_cpu_based_xfer(struct tegra_qspi *tqspi)
- 	spin_lock_irqsave(&tqspi->lock, flags);
- 	t = tqspi->curr_xfer;
- 
-+	if (!t) {
-+		spin_unlock_irqrestore(&tqspi->lock, flags);
-+		return IRQ_HANDLED;
-+	}
-+
- 	if (tqspi->tx_status ||  tqspi->rx_status) {
- 		tegra_qspi_handle_error(tqspi);
- 		complete(&tqspi->xfer_completion);
-@@ -1527,6 +1532,11 @@ static irqreturn_t handle_dma_based_xfer(struct tegra_qspi *tqspi)
- 	spin_lock_irqsave(&tqspi->lock, flags);
- 	t = tqspi->curr_xfer;
- 
-+	if (!t) {
-+		spin_unlock_irqrestore(&tqspi->lock, flags);
-+		return IRQ_HANDLED;
-+	}
-+
- 	if (num_errors) {
- 		tegra_qspi_dma_unmap_xfer(tqspi, t);
- 		tegra_qspi_handle_error(tqspi);
-@@ -1565,6 +1575,7 @@ static irqreturn_t handle_dma_based_xfer(struct tegra_qspi *tqspi)
- static irqreturn_t tegra_qspi_isr_thread(int irq, void *context_data)
- {
- 	struct tegra_qspi *tqspi = context_data;
-+	unsigned long flags;
- 	u32 status;
- 
- 	/*
-@@ -1582,7 +1593,9 @@ static irqreturn_t tegra_qspi_isr_thread(int irq, void *context_data)
- 	 * If no transfer is in progress, check if this was a real interrupt
- 	 * that the timeout handler already processed, or a spurious one.
- 	 */
-+	spin_lock_irqsave(&tqspi->lock, flags);
- 	if (!tqspi->curr_xfer) {
-+		spin_unlock_irqrestore(&tqspi->lock, flags);
- 		/* Spurious interrupt - transfer not ready */
- 		if (!(status & QSPI_RDY))
- 			return IRQ_NONE;
-@@ -1599,7 +1612,12 @@ static irqreturn_t tegra_qspi_isr_thread(int irq, void *context_data)
- 		tqspi->rx_status = tqspi->status_reg & (QSPI_RX_FIFO_OVF | QSPI_RX_FIFO_UNF);
- 
- 	tegra_qspi_mask_clear_irq(tqspi);
-+	spin_unlock_irqrestore(&tqspi->lock, flags);
- 
-+	/*
-+	 *  TODO: Keep tqspi->lock held for both handle functions below to avoid
-+	 *  releasing and reacquiring the lock between calls.
-+	 */
- 	if (!tqspi->is_curr_dma_xfer)
- 		return handle_cpu_based_xfer(tqspi);
- 
+ drivers/spi/spi-tegra210-quad.c | 54 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 50 insertions(+), 4 deletions(-)
+---
+base-commit: 9b7977f9e39b7768c70c2aa497f04e7569fd3e00
+change-id: 20260112-tegra_xfer-6acb30a6720f
 
--- 
-2.47.3
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
 
