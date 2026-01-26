@@ -1,99 +1,95 @@
-Return-Path: <linux-tegra+bounces-11611-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11625-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sI/iBX+4d2nKkQEAu9opvQ
-	(envelope-from <linux-tegra+bounces-11611-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 19:54:55 +0100
+	id 2EmJNorPd2mxlQEAu9opvQ
+	(envelope-from <linux-tegra+bounces-11625-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 21:33:14 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA828C3B5
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 19:54:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D428D19C
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 21:33:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D284D301ECE0
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 18:54:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B315D3013A80
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 20:33:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59E7725B1DA;
-	Mon, 26 Jan 2026 18:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2AB22D46A2;
+	Mon, 26 Jan 2026 20:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O08VUooE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxbBfoj4"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE6A252904
-	for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 18:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA6B2BEFEE
+	for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 20:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769453691; cv=none; b=VPYRQhX8RuEI40zBVLqUqIE4ex17Qvu23CgDlxrWYXhUJbXJ7IVEpmEXaZAZUdoeeEbMXNzF6wHMTSLmsYLqRdaamBLeIvclX+nW7Hbckb+q8G6wr+rk3xdtVhGJOObZg4WrX6ZVpqjwmtVWLDoUW0sPGCJcckHSHqdC4AMLEkA=
+	t=1769459591; cv=none; b=RkvemhHLKoBLGmq8B1XSerVD6LGy4k0LIRg5f14tCffCaiQQVhdloF4NRQOOCF3AJ1yUo8TxSPt8plyR2BdWo11c89SFzd8aNTjnyqDVJsMywYCtn72AKIeXBS6DNkaNJX6HfTd5qcyt+yuTK0cdfCoX9TEraKaIEGeqXAggRQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769453691; c=relaxed/simple;
-	bh=1+5DCp6OHuKcpHx/26jzXFcnmrgHGTiIgTauDkixbRU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gMI0qSAFCRBJOxNvsmVjbxJPgK48MkoQ84sTuLPuQQEpmohzcx7LkBUoi2UX7tpsR8zG9zeFC+h0rBti192n3Rc1/rhmBx4Ca+WayWc7qrL+5qOIzyLDZjcEEDvYIJOvypCN55Ogh1VLHqifx4tbcKlU7SIRpTe1DZ8+nAo6Mmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O08VUooE; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1769459591; c=relaxed/simple;
+	bh=L9AP7K7IS/BQIX048gXZafEbvq5i3LmZ5GjfHPcHmZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ajHeqS6IWdgW244dA63RPlkXNRQq2Wg+VQGZ66XboGxORPAEcRdbbcj7g0L1P1t5E/V3YJrXYk6OJ57WbXQSspKYilwVIIRvClOeUrDb3fMSt1wXC/yneUPbhn2CwNRVVdnz08FAaT2SDSgCx1wyg77XqSzME2zLz0b10poYlKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxbBfoj4; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-432d2c7dd52so4974953f8f.2
-        for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 10:54:49 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6505cac9879so7650555a12.1
+        for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 12:33:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769453688; x=1770058488; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkYHBbf51iPoTKTb/DYQ1Urxy3yreGvpCuibSsYjEfk=;
-        b=O08VUooEHqZP99OBKgphpyM1x2G+l5I83pvvSWY9ZwHkn1mCOD35UmFETDnntnW4wY
-         O82qDe1A4AWpVU6hIU0ONs97tn/Jt3/5HDXq767wXz/AqcB7ZEj7GMFAHS1IEClI2uYM
-         eJk2kkeXJAMgiB4AG3Nfjb8H6nIYDce4WgIwFVDJ/sNzY2BrWOep5IArk/lXcIt+yji5
-         lYbkKmkpTj7ilGFYe4K7nsot9Quyl+G9HX5GyrrzZSfcsFMYAIXjn/hRwXuGZqshHrls
-         H6ORjnI/4w9WQpou0iDtR6H4NCm/8lsuVk9ySQZ5vPdExrJWywdlG3xEFLaOcVI6qL2D
-         dWiA==
+        d=gmail.com; s=20230601; t=1769459589; x=1770064389; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YVQeX6F69iLnc7u2WDbtyBci9ESFJbN+KlbTGvK+NNU=;
+        b=mxbBfoj4HYaPioD2zylAUYmVEzvd0jZFZ1dx793UMbqKyso1q3Otc/bm/29CUS6iuU
+         2dnumHVPXNZ1v3ZXyzdiu13M0d8qPBtcZv13N5oPZksFmUNOWpDnVKo41fBQdJFp4bbP
+         tOJO39FpaRqCPt1xKATlohvrFgtF4yFSvOJtAFoIh1uu/OL1rgklR2UN7HFCfN3FllrP
+         0DihluXkFuyKiPYv2fiIsB1Lrp84mFr6fbpKMsYwqNZwBId74P6JGNxbSZzyu18Jf4WA
+         dF5oKVF9MnY1/CszZ6jSYVBGLU2BTkYz+Zhtx+vmW9oXwXgZeH2hbcEDwxJEfihDV0Le
+         NmHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769453688; x=1770058488;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DkYHBbf51iPoTKTb/DYQ1Urxy3yreGvpCuibSsYjEfk=;
-        b=cC2O4OnqHl4Tzblnz929o27qSnBQAFZQrkGq9htXj7ynV0xlQJfvS7Gl2aZpXcfMsK
-         OBcTVZW3CWTPwkSxhjGeahvcJStSyBYh0h/J5/1l5dJXdvGUZbYEtK+cIyS6HruBuCKh
-         +EGbrQdgH9stZBnlJxQxR4ydDQm7doXITt1L3KahbNTZRR6EZNmGLf4SHQQGYEYhZUVr
-         MxHE0CR2N14TZtEfTS46MVnvP+63ketipuZ790cyTeBQJL18iKBMoCKa4QRa9BKs9iFH
-         mRJKSO5GgsWQY4rGbGDWbz07i2JxpkLNfuGra4x5Yggzb8unxrxsRSFWEBkNLuMrlYsi
-         m4yg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5eDdX5U6A9nznmChWvBv7VulKjsfG98RjE+qVyhArW8h9ZqT9nh9ec2B2CBbuOGtpLFFjNSofgdc2iQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxN+aLL6WMW/kzSMtjYpt5vPda3KHCugxI4JnN2Zp+IfGizgE5
-	XSnrfhoIVL1ukeJl3JmbjgqduFVD7awBIp36pFTm97+VAHdhwlz9o1QP
-X-Gm-Gg: AZuq6aLqV+SUY/4ZyVnOU2b6vhvXMgoiU6mdXCLxv62FRqXFpOMwbrQL490ZQZmBTKP
-	f3Xi7I2yTXbe/wTucLKQBJFCHxMu8fsf82h85peR0sFYPz4i9cI1szXRzxxLC65b3WQUH2achAf
-	vLfJSo4YG4ykDFoJ9I+u6S45J1eVgowfBzP/rMd67W6pmx0U8TfzrsaQKz/c9rVBV6Cq2A/gvBZ
-	e3YdTwrH/xXnUouthPtFaypSj8xF3HNsEWHegAqhAfflVvXzLSDvZQZHQS1jWdC0xrek3iPWniu
-	K2PiraczdR6Qy9jZ1q3cQ7kQe1TV0gp3eqJsPkfzJj+LRe6VTii6HbBkcfnls/QAKPfGAQEr51t
-	GvnCKSbXs1J/aAsMEljCSVjxuDCeoofrW0aTCm86zB/4Y6nibsl8VMNeJOoNnJsgaDzFQkWIm6i
-	Rr
-X-Received: by 2002:a05:6000:2313:b0:430:fa58:a03d with SMTP id ffacd0b85a97d-435ca3ac2aamr9067059f8f.63.1769453687994;
-        Mon, 26 Jan 2026 10:54:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769459589; x=1770064389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YVQeX6F69iLnc7u2WDbtyBci9ESFJbN+KlbTGvK+NNU=;
+        b=NBxCZPltRQsEhpnanqke5kEongu1dKn/5nC0tuf0W7VwdOZQY625WOiKvTp+uG3WP3
+         0YQ+CNTcWaweIs5I8A2fqPwSMMUPBne064KHRBYDih5tN8LSZFuWXGqmVhe2mpr7Wbtd
+         zwQOWY4h+DYgrmEHRP6r5yI/ni6RkANqkxnXDds9o+fwpQQ/9MLt4Ey/sKkz2PEwsjAF
+         6cQdXkAdC//C9KjogOSKQVwRJ9S5N4acOQLecd4USUXjInLkOkSkWFidt9yJou9mrqkE
+         QJQQ3t0sUPqj/zB7OllL7Nk7q3HIfsk3OTDn/MbwNZ9oVoV3YnHE7FiWBkDk6K9yLxy/
+         eq8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVFCwYr93MaysR8Pov25lXG6GiOntR3JHTVCeCCjaaLVNHGxwxfZJswx0sAVC3BbPAAY3tWFme0H7HDYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTPlBCEdL8+TZYaqQAHb1zVihY/QbCBmRliSempshFwo3Lu6P8
+	O4ilTV2H9JxIG6LVPJccpmkie7pVguV9Tpw1lc2alrW7G8j2cXDjNV27pAjlzA==
+X-Gm-Gg: AZuq6aILdSvJm1AkbZpH/KMayyCP+ilImORRMLtxM4EGtA/RRlCEmWeQaZHy7TsGr2b
+	v8IXk2UdYa2QM270i7GleFai2xu5NrL2irXR+YoPGmDOYNI87Lykd9uAlEP9CUGTpmOBjtGbsaT
+	Dpyfxz12ONuXFVdrPazkMMcIQmPO1IWs5Tprz7l+Ao0zF5ImsRvrdoC21lzDYY91MYOT5x4pvA+
+	qHyhR8/vMUaQMg0JdECGvCrct7xRNNCGOhb7B5k5qSBe238Oq2DF44lqiVOu48oICLAQKKm6D7E
+	bVQ4y3AldHBKQPMx1CNRjWSv5rMls8bwsMYiqG2lOKJS6qR+nSOd0eRxwu/Uj1q2QhNfS8kd85R
+	2d87Q7vS0fnM12m8yojs/Za8Z/jteTPjvpPV+wLtfHEBlUFN1OKpjkJX77t6vdB6/orbofvTYDp
+	mc
+X-Received: by 2002:a05:600c:4689:b0:477:55c9:c3ea with SMTP id 5b1f17b1804b1-4805d0690c7mr104124775e9.35.1769453909695;
+        Mon, 26 Jan 2026 10:58:29 -0800 (PST)
 Received: from xeon ([188.163.112.49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1f742d6sm31793947f8f.30.2026.01.26.10.54.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c3732dsm7296265e9.11.2026.01.26.10.58.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 10:54:47 -0800 (PST)
+        Mon, 26 Jan 2026 10:58:29 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
+To: Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
 	Mikko Perttunen <mperttunen@nvidia.com>,
 	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-pm@vger.kernel.org,
+Cc: linux-clk@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1] devfreq: tegra30-devfreq: add support for Tegra114
-Date: Mon, 26 Jan 2026 20:54:23 +0200
-Message-ID: <20260126185423.77786-2-clamor95@gmail.com>
+Subject: [PATCH v1 0/1] clk: tegra: set up proper EMC clock implementation for Tegra114
+Date: Mon, 26 Jan 2026 20:58:17 +0200
+Message-ID: <20260126185818.78003-1-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260126185423.77786-1-clamor95@gmail.com>
-References: <20260126185423.77786-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -102,87 +98,50 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_FROM(0.00)[bounces-11611-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,samsung.com,nvidia.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[nvidia.com,baylibre.com,kernel.org,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11625-lists,linux-tegra=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 6DA828C3B5
+	TAGGED_RCPT(0.00)[linux-tegra];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 14D428D19C
 X-Rspamd-Action: no action
 
-Lets add Tegra114 support to activity monitor device as a preparation to
-upcoming EMC controller support.
+Remove current emc and emc_mux clocks and replace them with the proper EMC
+clock implementation for correct EMC driver support.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/devfreq/tegra30-devfreq.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+Part of previous patchset: https://lore.kernel.org/lkml/20251125120559.158860-1-clamor95@gmail.com/
 
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index 8ea5b482bfb3..fa83480a923f 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -963,16 +963,22 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+/*
-+ * The activity counter is incremented every 256 memory transactions. However,
-+ * the number of clock cycles required for each transaction varies across
-+ * different SoC generations. For instance, a single transaction takes 2 EMC
-+ * clocks on Tegra30, 1 EMC clock on Tegra114, and 4 EMC clocks on Tegra124.
-+ */
- static const struct tegra_devfreq_soc_data tegra124_soc = {
- 	.configs = tegra124_device_configs,
--
--	/*
--	 * Activity counter is incremented every 256 memory transactions,
--	 * and each transaction takes 4 EMC clocks.
--	 */
- 	.count_weight = 4 * 256,
- };
- 
-+static const struct tegra_devfreq_soc_data tegra114_soc = {
-+	.configs = tegra124_device_configs,
-+	.count_weight = 256,
-+};
-+
- static const struct tegra_devfreq_soc_data tegra30_soc = {
- 	.configs = tegra30_device_configs,
- 	.count_weight = 2 * 256,
-@@ -980,6 +986,7 @@ static const struct tegra_devfreq_soc_data tegra30_soc = {
- 
- static const struct of_device_id tegra_devfreq_of_match[] = {
- 	{ .compatible = "nvidia,tegra30-actmon",  .data = &tegra30_soc, },
-+	{ .compatible = "nvidia,tegra114-actmon", .data = &tegra114_soc, },
- 	{ .compatible = "nvidia,tegra124-actmon", .data = &tegra124_soc, },
- 	{ },
- };
+Svyatoslav Ryhel (1):
+  clk: tegra: set up proper EMC clock implementation for Tegra114
+
+ drivers/clk/tegra/clk-tegra114.c | 39 ++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 14 deletions(-)
+
 -- 
 2.51.0
 
