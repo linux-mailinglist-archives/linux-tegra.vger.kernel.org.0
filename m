@@ -1,81 +1,81 @@
-Return-Path: <linux-tegra+bounces-11588-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11587-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFT+Iik/d2mMdQEAu9opvQ
-	(envelope-from <linux-tegra+bounces-11588-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 11:17:13 +0100
+	id MOb8AOU+d2l1dgEAu9opvQ
+	(envelope-from <linux-tegra+bounces-11587-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 11:16:05 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4270E86A41
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 11:17:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D2869F6
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 11:16:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5124C302A1B8
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 10:15:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 12F9130046A9
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 10:15:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 021FF33031B;
-	Mon, 26 Jan 2026 10:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99297330B16;
+	Mon, 26 Jan 2026 10:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bs5USPRo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuzNbhIS"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCFE32ED58
-	for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 10:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7636733031B
+	for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 10:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769422515; cv=none; b=BIO1zytxhYjxP68vIxYp769zyAQZrPIT8mUhQq/tgOPu3Y6Jwj4Aaz+VAVSHdMFIH1SEWeEaxlvWuX5PyjefRbsDS90X4jyE8//o/TjSNNibcS8NNDkBGN+fQnqtu5uCVWbGrBqhnpu1QI+/cPSGy9xRXfYE0RnT9H34MPPe8c4=
+	t=1769422515; cv=none; b=dS+uPIxksGGEHH7/JLHo652Li7mxRM4Ezm3m0hP5U4oqAuYxdRyA8C6RZjBHwXt5RkTIoiCcTWf9U69fBQUtbtfsq678USg6ZXE5eHFs3frEGzXejakONhOSnds7XQHwgiHIyuYGduRfrIgXAjrxaSIVfafPXwgjhohN2qVIysU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769422515; c=relaxed/simple;
-	bh=99gnZcZxjVKePLKi790JFN3qskIt6IL6hQQaLwg09j4=;
+	bh=VAcTrN4SEtCtkSuzww4o6pK0mdDw8d4krQPbqlihmNA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UYe+ZI9GFKlwLwFAjUo9vM4bZNod+2EYMj9PuVy6kNdLNWHDQLEd8WhDFCOfyoClRqGHfOmDAPIAF8K/jMYEB0y20JM7HYX240qQJv0eCenqo9oqvvJyYt17VwiO5mfiEijUx0TRb9Ig8f/X1T+AHeWhAvlSzRtjBOQ1czhVvTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bs5USPRo; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=TULmlW1tJGHSs3XwAsUKEuZVQhCdO8KOUNYhDXZzfGKycSFYnNcV1sBrBBPSiOn11/l6LPtuFQpJEuKUqqs0m6vFo5manXABe4UQlb5vBrjVXPNTLPMcfvEedQ3uKN41BjkW8nA7sh0REBvA9OvO8yzk0Fv7T3VsMD7j5lVjM08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OuzNbhIS; arc=none smtp.client-ip=209.85.128.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee4539adfso47131815e9.3
-        for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 02:15:12 -0800 (PST)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47ee974e230so39123045e9.2
+        for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 02:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769422511; x=1770027311; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769422512; x=1770027312; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nApJ7Qkf2Z+O7u87Az7F+sJc0V4S0WdNi4tOh3+T5Po=;
-        b=bs5USPRok7e89JHN3GO/yTHMznKv6Cu2s11LbHYgyEfstouFKS7cEy5Sg/XKK/l1VM
-         v2RMxWh9o9vVA92tbsKAu469lfn0Q6OQmuWcek3UsaySHK1Ha7htvfnx8UwLvy7jpETk
-         80N/Fh661LOp7TPwtqmp4geFpGCQxxPZbZixxpDEeYOVI5D5rimrCgKuLE5LVsd/hJGF
-         xZJWKpijvInIgyof2ldgkxzy/dOcgQucdt5aHx/+sjQSXGJLIfVde73E+3+LHUxKTbGE
-         lx+k4k032z6BxxToVeBKuctL8biMcuKeRNfJiS72sCvuwYVcHx1ogHCOp+bSmVp6YaHK
-         Umww==
+        bh=60kkHg9EpcHMwtWKY6bs7zqhBr9lwoD5Ih0JKegSxHA=;
+        b=OuzNbhIStQnMFOQeqYqCOwS0jxXjQYkGHZuh4nVKHCmrVOGxB86KHRmjw/u/JI2cAC
+         pjNnmRdMLLvleIwGdc6s2wvjpHsGVPm4n9yWr0dmjIhag3p+W8Ly+nVj7kOyOSY9O13t
+         /Ib6QcLTZIrDEKbahoraiqThAFTy1eogzhvxAyfUQ6NASgsA1D8Kutg8GuRBGndSXci2
+         eBNaAV3i3NbefE0SgWR6pU4ckvuMUdkLQz1urW3x+06L4X8qgB6tfus/1eVdGSQ3hO43
+         El8h4si/ywojQVDgwfLNEwb7UDOBkYgngiuc4fKKR1JYjnkZqqAAmOaLGftzGYIEZFDM
+         cHZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769422511; x=1770027311;
+        d=1e100.net; s=20230601; t=1769422512; x=1770027312;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nApJ7Qkf2Z+O7u87Az7F+sJc0V4S0WdNi4tOh3+T5Po=;
-        b=nJLWcxodlmHeOJdxpKzcdTOPXvECmk3r3uq9AQoyjLS40gcnCV9e98/4ynJ8KDfL0Y
-         PnKpIxfMVYe+7+N4lj0VgDHVgQJq/4dl3kME7fXKbzYDnH3vmiHRLGSIIWwF5CpRUr/9
-         1TgAMqStILDYTvgwD+8ehT6uH0krWEtt3WoWqDvhbd3mINWt1nwnHB2yE2eyOtvCXHsk
-         ASQ5jaFoPLBtnd+Nk8yNUGnLmz8wKpOooVxqElPuPRSpECyhdmG9/UM+Yc5YUweNsCkm
-         5NQDAbo8t7vY3j08tIyDs5HUZRdBgPtK+vqU7+sT9ibmOwZTjTn2msrX4PQD5ym44Lg7
-         WU7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXU7JQWaooEFuCcFeg3dk3EP8lpDMUoNu2bpVSxUuphZYar5riVa3pK4+7psWaW4+O+n1wPSzlG36h1Bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaJxxN/F3Lhx5AP77N6iFPpH5fSj5QWbkWMz82tUEnR3fSVrN1
-	IkVAEgpUgB7T3gYFju3dQTJKnwBdPtP7wn0hT8qZ5lrdoQfkUp/1Mel8
-X-Gm-Gg: AZuq6aLKdesLokf+T9Ig/PvBYD7Tixp50OgqeF25RwxEIMtPzizV2OzozmWGxVQNDYK
-	B4k2G3AxsSG/IvdY3AJV07T7R9UNemFPxGmhURvsotr8d5YIW+QPSSqTFEGflDDvh1CdDGf+v0q
-	3AlDXE2xAy/gVZwPO/cIMtN0g3tUdZcUnb5NTdxJKMmeCPdos4xsc6eOZMeFYcNk8X5Y4ybucPV
-	Bebbn82mmECcCJZaNHJ2e4ij4rMftnjGp+1pcgDEFaf3X4IDk4uXcy01a6jTbJpJEQIPWcE5rUh
-	7jDZPLAVRq90ZBvl2TFG3dgZ46oObIGvPHGBgf0fh0BIwYrzq/gf/0OENQL/ehZmEmJv0ksVoZc
-	tEilQPhENVJinXxIrBIpz1i2oesVHHUNcECmrbb0hUoMqckaR2DkBEC5jZ559IItWTXOYgeC61p
-	pQ
-X-Received: by 2002:a05:600c:b86:b0:475:e067:f23d with SMTP id 5b1f17b1804b1-4805d0643d0mr68648265e9.25.1769422510747;
-        Mon, 26 Jan 2026 02:15:10 -0800 (PST)
+        bh=60kkHg9EpcHMwtWKY6bs7zqhBr9lwoD5Ih0JKegSxHA=;
+        b=S1YwTWwy5JDEcDRFsgcHuZ6Pq4cb2S73lc/EdCc46PTxSThAxZqTWw/JbGlwL9r00S
+         r3XIsZfQ1T1g8thaVCmwYC2jcPEhD+KT5JLdJQDekpXfPVIccCQXBrPBsm3sEoVNMR/8
+         86kT0eoSbLZ1M2rnRBd2CLkNzbAM0nSF22bHL1LeOm7xZNYHCS+OSRyq0lq/OrojTzFx
+         T/ZdauLsR0strYh/WgClqKhJLGZKO6zRYfDIYI7R9RwB6O9nVBAIyduzXZZ6BPCIecfJ
+         g7z2z++y0bMArLmM1rwKk/gMTGMSTog8Cajd3hO3BUuFzLR9EvDsIRI6KsoeNbL+amHj
+         LgHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUB6tIl/uqJQIic56H/K8qKLTFwyDe0USdDAHuJ25sxQCsoHtrcheQoDxDE6CIA4fuPYPvIMcaMPx0BhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgUglOKHX/1VseWbNzrJhxauGrsVDjX0mGSyPq7qwZn6asYBQy
+	iAXrvSxL0JUvLj5C53DqKMh5NA8nXBg46gA+acMr4YKNNY+lXmE7Mdiu
+X-Gm-Gg: AZuq6aJ+UfWHytTMADX+mJ7oM212W/199PMYXdcOfoL7qGEBMQ5i5acgAVQGZJuEoy+
+	VG6n2LeZjaZMw/eCf4ady6t9SsonfTqGJWcdsFz6aW3kNH0aQvLJxbGuhRK4QYCjmYXbsCLl2i+
+	RE0+A2Q3Nk/4ViWa7E1f5h06AG9Hw+iLZu1HbD3fg9zzn7TyDvZ2QhCVqXB74pkKz1WNkcB8BJX
+	EpOlEoF6SbZV/kXci19KfPYdHIRmmTO1pTFTJS6rcCswEWNYXFlWAgFxwQwvc4VvD/Ts26GhEaq
+	AwSr/eoVt1/4FQBwbhJe/UDdKVQWJYCvLsTzmMuZkWdlgkEGP7YFXmUuMWVO63nD3Sv+h5jyF5e
+	5yVMAoB51IJOUTwivxw2BF56dyC9P5sbx553weMgZXgcj+5fddfUPRTjbUt463OIA24GBiYyx2i
+	oF
+X-Received: by 2002:a05:600c:468a:b0:47e:e946:3a59 with SMTP id 5b1f17b1804b1-4805d06c77amr59044075e9.34.1769422511702;
+        Mon, 26 Jan 2026 02:15:11 -0800 (PST)
 Received: from xeon ([188.163.112.49])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8a5c32sm319771795e9.11.2026.01.26.02.15.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8a5c32sm319771795e9.11.2026.01.26.02.15.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 02:15:10 -0800 (PST)
+        Mon, 26 Jan 2026 02:15:11 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -88,9 +88,9 @@ To: Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] ARM: tegra: lg-x3: add USB and power related nodes
-Date: Mon, 26 Jan 2026 12:10:16 +0200
-Message-ID: <20260126101018.24450-3-clamor95@gmail.com>
+Subject: [PATCH v2 3/4] ARM: tegra: lg-x3: add node for capacitive buttons
+Date: Mon, 26 Jan 2026 12:10:17 +0200
+Message-ID: <20260126101018.24450-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260126101018.24450-1-clamor95@gmail.com>
 References: <20260126101018.24450-1-clamor95@gmail.com>
@@ -107,12 +107,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11588-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11587-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -125,162 +125,42 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	NEURAL_HAM(-0.00)[-1.000];
-	DBL_PROHIBIT(0.00)[0.0.0.48:email,0.0.0.0:email,0.0.0.11:email];
+	DBL_PROHIBIT(0.00)[0.0.0.11:email];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.36:email,4.166.49.216:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,7000c500:email,0.0.0.44:email,0.0.0.35:email]
-X-Rspamd-Queue-Id: 4270E86A41
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2C7D2869F6
 X-Rspamd-Action: no action
 
-Add missing charger, MUIC and ADC sensor nodes. Reconfigure USB, set one
-of the ADC channels as the fuel gauge temperature sensor and add a battery
-thermal zone.
+Both smartphones have capacitive buttons but only P895 supports RMI4
+function 1A (0D touch), while P880 exposes buttons area as a region of the
+touchscreen.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi | 93 ++++++++++++++++++++-
- 1 file changed, 91 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi b/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
-index 6eea8eacd7d5..768e201456d8 100644
---- a/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
-@@ -1070,6 +1070,38 @@ rmi4-f11@11 {
- 				syna,clip-y-low = <0>;
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts b/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
+index ab8f5cf317bf..414117fd4382 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
++++ b/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
+@@ -109,6 +109,12 @@ rmi4-f11@11 {
+ 				syna,clip-x-high = <1535>;
+ 				syna,clip-y-high = <2047>;
  			};
++
++			rmi4-f1a@1a {
++				reg = <0x1a>;
++
++				linux,keycodes = <KEY_BACK KEY_HOME KEY_MENU KEY_SEARCH>;
++			};
  		};
-+
-+		max14526: muic@44 {
-+			compatible = "maxim,max14526";
-+			reg = <0x44>;
-+
-+			interrupt-parent = <&gpio>;
-+			interrupts = <TEGRA_GPIO(J, 0) IRQ_TYPE_EDGE_FALLING>;
-+
-+			muic_con: connector {
-+				compatible = "usb-b-connector";
-+				label = "micro-USB";
-+				type = "micro";
-+			};
-+
-+			port {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				muic_to_charger: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&charger_input>;
-+				};
-+			};
-+		};
-+
-+		tsc2007: adc@48 {
-+			compatible = "ti,tsc2007";
-+			reg = <0x48>;
-+
-+			ti,x-plate-ohms = <1>;
-+			#io-channel-cells = <1>;
-+		};
  	};
  
- 	cam_i2c: i2c@7000c500 {
-@@ -1326,6 +1358,22 @@ ldo8 {
- 			};
- 		};
- 
-+		max8971: charger@35 {
-+			compatible = "maxim,max8971";
-+			reg = <0x35>;
-+
-+			interrupt-parent = <&gpio>;
-+			interrupts = <TEGRA_GPIO(J, 2) IRQ_TYPE_LEVEL_LOW>;
-+
-+			monitored-battery = <&battery>;
-+
-+			port {
-+				charger_input: endpoint {
-+					remote-endpoint = <&muic_to_charger>;
-+				};
-+			};
-+		};
-+
- 		fuel-gauge@36 {
- 			compatible = "maxim,max17043";
- 			reg = <0x36>;
-@@ -1334,6 +1382,10 @@ fuel-gauge@36 {
- 			interrupts = <TEGRA_GPIO(S, 0) IRQ_TYPE_EDGE_FALLING>;
- 
- 			monitored-battery = <&battery>;
-+			power-supplies = <&max8971>;
-+
-+			io-channels = <&tbattery 0>;
-+			io-channel-names = "temp";
- 
- 			maxim,alert-low-soc-level = <10>;
- 			wakeup-source;
-@@ -1514,12 +1566,13 @@ sdmmc4: mmc@78000600 {
- 	usb@7d000000 {
- 		compatible = "nvidia,tegra30-udc";
- 		status = "okay";
--		dr_mode = "peripheral";
-+		dr_mode = "otg";
-+		extcon = <&max14526>, <&max14526>;
- 	};
- 
- 	usb-phy@7d000000 {
- 		status = "okay";
--		dr_mode = "peripheral";
-+		dr_mode = "otg";
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,xcvr-lsfslew = <2>;
- 		nvidia,xcvr-lsrslew = <2>;
-@@ -1803,7 +1856,43 @@ sound {
- 					 <&tegra_car TEGRA30_CLK_EXTERN1>;
- 	};
- 
-+	tbattery: thermal-sensor-battery {
-+		compatible = "generic-adc-thermal";
-+		#thermal-sensor-cells = <0>;
-+
-+		io-channels = <&tsc2007 4>;
-+		io-channel-names = "sensor-channel";
-+		#io-channel-cells = <1>;
-+
-+		temperature-lookup-table = <
-+			(-50000) 4100 (-40000) 3980 (-30000) 3815 (-20000) 3610
-+			(-10000) 3285        0 2880    10000 2445    20000 1955
-+			   30000 1440    40000 1125    50000  840    60000  665
-+			   70000  465    80000  350    90000  230   100000  185 >;
-+	};
-+
- 	thermal-zones {
-+		battery-thermal {
-+			polling-delay-passive = <0>; /* milliseconds */
-+			polling-delay = <20000>; /* milliseconds */
-+
-+			thermal-sensors = <&tbattery>;
-+
-+			trips {
-+				battery-alert {
-+					temperature = <55000>;
-+					hysteresis = <2000>;
-+					type = "hot";
-+				};
-+
-+				battery-crit {
-+					temperature = <60000>;
-+					hysteresis = <2000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+
- 		/*
- 		 * NCT72 has two sensors:
- 		 *
 -- 
 2.51.0
 
