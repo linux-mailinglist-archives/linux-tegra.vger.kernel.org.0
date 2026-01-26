@@ -1,206 +1,180 @@
-Return-Path: <linux-tegra+bounces-11585-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11594-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0FMKGJohd2lmcgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-11585-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 09:11:06 +0100
+	id OC31E/xXd2lneQEAu9opvQ
+	(envelope-from <linux-tegra+bounces-11594-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 13:03:08 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1485855A4
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 09:11:05 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01C087F65
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 13:03:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A2047300615D
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 08:11:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 61A7030058F4
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jan 2026 12:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EA72F744C;
-	Mon, 26 Jan 2026 08:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA01633123D;
+	Mon, 26 Jan 2026 12:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="LKNeZMbq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cbC8BOyM"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B7A27A47F;
-	Mon, 26 Jan 2026 08:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B5632937A
+	for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 12:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769415061; cv=none; b=goBPBYRCXwZhtpUrMX+38B7IWdGAGJiF32vR5toAqWt7DfapGNN/nMp7SeIBTE0O/4ql+yuxZU9g7Vvgb67EoFUQxjQn0CGKajjSIdFKGO1/TTcp1XFRzrOYqsRmxF545X750xN/CuGUICFHj35esC16eYYbF7iGF36Bm4cw4Jk=
+	t=1769428984; cv=none; b=e8yK2S9u4PcZk8z2VQ65+QZ739h8SH62n8qQlaoV7oSXJKlUi8F549aEJPcXIs7p48cmhoU1sCSl+Yko0goWTmgjBltgwv0kq2IxvIVoV2M8S9dp5yOsyYGtCZS9hmNc4fV0PC0z9a8NJfvbYP3xtKa4zmea0q1WlbOGKfGtkIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769415061; c=relaxed/simple;
-	bh=GR3zckIVpt6LCL6jaARW/kyCfDLSF1sXbOxzIXTnr6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kh9yCQxDGCchzxWtwl9tgmGpqCib/nH7n1artrh1m2wjLFrzGOdUP6kHA5qLRz458wVmUgA+hJ5efiVxuBYfSi6+u5GARecFURqu5OJfDrkr83KAdB6jGI4BPYx0Q9Wzpsu60luFqrBH7yLumI6c3ov/i2eifVIxynDIrixtA3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=LKNeZMbq; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=YyYWratAnhyYvIsPU6aAB6x0/xonNgcbkzbNqPshYGQ=;
-	b=LKNeZMbqFLdvYz2YeBy0aAN1E+7l3nKA5q817rd/b/G3STx/GRuBXiAD5c861+osb+hPe8NUC
-	pvDYwKR//CrXuJwdmkMyKZGn2JYr8OLoJ3RAXiHnM6epBPN8ctp87YALoaZ/2SLjIRhOY7Er/YS
-	BmQvUpYiD+1CrPP+7DxOHXg=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4f01Mz3VmGznTVZ;
-	Mon, 26 Jan 2026 16:06:55 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8F6D740363;
-	Mon, 26 Jan 2026 16:10:50 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 26 Jan
- 2026 16:10:49 +0800
-Message-ID: <7e86cdbe-f16c-4fe8-92c5-e6fb89f49811@huawei.com>
-Date: Mon, 26 Jan 2026 16:10:49 +0800
+	s=arc-20240116; t=1769428984; c=relaxed/simple;
+	bh=DyQH4ywLrrIHN2z3rMqKzOJqNYnPWFFSFzfKYpb57a0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U9/RrJKEotySoz55aqKCvt/efhA4jLynHPKTEJ9ykeqiYC98WXaTnqkr61oTJNJAGIWnZhLD7GlFl6Wb7HnKW5rBJ4Q9CyawuBR4ODRfDjDjLzd5P/pJTT7Lyhk7fML/aNitHzJKA1uohL1SR9Ytl+kj1fQwke++1MgIRF5BQ1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cbC8BOyM; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-65813e3e215so8200980a12.0
+        for <linux-tegra@vger.kernel.org>; Mon, 26 Jan 2026 04:03:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769428981; x=1770033781; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+Czkgnrv85D+TUfJ4B21xJ9SxwxHnvyV++qaoDyGlo=;
+        b=cbC8BOyMFmTb6ty+WldqlE8aYw1liZDMjGZmtLgwXgcWOKi2vrjEJAbJD3MnMjoIWp
+         lEThZKaAkkos0soy0OPy3/rqx93aV0t23UKCpgBlkJQ/suUovL+bCElM1ibWgiszY5aT
+         If8Wl/Vkhnh3pe5pR48fXhdOC1HDngu1IkQ6tnow9C7TpcCJpHcwHYgIgHKC7mHZ+fJ7
+         AZLl6nkKcH9fYtjkPEdHFxdBXjqphw5uXfgmcA5oWXzIYZKCu3XUesn9wKBK3TGCzY0Y
+         UY1h/zh8G8YT5NAbwK1467K3GrX9kcS55QtG1NbmZrxu0vNAp1/J1F42zBujSRtaXPgq
+         GCtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769428981; x=1770033781;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o+Czkgnrv85D+TUfJ4B21xJ9SxwxHnvyV++qaoDyGlo=;
+        b=EllFv1XqBmr5bZBSLcwvbBz9QySEbe67iPJ6I6JNOqRs+GnNc3hP2RZ0z5kqOuwutg
+         HQtrqaagBvx6UpwoWms1b7jEun5rxrf9578HB8HkogsU8Cw7d95/no9t3T99i/SWxgiO
+         D90EgcqgYpHNC3jmzY1zgXVhTtWDVG9gaPdG8hVwtNMp2XX1ubLnz/rq51LsacLTu6E+
+         n54IoqgyBZyrAt5nSH5/bfJFOp4eFjDaYtoj/mUci9jylUkEEUVPoZ5B/eLUrPDc02OW
+         wSpAZ1CadiOSjg2t2rnDflvP+siQWn0u6zLLVpJkMBcUbQBAHXxLs+5hBYPMtHsX2GQk
+         +KaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWgmzOx0163pG3qR/2SaZ5tTkcsjcD341sxttBoFnW82vjPq3rmPz/JGp0qbkWJjz1I5/V9rwMg8MnZRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBWh+bBASa69qhnibajYA7TWgkjO04q+7ycV1jbYhHthHBu+Hz
+	jk0J+G3L71y8LnJqBSXrSG2Vg9iQ2V7OauRTnUuZmEinQBJC6kAYYHSStsZJlg==
+X-Gm-Gg: AZuq6aJl/7dHuDdRRxHr3BpNvZEQtLJZKhqeujeJrCZCGcB+fXXO3iwfZVv3EWvOaLF
+	ha0aNu/A4PFgfARbtEZbkmVKuoZY7MlDwZ7zrFmxHemcpHnAmNKM8Z1QHAfvcK6OOQoOjJEUvSF
+	lFJLKqD80N5was1tE0cmfs1AGC+faCNPewGejIZFkACt/ZUE4rBEar7WYiAOIeS4eSO8Rp3tQkc
+	OWOE7a7FLPBZBFKOBILvSW+x9k7LW2a3RPIhsKyuPBp/Qf5A6BomfUYTr8soN/49pBkYFKcPxXz
+	mWJokjcP2TExM8HM69J2JASQkQWq1P/mHaqHouaGGR44So3r7PYxCwV5YDJPOTTxgwbeYSwGFZb
+	z9Eto/uRHpbiEN9jcJ6yTxn2eR60rowzzLmeG9toBgtgpTs8/6FRtNxIHpP1uT3eQidDLQ74NUw
+	CY
+X-Received: by 2002:a05:600c:1909:b0:480:1d16:2538 with SMTP id 5b1f17b1804b1-4805cf67512mr71970965e9.23.1769422508913;
+        Mon, 26 Jan 2026 02:15:08 -0800 (PST)
+Received: from xeon ([188.163.112.49])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8a5c32sm319771795e9.11.2026.01.26.02.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 02:15:08 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>
+Cc: devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] ARM: tegra: lg-x3: add missing nodes
+Date: Mon, 26 Jan 2026 12:10:14 +0200
+Message-ID: <20260126101018.24450-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] ACPI: CPPC: Extend cppc_set_epp_perf() for
- FFH/SystemMemory
-To: Sumit Gupta <sumitg@nvidia.com>
-CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
-	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-	<nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20260120145623.2959636-1-sumitg@nvidia.com>
- <20260120145623.2959636-6-sumitg@nvidia.com>
- <a7a4d351-eed3-4ea6-a84f-e525b7ac13a6@huawei.com>
- <86303677-6124-424f-999d-c420eac0cceb@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <86303677-6124-424f-999d-c420eac0cceb@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf200001.china.huawei.com (7.202.181.227)
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[huawei.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[huawei.com:s=dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	TAGGED_FROM(0.00)[bounces-11585-lists,linux-tegra=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-11594-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[huawei.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,nvidia.com,yahoo.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zhenglifeng1@huawei.com,linux-tegra@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,huawei.com:mid,huawei.com:dkim]
-X-Rspamd-Queue-Id: B1485855A4
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F01C087F65
 X-Rspamd-Action: no action
 
-On 2026/1/25 4:08, Sumit Gupta wrote:
-> 
-> On 22/01/26 14:48, zhenglifeng (A) wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> On 2026/1/20 22:56, Sumit Gupta wrote:
->>> Extend cppc_set_epp_perf() to write both auto_sel and energy_perf
->>> registers when they are in FFH or SystemMemory address space.
->>>
->>> This keeps the behavior consistent with PCC case where both registers
->>> are already updated together, but was missing for FFH/SystemMemory.
->>>
->>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->>> ---
->>>   drivers/acpi/cppc_acpi.c | 24 +++++++++++++++++++++---
->>>   1 file changed, 21 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
->>> index de35aeb07833..45c6bd6ec24b 100644
->>> --- a/drivers/acpi/cppc_acpi.c
->>> +++ b/drivers/acpi/cppc_acpi.c
->>> @@ -1562,6 +1562,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>        struct cpc_register_resource *auto_sel_reg;
->>>        struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
->>>        struct cppc_pcc_data *pcc_ss_data = NULL;
->>> +     bool autosel_ffh_sysmem;
->>> +     bool epp_ffh_sysmem;
->>>        int ret;
->>>
->>>        if (!cpc_desc) {
->>> @@ -1572,6 +1574,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>        auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
->>>        epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
->>>
->>> +     epp_ffh_sysmem = CPC_SUPPORTED(epp_set_reg) &&
->>> +             (CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
->>> +     autosel_ffh_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
->>> +             (CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
->>> +
->>>        if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
->>>                if (pcc_ss_id < 0) {
->>>                        pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
->>> @@ -1597,11 +1604,22 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>                ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
->>>                up_write(&pcc_ss_data->pcc_lock);
->>>        } else if (osc_cpc_flexible_adr_space_confirmed &&
->>> -                CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
->>> -             ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
->>> +                (epp_ffh_sysmem || autosel_ffh_sysmem)) {
->>> +             if (autosel_ffh_sysmem) {
->>> +                     ret = cpc_write(cpu, auto_sel_reg, enable);
->>> +                     if (ret)
->>> +                             return ret;
->>> +             }
->>> +
->>> +             if (epp_ffh_sysmem) {
->>> +                     ret = cpc_write(cpu, epp_set_reg,
->>> +                                     perf_ctrls->energy_perf);
->>> +                     if (ret)
->>> +                             return ret;
->>> +             }
->> Don't know if such a scenario exists, but if one of them is in PCC and the
->> other is in FFH or system memory, only the one in PCC will be updated
->> based on your modifications.
-> The current code handles mixed cases correctly.
-> When either register is in PCC, the first if block executes and calls
-> cpc_write() for both registers. The cpc_write() internally handles
-> each register's type (PCC, FFH, or SystemMemory)
+With the recent kernel updates, Tegra30-based LG smartphones now support
+several additional features, including an RGB-DSI bridge, DSI panels,
+MUIC, a charger, a battery temperature sensor, OTG mode, and capacitive
+buttons on the P895. Add required nodes to device trees.
 
-Yes, I was wrong.
+---
+Changes in v2:
+- fixed dw9714 and tx13d100vm0eaa nodes
+- added video device pipes graph
 
-According to the first if block, cpc_wite() is OK to be called for a
-register not in PCC. So it looks like this 'else if' is unnecessary. Only
-CPC_SUPPORTED is needed to be checked before calling cpc_write(), isn't it?
+Regarding CHECK_DTBS output in v2:
+- nvidia,tegra30-pcie, nvidia,tegra30-gmi, nvidia,tegra30-kbc,
+  nvidia,tegra20-kbc, nvidia,tegra30-ahub are not documented yet
+- nvidia,tegra30-vi was adjusted and applied, change did not apper yet
+  (https://lore.kernel.org/lkml/176860988748.1688420.11717122647073678.b4-ty@nvidia.com/)
+- st,m24c08 appers undocumented though it seems to be different from
+  st,24c08, at least they google as separate devices. atmel,24c08 is not
+  documented, though it is widey used in linux device trees and is
+  supported by driver. Here is one of examples:
+  https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/allwinner/sun7i-a20-linutronix-testbox-v2.dts?h=next-20260123#n33
+- onnn,mt9m114 does not have 'orientation' property, though it should
+  include it since it is generic for camera devices
+- ti,lp8720 and maxim,max77663 have txt documentation and are not yet
+  converted to DT schema
+- backlight in panel nodes was not added since lm3533 has no DT support
+- missing '#io-channel-cells' in ti,tsc2007 addressed in
+  https://lore.kernel.org/lkml/20260122193549.29858-2-clamor95@gmail.com/
+- missing dsi controller properties of ssd2825 addressed in
+  https://lore.kernel.org/lkml/20260123073411.7736-2-clamor95@gmail.com/
+- missing '#io-channel-cells' in generic-adc-thermal was proposed in but rejected
+  https://lore.kernel.org/lkml/20250310075638.6979-2-clamor95@gmail.com/
+---
 
-> 
-> 
-> Thank you,
-> Sumit Gupta
-> 
-> 
-> 
->>>        } else {
->>>                ret = -ENOTSUPP;
->>> -             pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
->>> +             pr_debug("_CPC in PCC/FFH/SystemMemory are not supported\n");
->>>        }
->>>
->>>        return ret;
+Svyatoslav Ryhel (4):
+  ARM: tegra: lg-x3: add panel and bridge nodes
+  ARM: tegra: lg-x3: add USB and power related nodes
+  ARM: tegra: lg-x3: add node for capacitive buttons
+  ARM: tegra: lg-x3: complete video device graph
+
+ arch/arm/boot/dts/nvidia/tegra30-lg-p880.dts |  39 +++
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts |  79 +++++
+ arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi  | 328 ++++++++++++++++++-
+ 3 files changed, 429 insertions(+), 17 deletions(-)
+
+-- 
+2.51.0
 
 
