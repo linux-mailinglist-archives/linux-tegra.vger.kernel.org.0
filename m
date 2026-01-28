@@ -1,322 +1,282 @@
-Return-Path: <linux-tegra+bounces-11677-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11679-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCJzMSDPeWnezgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-11677-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 09:56:00 +0100
+	id +GXJCgTZeWlI0AEAu9opvQ
+	(envelope-from <linux-tegra+bounces-11679-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 10:38:12 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E45F9E812
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 09:56:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F879EE4D
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 10:38:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8592A3032766
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 08:51:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CFEF13062406
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Jan 2026 09:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12CDF33ADBD;
-	Wed, 28 Jan 2026 08:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7B73491C2;
+	Wed, 28 Jan 2026 09:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eX+7ln9p"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dG71KE7k"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011057.outbound.protection.outlook.com [40.93.194.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B41933ADB9;
-	Wed, 28 Jan 2026 08:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769590314; cv=fail; b=pwQ4n4oWz51b+bZWjH/w+wH965IUHZ5VlpD19lPPX2QvaLGbbctLDG9k+YMkXCPiNp/znZG8Giw0UXI6DJAvwmi9euu5prHfQDoTLEXyk0x0AYOhNoBEjpbbAedbvXmmCKO9Hq9CLebmuBncq/aYBN/BP5UsUJCs08NbNFlHt8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769590314; c=relaxed/simple;
-	bh=044D9XlTxrs02Sy1EaPlOhDtVXdZOBC3pjVTahmY3E4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ntIX32C4MaIuKa5+2igBSMEnWMTrgsMva9EKosuCbcvFQY4qd/Dw5nKse121l4oKi5CjjzaoJVHdslXtnRSeX/uv0TPbdKrFT0bR2gyXut66fZz+lOssoBli8mdCWKcTmZpkBIIJ2fACWQKQ5dOULdFj2gh2b4DSbd+tEg4PsO8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eX+7ln9p; arc=fail smtp.client-ip=40.93.194.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lextneU2GKDGp1S+LBN4epJ2kcYt+x/qLNBblQ42PBP0+GHa+Xjz5nQGQuDHryaTz+fG2x5DujAFvE6rJkxNMsY3bdGR2J4i0z5D8WUTBS2tOR975TDHiBxRGgX46jCBRr0hcZsJIvoGCxxkI4kDDqlXkZeYxXmNYPEZKdwxwtRAJ8BBUMpLo0sqAsCHPER08+wTqa84kYgjQEO6IZvfF/HalAE5THDvCKxBfeUcESLp/QZbDTgvVblsvFdJa1Q49YBSy4GJob5VOpMsBu6/x+sAnA0caTWNSEdh5GfO6Ctvfw2Khw4ANZ2GtgY1ysyjeAw/lDcU77Lyx9XJQkqZ9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=noqUG0bgzb0Mz26bny+vYut7xyNQTS0q20oZpC/B5Os=;
- b=Zf6tcbNIIyD6gnuxxJ2hjHEEaoQPNrAOUWSCw+A8a8W+9vcWpjD2IQeV+VFIb9xCNYmOVfpRM3SO5RhPEhucXUB+PcsMFCnkU5s/ok5Oro6JcuZj4u5Dxnj4tQOB181eWAkMF1DXeSHLgDUGFYRuNBFJl28ht9YmjsBV9QsUI7O0kwJ2e4NVCk8luGPK2JVh3I7GELvpYvQ/gz355zKOmswlSzkZMNpHe9SU2B9BgTYASd74eIPAPLOPEGpPDQeaevA6dVtyPEfTM9dNde9sEYPYnv5G5dzx6oPey6aWaNeCZ+mZ7/c9ZvEg3IStu3nIyWW5hFtZzygNIhJoDrBrlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=noqUG0bgzb0Mz26bny+vYut7xyNQTS0q20oZpC/B5Os=;
- b=eX+7ln9p0X9hGoaIsKUFs6ETrqWIyx6SOmfQr6WPRdC1oZ68Cz6tYYuiNdvCIwSzWhWMc7K6wcZMT9VQi3fxdchhaYuBMquxxUxY33Jw7sExMccsfy1kdcvK633GPWHYDk+AHYtmD11teMOeoqr6K2YmFBx3dO5y55jC2ZQoGWX0jI8hAVKW1U01KxlhREsNYMB4s2cGe1PlxpTJXGczmhGS4N9tTarbzkdUsHSEbqOpaUp2367wFA2iUcRyUkQnSTs1bQ51jKzUw0l+z7Kw9bx2J/UGmVGYvTTmJPr6TmaCn+lBES/OOF5S7YBYKBVQ2wNNrDIPSfRyv675QY+aiA==
-Received: from SJ0PR13CA0190.namprd13.prod.outlook.com (2603:10b6:a03:2c3::15)
- by MW4PR12MB7431.namprd12.prod.outlook.com (2603:10b6:303:225::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Wed, 28 Jan
- 2026 08:51:44 +0000
-Received: from SJ5PEPF00000209.namprd05.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::b2) by SJ0PR13CA0190.outlook.office365.com
- (2603:10b6:a03:2c3::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Wed,
- 28 Jan 2026 08:51:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ5PEPF00000209.mail.protection.outlook.com (10.167.244.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Wed, 28 Jan 2026 08:51:44 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 28 Jan
- 2026 00:51:31 -0800
-Received: from localhost (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 28 Jan
- 2026 00:51:30 -0800
-From: Prathamesh Shete <pshete@nvidia.com>
-To: <linusw@kernel.org>, <brgl@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<robh@kernel.org>, <linux-gpio@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <pshete@nvidia.com>
-Subject: [PATCH v5 3/3] arm64: tegra: Add Tegra264 GPIO controllers
-Date: Wed, 28 Jan 2026 08:51:14 +0000
-Message-ID: <20260128085114.1137725-3-pshete@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260128085114.1137725-1-pshete@nvidia.com>
-References: <20260128085114.1137725-1-pshete@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4D71F09B3
+	for <linux-tegra@vger.kernel.org>; Wed, 28 Jan 2026 09:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769592999; cv=none; b=QMj9AZQeku+a/w3R6nyPP1EurSi1QeratcI2brydnXFLe5+mm/MUD5k5e4Vz1tVuFWzREqvoGmdkWKk2BgKXuW/IeSu/2YqoM4We+2tWh3oAPDcb3Bn9HdNbvFMvvoksRsBCWyMWS+8n+LxrlDuKJhWGMU8vI+XluDq2DqkpjEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769592999; c=relaxed/simple;
+	bh=/uC7aNV9amlBzPrhhufTmDfbCA17HBx2GKUUDq1+IJE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SoNy9wTp3I/6alQ4q5MAdwR0uIp6FY07qxranaf3kPQhIdELalYTSMqU1OHoT8klu4thCupq7lJzCFHXIUEY1YqND6EjVGzGVVVNm+s6Ac/35w1/YGqJIsACk5XdeLOSjxc6cL50vGDlmZZYShCJOftINQw5zduLK1OdhczhZjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dG71KE7k; arc=none smtp.client-ip=209.85.221.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-4327790c4e9so4309357f8f.2
+        for <linux-tegra@vger.kernel.org>; Wed, 28 Jan 2026 01:36:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769592994; x=1770197794; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DhF98Nun2om+lYN0JL6mwSJXbtKFe/yYyeyl1TtEz3I=;
+        b=dG71KE7kpxiyPenfxxeUrV0UfFdSFGJ1bmHG7uxyFUth9c3yFzJSXd2gWc1t5sdCgc
+         81S0udSd2krx5IeZ1od3ooBtamv781h1SXEwgELG4/GyjJjQ2IUt9rKmcCrehQ/rKBkV
+         Cxo/Tv82NWk8uPYGS3B8+q7BclRmhR7WycGi0s6bs/8z1mboVoWX8t4z99hmGV4DmK8S
+         1i9HscDHczThS+fUJFEkqnAb8howqsSUJeI6xtflRk/wuZXRIaxUbYMLyNBj3g8FT/Zo
+         WMhTFJj4ej7t/J1pHSoG0SdIvKJvGv3TUqUsUYEkKmnswoXe/EpG7vFXIDgELVgR7/kU
+         E1pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769592994; x=1770197794;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DhF98Nun2om+lYN0JL6mwSJXbtKFe/yYyeyl1TtEz3I=;
+        b=qYXclVJRxB8iqxGrLeo9en5JSVq7L2BSdRU1Wa65Ys3cjV+YijX/gR0nDYCOJDkck7
+         QwVYJ+eXboiSoAjX/4e5jsLJCddrP2K0eekK3osv/HLtshwcQBJW5Jx5g8Nz3lUHI3Q3
+         uvLWpid4B8KGoyGUJ2G3LRehqC5E75bF8XKcpkAcdtmMnQvE2y6x/aMJIX1Q7SAPs1JZ
+         vX8RaFCFkI9Epv0LCdVCA4x7N/MxjX+UWaqS9W7HFDo2SQa2HSbKQiQNyI5xcsgywXbO
+         dlIvluGrTrBIQwkneu09m2OOzumARpSOQBBNG+SFk+aozC76FQkPeIkYzkdyV+l8GkJt
+         Kdaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxxPs/QsnbQ0Qr7UmO6BMCitA0d3GR7YCpNM9kOjf1j9M5yiJy7n+uLF/pHG6c6FkXKqE11p43pjv1EA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkWgKtWVMw5rvBdS1yusqxnMClB9Cp9n+IF9zapSQkcz+vT9JD
+	u4FuojiMUkv+KRT+Ou2BJ5owgCx/tdBFJQqFsHyNQCUZcj/yR19Ng20VUteEJ2+W9wY=
+X-Gm-Gg: AZuq6aJOqDt5oVAk5dSSw5b3tJgHAaAAOCtsF8y77gBCfbFJTYhpty9ifhwDVrv8uNO
+	F7RJ3gUkNmDu/7XXnqexfZHGTcTkCEeRIbYXWwZ6cXkwZUow19jIr5XHUKD9nwawPB+QQhq2U8t
+	KjPooCBs9XR09l4sgpzD8bp6+WY9sayQjZ6dA2ZmtM/ErnhNEvF8GkPi+6S3dydLePTa7pDhtHn
+	3Bopsj17Y7mfyk3dSy81MRguGw9qrrVQh+nzhA5QdEXyZNQA8zSvfAk6mp/lDgECsP+q5pEbmOO
+	BMgLM+BJ2O5qFE46iQ+ou2ZmgfoWDeR5oQPqnihQT/EMBZAJdf87mOPct2NKp/7YAZOJ7XdS1RO
+	JMAaWSgPvCfWJAxbiM1zbrhCAwOC/6ZaEPOj4OhQnikq+6HyAY7REmgInCfRSUZKZTZlhkUv2Br
+	TwgjCWnX6f+27qWO7lvzoF0PBNeEM=
+X-Received: by 2002:a5d:5f43:0:b0:435:907f:e439 with SMTP id ffacd0b85a97d-435dd05c4bamr6010824f8f.18.1769592994091;
+        Wed, 28 Jan 2026 01:36:34 -0800 (PST)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4762sm5489795f8f.6.2026.01.28.01.36.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jan 2026 01:36:33 -0800 (PST)
+Message-ID: <40988c57-ee6f-4693-afe4-2615dc43f395@linaro.org>
+Date: Wed, 28 Jan 2026 09:36:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] perf vendor events arm64: Add Tegra410 Olympus PMU events
+To: Ian Rogers <irogers@google.com>, Besar Wicaksono <bwicaksono@nvidia.com>
+Cc: john.g.garry@oracle.com, will@kernel.org, mike.leach@linaro.org,
+ leo.yan@linux.dev, mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+ jolsa@kernel.org, adrian.hunter@intel.com, peterz@infradead.org,
+ mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tmakin@nvidia.com, vsethi@nvidia.com, rwiley@nvidia.com, skelley@nvidia.com,
+ ywan@nvidia.com, treding@nvidia.com, jonathanh@nvidia.com, mochs@nvidia.com
+References: <20260127225909.3296202-1-bwicaksono@nvidia.com>
+ <CAP-5=fUxhbR1xs1f9mrkcUXZZNLrVqDG0ebhwW--WtgVRnNxNw@mail.gmail.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <CAP-5=fUxhbR1xs1f9mrkcUXZZNLrVqDG0ebhwW--WtgVRnNxNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000209:EE_|MW4PR12MB7431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f7e5ba5-fa03-4732-9ec9-08de5e4a76b6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?V3RBWDFKQ1YzSVZtN0MwdjByazVoMGZ2eldGZDZ5akhaSnNGRnVjV0VsZUdt?=
- =?utf-8?B?NHluZ3lnS3ZmR3lVOGYyeGJrakFSajVTTzFWdzlia3dnbUdLdjlvUjFQcjRq?=
- =?utf-8?B?NzdkMXVYRk5NdSsvMWN0YjUydzA4Q0FPQVZwSU5sVkJ3QkhCR2tKS2hLYXlG?=
- =?utf-8?B?TVBmU2tkYkJyS1d0UTArRXVXSW1xd0M0WjU5ODIrT05HSW1aYkRoZkRkMk03?=
- =?utf-8?B?OHdveUtQM2t3S1N0N0hsM0hLK1MxVVpORUtmbVYyQ2c1Q1NIS2hGOEttZTZH?=
- =?utf-8?B?cE4vLzZRRllRRGRXdnFic2JmT1dtT2VIRGhXNXBURTh6Yjd2YThVN203TFky?=
- =?utf-8?B?NnN6TlZ0TzdRZGJ5TEs5cTN2Q1F0dHFmdzAxSnROaTVXdjlYRlN6N25OMWEw?=
- =?utf-8?B?MnE3V1RZYURJQWJ6c0JJNmxCd2ZKVTBrNEUzTmxoSWNvTUdQcHMwSVliNHFm?=
- =?utf-8?B?ODBDY1RPOGNGaHBjSXRkUTZIbFhYbWFVMkZ1ZS8zMVRSNUM1UGdKbUFzTTFh?=
- =?utf-8?B?cm9IT1BRNXhFNjJyUjFQVEhrUVFkNXJ6cnZQYzNscWQ4cllrR1FRYXo3N2Nk?=
- =?utf-8?B?RnpKVmpwTmVDWGswUkNWWXpPN1E4NFVHYU8rZG9VTjBaOTlVSVRWWkF6RzJG?=
- =?utf-8?B?YUFlWkEvaW0wblVVUklGQStDMWtuZndwRXJuNjRxUXhFaFAxRHlEbTVvN0VB?=
- =?utf-8?B?ZExTTHFjdE4vK1lOUWgvVkhNSzI4MTE0Sy80bGhQQWhWZ0RCdTNWT3BmM0w3?=
- =?utf-8?B?UmI0bmhkMHBwY1Y1VjZhYW45YzJPV2FoY2FFNUJ2WUZ1VUJiei84cHZ1eHVu?=
- =?utf-8?B?VmRCQlJOb2wzeVRSamdqNVp3c2tZZjM3NGZVaHFNRnI0dmdrd1dyUVVWQVo4?=
- =?utf-8?B?NC90aXZiWHFaWXZaS0Y1NHhpaWlpYjhkODR6bmFnYTZhZVhXSlZ5YUxoZ0Nj?=
- =?utf-8?B?cXFuNXBoS2hJVWdqUENBR0FaT2NjN2IvVW1nakhOSHVOMDRYUlVyaStJNDg2?=
- =?utf-8?B?K3NkZkorVEJaTXpKb2ozcHo0RjYzVm80L2JGOFFlNmRpQjBzbUEyZWtFdFBZ?=
- =?utf-8?B?VTR6OTVQc3M4WW1IWGVjalBkYkdoZ2pULytrRmhKdERxRnRYMmRtMWN5dFJ3?=
- =?utf-8?B?TVozTUFpU0hjVGZZQjJSYzJReXVQMHhZWlYyMUlyYVBPc2VzOCtjclhjZzFn?=
- =?utf-8?B?M1RYbHh2QUg2VjgwZFBUd3hrOUtzNTA1dkZWU0xtb2pNQkdHRFI5YVh5blFU?=
- =?utf-8?B?WXcxZS9XL2ZHNjQxUFFHSVFGYzBrZlc1TlhxT0xicm9JSTdBQkNnSXZuUk1r?=
- =?utf-8?B?b3NkMDJ6WEN2SjlxbS9VOVJpK1JMWWhaTUJOcjFqYSs4ZWkwTzAwbUxld1ZY?=
- =?utf-8?B?OUxYeU50MEM4MDFqeTUxTFh1dlpyZjRGVi93YWlvSGtZaE9SclJ1UWpLOUh0?=
- =?utf-8?B?WFk4R01DVTBsVlFJcWtORkVFd3NGY1F0QWNEelRuMG1BZEY0dTFpU3EzNmkw?=
- =?utf-8?B?NE5CZlhhNVFxbFJQUFJlVnh4dENtOFNvKzhEMnVUUXNZaldpV00vQjE1L2ha?=
- =?utf-8?B?ZGlUN3k0VEZRYVhWdk03cGdwLy9INGRWRGw2ZXRrM3Rvc0Zxek52bkcza2tq?=
- =?utf-8?B?L0d1OEVPaTNDdWVSZFJQWkh4bURGdGV3eE16MjlHVlh5dlpKZVBMRGFVczhC?=
- =?utf-8?B?dVlRRkRzaTFnV2VDZThTaldrdFVmYVE3WXNHbHl2T2ZLdS8yRVBRMkx5MkhG?=
- =?utf-8?B?TGM2WWQrdWhMZklxMUNwTTUzeGV5N3hiWUE5TnJxTmpQaFp6SlZmakkyOG1B?=
- =?utf-8?B?THJIT3NObERUcmhETzlyWXRxNC9DYnJWQVJ3TlNGcVlZaDIxQUJTMEkrUHRL?=
- =?utf-8?B?bVVpc0JnV2ZxTWFXRXFWVVRqTnVRL2IydjRubFdVT0hzRGx0aTVpKzkxYVBz?=
- =?utf-8?B?MmM0V0QyeEc5aFJrcWdZWGFQK3pkOFBLYlRjaGJ3MDNpQlZIZnZSVmo1azFM?=
- =?utf-8?B?RDNkRmlMdGdUeDhscmthbWNIelQrdGlERTI4ZTh5cjh1RlpFNFZYZWhUYkRj?=
- =?utf-8?B?aUgyUjZmemV4UGUvSHVNeUJ5MWtUc29BUnJ6NENoREJ3YWVOVkhwcWJPZFoy?=
- =?utf-8?B?ZXdMSkJkMktpMnBnOEZmTWJqQUdJZXF5TmVGekU2MGlxM0N2bTlXeXlRN3dZ?=
- =?utf-8?B?RnpsTTFmSGpXUGxLZzErY3ZuVnNsTTZnWlRTV3MzYUlzeXF5d3JSYVRkS0tx?=
- =?utf-8?Q?ZluL3Hj5qxIUd6U1GuLB+yOh75Io2C/t2GhqKaOlPo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 08:51:44.5160
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7e5ba5-fa03-4732-9ec9-08de5e4a76b6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF00000209.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7431
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11677-lists,linux-tegra=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,nvidia.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-11679-lists,linux-tegra=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,cf00000:email,c300000:email,nvidia.com:mid,nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pshete@nvidia.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	TO_DN_NONE(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[james.clark@linaro.org,linux-tegra@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	DBL_PROHIBIT(0.00)[0.126.165.224:email];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 1E45F9E812
+	TAGGED_RCPT(0.00)[linux-tegra];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email,linaro.org:mid,linaro.org:dkim]
+X-Rspamd-Queue-Id: 94F879EE4D
 X-Rspamd-Action: no action
 
-Add device tree nodes for MAIN, AON and UPHY GPIO controller instances.
 
-Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
----
-Changes in v2:
-  * Update Tegra264 GPIO nodes to use “wakeup-parent”.
----
- arch/arm64/boot/dts/nvidia/tegra264.dtsi | 88 ++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra264.dtsi b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-index f137565da804..cf4de2c517fa 100644
---- a/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-@@ -3277,6 +3277,50 @@
- 			status = "disabled";
- 		};
- 
-+		gpio_main: gpio@c300000 {
-+			compatible = "nvidia,tegra264-gpio";
-+			reg = <0x00 0x0c300000 0x0 0x4000>,
-+			      <0x00 0x0c310000 0x0 0x4000>;
-+			reg-names = "security", "gpio";
-+			wakeup-parent = <&pmc>;
-+			interrupts =  <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
-+
- 		serial@c4e0000 {
- 			compatible = "nvidia,tegra264-utc";
- 			reg = <0x0 0x0c4e0000 0x0 0x8000>,
-@@ -3347,6 +3391,22 @@
- 			#interrupt-cells = <2>;
- 			interrupt-controller;
- 		};
-+
-+		gpio_aon: gpio@cf00000 {
-+			compatible = "nvidia,tegra264-gpio-aon";
-+			reg = <0x0 0x0cf00000 0x0 0x10000>,
-+			      <0x0 0x0cf10000 0x0 0x1000>;
-+			reg-names = "security", "gpio";
-+			wakeup-parent = <&pmc>;
-+			interrupts = <GIC_SPI 538 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 539 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 540 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 541 IRQ_TYPE_LEVEL_HIGH>;
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
- 	};
- 
- 	/* TOP_MMIO */
-@@ -3726,6 +3786,34 @@
- 
- 		ranges = <0x00 0x00000000 0xa8 0x00000000 0x40 0x00000000>, /* MMIO, ECAM, prefetchable memory, I/O */
- 			 <0x80 0x00000000 0x00 0x20000000 0x00 0x40000000>; /* non-prefetchable memory (32-bit) */
-+
-+		gpio_uphy: gpio@8300000 {
-+			compatible = "nvidia,tegra264-gpio-uphy";
-+			reg = <0x00 0x08300000 0x0 0x2000>,
-+			      <0x00 0x08310000 0x0 0x2000>;
-+			reg-names = "security", "gpio";
-+			wakeup-parent = <&pmc>;
-+			interrupts = <GIC_SPI 843 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 844 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 845 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 846 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 847 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 848 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 849 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 850 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 851 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 852 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 853 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 854 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 855 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 856 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 857 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 858 IRQ_TYPE_LEVEL_HIGH>;
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
- 	};
- 
- 	cpus {
--- 
-2.17.1
+On 28/01/2026 8:03 am, Ian Rogers wrote:
+> On Tue, Jan 27, 2026 at 3:00 PM Besar Wicaksono <bwicaksono@nvidia.com> wrote:
+>>
+>> Add JSON files for NVIDIA Tegra410 Olympus core PMU events.
+>> Also updated the common-and-microarch.json.
+>>
+>> Signed-off-by: Besar Wicaksono <bwicaksono@nvidia.com>
+>> ---
+>>   .../arch/arm64/common-and-microarch.json      |  90 +++
+>>   tools/perf/pmu-events/arch/arm64/mapfile.csv  |   1 +
+>>   .../arch/arm64/nvidia/t410/branch.json        |  45 ++
+>>   .../arch/arm64/nvidia/t410/brbe.json          |   6 +
+>>   .../arch/arm64/nvidia/t410/bus.json           |  48 ++
+>>   .../arch/arm64/nvidia/t410/exception.json     |  62 ++
+>>   .../arch/arm64/nvidia/t410/fp_operation.json  |  78 ++
+>>   .../arch/arm64/nvidia/t410/general.json       |  15 +
+>>   .../arch/arm64/nvidia/t410/l1d_cache.json     | 122 +++
+>>   .../arch/arm64/nvidia/t410/l1i_cache.json     | 114 +++
+>>   .../arch/arm64/nvidia/t410/l2d_cache.json     | 134 ++++
+>>   .../arch/arm64/nvidia/t410/ll_cache.json      | 107 +++
+>>   .../arch/arm64/nvidia/t410/memory.json        |  46 ++
+>>   .../arch/arm64/nvidia/t410/metrics.json       | 722 ++++++++++++++++++
+>>   .../arch/arm64/nvidia/t410/misc.json          | 646 ++++++++++++++++
+>>   .../arch/arm64/nvidia/t410/retired.json       |  94 +++
+>>   .../arch/arm64/nvidia/t410/spe.json           |  42 +
+>>   .../arm64/nvidia/t410/spec_operation.json     | 230 ++++++
+>>   .../arch/arm64/nvidia/t410/stall.json         | 145 ++++
+>>   .../arch/arm64/nvidia/t410/tlb.json           | 158 ++++
+>>   20 files changed, 2905 insertions(+)
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/branch.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/brbe.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/bus.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/exception.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/fp_operation.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/general.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/l1d_cache.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/l1i_cache.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/l2d_cache.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/ll_cache.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/memory.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/metrics.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/misc.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/retired.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/spe.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/spec_operation.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/stall.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/nvidia/t410/tlb.json
+>>
+>> diff --git a/tools/perf/pmu-events/arch/arm64/common-and-microarch.json b/tools/perf/pmu-events/arch/arm64/common-and-microarch.json
+>> index 468cb085d879..6af15776ff17 100644
+>> --- a/tools/perf/pmu-events/arch/arm64/common-and-microarch.json
+>> +++ b/tools/perf/pmu-events/arch/arm64/common-and-microarch.json
+>> @@ -179,6 +179,11 @@
+>>           "EventName": "BUS_CYCLES",
+>>           "BriefDescription": "Bus cycle"
+>>       },
+>> +    {
+>> +        "EventCode": "0x001E",
+>> +        "EventName": "CHAIN",
+>> +        "BriefDescription": "Chain a pair of event counters."
+>> +    },
+> 
+> Cool stuff :-)
+> 
+> For wider counters AMD does something similar, but should this be an
+> implementation detail rather than an exposed event? How does it
+> operate as an event?
+> 
+
+CHAIN should be excluded from the json, it's used internally by the 
+driver when you want 64 bit counters. Userspace can't use it because it 
+can't control where counters are placed to make sure they're adjacent.
+
+> [snip]
+>> diff --git a/tools/perf/pmu-events/arch/arm64/mapfile.csv b/tools/perf/pmu-events/arch/arm64/mapfile.csv
+>> index bb3fa8a33496..7f0eaa702048 100644
+>> --- a/tools/perf/pmu-events/arch/arm64/mapfile.csv
+>> +++ b/tools/perf/pmu-events/arch/arm64/mapfile.csv
+>> @@ -46,3 +46,4 @@
+>>   0x00000000500f0000,v1,ampere/emag,core
+>>   0x00000000c00fac30,v1,ampere/ampereone,core
+>>   0x00000000c00fac40,v1,ampere/ampereonex,core
+>> +0x000000004e0f0100,v1,nvidia/t410,core
+>> diff --git a/tools/perf/pmu-events/arch/arm64/nvidia/t410/branch.json b/tools/perf/pmu-events/arch/arm64/nvidia/t410/branch.json
+>> new file mode 100644
+>> index 000000000000..532bc59dc573
+>> --- /dev/null
+>> +++ b/tools/perf/pmu-events/arch/arm64/nvidia/t410/branch.json
+>> @@ -0,0 +1,45 @@
+>> +[
+>> +    {
+>> +        "ArchStdEvent": "BR_MIS_PRED",
+>> +        "PublicDescription": "The Event counts Branches which are speculatively executed and mis-predicted."
+> 
+> nit: The capitalization on Event and Branches, as well as other words,
+> is a little unusual.
+> 
+
+If there's nothing specific to this CPU then the public description 
+could be left out entierly. The common strings already say the same 
+thing as this:
+
+     {
+         "PublicDescription": "Mispredicted or not predicted branch
+                               speculatively executed",
+         "EventCode": "0x10",
+         "EventName": "BR_MIS_PRED",
+         "BriefDescription": "Mispredicted or not predicted branch
+                              speculatively executed"
+     },
+
+
+> [snip]
+>> diff --git a/tools/perf/pmu-events/arch/arm64/nvidia/t410/metrics.json b/tools/perf/pmu-events/arch/arm64/nvidia/t410/metrics.json
+>> new file mode 100644
+>> index 000000000000..18c2fd58ee9e
+>> --- /dev/null
+>> +++ b/tools/perf/pmu-events/arch/arm64/nvidia/t410/metrics.json
+>> @@ -0,0 +1,722 @@
+>> +[
+>> +    {
+>> +        "MetricName": "backend_bound",
+>> +        "MetricExpr": "100 * (STALL_SLOT_BACKEND / CPU_SLOT)",
+>> +        "BriefDescription": "This metric is the percentage of total slots that were stalled due to resource constraints in the backend of the processor.",
+>> +        "ScaleUnit": "1percent of slots",
+>> +        "MetricGroup": "TopdownL1"
+> 
+> Note, on x86 we place TopdownL1 in the Default metric group so it is
+> shown by `perf stat` when it isn't given events or metrics to compute.
+> Perhaps you want to do something similar?
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tree/tools/perf/pmu-events/arch/x86/icelake/icl-metrics.json?h=tmp.perf-tools-next#n116
+> 
+> Thanks,
+> Ian
+
+That's currently true for the Arm topdown metrics in sbsa.json, but we 
+probably don't actually want this because there aren't enough counters 
+for the perf stat defaults plus topdown and it results in multiplexing 
+and bad results.
+
+I was planning to change it but we also don't currently expose the 
+number of counters available either...
+
 
 
