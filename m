@@ -1,276 +1,233 @@
-Return-Path: <linux-tegra+bounces-11900-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-11902-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MNlaChQAi2nJPAAAu9opvQ
-	(envelope-from <linux-tegra+bounces-11900-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 10:53:24 +0100
+	id MPp5OFgEi2kMPQAAu9opvQ
+	(envelope-from <linux-tegra+bounces-11902-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 11:11:36 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E101192C3
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 10:53:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765BB11978D
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 11:11:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B6AB030AEEB8
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 09:49:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F08473064531
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Feb 2026 10:06:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA37534251D;
-	Tue, 10 Feb 2026 09:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1B48346E41;
+	Tue, 10 Feb 2026 10:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2uoyaGQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HueU6L61"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC4342528
-	for <linux-tegra@vger.kernel.org>; Tue, 10 Feb 2026 09:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD45C3446B7;
+	Tue, 10 Feb 2026 10:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770716972; cv=none; b=cQTu2tI7cvsKbEKEfvc7vEtZSULoQFiHLfCoJPr5WR9Na8Bbv/c7rgBkee+vIWpIULQg5F4dWzaO/q5zmBked8J5mRp3dgg7Q+hpJ/9eDWE6TXMNROtDHRiSb2+tj+DX1ij5DvYQ5ci8Y/ZgISqbryZCtKDYvU6EOq1F590qO4A=
+	t=1770717970; cv=none; b=AgOYGKpRUgJFmY5ZqyVtbL8tw+GsLpGx4I+iQEzOTNyr8o0WSyhlsBsEfDR1wjXaFfT9dDcljZQe0m9bXcfRlM+GwJVx/+ZAd4B4D1Z02AJOr3Yx9mRqAFwotPRaidxKP2myenxjzuwhyeO8ObiSo5f34Ft52BZsDjA7kvZUK5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770716972; c=relaxed/simple;
-	bh=lMzEsshGSRJZOWfPu29o542XgKUbh2dLItyfJE9Cz+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zd1hS3r63JbWy2VZnDYQsRyt0cja615bTtDzVDXXWK4OCzBC22od7uxNc4VBqzBrqA0fWHki3ZseFrVR+UFJac7zF13mBZLpth7Jsf5CUhrBDr4N8tcnWSVyLDzBaZeztF1PG7N/Gdm2zK7qrLy8EhTdU3SPokNZAxLXYX2coZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2uoyaGQ; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59dd263bf42so5551372e87.0
-        for <linux-tegra@vger.kernel.org>; Tue, 10 Feb 2026 01:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770716969; x=1771321769; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=docz6ooNYgx/jlwVUrg5MGlatBXXa4vDb6cy3X3gZsU=;
-        b=b2uoyaGQbsxgAC77F4YMPXp0hLKygphMNDbGTfSnXAZvFk+su1jOoiOMo/BmJtPOVh
-         FFY9TuRz6y8fLjkCpp0cFk4i4CJM0iuRE/xE4s852D/Q64jk0bVwBqaIVIPUgXaN8cQy
-         sadn/1KSxGNNQsv8lsipTICuoxjkHHzkpGEbbhRwavWXpN14yYkV54oW1FCJzDXcKMy9
-         S6ZgUcD64w7uOmF+Tr8985AtJ/8zmSxDBZ1HqYh7bebu19cFZyD+6TFy6XUBnKSC7xnG
-         yfDbYzK9bIhVZ8yavoaUCYgyvVETzyNNOR28bAkgEgSLtmfrgwCiqus6loLC+V24YCTz
-         9Ryg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770716969; x=1771321769;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=docz6ooNYgx/jlwVUrg5MGlatBXXa4vDb6cy3X3gZsU=;
-        b=v1nyLxQ3/cJq4TU3PLwhOVZc9J7mYvRUVvQpeXq3OZIESebsEd1e7us2IZQKiJbXAg
-         kZVIppHrGzDbVT/0QniYTVMoDctHLwDR6Vag5w0LJ/Wq+pu7U+c2ffB1JW3RJ5anGUfY
-         5GGTIF+Q1tvBzGwFoU+5DaEwquR9nvLzgAI337fz7eSDZ6rNm3iQC9fGyWKo+CS5wnbG
-         jcD+IBjlzMD0k3YD9DXco7mshF9Zh5kMpRMJ1289966xy5iggiQUumsWsFOCyU0Zz9RD
-         MJJkkS1f9xQ79zFZI7CwJU68dcLA+X2CIurhLfF+1mV1MNeShuBMhS0LZ67KST3hVGRj
-         M8qA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/BnZ9PIOua/3C5HzjFoP9+ba8DO/UonKyQJLyQ3VgKw0nqAQMePnzB89TMJjGRXMAZ8S7cJ+ETkDqKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcauK/Abrk05uvqKy614g7CQADYk9k3l3a1w0LNyLOB1t1rAic
-	k4DBRh3kzJVsnVsmBFypdYbhI3yrR5PR2qx2YZ2TPuDRko1UveJcL7y0
-X-Gm-Gg: AZuq6aIkDgUsCTtncyLc5dV41BCEb5UHHnpi/y5HdRsMVjcuWBsQG4NvsnfVqyj5pVb
-	anI+26HMIDyO//F9AId9jeGfKZ804pBJ7PXhm4cN0YHiI3IfilRMhMRVNm6rZ1tc4XUAxpdP1a6
-	R216dy8r0e/m2D6ggZjEsnskeutU3/ZyigPDFqtUdmh1xxlvjoYlbD76lJZfACycLRS/L57Zb8Q
-	NjbmXXaLQUIcTYnFWP1kHA0BpghusEupRE+rANCc3bB0nZSv9CNYf+nYqoQzImAkGmn8ZLQ3sbx
-	hbL5by/DV2Gopw+ic5QSu9D7ccAffkq+Ckve3BxbIOHvs/z4ts9zaijVJ4VDtK1nikrEvqNDBmm
-	cB1OG1kAGtxWhivO/MlFCsYrbHyyY5xYhUkUC5fMXyOwIqEnmNkEQzKaPjCZKnKCbgUGTHGmRFX
-	hI51Xt+rRquiT5
-X-Received: by 2002:a05:6512:b16:b0:59e:1663:941 with SMTP id 2adb3069b0e04-59e55b7404cmr537077e87.3.1770716968637;
-        Tue, 10 Feb 2026 01:49:28 -0800 (PST)
-Received: from xeon ([188.163.112.51])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e44e231d5sm3191691e87.81.2026.02.10.01.49.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 01:49:28 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1770717970; c=relaxed/simple;
+	bh=E07rW57XvUp9dRCWusGbgPrZsQXq2+KThzrSXX8KsSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IiPRYTBfNwnGpdkprAfNGZbobF9GfuAGvHyTqZUi5SwkJdrCqkXbWEIFIDWdjzLUTdI2UI/mmCZnRGC1IzfMSqZtO+KfxI+qOcxXAUkDPAtCxZJm9bj8omyLy8Np8Xi9Fn5Flq2cIeAZ07DBKa8JMndOAzTjHKkX6VJkoo4LAsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HueU6L61; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63C56C116C6;
+	Tue, 10 Feb 2026 10:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770717970;
+	bh=E07rW57XvUp9dRCWusGbgPrZsQXq2+KThzrSXX8KsSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HueU6L61WhjpwVG61pkiebO4T1YOTik3YStQ1CA89k8JtPhYXv6Isn7xjvDkuG9ZW
+	 u/3MALLxPQkBT9k0CSUQZmRDkY5xb3EZEFSx9sNChsJ5AW4sva/e9JZEcjgBaWp7a0
+	 Y+IT3a2aVRLZIwyxa2VbLZtwosOIdBvXLgVCARQ1DxA1brre55YVAIskV1oQGO50mw
+	 0BBPVmU0venNiNgMjdghnzGdgwT4my9vPe6B+onEzZ5h28/ACsddgcL3p1d4tyUZAX
+	 GlhpxF01XgYakiNI54pHw80wKEdiHMALJbcJFSCjdedWUFhFJpYMEUzvKqmjwvavOj
+	 4J7xyAJ3wBDZA==
+Date: Tue, 10 Feb 2026 11:06:04 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	stable@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
 	Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] ARM: tegra: transformers: add connector node
-Date: Tue, 10 Feb 2026 11:49:08 +0200
-Message-ID: <20260210094908.14276-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260210094908.14276-1-clamor95@gmail.com>
-References: <20260210094908.14276-1-clamor95@gmail.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [PATCH v2 2/3] PCI: tegra194: Reset BARs when running in PCIe
+ endpoint mode
+Message-ID: <aYsDDOZA18BBeOsd@ryzen>
+References: <20250922140822.519796-5-cassel@kernel.org>
+ <20250922140822.519796-7-cassel@kernel.org>
+ <2fedf28e-83ea-4e51-b1a1-e45f0e928509@nvidia.com>
+ <aYonDJyd_dbV0GBK@ryzen>
+ <94458c39-587b-4bb4-a410-e921e5d99f10@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <94458c39-587b-4bb4-a410-e921e5d99f10@nvidia.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11900-lists,linux-tegra=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-11902-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,nvidia.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,wdc.com,vger.kernel.org,google.com,gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,3.60.63.64:email,3.60.141.96:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B2E101192C3
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 765BB11978D
 X-Rspamd-Action: no action
 
-All ASUS Transformers have micro-HDMI connector directly available. After
-Tegra HDMI got bridge/connector support, we should use connector framework
-for proper HW description.
+Hello Manikanta,
 
-Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # ASUS TF T30
-Tested-by: Robert Eckelmann <longnoserob@gmail.com> # ASUS TF101 T20
-Tested-by: Svyatoslav Ryhel <clamor95@gmail.com> # ASUS TF201 T30
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- .../tegra20-asus-transformer-common.dtsi      | 22 ++++++++++++++++---
- .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 21 ++++++++++++++++--
- .../tegra30-asus-transformer-common.dtsi      | 21 ++++++++++++++++--
- 3 files changed, 57 insertions(+), 7 deletions(-)
+On Tue, Feb 10, 2026 at 09:40:44AM +0530, Manikanta Maddireddy wrote:
+> > On Sun, Feb 08, 2026 at 11:41:42PM +0530, Manikanta Maddireddy wrote:
+> > > Hi Niklas,
+> > > 
+> > > Tegra PCIe exposes only DMA register over BAR4, not iATU.
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra20-asus-transformer-common.dtsi b/arch/arm/boot/dts/nvidia/tegra20-asus-transformer-common.dtsi
-index 73c7ee378865..51d99998d836 100644
---- a/arch/arm/boot/dts/nvidia/tegra20-asus-transformer-common.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra20-asus-transformer-common.dtsi
-@@ -79,9 +79,11 @@ hdmi@54280000 {
- 			pll-supply = <&hdmi_pll_reg>;
- 			hdmi-supply = <&vdd_hdmi_en>;
- 
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7)
--				GPIO_ACTIVE_HIGH>;
-+			port {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 	};
- 
-@@ -951,6 +953,20 @@ clk32k_in: clock-32k-in {
- 		#clock-cells = <0>;
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
-diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-index 1ed0536ae3fa..498780a96cf9 100644
---- a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-+++ b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-@@ -67,8 +67,11 @@ hdmi: hdmi@54280000 {
- 			pll-supply = <&vdd_1v8_vio>;
- 			vdd-supply = <&vdd_3v3_sys>;
- 
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
-+			port {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 
- 		lcd: dsi@54300000 {
-@@ -2302,6 +2305,20 @@ clk32k_in: clock-32k {
- 		clock-output-names = "pmic-oscillator";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
-diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi b/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
-index 53382e10f29f..0b0713d62e32 100644
---- a/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
-@@ -166,8 +166,11 @@ hdmi: hdmi@54280000 {
- 			pll-supply = <&vdd_1v8_vio>;
- 			vdd-supply = <&vdd_3v3_sys>;
- 
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
-+			port {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 	};
- 
-@@ -1713,6 +1716,20 @@ clk32k_in: clock-32k {
- 		clock-output-names = "pmic-oscillator";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
--- 
-2.51.0
+Here you claim that DMA registers are exposed in BAR4.
+
+
+> Hi Niklas,
+> 
+> In Tegra234 PCIe, BAR1 is MSI-X table and BAR2 is DMA registers backed
+> by PCIe HW RAM and registers.
+
+Here you claim that DMA registers are exposed in BAR2.
+Which one is it?
+
+
+> EPF driver shouldn't allocate memory for
+> these two BARs. This is the reason for marking them as reserved in
+> Tegra PCIe driver. DMA registers are exposed over BAR2 to allow
+> PCI client driver in host to transfer data from host to endpoint
+> using endpoint remote DMA read functionality. BAR test fails on this
+> because not all register bits are writable. Consider NVMe example
+> which has RO capability bits at the start of the BAR, it is not correct
+> to add BAR test on these bits.
+
+Have you tried running
+tools/testing/selftests/pci_endpoint/pci_endpoint_test
+?
+
+pci_endpoint_test will run BAR tests against all BARs that are enabled by
+default, regardless of the BAR being marked as RESERVED or not, see:
+https://github.com/torvalds/linux/blob/v6.19/drivers/misc/pci_endpoint_test.c#L1052-L1061
+
+In the case of nvidia,tegra234-pcie-ep, before my commit 42f9c66a6d0c
+("PCI: tegra194: Reset BARs when running in PCIe endpoint mode"):
+pcie-tegra194.c marked all BARs except BAR0 as reserved.
+pci_endpoint_test would run tests against BAR0, BAR2, BAR3, BAR4, BAR5
+(it would not run against BAR1, because BAR0 is marked as "only_64bit").
+
+After my commit 42f9c66a6d0c ("PCI: tegra194: Reset BARs when running in
+PCIe endpoint mode"):
+pcie-tegra194.c still marks all BARs except BAR0 as reserved (I did not
+change this).
+pci_endpoint_test would run tests only against BAR0.
+I.e. the only BAR that is not marked as reserved.
+
+
+> 
+> I think following fixes are required to address this issue,
+
+Could you please define "this issue", because right now I honestly don't
+see the issue.
+
+To me it seems like you want pci_endpoint_test to run against BARs that are
+marked as reserved (I assume that Vidya marked them as reserved for a good
+reason, most likely because all of them map to MMIO registers) and thus you
+want multiple test cases in pci_endpoint_test to fail instead of being skipped?
+
+
+> 1. BAR test in pci_endpoint_test should skip MSI-X table.
+> 2. BAR test in pci_endpoint_test should provide option to
+> skip this test on known reserved BARs, maybe we can use
+> pci_endpoint_test_data for this.
+
+pci_endpoint_test already skips disabled BARs by default.
+
+They way it works is that you disable all BARs in you EPC driver's init()
+callback (i.e. what my patch does), pci-epf-test will then allocate backing
+memory + enable all BARs that are not marked as RESERVED.
+
+
+> 3. EPC driver should provide BAR_DISABLED enum to disable
+> unused BARs.
+
+BAR_RESERVED already means disabled, it just assumes that an EPC driver
+disables all BARs by default, which is the case for:
+pci-dra7xx.c, pci-imx6.c, pci-layerscape-ep.c, pcie-artpec6.c,
+pcie-designware-plat.c, pcie-dw-rockchip.c, pcie-qcom-ep.c, pcie-rcar-gen4.c,
+pcie-stm32-ep.c, pcie-uniphier-ep.c.
+(All drivers which disables all BARs by default in the init() callback using
+dw_pcie_ep_reset_bar(). pci-epf-test will later enable all BARs that are not
+marked as BAR_RESERVED.)
+
+That leaves: pcie-keembay.c, pci-keystone.c, pcie-tegra194.c (before my patch).
+
+For pcie-keembay.c, this is not a problem, because BAR0, BAR2, BAR4 are marked
+as only_64bit, so pci-epf-test configure these BARs as 64-bit BARs, and thus
+BAR1, BAR3, and BAR5 will get disabled implicitly.
+
+For pci-keystone.c, this is the only driver that is a bit weird, it marks
+BAR0 and BAR1 as reserved, but does not disable them in the init() callback.
+It seems force set BAR0 as a 32-bit BAR in the init() callback.
+
+Thus, for all drivers except for pci-keystone.c, BAR_RESERVED does mean
+BAR_DISABLED. Feel free to send a patch that renames BAR_RESERVED to
+BAR_DISABLED.
+
+If you send such a patch, perhaps you also want to modify the PCI endpoint
+core to call reset_bar() for all BARs marked as BAR_RESERVED/BAR_DISABLED,
+instead of each EPC driver doing so in the init() callback. I think the main
+reason why this is not done already is that thare is no reset_bar() op in
+struct pci_epc_ops epc_ops, there is only clear_bar() which clears an BAR
+enabled by an EPF driver. (So you would most likely also need to add a
+.disable_bar() op in struct pci_epc_ops epc_ops.)
+
+
+> 4. Tegra PCIe driver should disable only BAR_DISABLED bars and
+> leave BAR_RESERVED untouched.
+> 5. Return NO_BAR for both BAR_DISABLED and BAR_RESERVED in
+> pci_epc_get_next_free_bar()
+
+A BAR marked as BAR_RESERVED will never be returned by
+pci_epc_get_next_free_bar(), so this is the case already.
+
+
+Kind regards,
+Niklas
 
 
