@@ -1,198 +1,198 @@
-Return-Path: <linux-tegra+bounces-12090-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12093-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGr9Bez5m2l5+gMAu9opvQ
-	(envelope-from <linux-tegra+bounces-12090-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 07:55:40 +0100
+	id 2OiuIQkenGkZ/wMAu9opvQ
+	(envelope-from <linux-tegra+bounces-12093-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 10:29:45 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B4B1726AB
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 07:55:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C10173EA7
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 10:29:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8ED9F302B80C
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 06:55:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 80DC03018ACF
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Feb 2026 09:27:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33FEA34A790;
-	Mon, 23 Feb 2026 06:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3EA34E777;
+	Mon, 23 Feb 2026 09:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kwu+edER"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mzv8+vRt"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8B1349B1D
-	for <linux-tegra@vger.kernel.org>; Mon, 23 Feb 2026 06:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D6E346A14
+	for <linux-tegra@vger.kernel.org>; Mon, 23 Feb 2026 09:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771829717; cv=none; b=F9zkmHTcGEYzdengCW8oEBKAjvNQ9Cz4u2svfsQRqG64HT4+eKMaEDMEFp5YyhXqhM5V04QpSuJbVkZ3NxcsxT0QXq7Q/i3kpNjUeOQd7d8yREJMoJr9T6LAJ54J8bwhZiy0Rs2ccRrv1AZ4eNK6sH29xLjmLqlMCFxZaW9ETEo=
+	t=1771838868; cv=none; b=GHJ5p+pTW42HNpfSUqAvpIRIlygzPDsPkBM8AK5nOi7JQ0TE1Bbr1bY84yXYZRwUjGOkbNcz1OfVO7TpINYylQ7ulVGZrfeYU0cpzh2gbyp5AQtK0By/RXJamymvnW0FvygWRJjcX+2ggPrYTnth7oSTmGUKxBG/cU+vk68QYak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771829717; c=relaxed/simple;
-	bh=OOPv17YuwhtF5qN4VXKo5vOvfgfmMuTBBGc+yr6hm6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HHbkybsdYMLJwN/jhdcBRLxUNV5yEdGGZdvdptRFnH71RzBhetlNJS7B9wWE0kLACCu54cmSmH0pMmMlexNee5Ah14lNUZQFDuacBa0JdmCCANorW9oy8H37GxrJcAS6eMJd50ND/QqmUWJTyMkPbo+dfHYzXTg5KdS1RG65ikc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kwu+edER; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38700168abaso32492451fa.3
-        for <linux-tegra@vger.kernel.org>; Sun, 22 Feb 2026 22:55:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771829714; x=1772434514; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tfKVvY3zEHHWaD06pd/pcj59qAyzkCZLLQIV8hNmtWk=;
-        b=kwu+edERONaYh4RnoTSn9pZMmOggqP65rnytgK7VmwBDCa4E7Ixj/7dQRaTqqvmMjL
-         xtZUheW6mX3FYhpPghzBdc9zx0TsAq/qXzBUjFFEC3GKIUgEitVRoFKrlGzfC/p4juE0
-         9hzM9xy9CAGw/zNw2w5++HcxU0nk0dXR1h7H+B46aowv44cyn/fp/blQ7UsaZJXBhVao
-         HNSiPRVLfqSbw7iuIxuH6rqFPVhWyriAIinSWKPL07Q9mtYWmqOswWjIsPzbdY4Ufwsc
-         8Mcl+IiPox3BEhB/ZoxAeh7/LXdEMG/B8dZGJBpX1YbR2IE7kDk4HREk+S16DVKE9qIn
-         kzdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771829714; x=1772434514;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tfKVvY3zEHHWaD06pd/pcj59qAyzkCZLLQIV8hNmtWk=;
-        b=JwmmtepRVIXcsmvAFuEHkF5ODS/7d8/QWDjdXhP/NLjCtver7zGTzuRyqnb/OShU1h
-         Zz3JAh95ctI4sV6WNiDZU+Z+dW4zWAqRDXfQYP7uI213RMSLH//EP9kgNVJFRNIqoW7K
-         Y1VNeRbNzRecWSH8A3gHumuxAAS/XbIwRNvr2aefM2QDJvCdsHk6YnmfgqqonZUli2Yq
-         b29U8ie+pM51WX7tVa3Md3LmtyKus4lJwDU20bu+Tiy3ASo6zzyCDb9jDxfOODT2chu0
-         882sB5MjoF+J4E2kFAxJuBRDrmwAFOAVdYR5PrJr4oXaVOlLLywXbGAD+9p2kSMOU5mU
-         D5MQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqLMHH9p2bl1YdLBHAlkrh3QV5EavfPOj4aQNwBoYH5sCd6Ld7WRba9rfU1QILzHvlVXr6/WDA1qsE/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/Cude1IRzarTl9gkwNtNj864oxV7RGXlAx/DOJ/UTJ3HuDgve
-	CqMkFsyciZ3Av9CYg4WSj57tmViuzjKmMfrlhl4Jhd2raC6/rLllHudb
-X-Gm-Gg: AZuq6aK68uCLsZ9SSTZYrhpaPpNLGW+1RtfuIBPz3ADbLCx/KqdcbWPeYllZ1DagNKR
-	KrjkHd1gtbTkW7gr0/j9QnAb1qZQDwbyJeS2OPAT5sGF20W8sKjMMFdVT3JEREHfupeITTybjd+
-	/uMRdZ3FwnskWLjceJ+caLeqcc84t8+iJe7kSC1ND2KFAIvHcmAaYaSocl7VqOqVgYcqBS+oLAq
-	gPY5QGszf96GGSi10r0Iny3TA28z7uupM5h4s5zzuUM2MgOlobPzRfsMz/d/+d6qoo2lzkLoJ5w
-	k+1wITxnNDmBk05fQV9kxUD4Z9XS5GG50k6Ak6Akh0d+l6S287roqtUOq/0OAp7wSrfg0kEmTzV
-	3DOUoAqKcnF6lQemRbYcK4/rxIG9/MoHJEMwiTwtEcoEmvyJHrU/xxq47j/g0sdYIyjMpAp9YDZ
-	QzGqBWwPJEMfU4
-X-Received: by 2002:a05:6512:2348:b0:59f:76ca:9893 with SMTP id 2adb3069b0e04-5a0ed87f9d5mr2208819e87.4.1771829713866;
-        Sun, 22 Feb 2026 22:55:13 -0800 (PST)
-Received: from xeon ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb4c60bsm1373802e87.84.2026.02.22.22.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 22:55:13 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ARM: tegra: transformers: add connector node
-Date: Mon, 23 Feb 2026 08:55:00 +0200
-Message-ID: <20260223065500.13357-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260223065500.13357-1-clamor95@gmail.com>
-References: <20260223065500.13357-1-clamor95@gmail.com>
+	s=arc-20240116; t=1771838868; c=relaxed/simple;
+	bh=OyGFTWWAQRbhcAjRDP0+Rd6GLfLhNM1/YURdgrzC1b8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qgVbuloaKQv9eVQ/Dw1gAYJD5Pf4r3cmpX4IBFlz0niLJufo8FXLAQGRjwPUgT7NHJuL5JBuQyo5iefmp2TZ9R8d0ApuZDGaBXe2PtiZoKvoVEbasv3/f8NGM3mHMeKqzVaDJ+fUuFBrp2HJO45xXibLSp+i6CBTwRtaYH0Uob8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mzv8+vRt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927BBC116C6
+	for <linux-tegra@vger.kernel.org>; Mon, 23 Feb 2026 09:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771838867;
+	bh=OyGFTWWAQRbhcAjRDP0+Rd6GLfLhNM1/YURdgrzC1b8=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=Mzv8+vRt5AgwSaXc0SQkB8ORQyVsexu03SzZnhyd0LnhlPuCAo/hWG6cTh1oD6LaA
+	 HeyYMJmg4v4g1Iez+LUfoAZLcaWmdBPJ0tuWWt0jqzfeqFJntQay9NVzrDbJvwChE7
+	 QBNFKloYi7SW02qj3fWX8HSZJHn8A/axkn8eGisoaQ/vAHvkp8kmvAXE+4Gkrv5nwY
+	 xXhVnd1RWiLg+5FUx404w+bo/Ewr8PEm4rr/hvDISzSdEQLKdHxzf6KyZ5AIqftWg4
+	 Ytaaw2moiUoqTdVcMqx9GMk5bzfR5q7/Ts7ISqCMD40OBfPUycfQo7m9+gQmJoBCAi
+	 64d3Ua0vmChQg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-388126f79bcso34500441fa.0
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Feb 2026 01:27:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUY5z4nLKJ/hDcXh7CfQMlL0KoYIZPE9obiCPlYiT7desmLmKuJXLMyYZgGoT57o82c1rSREHt8c1qPpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhzJaaGDQmuU47+ya2HrThjnOKqCxXo2btaWyf1xG0WNmiKrsO
+	CR/7z2RzgqM6cCNWVWI7i1fjn/cpeiaASY+H30hGWJshaHhgoqp8d4j3RQlz5Dj+GD/Ck10n7wa
+	UfZsw66bMYGLGUpTltXOaSAShhQdBrQw=
+X-Received: by 2002:a2e:a99e:0:b0:386:1ce2:11a6 with SMTP id
+ 38308e7fff4ca-389a5de767amr21982451fa.24.1771838865947; Mon, 23 Feb 2026
+ 01:27:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ZnzulZBukibZUXKM@google.com> <171958889447.2435101.5942373221568313704.b4-ty@nvidia.com>
+ <aY1GZQJLKAF0fsz6@google.com> <74b13dba-830b-6ea3-e5d3-95f0423fe741@gmx.de>
+ <CAGb2v64BApjGy2AZsM5sJit4ZDKDreVE230kxFikBeo-SFnGzA@mail.gmail.com> <de212734-0b59-144c-7ec9-91d1b3443148@gmx.de>
+In-Reply-To: <de212734-0b59-144c-7ec9-91d1b3443148@gmx.de>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 23 Feb 2026 17:27:32 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66a=joEGmwyoEZ6_FJQFdGqSLoVzg9DLn5=c-VpK5AJig@mail.gmail.com>
+X-Gm-Features: AaiRm533zyjmIVjIQdEPqa5bOiZeeQphW8VIiO6gupdt7m4aGch75EKhJ5fdiuA
+Message-ID: <CAGb2v66a=joEGmwyoEZ6_FJQFdGqSLoVzg9DLn5=c-VpK5AJig@mail.gmail.com>
+Subject: Re: [PATCH] ARM: tegra: paz00: use software nodes to describe GPIOs
+ for WiFi rfkill
+To: Marc Dietrich <marvin24@gmx.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,nvidia.com];
-	TAGGED_FROM(0.00)[bounces-12090-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,armlinux.org.uk,nvidia.com,lists.infradead.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12093-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	DBL_PROHIBIT(0.00)[3.60.63.64:email];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmx.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	HAS_REPLYTO(0.00)[wens@kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-tegra@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,0.0.0.0:email,3.60.141.96:email]
-X-Rspamd-Queue-Id: A6B4B1726AB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gmx.de:email]
+X-Rspamd-Queue-Id: D7C10173EA7
 X-Rspamd-Action: no action
 
-All ASUS Transformers have micro-HDMI connector directly available. After
-Tegra HDMI got bridge/connector support, we should use connector framework
-for proper HW description.
+On Sun, Feb 15, 2026 at 4:40=E2=80=AFAM Marc Dietrich <marvin24@gmx.de> wro=
+te:
+>
+> Hallo Chen-Yu,
+>
+> On Sat, 14 Feb 2026, Chen-Yu Tsai wrote:
+>
+> > On Sat, Feb 14, 2026 at 10:27=E2=80=AFPM Marc Dietrich <marvin24@gmx.de=
+> wrote:
+> >>
+> >> Hi Dimitry,
+> >>
+> >> On Wed, 11 Feb 2026, Dmitry Torokhov wrote:
+> >>
+> >>> Hi Thierry,
+> >>>
+> >>> On Fri, Jun 28, 2024 at 05:35:08PM +0200, Thierry Reding wrote:
+> >>>> From: Thierry Reding <treding@nvidia.com>
+> >>>>
+> >>>>
+> >>>> On Wed, 26 Jun 2024 21:46:13 -0700, Dmitry Torokhov wrote:
+> >>>>> Complete conversion of the WiFi rfkill device to use device
+> >>>>> properties/software nodes by utilizing PROPERTY_ENTRY_GPIO() instea=
+d of
+> >>>>> a lookup table.
+> >>>>>
+> >>>>>
+> >>>>
+> >>>> Applied, thanks!
+> >>>>
+> >>>> [1/1] ARM: tegra: paz00: use software nodes to describe GPIOs for Wi=
+Fi rfkill
+> >>>>       commit: 47ac458bb229f8c4864081d173adbcfc55c34880
+> >>>
+> >>> Do you know by any chance why paz00 does not simply configure rfkill
+> >>> switch via device tree? The driver (rfkill-gpio) seem to support devi=
+ce
+> >>> tree...
+> >>
+> >> last time I tried this was rejected because the wifi chip is on the us=
+b
+> >> bus and "rfkill" should be a sub-function of this chip [1], but that w=
+as
+> >> some time ago...
+> >>
+> >> Looking hard the schematics, the wifi chip does not have a gpio input =
+as
+> >> first thought. Rather it seems that the first gpio toggles a regulator
+> >> which supplies the wifi module (m2 card) with power and the second gpi=
+o is
+> >> just connected to the wifi LED.
+> >>
+> >> Not sure how to transfer this into dt, but I guess this would be the
+> >> better solution.
+> >
+> > Then the first GPIO should probably just be described as a fixed regula=
+tor
+> > feeding the USB controller that the M.2 module is connected to.
+>
+> I think that is what rfkill-gpio is for, so the proposal of
+> Dimitry looks fine, execpt for the reset-gpio, aka LED which is
+> already included in the dt (but maybe with the wrong gpio).
 
-Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # ASUS TF T30
-Tested-by: Robert Eckelmann <longnoserob@gmail.com> # ASUS TF101 T20
-Tested-by: Svyatoslav Ryhel <clamor95@gmail.com> # ASUS TF201 T30
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 21 +++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+I did that some years ago and was rejected. It was for SDIO, not USB
+though.
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-index 1ed0536ae3fa..498780a96cf9 100644
---- a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-+++ b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-@@ -67,8 +67,11 @@ hdmi: hdmi@54280000 {
- 			pll-supply = <&vdd_1v8_vio>;
- 			vdd-supply = <&vdd_3v3_sys>;
- 
--			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
--			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
-+			port {
-+				hdmi_out: endpoint {
-+					remote-endpoint = <&connector_in>;
-+				};
-+			};
- 		};
- 
- 		lcd: dsi@54300000 {
-@@ -2302,6 +2305,20 @@ clk32k_in: clock-32k {
- 		clock-output-names = "pmic-oscillator";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		hpd-gpios = <&gpio TEGRA_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		ddc-i2c-bus = <&hdmi_ddc>;
-+
-+		port {
-+			connector_in: endpoint {
-+				remote-endpoint = <&hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vdd_cpu>;
--- 
-2.51.0
+Note that if the wireless driver also registers an rfkill device, you
+would end up with two rfkill devices in the system, and with slightly
+different behavior.
 
+One would just disable the radio portion of the WiFi device, while the
+other would cause the WiFi device to disappear.
+
+
+ChenYu
+
+> I will give it a try on real HW and report back.
+>
+> Thanks!
+>
+> Marc
 
