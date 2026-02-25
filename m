@@ -1,205 +1,183 @@
-Return-Path: <linux-tegra+bounces-12177-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12179-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJvvHLrgnmmCXgQAu9opvQ
-	(envelope-from <linux-tegra+bounces-12177-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 12:44:58 +0100
+	id ON3wCMMNn2neYgQAu9opvQ
+	(envelope-from <linux-tegra+bounces-12179-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 15:57:07 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03B3196CB3
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 12:44:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D65D1990FF
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 15:57:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A613A30A9DDA
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 11:43:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61B533033FB1
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Feb 2026 14:56:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97A2639446E;
-	Wed, 25 Feb 2026 11:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1353D3D0C;
+	Wed, 25 Feb 2026 14:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ndf+7s6K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axqu1wIa"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013039.outbound.protection.outlook.com [40.107.201.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79446395DB9;
-	Wed, 25 Feb 2026 11:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772019783; cv=fail; b=FzIXxqXptxzvXQDfVX2Le/VldzTAx99wwY3v+RLiokmkswvtAjnxZBdQjqSjatK3pSIaBul7UtaiY0Ln+pgnkmcfcrbUw0NVgG1dyDjOAhmPAvU4QmbaUxjzvkfzV3fLr8UYU2tY0XjpGHbcpqv5PhF2ru3VrDrg3YGJX2QMIVc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772019783; c=relaxed/simple;
-	bh=qKE8wA3L8iBSZFV4EuEsVCerJY7GE+732OasKPulY5U=;
-	h=From:To:CC:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID:Date; b=Di6kwvFIsTvNKuY5+WZx8kBYAy7WDjM3MYpJK3mPw62KjM1GbDCvLZHuRmWWnEBSmL6eo1uMFsm9LRuTiFwwf5ZdcaAs+SFncHV1AZbw2xqIX3bhJKlpaKwBgV72/ZUr/O1cOFpeewgqXzkcgzkmkNE0eROx38q9/2FzmQe+xSw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ndf+7s6K; arc=fail smtp.client-ip=40.107.201.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eo/XiPKgl/AKNs3ZmJgs5D2Lp26n49vFAStwXCBzpMwcvjIUImg8wrM7C/No6Pf5qs/lpnvUaLMv3AR1zgW2jtcpmoRRHcgdlfP1eGlpl2zWSAOGPYlrX8UUTfJnTV3halGJZ9XYsLq9EwIHQpwUhyrmLS9a+7k1M1kQMuURrZsGAxIOowMmh09VNH4zxSqJWr0aGvDT4iVQE0KsmMHXZdGaB7Z6ABhU4//VSJMNuWqYvOWlGt8VANH0500Pe7htV1l80uhBbdLOXbcqwAPVz9g2ISUh/6Kweyt/lM6/MxQzBEXTxnE7/LmT17Ln5E7s/z6VW10ubnKQxuQHE/asBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vTMxynhcr1msxt7U0nHywriGsmaM8wO5GhoWjInn+yM=;
- b=oCH111eb3/eSKXq2xZpAHYhphKg6rK0eo1UVOwS5VTjaZjRVgWio2xbpDOTD3jm52Nia/Xhpmb+dj4zkLEk5qVy9EFvs2wL2SEDv0yfjmhxGzB03oJtzR47LuriQXf2dHPu1xHwMTgOBTeVP20T59IF9e1tSMNbHaJFJMvVEmtnIqVnHqLwzkDUV3Ef8gr6aiiR9UK836xALeWtE1TfCfQ/qK1k8ht/eTccgIEhnYwz0yPAuWaaVP/2nlu8Vmn+6SmRxLWdkKP0dvvFGUGDSb5vzXiv8ZFwdl+rVvz+dndNTkqENe6bcjpfCk/NnH0lkef61ox57Q+LdGH4jE7UCCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vTMxynhcr1msxt7U0nHywriGsmaM8wO5GhoWjInn+yM=;
- b=ndf+7s6KMmEym3fv0dWKWha/QF9EQoqvV5JFlxp9z6u0Gy0kNoWdFNSqwd29/2rXAbQkvviZNC+YZ7YaZk8cuqQRXQVUy5Kp9VeiyvKRZePyVROpILR2zDiCXLly1ChMvmQdKcwnp1/APWDfTMFxYMLVt4v7v9gRd+pVULzwrI5xJ6PhNZekcqnUpcf0lE8T8Y1A93Tbizk53zOPDBE47IIs0XH721xNypIiG00kIzygq1mjbk9ig20SSBr59XVWJzEiN6woEN+x7pJtJCaKGbsyK/CsGKaGiAfWf6MxI25I7tiGCsIyAl6XY8fQ5K4kKUGkGXqaCdlCjyk+YsB+aw==
-Received: from BL1P221CA0022.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::16)
- by MW3PR12MB4412.namprd12.prod.outlook.com (2603:10b6:303:58::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
- 2026 11:42:55 +0000
-Received: from BN2PEPF00004FBE.namprd04.prod.outlook.com
- (2603:10b6:208:2c5:cafe::ad) by BL1P221CA0022.outlook.office365.com
- (2603:10b6:208:2c5::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.22 via Frontend Transport; Wed,
- 25 Feb 2026 11:42:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN2PEPF00004FBE.mail.protection.outlook.com (10.167.243.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Wed, 25 Feb 2026 11:42:54 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
- 2026 03:42:40 -0800
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
- 2026 03:42:39 -0800
-Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 25 Feb 2026 03:42:39 -0800
-From: Jon Hunter <jonathanh@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	<patches@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-	<linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-	<lkft-triage@lists.linaro.org>, <pavel@nabladev.com>, <jonathanh@nvidia.com>,
-	<f.fainelli@gmail.com>, <sudipm.mukherjee@gmail.com>, <rwarsow@gmx.de>,
-	<conor@kernel.org>, <hargar@microsoft.com>, <broonie@kernel.org>,
-	<achill@achill.org>, <sr@sladewatkins.com>, <linux-tegra@vger.kernel.org>,
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH 6.19 000/781] 6.19.4-rc1 review
-In-Reply-To: <20260225012359.695468795@linuxfoundation.org>
-References: <20260225012359.695468795@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041203B8BB5;
+	Wed, 25 Feb 2026 14:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772031402; cv=none; b=tktjas7bY5H4BHMqNbAUONbV+YkXoxvcQiSy2NXivzD8BYdZ5uQ6+CGGhsA+ETbP3hKLLL2So7Ep1EJFDCMwNqerQoHGqIn5QPfd+iQ2pRhCF+hcGZJygNhj+jK/boihKVAJtmJA3OzTyqkQxM3enEuFCjUZJitrhlhLBKIE+Ec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772031402; c=relaxed/simple;
+	bh=/ekAI3FxEdBx7sDxmd8e8+qIb8tpNERvcll8LbBLE/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YW30GxjBX9wvBBDbq/O7Yymhc7+a/RgcB1kKjVrEbJ4ZFqFWP91Fx0dcxMqeAWS5O8qYy3XE46kPfXPxOUlJHTLjT+Tu5WGMsriAvPBLAnEE62JypVfQjaUvM6/9dYu4rUozAL9U6Pk1YutVxKLKgdXzNgN6shs6PCHc4wBq5BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axqu1wIa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96BDC116D0;
+	Wed, 25 Feb 2026 14:56:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772031401;
+	bh=/ekAI3FxEdBx7sDxmd8e8+qIb8tpNERvcll8LbBLE/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=axqu1wIaL2/ctIDTLk86l1FqIjBKZEVDSINEXFudV+MBsskAR9rsTAyDwpUrI5JJm
+	 mtErxFDeN3PzpCOH8msfSvguy4/7cuC7jJFRHAvw4FGXzJGRN7Mjys/gHkLVAnVedy
+	 Ol4p16uTOJN3Mg3RiHELnqFagmyA2m3ip7J7UfQCWZsfJaU1RqjlTgI8L2XqZm8Yy+
+	 YV67o2Gli0kR7+BKwXrmJs0YkwkStO2tk7bjc6UM3QL9u6HeAguiRleO3v+oJtavi9
+	 9qaAWTTpi084DL0GDHmDXmuL8hPts3cHccNHu7DUeuOq14571C13WjhU5kf2qzVu8F
+	 Z52b7DeQ1R31A==
+Date: Wed, 25 Feb 2026 15:56:34 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc: Frank Li <Frank.li@nxp.com>, Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Koichiro Den <den@valinux.co.jp>,
+	Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 5/9] PCI: dwc: Replace BAR_RESERVED with BAR_DISABLED in
+ glue drivers
+Message-ID: <aZ8Nom0TJKnYdIiJ@ryzen>
+References: <20260217212707.2450423-11-cassel@kernel.org>
+ <20260217212707.2450423-16-cassel@kernel.org>
+ <aZToh35w7GYrOmgc@lizhi-Precision-Tower-5810>
+ <bc3e8be5-8ffa-47f3-91e2-b3c0e9f8a28b@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <a69bd084-d48b-4f2a-856a-cde2ce267d8e@rnnvmail201.nvidia.com>
-Date: Wed, 25 Feb 2026 03:42:39 -0800
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBE:EE_|MW3PR12MB4412:EE_
-X-MS-Office365-Filtering-Correlation-Id: 456f871d-cdd4-4845-05b0-08de746303d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700013|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	1ACkRKW15dXNDnrdUpqNtQpqKI+JIC20sn2ImtqWWoyfAvN2fuw0ZAoFaFIU4KG6gqXwcENVyBQ6Nw1sijgyskb0B8wjiStkLwOdAVUc3HQ4gwiaIFrqCEdme47SCuunQRyE2Ol1rgbkkmoOYBV4ViotEJ9SCMfFHGMJAZler5A6boyNdzpu3qtJGotGjNLTVAY6pnu5YMza8yowjxJoUO3B94FWoahdfle0rqShCg8rf7DLcmRlplMlpjmLIhzlkLD4sGCvA20S6mMYO1bEcasbU5jTIh1GFpZEgCnrF97cK/q7vAO4jaB7ZvL1wY77UQH3A/yoRqmg1YOKILW4nGzYjCYbIrMLy2bTcHi+HSX2PTWZ8A7W8KJQn31kld2LaH0vmyvalTNKFw09MMeeixpXob9q+KruhDpVuxFsrELLCptMZULMaCwl4c9jF5Tu+7NGEDJVHPNDvS38AMF0CuiySF968hie8PRVWP/HLzl7RduFXIoP0CxRaSiB7Uh8JWDcPDYCQhDOuaHauJz65M+8kZhzyeGfbIA81Brrf8D7Ok9sElpUE3Ai6vWBKnyDJDi7UB9MNN3DyGPdtj57Lw86Af/l2b2Jc4/qOeP4ykoN/YT9WnDvCkLDeIDjrVitraGSijWs52wTqlSHvdNKzXQqLvqL1e3D12W4pLuWS3uQ9hLFge5So2qj1fIu+M0Yfl/Q405/EBChLEzc3yznUh0bB8xLs6KfbfrY5qt/OIw2Bh0P9qgxpurxor2cCGf0XGihdxxdlNXFgdwtWcII5mhcmRYqg17Z6yTFAMXnTZC5vZvj5QdEo47cV700+5a7LJ7uPaJRn8KLhaHWLk6wSA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700013)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	/4TOCNGC+jKG/9xmKcTBKg315EQKfE4rk51naDCA3k4ESCNh05JZOzytT5FVS8C928lt/xrLG3ntJxmMzyGmTUMlpLCYBuKpT+v/PccEDUOyzvqGVIuS9xzMT6nrnIhrqdu8M0vNAAUsgha95v9YEGGQYtTbkKJO7CYoUduseV8EkLV2WQg1C6ZnKovnbsnOAIpaQ8PM7tcTGENMOfzNLxWEafDSRiQXS0VrjP96wUV+xIRaG+Esmt8FS9VBQlzFei05S+7xNNB3nD7OGovMfR8y/uUUUaVo/njjyBtY15WX68MRKG8p1Aof3lk5pHhV17P6kruFUJ28D772Rvt+kZIvjdUtPrrXP/u66xAFOKarnKvMTioKbefo8qqv+HB4kTWfo5w99tiio2t3kPu0hKgMN40sStKdSFEdiYiK/zVuUKm/sVgarcFuuWi8xm2r
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 11:42:54.6039
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 456f871d-cdd4-4845-05b0-08de746303d2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF00004FBE.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4412
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc3e8be5-8ffa-47f3-91e2-b3c0e9f8a28b@nvidia.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-12179-lists,linux-tegra=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12177-lists,linux-tegra=lfdr.de];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,vger.kernel.org,linux-foundation.org,roeck-us.net,kernel.org,kernelci.org,lists.linaro.org,nabladev.com,nvidia.com,gmail.com,gmx.de,microsoft.com,achill.org,sladewatkins.com];
+	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,kernel.org,google.com,gmail.com,renesas.com,glider.be,nvidia.com,socionext.com,valinux.co.jp,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,Nvidia.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,rnnvmail201.nvidia.com:mid];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jonathanh@nvidia.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	NEURAL_HAM(-0.00)[-0.991];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	NEURAL_HAM(-0.00)[-0.997];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: E03B3196CB3
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 4D65D1990FF
 X-Rspamd-Action: no action
 
-On Tue, 24 Feb 2026 17:11:49 -0800, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 6.19.4 release.
-> There are 781 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On Mon, Feb 23, 2026 at 10:16:51AM +0530, Manikanta Maddireddy wrote:
 > 
-> Responses should be made by Fri, 27 Feb 2026 01:22:34 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v6.x/stable-review/patch-6.19.4-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-6.19.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+> On 18/02/26 3:45 am, Frank Li wrote:
+> > On Tue, Feb 17, 2026 at 10:27:11PM +0100, Niklas Cassel wrote:
+> > > Most DWC based EPC glue drivers that have BARs marked as BAR_RESERVED in
+> > > epc_features also call dw_pcie_ep_reset_bar() for these reserved BARs in
+> > > ep->ops->init().
+> > > 
+> > > An EPF driver will be able to get/enable BARs that have been disabled/reset
+> > > unless they are marked as BAR_RESERVED (see pci_epc_get_next_free_bar()).
+> > > 
+> > > Thus all EPC drivers that have a BAR marked as BAR_RESERVED in epc_features
+> > > AND call dw_pcie_ep_reset_bar() should really be marked as BAR_DISABLED.
+> > > 
+> > > BARs that are marked as BAR_RESERVED in epc_features but for which
+> > > dw_pcie_ep_reset_bar() is not called in ep->ops->init() are still kept as
+> > > BAR_RESERVED.
+> > combine the same condition together to make easy to read. like
+> > 
+> > "For BAR_RESERVED bars, change to BAR_DISABLED if call dw_pcie_ep_reset_bar().
+> > and keep as BAR_RESERVED if not dw_pcie_ep_reset_bar() in ep-ops-init()"
+> > 
+> > Frank
+> > 
+> > > No EPC drivers outside drivers/pci/controllers/dwc mark their BARs as
+> > > BAR_RESERVED, so there is nothing to do in non-DWC based EPC drivers.
+> > > 
+> > > Signed-off-by: Niklas Cassel <cassel@kernel.org>
 
-All tests passing for Tegra ...
+Note: the proper tag is Tested-by.
+(I noticed that b4 did not pick up your tags.)
 
-Test results for stable-v6.19:
-    10 builds:	10 pass, 0 fail
-    28 boots:	28 pass, 0 fail
-    133 tests:	133 pass, 0 fail
+> Tested by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> > > ---
+> > >   drivers/pci/controller/dwc/pci-imx6.c         | 12 ++++++------
+> > >   drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  6 +++---
+> > >   drivers/pci/controller/dwc/pcie-tegra194.c    |  8 ++++----
+> > >   drivers/pci/controller/dwc/pcie-uniphier-ep.c |  4 ++--
 
-Linux version:	6.19.4-rc1-g88b880238ef8
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra186-p3509-0000+p3636-0001, tegra194-p2972-0000,
-                tegra194-p3509-0000+p3668-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+> I see BAR_RESERVED in pci-keystone.c driver in linux-next branch.
+> Do you have any patch which changed BAR_RESERVED to different type
+> in pci-keystone.c driver?
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+No, I did not change keystone, because that is the only DWC base glue driver
+that has never disabled these BARs by default.
 
-Jon
+I will add a TODO to the keystone driver:
+
+diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+index 20fa4dadb82a..576a78a9f6e5 100644
+--- a/drivers/pci/controller/dwc/pci-keystone.c
++++ b/drivers/pci/controller/dwc/pci-keystone.c
+@@ -933,6 +933,11 @@ static const struct pci_epc_features ks_pcie_am654_epc_features = {
+        DWC_EPC_COMMON_FEATURES,
+        .msi_capable = true,
+        .msix_capable = true,
++       /*
++        * TODO: BAR_RESERVED should either be replaced with BAR_DISABLED or,
++        * if the should continue to be enabled, then the driver should define
++        * what is behind the reserved BARs, see struct pci_epc_bar_rsvd_region.
++        */
+        .bar[BAR_0] = { .type = BAR_RESERVED, },
+        .bar[BAR_1] = { .type = BAR_RESERVED, },
+        .bar[BAR_2] = { .type = BAR_RESIZABLE, },
 
