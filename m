@@ -1,58 +1,58 @@
-Return-Path: <linux-tegra+bounces-12273-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12274-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CcTMbuZo2neHgUAu9opvQ
-	(envelope-from <linux-tegra+bounces-12273-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 02:43:23 +0100
+	id 0Lc1FWWno2mWJAUAu9opvQ
+	(envelope-from <linux-tegra+bounces-12274-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:41:41 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E6E1CB767
-	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 02:43:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFE01CDD00
+	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:41:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5B21C3105625
-	for <lists+linux-tegra@lfdr.de>; Sun,  1 Mar 2026 01:32:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 07856320A7BE
+	for <lists+linux-tegra@lfdr.de>; Sun,  1 Mar 2026 01:34:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4789D2C0F95;
-	Sun,  1 Mar 2026 01:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9965F2DCBFA;
+	Sun,  1 Mar 2026 01:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3SVUwmS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVW61yBw"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2431B29B793;
-	Sun,  1 Mar 2026 01:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764962C1788;
+	Sun,  1 Mar 2026 01:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328696; cv=none; b=qvnuPVr+lOjzmQDT2Y47nTw/v5rs8WGdyUu7reoYN7UMdKxWfHv0reG/T53ActZjytKCdSh9j0oesxbMxb4X7lWuMEDxtVxWRkd2mqbAWCe69TQmlj1tBlnmXEBgcgtw36eQ0OpM4znsMuT5eUVufSftjGXi898XuMLNmf4Fg44=
+	t=1772328780; cv=none; b=Z89jjob6D5DZyltJeGw7bvOC+kWspL+P9H5MYJQo5r4deKOwkDXz+BL6AHRClEcz4L4gUrB8fxRgcc8yabUMEi2PygVvNJPdMiq9geoGwkeegnomjNwE3+/xtOz5io9uoVUiHvbg56VAsyD2hCyLGNWQqPAfBJdrgzk7cUGVd+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328696; c=relaxed/simple;
-	bh=UxtPAQ21UmuEzxLDE8YLUSLd1uGoLTEQEMN5Ieh25aI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CTjFovXgafLXvxfZtenQTPCtKBqQIjtQEp+lqkcinug3niPIzRoSsDUaJLO3FyiepTVuT/z1PBUD1/Pwzn0I4+irAQSTzTUAgFn5IVJ8wxwUVJW81wS2ioOP9owao7Q1NoMVujrqPpht/GWXq5E7YuIi0xSypLGunzXGkdVQ/b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3SVUwmS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBCDC19421;
-	Sun,  1 Mar 2026 01:31:35 +0000 (UTC)
+	s=arc-20240116; t=1772328780; c=relaxed/simple;
+	bh=YprwY4GuCPHJiogG0GgbvQEZUMdlTc50FVsRCTE6+s0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P2HEHnGMO1eSXeHmHVKcoEo1zRPtGAGEYp67bG+9PZNIXJPXubEggBiUNDNNiV6Bz/Qmrz89DUzCW6EOaFW+psX/YNLgAktPImnpzIPdVECjITVWNEw+dIuHLA9uy58JHrZNHGJiFYpOy8qV2jR1HkybMgqZD6QcvIY8RoZhZ8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVW61yBw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3245C19421;
+	Sun,  1 Mar 2026 01:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328696;
-	bh=UxtPAQ21UmuEzxLDE8YLUSLd1uGoLTEQEMN5Ieh25aI=;
+	s=k20201202; t=1772328780;
+	bh=YprwY4GuCPHJiogG0GgbvQEZUMdlTc50FVsRCTE6+s0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=R3SVUwmSQ4MHY6+kAe5ztwsGzbUZGZ9RxwhMxCU277/1aGEPYSwzLgJjbb/cbxqlj
-	 iR/tQP+A4f9/ek3/mDy0XRMDN6hJAWswJ50tv0R09TTHeDMCHjKWKwwg0sEoLn8YvM
-	 yN4O5FpfCK49tHBf28SwCHptdSJkBWuH6P/vEFhxwBILdUpHU0SHZOf/VMqbFl+VLV
-	 L64Vclv8GT3WHb8WX11hOUTzg0Vb4zao/5wkl9NJYqPSjHOjrDYil84+lLG7kUErEe
-	 SZedx756XKgH81F4Qolyy/8D91G5Gr/Wab+Qlk43vvrPvF+LpCumTmZ3XuTO7VsOOm
-	 1iRVoe8jqUxUA==
+	b=YVW61yBwNQQFtvxdV3VMyyRaflV0hpZawhKtX1sANm3xR9RgtJBfi4uI2hdyk4Rj2
+	 97DRGLonsn7KNaODdM/LTaSMdT1BS99u9QB7RwqysTuZ6o6nHoTXwhwF99KiJ8s/Np
+	 +3m7cmpAnVqxSGLdhiuTPOBR7RKLNuEqQXrG6pzxVS2lywLxdDHvFM7Awq22P7qtTT
+	 XSnDCMUJ56JJJNbNsnh+F8mEsPSNRr0yRoASAD6FUIYdsvcvYcUI28cFnEERnrclIb
+	 NZ02tES0Ue2V4DQSmxNSiRFNkkXxkNwfLi0HZ7oAND7epODWc8zZYczynYiW8IfkML
+	 sD45DOnnXCPKg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	zilin@seu.edu.cn
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:31:33 -0500
-Message-ID: <20260301013134.1690109-1-sashal@kernel.org>
+	lihaoxiang@isrc.iscas.ac.cn
+Cc: Brian Masney <bmasney@redhat.com>,
+	Thierry Reding <treding@nvidia.com>,
+	linux-clk@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: FAILED: Patch "clk: tegra: tegra124-emc: Fix potential memory leak in tegra124_clk_register_emc()" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:32:58 -0500
+Message-ID: <20260301013258.1692111-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
@@ -64,35 +64,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12273-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12274-lists,linux-tegra=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,seu.edu.cn:email]
-X-Rspamd-Queue-Id: 39E6E1CB767
+	TAGGED_RCPT(0.00)[linux-tegra];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: ECFE01CDD00
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -105,76 +104,39 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 43e5302d22334f1183dec3e0d5d8007eefe2817c Mon Sep 17 00:00:00 2001
-From: Zilin Guan <zilin@seu.edu.cn>
-Date: Fri, 14 Nov 2025 09:12:57 +0000
-Subject: [PATCH] media: tegra-video: Fix memory leak in
- __tegra_channel_try_format()
+From fce0d0bd9c20fefd180ea9e8362d619182f97a1d Mon Sep 17 00:00:00 2001
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Date: Thu, 15 Jan 2026 13:05:42 +0800
+Subject: [PATCH] clk: tegra: tegra124-emc: Fix potential memory leak in
+ tegra124_clk_register_emc()
 
-The state object allocated by __v4l2_subdev_state_alloc() must be freed
-with __v4l2_subdev_state_free() when it is no longer needed.
+If clk_register() fails, call kfree to release "tegra".
 
-In __tegra_channel_try_format(), two error paths return directly after
-v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
-object. This violates the requirement and causes a memory leak.
-
-Fix this by introducing a cleanup label and using goto statements in the
-error paths to ensure that __v4l2_subdev_state_free() is always called
-before the function returns.
-
-Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
-Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+Fixes: 2db04f16b589 ("clk: tegra: Add EMC clock driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Reviewed-by: Brian Masney <bmasney@redhat.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/clk/tegra/clk-tegra124-emc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index c9276ff76157f..14b327afe045e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
- 	};
- 	struct v4l2_rect *try_crop;
--	int ret;
-+	int ret = 0;
+diff --git a/drivers/clk/tegra/clk-tegra124-emc.c b/drivers/clk/tegra/clk-tegra124-emc.c
+index 2a6db04342815..0f6fb776b2298 100644
+--- a/drivers/clk/tegra/clk-tegra124-emc.c
++++ b/drivers/clk/tegra/clk-tegra124-emc.c
+@@ -538,8 +538,10 @@ struct clk *tegra124_clk_register_emc(void __iomem *base, struct device_node *np
+ 	tegra->hw.init = &init;
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
- 	if (!subdev)
-@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		} else {
- 			ret = v4l2_subdev_call(subdev, pad, get_selection,
- 					       NULL, &sdsel);
--			if (ret)
--				return -EINVAL;
-+			if (ret) {
-+				ret = -EINVAL;
-+				goto out_free;
-+			}
+ 	clk = clk_register(NULL, &tegra->hw);
+-	if (IS_ERR(clk))
++	if (IS_ERR(clk)) {
++		kfree(tegra);
+ 		return clk;
++	}
  
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
-@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 
- 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
- 	if (ret < 0)
--		return ret;
-+		goto out_free;
- 
- 	v4l2_fill_pix_format(pix, &fmt.format);
- 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
- 
-+out_free:
- 	__v4l2_subdev_state_free(sd_state);
- 
--	return 0;
-+	return ret;
- }
- 
- static int tegra_channel_try_format(struct file *file, void *fh,
+ 	tegra->prev_parent = clk_hw_get_parent_by_index(
+ 		&tegra->hw, emc_get_parent(&tegra->hw))->clk;
 -- 
 2.51.0
 
