@@ -1,59 +1,59 @@
-Return-Path: <linux-tegra+bounces-12290-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12291-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEjqM2Ojo2mRIwUAu9opvQ
-	(envelope-from <linux-tegra+bounces-12290-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:24:35 +0100
+	id 4CfNIJ6fo2k3IQUAu9opvQ
+	(envelope-from <linux-tegra+bounces-12291-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:08:30 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E431CD874
-	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:24:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCD31CD0D1
+	for <lists+linux-tegra@lfdr.de>; Sun, 01 Mar 2026 03:08:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EFED8330E2AD
-	for <lists+linux-tegra@lfdr.de>; Sun,  1 Mar 2026 02:01:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 395443047BF8
+	for <lists+linux-tegra@lfdr.de>; Sun,  1 Mar 2026 02:02:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A1D2F39BE;
-	Sun,  1 Mar 2026 02:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 641A02FE07D;
+	Sun,  1 Mar 2026 02:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tQ9hGwIO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAPZj5WU"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31B2259C80;
-	Sun,  1 Mar 2026 02:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410392FB969;
+	Sun,  1 Mar 2026 02:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772330507; cv=none; b=hypGQ1a1uKeqc69ksV5ZtGycAFXEt+YD2MHXvHWKCpz+6bKLZUsLRz0XF06xC2Hisb7BRhFhH0e1y5kjp2YFGHIMNPViZu/sLdqLeab93R8awh7/uog/6TYg8OR5jnnlBid5Rd3H7nbL4k4jVPlj83g3S+dVYP7Md+CLGuKjm/4=
+	t=1772330548; cv=none; b=DdYPvdUDBcKCK68eWEDpvRfyQODn7vrm1Vim8h7hCo6TSBv4U7rXYlHrko5j1BJoR5TyMTiiE9pm+HYVkAeUuO60B/MDvFBCSOBMksQYE4cC3cMP2fjdl7vk4Uiuugd+n6hGkGnfR+SzFpjPCMMnIWkm4R3js40BQwH01/7a1rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772330507; c=relaxed/simple;
-	bh=MIyWhPSW/rf0+IdLSpVGnEEI82crPdbVtRJCTh+JDJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H9FCPkOQ8sG0mflQuTYq8AaDut9O3oesVM8udhJSxRy9xe3s76/e7ji2v2UUp5v2YPKr9frpTBwBmfOkb/AVbkFM6g1R0txTb7r0kyy0dNxTgr5po+hxaxJswq1+v5q899jQnQCgxu/kWBFeGL8vmvbEi0BDRawgtp0ejkrsXXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tQ9hGwIO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF79C19421;
-	Sun,  1 Mar 2026 02:01:46 +0000 (UTC)
+	s=arc-20240116; t=1772330548; c=relaxed/simple;
+	bh=KmH3hkbiOh3+edAF/MqRkL0Vdzpm6Hb8w7j2lmfhbv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A91mmqI2P0pFl941+MNiXD5qxhPJ9UZchhtzW4ctiKl1fcywEgmY5ZupV7ruSpu2s1IZ/P3GE9CksAbmyFdw5PEbGXQ2E5wAy+AQOYJy1XGRlB701oCLyn9+d6HfqV+UJXU3ZEwbXvOdnBYDz+NEU6alGVm4qCTMZG/HTiuYzKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAPZj5WU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B428C19421;
+	Sun,  1 Mar 2026 02:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772330507;
-	bh=MIyWhPSW/rf0+IdLSpVGnEEI82crPdbVtRJCTh+JDJs=;
+	s=k20201202; t=1772330548;
+	bh=KmH3hkbiOh3+edAF/MqRkL0Vdzpm6Hb8w7j2lmfhbv8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=tQ9hGwIODz+4SIPtWYLYZaahPaC/6hn9b89yHO+Vcb53L4V5BVC30KXgC7dck3rBU
-	 V1Q/w/ZGNR7uqcGEDlF5qDYxeAzKwJemxtbiKT7BaH05AOb1m/lLTci3EI6i6vgiLR
-	 E+KokeTfIrk0ZVx6nBNSAnMdHhfxQJIq1jLeMHDPQijhmTH2lyBV7BuyUUs1AvL1Zv
-	 0Lp0aUuWkj6aZUP89b8oZqvUc83Vw1ogKT5ZYQ7a5Q42L62Yp4lTc2ZnPAhCxCHahB
-	 YY2umXnkobrFkZUqu1arcekFEg+Zr2Lu4I2vzg2bGXKsLm6ocU4TWt6Z8lA8Bb28Er
-	 yCKkdOxVCz8Dg==
+	b=JAPZj5WU4nLeT5NQtrZCDDLsUMYbgaZH3wLo8HBaYNVGYP4YpPbcbS9NtDqlRkPvy
+	 akt7e8vumhjGg3His2mEDWcPWVRvE+eL1c3yWUY1iep/VM1Ha8qgkrF8h+liMABMgz
+	 I/ap88qlif9tjf1WGv2j7WxX+ZF0Mo0RPxA6xbZ6/SCJLW7eLwQQaKZw2JOeJyn3tI
+	 WGm+yu4Gt0HdPx3gCo9WTxbL3vKQhIMjeJHhWiAamcNlUCDo3IWyc9czMsGiSRWbss
+	 STNgkvuzTh21+K7WY0argdmsBfKP5Y0AGg/6Ri9Ik/Pl76UHafVML/P1UoXqge8tbe
+	 yukmORmZJHyBQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	johan@kernel.org
-Cc: Mikko Perttunen <mperttunen@nvidia.com>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-clk@vger.kernel.org,
+	haotienh@nvidia.com
+Cc: stable <stable@kernel.org>,
+	Wayne Chang <waynec@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: FAILED: Patch "clk: tegra: tegra124-emc: fix device leak on set_rate()" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:01:45 -0500
-Message-ID: <20260301020145.1729141-1-sashal@kernel.org>
+Subject: FAILED: Patch "usb: gadget: tegra-xudc: Add handling for BLCG_COREPLL_PWRDN" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:02:25 -0500
+Message-ID: <20260301020226.1730162-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
@@ -68,32 +68,31 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nvidia.com,gmail.com,kernel.org,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12290-lists,linux-tegra=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-tegra@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12291-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-tegra@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 56E431CD874
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxfoundation.org:email,msgid.link:url]
+X-Rspamd-Queue-Id: ECCD31CD0D1
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -106,42 +105,73 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From da61439c63d34ae6503d080a847f144d587e3a48 Mon Sep 17 00:00:00 2001
-From: Johan Hovold <johan@kernel.org>
-Date: Fri, 21 Nov 2025 17:40:03 +0100
-Subject: [PATCH] clk: tegra: tegra124-emc: fix device leak on set_rate()
+From 1132e90840abf3e7db11f1d28199e9fbc0b0e69e Mon Sep 17 00:00:00 2001
+From: Haotien Hsu <haotienh@nvidia.com>
+Date: Sat, 24 Jan 2026 01:31:21 +0800
+Subject: [PATCH] usb: gadget: tegra-xudc: Add handling for BLCG_COREPLL_PWRDN
 
-Make sure to drop the reference taken when looking up the EMC device and
-its driver data on first set_rate().
+The COREPLL_PWRDN bit in the BLCG register must be set when the XUSB
+device controller is powergated and cleared when it is unpowergated.
+If this bit is not explicitly controlled, the core PLL may remain in an
+incorrect power state across suspend/resume or ELPG transitions.
+Therefore, update the driver to explicitly control this bit during
+powergate transitions.
 
-Note that holding a reference to a device does not prevent its driver
-data from going away so there is no point in keeping the reference.
-
-Fixes: 2db04f16b589 ("clk: tegra: Add EMC clock driver")
-Fixes: 6d6ef58c2470 ("clk: tegra: tegra124-emc: Fix missing put_device() call in emc_ensure_emc_driver")
-Cc: stable@vger.kernel.org	# 4.2: 6d6ef58c2470
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Miaoqian Lin <linmq006@gmail.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Stephen Boyd <sboyd@kernel.org>
+Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device mode controller")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Haotien Hsu <haotienh@nvidia.com>
+Signed-off-by: Wayne Chang <waynec@nvidia.com>
+Link: https://patch.msgid.link/20260123173121.4093902-1-waynec@nvidia.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/clk/tegra/clk-tegra124-emc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/tegra-xudc.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/clk/tegra/clk-tegra124-emc.c b/drivers/clk/tegra/clk-tegra124-emc.c
-index 2a6db04342815..2777e70da8b99 100644
---- a/drivers/clk/tegra/clk-tegra124-emc.c
-+++ b/drivers/clk/tegra/clk-tegra124-emc.c
-@@ -197,8 +197,8 @@ static struct tegra_emc *emc_ensure_emc_driver(struct tegra_clk_emc *tegra)
- 	tegra->emc_node = NULL;
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 9d2007f448c04..7f7251c10e952 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -3392,17 +3392,18 @@ static void tegra_xudc_device_params_init(struct tegra_xudc *xudc)
+ {
+ 	u32 val, imod;
  
- 	tegra->emc = platform_get_drvdata(pdev);
-+	put_device(&pdev->dev);
- 	if (!tegra->emc) {
--		put_device(&pdev->dev);
- 		pr_err("%s: cannot find EMC driver\n", __func__);
- 		return NULL;
++	val = xudc_readl(xudc, BLCG);
+ 	if (xudc->soc->has_ipfs) {
+-		val = xudc_readl(xudc, BLCG);
+ 		val |= BLCG_ALL;
+ 		val &= ~(BLCG_DFPCI | BLCG_UFPCI | BLCG_FE |
+ 				BLCG_COREPLL_PWRDN);
+ 		val |= BLCG_IOPLL_0_PWRDN;
+ 		val |= BLCG_IOPLL_1_PWRDN;
+ 		val |= BLCG_IOPLL_2_PWRDN;
+-
+-		xudc_writel(xudc, val, BLCG);
++	} else {
++		val &= ~BLCG_COREPLL_PWRDN;
  	}
++	xudc_writel(xudc, val, BLCG);
+ 
+ 	if (xudc->soc->port_speed_quirk)
+ 		tegra_xudc_limit_port_speed(xudc);
+@@ -3953,6 +3954,7 @@ static void tegra_xudc_remove(struct platform_device *pdev)
+ static int __maybe_unused tegra_xudc_powergate(struct tegra_xudc *xudc)
+ {
+ 	unsigned long flags;
++	u32 val;
+ 
+ 	dev_dbg(xudc->dev, "entering ELPG\n");
+ 
+@@ -3965,6 +3967,10 @@ static int __maybe_unused tegra_xudc_powergate(struct tegra_xudc *xudc)
+ 
+ 	spin_unlock_irqrestore(&xudc->lock, flags);
+ 
++	val = xudc_readl(xudc, BLCG);
++	val |= BLCG_COREPLL_PWRDN;
++	xudc_writel(xudc, val, BLCG);
++
+ 	clk_bulk_disable_unprepare(xudc->soc->num_clks, xudc->clks);
+ 
+ 	regulator_bulk_disable(xudc->soc->num_supplies, xudc->supplies);
 -- 
 2.51.0
 
