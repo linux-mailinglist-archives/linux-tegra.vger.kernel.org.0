@@ -1,159 +1,203 @@
-Return-Path: <linux-tegra+bounces-12316-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12318-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NNYDIxYpWnj9wUAu9opvQ
-	(envelope-from <linux-tegra+bounces-12316-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 10:29:48 +0100
+	id ODolHdtgpWlX/AUAu9opvQ
+	(envelope-from <linux-tegra+bounces-12318-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 11:05:15 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC271D58EB
-	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 10:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF9B1D6022
+	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 11:05:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 627993008A76
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2026 09:26:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA1573049242
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2026 10:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB58D38CFE8;
-	Mon,  2 Mar 2026 09:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8F9C392C58;
+	Mon,  2 Mar 2026 10:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X6xbHYjB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+MpGq1d"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F0938A705
-	for <linux-tegra@vger.kernel.org>; Mon,  2 Mar 2026 09:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF4F38F93E;
+	Mon,  2 Mar 2026 10:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443580; cv=none; b=Z7E5/Rf8ogAMzw4uTfWI0oIRPGMY5PvDbkLI85WEn7KZhZLTE53NQE96HP8IvGF2pX5yIJYtIvpTlXMRQNOZL+pOfNkM4b+SvP2v93r07xsocv6rqmd5qBJHd6iuoT+Q/722MAizZeSb2amqYEqSG/6GOULUmIUzQLnkpestuQ4=
+	t=1772445602; cv=none; b=GW1V+9RpID5bVMh2K1U3SAwpAi5KLT2pRjdCZl6StuWb3V9ehS5dKRT+8rNwhzeVRhlMQ91ZYGq7YDOg0PZaNhavzQIZ5BQob4TSpzvlobaIjeeXqJqTeNuHPyPaP3UuN33k1rakg+c5jQNjJVdjRFmEvxEs6SfKgkJuHfu2GNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443580; c=relaxed/simple;
-	bh=NvlfqQkFSjiKefhGJg1nl4VUtTSqxowA+e2w6Haf9IU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4lxIBnsKaZ+Uziz7SfU+Nz+mPKqfjBmpEhEqJJvcz4KceyYeffF8bXRH+km2trBdVzLCjWaN8w3tqvlNrvUln07cDmIQGU6bUIN6ZNjlaOUkj88yvrEG41g43wjz3lUwOP07eva4XEKNCdJAek2GHdl5uefwkYFklnOAMUfelA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X6xbHYjB; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-483703e4b08so36616685e9.1
-        for <linux-tegra@vger.kernel.org>; Mon, 02 Mar 2026 01:26:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772443578; x=1773048378; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
-        b=X6xbHYjBBMbIc1HYXMx9KPgwRFm5AuJV8rkuFMkIqLoDh2Gw1Cgy00KJWZcr+B+SVc
-         KVsWvl/mN2wFCh3V9TRcB7pgc8IT0zq0H5Gn03bZKV0/O3U8pOv3532OqwUURkqXsnCv
-         8Dr0oa6I/dJ4aAuXF5CS/88HWjEdpfGE+jsEsyPjIq/9C4//dqwCW9emdCVovMA+IcTq
-         FEChXHnRZc+qD2U3JAI5zbrnSWmO57dbnfcLcHplbueQEdw8peR9NpDWz1KBO03NGLt5
-         La/op+yLkPrapNusYiSwrQoScLgda1zw7MkvO0V81SBD4mvbDyTwZH9P4g1jotQXHF6u
-         NOPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772443578; x=1773048378;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
-        b=fpZ6do3gYo9jaFiGP9w9b5YZBGsfLtdpidt43vdmbNyvvr7nNMkRJr8W5AXXCTpUXy
-         7oaJT1fD0xL149sdw0ZrlgOBtUkO8AXsW9ENn2lwKU724Ud+Infb9tHj8YnyDfFcm+wd
-         EqWmfxnVZhoDq5nRW3GwdFLbosTKAGB/bKwgQZxEn3i60MaSdd/bh6iT8URptjFaoC+2
-         XvKnDnTZ6abcZHsnOHvPRxOlF5DgzATj8PbrZTMYkYYvPyCkxIitE161sG9jLlSfCaCh
-         i9gH+a7B18OHs09HPWukIVe4Hu6yDcnBWNpN8sMxCL4XNyIMXjgQZqeM5uPOZluwdge8
-         53ww==
-X-Forwarded-Encrypted: i=1; AJvYcCWtp8sPEg2LdYbifX4FzJLnWy4VvjSvHzxxKrxT3rzpLFiyFxFMlGnH5m7JXDoANzInpGQ3fGr7z4xPCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YykwqrU6BAm72oAdmH5e4cZqFo5Y7THjCWxM2nE40WZ4ELclpjN
-	BlRxL3vhThOgHFeJdy4jX+4c+tZmvyZLZQTatPajQhzOnWPqZ906NrzcSbbTBqNB+39bc93dXJE
-	G4+3l
-X-Gm-Gg: ATEYQzxl05C386/sdj84RQd1pV1c1jZzMZE/mujoR//ba1FWipTJoZyUOnI7OWMS9kY
-	PSpYDPTcge5F+NA88qNQEWGC16hbBUvYt6mIsNWdyY72tc45Glba3ChKOiHvA6gLcWIh5sCZytF
-	pRnJ+qf8Dm+PF4W4bet+jVYTD/j0nvCBSwqejqzKjQtQfRi2da5wKXqmZcZfo1O1eIbevjBYXI8
-	cSDZ1xU4k/XqgX1DODDgpTgT5om7rD/WwLOtaJclbLp1qcMy48dyn3rszHWoOky+mEypdc3w1ji
-	4Uo0brf7WHbPT529FeNO3wiuXvtt0u4KMlCZ8EvvrCdNE644tvcHnXYdzYJL0VTsPa4lY4Aklex
-	PQvEa+Q2oFzxIZ1f9cxVembktArVeEpb9mawYBav8AAfmShoeoXmjk2O9r9b6PAO5j8wCoWxmD+
-	bqeCxom2pKQAj+dCkig7ITy/NXTd80LcsypQIbxKQ=
-X-Received: by 2002:a05:600c:c8c:b0:479:1348:c63e with SMTP id 5b1f17b1804b1-483c992e3a4mr187337525e9.9.1772443577584;
-        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b0549600sm11507548f8f.35.2026.03.02.01.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
-Date: Mon, 2 Mar 2026 12:26:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Soham Kute <officialsohamkute@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: kbd: use -EINVAL instead of -1
-Message-ID: <aaVXtbHMfUFJW_Tu@stanley.mountain>
-References: <20260228202008.40063-1-officialsohamkute@gmail.com>
+	s=arc-20240116; t=1772445602; c=relaxed/simple;
+	bh=IoPwRnzhcjgMfGxBVDJ5aughrS0y6ra32/Xy0hY7TLw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l1J78x2352vmpvXR7l19zFyy+tqrwninm5tZPspj00iT1gHoJTf6+REcM1mAZypvr3gEOYIIY//NhM4yyenPtftgydsyShf1fmlURHHHB6oDaHidB+TOf5twX4y9+NnxBRMXL6VmGUn7GiF+C0hSLv8sbt+ASsG1mi0RxeNNeXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+MpGq1d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A15C19423;
+	Mon,  2 Mar 2026 09:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772445602;
+	bh=IoPwRnzhcjgMfGxBVDJ5aughrS0y6ra32/Xy0hY7TLw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=c+MpGq1dnuTjUI7f0FrIbg04S4ve5/201mDbKqansVCUw6ROye6c/d1QelKslSjbF
+	 nba0cVLK3eHGlu7U4FA/t8bBHPJoMpo73cDxG0l8/SCtcSRTaEkNqbuzWgwdMpTYRZ
+	 Lg/THWXWHObfMlWayI3hhx+JkkDlWbVyNZyrBMWUSnXauUHohb7Y878keSZs/kSMUM
+	 48PxGoCsSYXBKycQxMj0s4ihGAHFiYZxyv2Ki8nhknqS7avD0DtBgGwMAJOw7zi0tC
+	 8vlwUS9HXOWiK1eYWUSuxV1u1QJgKxdXP1R9e4c0vILJtRJUDRweH2sW7Q7QOaigUI
+	 4V9PxzbbkBD/Q==
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>,
+	Roy Zang <roy.zang@nxp.com>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Christian Bruel <christian.bruel@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+	Koichiro Den <den@valinux.co.jp>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-pci@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v3 0/9] PCI: endpoint: Differentiate between disabled and reserved BARs
+Date: Mon,  2 Mar 2026 10:59:12 +0100
+Message-ID: <20260302095913.48155-11-cassel@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260228202008.40063-1-officialsohamkute@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2516; i=cassel@kernel.org; h=from:subject; bh=IoPwRnzhcjgMfGxBVDJ5aughrS0y6ra32/Xy0hY7TLw=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDKXxheqFho7TVV4vZNPP2u59rS1LzakLTaM+X7/asqxv n3T7iV86yhlYRDjYpAVU2Tx/eGyv7jbfcpxxTs2MHNYmUCGMHBxCsBElIMYGd7tY5/em1zZdO3m KzvfZ+eOlx/NEF/1eubppbbZQi1PLHgY/mmxcaU+WXH5k4/jHZ8DVSILb83YIv9r9unVb5p6300 KuckHAA==
+X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmx.de,linuxfoundation.org,lists.launchpad.net,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-12316-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	TAGGED_FROM(0.00)[bounces-12318-lists,linux-tegra=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,arndb.de,linuxfoundation.org,ti.com,google.com,nxp.com,pengutronix.de,gmail.com,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-tegra@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.989];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_GT_50(0.00)[51];
+	TAGGED_RCPT(0.00)[linux-tegra,renesas];
+	NEURAL_HAM(-0.00)[-0.999];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AEC271D58EB
+X-Rspamd-Queue-Id: 1EF9B1D6022
 X-Rspamd-Action: no action
 
-On Sun, Mar 01, 2026 at 01:50:08AM +0530, Soham Kute wrote:
-> Return proper error code -EINVAL instead of -1 when
-> the event type or code is not supported.
-> 
-> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
-> ---
+Hello all,
 
-Could you do some analysis to see if this affects runtime?  You'll need
-to review the callers to see what they do with error codes.  In this
-case they ignore them.
+This series was originally written in response to the patch series from
+Manikanta Maddireddy that was posted here:
+https://lore.kernel.org/linux-pci/291dab65-3fa6-4fc8-90a2-4ad608ca015c@nvidia.com/T/#t
 
-One thing which could help would be to build the Smatch cross function
-DB.  But it takes a long time so do it overnight.
-https://github.com/error27/smatch
-https://github.com/error27/smatch/blob/master/Documentation/smatch.rst
-cd ~/path/to/kernel_dir ~/path/to/smatch_dir/smatch_scripts/build_kernel_data.sh
+Manikanta has reviewed V1 and will send a small series on top of this one.
 
-$ ~/progs/smatch/devel/smatch_data/db/smdb.py nvec_kbd_event | grep INTER
-drivers/input/input.c |  input_event_dispose | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/hid/hid-holtek-kbd.c | holtek_kbd_input_event | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-$
 
-regards,
-dan carpenter
+Changes since v2:
+-Picked up tags from Frank and Koichiro (thank you)
+-Fixed a comment in pcie-dw-rockchip.c to no longer reflect the old
+ definition of BAR_RESERVED.
+
+Link to v2:
+https://lore.kernel.org/linux-pci/20260225170324.4033466-11-cassel@kernel.org/
+
+
+Koichiro Den (2):
+  PCI: endpoint: Describe reserved subregions within BARs
+  PCI: dw-rockchip: Describe RK3588 BAR4 DMA ctrl window
+
+Niklas Cassel (7):
+  PCI: endpoint: Introduce pci_epc_bar_type BAR_64BIT_UPPER
+  PCI: endpoint: Introduce pci_epc_bar_type BAR_DISABLED
+  PCI: dwc: Replace certain BAR_RESERVED with BAR_DISABLED in glue
+    drivers
+  PCI: dwc: Disable BARs in common code instead of in each glue driver
+  PCI: endpoint: pci-epf-test: Advertise reserved BARs
+  misc: pci_endpoint_test: Give reserved BARs a distinct error code
+  selftests: pci_endpoint: Skip reserved BARs
+
+ drivers/misc/pci_endpoint_test.c              | 21 ++++++++-
+ drivers/pci/controller/dwc/pci-dra7xx.c       |  4 --
+ drivers/pci/controller/dwc/pci-imx6.c         | 22 +++------
+ drivers/pci/controller/dwc/pci-keystone.c     | 12 +++++
+ .../pci/controller/dwc/pci-layerscape-ep.c    |  8 +---
+ drivers/pci/controller/dwc/pcie-artpec6.c     |  4 --
+ .../pci/controller/dwc/pcie-designware-ep.c   | 24 ++++++++++
+ .../pci/controller/dwc/pcie-designware-plat.c | 10 -----
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c | 23 ++++++----
+ drivers/pci/controller/dwc/pcie-keembay.c     |  6 +--
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     | 14 +-----
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 16 ++-----
+ drivers/pci/controller/dwc/pcie-stm32-ep.c    | 10 -----
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 20 +++------
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c | 24 +++-------
+ drivers/pci/controller/pcie-rcar-ep.c         |  6 +--
+ drivers/pci/endpoint/functions/pci-epf-test.c | 24 ++++++++++
+ drivers/pci/endpoint/pci-epc-core.c           |  6 ++-
+ include/linux/pci-epc.h                       | 45 +++++++++++++++++--
+ .../pci_endpoint/pci_endpoint_test.c          |  4 ++
+ 20 files changed, 175 insertions(+), 128 deletions(-)
+
+
+base-commit: 36bfc3642b19a98f1302aed4437c331df9b481f0
+-- 
+2.53.0
 
 
