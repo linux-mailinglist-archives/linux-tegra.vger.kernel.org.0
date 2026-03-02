@@ -1,154 +1,111 @@
-Return-Path: <linux-tegra+bounces-12297-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12298-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mC3NNZXqpGmhvgUAu9opvQ
-	(envelope-from <linux-tegra+bounces-12297-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 02:40:37 +0100
+	id +XfeH3nrpGlJvwUAu9opvQ
+	(envelope-from <linux-tegra+bounces-12298-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 02:44:25 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536B51D255F
-	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 02:40:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F324F1D2583
+	for <lists+linux-tegra@lfdr.de>; Mon, 02 Mar 2026 02:44:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1E024300B3CB
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2026 01:40:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 83440300C021
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2026 01:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EB51EF39E;
-	Mon,  2 Mar 2026 01:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761A2201004;
+	Mon,  2 Mar 2026 01:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUDoGrrf"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="T6wP22+a"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB96926059D
-	for <linux-tegra@vger.kernel.org>; Mon,  2 Mar 2026 01:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46829AD24;
+	Mon,  2 Mar 2026 01:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772415632; cv=none; b=pNkt1MRONTAWwhAskETMGZ7CvJeN5inE5+fU55p1ByzC3MzONF5GI8NnBiuAgCpDwFQiAQK0o/xW6T92EA4bMzLJpOO9ApNsp2I6R9EA8EhWwczpfLNNw/nRLNkrZsqwn+FkLiwrGB0lxDGMPxKJOUEfXzxdSxjsE48xLZoBsTA=
+	t=1772415862; cv=none; b=VzytEQT7jwVScp73c1puyhHgYWup3yuY+Kg8fgpz9bGem0gnArumWgQsRF05K6LDgsJCLnjQ95uNXVuEGEhG+y/PonUOi95CSU+Am+yioiRr+RpG45gBn/+F8+Rtib4hlBWGa9JTsS2ncllzYgxe/l29WpEtyylIG5DnfH0K9LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772415632; c=relaxed/simple;
-	bh=hNvj2yEzCce56qoFy0W7uNGb06SsP1dL/bz98LdIJLE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fDG0AXLrnlYFFbw3gmmDOCWqL6UuQUOM2SuTIXoS78IEbgvzO9S0+KmKlmw6h/m7aO35BHNI93bqXYsl42IJxKJa8DFQalXCQ6CfzG6LM4LsqBN+nG8Wa/4xfXCk/QYHN06vcselUzvXhIL+bAMRGPRgLEBLQ8Evn49nhZu70R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUDoGrrf; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-827390e8a3cso2486338b3a.0
-        for <linux-tegra@vger.kernel.org>; Sun, 01 Mar 2026 17:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772415631; x=1773020431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dvrkUmWHzhfCud6PY8kab8MNaXmWzLWwzkb0HLaVbo=;
-        b=bUDoGrrfoUYcV1CvBRUAKHlX7W0DMVRgbJ7GCFj8NP9WsDMdT9RderxARQXKhFn5nj
-         owjKRpN5/3zMAnWAIvClRL5BGl5SjiCYp2htUwd7NKHfts3hmdJ05LrX8Ao2Is4RcKBf
-         GrrYVR96hjn9Nj21aNUKEeluowLplsuv7ai+IzVFNYRyR4SvhM0N65vpRwaiH2c9bJ5E
-         VkxV+3Ach8fMD3M5TJOjPgzycIJMy2rP/SUCUIjf0eitVY60CGmscU6bLSsrhB5v5iyJ
-         Vw0itkiR67LnTpUk/BKsHXLpNOFfh3Bd98rUb2t2pVidTrrC+UBpLBWkXhxEJRaMoOR/
-         B0ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772415631; x=1773020431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+dvrkUmWHzhfCud6PY8kab8MNaXmWzLWwzkb0HLaVbo=;
-        b=N6ATjT74+pbqApdZwxqhxcwD2LR7RTaLKtNrp/bK0Z4+L1Nl47+rRo9izTLb9hbYox
-         pkPMxL5nFoCWtAmrH9wwIoF5BzYu8PO7lP7kehbREMdSddb9JSbdln2rPq+5w//gyLIf
-         4Ml3kuT+B6N+WyJ1/sZWLhvJLOUj05meWBqSsr5V0yIsOIT9zgATapHUwlBvM9NJ15Nt
-         RZFIeq+jyOxCU9SJh8ZQX3EPwJFca6I1n+t5+3mxs9zu77zGTuLFapxJEnGCxyAVY4OX
-         YjJXo0jbhQucKs8xGbSY08M5uIW0GPUT+rCX0sIPZtYqO+LC9lCx0dswGNzRaqI257Us
-         5tVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPuKv8h+7Z8m8QeRImaavs9GgbhpYl5UbdZoy9cT2ZNWc7yNZvzyJGUxgApzcVuh2OfaBlpA4LhseSsQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPM7YzXx3PHlPY9iuOQ1jLnVIceApfQjVYVt+rPFLEJnSRDnxJ
-	2sgHhWunXFfZr9y6kXvqVOlxmFjKmggxQ1ljasMN8u5dMAu5SNWpTvZi
-X-Gm-Gg: ATEYQzwz/PTyJhcacB99RKLX0WJItS+jVREjeQx5dvwjZI22Jy4yOpDflV7GghPeKgk
-	GyYqa97Dq2lGxkNp+Q/y3CckMqY7xXwnCmZQjdQQ8YBOKe588FViyOEC2Wq0nitZczsjqcLJz8I
-	qADdMBSnIYjHJ0HbzaGf0UJMhe51uc1rH0ApLOGIX3oi9WfNHx2YpJB4V5Q+U1Q4qhitDK1uHyx
-	R1an6Ipi4O7/yBFFpW/W33Uuat0d+RG7XbWwMi+BuvaZjsC1S1RU2hBxXpigVUNxILqHuxpcVDU
-	u1B/cBVFHljC6IJfXkyL8uPcDMrumHNpFjInoFBa4s2ylWv2PXCi1JgQWhYSlx6UVt0EeVm5tTM
-	mBjTshVu7RbNDp+BdNyYB++yQcroRyJXe6IZ5mAC+l5z2U+2wC5VFhOV8gnpP7VeW4ZBrnmqAD/
-	ImhVL5f2DI0kdZwrWPa6HOqFH5Sr0=
-X-Received: by 2002:a05:6a00:2296:b0:827:300e:f617 with SMTP id d2e1a72fcca58-8274dade073mr10934507b3a.7.1772415630868;
-        Sun, 01 Mar 2026 17:40:30 -0800 (PST)
-Received: from linux-dev.. ([104.28.157.64])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a029b13sm11773236b3a.50.2026.03.01.17.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 17:40:30 -0800 (PST)
-From: Afkari Zergaw <afkarizergaw12@gmail.com>
-To: marvin24@gmx.de,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Afkari Zergaw <afkarizergaw12@gmail.com>
-Subject: [PATCH] staging: nvec: fix block comment style
-Date: Mon,  2 Mar 2026 01:40:15 +0000
-Message-ID: <20260302014015.3853-1-afkarizergaw12@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1772415862; c=relaxed/simple;
+	bh=zWyo4+FBMrEpXIw4GlJX+AnFXLDDUU4wgTagxUsYSis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=otcE5uczCphFtpJCwC/YvJbuB6KL4G1oUIpkzzF856xKY1vJtet8Hat7NXzUnL//+EUMY/JEw/c40TTwcTakoM+3doXtbKydO8Ifolg6n8VPDQbiea5NzbBLIAv0CL93uOWWdEkMQQzHd5bzZjZBKsVMV6U9yqq6gp0FVaYLRgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=T6wP22+a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98818C116C6;
+	Mon,  2 Mar 2026 01:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1772415861;
+	bh=zWyo4+FBMrEpXIw4GlJX+AnFXLDDUU4wgTagxUsYSis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T6wP22+aWkJft5sdu5Zb378pmJiG7dfAUUss+tSPHlJma+GMZ53s2RpRxNJKlvQAP
+	 T/+sQXIgd+gwvKsRFvawr/xxjSrimcEfxSmiOh+gcWrTINUDS2Pa3EBBXJP+7BEfWB
+	 78zqltVB/+yajjiOUS7ur+rtWG1sbxrMlElZbBJ8=
+Date: Sun, 1 Mar 2026 20:44:11 -0500
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Afkari Zergaw <afkarizergaw12@gmail.com>
+Cc: marvin24@gmx.de, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: KVM: fix punctuation for e.g. and i.e.
+Message-ID: <2026030143-next-plug-fcd5@gregkh>
+References: <20260302013610.3815-1-afkarizergaw12@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302013610.3815-1-afkarizergaw12@gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [2.34 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12297-lists,linux-tegra=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de,linuxfoundation.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[afkarizergaw12@gmail.com,linux-tegra@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12298-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmx.de,lists.linux.dev,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 536B51D255F
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F324F1D2583
 X-Rspamd-Action: no action
 
-Convert a block comment in nvec.c to follow the kernel block
-comment style where subsequent lines start with '*'.
+On Mon, Mar 02, 2026 at 01:36:09AM +0000, Afkari Zergaw wrote:
+> Add missing commas after "e.g." and "i.e." in the KVM API
+> documentation to improve readability and follow standard
+> punctuation usage.
+> 
+> Signed-off-by: Afkari Zergaw <afkarizergaw12@gmail.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Signed-off-by: Afkari Zergaw <afkarizergaw12@gmail.com>
----
- drivers/staging/nvec/nvec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Any reason you forgot to cc: the actual maintainers for this file?
+Please always use scripts/get_maintainers.pl for who to send patches to.
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index e9af66a08448..0e655f79ea4a 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
- 			to_send = nvec->tx->data[0];
- 			nvec->tx->pos = 1;
- 			/* delay ACK due to AP20 HW Bug
--			   do not replace by usleep_range */
-+			 * do not replace by usleep_range
-+			 */
- 			udelay(33);
- 		} else if (status == (I2C_SL_IRQ)) {
- 			nvec->rx->data[1] = received;
--- 
-2.43.0
+thanks,
 
+greg k-h
 
