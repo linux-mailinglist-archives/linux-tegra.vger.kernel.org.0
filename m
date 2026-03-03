@@ -1,176 +1,145 @@
-Return-Path: <linux-tegra+bounces-12405-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12406-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIzmFjvEpmn3TQAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12405-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 12:21:31 +0100
+	id YJqDHdzFpmn3TQAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12406-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 12:28:28 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CF71EDA81
-	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 12:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72FD1EDCB5
+	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 12:28:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A765D311A7BB
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2026 11:14:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45C913160B5E
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2026 11:20:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A2C23ECBFA;
-	Tue,  3 Mar 2026 11:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94BED423A72;
+	Tue,  3 Mar 2026 11:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="U5HyLv8P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J08A6Omr"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539F23EFD2D
-	for <linux-tegra@vger.kernel.org>; Tue,  3 Mar 2026 11:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00575425CFE;
+	Tue,  3 Mar 2026 11:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772536485; cv=none; b=eQO7JLtuGgKrRDEBlui8lZVZaHcIppdnCDrD/PM/YjmsK8XgafhmmPAi/R4xVFzexyv7SYE8VVbSgcGIh1zGFKYhAtTe+kvUxIllKBk0hZa6woVV/rZCqC7lHT++JQA2OHdXnCIbXusKQ/2AemmzzZ4CqZkBkyPBOAAynvusPdc=
+	t=1772536807; cv=none; b=rYqZI4pMbRwqNL9YZog7euaFnRkrqg9aRxYPVdbBTvYHUEZwuUg3kqHfgXmhvYOaJL5K45Wv1vd8Z6s7+Xho/jb5noU+JSSOkhzb2zDHWFE7yEAz1494va3U+4DBOor7PdEi9RY0YkgwDRfXLtxAqI6Ybz0jPJRMvCb4pKBT4u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772536485; c=relaxed/simple;
-	bh=lG/DZ3WywMxkW718njBWn7clqicbwq5XJkykLBVrlxU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hjJerhNsYl7v1etDlco9uNzqNCE9LcaGggKF7cVba8z3OzCvq7SR+pPA2h7cXUFwkZoSM2ZJ55t0BV37qdZeJLwwFNt0lAFwtyH1Q/xWnstKMrZUvGPR0tha8ZG1PrKn4ExnjpNT6DUf3l9HxV56hW09WO/e8hvGm15rH6GfnY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=U5HyLv8P; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4836f363ad2so65687015e9.1
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Mar 2026 03:14:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772536480; x=1773141280; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xgdv9fVdx/IEA9nZHRjuPZVXLrXBxXsiA90FmBdGMb0=;
-        b=U5HyLv8Pho13u/f+I/VS8HGivtUhBmlPHKZGs3ruUQ6tZPB5FMR9PB8JfJbVyZzpdn
-         903IE7AbTrVf+9p1ONpfCkGLXzyoCRSVP5AtHpX0vYjFYgNtDrAZWMqducZPC1Ff2enq
-         GoSF4iRStBYYrqDMbCmlfp1Oz6d8wEMMhwa/kq90qqMAIu6OQ03FJ0BbP8nrcLKV4IEM
-         SaWaiReST+XomkoO03wAYUxmzTMGZ8r6V3L5kM+H2zlPA8Zx0CLeGPEU4JXYzdjAAM7V
-         39GU4W/ZWhd/+KmU5o2O7/7HLC0KuSM1mJTMtN2b3V35asKX1R+Aldumd1oSYXCij/CQ
-         CpPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772536480; x=1773141280;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xgdv9fVdx/IEA9nZHRjuPZVXLrXBxXsiA90FmBdGMb0=;
-        b=hrPZ7HsBVfeRzIafvfS5BNuwD6OcYECVWyoQzIsHi8ko94DSbMvrhlUubhg6RsRJmR
-         sRPwuEgboEMHhnq7crvUdGveRoXblLbN/45+aWzm7sUGJiRpIVbBUPUU2iMrw0R7t3wz
-         usi/BSOt5mceyvbqTfXOvMtf/wokxYcQ+VGtg0XaOMWBccZ1wQrBER2XvbhmSxfFIxHg
-         Zmzsg7YuhA7+WugQNRBxLE1ajAVUoOVTLOq9GCd1stZhUOwBMLG2GaB0x+BBfu/HfKKy
-         0pDC+2x8emIttyo+M+jekzzHiRYxn8LsFAu7j0bVggWbs9yTJ7LjA5wtoWRw7xaRjtl7
-         aiew==
-X-Forwarded-Encrypted: i=1; AJvYcCUixHnIVxj5XgXul7g8jhoWoItcGz3bZelD3CwjijvRHgQ3ONr7g6rtg3q130/kTzdGLd+LP+chADTesQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywke2xmUQaaSXYrnGc4c4O/gMhuP4Ul0DLBo6Z0kmqWe/kSoJOQ
-	7TPj9T0iQs/k02OHpN4iw4+ScB+2wrdM3VSyEdUlNhmnyvjbXozCi4W+PtmmSDXBm1s=
-X-Gm-Gg: ATEYQzzA7BU3bVQDeW6kgkwjiJdD1gLmpNZUypRm4bPPLX3fBqZxyeOW3pPOinJZh/F
-	DDTa4c22DmSks9fTScemmSqWREYPuXxHNdwrCDEprqEmPr56ziv3iS7yA5dNf1uHL5MUEPcqXkX
-	RK2Aku3KlYuRUAYCMqzsH2aBgZTJKBXH5F97RTYh6+U1c4fvC5OOu0bGsMgA28adBOD2G2AVu8t
-	3z4EEL5ZjrzlKjEpVvjw6r+K+EBzMO52HNh4kP7kqbpkk7j2sIeOfLz/Rz2XiTOMsgUT96miHjh
-	efKtckyDEbaKpX81293KL9+T6AAqkIGgfPUQTztrrE+7R6T5Uvqq0G0Ogk2+dGfVDS+Z/7w5bGQ
-	+G5rjguCr3bTp+zvNcxbcmm9U6fP5OwnJCB3iNVM7M7mb9SEcG2rRyiDTNxK1OSKdDqgl
-X-Received: by 2002:a05:600c:c4a6:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-483c9bc0344mr259053495e9.12.1772536480350;
-        Tue, 03 Mar 2026 03:14:40 -0800 (PST)
-Received: from localhost ([151.19.25.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485133508bbsm17667855e9.5.2026.03.03.03.14.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 03:14:40 -0800 (PST)
-From: Francesco Lavra <flavra@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Zong Jiang <quic_zongjian@quicinc.com>,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Robert Marko <robert.marko@sartura.hr>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2] serial: tegra: remove Kconfig dependency on APB DMA controller
-Date: Tue,  3 Mar 2026 12:14:38 +0100
-Message-Id: <20260303111438.2691799-1-flavra@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1772536807; c=relaxed/simple;
+	bh=e2Qz2CYwgr1iExAfg2nlZe4rZPclxfu/shWDQAvDFzQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=H6Ldb2CGbLd7HESf3JQXpMuN1y/9c9UiXwQqJzgtkML8Lc3XzM2wxFhPg+8XQuld45Zn19HRa8Ko5r+BeMw1eku8JOIpYw9wSiC1hyNMungHT8fEAr8q/sMjT3biCNPxrdKX2YISHKQK4sN9vjSDi5h0Ppi59AVEH9pPv7C2pWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J08A6Omr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1EDC2BC9E;
+	Tue,  3 Mar 2026 11:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772536806;
+	bh=e2Qz2CYwgr1iExAfg2nlZe4rZPclxfu/shWDQAvDFzQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=J08A6OmrKnYtc0kF6TmtANYWU1D0kgvs92Sym498jl0fG/U1Kql1FpRf+HHawmIuh
+	 F+uvXAp4dRueO+6YhWDp/WhOtC4dI45mOn/0YsZzXcecOIF7hyMzceKgpV5tIqOGd6
+	 +S/NLYi2HkGFnc0JLiwcsXQcFAInCO2D6ZadkKsqf7W1AjFIU/AVdIFuvRVVkgsVrC
+	 QvTglGQLaA6eY1X7g7MFzz+66mUZREq8YPFJT4OFWv9wmip1xa392aWwqlk/4qOcb1
+	 8bPB1gKfSpt02Dn4wD03Pm2y45Jboq4op1xeBMFjn26eqFppypG4ppEIvfyUL1OQqg
+	 XaXfNYLChtyfQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260223065051.13070-1-clamor95@gmail.com>
+References: <20260223065051.13070-1-clamor95@gmail.com>
+Subject: Re: [PATCH v3 0/5] ASoC: tegra: Add support for WM8962 and CPCAP
+ codecs
+Message-Id: <177253680370.22767.5594712156788646964.b4-ty@kernel.org>
+Date: Tue, 03 Mar 2026 11:20:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1461; i=flavra@baylibre.com; h=from:subject; bh=lG/DZ3WywMxkW718njBWn7clqicbwq5XJkykLBVrlxU=; b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBppsIidjpJYctRWN5hOyNxVnAxdEa0f5jD7q4mR uzU4wLOdImJAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCaabCIgAKCRDt8TtzzpQ2 X4ATC/96p9lCQmb44HSR3w9JqD1EHcLByEZFcPkoExD7sDGiieEB+CH535JniKYxqREOVQlfv+S 5cIEBoK7p9IHqCh8NVX0vQjY99JaZ3a1YF60RDWD6z58CGAVUoCMXjx+LOeRF+c+QZIQDUnXYtE u+rHOzXPY1Z7GYJdE3vxvtCX0SjTv9gUT3zCtXsfucHPRP+TfsSbhEw/Vr3w3wtphsN7qBVEjma 6wkdMlBsClq3NO1segO6rKiSI4xmWGSQ2DCy2Oe4BFrXGcAK0rg770YU8BHvJUEHv/90PmGbc98 czYGo2A5+7zBFle4NH6neAU4QIdc8iVq8F0A6qghEz7c1QzWXSOj62qNKsu2Bf1wiW1qwH0wLVy XU4FYby8xqDFPw75Q3mnUnZLTGCiufFaXeIH/c/BFpw5CgZPswsKMQ0+p4UGsb9G6XG4EAQXGK2 y/HW62d9bRQ9ejp5M3OQSkCaBq3yBNesNEfQo6It1WX2KrmsDxlZoL1L7f2W2twqskBGU=
-X-Developer-Key: i=flavra@baylibre.com; a=openpgp; fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B1CF71EDA81
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-38bf1
+X-Rspamd-Queue-Id: C72FD1EDCB5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-12405-lists,linux-tegra=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12406-lists,linux-tegra=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,nvidia.com,perex.cz,suse.com,yahoo.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[flavra@baylibre.com,linux-tegra@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-tegra,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim,baylibre.com:mid,baylibre.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email]
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-This driver runs also on SoCs without a Tegra20 APB DMA controller (e.g.
-Tegra234).
-Remove the Kconfig dependency on TEGRA20_APB_DMA, and remove reference to
-the APB DMA controller from the Kconfig help text.
+On Mon, 23 Feb 2026 08:50:46 +0200, Svyatoslav Ryhel wrote:
+> Add support for WM8962 and CPCAP codecs found in various Tegra devices.
+> 
 
-Signed-off-by: Francesco Lavra <flavra@baylibre.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-Changes from v1 [1]:
-- added Andy's Reviewed-by tag
-- removed Fixes tag (Jon)
+Applied to
 
-[1] https://lore.kernel.org/linux-serial/20251126090759.4042709-1-flavra@baylibre.com/T/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
- drivers/tty/serial/Kconfig | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks!
 
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index f86775cfdcc9..8500b1eed5b5 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -255,14 +255,13 @@ config SERIAL_SAMSUNG_CONSOLE
- 
- config SERIAL_TEGRA
- 	tristate "NVIDIA Tegra20/30 SoC serial controller"
--	depends on (ARCH_TEGRA && TEGRA20_APB_DMA) || COMPILE_TEST
-+	depends on ARCH_TEGRA || COMPILE_TEST
- 	select SERIAL_CORE
- 	help
- 	  Support for the on-chip UARTs on the NVIDIA Tegra series SOCs
- 	  providing /dev/ttyTHS0, 1, 2, 3 and 4 (note, some machines may not
- 	  provide all of these ports, depending on how the serial port
--	  are enabled). This driver uses the APB DMA to achieve higher baudrate
--	  and better performance.
-+	  are enabled).
- 
- config SERIAL_TEGRA_TCU
- 	tristate "NVIDIA Tegra Combined UART"
--- 
-2.39.5
+[1/5] ASoC: dt-bindings: nvidia,tegra-audio: document CPCAP CODEC
+      commit: d6b634cbc2eed73497877c95a7807d0f34fa4459
+[2/5] ASoC: tegra: Support CPCAP by machine driver
+      commit: a34547b389a91bf0709f0901c3752ccaf63730cd
+[3/5] ASoC: dt-bindings: nvidia,tegra-audio: document WM8962 CODEC
+      commit: 79d73f5a0b7a702a19189c1a237ae3728d88de59
+[4/5] ASoC: tegra: Support WM8962 by machine driver
+      commit: 536ffa105e16ca3f6e7de53f9d6059f53d0207f7
+[5/5] ASoC: dt-bindings: nvidia,tegra-audio-max9808x: document additional board pins
+      commit: 06dba254de95b16e7793224d29daa5195de2e581
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
