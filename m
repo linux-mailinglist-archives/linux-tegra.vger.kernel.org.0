@@ -1,81 +1,81 @@
-Return-Path: <linux-tegra+bounces-12393-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12395-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KJhNJD6gpmlqRwAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12393-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 09:47:58 +0100
+	id AAu3OFGgpmlqRwAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12395-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 09:48:17 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E70D21EB097
-	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 09:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3251EB0AD
+	for <lists+linux-tegra@lfdr.de>; Tue, 03 Mar 2026 09:48:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 95026312CBAB
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2026 08:43:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E725231325FC
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2026 08:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E30438CFFA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E02D138E5E1;
 	Tue,  3 Mar 2026 08:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AVFnK+I4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXqreeYf"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66B438C2BB
-	for <linux-tegra@vger.kernel.org>; Tue,  3 Mar 2026 08:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613EE38C409
+	for <linux-tegra@vger.kernel.org>; Tue,  3 Mar 2026 08:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772527390; cv=none; b=TvEQESGfOxVGaKCsqrwxQDWnv2JLgaKVp6a51clE9zslwc1SJQXurHZt4TJW5snb5cJvXxIJP7U48HnDyqva4AEMHMRgwi62dVrEmXkdK2rBB+QRyyMBj4kz2kVbS07b6uZWE500imAT1FejjjqQ6/Rt6OanyMp04IwckK/wy3w=
+	t=1772527390; cv=none; b=nkP3r77yby9AyamK1MxPUNo0L0RS1VQf/EiK1tTA7mO5hhHh+4/fvMTGD6fVS/YbC4QgncXGos5dChsRa2id7zX2bWyZDBc8rRquCUvWcPB4KHDrMMlpYj2xNT4Wqyq7A60ImGy4fjr+7fP05odBeoZ7iValu8wIw9nOvAz4NdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772527390; c=relaxed/simple;
-	bh=BtYUDPRydbD7qJguB7Cv1gqWmul/7Eiqmo1Zcx4dX7U=;
+	bh=Wf0dy01upHUUUcUAKy8dIbGY/d5SUS2MJZNikXi5lc8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iO86NxQT6dfMlCjjEKtGnNvhUO9QvILyN8LZjQlYlmbojVhjsXFs1BpiJFMLuyfU2ridUKAnTTyKe+XoDRj0o5SHlAoMoD8Xd5XmZCnm8+OKrPqfvvc16vHR//P03sfNTY2B1gD9ytZnQRhMFT31KslSKLnmyeXu+m7m8JRhFk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVFnK+I4; arc=none smtp.client-ip=209.85.208.182
+	 MIME-Version; b=sfWTbaUsHMJ7ZlnhFRvdQmLP8tTVdD1VJYyz5L3gAoXHjw2czYmfpc6TaGlvzBH4N6UeabAQ2MlHFFVeQfrKndINJgpaj+FmWqHMeyE9kLRr6CAlqKl2k4cphcKRutvx/0GLoZxX5HsBKMraMDSONyVmWCUv+YNPUzct7cXAU8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXqreeYf; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-389ee8efedeso84020461fa.3
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Mar 2026 00:43:02 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-389fad34e2eso87326131fa.3
+        for <linux-tegra@vger.kernel.org>; Tue, 03 Mar 2026 00:43:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772527381; x=1773132181; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772527383; x=1773132183; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DmrH8ssg9I3rSN9CRTVvj/vC0MjWYSI81FqMxg6ZCSs=;
-        b=AVFnK+I4XCLGf0l2UuRlPxnvyRF8uAGt92TzsOZnZQl7BquJBzBVvxEp/wAQVaHnUz
-         I7V9Wn8ZmGLpc6Rznc1r/GG9XDxAKuNMNJ8UHZa9uML8+QyXD3Am19Nv3hIHzBvyoZ2t
-         aWU0IA5APyOwk8nO8q5spOK8C8AU+FDny0V1RlVUT5AEhS2NHRiCC0cW3WmEHHXetgeO
-         IOYH9TTEAaxY5INVIMH2WaSPIB0SAN3tXRpz2VDUPMIvKmwIBZmSthvOKjLd3K3PTbF/
-         cCir1xOhVgLtXGlxyMWerTIpajf7ihb/fhdOHJYhXPDcKbzSHTjUqLA5ZS2Rqg/Dq83y
-         UpkA==
+        bh=f6KZvaBGZ/GU736NZrNzu56KlpQD0HwXdD7kW+frTF8=;
+        b=VXqreeYfmVkxK6RVfJo8pIRiqyKmbFSsx0x15FoVyVQu5KLNtHrRhWxLzNHIOAYbO7
+         gEnhjWyTjseePWUFQ7dxmsUcxQ+q8Wa0E/lf0pm70NoA69ZB15nL4XVxfQFjsDHpLq8g
+         d1Tcyu42lg1jXIN0PAKJ5VqM+37A2m2DUasYir5jRnFR4HZqbqCGlFpZ+Zyxk4MWtf1a
+         FxdNikGRqD7gdWuHT/6mO2p2kaCqDN8gP5iOjxEUWakgckEj5xEsJCqf/y2Ntv/+9d+3
+         +FqINoHGzcBtknvnXwBqJB3ltruujL2g/D2d7AX907XNDPdi1jTpJ1Cwy+zw/FSrPIdL
+         1+IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772527381; x=1773132181;
+        d=1e100.net; s=20230601; t=1772527383; x=1773132183;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DmrH8ssg9I3rSN9CRTVvj/vC0MjWYSI81FqMxg6ZCSs=;
-        b=aCBo/MA4e3fxLYa/Ts25W+vquLJGdh6WPw0GFIKpOA5d2jA2/XJe0xKUA0grzWDMxB
-         hS1nHgdxxPOW+XUkwiqH9K1gOB5OK4u5I/n9zGPcE07vKA3iQinPk61/5NwoTnfqNg69
-         YvAimR1stDVemFWZMa8Pho4lzGmxRi1NDXBtsry4TM3aW5f5aQzTzzioPTzvRzFPZbKc
-         EBDvvqG7Hi00Cjq7km/wwZXhYwvNh9vGXycBq8wbcXfA3VIlXRZ+F+8FL+VIu+5MIu2R
-         v1q20dp+yzcYJA3/xNQqNG5wtjyINildOQm8pPp+OTd3TpYy29yjdLMxk30910RgxwTu
-         WZvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCt/14+HydmhbYy8lYmD6Jut38eELx/LnsXmSUYf40Pso5r1MD4ScDfcpWlzxJ5YEOY5WW7vxM8UvcVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6L2hUR/cnExHX7nFSxffSgKybGFPRQt7DT+nFYaHSxmSJivOx
-	8+HPOU2GoFMsAb26q76ScLzi5TtwK/Weic9YeYZ/HdfcCwAifu4SPkmi
-X-Gm-Gg: ATEYQzzVCo2iHbW9SMAfndYWQOdUMUkkudknFpC+uB7z8ssObTooNaHfqUvEhoyxmN/
-	bXpP/buV2Ma+LW3Oll7c0Ch8QguDjLhWCpSgClslzDhIQ6okJCTaJiQxEXVlqjKYTrYbjt+NbEX
-	hGwzIjmP6e2YGj3nhmEXSXrWVlmKst0h9Ru/mBUalGLLxVipOd1flLoK+lzFHioXEcIwLugYYvh
-	1XMY1X0IgV4KtPo+F2yPwflf1MwFa4QFHVu9mu1UjgD3NXib0SoDeIusuK77gtW+MSxmNZ41k0f
-	w19/QAf4HSDfGVX2b5wyDTtOMCDZGAuZ9l6oJ5WQ/Zo9NcbqqHI0K1O2VvIRFDLkJ2Ls2p/iALY
-	7vJyYIOxz8MEhhEqLDOmIgWhDGdEw1xQBLL2+fQfqBk8ypeAL2KQXwcBkv7GUwy4S91cJL3JLNc
-	9Iy4WahZJq4oic
-X-Received: by 2002:a05:651c:882:b0:389:fa5e:51f9 with SMTP id 38308e7fff4ca-389ff355fc9mr105960021fa.27.1772527381047;
-        Tue, 03 Mar 2026 00:43:01 -0800 (PST)
+        bh=f6KZvaBGZ/GU736NZrNzu56KlpQD0HwXdD7kW+frTF8=;
+        b=Q+34R8lqGZCoR8s+5tIV341+HrwtrA7VRi68C1Y6uH0frR26XOP0Il/URfQajGdidq
+         dzBt+g8EwBKhGEHc71tf0/XwSE1JBaaplFUHssQQQS8YdqMuxHbhtzSDEKHlpc8I1er7
+         Oz/3MOfLzeEZ3eSC6AoSGId8+LOmsqo68bIoUGk23AOVBr7DDC44KjsgxdS6BXem/vtk
+         7jh0Qh0CA4jy5HFsBbI8wJUqe1Mn348924Ic+OKhU8i+zMV2afO0Yyv6KswOlRnquGw7
+         qkGO+YyfyY6dy24mTS1m2cBpO3BZ7GT3APjwWgbxAObJVzQgLModty5wYgGb0CYxpnLj
+         tiCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVM1oweKqY81uQi9D4rvq+KXc+c4CKxVIUEjw8Tvs7f9nSJJcfsuqW3W/fmK0wwPI/Y/lt9wBrbLvD+FQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVO0Io+hiNTstYYuL4t02H6SeKGBuvqsS1kAay7z/ZXrRVCKJr
+	voDP3yXFTrKOuA0szlLYQ7qNC0BMtmLkuLsYW9hOsO57Ucjk9aiPXzIs
+X-Gm-Gg: ATEYQzxbmu5DNxU/80CUMDjasggMBk7bpLTSdHnbRz4iWedvAc6Rn3nntB/ZpQOg5ul
+	dAIukD6TGEud3fYeuUnTIeJY/vlIOdOWGrE5FMOFkCRQT6xCBEkdERTsaSNFOkQaycZ3jJkjxAb
+	HX7TnLUQZVpUBp6HGbSQk5cUOKxhF3G/0ZnIAZXAVfOJIF3xOEY6pGs9C5r4RHDsRlyOTWM11xr
+	u+Mz5blzWmJQdMeBhl8Aw2v9OUPD92vX6Loa3qurOCZl40aV3ZIfEgZ43yAElvvx7oECsZL16xn
+	17ng6+tDfA2cvh47yhLpMbLrChOS2K36wzeTGmKm7kqY/sAxSlydh4XadIA3CYXdbypg0RmIvfi
+	BJzZUcCE5UPHZgfZnDSVeX0VEeWnpxE6QDcEBoIHBBp8yD1YLapHj78JGBZzY+LQMJ0Hzpum0jg
+	AqNlDxRY3kCXFnacuYhGy3e/I=
+X-Received: by 2002:a2e:94c4:0:b0:387:2df:f3ee with SMTP id 38308e7fff4ca-389ff34ee5amr91156871fa.33.1772527382459;
+        Tue, 03 Mar 2026 00:43:02 -0800 (PST)
 Received: from xeon ([188.163.112.72])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f30227a9sm32599471fa.42.2026.03.03.00.43.00
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f30227a9sm32599471fa.42.2026.03.03.00.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 00:43:00 -0800 (PST)
+        Tue, 03 Mar 2026 00:43:01 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Thierry Reding <treding@nvidia.com>,
@@ -94,9 +94,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v7 08/15] staging: media: tegra-video: tegra20: set correct maximum width and height
-Date: Tue,  3 Mar 2026 10:42:31 +0200
-Message-ID: <20260303084239.15007-9-clamor95@gmail.com>
+Subject: [PATCH v7 09/15] staging: media: tegra-video: tegra20: add support for second output of VI
+Date: Tue,  3 Mar 2026 10:42:32 +0200
+Message-ID: <20260303084239.15007-10-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303084239.15007-1-clamor95@gmail.com>
 References: <20260303084239.15007-1-clamor95@gmail.com>
@@ -107,7 +107,7 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E70D21EB097
+X-Rspamd-Queue-Id: 8E3251EB0AD
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12393-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12395-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
@@ -138,38 +138,218 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bootlin.com:email,nvidia.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nvidia.com:email]
 X-Rspamd-Action: no action
 
-Maximum width and height for Tegra20 and Tegra30 is determined by
-respective register field, rounded down to factor of 2, which is 8191U
-rounded down to 8190U.
+VI in Tegra20/Tegra30 has 2 VI outputs with different set of supported
+formats. Convert output registers to macros for simpler work with both
+outputs since apart formats their layout matches.
 
 Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 83 ++++++++++++---------
+ 1 file changed, 47 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index aa9ff7fec4f9..b2e706fa727b 100644
+index b2e706fa727b..c8afc6f2adf2 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -23,11 +23,10 @@
- 
- #define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
- 
--/* This are just good-sense numbers. The actual min/max is not documented. */
- #define TEGRA20_MIN_WIDTH	32U
-+#define TEGRA20_MAX_WIDTH	8190U
+@@ -28,13 +28,19 @@
  #define TEGRA20_MIN_HEIGHT	32U
--#define TEGRA20_MAX_WIDTH	2048U
--#define TEGRA20_MAX_HEIGHT	2048U
-+#define TEGRA20_MAX_HEIGHT	8190U
+ #define TEGRA20_MAX_HEIGHT	8190U
  
++/* Tegra20/Tegra30 has 2 outputs in VI */
++enum tegra_vi_out {
++	TEGRA_VI_OUT_1 = 0,
++	TEGRA_VI_OUT_2 = 1,
++};
++
  /* --------------------------------------------------------------------------
   * Registers
+  */
+ 
+-#define TEGRA_VI_CONT_SYNCPT_OUT_1			0x0060
+-#define       VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT	BIT(8)
+-#define       VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT	0
++#define TEGRA_VI_CONT_SYNCPT_OUT(n)			(0x0060 + (n) * 4)
++#define       VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT	BIT(8)
++#define       VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT		0
+ 
+ #define TEGRA_VI_VI_INPUT_CONTROL			0x0088
+ #define       VI_INPUT_FIELD_DETECT			BIT(27)
+@@ -46,6 +52,7 @@
+ #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
+ #define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
+ #define       VI_INPUT_INPUT_FORMAT_YUV422		(0 << VI_INPUT_INPUT_FORMAT_SFT)
++#define       VI_INPUT_INPUT_FORMAT_BAYER		(2 << VI_INPUT_INPUT_FORMAT_SFT)
+ #define       VI_INPUT_VIP_INPUT_ENABLE			BIT(1)
+ 
+ #define TEGRA_VI_VI_CORE_CONTROL			0x008c
+@@ -66,7 +73,7 @@
+ #define       VI_VI_CORE_CONTROL_OUTPUT_TO_EPP_SFT	2
+ #define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_SFT	0
+ 
+-#define TEGRA_VI_VI_FIRST_OUTPUT_CONTROL		0x0090
++#define TEGRA_VI_VI_OUTPUT_CONTROL(n)			(0x0090 + (n) * 4)
+ #define       VI_OUTPUT_FORMAT_EXT			BIT(22)
+ #define       VI_OUTPUT_V_DIRECTION			BIT(20)
+ #define       VI_OUTPUT_H_DIRECTION			BIT(19)
+@@ -80,6 +87,8 @@
+ #define       VI_OUTPUT_OUTPUT_FORMAT_SFT		0
+ #define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
+ #define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
++/* TEGRA_VI_OUT_2 supported formats */
++#define       VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT	(9 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
+ 
+ #define TEGRA_VI_VIP_H_ACTIVE				0x00a4
+ #define       VI_VIP_H_ACTIVE_PERIOD_SFT		16 /* active pixels/line, must be even */
+@@ -89,26 +98,26 @@
+ #define       VI_VIP_V_ACTIVE_PERIOD_SFT		16 /* active lines */
+ #define       VI_VIP_V_ACTIVE_START_SFT			0
+ 
+-#define TEGRA_VI_VB0_START_ADDRESS_FIRST		0x00c4
+-#define TEGRA_VI_VB0_BASE_ADDRESS_FIRST			0x00c8
++#define TEGRA_VI_VB0_START_ADDRESS(n)			(0x00c4 + (n) * 44)
++#define TEGRA_VI_VB0_BASE_ADDRESS(n)			(0x00c8 + (n) * 44)
+ #define TEGRA_VI_VB0_START_ADDRESS_U			0x00cc
+ #define TEGRA_VI_VB0_BASE_ADDRESS_U			0x00d0
+ #define TEGRA_VI_VB0_START_ADDRESS_V			0x00d4
+ #define TEGRA_VI_VB0_BASE_ADDRESS_V			0x00d8
+ 
+-#define TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE		0x00e0
+-#define       VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT		16
+-#define       VI_FIRST_OUTPUT_FRAME_WIDTH_SFT		0
++#define TEGRA_VI_OUTPUT_FRAME_SIZE(n)			(0x00e0 + (n) * 24)
++#define       VI_OUTPUT_FRAME_HEIGHT_SFT		16
++#define       VI_OUTPUT_FRAME_WIDTH_SFT			0
+ 
+-#define TEGRA_VI_VB0_COUNT_FIRST			0x00e4
++#define TEGRA_VI_VB0_COUNT(n)				(0x00e4 + (n) * 24)
+ 
+-#define TEGRA_VI_VB0_SIZE_FIRST				0x00e8
+-#define       VI_VB0_SIZE_FIRST_V_SFT			16
+-#define       VI_VB0_SIZE_FIRST_H_SFT			0
++#define TEGRA_VI_VB0_SIZE(n)				(0x00e8 + (n) * 24)
++#define       VI_VB0_SIZE_V_SFT				16
++#define       VI_VB0_SIZE_H_SFT				0
+ 
+-#define TEGRA_VI_VB0_BUFFER_STRIDE_FIRST		0x00ec
+-#define       VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT	30
+-#define       VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT	0
++#define TEGRA_VI_VB0_BUFFER_STRIDE(n)			(0x00ec + (n) * 24)
++#define       VI_VB0_BUFFER_STRIDE_CHROMA_SFT		30
++#define       VI_VB0_BUFFER_STRIDE_LUMA_SFT		0
+ 
+ #define TEGRA_VI_H_LPF_CONTROL				0x0108
+ #define       VI_H_LPF_CONTROL_CHROMA_SFT		16
+@@ -136,7 +145,7 @@
+ #define       VI_CAMERA_CONTROL_TEST_MODE		BIT(1)
+ #define       VI_CAMERA_CONTROL_VIP_ENABLE		BIT(0)
+ 
+-#define TEGRA_VI_VI_ENABLE				0x01a4
++#define TEGRA_VI_VI_ENABLE(n)				(0x01a4 + (n) * 4)
+ #define       VI_VI_ENABLE_SW_FLOW_CONTROL_OUT1		BIT(1)
+ #define       VI_VI_ENABLE_FIRST_OUTPUT_TO_MEM_DISABLE	BIT(0)
+ 
+@@ -366,8 +375,8 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
+ 	case V4L2_PIX_FMT_VYUY:
+ 	case V4L2_PIX_FMT_YUYV:
+ 	case V4L2_PIX_FMT_YVYU:
+-		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_FIRST,  base);
+-		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_FIRST, base + chan->start_offset);
++		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  base);
++		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), base + chan->start_offset);
+ 		break;
+ 	}
+ }
+@@ -455,6 +464,7 @@ static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
+ 	int stride_l = chan->format.bytesperline;
+ 	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
+ 			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
++	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
+ 	int main_output_format;
+ 	int yuv_output_format;
+ 
+@@ -472,33 +482,33 @@ static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
+ 	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
+ 	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
+ 
+-	tegra20_vi_write(chan, TEGRA_VI_VI_FIRST_OUTPUT_CONTROL,
++	tegra20_vi_write(chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
+ 			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
+ 			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
+ 			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
+ 			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
+ 
+ 	/* Set up frame size */
+-	tegra20_vi_write(chan, TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE,
+-			 height << VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT |
+-			 width  << VI_FIRST_OUTPUT_FRAME_WIDTH_SFT);
++	tegra20_vi_write(chan, TEGRA_VI_OUTPUT_FRAME_SIZE(output_channel),
++			 height << VI_OUTPUT_FRAME_HEIGHT_SFT |
++			 width  << VI_OUTPUT_FRAME_WIDTH_SFT);
+ 
+ 	/* First output memory enabled */
+-	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
++	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
+ 
+ 	/* Set the number of frames in the buffer */
+-	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT_FIRST, 1);
++	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT(output_channel), 1);
+ 
+ 	/* Set up buffer frame size */
+-	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE_FIRST,
+-			 height << VI_VB0_SIZE_FIRST_V_SFT |
+-			 width  << VI_VB0_SIZE_FIRST_H_SFT);
++	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE(output_channel),
++			 height << VI_VB0_SIZE_V_SFT |
++			 width  << VI_VB0_SIZE_H_SFT);
+ 
+-	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE_FIRST,
+-			 stride_l << VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT |
+-			 stride_c << VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT);
++	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE(output_channel),
++			 stride_l << VI_VB0_BUFFER_STRIDE_LUMA_SFT |
++			 stride_c << VI_VB0_BUFFER_STRIDE_CHROMA_SFT);
+ 
+-	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
++	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
+ }
+ 
+ static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
+@@ -587,7 +597,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
+ 	.nformats = ARRAY_SIZE(tegra20_video_formats),
+ 	.default_video_format = &tegra20_video_formats[0],
+ 	.ops = &tegra20_vi_ops,
+-	.vi_max_channels = 1, /* parallel input (VIP) */
++	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
+ 	.vi_max_clk_hz = 150000000,
+ 	.has_h_v_flip = true,
+ };
+@@ -607,6 +617,7 @@ static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
+ 	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
+ 	int width  = vi_chan->format.width;
+ 	int height = vi_chan->format.height;
++	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
+ 
+ 	unsigned int main_input_format;
+ 	unsigned int yuv_input_format;
+@@ -637,10 +648,10 @@ static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
+ 			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
+ 	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
+ 
+-	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
+-			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
++	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT(output_channel),
++			 VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
+ 			 host1x_syncpt_id(vi_chan->mw_ack_sp[0])
+-			 << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
++			 << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
+ 
+ 	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
+ 
 -- 
 2.51.0
 
