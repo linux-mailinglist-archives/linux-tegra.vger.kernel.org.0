@@ -1,130 +1,240 @@
-Return-Path: <linux-tegra+bounces-12534-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12535-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AMz7D5JQqWkj4wAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12534-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 10:44:50 +0100
+	id OZiCNlFOqWmz4QAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12535-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 10:35:13 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F4320ECC1
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 10:44:49 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56ADD20E8AB
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 10:35:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4C2B0302E1E4
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 09:31:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8DD4A3076485
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 09:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEED83793DF;
-	Thu,  5 Mar 2026 09:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374E6377EBC;
+	Thu,  5 Mar 2026 09:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZ5gF/Mk"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01A6377EDE;
-	Thu,  5 Mar 2026 09:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1426123E32D;
+	Thu,  5 Mar 2026 09:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703057; cv=none; b=g5s6+atBWe8nOh2hBCljcUax4hwrFOEPnT5i4bRH8mxhMceWzrfchtjemLUE9r+eP/YCmPpxnuKX8qgC1lESqKM278tTRsPWiWy1hj2S1dC5BSxuUnBvBYRvf3L6Yk93yxGS+R/sOJ9JJNwsxM0WumC9WmHa9JOR2XpCPEjJGhE=
+	t=1772703078; cv=none; b=NAH76CLU2MzH2X+TFaOSOM6gGPtqkq8ogQ5M1O6hMmLu7QP5mw4rURDTOqVvlAhKNm5FbOEnMo5sp/p27pMmEhrbCTPbA2KsgLV6B20yU1RLn6rK3iqah31XgDpVUC9XQySsWLWzpIoaj1J22i6bp6DdLtW0I8gp4+98DVkoULg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703057; c=relaxed/simple;
-	bh=Ut46HYocLwE7mAygLk4hPfAtQ/G8RDXQPhMmYhMyFec=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dTndE+PnD1KuGMi550aNsyHVTdzLlw65txK590dYbuoEQ3ThtN+XjJKSkk67mPA+7kDa9v4BPdCdw/EB1sw9+c1tuEKFra2QJunKFdAC5Zeg1a9BbV5bs9N4Ue8f3UWUhxGowNXUIcQArEKVh4JyjZNzPoA1U7ZubIeinzyOHxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 6EF351A090A;
-	Thu,  5 Mar 2026 09:30:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id ABA5119;
-	Thu,  5 Mar 2026 09:30:41 +0000 (UTC)
-Message-ID: <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
-Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
-From: Joe Perches <joe@perches.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, Konrad Dybcio
-	 <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com
-Date: Thu, 05 Mar 2026 01:30:40 -0800
-In-Reply-To: <20260305085148.7cwo3yflp7vcfldf@skbuf>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
-	 <20260304175735.2660419-23-vladimir.oltean@nxp.com>
-	 <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
-	 <20260305085148.7cwo3yflp7vcfldf@skbuf>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1772703078; c=relaxed/simple;
+	bh=HEvg29/Hj9lWiQ5IuwMKZXROpFEsc2gJsguQRspFvMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IhFfeB2o0/8zMRl3g13WHfRg+8FEfKiIM9qatagHr7OHJRsCFUxpG66T57o1cCocRs+7fqoi1i0YAUVd+9AiYqFEDD/OlTzOTWLXGE4f5r3K3/NsZP+qkix8belNB8impKPjOfVyqSUU1rgfePDodxzbUoMux8BOWYEvZ+8qOIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZ5gF/Mk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39134C116C6;
+	Thu,  5 Mar 2026 09:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772703077;
+	bh=HEvg29/Hj9lWiQ5IuwMKZXROpFEsc2gJsguQRspFvMw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PZ5gF/MkvkgoA6lshxtVRZ50Z+62fL76tnX0snPYEzM0zWSQjJMKwNTD7pXKXgNMw
+	 wMhkjJK30V0ZnW2Wu2khrbKmMJ+4YeIPulZSYUwRPCc6b1K85kM1vqi9OVMRKXH0Vv
+	 kf4+tI5yUMBTYNftGZNsQYepg4Qujub1LRVQx8b/hLu+yOxq60SdRFc+O0sFobqJLf
+	 pRD1kd5HXXENzpyB0B+34qS8t2ZP89sSljS1VAC88rExUsS9LoYXd54g93MW4upLW4
+	 2xxOvGu3PLm14pd18ypQhYmtNvQZcVXmnfgESSQanLINdulJCkPapK3cqgWnmO3V7v
+	 aF/MGgLsrcE5A==
+Date: Thu, 5 Mar 2026 15:01:00 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@kernel.org, arnd@arndb.de, 
+	gregkh@linuxfoundation.org, Frank.Li@nxp.com, den@valinux.co.jp, hongxing.zhu@nxp.com, 
+	jingoohan1@gmail.com, vidyas@nvidia.com, cassel@kernel.org, 18255117159@163.com, 
+	linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 02/13] PCI: tegra194: Refactor LTSSM state polling on
+ surprise down
+Message-ID: <iqnk6hzhh4sv6ilay3eii5wrcg3473l5ekenrvcwumkb2elwnc@rgtxgmeg4tfv>
+References: <20260303065448.2361488-1-mmaddireddy@nvidia.com>
+ <20260303065448.2361488-3-mmaddireddy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: isin6ba55864u4k7cspzxagise7enff6
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+c/QqwBFj4RnbTOHAHP0u/fhPSDrZvfXg=
-X-HE-Tag: 1772703041-391055
-X-HE-Meta: U2FsdGVkX18CpOmWAsQNq/nzIGrueYMCLFpafncVkMPEeWn8lMHmxGid0nuFShmczpxd7LMIQ2HkJXitNrouaAWweblPom1aNWswKBKkaGGCen5irY0lnX3z9ty7T8amhD6qn9Q5wfYeFrX1AAy/tVHr70RJ5jxHv1CzpDKls395qE7TAifFzgOqcxBZ+LxnR/uVacI/Z8SiG+R8Q0lWc4dUv5BUq0HaFG5uC1dlHaBdlDEn65TIo3X5+7C0AcoUpQeypXp8sK9gp+VHT+vsBW/Ta2vT0Zqxi066+g9opvcn5emNN3z91009RwQ+r7ADwt/gmX2gmKTLfK9kac3enKskM+3ua1Jz
-X-Rspamd-Queue-Id: 38F4320ECC1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260303065448.2361488-3-mmaddireddy@nvidia.com>
+X-Rspamd-Queue-Id: 56ADD20E8AB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [7.34 / 15.00];
-	URIBL_BLACK(7.50)[perches.com:mid];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-12535-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[perches.com];
-	TAGGED_FROM(0.00)[bounces-12534-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	GREYLIST(0.00)[pass,body];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joe@perches.com,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,nvidia.com,arndb.de,linuxfoundation.org,nxp.com,valinux.co.jp,163.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip6:2600:3c15:e001:75::/64:c];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[perches.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Action: add header
-X-Spam: Yes
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Action: no action
 
-On Thu, 2026-03-05 at 10:51 +0200, Vladimir Oltean wrote:
-> On Thu, Mar 05, 2026 at 09:39:35AM +0100, Konrad Dybcio wrote:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 55af015174a5..bdfa47d9c774 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -10713,6 +10713,7 @@ F:    Documentation/devicetree/bindings/phy/
-> > >  F:   drivers/phy/
-> > >  F:   include/dt-bindings/phy/
-> > >  F:   include/linux/phy/
-> > > +K:   \b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|o=
-ff)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvd=
-ata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|stat=
-e)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)=
-_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\=
-.h|phy-props\.h|phy-provider\.h
+On Tue, Mar 03, 2026 at 12:24:37PM +0530, Manikanta Maddireddy wrote:
+> From: Vidya Sagar <vidyas@nvidia.com>
+> 
+> On surprise down, LTSSM state transits from L0 -> Recovery.RcvrLock ->
+> Recovery.RcvrSpeed -> Gen1 Recovery.RcvrLock -> Detect. Recovery.RcvrLock
+> and Recovery.RcvrSpeed transit times are 24 msec and 48 msec respectively.
+> So, the total time taken to transit from L0 to detect state is ~96 msec.
+> Hence, increase the poll time to 120 msec.
+> 
+> Disable the LTSSM state after it transits to detect to avoid LTSSM
+> toggling between polling and detect states.
+> 
 
-You could use multiple K: entries instead of this monster.
+These are two separate changes (increasing poll time and disabling LTSSM).
+Please split this into two patches. A patch should only fix one issue, not more.
 
-And please use (?:<foo>) to avoid capture groups too.
+- Mani
+
+> tegra_pcie_dw_pme_turnoff() function is called in non-atomic context
+> only, so use the non-atomic poll function.
+> 
+> Fixes: 56e15a238d92 ("PCI: tegra: Add Tegra194 PCIe support")
+> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> ---
+> Changes V6 -> V7: Append _US to LTSSM macros
+> Changes V5 -> V6: Retain only one fixes tag
+> Changes V1 -> V5: None
+> 
+>  drivers/pci/controller/dwc/pcie-tegra194.c | 55 +++++++++++++---------
+>  1 file changed, 32 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index d6c6bd512b51..afbc0bdd8a93 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -137,7 +137,11 @@
+>  #define APPL_DEBUG_PM_LINKST_IN_L0		0x11
+>  #define APPL_DEBUG_LTSSM_STATE_MASK		GENMASK(8, 3)
+>  #define APPL_DEBUG_LTSSM_STATE_SHIFT		3
+> -#define LTSSM_STATE_PRE_DETECT			5
+> +#define LTSSM_STATE_DETECT_QUIET		0x00
+> +#define LTSSM_STATE_DETECT_ACT			0x08
+> +#define LTSSM_STATE_PRE_DETECT_QUIET		0x28
+> +#define LTSSM_STATE_DETECT_WAIT			0x30
+> +#define LTSSM_STATE_L2_IDLE			0xa8
+>  
+>  #define APPL_RADM_STATUS			0xE4
+>  #define APPL_PM_XMT_TURNOFF_STATE		BIT(0)
+> @@ -198,7 +202,8 @@
+>  #define CAP_SPCIE_CAP_OFF_USP_TX_PRESET0_MASK	GENMASK(11, 8)
+>  #define CAP_SPCIE_CAP_OFF_USP_TX_PRESET0_SHIFT	8
+>  
+> -#define LTSSM_TIMEOUT 50000	/* 50ms */
+> +#define LTSSM_DELAY_US		10000	/* 10 ms */
+> +#define LTSSM_TIMEOUT_US	120000	/* 120 ms */
+>  
+>  #define GEN3_GEN4_EQ_PRESET_INIT	5
+>  
+> @@ -1589,23 +1594,22 @@ static void tegra_pcie_dw_pme_turnoff(struct tegra_pcie_dw *pcie)
+>  		data &= ~APPL_PINMUX_PEX_RST;
+>  		appl_writel(pcie, data, APPL_PINMUX);
+>  
+> +		err = readl_poll_timeout(pcie->appl_base + APPL_DEBUG, data,
+> +			((data & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_QUIET) ||
+> +			((data & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_ACT) ||
+> +			((data & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_PRE_DETECT_QUIET) ||
+> +			((data & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_WAIT),
+> +			LTSSM_DELAY_US, LTSSM_TIMEOUT_US);
+> +		if (err)
+> +			dev_info(pcie->dev, "Link didn't go to detect state\n");
+> +
+>  		/*
+> -		 * Some cards do not go to detect state even after de-asserting
+> -		 * PERST#. So, de-assert LTSSM to bring link to detect state.
+> +		 * Deassert LTSSM state to stop the state toggling between
+> +		 * polling and detect.
+>  		 */
+>  		data = readl(pcie->appl_base + APPL_CTRL);
+>  		data &= ~APPL_CTRL_LTSSM_EN;
+>  		writel(data, pcie->appl_base + APPL_CTRL);
+> -
+> -		err = readl_poll_timeout_atomic(pcie->appl_base + APPL_DEBUG,
+> -						data,
+> -						((data &
+> -						APPL_DEBUG_LTSSM_STATE_MASK) >>
+> -						APPL_DEBUG_LTSSM_STATE_SHIFT) ==
+> -						LTSSM_STATE_PRE_DETECT,
+> -						1, LTSSM_TIMEOUT);
+> -		if (err)
+> -			dev_info(pcie->dev, "Link didn't go to detect state\n");
+>  	}
+>  	/*
+>  	 * DBI registers may not be accessible after this as PLL-E would be
+> @@ -1679,19 +1683,24 @@ static void pex_ep_event_pex_rst_assert(struct tegra_pcie_dw *pcie)
+>  	if (pcie->ep_state == EP_STATE_DISABLED)
+>  		return;
+>  
+> -	/* Disable LTSSM */
+> +	ret = readl_poll_timeout(pcie->appl_base + APPL_DEBUG, val,
+> +		((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_QUIET) ||
+> +		((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_ACT) ||
+> +		((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_PRE_DETECT_QUIET) ||
+> +		((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_WAIT) ||
+> +		((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_L2_IDLE),
+> +		LTSSM_DELAY_US, LTSSM_TIMEOUT_US);
+> +	if (ret)
+> +		dev_err(pcie->dev, "LTSSM state: 0x%x timeout: %d\n", val, ret);
+> +
+> +	/*
+> +	 * Deassert LTSSM state to stop the state toggling between
+> +	 * polling and detect.
+> +	 */
+>  	val = appl_readl(pcie, APPL_CTRL);
+>  	val &= ~APPL_CTRL_LTSSM_EN;
+>  	appl_writel(pcie, val, APPL_CTRL);
+>  
+> -	ret = readl_poll_timeout(pcie->appl_base + APPL_DEBUG, val,
+> -				 ((val & APPL_DEBUG_LTSSM_STATE_MASK) >>
+> -				 APPL_DEBUG_LTSSM_STATE_SHIFT) ==
+> -				 LTSSM_STATE_PRE_DETECT,
+> -				 1, LTSSM_TIMEOUT);
+> -	if (ret)
+> -		dev_err(pcie->dev, "Failed to go Detect state: %d\n", ret);
+> -
+>  	reset_control_assert(pcie->core_rst);
+>  
+>  	tegra_pcie_disable_phy(pcie);
+> -- 
+> 2.34.1
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
