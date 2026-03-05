@@ -1,160 +1,192 @@
-Return-Path: <linux-tegra+bounces-12540-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12541-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yI9FJkVVqWkj4wAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12540-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 11:04:53 +0100
+	id +MBjFXlXqWkh5wAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12541-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 11:14:17 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1E120F4F7
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 11:04:53 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C02EC20F829
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 11:14:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 99FC53049552
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 10:03:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 297683014C43
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 10:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7825537F8D3;
-	Thu,  5 Mar 2026 10:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673E037DE82;
+	Thu,  5 Mar 2026 10:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cD4UFgoA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGxx742k"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0BE37F001
-	for <linux-tegra@vger.kernel.org>; Thu,  5 Mar 2026 10:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC81331204;
+	Thu,  5 Mar 2026 10:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772704944; cv=none; b=mxvCVIt2Btzb3W+w/A7BZxIu1SxYz5xfEIJXQyOLHNSm86Hlt1eMOvmy60JjWBcos+mJ2M85+ut0KrsBvQ1Z5rQ4mVJf15sqFtJajvUOl8hwdOBGktFFJBUkCalo3jFnFgHbp1BPQxB3fxRmkM6q4rDrEfBjXGoYrrAUB0/Yl3c=
+	t=1772705637; cv=none; b=p2SOiWC9UcBh7z/Y8/AK2jfCXJ9Yk5qlDl8+qVjkhwL5+NmSjWzzyVR/E4xQ3U2X1DC+kQuGLqu2bWHXK0Mbm/3oAT/k4fWUmIZJsvBISq9ExX3HH9uFutbjRmtt2/b0vq/cH8oe+3jzaxuGnRVfNVGgUQUGJ7Zcx3Carqg9AcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772704944; c=relaxed/simple;
-	bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qnN1Pn68m1VwohwbqjSKcvALPGjIkvUNpLLgxex3XvfUYGktWka8Uk4KWscRsvgAno6qgKIE7A4eO6MgD/tYgLr6Aym1EtgxYei3H6L1RMZmiw1IeTvTq0lgNAIIX7xCERBHTfQNHZjJM/DSV2jibFILd87+KRkKaiCm0tdnpes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cD4UFgoA; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-483a233819aso77125975e9.3
-        for <linux-tegra@vger.kernel.org>; Thu, 05 Mar 2026 02:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772704940; x=1773309740; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=cD4UFgoAocJuZT5S6/FT4tLvo8eHic6win/PVVlM7THi42GfYkSi1TmQKp9oFjEvC9
-         4DuAmh8ioVJ3l0t9cfDz1F4uH57IMEgeY61EKqf0J4hgzotd10bzAWeqkIY3qxwq+gtt
-         KyD/BEhAcZymLIC+jEV+iqZhfRlSpIO7G5fxOWyrn6ZeoxUBzXJNaGNiXGXdwAwygc++
-         SJ3ShMbEL/2wC0WJ/VhDdOAftX90PfAz60BcupIG8OAGaPrCOCMIA27aaK++isLH44Iv
-         ENO8y4ePFW102JPN00G4qmjO8l3H2KXaQyAiU4DD52kTRmizIQUzeyakkq8kcPe749lH
-         0MxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772704940; x=1773309740;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=hylrX6F4QbUTX8OXZpWs1qBHt14/JHoQgp4+GdYzq4hqL2dptaBumndcgax/auNGp/
-         F8LAEey2zO0JD1+3hBFI9UzxmZwTo9mVwml+V8rlZIgX2ajWNJ9G3qQQVF+EM1uaOL2j
-         BbdlKv/nc4lhvOmhEmu32220JT/dczsqtFVKCMicR3BKVgafUKiE5oorGRA/KAjtlKdp
-         SV4f1QnF5/00CpLCuWjlJn9+hDJ6ihGs9VZkQq+45ogmSLTG8tx4+E3LaP9FG36wUZED
-         4+5hf1tEaU+veWDtFzDgu7rGDXJ5nWqsoR/Px2TTdxcsbNoEqaGaABKdOp/f1amdasfj
-         gqTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUL1cfJklbm8HWP3kp9tFkOxklEmXcp2nn7q5p0qr3jIR57iisxOv/PKfH68rdCMKkvSS0nminDcUoy5A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxE0jQyfhcDRK1BVUKVmXKJ0m95DU5RKaSlR4BTaNxDj4rd6RH
-	dnm1ANf/lrwkcQSMEy6Mjgggwe6wD+Akq4YizGcqHCx5/R2SU2i6SNh+lnRtczo5l9s=
-X-Gm-Gg: ATEYQzxn85V4f+jvgb02lz+rR8n8MCzLFfQPtZSD8j5E26EUEOPFlgla7a67eyI8qWr
-	Ae72iiNkLYOauyZrAXU+ZeEEgs6jtqFWBq+gKNYy1yposufNO3S9qvcQjjWaNTmM7IFtVwzXWfn
-	F5YswjnKDqlA4/36z5mXK4/o+Qwv6PVyZQ0ncE2+ScZoFOuJHISpfJ9uOhB9qOpCNC8P9bsoLA/
-	MXMmReG0otmfWusD1/Ki6lF7Hvrc567rnmYuVZwfPa3vo+86C/mVnR5/qS9Yj47KU1bOxEeuX44
-	kfUWelK8rNn0lzn3qtp9ZoCimm/+oUMko69L0gfoDjaoZvSgI/Pj7FY3eVFs+d6QaAnKgPeKRO9
-	OZHP2cR6dwUComqWZaD7Ot6KNRquZRbrmz0UDuzBsn+xkFe0SyQYWVuNTvTYap2EruMxM56jRRk
-	1WdLsFGJil44XZiytQzMK4TJIpVp3L
-X-Received: by 2002:a05:600c:a07:b0:47f:b737:5ce0 with SMTP id 5b1f17b1804b1-4851988f31dmr86977045e9.23.1772704939633;
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Received: from salami.lan ([212.129.84.244])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fade9fdsm59453655e9.4.2026.03.05.02.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Message-ID: <030737fd255a49288349f06e8c1217a126ea9081.camel@linaro.org>
-Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where
- missing
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, 	dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 	linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, 	linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Peter Griffin	 <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Heiko
- Stuebner <heiko@sntech.de>
-Date: Thu, 05 Mar 2026 10:02:16 +0000
-In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
-	 <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-8 
+	s=arc-20240116; t=1772705637; c=relaxed/simple;
+	bh=gLlEtYagEKIFjG5F8a3A/NR9PRdUS4OHscROMOIMXZA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jcbEFctYv9Cgfbw27kGCh+gsj8XCP1/QN8m64Iobst3elptXHTd2f9+S3qUFTcA6oXGeKT3sFoTsE55/txW69zHsqyHJVVymq3M9XHCYqaf9p90KlwdtvlmBKKNrqN2aaYUeM/ndBCbt/wi0zdCIpuWTBBaZ3QG9r6qy1ewGCM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGxx742k; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C52AEC116C6;
+	Thu,  5 Mar 2026 10:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772705636;
+	bh=gLlEtYagEKIFjG5F8a3A/NR9PRdUS4OHscROMOIMXZA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OGxx742ke8ndUq+KKpCoK78oYVQ+tBt9CF0nBSTEw5V6sjEK34QB1i75slSO+ilb5
+	 bzv8SKdM+Aj941MheVLLmptyNHH2aZRlbMyfKcyximmU0Iqru503CIvVVpvKQewuVJ
+	 I1gkrYmmRNt70fhzjJFOJIBOr43VyqJZnMKOHmI4BpNrGBTGz3h27oyGs2gULFRa48
+	 cK56WnPdi+Oq6gXwLZby4u/gIzKC/Y28ebuttCuqXyLbELbpasi/D2md3AQnhSl5BY
+	 P9X2qwHlg3WZH66oyHfOnWJ2bJhliZovnSdIh46cr0FMTHaQ40jjxu7XbWLeozpAnG
+	 I1rOHUQJMHF/Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vy5iM-0000000GOHR-0DfY;
+	Thu, 05 Mar 2026 10:13:54 +0000
+Date: Thu, 05 Mar 2026 10:13:53 +0000
+Message-ID: <86v7fa7fdq.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Antoine Tenart <atenart@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+	Daniel Palmer <daniel@thingy.jp>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nishanth Menon <nm@ti.com>,
+	Tero Kristo <kristo@kernel.org>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 3/4] irqchip/gic: Use GIC_* DT binding definitions
+In-Reply-To: <d22488d128d39fcd90359f59559fac637bb4b04c.1772644406.git.geert+renesas@glider.be>
+References: <cover.1772644406.git.geert+renesas@glider.be>
+	<d22488d128d39fcd90359f59559fac637bb4b04c.1772644406.git.geert+renesas@glider.be>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Rspamd-Queue-Id: 3D1E120F4F7
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: geert+renesas@glider.be, tglx@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, lpieralisi@kernel.org, atenart@kernel.org, florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com, Frank.Li@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, mark-pk.tsai@mediatek.com, daniel@thingy.jp, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, thierry.reding@gmail.com, jonathanh@nvidia.com, nm@ti.com, kristo@kernel.org, ssantosh@kernel.org, hayashi.kunihiko@socionext.com, mhiramat@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, imx@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Rspamd-Queue-Id: C02EC20F829
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,glider.be,gmail.com,sntech.de];
-	TAGGED_FROM(0.00)[bounces-12540-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	FREEMAIL_CC(0.00)[kernel.org,broadcom.com,nxp.com,pengutronix.de,gmail.com,linaro.org,baylibre.com,googlemail.com,mediatek.com,thingy.jp,collabora.com,nvidia.com,ti.com,socionext.com,lists.infradead.org,vger.kernel.org,lists.linux.dev];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-12541-lists,linux-tegra=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,linux-tegra@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[maz@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-tegra,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,linaro.org:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,nxp.com:email]
+	TAGGED_RCPT(0.00)[linux-tegra,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Wed, 2026-03-04 at 19:57 +0200, Vladimir Oltean wrote:
-> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
-> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
-> call runtime PM operations without including the proper header.
->=20
-> This was provided by <linux/phy/phy.h> but no function exported by this
-> header directly needs it. So we need to drop it from there, and fix up
-> drivers that used to depend on that.
->=20
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Wed, 04 Mar 2026 17:21:58 +0000,
+Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> 
+> Replace magic numbers by symbolic DT binding definitions.  This improves
+> readability, and makes it easier to find where the various GIC
+> interrupts types are handled.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/irqchip/irq-gic-v3.c | 14 ++++++++------
+>  drivers/irqchip/irq-gic.c    |  6 ++++--
+>  2 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> index d75163e71bf22473..6ac103cb40097acc 100644
+> --- a/drivers/irqchip/irq-gic-v3.c
+> +++ b/drivers/irqchip/irq-gic-v3.c
+> @@ -35,6 +35,8 @@
+>  #include <asm/smp_plat.h>
+>  #include <asm/virt.h>
+>  
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+>  #include "irq-gic-common.h"
+>  
+>  static u8 dist_prio_irq __ro_after_init = GICV3_PRIO_IRQ;
+> @@ -1602,25 +1604,25 @@ static int gic_irq_domain_translate(struct irq_domain *d,
+>  			return -EINVAL;
+>  
+>  		switch (fwspec->param[0]) {
+> -		case 0:			/* SPI */
+> +		case GIC_SPI:
 
-> =C2=A0drivers/phy/phy-google-usb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+I'd rather not do that. I use *numeric* values on purpose, because
+that's what the DT *binding* describes, and I have no control over
+what lives in that include file (it gets changed without me being even
+Cc'd).
 
-For Google:
-Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+So I want to stick to the binding, and not to the interpretation of
+it. If you want symbolic values to be used, describe them in the
+binding, have a tool to generate the values from the binding, and use
+that everywhere.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
