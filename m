@@ -1,50 +1,50 @@
-Return-Path: <linux-tegra+bounces-12554-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12555-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACz9IbNlqWlN6wAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12554-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 12:14:59 +0100
+	id iPn7MahmqWlN6wAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12555-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 12:19:04 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189F021068E
-	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 12:14:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8C82107F6
+	for <lists+linux-tegra@lfdr.de>; Thu, 05 Mar 2026 12:19:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A51D93038FF3
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 11:09:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4377630B54D4
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2026 11:13:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9E4C379991;
-	Thu,  5 Mar 2026 11:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FC66383C8F;
+	Thu,  5 Mar 2026 11:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKPaVsdj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i3Y0tCP7"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961071B4257;
-	Thu,  5 Mar 2026 11:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEB3374730;
+	Thu,  5 Mar 2026 11:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772708989; cv=none; b=gmagHPkO19Kouja2zqQJO1n/UH3vuhFyjtMVRFhN7ReWSzwZ84eZkUTlSlZodNXmS8+9vve/2GIEZ6yyEH1wPw7+/xDXt5KMzJP6OraVpxY7jhKyZbQlgmBlo0eTpWoPoxgvrieBG/7Sbf8jenN01VLsD/Ml9KaMYXiwckgqxkk=
+	t=1772709182; cv=none; b=pjbfNOri678gBTUXg4xrs3EVnHn4CjdhIcqBLoypaPVxsTGfx9Hv93xttlkOHZLFCkstNURL2B8wAcr/CJsd/PrYVfSP1cLs01wDV3pt22HE+aWLIg+45Sc2FhwSLjji7+tb6sWXW2EkcuuUhBD3bwvSCIcTvOStDhItIoqk/EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772708989; c=relaxed/simple;
-	bh=gtgNAxbHJcZxz2wzydobvlT+Iu/3PB2YfdCDeQcuTkQ=;
+	s=arc-20240116; t=1772709182; c=relaxed/simple;
+	bh=yG8IGQlWpdvvViFJqhyapo8dbnXkUkwKnF359s1kUAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZSRZWBhly3Tfrrc5/cIuUFhoqis8C20eEmF6hUTWAvyt3Zs6eUiebtC9jSe5FfARkPgHb+t9pQNnGzTTbKNcC2x6P7WiDvqkTia7V1BCzK/aXe73F4e3bjkTQRaTBIzKKKyu32ts4At/DWH8T+dJ1zsZwx8U+ay1rJuGVDbaWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKPaVsdj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FCCC116C6;
-	Thu,  5 Mar 2026 11:09:42 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=uKUAA4ZPHxARXd2I3GV/ssWoFBWM2uysdQSd0mf8Yy/efG1a9ht9QzTXkncQ9ZTOiNrylngdpUBPJiXb4NjXFvdEbKZDbKl5It0YWSDJGhpNFDeDWNZOp09iWWFyntqxN4g65sZg2tpDI+po96VNMecqLD+g0pCsZ+T93toZtIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i3Y0tCP7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCE0C116C6;
+	Thu,  5 Mar 2026 11:12:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772708989;
-	bh=gtgNAxbHJcZxz2wzydobvlT+Iu/3PB2YfdCDeQcuTkQ=;
+	s=k20201202; t=1772709181;
+	bh=yG8IGQlWpdvvViFJqhyapo8dbnXkUkwKnF359s1kUAk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tKPaVsdjdClG8jtVpTTZ4OnM129iPTWqmotplJe3VVAdAQ7P2kzdmVcAg1U3tn/Tq
-	 ePLJoprMdiqmKtOjHTBIc9zXgYb8rt8gzTLqjaHt0eKnPHFBglPPffcin4/51HxejU
-	 V6GJhrMExvSSMvg/5xsmHkw1MuxQK+r/+eLZ+H5VkMFlO6mzIorizpG63LUdCdqPDR
-	 QzEHOZkl6ETtNgBBQu+lHMYCShmJRfYrmER9MKN/hQDPrysw65TvlE+tUokIJ8jyxh
-	 XPRJtpRTMHJAG+1y5746JszQOaBtolY5mNGUAmo85aEORgULrNPZzCVgyU+qLEby0z
-	 humEOKB0GFscA==
-Date: Thu, 5 Mar 2026 16:39:33 +0530
+	b=i3Y0tCP7vkuImxRG8sV8G4ZOmfalOLnaXDBBrs6wnPtXeRYcwE2yZ2M/YwTRfZ5Tx
+	 0+DS1eOnOlkHaiOH0ktTrLQLL7OP9t7lRyICJY9+wlMiehLEaWWoKKLkfuCWCHooV+
+	 1w1A6iixjY4A8Cn7MIl3qzWoTHL2i4VBoFeeaEzxoAUpbBIDtUQKg7zZZWinb1TRZD
+	 zxACvxJLOzN/lKW5zo59xKoqntSAPzErhn8/Q0SPDG3nUNZ3S5hjGqt0XVJyQWmXFw
+	 lqsQGktTUpwFenhaNufcf8Vef8KmtlsYCo76uziYEW27Zg+KOr/zo4cBgc6KD5YVqk
+	 3cciWOlcmT30w==
+Date: Thu, 5 Mar 2026 16:42:46 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
 Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
@@ -53,11 +53,10 @@ Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
 	gregkh@linuxfoundation.org, Frank.Li@nxp.com, den@valinux.co.jp, hongxing.zhu@nxp.com, 
 	jingoohan1@gmail.com, vidyas@nvidia.com, cassel@kernel.org, 18255117159@163.com, 
 	linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 6/9] PCI: tegra194: Disable L1.2 capability of
- Tegra234 EP
-Message-ID: <pvi52yfy72jd3jfambb7efq6255cwjbh4wzlakwpb7vyatxi7h@3ywjmthheiq5>
+Subject: Re: [PATCH v7 8/9] PCI: tegra194: Add core monitor clock support
+Message-ID: <p5eoraarj2v5oh5z4qxvixcs3whlt5vlzlgblytaeasujseupz@zjo4nufie2fy>
 References: <20260303065758.2364340-1-mmaddireddy@nvidia.com>
- <20260303065758.2364340-7-mmaddireddy@nvidia.com>
+ <20260303065758.2364340-9-mmaddireddy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -67,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260303065758.2364340-7-mmaddireddy@nvidia.com>
-X-Rspamd-Queue-Id: 189F021068E
+In-Reply-To: <20260303065758.2364340-9-mmaddireddy@nvidia.com>
+X-Rspamd-Queue-Id: 0E8C82107F6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -76,11 +75,11 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12554-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12555-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -95,31 +94,28 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nvidia.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nvidia.com:email]
 X-Rspamd-Action: no action
 
-On Tue, Mar 03, 2026 at 12:27:55PM +0530, Manikanta Maddireddy wrote:
+On Tue, Mar 03, 2026 at 12:27:57PM +0530, Manikanta Maddireddy wrote:
 > From: Vidya Sagar <vidyas@nvidia.com>
 > 
-> When Tegra234 is operating in the Endpoint mode with L1.2 enabled, PCIe
-> link goes down during L1.2 exit. This is because Tegra234 is powering up
-> UPHY PLL immediately without making sure that the REFCLK is stable.
-> This is causing UPHY PLL to not lock to the correct frequency and leading
-> to link going down. There is no hardware fix for this, hence do not
-> advertise the L1.2 capability in the Endpoint mode.
+> Tegra supports PCIe core clock monitoring for any rate changes that may be
+> happening because of the link speed changes. This is useful in tracking
+> any changes in the core clock that are not initiated by the software. This
+> patch adds support to parse the monitor clock info from device-tree and
+> enable it if present.
 > 
+
+Reword the description in imperative mood and avoid 'This patch...'.
+
 > Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 > Tested-by: Jon Hunter <jonathanh@nvidia.com>
 > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
 > Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-
-There should be Fixes tag pointing to the commit that added Tegra234 support.
-
-- Mani
-
 > ---
 > Changes V1 -> V7: None
 > 
@@ -127,51 +123,64 @@ There should be Fixes tag pointing to the commit that added Tegra234 support.
 >  1 file changed, 18 insertions(+)
 > 
 > diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index 8f95910e99bc..070eb7f4058d 100644
+> index 070eb7f4058d..e0455d322166 100644
 > --- a/drivers/pci/controller/dwc/pcie-tegra194.c
 > +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -236,6 +236,7 @@ struct tegra_pcie_dw_of_data {
->  	bool has_sbr_reset_fix;
->  	bool has_l1ss_exit_fix;
->  	bool has_ltr_req_fix;
-> +	bool disable_l1_2;
->  	u32 cdm_chk_int_en_bit;
->  	u32 gen4_preset_vec;
->  	u8 n_fts[2];
-> @@ -688,6 +689,22 @@ static void init_host_aspm(struct tegra_pcie_dw *pcie)
->  	if (pcie->supports_clkreq)
->  		pci->l1ss_support = true;
+> @@ -249,6 +249,7 @@ struct tegra_pcie_dw {
+>  	struct resource *atu_dma_res;
+>  	void __iomem *appl_base;
+>  	struct clk *core_clk;
+> +	struct clk *core_clk_m;
+>  	struct reset_control *core_apb_rst;
+>  	struct reset_control *core_rst;
+>  	struct dw_pcie pci;
+> @@ -945,6 +946,8 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
+>  	}
 >  
-> +	/*
-> +	 * Disable L1.2 capability advertisement for Tegra234 Endpoint mode.
-> +	 * Tegra234 has a hardware bug where during L1.2 exit, the UPHY PLL is
-> +	 * powered up immediately without waiting for REFCLK to stabilize. This
-> +	 * causes the PLL to fail to lock to the correct frequency, resulting in
-> +	 * PCIe link loss. Since there is no hardware fix available, we prevent
-> +	 * the Endpoint from advertising L1.2 support by clearing the L1.2 bits
-> +	 * in the L1 PM Substates Capabilities register. This ensures the host
-> +	 * will not attempt to enter L1.2 state with this Endpoint.
-> +	 */
-> +	if (pcie->of_data->disable_l1_2 && pcie->of_data->mode == DW_PCIE_EP_TYPE) {
-> +		val = dw_pcie_readl_dbi(pci, l1ss + PCI_L1SS_CAP);
-> +		val &= ~(PCI_L1SS_CAP_PCIPM_L1_2 | PCI_L1SS_CAP_ASPM_L1_2);
-> +		dw_pcie_writel_dbi(pci, l1ss + PCI_L1SS_CAP, val);
-> +	}
-> +
->  	/* Program L0s and L1 entrance latencies */
->  	val = dw_pcie_readl_dbi(pci, PCIE_PORT_AFR);
->  	val &= ~PORT_AFR_L0S_ENTRANCE_LAT_MASK;
-> @@ -2465,6 +2482,7 @@ static const struct tegra_pcie_dw_of_data tegra234_pcie_dw_ep_of_data = {
->  	.mode = DW_PCIE_EP_TYPE,
->  	.has_l1ss_exit_fix = true,
->  	.has_ltr_req_fix = true,
-> +	.disable_l1_2 = true,
->  	.cdm_chk_int_en_bit = BIT(18),
->  	/* Gen4 - 6, 8 and 9 presets enabled */
->  	.gen4_preset_vec = 0x340,
-> -- 
-> 2.34.1
-> 
+>  	clk_set_rate(pcie->core_clk, GEN4_CORE_CLK_FREQ);
+> +	if (clk_prepare_enable(pcie->core_clk_m))
+> +		dev_err(pci->dev, "Failed to enable core monitor clock\n");
+>  
+>  	return 0;
+>  }
+> @@ -1017,6 +1020,12 @@ static int tegra_pcie_dw_start_link(struct dw_pcie *pci)
+>  		val &= ~PCI_DLF_EXCHANGE_ENABLE;
+>  		dw_pcie_writel_dbi(pci, offset + PCI_DLF_CAP, val);
+>  
+> +		/*
+> +		 * core_clk_m is enabled as part of host_init callback in
+> +		 * dw_pcie_host_init(). Disable the clock since below
+> +		 * tegra_pcie_dw_host_init() will enable it again.
+> +		 */
+> +		clk_disable_unprepare(pcie->core_clk_m);
+
+Again, this change should be in a separate patch.
+
+>  		tegra_pcie_dw_host_init(pp);
+>  		dw_pcie_setup_rc(pp);
+>  
+> @@ -1610,6 +1619,7 @@ static void tegra_pcie_dw_pme_turnoff(struct tegra_pcie_dw *pcie)
+>  
+>  static void tegra_pcie_deinit_controller(struct tegra_pcie_dw *pcie)
+>  {
+> +	clk_disable_unprepare(pcie->core_clk_m);
+>  	dw_pcie_host_deinit(&pcie->pci.pp);
+>  	tegra_pcie_dw_pme_turnoff(pcie);
+>  	tegra_pcie_unconfig_controller(pcie);
+> @@ -2161,6 +2171,13 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>  		return PTR_ERR(pcie->core_clk);
+>  	}
+>  
+> +	pcie->core_clk_m = devm_clk_get_optional(dev, "core_m");
+> +	if (IS_ERR(pcie->core_clk_m)) {
+> +		dev_err(dev, "Failed to get monitor clock: %ld\n",
+> +			PTR_ERR(pcie->core_clk_m));
+
+To simplify, just do:
+
+		return dev_err_probe();
+
+- Mani
 
 -- 
 மணிவண்ணன் சதாசிவம்
