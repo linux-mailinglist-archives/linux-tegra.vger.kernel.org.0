@@ -1,156 +1,168 @@
-Return-Path: <linux-tegra+bounces-12656-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12657-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4LyIFjJ+rmlfFQIAu9opvQ
-	(envelope-from <linux-tegra+bounces-12656-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 09 Mar 2026 09:00:50 +0100
+	id AENVKx+OrmnlFwIAu9opvQ
+	(envelope-from <linux-tegra+bounces-12657-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 09 Mar 2026 10:08:47 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584F92352A1
-	for <lists+linux-tegra@lfdr.de>; Mon, 09 Mar 2026 09:00:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E138235E52
+	for <lists+linux-tegra@lfdr.de>; Mon, 09 Mar 2026 10:08:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 401393003BE1
-	for <lists+linux-tegra@lfdr.de>; Mon,  9 Mar 2026 08:00:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 85DAA3005A96
+	for <lists+linux-tegra@lfdr.de>; Mon,  9 Mar 2026 09:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270AE36A03B;
-	Mon,  9 Mar 2026 08:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BCA3644A3;
+	Mon,  9 Mar 2026 09:08:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNZItq8L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgvT4uup"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026B33644C5;
-	Mon,  9 Mar 2026 08:00:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2247334D383
+	for <linux-tegra@vger.kernel.org>; Mon,  9 Mar 2026 09:08:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773043245; cv=none; b=iEJNIZOkjJ4o9p1uRTEyVaK222dBhiyvo79qeMSpaDq8/l3qRXRwVBsT/iDiF8W6Vcmn/VeM/XyW8MvTuBv5ehSvM6XuMfY6QooOqvmnz9F0wYLKHtRBPp8VzQz8Ro+a65JSvMF6F8BrWJ+TYvGm6wVAjMgcXXiTxEecPdVbki0=
+	t=1773047323; cv=none; b=PRe3uRD+MBhyxivMlwfl5liVSdBaTNLB1UtEt2p92fR2H4iMAtXKL6/Hw4GUhmEbiwfomP9EW0rlRm93xZms5i1Xqo7TE94damUJzfLF0qvFyqDVhYz0+5BSc8DH8V/uRqDjHhtrZd+FpOssZEcmGTPUGSJtSQvx5nQzux2C+jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773043245; c=relaxed/simple;
-	bh=oLICg3wmajRFE766zc5v+Mhsl02mz5h3ToNTDdVSp04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lElYhWhwYZxjsYkBx/XYfUJ1WgZjTCg3ZUefHSZ+pTp+x4GpXiH+sU2m3OD1iudqdCqQFRof1zb5TO4qN84X1vcE5oeTiZK81v9cN3IqLFkiAauTMHiLvOVsWaCprBiJB/VRaIWjdttDVv4qTNg798zpict8rXIvtoSsPKHXZPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNZItq8L; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09CEC4CEF7;
-	Mon,  9 Mar 2026 08:00:37 +0000 (UTC)
+	s=arc-20240116; t=1773047323; c=relaxed/simple;
+	bh=EJAhZ60TwCaq5rP8E9O8CgQUpaCypxuz+TL3xs5WNFM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eFrpM9b3MpTPK1ltW6DF1fFF+KR+BizCOfVy7PqF734i+LEHg9KN9Dtrtzx1EhGSMCECqN7I6RDDS6PWE0cC30QsgzXUwXPG4Pw4bUpIVzOSRF5EGq430CGSbNOuq4vdu2DaJK1N2J+RzXf1uz0rnV6+LZk6k3VbTs5WiG7LQoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgvT4uup; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9823C2BCB7
+	for <linux-tegra@vger.kernel.org>; Mon,  9 Mar 2026 09:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773043244;
-	bh=oLICg3wmajRFE766zc5v+Mhsl02mz5h3ToNTDdVSp04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CNZItq8LwmKUyF4EsMYfZzw79lQvEZA1PoAqpBMqbYmGVknRBToRujRDKh6Ep4Csh
-	 7tpZ+lWDOH1+lfes2lAtWo8E8mb7XSLrUspgSZuiyeJdMDX8h+FQktz7PZZF1T25lJ
-	 uACXhUtIhn54ju06Ox37MB4fbfLeXj/G/KflaUyci8mylZHqMmJqgZNArwBJ6t83HP
-	 +ji9lZ0aQQJIPvusqwCq22ogl7M502qvPO0+2PuWChQ4mMJGH6LfGAXsdhuF+J6RmM
-	 rBi2SCB9AgU2x6l6VsvNUWrbrxXP0lXmwN7v77tVA0KDh+Q7QJ2Vp4TzMh5TbvnyHz
-	 r73zDPAlQdt7g==
-Date: Mon, 9 Mar 2026 13:30:28 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
-	krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>, 
-	manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Chia-Lin Kao <acelan.kao@canonical.com>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-Message-ID: <y6ssm2pxybi26r54aszgsksg7pijnnqkmrut26lwgw2iawihu7@sw7ctkze7yni>
-References: <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
- <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
- <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
- <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
- <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
- <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
- <npt2cgwksulq5375dzlhszqaqrurgdvlkz6fdczer6shglqfg5@gp6a6xymymww>
- <26ad62ff-4972-4b29-8f9e-1868cd20ee00@nvidia.com>
- <kkly3z4durpagtenadvmzdpojlctachgfgi2fdapt6zthdl2gx@n2qhmlud2zb7>
- <3a0ddcfa-9fe6-4744-a9e4-016c43f9400e@nvidia.com>
+	s=k20201202; t=1773047322;
+	bh=EJAhZ60TwCaq5rP8E9O8CgQUpaCypxuz+TL3xs5WNFM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MgvT4uupqPd7sUisqcE1az8KJWex6r+jsA5mDLANKKWYmZfnWuHvegrfzsKMJM0fZ
+	 rtPVjq4m0bVJZPOCCJ4nNq7NcUdd2xMZs1BAG7hBprD8SleC9El0kaNsYxNok5apJj
+	 MNbiDGcLegKRf+ny7Qp3RHtJeJg9QcWNbtnqdI51q+Z2RdOpvy4Cjl1NaYQK/BqQex
+	 FWqXMLOYGG0yErFOhlf5MGJFc55NDwI4NQaO6/D8ODvVYqcES+4SWt7yyWM6ZCaULY
+	 bj9NDb5NGzy22tXfpjk3HRRiJi4zcLOLI4aKZI58xtk/8Dr+BqPDZW04q/Lcql3zmZ
+	 u9WlU+esmONXw==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38a3fd333eeso22041211fa.1
+        for <linux-tegra@vger.kernel.org>; Mon, 09 Mar 2026 02:08:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWE+1GqKZoMf6gJ8nEet6FORwDZagiJF2XTc+FbzpQFRHQRpnjy7BghLhaKtSkDZ8XnC9XYZAOPrFc7Fw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC6V4+AurmGRkKR9iirtO4Wcre2bMuy+ckXGAOsZYfVjs9abau
+	DOfafCmdvclQFvvBhsFVV2tsH8Hd5UrTYowxoajYcSwxME39QMOroyLprdnhV8Yzwa8QiHGydwN
+	9qMBTwxMfntzufF/1AvPDV94dpv45SCFaJq0F+CtqgQ==
+X-Received: by 2002:a2e:8e85:0:b0:383:227:2891 with SMTP id
+ 38308e7fff4ca-38a35129a54mr36312811fa.4.1773047321435; Mon, 09 Mar 2026
+ 02:08:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3a0ddcfa-9fe6-4744-a9e4-016c43f9400e@nvidia.com>
-X-Rspamd-Queue-Id: 584F92352A1
+References: <20260302-i2cfix-v1-1-a95418e9217e@kemnade.info>
+ <9b3c0190-7996-40a3-8306-5038f42b2b15@nvidia.com> <20260307182610.48cae8b4@kemnade.info>
+In-Reply-To: <20260307182610.48cae8b4@kemnade.info>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 9 Mar 2026 10:08:29 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MfrXZY5k-b6eUWUov=MLnXojAenPwiM-eeOpjKZrBHeSA@mail.gmail.com>
+X-Gm-Features: AaiRm500DVMY-5Yc-YzOG36qYjsK3QrU7GWL1Kyqd4yQnObR6PcKBeqZpGD8xX0
+Message-ID: <CAMRc=MfrXZY5k-b6eUWUov=MLnXojAenPwiM-eeOpjKZrBHeSA@mail.gmail.com>
+Subject: Re: [PATCH] i2c: i2c-core-base: fix devicetree alias handling
+To: Andreas Kemnade <andreas@kemnade.info>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Johan Hovold <johan@kernel.org>
+Cc: Jon Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>, 
+	Linus Walleij <linusw@kernel.org>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Kalle Niemi <kaleposti@gmail.com>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4E138235E52
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12656-lists,linux-tegra=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,oss.qualcomm.com,kernel.org,google.com,vger.kernel.org,linux.intel.com,canonical.com,gmail.com,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[nvidia.com,nxp.com,kernel.org,foss.st.com,broadcom.com,raspberrypi.com,oss.qualcomm.com,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-12657-lists,linux-tegra=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.973];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-tegra,renesas];
+	NEURAL_HAM(-0.00)[-0.990];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,kemnade.info:email]
 X-Rspamd-Action: no action
 
-On Fri, Mar 06, 2026 at 04:03:35PM +0000, Jon Hunter wrote:
-> 
-> On 03/03/2026 16:17, Manivannan Sadhasivam wrote:
-> 
-> ...
-> 
-> > > For Tegra, we enter a deep low power state known as SC7 on suspend which
-> > > does involve firmware. Nonetheless I tried for fun, but this breaks suspend
-> > > completely.
-> > > 
-> > 
-> > Ah, this explains the problem. We also have a similar problem on our Qcom Auto
-> > boards where the firmware completely shuts down the SoC and puts the DRAM in
-> > self refresh mode. So NVMe driver never resumes properly. We tried multiple ways
-> > to address this issue in the NVMe driver, but the NVMe maintainers rejected
-> > every single one of them and asking for some API in the PCI or PM core to tell
-> > the NVMe driver when to shutdown the device during suspend. But this turned out
-> > to be not so trivial.
-> > 
-> > Another way to workaround this issue would be by calling
-> > pm_set_suspend_via_firmware() from the driver that controls the entity doing
-> > power management of the SoC (firmware). In your case, it is
-> > drivers/soc/tegra/pmc.c?
-> 
-> Actually for newer devices it is PSCI and so ...
-> 
-> > In that case, you can use this patch as a reference:
-> > https://lore.kernel.org/all/20251231162126.7728-1-manivannan.sadhasivam@oss.qualcomm.com
-> 
-> This change fixes the problem as implemented. What is the status of the
-> above? Any plans to get this merged?
-> 
+On Sat, Mar 7, 2026 at 6:27=E2=80=AFPM Andreas Kemnade <andreas@kemnade.inf=
+o> wrote:
+>
+> On Fri, 6 Mar 2026 10:18:09 +0000
+> Jon Hunter <jonathanh@nvidia.com> wrote:
+>
+> [...]
+>
+> > /sys/class/i2c-dev/i2c-0/name --> 3160000.i2c
+> > /sys/class/i2c-dev/i2c-1/name --> c240000.i2c
+> > /sys/class/i2c-dev/i2c-4/name --> Tegra BPMP I2C adapter
+> > /sys/class/i2c-dev/i2c-8/name --> 31e0000.i2c
+> >
+> > After this change I now see ...
+> >
+> > /sys/class/i2c-dev/i2c-9/name --> Tegra BPMP I2C adapter
+> > /sys/class/i2c-dev/i2c-10/name --> 3160000.i2c
+> > /sys/class/i2c-dev/i2c-11/name --> 31e0000.i2c
+> > /sys/class/i2c-dev/i2c-12/name --> c240000.i2c
+> >
+> > So the subject says that this fixes device-tree aliases, but it appears
+> > to break it for Tegra. In fact, this patch appears to have the same
+> > problem that you reported with Bartosz's change. Reverting this change
+> > fixes the problem. So I am a bit confused why we are seeing different
+> > behaviour.
+> >
+> Hmm, i2c-tegra.c was forgotten in Bartosz's change because
+> the code looks a bit different.
+>
 
-It didn't get any love so far. It'd help if you can give your tags to that
-patch.
+It was not forgotten, rather my series only changed a part of the
+users and I was planning to continue the work but it seems like Johan
+committed to attempting to rework i2c using a different approach[1].
 
-- Mani
+Wolfram: do you want to drop these patches from your v7.1 queue then?
 
--- 
-மணிவண்ணன் சதாசிவம்
+Bartosz
+
+> There is still
+> i2c_dev->adapter.dev.of_node =3D i2c_dev->dev->of_node;
+>         i2c_dev->adapter.dev.parent =3D i2c_dev->dev;
+> there.
+> compared to
+>   adap->parent =3D &pdev->dev;
+>         adap->of_node =3D pdev->dev.of_node;
+>
+> in omap code. So I think, the easiest to get forward is to
+> also adapt i2c-tegra.c.
+>
+> Regards,
+> Andreas
+
+[1] https://lore.kernel.org/all/aar3rj7Db6NmTVS_@hovoldconsulting.com/
 
