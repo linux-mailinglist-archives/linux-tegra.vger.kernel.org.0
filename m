@@ -1,202 +1,212 @@
-Return-Path: <linux-tegra+bounces-12747-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12753-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YHvBFwvasmkAQQAAu9opvQ
-	(envelope-from <linux-tegra+bounces-12747-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 16:21:47 +0100
+	id WNIxEp7tsmnAQwAAu9opvQ
+	(envelope-from <linux-tegra+bounces-12753-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 17:45:18 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0A42743E7
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 16:21:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC605275D93
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 17:45:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6EF103030DAC
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 15:17:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8853531BEA0D
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2026 16:38:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29341352FA1;
-	Thu, 12 Mar 2026 15:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD32C391E7E;
+	Thu, 12 Mar 2026 16:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDqZcH5o"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Fx4rGQ+B"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D5133F5A7
-	for <linux-tegra@vger.kernel.org>; Thu, 12 Mar 2026 15:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773328674; cv=pass; b=PNg91p7QUWZ2wijLD3SqBuyBCKnyiC+RTdUuPYbtKmFu8CI4QdZDZXkeDIOR6iUPEvKgyGTzlCN3DXahZVltYyjM0zxNXOYc2GqTc5zf9vEdzUh2Y5mxHODrlI4VeBDNRhLU59p3RyGEy/VUj7StADqOW4cEUMc0BONMplBzOWo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773328674; c=relaxed/simple;
-	bh=n3ZdwtFbjDiH9EBOiJIwiZMSWbVjFjhZRnyxPeovuLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B0jrcUh09PsCmFx0I5+pmrj+/AT7pX4dUcno4jw0PdG2hmAlP1mwAVvgzQJAVhm2YeJ4DndZ1R3geJJjuQmP5CspG5Vyr+qHkmNqPWvFQC794X1RzVBS2RKqhOLe/Vj5+luu4pcyznFLh90GwvDLLjDdyXQd6fkUUUDqNIj+c2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDqZcH5o; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439aeed8a5bso1222617f8f.3
-        for <linux-tegra@vger.kernel.org>; Thu, 12 Mar 2026 08:17:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773328671; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WzKeQ/KOIOp54cCcKfOLaTwlBwYDeH1jnzWGgbHCexVdc6BFp5WkBg0KfVXlenCxvF
-         0YbIGYfgcMffNafTc0Haf0Z92mybmEeVOdX1f9h7HjQzsGFj4jrp4eLg7OFmuBqwfV1k
-         CGnKRTP5KlFJGDTRt5/NeIzqTLEGeoEaUAk+vcjAvlYsKj8uvNpqOeBWHFGpIRNzZ9m5
-         NRCxoKT1zWbuRVyB9tSg01lZKg8ZobBNYJtZT7m0kuTrv2o8waRwiueVP502Eu5OKijP
-         5OKTDNxFZIH2SFMxkNMVldgjK6VeKZCiRlnhAMf5osDJUocQ0Bzq/ekgi03kU//mjMl0
-         SsWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jo2s1AAf8ngQgnPyrjkllIL90Gv+XfCJiqjmpNYyaq8=;
-        fh=ya+qVc4h1thmXtGYWDjDN2Ndpe/LGnlHEu32t/Z6tH0=;
-        b=cTFDrpfKQRuH2jYr4GtJ9ygNXn1jPmwEAZNUxR0qBB4dtnVZ90Y6dR8yBfoBwHSQRg
-         Y2HNjpKb3oVmgcfR2l95VTKdSizve3/zghtvO5rEpW6/s42wGfVlODozmTsd3TR1OOzd
-         qtYVfLStyc38c/tcAujYBT0/YWY9Ms6rsYZs24Ff5uRn5ZCETSooL2ynBDMIkLULp3m1
-         5PAAMXLzyLNJoeUTAGWOTfQt/We84/j7X0i4BH8Yh+RavGNotyFWzUNC5xcZPQKKvgMG
-         h2k2oFjAeAfD4RXda8zMIFXSMQFx9z2od12qob60dnHMKe/FdwLS980lyhQVY3RZpcT4
-         UeGg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773328671; x=1773933471; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jo2s1AAf8ngQgnPyrjkllIL90Gv+XfCJiqjmpNYyaq8=;
-        b=MDqZcH5o/LzB2Lfx9tCUg3EgA8GkLGlXUTjojVMaFHXkuwLQF3pxwEJHuWxjMRpfhb
-         Mrb3GJNUaBccsggJfvyKgltKJzw7kZDtUM95RwrcR/4ZGv/L4h58sGeFH6NW5iXIPUhs
-         rZKl5IfGoAmcMNcX9PWm9couzvsJTB2/Hedsg9n+qk+RFqg6rOFLmS4wddljVXzRmMDW
-         JoRYRfAn7oNJylkux/GXw/PL8PoHEqLB7BKsNot0Ppvzpw6d4dcu0baG08d+zP2Z/YDB
-         SasIUhs10AgvPVROPYsPKJcC0d4Z+W+pRgPDyDHQFD+3JY+4ygNJHwKpCn9pPgK1J3EB
-         ymVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773328671; x=1773933471;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jo2s1AAf8ngQgnPyrjkllIL90Gv+XfCJiqjmpNYyaq8=;
-        b=v4e96xxUGL+exhokfr6ZY04STyMIMpNEn4Q5rG+n6NaTZvIB9HOOhePLsGc0FlF9o6
-         NDB+z382MKSRCuHnnrhwnh2RurBYYIj0N0YZ8VK6N5W3/16QFU6U4fazunWji9p50VpA
-         iM4PCSp8H1h1VWq1GmTm2z2w9zhHKNRCRFXKy57h2OO11hw/ZpYT+lLiAcqn5SkuGN98
-         j136LsVWA2eT5UIvl3eoVKETOvIdAw7AZmMR0xN4c1MMH3aZkK2ul+1R3HNVm1VTy/7h
-         JZWdfI0977gs/fhwiA+UQHIejiNmbUI89APOUrc/92WOGu1q88pGn6J0ryjX8rP6VGy2
-         NpQw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3L2sGbpw7suDSyNbGfZ58oYLs67eJIyhSkBjGBiwFriIDdwq3FZvS6U3OBvBCGFsSAwZjuf5k7oorFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz7ftM5wEaEJ3RzsYmcLAR3VvV8glq+OEDWlNmfVVTucEfU9Om
-	gSE28Fr7DCjpRPLOsr8E72jW1UA4vDiDAwTTk8lUKyg2qYkAdCDm2FZ8P1tb2YdAAPD62KDjfMR
-	848YIwDAdUS+/xYXkI4+dcO15Nsv/MOE=
-X-Gm-Gg: ATEYQzynpeE5wOQD6Fan2kkk/ZhnN7bNz2UjgWZavv3fcQgOBJyr+lTMKT9fFJBrWDq
-	SAUhHQ9+6aqvi6nZ9fhyIM3KEdmFvIbIHUnPJ+j6Xwp6MhpeMP1R7UqvI4chq58d1jvfO4R95Fz
-	mCZzLbRdwtSpWwTNiCuS/eKec0yPlTmDHolNrqcwNd9LcgmQCi9HJIJ28pTZ9H9KbhLsxobQoYL
-	/emnz9NEb+i0iKlKvHUZc1rMxjd3odfxoYzFDMp+fe9suxMvSVgLC6IYnD7Is7uTrVZkW5K/w/x
-	2/+12XKm
-X-Received: by 2002:a05:6000:400a:b0:439:c157:256f with SMTP id
- ffacd0b85a97d-43a04dbbe1cmr93582f8f.33.1773328670951; Thu, 12 Mar 2026
- 08:17:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34753B6358;
+	Thu, 12 Mar 2026 16:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773333518; cv=none; b=Y8+MbMekhL4AGIXG8jieGkTKZPj2TuUYISua9fxNQXxigpdhNN8zG6Tzq1ZUStvnUBe3GuQvNw4I3BeDrlAYZw2fkQe+51fYFc6Hi9gKUfEJAsxRrbgy4JLf8wk4LF3sWfjueoVjPUEKmJDBcQDHQUhrDJD5jX1KA9ASBYONB28=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773333518; c=relaxed/simple;
+	bh=kODxDtOQSMCXadxfPZtHEcOmWfvK+dcy5EXMBryIzkE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=je2qH6lqLLcQ8eMy1Bel3LPp9DgCSHl2LfsPrubqzE+/gWSAfXfAFi9KGYk14Mm6AMuj/xgTk4/JMHajrMqG7tuPAltpyNGq643k8NP/bNVMd4wL5O05gHXcOs3fIqxti8zeYfJqdlcR8n6xUIXgUSgSfc2WLVFJZxt/apHfUu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Fx4rGQ+B; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=8E
+	vM0/fxe3qhVy2cIm2e3+OU/a5wMM0wZxizsylbxeM=; b=Fx4rGQ+BR/AQxSnyUb
+	GiEIQ9eGzXMr7qODTrbc7ib+c2KhF/xq3iGl3c3yXGb1kEqMHJ3312T6rOdPtx7V
+	hO5aFOAjSMVvNTrFj5547oqgclXWawUDb2w9miKdDnI70jBgaIC57hhdXdOj4nCi
+	6tISLMyAvQSyW53qvrCe7sIRA=
+Received: from zhb.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDnN1Gl67JpMC_OAQ--.12929S2;
+	Fri, 13 Mar 2026 00:36:57 +0800 (CST)
+From: Hans Zhang <18255117159@163.com>
+To: lpieralisi@kernel.org,
+	jingoohan1@gmail.com,
+	mani@kernel.org,
+	kwilczynski@kernel.org,
+	bhelgaas@google.com,
+	helgaas@kernel.org,
+	florian.fainelli@broadcom.com,
+	jim2101024@gmail.com
+Cc: robh@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	claudiu.beznea.uj@bp.renesas.com,
+	linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: [PATCH v8 0/5] PCI: of: Remove max-link-speed generation validation
+Date: Fri, 13 Mar 2026 00:36:47 +0800
+Message-Id: <20260312163652.113228-1-18255117159@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260305161035.64548-1-clamor95@gmail.com> <20260305161035.64548-2-clamor95@gmail.com>
- <20260312145743.GA3116703-robh@kernel.org>
-In-Reply-To: <20260312145743.GA3116703-robh@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 12 Mar 2026 17:17:39 +0200
-X-Gm-Features: AaiRm51WovXJ63_4ynYJM6VsATVlyafbG5p2Q-agM7njMf0supe6EPuiPgTypQg
-Message-ID: <CAPVz0n2JjD8MbxuX831QkYbgp-X5Bw8z7MMnNeCLTwU3vHYKxA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: tegra: document Tegra20 DSI port
-To: Rob Herring <robh@kernel.org>
-Cc: Thierry Reding <thierry.reding@kernel.org>, Thierry Reding <treding@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnN1Gl67JpMC_OAQ--.12929S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAw1kuw1Utr15Zr4rKFW5Awb_yoWrWw1fpa
+	y2yFWFyr1xJF43Za17J3WUua4Yg3ZxArWjkr93Ww17ZFnxCF47XrySgF4FvF9rKrW7Zr12
+	q3W2q3W7KFyjyaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piY0PfUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC6wosz2my66rEWAAA3E
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12747-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,broadcom.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,linux.intel.com,lists.freedesktop.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_FROM(0.00)[163.com];
+	TAGGED_FROM(0.00)[bounces-12753-lists,linux-tegra=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.infradead.org,bp.renesas.com,broadcom.com,163.com];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-tegra@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0B0A42743E7
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[163.com:+];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: DC605275D93
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-=D1=87=D1=82, 12 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 16:57 Rob =
-Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thu, Mar 05, 2026 at 06:10:34PM +0200, Svyatoslav Ryhel wrote:
-> > Document the optional port node, which is required for correctly modeli=
-ng
-> > a dual-mode panel.
->
-> Dual mode as in command mode and sync mode? Or do you mean dual link
-> like panel-common-dual.yaml defines?
->
+Hi,
 
-Dual link like in panel-common-dual but that panel-common-dual should
-not be suitable for DSI controller/host. Tegra DSI expects panel to be
-defined as in dsi-controller.yaml while this port node is solely to
-cover dual-link mode panels.
+This series moves the validation from the common OF function to the
+individual PCIe controller drivers.  To protect against out-of-bounds
+accesses to the pcie_link_speed[] array, we first introduce a helper
+function pcie_get_link_speed() that safely returns the speed value
+(or PCI_SPEED_UNKNOWN) for a given generation number.
 
-Command mode and video/sync mode usually refer to how driver should
-work and usually are not mentioned in the schema.
+Then all direct uses of pcie_link_speed[] as an array are converted to
+use the new helper, ensuring that even if an invalid generation number
+reaches those code paths, no out-of-bounds access occurs.
 
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../bindings/display/tegra/nvidia,tegra20-dsi.yaml          | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra20-dsi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegr=
-a20-dsi.yaml
-> > index 59e1dc0813e7..0f4837648d17 100644
-> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-ds=
-i.yaml
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-ds=
-i.yaml
-> > @@ -83,6 +83,12 @@ properties:
-> >        gang up with in order to support up to 8 data lanes
-> >      $ref: /schemas/types.yaml#/definitions/phandle
-> >
-> > +  port:
-> > +    description: specifies the connection port for the dual-mode panel
-> > +      and is required only when the panel is operating in dual-mode
-> > +      configuration.
-> > +    $ref: /schemas/graph.yaml#/properties/port
-> > +
-> >  allOf:
-> >    - $ref: ../dsi-controller.yaml#
-> >    - if:
-> > --
-> > 2.51.0
-> >
+For several drivers that read the "max-link-speed" property
+(pci-j721e, brcmstb, mediatek-gen3, rzg3s-host), we add an explicit
+validation step: if the value is missing, out of range, or unsupported
+by the hardware, a safe default is used (usually Gen2). Other drivers
+(mainly DesignWare glue drivers) rely on the helper to safely handle
+invalid values, but do not yet include fallback logic or warnings.
+
+Finally, the range check is removed from of_pci_get_max_link_speed(),
+so that future PCIe generations can be supported without modifying
+drivers/pci/of.c.
+
+---
+Changes for v8:
+- Expand series from 2 to 5 patches to introduce pcie_get_link_speed() helper
+  and split validation into per-driver changes.
+- Add pcie_get_link_speed() helper for safe pcie_link_speed[] array access (Bjorn)
+- Move max-link-speed validation from DWC core to individual drivers; add explicit
+  fallback logic only for pci-j721e, brcmstb, mediatek-gen3, rzg3s-host.
+- Convert all remaining direct pcie_link_speed[] accesses to use the new helper.
+- Update commit messages to reflect the new design.
+
+Changes for v7:
+https://patchwork.kernel.org/project/linux-pci/cover/20260308142629.75392-1-18255117159@163.com/
+- Add validation in dw_pcie_get_link_speed() (Bjorn)
+- Modify it so that two patches constitute one series.
+
+Changes for v6:
+https://patchwork.kernel.org/project/linux-pci/patch/20251218132036.308094-1-18255117159@163.com/
+
+- It'd be good to return the actual errno as of_property_read_u32() can return
+  -EINVAL, -ENODATA and -EOVERFLOW. (Mani)
+
+Changes for v5:
+https://patchwork.kernel.org/project/linux-pci/patch/20251218125909.305300-1-18255117159@163.com/
+
+- Delete the check for speed. (Mani)
+
+Changes for v4:
+https://patchwork.kernel.org/project/linux-pci/patch/20251105134701.182795-1-18255117159@163.com/
+
+- Add pcie_max_supported_link_speed.(Ilpo)
+
+Changes for v3:
+https://patchwork.kernel.org/project/linux-pci/patch/20251101164132.14145-1-18255117159@163.com/
+
+- Modify the commit message.
+- Add Reviewed-by tag.
+
+Changes for v2:
+https://patchwork.kernel.org/project/linux-pci/cover/20250529021026.475861-1-18255117159@163.com/
+- The following files have been deleted:
+  Documentation/devicetree/bindings/pci/pci.txt
+
+  Update to this file again:
+  dtschema/schemas/pci/pci-bus-common.yaml
+---
+
+Hans Zhang (5):
+  PCI: Add pcie_get_link_speed() helper for safe array access
+  PCI: dwc: Use pcie_get_link_speed() helper for safe array access
+  PCI: j721e: Validate max-link-speed from DT
+  PCI: controller: Validate max-link-speed
+  PCI: of: Remove max-link-speed generation validation
+
+ drivers/pci/controller/cadence/pci-j721e.c       |  3 ++-
+ .../pci/controller/dwc/pcie-designware-host.c    |  2 +-
+ drivers/pci/controller/dwc/pcie-designware.c     |  2 +-
+ drivers/pci/controller/dwc/pcie-qcom-common.c    |  2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c        |  4 ++--
+ drivers/pci/controller/dwc/pcie-qcom.c           |  6 +++---
+ drivers/pci/controller/dwc/pcie-tegra194.c       |  2 +-
+ drivers/pci/controller/pcie-brcmstb.c            |  5 +++--
+ drivers/pci/controller/pcie-mediatek-gen3.c      |  2 +-
+ drivers/pci/controller/pcie-rzg3s-host.c         |  2 +-
+ drivers/pci/of.c                                 | 12 +++++++-----
+ drivers/pci/pci.h                                |  2 ++
+ drivers/pci/probe.c                              | 16 ++++++++++++++++
+ 13 files changed, 41 insertions(+), 19 deletions(-)
+
+
+base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
+-- 
+2.34.1
+
 
