@@ -1,50 +1,50 @@
-Return-Path: <linux-tegra+bounces-12800-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12802-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UBTKOmhet2nZQQEAu9opvQ
-	(envelope-from <linux-tegra+bounces-12800-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 02:35:36 +0100
+	id aDlFFHd4t2nxRQEAu9opvQ
+	(envelope-from <linux-tegra+bounces-12802-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:26:47 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555AF2936A5
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 02:35:36 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A65294666
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:26:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08AE4300C5A7
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 01:35:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D829A3004D05
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 03:26:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5962523AB98;
-	Mon, 16 Mar 2026 01:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D05431E847;
+	Mon, 16 Mar 2026 03:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGVt+qf3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q5/tRw39"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D0D22D785;
-	Mon, 16 Mar 2026 01:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766652248A0;
+	Mon, 16 Mar 2026 03:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773624934; cv=none; b=KzHWrio5RwMzZa4NPKOBnM6xHNOfYs18evq8K8REXUpgNuCbfpZT07ddX0TI5RCKVqzRCJ+GUQM61sKJ0k2V5F2vrGaUCQyRdQ0aHeybGWjwvR+2SMr1xYRkP0ou38/Ys8Z6+r6oVV2DxwN2GqY0qmrsfE0D6GvUltyyJJzQAdA=
+	t=1773631604; cv=none; b=Y/i4yIWyBdPPjbvOpAVG6CD32ldkqihMWlkj/Ih6P1WwQqQi6iQmtcBHezFeDlK6HGvKfWV2qo876mkCbdppGGLngyXiCh2yLkvas8me8CeFd2u9IAZyUwKYYd4N/oExmxbm/XnfwUr+kKcUO8D9K53fvselWdN7BPEbZLIOdXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773624934; c=relaxed/simple;
-	bh=sBPElqmQmbN/YTfA2OWXczxEcTNSY17JhsazLsAZo8s=;
+	s=arc-20240116; t=1773631604; c=relaxed/simple;
+	bh=sgdALoR0VYscVtPqY92tNwojFsvFl1BLlsT4yLskaU4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y2aXiRPxByV/ZPOghSTHFei56MWI38zKz9U21ZRwc/YFtYOwcWo1HciYjVyKWIyKAiAX42zkzntI+saqYkRTjxAXRpt5ZUkyMZ09YYKQhz4FKQ9Decc16BwybJgleHYkGPF81Gl44dVKl5I29rK96ftfmwsTe2S73uW4X2HWmKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGVt+qf3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B10A4C4CEF7;
-	Mon, 16 Mar 2026 01:35:26 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7ipek+5pSjmpZZTNpF3cufruTDLG2QYKz/uTqPMkaVnPveC6MTecn8C3QUhY07lcbTAVwNWzvrB7+rmy3WKKovmbbxcQ9SE34y5mvKqRcG2KoJnxmNnP1M+duFolEzo/SaZ9BcU+SS2GKH44xOJEQlQWwQcD/Xyfa9/ETr/j8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q5/tRw39; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B6DC19425;
+	Mon, 16 Mar 2026 03:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773624933;
-	bh=sBPElqmQmbN/YTfA2OWXczxEcTNSY17JhsazLsAZo8s=;
+	s=k20201202; t=1773631604;
+	bh=sgdALoR0VYscVtPqY92tNwojFsvFl1BLlsT4yLskaU4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tGVt+qf3FRDzuYLzy22ekw1/ZN1FH9wYWYcNwNKmuskXikvmu0bWxbsO9NRbRvm33
-	 cjKwm7EoCVU5MirZ7TRAUdApmvL6CCTbAcTwiwbv1uXdhqIW59CcyCa6AF8i15frFp
-	 i/F5AzLAdmb9ghDAnKFkri1cBgjBF5mmr1/mc/JzAQ6grYNiEssRh6t1qxIsYMVaYJ
-	 hlOD2Sef7HbjwXDT6FiTPiEZtb9I0BlnXQmsqssl0KdmSk97iH3nMHsklp6Ok8JnTu
-	 X7KHSCuub4luwQmBKv5DifWGb3sZ7cDryYISg1i2Qk0AhrFOI3hOT2haPZO6Za8X3d
-	 FjBiwd3pniVPw==
-Date: Mon, 16 Mar 2026 07:05:15 +0530
+	b=q5/tRw39AugTN2V0Fr4z2IF0YErZQoenEo9A99d06iJsE/DjvSHMPQugrkjU6xtwF
+	 sCGazZxdL1qdS/i9dYd3UVwvrUJkWTeY8cdzaTlcO8sdSDUFX1d7aRxnc3xmPPHlER
+	 gQhoMwxnx2Pm2Ej3X5I4lS9HygrF4BpuqwUT7PEnlRFwshSWcKtkDKZrqovw7/I/Uu
+	 ssNFJvED0M32sPrgjXwAsXjfMLZlv/w4bd8K1KyRJoiJshkiOMF+oyWVXE+xOkXYQn
+	 kM1V3j0Ju+CfdtIfdMg9Ozse3YjK3CsJ26z0OBNa4FKbnhry/7rnV7Yq6MWB+UOhXo
+	 RfPMKilGGHhPA==
+Date: Mon, 16 Mar 2026 08:56:33 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
 Cc: "bhelgaas@google.com" <bhelgaas@google.com>, 
@@ -58,13 +58,12 @@ Cc: "bhelgaas@google.com" <bhelgaas@google.com>,
 	Vidya Sagar <vidyas@nvidia.com>, "cassel@kernel.org" <cassel@kernel.org>, 
 	"18255117159@163.com" <18255117159@163.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, 
 	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 13/13] PCI: tegra194: Free resources during controller
- deinitialization
-Message-ID: <p43oadeafmqsunhfp56ssutqjkkmsmtmovkwec7elzkfgwjlci@yka2cbtf7qds>
-References: <20260303065448.2361488-1-mmaddireddy@nvidia.com>
- <20260303065448.2361488-14-mmaddireddy@nvidia.com>
- <bbv5jceuy7vj6t6h6ncxfaxgmrb4acuhzkazinwhyf2zru7pvi@f7maptqx6jqr>
- <78c52693-daa9-4a47-8c9d-bb3f4734c293@nvidia.com>
+Subject: Re: [PATCH v7 1/9] PCI: tegra194: Drive CLKREQ# signal low explicitly
+Message-ID: <js7ev7dxc4zzal7lt6r632gtsm2dlcotncqgpgyytdritnismy@t62pcftuj3nk>
+References: <20260303065758.2364340-1-mmaddireddy@nvidia.com>
+ <20260303065758.2364340-2-mmaddireddy@nvidia.com>
+ <vtylufhul43vacnq6gxvoyshtiesl2is5rmfgxw2ijlzntyvch@sbt7dhufem6q>
+ <2ec931b6-a287-419e-821e-35420c12378d@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -74,20 +73,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <78c52693-daa9-4a47-8c9d-bb3f4734c293@nvidia.com>
+In-Reply-To: <2ec931b6-a287-419e-821e-35420c12378d@nvidia.com>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12800-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12802-lists,linux-tegra=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,nvidia.com,arndb.de,linuxfoundation.org,nxp.com,valinux.co.jp,163.com,vger.kernel.org];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
@@ -103,36 +102,54 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 555AF2936A5
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E7A65294666
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 15, 2026 at 07:46:49PM +0530, Manikanta Maddireddy wrote:
+On Sun, Mar 15, 2026 at 10:46:08PM +0530, Manikanta Maddireddy wrote:
 > 
 > 
-> On 05/03/26 4:13 pm, Manivannan Sadhasivam wrote:
-> > On Tue, Mar 03, 2026 at 12:24:48PM +0530, Manikanta Maddireddy wrote:
+> On 05/03/26 4:28 pm, Manivannan Sadhasivam wrote:
+> > On Tue, Mar 03, 2026 at 12:27:50PM +0530, Manikanta Maddireddy wrote:
 > > > From: Vidya Sagar <vidyas@nvidia.com>
 > > > 
-> > > Call pci_epc_deinit_notify() during controller deinitialization to free the
-> > > resources allocated by Endpoint function driver. This is safe to call
-> > > during PCIe assert sequence because we don't expect Endpoint function
-> > > driver to touch hardware in deinit function.
+> > > Currently, the default setting is that CLKREQ# signal of a Root Port
+> > > is internally overridden to '0' to enable REFCLK to flow out to the slot.
+> > > It is observed that one of the PCIe switches (case in point Broadcom PCIe
+> > > Gen4 switch) is propagating the CLKREQ# signal of the Root Port to the
+> > > downstream side of the switch and expecting the Endpoint devices to pull
+> > > it low so that it (PCIe switch) can give out the REFCLK although the Switch
+> > > as such doesn't support CLK-PM or ASPM-L1SS. So, as a workaround, this
+> > > patch drives the CLKREQ# of the Root Port itself low to avoid link up
+> > > issues between PCIe switch downstream port and Endpoint devices. This is
+> > 
+> > Is the CLKREQ# signal shared with the switch and the endpoint devices
+> > connected to its downstream port also?
+> > 
+> Yes, this is the observation.
+> 
+> > > not a wrong thing to do after all the CLKREQ# is anyway being overridden
+> > > to '0' internally and now it is just that the same is being propagated
+> > > outside also.
 > > > 
 > > 
-> > Are you sure? The epf-test driver itself touches DBI space during deinit.
+> > What do you mean by 'propagating outside'?
+> > 
+> > And what is the difference between APPL_PINMUX_CLKREQ_OVERRIDE and
+> > APPL_PINMUX_CLKREQ_DEFAULT_VALUE?
 > > 
 > > - Mani
-> Ok, I see epf-test is doing clear_bar which access DBI space.
-> But, I think we should give give a chance to EPF drivers to clean up
-> resources and stop using them in PERST# assert. Let me know your inputs on
-> this.
+> APPL_PINMUX_CLKREQ_OVERRIDE: This overrides CLKREQ# input PAD to PCIe
+> controller.
+> APPL_PINMUX_CLKREQ_OVERRIDE: This overrides CLKREQ# output PAD to low.
+> Propagating outside means driving CLKREQ# pin as low.
 > 
 
-You cannot control the EPF behavior from the controller driver. So I'd prefer
-not changing the flow.
+From the commit message, it looks like APPL_PINMUX_CLKREQ_OVERRIDE itself
+drivers the CLKREQ# signal to low (0), so it is not clear to me what this new
+APPL_PINMUX_CLKREQ_DEFAULT_VALUE setting does.
 
 - Mani
 
