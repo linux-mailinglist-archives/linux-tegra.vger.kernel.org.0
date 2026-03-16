@@ -1,50 +1,50 @@
-Return-Path: <linux-tegra+bounces-12802-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12803-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aDlFFHd4t2nxRQEAu9opvQ
-	(envelope-from <linux-tegra+bounces-12802-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:26:47 +0100
+	id 6ISSLbl4t2nxRQEAu9opvQ
+	(envelope-from <linux-tegra+bounces-12803-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:27:53 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A65294666
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:26:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBEB29467D
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 04:27:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D829A3004D05
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 03:26:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DD6B03012E84
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2026 03:27:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D05431E847;
-	Mon, 16 Mar 2026 03:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8F7A31E847;
+	Mon, 16 Mar 2026 03:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q5/tRw39"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2dvlI19"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766652248A0;
-	Mon, 16 Mar 2026 03:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AB0182D0;
+	Mon, 16 Mar 2026 03:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773631604; cv=none; b=Y/i4yIWyBdPPjbvOpAVG6CD32ldkqihMWlkj/Ih6P1WwQqQi6iQmtcBHezFeDlK6HGvKfWV2qo876mkCbdppGGLngyXiCh2yLkvas8me8CeFd2u9IAZyUwKYYd4N/oExmxbm/XnfwUr+kKcUO8D9K53fvselWdN7BPEbZLIOdXA=
+	t=1773631670; cv=none; b=GkSHV3rOI78YLUNsPWNMuPr41KwI/fwRpZwm/ig6d2uKbTdQkKcUZrwYwA4cU7Lo+nZ7Rfi2nbY3/NHPj/rrh/vr7yey8syPTs05x0Ep8Oi8crBrWEjGPx2fyoYTaiUwvCYEQ1lusuVxmuQeuPUvCwjq5EgpvCdxdZf1Pfnix5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773631604; c=relaxed/simple;
-	bh=sgdALoR0VYscVtPqY92tNwojFsvFl1BLlsT4yLskaU4=;
+	s=arc-20240116; t=1773631670; c=relaxed/simple;
+	bh=AOgND3p+CR+S1EUIfKeLAa9CnzejQMKxAGn7CsaMW5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C7ipek+5pSjmpZZTNpF3cufruTDLG2QYKz/uTqPMkaVnPveC6MTecn8C3QUhY07lcbTAVwNWzvrB7+rmy3WKKovmbbxcQ9SE34y5mvKqRcG2KoJnxmNnP1M+duFolEzo/SaZ9BcU+SS2GKH44xOJEQlQWwQcD/Xyfa9/ETr/j8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q5/tRw39; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B6DC19425;
-	Mon, 16 Mar 2026 03:26:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z1L0SQ511GvCBw+7dzyV/89po/mbQ8lrFu1g+D7fj5jlGI/EKeY+tnJFRMqvruCmBT3AfqL0f8LRgfpbGCmj3DdY3rG+D8S6jrF2Q1RcjT8xCK1ReJQwqup3FCX6cXpXT2olmXHAQFhEr5oYBFEPs5UDfJVuOmwr+fBckzK3xNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2dvlI19; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA062C19425;
+	Mon, 16 Mar 2026 03:27:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773631604;
-	bh=sgdALoR0VYscVtPqY92tNwojFsvFl1BLlsT4yLskaU4=;
+	s=k20201202; t=1773631670;
+	bh=AOgND3p+CR+S1EUIfKeLAa9CnzejQMKxAGn7CsaMW5U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q5/tRw39AugTN2V0Fr4z2IF0YErZQoenEo9A99d06iJsE/DjvSHMPQugrkjU6xtwF
-	 sCGazZxdL1qdS/i9dYd3UVwvrUJkWTeY8cdzaTlcO8sdSDUFX1d7aRxnc3xmPPHlER
-	 gQhoMwxnx2Pm2Ej3X5I4lS9HygrF4BpuqwUT7PEnlRFwshSWcKtkDKZrqovw7/I/Uu
-	 ssNFJvED0M32sPrgjXwAsXjfMLZlv/w4bd8K1KyRJoiJshkiOMF+oyWVXE+xOkXYQn
-	 kM1V3j0Ju+CfdtIfdMg9Ozse3YjK3CsJ26z0OBNa4FKbnhry/7rnV7Yq6MWB+UOhXo
-	 RfPMKilGGHhPA==
-Date: Mon, 16 Mar 2026 08:56:33 +0530
+	b=j2dvlI19D73CnrYW+5tfy016wwY8NWFb78PXbWYCv/M44Q1sLCGXcedni32BcBksf
+	 3DS+c63m1tjIQljFK49eqxZLv/WSxJAAyQ1+HVo2ViYbYTHfHtRdtnPX61PmCATGI6
+	 87rvKqPnoqO4lwRoqGJ3f7lej4HaxMQy/Oa9OTWEenitmS3ek6tx7v0ILmlAZwe0H9
+	 eLf7+BGtgJCHvx00toPH96KjaXpzrzv5yih6kD3Atw8EJp/t0mZk7xvaxiTZgeRdKE
+	 hv8+/BRJaRLknKKcKLQ9TDJTSwl6N0xS9tlQVQH54xgst83zVP78ckZC9qPgXl3ZCJ
+	 9/dxikA1Qjmgw==
+Date: Mon, 16 Mar 2026 08:57:39 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
 Cc: "bhelgaas@google.com" <bhelgaas@google.com>, 
@@ -58,12 +58,12 @@ Cc: "bhelgaas@google.com" <bhelgaas@google.com>,
 	Vidya Sagar <vidyas@nvidia.com>, "cassel@kernel.org" <cassel@kernel.org>, 
 	"18255117159@163.com" <18255117159@163.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, 
 	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 1/9] PCI: tegra194: Drive CLKREQ# signal low explicitly
-Message-ID: <js7ev7dxc4zzal7lt6r632gtsm2dlcotncqgpgyytdritnismy@t62pcftuj3nk>
+Subject: Re: [PATCH v7 2/9] PCI: tegra194: Calibrate P2U for Endpoint mode
+Message-ID: <kkxlwgdtthaelnbrk5svjxkprhidymyxwd3ryeausabbtjllf4@msanys6p2oav>
 References: <20260303065758.2364340-1-mmaddireddy@nvidia.com>
- <20260303065758.2364340-2-mmaddireddy@nvidia.com>
- <vtylufhul43vacnq6gxvoyshtiesl2is5rmfgxw2ijlzntyvch@sbt7dhufem6q>
- <2ec931b6-a287-419e-821e-35420c12378d@nvidia.com>
+ <20260303065758.2364340-3-mmaddireddy@nvidia.com>
+ <x7w2a766h4m56kocibxz24uwjdlssbccg3z2pfcse4prk6c6fu@xwz7axizktyv>
+ <761e473a-983f-40f8-b141-8d648be8497b@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -73,20 +73,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ec931b6-a287-419e-821e-35420c12378d@nvidia.com>
+In-Reply-To: <761e473a-983f-40f8-b141-8d648be8497b@nvidia.com>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12802-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12803-lists,linux-tegra=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,nvidia.com,arndb.de,linuxfoundation.org,nxp.com,valinux.co.jp,163.com,vger.kernel.org];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
@@ -102,54 +102,29 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E7A65294666
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 4FBEB29467D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 15, 2026 at 10:46:08PM +0530, Manikanta Maddireddy wrote:
+On Sun, Mar 15, 2026 at 10:47:55PM +0530, Manikanta Maddireddy wrote:
 > 
 > 
-> On 05/03/26 4:28 pm, Manivannan Sadhasivam wrote:
-> > On Tue, Mar 03, 2026 at 12:27:50PM +0530, Manikanta Maddireddy wrote:
+> On 05/03/26 4:29 pm, Manivannan Sadhasivam wrote:
+> > On Tue, Mar 03, 2026 at 12:27:51PM +0530, Manikanta Maddireddy wrote:
 > > > From: Vidya Sagar <vidyas@nvidia.com>
 > > > 
-> > > Currently, the default setting is that CLKREQ# signal of a Root Port
-> > > is internally overridden to '0' to enable REFCLK to flow out to the slot.
-> > > It is observed that one of the PCIe switches (case in point Broadcom PCIe
-> > > Gen4 switch) is propagating the CLKREQ# signal of the Root Port to the
-> > > downstream side of the switch and expecting the Endpoint devices to pull
-> > > it low so that it (PCIe switch) can give out the REFCLK although the Switch
-> > > as such doesn't support CLK-PM or ASPM-L1SS. So, as a workaround, this
-> > > patch drives the CLKREQ# of the Root Port itself low to avoid link up
-> > > issues between PCIe switch downstream port and Endpoint devices. This is
+> > > Calibrate P2U for Endpoint controller to request UPHY PLL rate change to
 > > 
-> > Is the CLKREQ# signal shared with the switch and the endpoint devices
-> > connected to its downstream port also?
-> > 
-> Yes, this is the observation.
-> 
-> > > not a wrong thing to do after all the CLKREQ# is anyway being overridden
-> > > to '0' internally and now it is just that the same is being propagated
-> > > outside also.
-> > > 
-> > 
-> > What do you mean by 'propagating outside'?
-> > 
-> > And what is the difference between APPL_PINMUX_CLKREQ_OVERRIDE and
-> > APPL_PINMUX_CLKREQ_DEFAULT_VALUE?
+> > What is P2U?
 > > 
 > > - Mani
-> APPL_PINMUX_CLKREQ_OVERRIDE: This overrides CLKREQ# input PAD to PCIe
-> controller.
-> APPL_PINMUX_CLKREQ_OVERRIDE: This overrides CLKREQ# output PAD to low.
-> Propagating outside means driving CLKREQ# pin as low.
+> It is pipe to "universal PHY(analog PHY)" wrapper which connects DWC core
+> and UPHY.
 > 
 
-From the commit message, it looks like APPL_PINMUX_CLKREQ_OVERRIDE itself
-drivers the CLKREQ# signal to low (0), so it is not clear to me what this new
-APPL_PINMUX_CLKREQ_DEFAULT_VALUE setting does.
+Okay, please expand it in commit message.
 
 - Mani
 
