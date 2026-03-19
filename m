@@ -1,356 +1,271 @@
-Return-Path: <linux-tegra+bounces-12938-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12942-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCX9KTU/vGlzvwIAu9opvQ
-	(envelope-from <linux-tegra+bounces-12938-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 19:23:49 +0100
+	id YMBGNDxUvGkXwwIAu9opvQ
+	(envelope-from <linux-tegra+bounces-12942-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 20:53:32 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E622D0C66
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 19:23:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E05D2D1D6E
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 20:53:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CE8973172467
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 18:18:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E3F2A3168330
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2026 19:52:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3F903F787E;
-	Thu, 19 Mar 2026 18:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD46C3A0EAF;
+	Thu, 19 Mar 2026 19:52:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4DGVGsF"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sw3DiSzg"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013010.outbound.protection.outlook.com [40.93.196.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2403F2100
-	for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2026 18:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773944302; cv=none; b=QPqV/5Hx4ZFlegeerMykRxBzZ6QLN3LksFF3quR3VTzDc0khyRrBmj2gfRbc5hGazWc4zXfhO4eQuP6pJb+GNG2HRo8amWJ66PozLNde4T8YYRWNb7FSKFqv9UAGFx6FeQWkSjhBBOBFmgN8e/25vSBnK4odrELrlg74Jsk8UdA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773944302; c=relaxed/simple;
-	bh=+P62lCyslziHirakPNqXdOPn6Fjwa7PkX2vn0IPAZ80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ci7zbaeBXKMEYwxiG/PXRy5mM2FEYBnfFup1T5jOxYcrd2zqpPiUP6SCYyT7w3fPVbDr8cb1nak09db8qegVoPMS6WZoC8ehDVYWagmrNSnujBmYr/uXCq/gM2m4/xM/OrL1OUWN9SUIi4yrf+R3qi2N1cylfSdx9SvPUsQvFC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4DGVGsF; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aecc6b0861so7389005ad.2
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2026 11:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773944299; x=1774549099; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1vPUKgYITPtV5efaod4XQSqJVTqQ2Kq4WAF8AXorjoc=;
-        b=l4DGVGsF2CzVVzFvdI8h8zU9M37UF7b8ln0YS5Co6u3pYu74cLgmcG0MIQIvfTpnLq
-         aP7JROkN12lMP29/XI4pjoGSeL4MIlb97wGdTNifx4g6NpqF7mhB0Ydzr9F2suwse0vZ
-         7msClH3TeEImNssm7Bt/ipX/mMMfNrYFc8JMrBD9wk2yoVvCfsSTFVOjkpBnwGN64m5/
-         myltr8646AiiYfdOrUrF5e1PAtK9v78F8r3zVoLsf7ft0JaLhSoc25naXMH1HSIiSC4p
-         yETA6oqj321UO7KEZK+agr8CRWhxVe2uFvmspwOb1mcBCR5YqHGVhdKs/eSGDseggMeA
-         JsBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773944299; x=1774549099;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1vPUKgYITPtV5efaod4XQSqJVTqQ2Kq4WAF8AXorjoc=;
-        b=C34DS2FiGKv8Fl/tqpNkdOdyaqGjh7qW2vi4uFKOT9QHNngkVJ1hDRP0z9IaeimhQf
-         6WUv0f55XArC23aPaVjEcSeTzlc7Sj5PTliYWMOA1xmrGDUm4tkkxe7EabCSEmQdhe2V
-         Y2Pj90uuc2qX2z0p2jYPu24DrUzKIRjSoD9re/QGMX5XB1ZCOaZJswzrtmkxsbSxttBR
-         dsaUAjgzUky8lBpLvDuKPGeRFHD7EPkVJ9IVs8uib8qFm2FnsMktZzDXZuYuwqtjF6Og
-         L8KG5NNENaSQuTOHzh2OHBWtvDcCzwHp3lL4RJb8BvLFKiQRPypA8IvoITwOr/mFrtR1
-         PPvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGodF7L/dPOq9PRDcvbCgo02xSIFGRbyZvSzvfrMKozYQOo+7QBiFwS/eG5K36St4HqNSII2/eFc713A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW5eW2MEtVhE1oVNtXiVqBZ+g0av5IAozTZiORgsfmA/yVT0nL
-	g6xl3DLhqzTSzqaXgTEt5k80Zv4VPRHuj5nzOQIIAWlSF0X3RGnR3WAnxbi9RA==
-X-Gm-Gg: ATEYQzyWH9b31aCrS/WvH7Vkdeah0CzjugWoGsEGkZKW2cS5XrT4BG/V9vlQ1F0T10I
-	NvgLBwRk3gpaz/hqU85BfJqEhTWuizCh66lCsJU/E6X5FiMUHdLpzeRVCxqs1lkckExaqscBlz6
-	vcKh6AyqDIaFu2KetN+KNh02mdb/DbX2KtAi7Cr/U+1/SQgcCuS5o8lEMceP6RHOe8irUSIMKYw
-	Kue0SbcYWTBTPrEgTvy2gWnVqRT9G2Oc6ScKkodxdESNtvhKNjOVLl37O0uZr2ksRCxN4Wk0FbY
-	/wj7oChrgLX+Rk4zn784UWCQsENWPzERXOW3AK0sKSYpMWND0iG/GKJw8WdQF3QSeRyoQnJqJt2
-	mnSC95HGzazADUsDva1xlYEhq5O62zPyXrDxGns5gxiYJ4tR8Jw83fhIJ1yM9ZBbvbLOW7NX1J0
-	zI+nMViIh2ZkkNUCLlGpBkSYX+b4OH59OFvPCD1exY4CHJJuUMU50EwAif4ZhftwU7htt1APmK4
-	pDou+zHPVQ=
-X-Received: by 2002:a17:902:da8b:b0:2b0:7a50:887c with SMTP id d9443c01a7336-2b082819356mr2189405ad.50.1773944299366;
-        Thu, 19 Mar 2026 11:18:19 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e61119bsm62450855ad.64.2026.03.19.11.18.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 11:18:18 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ae1bba2a-5015-480f-9610-d1be5a6d7211@roeck-us.net>
-Date: Thu, 19 Mar 2026 11:18:16 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487F239E166;
+	Thu, 19 Mar 2026 19:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773949953; cv=fail; b=Wgoem3z76QPS3b+c0YV03/X1QrVOpTp/RZvRhvc91N4F329ubCzHTK956qe9WOdYyw/Vwx3Sp1xfIeVPtBwAqpt54kNZzldKXybB604Yx6km2EiOSadYtD4vaeUF10m+iIA4H6llIuJwN5EB/GeB6ctX4BDvpQi7aBN0XYL/9Ak=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773949953; c=relaxed/simple;
+	bh=tey7lrPaQNfixpa50ZZumRiFen3sKgmLHIk6YyLQhaQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SURC5nm5AAjFjuqAdzksJcjTxXVOxiU9kbpjgF6EsyRhs6jOEo3DZs7k4fimRVpeOLsEhJalOpEW2Vg9SazWLtHuNj2Whi/FPtVE6LGq2TSazWvkrtAnrXI6j7R7bQm6MiAZYwX0bu265AqauBUGFL4ByjPlom670PaNWFEj7Ak=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sw3DiSzg; arc=fail smtp.client-ip=40.93.196.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TzJ8IFS7Az3Hzm6EzAd5LAxWfG8EJjzFT8L5OlM3pm5R40ke+xArM4GTDzFN6BlZ6SBqBsjbbtIdGA7RX5cluHEgvAKPT4U5XHncQpO5CYIzNtyllUy8Fy4zzQx3pdT5P5G2VtIWtBT4WA7a/Jy3fLW3JTOd/2XtA6lFlDL/AAr3aW5Xp6Ep21IdeyFVm2kbvwFnBEEpj3IzVt6dcm2XYDLeU5gv3mRPc7V6EZB1DNKTFqjC26mNA8cQsPfpT20sCTLx5dY01ptmTG41zyYD1vMn2Xe14lBKS46Ll85j6OlCY0CioTK2lrdfwRc0yxsZvGy6xERIsdUS2APfAFTn9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nrxpmzdIuuXIqpNuKF4WqqxrfP0iAVCGsGE9lPHuuHg=;
+ b=GRsc6xltA+kBm4FMUQpBLNlDI0mI0xCINaV5hnG1v15pGNTYL2wGJcXZ1fxBA1YMkaFn1vYbqY1JaLGkrx3e1SsG3FjVJ+GnFrVKP4askxyvfSiiWG6SmMilKBRP6GQs8pn/7Av90thtO8myCaGrAJpHI73tnM6xDS5V2qDKfe+eVAp6xk5nzHmWfHY1tc6kNpvV4AOHdxS29hLtESe121c3OHqVqxGEgIQHbRr4u2lU+6GcR0FXz2Dfmnrm7qCqkGfcOEdNUUoFhxxsdyDfTvTxgFlJCsld9oPKa2ic4qVGkNbrXKcW+PkWYOgdfXjBnjPErJIDOoTz1/7BtFYi4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nrxpmzdIuuXIqpNuKF4WqqxrfP0iAVCGsGE9lPHuuHg=;
+ b=sw3DiSzgCWLji+Kl3l/HZvbIpcMmduOoAYa/puXzJaZhWzcmLhl+VJm/1GFV4quXVrvxW5cOhYgDw6Z9oAJywGidRb13skp5FOIkV4PWwiK33zl+uBjHRDvmVSkVhyabyHy5dG10p0vx+Yr7k/Pcq+rPHqW0hWs98PXfOft6lz7IZrTzt8mgCtMB9uBekCjAaKZpLKxoZp1FACuDxqETdRLtJULeUQtQ5DkLJL/2C01r0s2CeXttx98a6ofVEWLowdq+ZVrI3T56g59uBi4lf1D9eXcOkZdSHhns1V/NBf1awB9QekW9UPEr6LSGLd9cRNU0605MBnKSoodpb8gl8A==
+Received: from BLAPR03CA0019.namprd03.prod.outlook.com (2603:10b6:208:32b::24)
+ by DM3PR12MB9413.namprd12.prod.outlook.com (2603:10b6:8:1af::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
+ 2026 19:52:27 +0000
+Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
+ (2603:10b6:208:32b:cafe::15) by BLAPR03CA0019.outlook.office365.com
+ (2603:10b6:208:32b::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.27 via Frontend Transport; Thu,
+ 19 Mar 2026 19:52:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19 via Frontend Transport; Thu, 19 Mar 2026 19:52:27 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 19 Mar
+ 2026 12:52:03 -0700
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 19 Mar
+ 2026 12:52:03 -0700
+Received: from Asurada-Nvidia.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 19 Mar 2026 12:52:02 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <will@kernel.org>, <jgg@nvidia.com>
+CC: <robin.murphy@arm.com>, <joro@8bytes.org>, <jpb@kernel.org>,
+	<praan@google.com>, <smostafa@google.com>,
+	<linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+	<jonathan.cameron@huawei.com>
+Subject: [PATCH v4 00/10] iommu/arm-smmu-v3: Share domain across SMMU/vSMMU instances
+Date: Thu, 19 Mar 2026 12:51:46 -0700
+Message-ID: <cover.1773949042.git.nicolinc@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] hwmon: spd5118: Add I3C support
-To: Akhil R <akhilrajeev@nvidia.com>
-Cc: Frank.Li@nxp.com, acpica-devel@lists.linux.dev,
- alexandre.belloni@bootlin.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, ebiggers@kernel.org, fredrik.markstrom@est.tech,
- jonathanh@nvidia.com, krzk+dt@kernel.org, lenb@kernel.org,
- linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, miquel.raynal@bootlin.com,
- p.zabel@pengutronix.de, rafael@kernel.org, robert.moore@intel.com,
- robh@kernel.org, smangipudi@nvidia.com, thierry.reding@kernel.org
-References: <7cc8ab1f-6c9a-4e3f-a1bc-266e020d8179@roeck-us.net>
- <20260319175533.19480-1-akhilrajeev@nvidia.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260319175533.19480-1-akhilrajeev@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|DM3PR12MB9413:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9022153-86be-4d94-7baf-08de85f10c48
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700016|82310400026|1800799024|13003099007|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	EEz8FJ1C/q2z/l89W+zhoNSYadRnpDXvYXAesxmLrvlK12A+6u354T8C3MFifHfbAuZJjOzxIEMDwbdsh1qIy/E9p9LrlRNKWZd/d2/ySr9agmVjSED6PRhiHBwIRST1NLf27FZA8ciaCG1AClPSRufHfEqpAdEreP9hzFHP0sC/add7lE6JFguOR/3zmJOcpurGZf3UxasG5vxRN+arDFJoFjxElbZuoyH1GFoVF5b9nLXlSnyjfedjc/ZlO/NtJZ86MzWH5uB/Zc5aslvgdpwhRbMqvVPDiFuvTk5R37DmwAfisBHvZQfbK/OZyL/2kpmvPKXIeKj+euOG4faV+2LgVgawawx03UUKzYlL5o/EuOwjuuouAAABw3BGuA0QoZq1FT7L9AORo04WtdSACxKyahVJT3dopvVKpV+BgPdyTKGNJM6z28RcBfgVWeZNzIAnN6tFkuieXLUuTw+weMDnylPiDfkLCZCD2MQdh2AY1yieXNHAl5wb3S+nNcuBaSUG2Bqh7Az5TpbE2TxEFM3sAMArKGJk27gVwxYoivCQxj1FwrBEaSA1gy5Nq5JX2HYI3gQgI94Pqj65vE68ROCSUEmdLPN6/ENAZGnx+BT6k/oCSNjjx1G9qkx6vMfowIa2yYne/Vo2j1f9L6xy4k+cyk8/eJ0hBCBqnahwERY6KR1Dk67VtUMQ4GHnKthl7gvmAnthxn8XL3v9oWC/X+xMeOTIfMS5MNQf+CN2Y43HuCG6vujGp++6QD1LNhW3wy/EzDJrhrI4If4zdxT8aQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(82310400026)(1800799024)(13003099007)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	TW4R4blp7bcjzqZYK/4X7Kmd/dWvqqIg2XA43qEJifN77zZDv9t64qI3ZIbDOFblcWxjCtSNFO/oKYJSf4KAJjDSYiG4HdYjNnFuUBNBP6sb0PCbUR1nYxqlQoFoyIOG9xorskazppqzBYT69uJYj9/pvWCCibfVbVoUqgar04L+xeZ0BWHWwQKv29GtZzlXzoaTmk4EXSxF4+9eqGGCZA4Kv+ZHYyvzx5XdzJE91s088iWcFMPMJAa9+WptlnubjyXO4D579SflmflTM7vxCOxjf+iAwcipCOsgka2ABf118hIqFp1bwzbeuV/tGfQ2gHTs1NixE3FHMMQ5+aM7TQPGpuNe1MQAa8YLtpAqvkIfXurIwUmL86WJ/kgPwFD+9ihgIrcbVcR5gths2tayjLL6YuyoHefrUBEAWYjC515Bqc/Vm010RjRTBltOe5L1
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 19:52:27.1483
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9022153-86be-4d94-7baf-08de85f10c48
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A0FB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9413
+X-Spamd-Result: default: False [1.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12938-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[roeck-us.net];
+	TAGGED_FROM(0.00)[bounces-12942-lists,linux-tegra=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_TWELVE(0.00)[23];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-tegra@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.992];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,roeck-us.net:mid]
-X-Rspamd-Queue-Id: 12E622D0C66
+	FROM_NEQ_ENVFROM(0.00)[nicolinc@nvidia.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-0.991];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,Nvidia.com:dkim,nvidia.com:mid];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 3E05D2D1D6E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/19/26 10:55, Akhil R wrote:
-> On Thu, 19 Mar 2026 07:34:18 -0700, Guenter Roeck wrote:
->> On 3/18/26 21:35, Akhil R wrote:
->>> On Wed, 18 Mar 2026 11:53:49 -0700, Guenter Roeck wrote:
->>>> On 3/18/26 10:27, Akhil R wrote:
->>>>> Add a regmap config and a probe function to support for I3C based
->>>>> communication to SPD5118 devices.
->>>>>
->>>>> On an I3C bus, SPD5118 are enumerated via SETAASA and always require an
->>>>> ACPI or device tree entry. The device matching is hence through the OF
->>>>> match tables only and do not need an I3C class match table. The device
->>>>> identity is verified in the type registers before proceeding to the
->>>>> common probe function.
->>>>>
->>>>> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
->>>>> ---
->>>>>     drivers/hwmon/Kconfig   |  7 +++--
->>>>>     drivers/hwmon/spd5118.c | 66 ++++++++++++++++++++++++++++++++++++++++-
->>>>>     2 files changed, 70 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
->>>>> index 8af80e17d25e..23604c05ad22 100644
->>>>> --- a/drivers/hwmon/Kconfig
->>>>> +++ b/drivers/hwmon/Kconfig
->>>>> @@ -2300,10 +2300,13 @@ config SENSORS_SPD5118
->>>>>     	tristate "SPD5118 Compliant Temperature Sensors"
->>>>>     	depends on I2C
->>>>>     	select REGMAP_I2C
->>>>
->>>> I also had
->>>> 	depends on I3C || I3C=n
->>>> in my version at
->>>>
->>>> https://patchwork.kernel.org/project/linux-hwmon/patch/20250419161356.2528986-6-linux@roeck-us.net/
->>>>
->>>> which I guess matches the more recent "depends on I3C_OR_I2C".
->>>
->>> Ack. Will update.
->>>
->>>>
->>>>> +	select REGMAP_I3C if I3C
->>>>>     	help
->>>>>     	  If you say yes here you get support for SPD5118 (JEDEC JESD300)
->>>>> -	  compliant temperature sensors. Such sensors are found on DDR5 memory
->>>>> -	  modules.
->>>>> +	  compliant temperature sensors using I2C or I3C bus interface.
->>>>> +	  Such sensors are found on DDR5 memory modules.
->>>>> +
->>>>> +	  This driver supports both I2C and I3C interfaces.
->>>>>     
->>>>>     	  This driver can also be built as a module. If so, the module
->>>>>     	  will be called spd5118.
->>>>> diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
->>>>> index 5da44571b6a0..d70123e10616 100644
->>>>> --- a/drivers/hwmon/spd5118.c
->>>>> +++ b/drivers/hwmon/spd5118.c
->>>>> @@ -18,6 +18,7 @@
->>>>>     #include <linux/bits.h>
->>>>>     #include <linux/err.h>
->>>>>     #include <linux/i2c.h>
->>>>> +#include <linux/i3c/device.h>
->>>>>     #include <linux/hwmon.h>
->>>>>     #include <linux/module.h>
->>>>>     #include <linux/mutex.h>
->>>>> @@ -482,6 +483,25 @@ static const struct regmap_config spd5118_regmap16_config = {
->>>>>     	.cache_type = REGCACHE_MAPLE,
->>>>>     };
->>>>>     
->>>>> +/*
->>>>> + * I3C uses 2-byte register addressing -
->>>>> + *   Byte 1: MemReg | BlkAddr[0] | Address[5:0]
->>>>> + *   Byte 2: 0000   | BlkAddr[4:1]
->>>>> + *
->>>>> + * The low byte carries the register/NVM address and the high byte carries the
->>>>> + * upper block address bits, so little-endian format is required. No range
->>>>> + * config is needed since I3C does not use MR11 page switching.
->>>>> + */
->>>>> +static const struct regmap_config spd5118_regmap_i3c_config = {
->>>>> +	.reg_bits = 16,
->>>>> +	.val_bits = 8,
->>>>> +	.max_register = 0x7ff,
->>>>> +	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
->>>>
->>>> Should this be added to spd5118_regmap16_config instead, or is there reason
->>>> to assume that I2C 16-bit addressing differs from I3C addressing ?
->>>
->>> I did not see any difference for I2C in the specification, but I assumed the
->>> existing format would have been working and I thought not to change them.
->>> Changing the I2C format would also require a change in the is_16bit nvmem_read
->>> formula.
->>>
->>>>
->>>>> +	.writeable_reg = spd5118_writeable_reg,
->>>>> +	.volatile_reg = spd5118_volatile_reg,
->>>>> +	.cache_type = REGCACHE_MAPLE,
->>>>> +};
->>>>> +
->>>>>     static int spd5118_suspend(struct device *dev)
->>>>>     {
->>>>>     	struct spd5118_data *data = dev_get_drvdata(dev);
->>>>> @@ -770,7 +790,51 @@ static struct i2c_driver spd5118_i2c_driver = {
->>>>>     	.address_list	= IS_ENABLED(CONFIG_SENSORS_SPD5118_DETECT) ? normal_i2c : NULL,
->>>>>     };
->>>>>     
->>>>> -module_i2c_driver(spd5118_i2c_driver);
->>>>> +/* I3C */
->>>>> +
->>>>> +static int spd5118_i3c_probe(struct i3c_device *i3cdev)
->>>>> +{
->>>>> +	struct device *dev = i3cdev_to_dev(i3cdev);
->>>>> +	struct regmap *regmap;
->>>>> +	unsigned int regval;
->>>>> +	int err;
->>>>> +
->>>>> +	regmap = devm_regmap_init_i3c(i3cdev, &spd5118_regmap_i3c_config);
->>>>> +	if (IS_ERR(regmap))
->>>>> +		return dev_err_probe(dev, PTR_ERR(regmap), "regmap init failed\n");
->>>>> +
->>>>> +	/* Verify this is a SPD5118 device */
->>>>> +	err = regmap_read(regmap, SPD5118_REG_TYPE, &regval);
->>>>> +	if (err)
->>>>> +		return err;
->>>>> +
->>>>> +	if (regval != 0x51) {
->>>>> +		dev_err(dev, "unexpected device type 0x%02x, expected 0x51\n", regval);
->>>>> +		return -ENODEV;
->>>>> +	}
->>>>> +
->>>>> +	err = regmap_read(regmap, SPD5118_REG_TYPE + 1, &regval);
->>>>> +	if (err)
->>>>> +		return err;
->>>>> +
->>>>> +	if (regval != 0x18) {
->>>>> +		dev_err(dev, "unexpected device type 0x%02x, expected 0x18\n", regval);
->>>>> +		return -ENODEV;
->>>>> +	}
->>>>> +
->>>>
->>>> I don't think this should dump error messages. Also, it might be desirable
->>>> to use a single regmap operation to read both values.
->>>
->>> Ack. Will use regmap_bulk_read() and will remove the error dump.
->>>
->>>>
->>>>> +	return spd5118_common_probe(dev, regmap, false);
->>>>
->>>> Why is_16bit=false ?
->>>
->>> We don't need the encoding formula for the nvmem address with I3C. Since it
->>> uses little-endian, (page * 0x100 + SPD5118_EEPROM_BASE) translates to the
->>> correct address. Or did I overlook something?
->>>
->>
->> Testing of the 16-bit code was limited: I had to set the SPD on a system
->> manually to 16-bit mode to get it working, and that only worked until the system
->> was reset. Its whole point was to prepare for I3C mode. If that fails, the entire
->> 16-bit code in the driver is potentially wrong and should be pulled out before
->> adding I3C code. It can be added back later if/when a system actually utilizing
->> it is found.
-> 
-> Thanks for letting me know. I will add a patch to remove the I2C 16-bit sections in
-> the next revision as a prerequistie to this patch. Hope that sounds good.
-> 
+In a system with multiple physical SMMU instances, multiple devices can be
+passed through to a VM. Currently, a VM would allocate one domain per SMMU
+instance that might be shared across devices that sit behind the same SMMU
+instance. However, the gPA->PA mappings (either an S1 unmanaged domain or
+an S2 nesting parent domain) can be shared across all the devices that sit
+behind different SMMU instances as well, provided that the shared I/O page
+table is compatible with all the SMMU instances.
 
-Please do.
+The major difficulty in sharing the domain has been invalidation, since a
+change to the shared I/O page table results in an invalidation on all SMMU
+instances. A traditional approach involves building a linked list of SMMUs
+within the domain, which is very inefficient for the invalidation path as
+the linked list has to be locked.
 
-Thanks,
-Guenter
+To address this, the SMMUv3 driver now uses an RCU-protected invalidation
+array. Any new device (and its SMMU) is preloaded into the array during a
+device attachment. This array maintains all necessary information, such as
+ASID/VMID and which SMMU instance (CMDQ) to issue the command to.
 
+The second issue concerns the lifecycle of the iotlb tag. Currently, ASID
+or VMID is allocated per domain and kept in the domain structure (cd->asid
+or s2_cfg->vmid). This does not work ideally when the domain (e.g. S2) is
+shared, as the VMID will have to be global across all SMMU instances, even
+if a VM is not using all of them. This results in wasted VMID resources in
+the bitmaps of unused SMMU instances.
 
-> Best Regards,
-> Akhil
+Instead, an iotlb tag should be allocated per SMMU instance. Consequently,
+these tags must be allocated and maintained separately. Since ASID or VMID
+is only used when a CD or STE is installed to the HW (which happens during
+device attachment), and the invalidation array is built right before that,
+it is ideal to allocate a new iotlb tag before arm_smmu_invs_merge():
+ - when a device attaches, the driver first searches for an existing iotlb
+   tag for the SMMU the device sits behind
+ - If a match is found, the "users" counter is incremented
+ - otherwise, a new tag is allocated.
+
+A nested domain case is slightly unique as certain HW requires the VMID at
+the vSMMU init stage v.s. a device attachment (to the nested domain). Thus
+ - allocate/free a vmid in vsmmu_init/vsmmu_destroy and store in vSMMU
+ - introduce an INV_TYPE_S2_VMID_VSMMU to separate it from a naked S2 case
+ - retrieve the vmid from the vSMMU during attachment instead of allocation
+
+With this, deprecate the cd->asid and s2_cfg->vmid from struct smmu_domain,
+and replace them with the iotlb tag stored in the smmu_domain->invs array.
+
+Finally, allow sharing a domain across the SMMU instances, so long as they
+passes a compatibility test.
+
+This is on Github:
+https://github.com/nicolinc/iommufd/commits/smmuv3_share_domain-v4
+
+An earlier effort to share S2 domain can be found:
+https://lore.kernel.org/all/cover.1744692494.git.nicolinc@nvidia.com/
+
+Changelog
+v4
+ * Rebase on arm/smmu/updates branch
+ * Update commit messages
+ * Drop unnecessary mutex around ida_alloc/free
+ * Rename arm_smmu_make_cd_fn parameter to mak_cd_fn
+ * Call ida_free() to the revert path in arm_vsmmu_init()
+v3
+ https://lore.kernel.org/all/cover.1771877893.git.nicolinc@nvidia.com/
+ * Rebase on arm_smmu_invs-v12
+ * Add Reviewed-by tags from Jason
+ * Avoid Boolean function parameters
+ * Set users counter in arm_smmu_ins_unref()
+ * Add arm_smmu_inv_assert_iotlb_tag() helper
+ * Fix the return values in arm_smmu_alloc_iotlb_tag()
+ * Reorder the patches introducing INV_TYPE_S2_VMID_VSMMU
+ * Add a note explaining the lifecycle of vSMMU-owned iotlb tag
+ * Compare pgtbl with the new smmu in arm_smmu_domain_can_share()
+ * Pass in a function pointer to arm_smmu_set_pasid() for CD making
+ * Pass the raw domain pointer down to arm_smmu_domain_get_iotlb_tag()
+v2
+ https://lore.kernel.org/all/cover.1769044718.git.nicolinc@nvidia.com/
+ * Add arm_smmu_domain_get_iotlb_tag()
+ * Drop asid array and vmid from master structure, and get the iotlb
+   tag in the smmu_domain->invs array
+ * Introduce INV_TYPE_S2_VMID_VSMMU for vSMMU type, and separate the
+   nested attach case from a naked S2 attach case
+v1
+ https://lore.kernel.org/all/cover.1766088962.git.nicolinc@nvidia.com/
+
+Thanks
+Nicolin
+
+Nicolin Chen (10):
+  iommu/arm-smmu-v3: Add a wrapper for arm_smmu_make_sva_cd()
+  iommu/arm-smmu-v3: Pass in arm_smmu_make_cd_fn to arm_smmu_set_pasid()
+  iommu/arm-smmu-v3: Store IOTLB cache tags in struct
+    arm_smmu_attach_state
+  iommu/arm-smmu-v3: Pass in IOTLB cache tag to
+    arm_smmu_master_build_invs()
+  iommu/arm-smmu-v3: Pass in IOTLB cache tag to CD and STE
+  iommu/arm-smmu-v3: Introduce INV_TYPE_S2_VMID_VSMMU
+  iommu/arm-smmu-v3: Allocate IOTLB cache tag if no id to reuse
+  iommu/arm-smmu-v3: Allocate INV_TYPE_S2_VMID_VSMMU in arm_vsmmu_init
+  iommu/arm-smmu-v3: Remove ASID/VMID from arm_smmu_domain
+  iommu/arm-smmu-v3: Allow sharing domain across SMMUs
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  76 ++++-
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  54 +++-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  57 ++--
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c  |  19 +-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 289 ++++++++++--------
+ .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    |   1 +
+ 6 files changed, 305 insertions(+), 191 deletions(-)
+
+-- 
+2.43.0
 
 
