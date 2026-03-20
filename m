@@ -1,51 +1,51 @@
-Return-Path: <linux-tegra+bounces-12987-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12988-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4C6aEOgXvWnG6QIAu9opvQ
-	(envelope-from <linux-tegra+bounces-12987-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:48:24 +0100
+	id WCEaOhgZvWnG6QIAu9opvQ
+	(envelope-from <linux-tegra+bounces-12988-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:53:28 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41362D8420
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:48:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FB92D84EC
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:53:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CE7493086A73
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 09:44:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 65F4E301BF42
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 09:49:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C358E38AC70;
-	Fri, 20 Mar 2026 09:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4031136EA88;
+	Fri, 20 Mar 2026 09:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h855VlJ0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxvssoXi"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1483238A709;
-	Fri, 20 Mar 2026 09:44:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C192361DB2;
+	Fri, 20 Mar 2026 09:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773999876; cv=none; b=qfUmcteXLLoOhMc4Rr7iXTaWm00eCuhLriAAmKNZbcLfhcHBJbuYPx6ZXezUID+Y58KmuB1ndsKTyiHLE4ydkTnsC2+HGRszGw5sleSw1fVFUVeJAibVu0SQE0iRqXSQ+kjdUSSdXQ/se0KCErWckfZ2oKZkLR55sAAe8sTbLn4=
+	t=1774000188; cv=none; b=JShwizMdLF21LTGMZFhTw9upJksmrvPfk56QWt2Qkf5BWZQTgiVTAIMf3wZZW7ZKFDSafAiz6sNuUCGREItGNOTAGxcTaU7UrPZBJytR3NMo4aiAoEfr1ELr2PbSKTMXfC3hpLH4Thbu2Axcu6Fmtqko8IbtNQWzlQ0xKDiBXhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773999876; c=relaxed/simple;
-	bh=8A/4J/jRX9iTgUQDB99p0STWK1Tp8RA/6uoEXltzqQ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fGAVIo+cFnTEQRaD3KGjObxT113syn1KlflKAKECm82OQQF5YpXmBvFz3EV6fMjEKVn5HUncFZ9epkOP+m8abUWeB/QaCy46hwCZRPl84wjtEcUEDeph1R8RbYLK9ZaylZxrxbuHpjMEox1uRvJCPzBAUZy19WGYoLwB9QPMlRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h855VlJ0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0737DC4CEF7;
-	Fri, 20 Mar 2026 09:44:32 +0000 (UTC)
+	s=arc-20240116; t=1774000188; c=relaxed/simple;
+	bh=/xlFgt29IWXWdp6cPa+Deh2J6xoN/Ur1ogGJgzj3LUo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UaajYRFlrPYFEus5Dibwhx3dDnpEO0Hb5RcL/m9u+GPagAwY57SCwRtiwsBiQGWWbLui42O1i/ljK4f91zhJHJ+6m+Pt2MNs9RGMbjMp5uBOKlObCJ+L9pEGgRJIqc5lye/RVkhdA13LUtGB8lVFgtbJAiDIfq5jaVy91FstMbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxvssoXi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46902C4CEF7;
+	Fri, 20 Mar 2026 09:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773999875;
-	bh=8A/4J/jRX9iTgUQDB99p0STWK1Tp8RA/6uoEXltzqQ8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h855VlJ0pYb54h/igTLtuUjGVEZyOx0KVPMONMDYJjNt4BiHFz8xvJ+oZqPEmizSj
-	 JX4+fSoCaO5UFCpXMv68/Nzh3fofvuD873ZY1wwyEw1awRNSZJahOHFV19NRAxZSac
-	 hv75rvpWGeLGpHXlSfTsYNa3YLWV8XE4TahMSPtMZNz76Hb4ureZpMc8uBvu1iL+Xd
-	 N7z1/fvk7b2pTvt+RtqPO/wXa1m44lMhihfjxyxhRYDMEVunYnfdPE/DTZdYtuH4qX
-	 M1aSaOcTfcaPMNxe4nThg8PkIuqig99A2UhwIfEZm4iidvt51oPCO23lIBU5xSTu5L
-	 WGbTXgmBF+Diw==
-Message-ID: <1357d59f-7c38-4de0-9cc8-b40be3d7ce5b@kernel.org>
-Date: Fri, 20 Mar 2026 10:44:31 +0100
+	s=k20201202; t=1774000187;
+	bh=/xlFgt29IWXWdp6cPa+Deh2J6xoN/Ur1ogGJgzj3LUo=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=SxvssoXiT+PQifzXrWliQURLhwUMT8FAjsOIRMOP+wqdJx1MGOUEP+eVDwrCFHarE
+	 xItClGnSFmSVzROIFuy79U7kCEV8alatSL7rRJCpPHv1Qsg1nBvzuOdamFQsDwiur4
+	 nJrMyQvZ7DYin3KApJr40rjfpTVbTru9mrIy5qh4MxGiRHKn05u4DnHlLHuTLuH7Dp
+	 Udp1yrvsH08U6InkzGYedaeR6bhMiMxf473Vl54SbPVCNm5b984jpOZYAveF3jc8Eb
+	 B1r+U1e4vuyN9p8VFm8XOwN7C6glMJPJW8j7zIracPSJQ1ZQf9XQtOdKlHsFBbML2K
+	 kHE7cFO6Vs82A==
+Message-ID: <e238644c-132a-43fc-b735-70f04ef3f212@kernel.org>
+Date: Fri, 20 Mar 2026 10:49:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -54,6 +54,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/5] soc/tegra: Update BPMP ABI header
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Thierry Reding <thierry.reding@kernel.org>
 Cc: Bjorn Helgaas <bhelgaas@google.com>,
  Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -66,7 +67,7 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>,
 References: <20260319160110.2131954-1-thierry.reding@kernel.org>
  <20260319160110.2131954-2-thierry.reding@kernel.org>
  <435095b4-ce29-4c8a-9f63-300ff94e419a@kernel.org> <ab0T_0Pyio2SYrzq@orome>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <1357d59f-7c38-4de0-9cc8-b40be3d7ce5b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,7 +112,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <ab0T_0Pyio2SYrzq@orome>
+In-Reply-To: <1357d59f-7c38-4de0-9cc8-b40be3d7ce5b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -119,20 +120,20 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12987-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12988-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.994];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -141,48 +142,52 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A41362D8420
+X-Rspamd-Queue-Id: 96FB92D84EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 20/03/2026 10:34, Thierry Reding wrote:
-> On Thu, Mar 19, 2026 at 05:15:56PM +0100, Krzysztof Kozlowski wrote:
->> On 19/03/2026 17:01, Thierry Reding wrote:
->>> From: Thierry Reding <treding@nvidia.com>
+On 20/03/2026 10:44, Krzysztof Kozlowski wrote:
+> On 20/03/2026 10:34, Thierry Reding wrote:
+>> On Thu, Mar 19, 2026 at 05:15:56PM +0100, Krzysztof Kozlowski wrote:
+>>> On 19/03/2026 17:01, Thierry Reding wrote:
+>>>> From: Thierry Reding <treding@nvidia.com>
+>>>>
+>>>> This update primarily adds various new commands and MRQs for Tegra264,
+>>>> but also contains a few new annotations and fixes.
+>>>>
+>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>>> ---
+>>>>  include/soc/tegra/bpmp-abi.h | 4565 +++++++++++++++++++++++++++-------
+>>>>  1 file changed, 3671 insertions(+), 894 deletions(-)
+>>>>
+>>>> diff --git a/include/soc/tegra/bpmp-abi.h b/include/soc/tegra/bpmp-abi.h
+>>>> index 39bb3f87e28d..6cf6442395f1 100644
+>>>> --- a/include/soc/tegra/bpmp-abi.h
+>>>> +++ b/include/soc/tegra/bpmp-abi.h
+>>>> @@ -1,6 +1,6 @@
+>>>> -/* SPDX-License-Identifier: GPL-2.0-only */
+>>>> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+
+I missed this part here - that's license change. This has like 10
+different authors, so you must be explicit about it in commit msg and
+you must get their acks.
+
+>>>>  /*
+>>>> - * Copyright (c) 2014-2022, NVIDIA CORPORATION.  All rights reserved.
+>>>> + * SPDX-FileCopyrightText: Copyright (c) 2014-2025, NVIDIA CORPORATION.  All rights reserved.
 >>>
->>> This update primarily adds various new commands and MRQs for Tegra264,
->>> but also contains a few new annotations and fixes.
->>>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>>  include/soc/tegra/bpmp-abi.h | 4565 +++++++++++++++++++++++++++-------
->>>  1 file changed, 3671 insertions(+), 894 deletions(-)
->>>
->>> diff --git a/include/soc/tegra/bpmp-abi.h b/include/soc/tegra/bpmp-abi.h
->>> index 39bb3f87e28d..6cf6442395f1 100644
->>> --- a/include/soc/tegra/bpmp-abi.h
->>> +++ b/include/soc/tegra/bpmp-abi.h
->>> @@ -1,6 +1,6 @@
->>> -/* SPDX-License-Identifier: GPL-2.0-only */
->>> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
->>>  /*
->>> - * Copyright (c) 2014-2022, NVIDIA CORPORATION.  All rights reserved.
->>> + * SPDX-FileCopyrightText: Copyright (c) 2014-2025, NVIDIA CORPORATION.  All rights reserved.
+>>> You just replaced correct syntax with discouraged (as in not welcomed
+>>> upstream) SPDX tag.
 >>
->> You just replaced correct syntax with discouraged (as in not welcomed
->> upstream) SPDX tag.
+>> Fair enough, I'm dropping the tag. I didn't know it was actively
+>> discouraged and I don't see this documented anywhere. I suppose I should
 > 
-> Fair enough, I'm dropping the tag. I didn't know it was actively
-> discouraged and I don't see this documented anywhere. I suppose I should
+> I am trying to get it somehow documented as permissive, v4 is waiting
+> for some time.
+> 
 
-I am trying to get it somehow documented as permissive, v4 is waiting
-for some time.
-
-> go and drop similar tags from various other sources. Looks like we've
-> been introducing this recently for Tegra.
-
-I do not have opinion whether we should replace the tags, it does not
-matter for me, but I would simply not use it in new code.
+... feel free to encourage/review my change to get the tag officially
+supported.
 
 Best regards,
 Krzysztof
