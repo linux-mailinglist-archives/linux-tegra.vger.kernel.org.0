@@ -1,145 +1,167 @@
-Return-Path: <linux-tegra+bounces-12984-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-12985-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6BeEIawOvWkz6QIAu9opvQ
-	(envelope-from <linux-tegra+bounces-12984-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:09:00 +0100
+	id oE56HpAUvWnG6QIAu9opvQ
+	(envelope-from <linux-tegra+bounces-12985-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:34:08 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA542D7C3C
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:09:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D610A2D815C
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 10:34:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EB215305A887
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 09:05:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 87A5630378A9
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 09:34:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCFBB3793B1;
-	Fri, 20 Mar 2026 09:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C9D93822BD;
+	Fri, 20 Mar 2026 09:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcvRcE/1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tkjECuPH"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253443161BF;
-	Fri, 20 Mar 2026 09:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF84324707;
+	Fri, 20 Mar 2026 09:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773997536; cv=none; b=Y6/ZHVEOr4dPCpbiDBFKUTYTzP5TEaA/ss9ZDpTfZEG/rSACxgo9wtX7xJWb9Hcfz0TvFvM+5suUSVWVDwaiU4gZVrQzOCcAX/X8lTTK0sueCAVlhsKaIjgdcHWCQKUjGzu3AZm+GF6F8tq/zDMqJuuCiEfkrvI1xZaEJ0Ly5NA=
+	t=1773999245; cv=none; b=lJkzFHQBbhSDq01lDXnXjKiSllYo8HCG+5P+ii7Bf2KQMcaN/uQ85D8Mpt+lkmjebmOqPGoEFe+VrWw67pT+9k0gmolMJGX/S7goi4tZNrCoZevwLGlV7n7iSZIoArfOJ1knhTz051NJYyxrIgAw39mbUoRRLLPRIkMXljGL8n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773997536; c=relaxed/simple;
-	bh=1+/V3M72eicHKatX91jOMQbyAysvN6oRz5SSDh43k3U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=piVnOhjjtjcejevwgSAdyeLr3l/naBefXtHugmxGlBzXRRdfgbz0ipPLt7tPLFxYnIObZKNzcL8X05YLAvVnJdqmto1AYuMLvrOxh/8olxue6j8E+ZlkxTsdxhTwN+Am3BP+kDlsAvP+o8T0PuCoA5G0/+On5N3rXCMyQKZYxxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcvRcE/1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22591C4CEF7;
-	Fri, 20 Mar 2026 09:05:35 +0000 (UTC)
+	s=arc-20240116; t=1773999245; c=relaxed/simple;
+	bh=ZqkdnmTr1RZKGIn9zMFMXeAOkaFBOBOUV0NLFYqppZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gMl9fPYb/kErDM9N2M8+iM9OiMFLar0m4ymvs6+RUPjMqT76IqIDx3V8GmzL34AYAV9OvoU1eBxhKG2Bn0OMSBgBDTzKJtGtiQs3qqrpUBCIV14NC3wh6x1SyEPIJmPTsKFByoUDeXJJL3T7BMl4riKobAfgLTLDK31LSR4PXF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tkjECuPH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD606C4CEF7;
+	Fri, 20 Mar 2026 09:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773997535;
-	bh=1+/V3M72eicHKatX91jOMQbyAysvN6oRz5SSDh43k3U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lcvRcE/1AlZ1LeZ6wPkfYP5/RYZNjCMZxUocYBkwsIiIaMUKjzOT51HHNMB5Zkd85
-	 fFRt2lS1uOx0lF4ZOkruQg8cr5awaWrPR+zVIuXbBrR5p/+HNhCuciG4owx+mcVOMA
-	 0OC9y/yYCAboum5FvrQnYMljnyjJ9Mz7fIDvyuMq6wvSes8wQ7rk1csUqDNhgHowAk
-	 V85kOj+gxW/isVA7z6TAiwIuklrtv9iVM58oY+eMF3anFrWiWUF02se2qdIjk72b8U
-	 0mMr7ZHck8q+Xzkl5+YARVfoEE1rB8OKKSRI7qin5EH8xDuIAzulM0qp6ZwtPFX/E9
-	 CLSJTesLIwlww==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-tegra@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	Jessica Zhang <jesszhan0024@gmail.com>
-Subject: Re: [PATCH v5 0/4] drm/atomic: Allocate drm_private_state through a callback
-Date: Fri, 20 Mar 2026 10:05:30 +0100
-Message-ID: <177399752799.2530289.3477869792206272729.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260224-drm-private-obj-reset-v5-0-5a72f8ec9934@kernel.org>
-References: <20260224-drm-private-obj-reset-v5-0-5a72f8ec9934@kernel.org>
+	s=k20201202; t=1773999244;
+	bh=ZqkdnmTr1RZKGIn9zMFMXeAOkaFBOBOUV0NLFYqppZ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tkjECuPHSOpDPaarB14JUOSxmgPZ8aX3os78DzPr0Uva4fDvHhYYP0NIJhJsDk7RQ
+	 7msxtgW216AoTLDQ8JJ02j2HPNzeVBhjAtUsThrF/gYwrAQ255jozPVUHcXdUt9RxE
+	 ax0a9HpwNfvVAH4ALHU3BhUKc/CNX05YBGu3RSOLFVPKMnJ8uTDegmfOibOWDvko73
+	 r8EuqwYYwvsVE9o5lZ33MY0NvC3wP+eC0z7Yq3ykAe3efujQy8RP/XJvUKs1Df3eo7
+	 HTZ6uGHtyqTxJr27oQjdyU9Wf7jVSK1IjGdxw9oOagDdK1bpm6kTgtkcaIWVBU65wV
+	 pzQI1JAUu3FMA==
+Date: Fri, 20 Mar 2026 10:34:01 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jon Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/5] soc/tegra: Update BPMP ABI header
+Message-ID: <ab0T_0Pyio2SYrzq@orome>
+References: <20260319160110.2131954-1-thierry.reding@kernel.org>
+ <20260319160110.2131954-2-thierry.reding@kernel.org>
+ <435095b4-ce29-4c8a-9f63-300ff94e419a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7kxa3sapo22qfnnf"
+Content-Disposition: inline
+In-Reply-To: <435095b4-ce29-4c8a-9f63-300ff94e419a@kernel.org>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12984-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12985-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,igalia.com,ideasonboard.com,gmail.com,nvidia.com,vger.kernel.org,oss.qualcomm.com,arm.com,intel.com,linaro.org,kernel.org,crapouillou.net,raspberrypi.com,kwiboo.se,linux.dev,poorly.run,somainline.org];
-	MIME_TRACE(0.00)[0:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	NEURAL_HAM(-0.00)[-0.979];
+	NEURAL_HAM(-0.00)[-0.950];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-tegra@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 1EA542D7C3C
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: D610A2D815C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 24 Feb 2026 17:10:25 +0100, Maxime Ripard wrote:
-> This series started from my work on the hardware state readout[1], and
-> was suggested by Dmitry[2].
-> 
-> This series deal with the fact that drm_private_obj (and thus bridges)
-> are not initialized using the same pattern than any other object. This
-> series solves that inconsistency by aligning it to what we're doing for
-> all the other objects.
-> 
-> [...]
 
-Applied to misc/kernel.git (drm-misc-next).
+--7kxa3sapo22qfnnf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/5] soc/tegra: Update BPMP ABI header
+MIME-Version: 1.0
 
-Thanks!
-Maxime
+On Thu, Mar 19, 2026 at 05:15:56PM +0100, Krzysztof Kozlowski wrote:
+> On 19/03/2026 17:01, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > This update primarily adds various new commands and MRQs for Tegra264,
+> > but also contains a few new annotations and fixes.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  include/soc/tegra/bpmp-abi.h | 4565 +++++++++++++++++++++++++++-------
+> >  1 file changed, 3671 insertions(+), 894 deletions(-)
+> >=20
+> > diff --git a/include/soc/tegra/bpmp-abi.h b/include/soc/tegra/bpmp-abi.h
+> > index 39bb3f87e28d..6cf6442395f1 100644
+> > --- a/include/soc/tegra/bpmp-abi.h
+> > +++ b/include/soc/tegra/bpmp-abi.h
+> > @@ -1,6 +1,6 @@
+> > -/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+> >  /*
+> > - * Copyright (c) 2014-2022, NVIDIA CORPORATION.  All rights reserved.
+> > + * SPDX-FileCopyrightText: Copyright (c) 2014-2025, NVIDIA CORPORATION=
+=2E  All rights reserved.
+>=20
+> You just replaced correct syntax with discouraged (as in not welcomed
+> upstream) SPDX tag.
+
+Fair enough, I'm dropping the tag. I didn't know it was actively
+discouraged and I don't see this documented anywhere. I suppose I should
+go and drop similar tags from various other sources. Looks like we've
+been introducing this recently for Tegra.
+
+Thierry
+
+--7kxa3sapo22qfnnf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmm9FIUACgkQ3SOs138+
+s6EYsA//SNNKlRe3t3SUPX3spNqirFTfAQhpfnmouSK5Aw36bpy3uwHdQn6nuuPB
+20T7Q7bM32A3yvXhg+r+3T+oN/cxlNR8k0sge1KJJzF0SQ5+nMcseeqTa/6K8a0a
+y20jWBXRYOb88BmdK4prkqwIk6s9hgiiBrTvqZ4ULuOsplWH0BfiqNvLCZ8aTWZL
+uqiqGNGaPN2b0G/g4HOsB898aC6LOwvTwKKDgxYLsHCxUlGzdHKgbGODEC3XBguu
+/qHx0Ca33yT0CZa+s2pJUzc4lEOi0jIMZ482ioGuPrRFJ3+SA67dUyPxyzAK+wz9
+7WlD0psL8gHmMrjAa+PXFnR/xy5AfbFJG3e/eD+jQnliQDgGbakI0OkctcGIryAq
+vqjASYw6r7krihG3m0nT+Wc8e4pe/0/HiHVIBibaNZdYJ7wiRts6gHOp1HuapH+z
+S/JHbf6O7s1hh37c9+7vzKQ5wDJhVlS/QEvDrlBGfNpVkEDFrVZbAbZCH+cVdi8E
+Z9rMCI7BT/f5JINh2aQkNHHELUfmq8BVfVSYc6UB6Ttk/IIOAW6s5VCJ0LRPWnzp
+p/oypDG0ZFeCCFDUZfKWqf3fVei9YaUtOaSPrE2R9A+DVbPwMThNu5SvsPRm3BiJ
+FEMTJ/2m5kmWquwGni5fnsNdZ5CZiRYIKsRDwScH1dLqDv5Pv+A=
+=SVZO
+-----END PGP SIGNATURE-----
+
+--7kxa3sapo22qfnnf--
 
