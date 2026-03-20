@@ -1,146 +1,276 @@
-Return-Path: <linux-tegra+bounces-12999-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13000-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKUpH5VZvWkA9QIAu9opvQ
-	(envelope-from <linux-tegra+bounces-12999-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 15:28:37 +0100
+	id uCUlB7xuvWnL9gIAu9opvQ
+	(envelope-from <linux-tegra+bounces-13000-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 16:58:52 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271E72DBCB9
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 15:28:37 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5192DCF9B
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 16:58:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 380B03016EC8
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 14:27:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 054FE300832A
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 15:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B5183C13E6;
-	Fri, 20 Mar 2026 14:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE2683CD8A2;
+	Fri, 20 Mar 2026 15:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FPTQ5c6M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJiwwkWq"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7611F3BA237;
-	Fri, 20 Mar 2026 14:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94003CBE98
+	for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2026 15:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774016827; cv=none; b=kiv7l1ROUncUONAoJDqyQhsIFoxwU+c7qYh8rZsSFPIzSHMBRp1dybS2ICXjsllAyD3e4t/+rmRLpocpBhj6YL8/K+QZwBj8kLdAtC0tBBcZYBdD8GVlqVNHGjBMz1dBoWkAAB80m8ukBzWMOOtoEYRLqjXA7xZ6Pia+en0whJw=
+	t=1774022327; cv=none; b=VYKS3X/7tllbfvmV8NKhlcvIWjLv8MLZGkr7KMwkmca6sv5AFM8JMhmXfheESCHiQUgv7iwHRJHRAXXnHmya8SQrPacn6llzdKqulyfAXSaNHpqad8NyxsYjixsusMorCjCoYcOPe//5hMkNOLcRe7WZMDnaR67xmrXr0b24mLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774016827; c=relaxed/simple;
-	bh=k4+Fr8GYTEorydGUVB40cXg47golGvPWBSxULERZI6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IoOxm5Gb7HI4qdvSfcwrg++9RgMqgRIMXExgBjasCq+Y0IiPYNfycKwM2/BaP3OrUEFHX99+UaYsJEbndXmWsZOZa+fq9wmDnSjBTvYAys7E3PTFiGPE7eiA2VUNp90aG6GGeZzZzDIwoRsH23AefzwNhU2V+ZUr7/rnaRzGvIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FPTQ5c6M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B2CC4CEF7;
-	Fri, 20 Mar 2026 14:27:06 +0000 (UTC)
+	s=arc-20240116; t=1774022327; c=relaxed/simple;
+	bh=aiSd5OVBVjs+5Lqgol+Wge7MnZFB8HU1UxEFicnTJsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fsc75D3WOCEdLM9yjwq01lN/ZFnBxAuLVUnm3R5f+Ov8SOfYkZxLx7YiNgodS/XI1wGzlHBsdCSPL5MCFQVoMKG0E6agEA2BcvBEXa2kXJ1a/6UuEhS1rN5YMGkaxRevLEqIqnmhGMzdhrowKz4VNkRyBes4lMvbAGG1FcqzhaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJiwwkWq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82049C2BCB5
+	for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2026 15:58:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774016827;
-	bh=k4+Fr8GYTEorydGUVB40cXg47golGvPWBSxULERZI6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FPTQ5c6Msr57xq9lkdNf8VzHhF7duGR4nqKfjrTBJYu0ZC8dYVE3ITPhKGb5/CYdS
-	 dPwH1/E4cAetV9FUcmz3wsvQ0Ck1SWrEKeLfd24wXXvdfx4xRpkRg41yjeiy/lmDJf
-	 UqGd7z4Va4JRo2lXXXvV6OmsrH0Zat2UmrIkfuMVpGZPAKHAnMoOEofoAa4Kh5MVFi
-	 rC4TdCORw3K6jfMrui35yG0QEIqab4XbQ3utA0PxHI+Y4SUwnp8sj0tf25MB5umk9A
-	 Iivmtiqrvw3OJSVGSwQSp6cpxSxAq15BQchdnOZZ74lBmgVpcdUtVHyH11pzbHH7WC
-	 DytrxVYskHPnw==
-Date: Fri, 20 Mar 2026 09:27:05 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jon Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 4/5] PCI: tegra: Add Tegra264 support
-Message-ID: <20260320142705.GA699200@bhelgaas>
-References: <20260319160110.2131954-5-thierry.reding@kernel.org>
- <20260319174639.GA515667@bhelgaas>
- <ab0XT15uG0YEVjBZ@orome>
+	s=k20201202; t=1774022327;
+	bh=aiSd5OVBVjs+5Lqgol+Wge7MnZFB8HU1UxEFicnTJsA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sJiwwkWqsGD9uI3P7tI08I1OFNcFBuZrkZq/6h0a5aQZ/JJotn4uYeEC9maFNwo6H
+	 LpoacLh7JeCIuplmpZJg09lODgjvLhPSg/GovK3jOPsRVOdMjKL4tEzwU6+mE2HRba
+	 ion9X+xu3H/tf/M+hO9cVrPRwyHJtlaGRGKVYbYhMgw8NK/6Ny15jIDEo8/Xt5O/LH
+	 hBX9uh1Ol5v4g3yMrxu+aHxh6OsZwGvYGzPc6N6PXWoQ4HRz7UVwPFjY/73d+2KDEU
+	 8/E2W3YQoAIviNyd1QA+8kqePAJUekZGB6t3OvMNLAUzJYa7IgdnuajH6Tidmmk1wf
+	 X67JWILRtMz0g==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-66132b22182so3158424a12.2
+        for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2026 08:58:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQ0XcJB9n6SlUsJu6kVMEb4Qqxm6BYIoNlGkJfLwq8yg9DjFUQD82+u4z/pUm4NxpzYek9TUico3hRqw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjDRLQU/99NRwyrSw2Gvn3bKHFrY3FpyKpQVSyuZMlZM5YL6qx
+	m1N2rt/by9B/FnqVjyLO7n7Hn6oRy6iY3tWlWRoRrOeNYt9x6AWXWhtrA6PSyZc97E7pe01aErx
+	Fu7tj9PyEu51aWx9WnjECIw2A5ohP4w==
+X-Received: by 2002:a05:6402:50cf:b0:668:6e22:3e10 with SMTP id
+ 4fb4d7f45d1cf-668c84f299fmr3104507a12.0.1774022325958; Fri, 20 Mar 2026
+ 08:58:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab0XT15uG0YEVjBZ@orome>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+References: <20260319160110.2131954-1-thierry.reding@kernel.org>
+ <20260319160110.2131954-4-thierry.reding@kernel.org> <CAL_Jsq+smyMYE_oexRc9wEJgMxdUxSwg7p8Bex8q6J6PrwZZ+Q@mail.gmail.com>
+ <ab0U5bfZ2hwp-GST@orome> <CAL_JsqJuoOiBGKW=H=u9AQ=XgY+-iXS+UP7iEw5z6p57Yk_AVw@mail.gmail.com>
+ <ab1Ik3HbOQsDsG-K@orome>
+In-Reply-To: <ab1Ik3HbOQsDsG-K@orome>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 20 Mar 2026 10:58:34 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLWLCyV0j5pe_EtH-393zL2Bqrz-xFBydm7pECi_8iN0A@mail.gmail.com>
+X-Gm-Features: AaiRm538DnCHUjf50GK5tgq6RwltBjLP6uKu6msBMEA6dCdN5XqSvWmjN2Y_lR8
+Message-ID: <CAL_JsqLWLCyV0j5pe_EtH-393zL2Bqrz-xFBydm7pECi_8iN0A@mail.gmail.com>
+Subject: Re: [PATCH 3/5] dt-bindings: pci: Document the NVIDIA Tegra264 PCIe controller
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jon Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12999-lists,linux-tegra=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13000-lists,linux-tegra=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.943];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 271E72DBCB9
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-tegra@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.960];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,devicetree.org:url]
+X-Rspamd-Queue-Id: AB5192DCF9B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 20, 2026 at 11:34:53AM +0100, Thierry Reding wrote:
-> On Thu, Mar 19, 2026 at 12:46:39PM -0500, Bjorn Helgaas wrote:
-> > On Thu, Mar 19, 2026 at 05:01:08PM +0100, Thierry Reding wrote:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > > 
-> > > Add a driver for the PCIe controller found on NVIDIA Tegra264 SoCs. The
-> > > driver is very small, with its main purpose being to set up the address
-> > > translation registers and then creating a standard PCI host using ECAM.
+On Fri, Mar 20, 2026 at 8:48=E2=80=AFAM Thierry Reding
+<thierry.reding@kernel.org> wrote:
+>
+> On Fri, Mar 20, 2026 at 08:06:26AM -0500, Rob Herring wrote:
+> > On Fri, Mar 20, 2026 at 4:39=E2=80=AFAM Thierry Reding
+> > <thierry.reding@kernel.org> wrote:
+> > >
+> > > On Thu, Mar 19, 2026 at 04:26:31PM -0500, Rob Herring wrote:
+> > > > On Thu, Mar 19, 2026 at 11:01=E2=80=AFAM Thierry Reding
+> > > > <thierry.reding@kernel.org> wrote:
+> > > > >
+> > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > >
+> > > > > The six PCIe controllers found on Tegra264 are of two types: one =
+is used
+> > > > > for the internal GPU and therefore is not connected to a UPHY and=
+ the
+> > > > > remaining five controllers are typically routed to a PCI slot and=
+ have
+> > > > > additional controls for the physical link.
+> > > > >
+> > > > > While these controllers can be switched into endpoint mode, this =
+binding
+> > > > > describes the root complex mode only.
+> > > > >
+> > > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > > > > ---
+> > > > >  .../bindings/pci/nvidia,tegra264-pcie.yaml    | 92 +++++++++++++=
+++++++
+> > > > >  1 file changed, 92 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/pci/nvidia,=
+tegra264-pcie.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra26=
+4-pcie.yaml b/Documentation/devicetree/bindings/pci/nvidia,tegra264-pcie.ya=
+ml
+> > > > > new file mode 100644
+> > > > > index 000000000000..56d69de2788b
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra264-pcie.=
+yaml
+> > > > > @@ -0,0 +1,92 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/pci/nvidia,tegra264-pcie.yaml=
+#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: NVIDIA Tegra264 PCIe controller
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Thierry Reding <thierry.reding@gmail.com>
+> > > > > +  - Jon Hunter <jonathanh@nvidia.com>
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    const: nvidia,tegra264-pcie
+> > > > > +
+> > > > > +  reg:
+> > > > > +    minItems: 4
+> > > > > +    maxItems: 5
+> > > > > +
+> > > > > +  reg-names:
+> > > > > +    minItems: 4
+> > > > > +    maxItems: 5
+> > > > > +
+> > > > > +  interrupts:
+> > > > > +    minItems: 1
+> > > > > +    maxItems: 4
+> > > > > +
+> > > > > +  dma-coherent: true
+> > > > > +
+> > > > > +  nvidia,bpmp:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> > > > > +    description: |
+> > > > > +      Must contain a pair of phandle (to the BPMP controller nod=
+e) and
+> > > > > +      controller ID. The following are the controller IDs for ea=
+ch controller:
+> > > > > +
+> > > > > +      0: C0
+> > > > > +      1: C1
+> > > > > +      2: C2
+> > > > > +      3: C3
+> > > > > +      4: C4
+> > > > > +      5: C5
+> > > > > +    items:
+> > > > > +      - items:
+> > > > > +          - description: phandle to the BPMP controller node
+> > > > > +          - description: PCIe controller ID
+> > > > > +            maximum: 5
+> > > > > +
+> > > > > +unevaluatedProperties: false
+> > > > > +
+> > > > > +required:
+> > > > > +  - interrupt-map
+> > > > > +  - interrupt-map-mask
+> > > > > +  - iommu-map
+> > > > > +  - msi-map
+> > > > > +  - nvidia,bpmp
+> > > > > +
+> > > > > +allOf:
+> > > > > +  - $ref: /schemas/pci/pci-host-bridge.yaml#
+> > > > > +  - oneOf:
+> > > > > +    - description: C0 controller (no UPHY)
+> > > > > +      properties:
+> > > > > +        reg:
+> > > > > +          items:
+> > > > > +            - description: application layer registers
+> > > > > +            - description: transaction layer registers
+> > > > > +            - description: privileged transaction layer register=
+s
+> > > > > +            - description: ECAM-compatible configuration space
+> > > > > +
+> > > > > +        reg-names:
+> > > > > +          items:
+> > > > > +            - const: xal
+> > > > > +            - const: xtl
+> > > > > +            - const: xtl-pri
+> > > > > +            - const: ecam
+> > > > > +
+> > > > > +    - description: C1-C5 controllers (with UPHY)
+> > > > > +      properties:
+> > > > > +        reg:
+> > > > > +          items:
+> > > > > +            - description: application layer registers
+> > > > > +            - description: transaction layer registers
+> > > > > +            - description: privileged transaction layer register=
+s
+> > > > > +            - description: data link/physical layer registers
+> > > > > +            - description: ECAM-compatible configuration space
+> > > > > +
+> > > > > +      items:
+> > > > > +        - const: xal
+> > > > > +        - const: xtl
+> > > > > +        - const: xtl-pri
+> > > > > +        - const: xpl
+> > > >
+> > > > Put this entry last since it is the optional one. Then you can move
+> > > > all of this to the top-level and get rid of the duplication.
+> > >
+> > > I understand this concern and was actually on the fence about this
+> > > myself. The reason why I ultimately went with this variant is for two
+> > > reasons:
+> > >
+> > >   1. XPL does not exist for controller 0, the variant above makes tha=
+t
+> > >      very explicit. It explicitly documents that controller 0 is used
+> > >      for internal purposes and cannot be connected to an external por=
+t
+> > >      like the other five controllers.
+> >
+> > That doesn't really matter to the schema because it can never check
+> > that unless you have 2 different compatibles (and you shouldn't).
+>
+> I know that, the documentation would be more for developers/users rather
+> than the validation tools.
 
-> > > +#define PCIE_LINK_UP_DELAY	10000	/* 10 msec */
-> > > +#define PCIE_LINK_UP_TIMEOUT	1000000	/* 1 s */
-> > 
-> > Use something from drivers/pci/pci.h if possible.  If not, please add
-> > units suffixes to the name, e.g., it looks like these are in "_US".
-> > 
-> > PCIE_LINK_WAIT_MAX_RETRIES and PCIE_LINK_WAIT_SLEEP_MS look like
-> > they're used in similar ways in other drivers.
-> 
-> I see a bunch of implementations that use custom defines, if you don't
-> mind I'll have a go and unifying this a little. Most implementations
-> seem to use usleep_range(90000, 100000) with 10 retries.
+You can add whatever documentation you want to express that without
+needlessly complicating the schema for no validation purpose. Arguably
+if the schema is shorter, that documentation will be easier to see.
 
-That would be awesome!
-
-> > > +		err = gpiod_to_irq(pcie->wake_gpio);
-> > > +		if (err < 0) {
-> > > +			dev_err(pcie->dev, "failed to get wake IRQ: %d\n", err);
-> > 
-> > Does %pe work here (and below)?
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/core-api/printk-formats.rst?id=v6.19#n96
-> 
-> It won't work in this particular case because %pe needs an ERR_PTR-
-> encoded error code. For the other messages it's probably better to move
-> to dev_err_probe() as Krzysztof suggested.
-
-We could use dev_err(dev, "..., %pe\n", ERR_PTR(err)).  It's kind of ugly,
-but seems like a fairly common style.  I wish we had a simpler way to do
-this; it seems like a shame to print a negative number when we have the
-symbols available.
-
-Bjorn
+Rob
 
