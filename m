@@ -1,48 +1,49 @@
-Return-Path: <linux-tegra+bounces-13008-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13009-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wOjNFanavWlyCwMAu9opvQ
-	(envelope-from <linux-tegra+bounces-13008-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sat, 21 Mar 2026 00:39:21 +0100
+	id UCeEGH3avWlyCwMAu9opvQ
+	(envelope-from <linux-tegra+bounces-13009-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sat, 21 Mar 2026 00:38:37 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C61B2E24F8
-	for <lists+linux-tegra@lfdr.de>; Sat, 21 Mar 2026 00:39:20 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 107742E24E8
+	for <lists+linux-tegra@lfdr.de>; Sat, 21 Mar 2026 00:38:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CBE51302D4BC
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 23:38:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 77A0C30219DA
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2026 23:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C59C3B38A3;
-	Fri, 20 Mar 2026 23:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B17B3D6CDC;
+	Fri, 20 Mar 2026 23:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDVdLzbv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJY56epN"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDAB3921C9;
-	Fri, 20 Mar 2026 23:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479FE3D410D;
+	Fri, 20 Mar 2026 23:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774049910; cv=none; b=WRGhJDMR9xt9MrBjhI8dIWL28hhQqdD0fRcrkdHQeLe7sxH4V8j0pd1OJBvCGAAaZAPdGQmW18xOe13mew3p2XNRjq1hgEi5AxZgeoWQBXRnIKBL5bWpx01v9qal0rfERac09kLR7MSpYQh0jW4RPAS5eRHMDjxhSSnYRAOqoh8=
+	t=1774049913; cv=none; b=OiyIvp135OoBfmtn1ikuTojqNYALfO+hEiWNRd9ifMhWwxQ53sA1378QXksnuLRDrsSQl/ZvxaOjD4pFPdVlzQOEXL/Lc3LieUs7Gem4hWJnBm1fk7Mjs6K0L36CMAqWjKtxwjtABUHQux2erCmueNx2DBE5D9WGC0mthipDQeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774049910; c=relaxed/simple;
-	bh=xfgSGnQ8rEdDKXc1jHdHsYXps3Or07UtVd3U2bkKmIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h5tRMkVB5E6jSPi51quT14X0SGcJY3XsJfaqQr8Q/IWmh1qLGpFeXoPs2m2Qvzmj9MXTql461XAe+ZOkSXH5qGxj32+XgHWiD0v4Zix8Ortz4YCr36OuRt9zhQ+P7z2SdS+Uh2erosgECeLrH3HKR9BCQfHMwlwFgL7OLcdJZwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDVdLzbv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDAD0C4CEF7;
-	Fri, 20 Mar 2026 23:38:28 +0000 (UTC)
+	s=arc-20240116; t=1774049913; c=relaxed/simple;
+	bh=6z/5iW3DDFKVaCfX37ORzpSWLPIYAUgVqmAvTxZcUJs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kxMKh/d8rJrmnVw0oMKtrFu5+9Q9iI+bbTvBm3JTJD+wGPYYzOdDVnBpLvrq/KNb7GymGJbtKS/daBIwXC8/UvLNGASpU52gQ4WOokmXOyQBDUL/aJ3AM7LTSBGJqufhL1SkGOGOWwHenNLKWXW9BuIQoKHhd7QvxsWe+lHB+4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJY56epN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E0C9C4CEF7;
+	Fri, 20 Mar 2026 23:38:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774049909;
-	bh=xfgSGnQ8rEdDKXc1jHdHsYXps3Or07UtVd3U2bkKmIo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oDVdLzbv9hZlTjNlRLCKR8DNzUbb5IG3g6zhc7nyntR2SHWnMWY2VXce/3kURvZ5B
-	 TVEvf6w9/5iMXyXOP4NuKWzY+/GH5PtyRexNoiLWaKlgr5WDMq1ekUxgXV4FqVZ2Hx
-	 7L/SzxZ8kRlSiyCZPwGoeqIaxJmF57jP8aBhqyvHm7lPuZfD2hh7ulQWDVSfJ53FSN
-	 Bap7lY1FxHzpoAXtiFNyuBRGIVs4sLO/WE+y8QcswoF5lLx3Pum8k16hDA4VRqsbNl
-	 IJ8adTXz35kNwGX4D0+1DxL81aqeM5NTmsr8Qqjxm/KlfzAzJFNeAxAFt+mYpNyqrK
-	 7FYXTOhlo302g==
+	s=k20201202; t=1774049913;
+	bh=6z/5iW3DDFKVaCfX37ORzpSWLPIYAUgVqmAvTxZcUJs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZJY56epNX5IWkpirUVgTtWNYLe0gq1CWDSRz8WhT1BXU6j2ToMWwSDJ6L+e+Na0qw
+	 jjW0TbKMxgfBIZKS8HZqCH1pY2KFef4FN4Sbq4vLYerCrAzShSHpMPNK8lH+egpMrW
+	 Xav44I8QDCMheTp4YnnkUNlnUym9S+ZNMqKNLnIO9YbcpPXZaWEkw6i7R8rGKDOOGZ
+	 /nGrwiP4IfIHm6+Et/DrasxMDnGiFuWI1qW+ovpyLz5FhAkT8v6Kj64hO0yqv+/JiT
+	 8a3WGQjqCkFHlCHDncAzliS8bbLEQdUwYsWL6+oUECV8jSHvwd5M2cIeKgyes2IBo/
+	 XBTi/PI8qF+RQ==
 From: Thierry Reding <thierry.reding@kernel.org>
 To: Thierry Reding <thierry.reding@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
@@ -51,10 +52,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	Jon Hunter <jonathanh@nvidia.com>,
 	devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: fuse: Document compatible string for Tegra264 FUSE
-Date: Sat, 21 Mar 2026 00:38:21 +0100
-Message-ID: <20260320233822.2578569-1-thierry.reding@kernel.org>
+Subject: [PATCH 2/2] arm64: tegra: Add FUSE block on Tegra264
+Date: Sat, 21 Mar 2026 00:38:22 +0100
+Message-ID: <20260320233822.2578569-2-thierry.reding@kernel.org>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260320233822.2578569-1-thierry.reding@kernel.org>
+References: <20260320233822.2578569-1-thierry.reding@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -67,55 +70,61 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13008-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13009-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	DBL_PROHIBIT(0.00)[0.15.66.64:email];
 	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4C61B2E24F8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,0.122.18.0:email,0.1.134.160:email]
+X-Rspamd-Queue-Id: 107742E24E8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Thierry Reding <treding@nvidia.com>
 
-This hardware block is mostly the same as the one found on earlier
-generations. However, the exact register regions that can be accessed
-differ, so a new compatible string is required.
+The FUSE block contains a number of registers exposing information that
+is useful for certain drivers and/or userspace to read at runtime.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/nvidia/tegra264.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
-index 02f0b0462377..bf9923b63852 100644
---- a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
-+++ b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
-@@ -22,6 +22,7 @@ properties:
-           - nvidia,tegra186-efuse
-           - nvidia,tegra194-efuse
-           - nvidia,tegra234-efuse
-+          - nvidia,tegra264-efuse
+diff --git a/arch/arm64/boot/dts/nvidia/tegra264.dtsi b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
+index 8dbce25dfa3a..efb4d21aa4e3 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra264.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
+@@ -41,6 +41,13 @@ misc@100000 {
+ 			      <0x0 0x0c140000 0x0 0x10000>;
+ 		};
  
-       - items:
-           - const: nvidia,tegra132-efuse
++		fuse@1000000 {
++			compatible = "nvidia,tegra264-efuse";
++			reg = <0x0 0x1000000 0x0 0x10000>;
++			clocks = <&bpmp TEGRA264_CLK_FUSE>;
++			clock-names = "fuse";
++		};
++
+ 		timer@8000000 {
+ 			compatible = "nvidia,tegra234-timer";
+ 			reg = <0x0 0x08000000 0x0 0x140000>;
 -- 
 2.52.0
 
