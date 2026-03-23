@@ -1,202 +1,225 @@
-Return-Path: <linux-tegra+bounces-13067-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13051-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKrwG0T4wWlSYgQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13067-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 03:34:44 +0100
+	id iM9/MhqMwWlxTwQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13051-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 19:53:14 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107F1301360
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 03:34:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 664ED2FBA3C
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 19:53:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 428B7311DE15
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 02:30:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6026E310010C
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 18:43:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38771388E6A;
-	Tue, 24 Mar 2026 02:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC851301460;
+	Mon, 23 Mar 2026 18:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="RTFBubUc"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="OIh7cOu3"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013049.outbound.protection.outlook.com [40.93.196.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD785388394
-	for <linux-tegra@vger.kernel.org>; Tue, 24 Mar 2026 02:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774319414; cv=none; b=qBBX6gdpGzpPdUSoMUaemVjWnCy7ukjhRgug65huJp54nj43lpUMEob0UgzAlEGXYDq1KnFovdboijmyZfs0Ejj+cRlFnzfWrcIyTiFQcZPEk9Q89uhpv2zY8VCkE6dpijcm7pF1NepyYUtLACnvTMH3jn1hjfPdPJCNj2fmBnw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774319414; c=relaxed/simple;
-	bh=Vr+wLb3/yfuaY7Ek50G5tqooWQuxrr2KXAF3tU7VBDw=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=K8htJFDl+IljydT/BkBwEHSl6AWZQe9/qqgVIhYaM/Kjqv9FYS8ly+vPScZikHw9SeulEIqC31fT9moO3n6QattfXHjg8uPsu78RyrRfa5L2G9x8lADw/ibCiUYRU2zV6n9Om/n4QVB3yDtSRonvOGM7MrVf2agZ04OYhgClM+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=RTFBubUc; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260324023002epoutp03c453484350c7ad9d5a7afb93f520680b~fphicV-__2335923359epoutp03N
-	for <linux-tegra@vger.kernel.org>; Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260324023002epoutp03c453484350c7ad9d5a7afb93f520680b~fphicV-__2335923359epoutp03N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774319402;
-	bh=xiEG8fs8U4waGFe76frAqj8GUGT8PfbUsJqfEpDU4H0=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=RTFBubUceVdG5dBZjg2EJuOun+7AvU7K1xXJVOiY75v5S6AwPDX0GCIymngOFAphd
-	 E4RA3K/kK+gtTKLgy3khdnDiPmc2cGWIz79uHvHB6IujWAiNQY1L9e+YM2hT5hM2cb
-	 67/UCzZXuKEnGh+5DWuT53H601jKazX4GP44bHGA=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260324023002epcas5p3c3a08032a55b26ba4a7023fdeaebf3cd~fphhsTMXr1327213272epcas5p3T;
-	Tue, 24 Mar 2026 02:30:02 +0000 (GMT)
-Received: from epcpadp1new (unknown [182.195.40.141]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4ffvBx72xwz2SSKf; Tue, 24 Mar
-	2026 02:30:01 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632~fiHlqRiPK1063110631epcas5p4A;
-	Mon, 23 Mar 2026 17:27:13 +0000 (GMT)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260323172656epsmtip1078ac64ab1a734cd90e8019874a7de3a~fiHV3p2Rc1639516395epsmtip1L;
-	Mon, 23 Mar 2026 17:26:55 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>,
-	<linux-phy@lists.infradead.org>
-Cc: "'Vinod Koul'" <vkoul@kernel.org>, "'Neil Armstrong'"
-	<neil.armstrong@linaro.org>, <dri-devel@lists.freedesktop.org>,
-	<freedreno@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>, "'Bart Van
- Assche'" <bvanassche@acm.org>, "'Peter Griffin'" <peter.griffin@linaro.org>,
-	"'James E.J. Bottomley'" <James.Bottomley@HansenPartnership.com>, "'Martin
- K. Petersen'" <martin.petersen@oracle.com>, "'Krzysztof Kozlowski'"
-	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
-In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com>
-Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Date: Mon, 23 Mar 2026 22:56:51 +0530
-Message-ID: <1891546521.01774319401971.JavaMail.epsvc@epcpadp1new>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CCA2DCC01;
+	Mon, 23 Mar 2026 18:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774291369; cv=fail; b=q5nszKrFfcn+I3XhmAvqnQvFg1x1q8aeLSqEmfW58AANNYSEIEL22rSiIhRMY7j/KKjJr9+OVm2efE28GHrf7xIBKXZMT8+MkmtGDhFI4yy/8Bl1CuhpEJty2Ute46Rh+gEoU1NkNqScUPP8wAMMR5H0PY0zGLQmlNslgvGmB7Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774291369; c=relaxed/simple;
+	bh=aPipYrk+eMKKA/A7XtygUZ+vs8EV045cL1NAPbGEHlo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TFwqVhoSPEExcAKuCw7+vSzmu0rcnMb9LZIt7oFvNcBc13HZgPGwm+th07CVW1AVaykuv+nibJ/GOB1TOVkmvIr9se5pjB+rbYawQ0XoCJ//fTNp/ETyVHNFeeXzbdQ7Cv+eMU3Ekcg1Gxs3GsDPIlfS9JnctJSiob34Em4mhKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=OIh7cOu3; arc=fail smtp.client-ip=40.93.196.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CMKq+CnNQfPOW0HrfQ+J9vrzjvxoE0PIEdwGoptYJPk09lEYPtwOap1vDSScGeVRujsOgoSlHp6sDuCGOYwtwZ8SmRi6zqwEI2pXK38G2Cg9ZTkDFDF8xJDziLIOGnwpsopybETEN9dAG4PPp0VATaC4Svpefp+e5KNapruwC1/zjEOdtd3FjGbs4mu3iwN3E3A2/Ee7b6NslpZbHYZfbFELEkpA0PPfytGyNsOWzoOtZsHWwFD/bulwaUfA3X2GQJ0hC7OFRapGZY4Vf35vWOeT2sSiIZwrQzM5K8lUiimp74cdGHoVAH6mRdzwvhZYqG3+vwTqXAGnwL5eAVjENg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BPndFtE8B6bVqJmADMf1xBaiwFAnovZ17uGNPtnvv0U=;
+ b=Z0D3y+J9G1dfvVPGLHfUUQCnPwFTxu9yUbm2MNSziKqqiMLQicMNR0IevV00CCVGNyOUg4n3xxhSMD+scwcY4ReQUePTiTqcyXz19DBq5GijVxKXhszHquiJ63hZsMHxQL3GaoDbSzNKC0Qc37dTcSkiGl3jcbf0mVzKiWwTs1o5aI1uuwrtXleb762HS5SJYQVKRbXDUptpBkRUQX6T/hP/bZnVmdux/INi2rwFrgFfDACRUP2Xn5k5B31Orns6vbwPx6c+VwLMj2hK3sYV+E0x4NyE5CbGsQP8Rg11MqzPu0iNx18oXsGyi3+zM2KCkLYu/9nl2yuNWHCQn8epoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BPndFtE8B6bVqJmADMf1xBaiwFAnovZ17uGNPtnvv0U=;
+ b=OIh7cOu3lItzRjdkJd438Sg1RJ45Fi7MedgszeH32cRMtMj5B5QlLHVpjaNEG0ITYAFjtWTZCMPUSf9Lob1eVZBfXSCxGjLB4J5DpXYQs1ZtgF4EdgewTrFv9W2dPqfqYixXJEA1fr/zhA57jMDHeCal+VFdKK504P06k9WpTuW/JzJrkeI2mjZRv9LwIyO4SIGzEGNiOvCmv/dOckWGMq3319g/A3XdR20RDnGUJDKaT8J2MiwvC0m+6zdEy2YY2mRN0aBAjwNY6DxYW0he9NIHs6+fsvlQdWVlEEZKofhFodDZzlBuQ1lelJq2Q8sQracZydsIc39tBozC78cNiw==
+Received: from BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34)
+ by DM4PR12MB5867.namprd12.prod.outlook.com (2603:10b6:8:66::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Mon, 23 Mar
+ 2026 18:42:37 +0000
+Received: from BL6PEPF00020E61.namprd04.prod.outlook.com
+ (2603:10b6:208:2b9:cafe::c6) by BL1PR13CA0119.outlook.office365.com
+ (2603:10b6:208:2b9::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Mon,
+ 23 Mar 2026 18:42:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL6PEPF00020E61.mail.protection.outlook.com (10.167.249.22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19 via Frontend Transport; Mon, 23 Mar 2026 18:42:36 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 23 Mar
+ 2026 11:42:16 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 23 Mar
+ 2026 11:42:15 -0700
+Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Mon, 23 Mar 2026 11:42:08 -0700
+From: Akhil R <akhilrajeev@nvidia.com>
+To: <lkp@intel.com>
+CC: <Frank.Li@nxp.com>, <acpica-devel@lists.linux.dev>,
+	<akhilrajeev@nvidia.com>, <alexandre.belloni@bootlin.com>,
+	<conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <ebiggers@kernel.org>,
+	<fredrik.markstrom@est.tech>, <jonathanh@nvidia.com>, <krzk@kernel.org>,
+	<lenb@kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-i3c@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+	<linux@roeck-us.net>, <llvm@lists.linux.dev>, <miquel.raynal@bootlin.com>,
+	<oe-kbuild-all@lists.linux.dev>, <p.zabel@pengutronix.de>,
+	<rafael@kernel.org>, <robert.moore@intel.com>, <robh@kernel.org>,
+	<smangipudi@nvidia.com>, <thierry.reding@kernel.org>
+Subject: Re: [PATCH 04/12] i3c: master: Support ACPI enumeration
+Date: Tue, 24 Mar 2026 00:12:07 +0530
+Message-ID: <20260323184207.68515-1-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <202603230124.VFt6CPBe-lkp@intel.com>
+References: <202603230124.VFt6CPBe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwIGLiEOAj0DJam0ghnJMA==
-Content-Language: en-us
-X-CMS-MailID: 20260323172713epcas5p4dd04df01adb71b7563e1cac14b927632
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<CGME20260319223312epcas5p183a1e0c31206025da8cf00b5d745a0ce@epcas5p1.samsung.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E61:EE_|DM4PR12MB5867:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17386d8b-37cd-4736-56c8-08de890bf445
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|7416014|376014|22082099003|18002099003|7053199007|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	kzMxMuRnD9fjvedV7Bhxf8CIVIHuIqZt9wrNgIq0AnI7vM34S/9spGWKZ/mg6xrqGPmAomMnZIymIn8LtgfgOHTOr2CHWMU5Crla5kzEM/20NtQ1bWyfvR02zu9ubaE306FvzigzBpBHe++zK3UX5zGvs/JTzRAdx5o5FLraouWB7U6ev1+SPudM5cXGkmiPURAlstUoXBJBIcQPQd1DB7pIATmXuRN70R7vnZMTBGgkNOHgSAmQY1WJsYkb+En8E17QvwudbP4VVcH0NYF+0zIJ/j9MOLqun9pBCIlTraY9C96zDm4IQwZ5qkJc/hjEdlhPY06wWOqeV2zmLWs6c66tVhBjVN9+aJDgcoH15cZhmcJ0z1SDQ1btgU2tNln7T7SIhJyy/QgCG9vkZUTcnUgFcUFwWa8dSFBSUpRVeWjn4ujbdGp3IOjTwN0odbUdJmNMu5RebDMFAClXDihGlMOqGs9LgcA1yiHQhyUBqfu7/DCxTace2c2xAFNp6gIi8zxx/k+uB1IU7SbvfYm/YqnTVKoWbFDidTjBxJkkEQFej4yJ+1kXUivW8xXsOdXFsj8WAdo8ObjERN1KGxUHy/w7yzp6IlfmHHCRsqufhL6CuzxPo/s5X/icOwBgasK6ek2OyX9qmXwY90NMv4UmvmkLhJbW4QEe0kWU+UAOKF0XaEwF814A0zVDgxcr2sxTay+asMtNrqlbkseClWLCEKPFyDTWnxXA8MzXEBtJOYKi6yRwivTnV02MRlwD77+IFGK764RmVq5InHYNfa2Q/g==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(7416014)(376014)(22082099003)(18002099003)(7053199007)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Knjwv4/5Gkq4LNSwj3HO3WdE/5rr/KUC01DNf6JUcGoSITltrMHTpTb0TM3EDxcJyDQTBjsaHvmS9kLMIuwvVUj7geOIZ3zLoCBJb2fy6XSfvjDFkO/oiAJlI0shXUZNlxzLVJ3bQBPCnwE4AQo51zjGBH3DToOzDDdrsRRGK30W/LXR3etBD0+zTQmTHjK6wQMulORd4VIvghd3S825fCGpFa/lj4FPY+knoolcG87pQtJMwAFUi91F4GZePog2oF/9qrBVPowmqz099Fadz1ShxI7rjb17mH+aoUzPARTz+C8jdqFJNPzjyf/Lyi78aORRRSJmfr4JvpWPF/l/dO1UHbci9Z4EQwdqmQ/qkW1k7EqhNR397OPHtV17IQxVzqu03aew+uuCbaAZRcgRrtA9FpjfE6Mm7jLqi2uhFs+OMAptE0sS6Ow0qFqVpc3Q
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 18:42:36.7292
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17386d8b-37cd-4736-56c8-08de890bf445
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00020E61.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5867
+X-Spamd-Result: default: False [2.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13067-lists,linux-tegra=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13051-lists,linux-tegra=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	DKIM_TRACE(0.00)[samsung.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-tegra@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[akhilrajeev@nvidia.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	TO_DN_NONE(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 107F1301360
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url,Nvidia.com:dkim,nvidia.com:mid,git-scm.com:url];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 664ED2FBA3C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-HI Vladimir,
-
-> -----Original Message-----
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Sent: Friday, March 20, 2026 4:02 AM
-> To: linux-phy@lists.infradead.org
-> Cc: Vinod Koul <vkoul@kernel.org>; Neil Armstrong
-> <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
-> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
-> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
-> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
-linux-samsung-
-> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
-linux-sunxi@lists.linux.dev;
-> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; spacemit@lists.linux.dev;
-> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
-> <peter.griffin@linaro.org>; James E.J. Bottomley
-> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
-> <martin.petersen@oracle.com>; Krzysztof Kozlowski <krzk@kernel.org>;
-> Chanho Park <chanho61.park@samsung.com>
-> Subject: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
-struct
-> phy guts
+On Mon, 23 Mar 2026 01:47:20 +0800, kernel test robot wrote:
+> kernel test robot noticed the following build errors:
 > 
-> The Exynos host controller driver is clearly a PHY consumer (gets the
-> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> to get the generic_phy->power_count.
+> [auto build test ERROR on next-20260320]
+> [also build test ERROR on linus/master v7.0-rc4]
+> [cannot apply to i3c/i3c/next rafael-pm/linux-next rafael-pm/bleeding-edge groeck-staging/hwmon-next v7.0-rc4 v7.0-rc3 v7.0-rc2]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> The UFS core (specifically ufshcd_link_startup()) may call the variant
-> operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times if
-> the link startup fails and needs to be retried.
+> url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-i3c-Add-mipi-i3c-static-method-to-support-SETAASA/20260322-174037
+> base:   next-20260320
+> patch link:    https://lore.kernel.org/r/20260318172820.13771-5-akhilrajeev%40nvidia.com
+> patch subject: [PATCH 04/12] i3c: master: Support ACPI enumeration
+> config: sparc-randconfig-002-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/reproduce)
 > 
-> However ufs-exynos shouldn't be doing what it's doing, i.e. looking at the
-> generic_phy->power_count, because in the general sense of the API, a
-> single Generic PHY may have multiple consumers. If ufs-exynos looks at
-> generic_phy->power_count, there's no guarantee that this ufs-exynos
-> instance is the one who previously bumped that power count. So it may be
-> powering down the PHY on behalf of another consumer.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603230007.WOMwklQ6-lkp@intel.com/
 > 
-> The correct way in which this should be handled is ufs-exynos should
-> *remember* whether it has initialized and powered up the PHY before, and
-> power it down during link retries. Not rely on the power_count (which,
-btw,
-> on the writer side is modified under &phy->mutex, but on the reader side
-is
-> accessed unlocked). This is a discouraged pattern even if here it doesn't
-> cause functional problems.
+> All errors (new ones prefixed by >>):
 > 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> ---
-Thanks for the patch
-Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
+>    drivers/i3c/master.c: In function 'i3c_master_add_i2c_boardinfo':
+>>> drivers/i3c/master.c:2449:23: error: implicit declaration of function 'acpi_dev_get_resources'; did you mean 'acpi_get_event_resources'? [-Wimplicit-function-declaration]
+>     2449 |                 ret = acpi_dev_get_resources(adev, &resources,
+>          |                       ^~~~~~~~~~~~~~~~~~~~~~
+>          |                       acpi_get_event_resources
+>>> drivers/i3c/master.c:2455:17: error: implicit declaration of function 'acpi_dev_free_resource_list' [-Wimplicit-function-declaration]
+>     2455 |                 acpi_dev_free_resource_list(&resources);
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/i3c/master.c: In function 'i3c_master_add_acpi_dev':
+>>> drivers/i3c/master.c:2556:9: error: unknown type name 'acpi_bus_address'; did you mean 'acpi_io_address'?
+>     2556 |         acpi_bus_address adr;
+>          |         ^~~~~~~~~~~~~~~~
+>          |         acpi_io_address
+>>> drivers/i3c/master.c:2563:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Wimplicit-function-declaration]
+>     2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
+>          |              ^~~~~~~~~~~~~~~
+>          |              acpi_has_watchdog
+>>> drivers/i3c/master.c:2563:34: error: invalid use of undefined type 'struct acpi_device'
+>     2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
+>          |                                  ^~
+>>> drivers/i3c/master.c:2566:15: error: implicit declaration of function 'acpi_device_adr'; did you mean 'acpi_device_handle'? [-Wimplicit-function-declaration]
+>     2566 |         adr = acpi_device_adr(adev);
+>          |               ^~~~~~~~~~~~~~~
+>          |               acpi_device_handle
 
-Tested this patch for basic UFS functionality, UFS still works. 
-Feel free to add
-Tested-by: Alim Akhtar <alim.akhtar@samsung.com>
+#include <linux/acpi.h> is added in PATCH 03/12. The functions' prototypes
+are present in acpi.h. I think the bot checked this patch individually,
+or did I miss something?
 
-
-
+Best Regards,
+Akhil
 
