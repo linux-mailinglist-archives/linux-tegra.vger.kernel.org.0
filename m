@@ -1,189 +1,163 @@
-Return-Path: <linux-tegra+bounces-13048-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13036-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id COXcNR1mwWlQSwQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13048-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 17:11:09 +0100
+	id iKBiC6g9wWlJRwQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13036-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 14:18:32 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EAD2F7B13
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 17:11:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987742F2B58
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 14:18:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4D4D63059A7C
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 15:42:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CDB0F3029638
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2026 13:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28DAA3B6344;
-	Mon, 23 Mar 2026 15:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF8CF2F2910;
+	Mon, 23 Mar 2026 13:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mgU9aFrC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CKEfITAN"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E733B3B6341
-	for <linux-tegra@vger.kernel.org>; Mon, 23 Mar 2026 15:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435AA1DED63
+	for <linux-tegra@vger.kernel.org>; Mon, 23 Mar 2026 13:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774280287; cv=none; b=DpuGTU62RCVIkc++Fnk2dY2YlJCHap5Q4uUGxVDqI4HZ0Dr5bfqsht4J1Cwx0VtDtt8wkV8vxZQ+PY2DlfjAQMStV1PghBynjVXPFwy1gxIwHF2IEV4ua4UwAyQpEmsjdDHKsGXWy4a6qWue44dwrRiXrtSNllv169RaADPlj9U=
+	t=1774271291; cv=none; b=lTbYw0UaOJqN/vwJAC2LqGMYaPK8HYiXijOCeRh80pJd/NWNck4pAKl1KegXmCbE4lhtufbbaSozQvbc9YdvIrlgtmvjMFHLkWZwctcqL2dvQDQR3uMmQbc23WnxOXaK1+pAjl1lmDdxxSS79cEMJrUaYxpp7+6I1WJUhMqPzVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774280287; c=relaxed/simple;
-	bh=vToF1UbNvL4l1OkVwlOI7+XcnxHkjKZMzjHswh/EJ+k=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=kzfm7YwHYdrYW2Jzwm+IaAzJNBdjtDLW/PSB5T/BOP98Q3bi/cru4eBnDfV1d5YB18qLkpshVVfF2NAPsReMOyvy9NLl9J7lKRsBrVtWizwdaDE0RSZsk0miy3maflExjQrKZ7jGRLLqEheDDBQpVuZ0EqDsxSlym2sVDX1IPlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mgU9aFrC; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260323153802epoutp04aee8cd93757a2b0cd2e7c51fb0b978e2~fgoRF1gAf1350513505epoutp04_
-	for <linux-tegra@vger.kernel.org>; Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260323153802epoutp04aee8cd93757a2b0cd2e7c51fb0b978e2~fgoRF1gAf1350513505epoutp04_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774280282;
-	bh=MYU9K1BczlLtBMfJPDu28QIk9pzoA+hXl3yf17nC2HI=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=mgU9aFrC+5Kx+21CCBQ48vtUtevP0XGV5aHjupTGFTw7s0wbx2FYZ7piHu2gEGNx9
-	 7FiJ9iRzTsn7N6OtZVcQFwqx9+/yRy1FbPgDJReQh76dJWCUi3xQdbS9llr9OgF8ia
-	 3KFTDuksHm5/ZDwJUU6SICm8wW+RY1yai4quNiMM=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260323153802epcas5p1bb1e979594c5257c037cdf6411e7a177~fgoQZrLX82373723737epcas5p1t;
-	Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4ffckf0KMvz3hhT4; Mon, 23 Mar
-	2026 15:38:02 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126~feJElRtj12139221392epcas5p34;
-	Mon, 23 Mar 2026 12:35:42 +0000 (GMT)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260323123538epsmtip2099c850de3b514ee4ac3f5a0092dd02a~feJAkDKG92361023610epsmtip2P;
-	Mon, 23 Mar 2026 12:35:38 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>, "'Martin K. Petersen'"
-	<martin.petersen@oracle.com>
-Cc: <linux-phy@lists.infradead.org>, "'Vinod Koul'" <vkoul@kernel.org>,
-	"'Neil	Armstrong'" <neil.armstrong@linaro.org>,
-	<dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-can@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-scsi@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
-	<UNGLinuxDriver@microchip.com>, "'Bart Van Assche'" <bvanassche@acm.org>,
-	"'Peter Griffin'" <peter.griffin@linaro.org>, "'James E.J. Bottomley'"
-	<James.Bottomley@HansenPartnership.com>, "'Krzysztof	Kozlowski'"
-	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
-In-Reply-To: <20260323115848.ghdu4sbk75tvggfb@skbuf>
-Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Date: Mon, 23 Mar 2026 18:05:36 +0530
-Message-ID: <1891546521.01774280282025.JavaMail.epsvc@epcpadp2new>
+	s=arc-20240116; t=1774271291; c=relaxed/simple;
+	bh=Bl2DdRIqKZcG7iOBBUYjQ+FGP8Qyp4jh1rOCmFGMnh4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MVc632ctJ3lFE5BHe34LwMCUwSykyx60A7HEIBm8K9yT9VFXt5RlmjWx5dZ++rSil8ktsSPGUOqlv/282Qjx111spIvVZ4fsI42285KLV8BlL6vmXI6WXBP48RcvrYaIANGcBz7kXEBq+O/l7ll9zJAw28WqINnUg4rayNhFZmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CKEfITAN; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so1372381f8f.2
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Mar 2026 06:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774271288; x=1774876088; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GL/n4R0Qme0jlsiRwDN2Xf4l/bzKJrmsbnUQG943gyA=;
+        b=CKEfITAN3R6EghzYci0Cq1d+JGhxxGDMISAKfA3An84iw8cQkQU/hdzrPMiq8gqKg4
+         aoFQzU3culL0MoMDK7/Na2ffYbiXiX5yQQoF3a8M58IP56qAs9Y6Ix+CNnQVL/o1j+rj
+         gFjmR8kKX0g6no+6ZOpxmbkOBATilyjKFwKwNCzXJWP89VkE/lBE3Z9leuDlO5aJcx5G
+         NszTiE8qlNh0/Qxnkr2VuCBI97Cm+vDJfICWAKcjlJdgiUP/NQOOj0jFS1bHOUqf8ZPk
+         ohkO0GcVf5T6zHhJHBYiQL0s29dI87L2LT0AeViU60pkH71rt6WfqdNPK2HQD8jTjgbv
+         YKHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774271288; x=1774876088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GL/n4R0Qme0jlsiRwDN2Xf4l/bzKJrmsbnUQG943gyA=;
+        b=sPwYc3Cb8pMCRSBsie0p1B4xkWvB77+8Y0srMUbpEGfTNIhu4snwhiSRO3ydfmruI1
+         doCPGrE7aujFZGRWsW/D8/p7uUalYtPcND916FDPDayvd90R6a5BFvo1ibTTCsq8doHv
+         5pZh12xgA4NUvloPgOX5pv6GjrgQEi9NgwMG50VIywCSezxhJRDV40Gc3apZZBpT8pZL
+         F8An9jsXtQaDnkm4QMZwgnqLtflOxiYnatnu/0LWpX+zfhiQF7Yvjvb1PY+/sH8LWFH4
+         Z6jiWflqcXEa2rS4Ikr7U8TL3P5xqo6Raw9ATZ8s/T4Zhv4OeOFGUfw/Cqq6SdVnm7dF
+         0a+A==
+X-Gm-Message-State: AOJu0YybhdbxKumO0lyizNHfU0Se3obD/0LQ3b9MiIIMmyNXeBih7PBI
+	Fn+UuTsnlk8JZpqJjvcX18rYMAZPC+lOvtGSBokk6p73DwS8wcOrbsGB
+X-Gm-Gg: ATEYQzzfKT+wRvq1TVMRmLP5G4vs8YkvqG7ENW6obQ1JI30LbaKRpDAi4k7znBMVVvH
+	6kybePm1aOwrI3nW3OSlYCZ0pJs6LXNGOj9dRN/DalJ6iSFYUZLVt2YUjAGMASqPP4Ho4f6q3s9
+	1cTl/+j3nGq5FBwEsOBxFmV3iTIA7diuKEbafx/yhALqaqSNB1j/c6soc9IBl1PaXviPYk3bEUy
+	h+zS099RV/3f15mPiyvVC97GettW3UzxUhDtIWXmmC6FL29F9+7nRXOkrTFpL5Mpq+acA2NWPHJ
+	bAx7XpCCVYD6lw88Lub8E62Vsb8COaB2x3nKuZveOZ+28uiHLggWJ2t+NII3cJ+SoaFP4/KA1mm
+	y1hlBh34YvY4bSUw/rQXTolHrW21sHPud1nkTo/TOm6TjBFGnlgFgOQphApB9fzP6yh9DIvac93
+	SX7xbXV8a63FqjQIeqAsRZueIDcVV+EVTCplE8pXJq0OzAd7EoUbihL74=
+X-Received: by 2002:a05:6000:400b:b0:43b:4966:744a with SMTP id ffacd0b85a97d-43b6428ab1amr19734587f8f.50.1774271288424;
+        Mon, 23 Mar 2026 06:08:08 -0700 (PDT)
+Received: from arrakis.kwizart.net (82-65-38-83.subs.proxad.net. [82.65.38.83])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703c27sm29561633f8f.18.2026.03.23.06.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 06:08:07 -0700 (PDT)
+From: Nicolas Chauvet <kwizart@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-tegra@vger.kernel.org,
+	Nicolas Chauvet <kwizart@gmail.com>
+Subject: [PATCH] [RFC] drm/tegra: fixup primary/overlay format for tegra210
+Date: Mon, 23 Mar 2026 14:07:29 +0100
+Message-ID: <20260323130804.67936-1-kwizart@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwI9AyWpAaSC6pgB9ZOp/gJXIgBltGJxFXA=
-Content-Language: en-us
-X-CMS-MailID: 20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20260323115859epcas5p10177db12a2e8aee9578271ff1411137b
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
-	<yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
-	<CGME20260323115859epcas5p10177db12a2e8aee9578271ff1411137b@epcas5p1.samsung.com>
-	<20260323115848.ghdu4sbk75tvggfb@skbuf>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13048-lists,linux-tegra=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	DKIM_TRACE(0.00)[samsung.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13036-lists,linux-tegra=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kwizart@gmail.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: F2EAD2F7B13
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 987742F2B58
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Vladimir
+The primary_format and overlay_format were picked from earlier tegra114
+generation instead of using the previous tegra124 format leading to
+missing format.
 
-> -----Original Message-----
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Sent: Monday, March 23, 2026 5:29 PM
-> To: Martin K. Petersen <martin.petersen@oracle.com>
-> Cc: linux-phy@lists.infradead.org; Vinod Koul <vkoul@kernel.org>; Neil
-> Armstrong <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
-> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
-> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
-> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
-linux-samsung-
-> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
-linux-sunxi@lists.linux.dev;
-> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; spacemit@lists.linux.dev;
-> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
-> <peter.griffin@linaro.org>; James E.J. Bottomley
-> <James.Bottomley@HansenPartnership.com>; Krzysztof Kozlowski
-> <krzk@kernel.org>; Chanho Park <chanho61.park@samsung.com>
-> Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
-> struct phy guts
-> 
-> On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
-> > Vladimir,
-> >
-> > > The Exynos host controller driver is clearly a PHY consumer (gets
-> > > the
-> > > ufs->phy using devm_phy_get()), but pokes into the guts of struct
-> > > ufs->phy
-> > > to get the generic_phy->power_count.
-> >
-> > Ah, newer version. Would still like an ack from Samsung.
-> >
-> > And I hit the wrong key, I did not actually apply this...
-> 
-> I will have to resend v6 because of an armv7 build error I've caused for
-ufs-
-> qcom.c (which doesn't #include <linux/interrupt.h>, and relies on a
-transitive
-> inclusion from <linux/phy/phy.h>). It would be nice to get the ack from
-> Samsung, but I'll send the next version in the upcoming hours regardless.
-Will review and possibly test on one of the board later tonight
+This patch is RFC because while it's unlikely that format availability
+have skipped to earlier tegra210 soc generation I haven't confirmed
+any runtime error nor experienced any regression by the lack of
+availability of theses format.
 
+Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 06370b7e0e56..d5896f12f25f 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2942,10 +2942,10 @@ static const struct tegra_dc_soc_info tegra210_dc_soc_info = {
+ 	.has_powergate = true,
+ 	.coupled_pm = false,
+ 	.has_nvdisplay = false,
+-	.num_primary_formats = ARRAY_SIZE(tegra114_primary_formats),
+-	.primary_formats = tegra114_primary_formats,
+-	.num_overlay_formats = ARRAY_SIZE(tegra114_overlay_formats),
+-	.overlay_formats = tegra114_overlay_formats,
++	.num_primary_formats = ARRAY_SIZE(tegra124_primary_formats),
++	.primary_formats = tegra124_primary_formats,
++	.num_overlay_formats = ARRAY_SIZE(tegra124_overlay_formats),
++	.overlay_formats = tegra124_overlay_formats,
+ 	.modifiers = tegra124_modifiers,
+ 	.has_win_a_without_filters = false,
+ 	.has_win_b_vfilter_mem_client = false,
+-- 
+2.53.0
 
 
