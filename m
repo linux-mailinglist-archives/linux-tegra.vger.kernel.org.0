@@ -1,102 +1,90 @@
-Return-Path: <linux-tegra+bounces-13064-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13066-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yHASHlHqwWkgYAQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13064-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 02:35:13 +0100
+	id YP8oGBzwwWkgYAQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13066-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 02:59:56 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EF2300966
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 02:35:12 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFBE300D30
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 02:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E80B53113399
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 01:30:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7EFB6300C56C
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 01:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5263437AA82;
-	Tue, 24 Mar 2026 01:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434FE33F5AC;
+	Tue, 24 Mar 2026 01:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pDupJ+ZX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+zBCcdG"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010040.outbound.protection.outlook.com [52.101.201.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6663750A2;
-	Tue, 24 Mar 2026 01:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774315855; cv=fail; b=pJQwloUfVu1Rkw6LhPThFH2Mu4tkzJEJU7z3YmI9BQHxyDXN5fKMTvhARR/pD0VOk/OkeAOAnqnlOSGnQ1MBocvj1s1PIDO9DBhhxb9R0XsRFd6HBo/D0Djqr9WWrODdKFy3HUj8H+42NRc3C7nINMbMcbQY3pQNoivuRyN0VQk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774315855; c=relaxed/simple;
-	bh=cIhQMFQvRKF7KVieu1ZFGTOizXUCCSywviTQh8bvTKQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PF4n7v7z21lUmnEIhqqbrP3P69AyXRLntd9eM218KSy9oUoJOUipkddndtlgA6U+FNfBUPkCgE3C/DwinPhH4VhsIEX5jaUEp3OYoguwILxHt3kLumGT90J/gfEn1WVOXtw+iF/g/1FYYd+4laR1YmlyeaSv6BBhXVk3ayjjqyM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pDupJ+ZX; arc=fail smtp.client-ip=52.101.201.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DcMnTP3h7e+bnip2nQEI5nmimA5fawPptR9+1yaFq2MupgMZXOVPC+lXDsJVSs6BeFfUdalAjpHw0zyxoSkW/2aZ5TxqLkLeIt+WwsrfgHsckBA6qOK87GbEAJeHm88bkk9QOBhSSRiI0EMKyvrZup4f0Zd3k2y7YhcdRhPoJNs8L/h37nBwx+fxJBtBplF/hr38QDrZAU8H9CPt/wAOWYheibGSRDrNkbvNR6et8TDcwZvkjpFj/E49U4Pi89uUYEZ5sm90vYHvKARNKECNdcw0SiqMREBxo7Z6POWm4NTeE4u/3iRMz2PM+/U1iHoQjvXYsdM1H+Om/iAmUOEnrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KnmCTrDMeHYriH5d6Xmzv7d4/3KX92c2SKYbVpbkJ6w=;
- b=Mb/Vf3KxuHUxqk13FkIlQ4ulRMoV/vnqDMNWnzTctJPuMPsIO3P1ZXNlv3DTlStFBm0NFvYyhY7Wkmr0XeH9N/O3TtFGuIQsQAYwBHYps2QMRoK9eThh1Y8pdy7pSQUseAj4jDcx5PX5zaMzo1Sz9hFmn+3JV3Y/wbhbbeh2V4U++JHz740p8VbgEqDcSiTbSKPfDDhtr57eRqhjQEgnEJQbxspWC5/3NOi7OU4aEZWgtCtzX2xsNwNjat3+Nfy2Ej7FPHWholwzUWNyyXb7A8B4/zPyQ87EAyz/oTG+zJxopnImKZV+PhRBMoheSf94vGLKjK/eMnf1l+q9edD+HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KnmCTrDMeHYriH5d6Xmzv7d4/3KX92c2SKYbVpbkJ6w=;
- b=pDupJ+ZXh0tShdySQCGIYdy5R4mActcYUQFq1c5G0/mGus56AC4cCyxY21MH22vDBke1Mguj6uJnxwMwMVxLFv10iNn7Uf+CoaGEnbl33Xey8WZfomuUvjRamuLXugqlr0irh53Y89f+ibmpwD2QR5KUj0/EUhe6rYTT/dDISUmMm71cZRbhp5HL0XhV26dMinUfWbiPx4QO35wXt+Nhb49i++nKGSyr/4iYi7ygY6IMPZPdArTEe5L6v0UZhBipU0XFjZy1zhCUEo1SWWJDpHYoQi5OBE8Uj/PDK9bxt4TeBHDI/ZaEREFpweFvUS3ID9GyGB5/Wv2w/K2kMvaYNw==
-Received: from BN9PR03CA0879.namprd03.prod.outlook.com (2603:10b6:408:13c::14)
- by DS7PR12MB5815.namprd12.prod.outlook.com (2603:10b6:8:77::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
- 2026 01:30:44 +0000
-Received: from BN3PEPF0000B075.namprd04.prod.outlook.com
- (2603:10b6:408:13c:cafe::49) by BN9PR03CA0879.outlook.office365.com
- (2603:10b6:408:13c::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Tue,
- 24 Mar 2026 01:30:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BN3PEPF0000B075.mail.protection.outlook.com (10.167.243.120) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.19 via Frontend Transport; Tue, 24 Mar 2026 01:30:44 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 23 Mar
- 2026 18:30:25 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Mon, 23 Mar 2026 18:30:25 -0700
-Received: from build-bwicaksono-noble-20251018.internal (10.127.8.11) by
- mail.nvidia.com (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20
- via Frontend Transport; Mon, 23 Mar 2026 18:30:24 -0700
-From: Besar Wicaksono <bwicaksono@nvidia.com>
-To: <will@kernel.org>, <suzuki.poulose@arm.com>, <robin.murphy@arm.com>,
-	<ilkka@os.amperecomputing.com>, <jonathan.cameron@huawei.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <mark.rutland@arm.com>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <rwiley@nvidia.com>,
-	<sdonthineni@nvidia.com>, <skelley@nvidia.com>, <mochs@nvidia.com>,
-	<nirmoyd@nvidia.com>, <bhelgaas@google.com>, <wangyushan12@huawei.com>,
-	<shiju.jose@huawei.com>, <linux-pci@vger.kernel.org>, Besar Wicaksono
-	<bwicaksono@nvidia.com>
-Subject: [PATCH v3 8/8] arm64: defconfig: Enable NVIDIA TEGRA410 PMU
-Date: Tue, 24 Mar 2026 01:29:52 +0000
-Message-ID: <20260324012952.1923296-9-bwicaksono@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260324012952.1923296-1-bwicaksono@nvidia.com>
-References: <20260324012952.1923296-1-bwicaksono@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A7440DFBC
+	for <linux-tegra@vger.kernel.org>; Tue, 24 Mar 2026 01:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774317462; cv=none; b=kNgqHGp+I4sb/yw3iPgSfIWsKLx7tZjshYRNhMzHXAA8xehftTveYI6aMKwb5sYC4ub7mcrWTjhJR44CXDDvy03oE1gshm1o43Amy5ZUbtR9BJ/XqbSKNuCqST1X+lJr986bhNmwWgi0mUzzIXDOwIg9JH7xEPGoJYrUPJQY5nw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774317462; c=relaxed/simple;
+	bh=I/V99haVL9JoBdH26cf+SF6eGZu4bFba7hgTA+LWCOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o2Xahw61BP8Sdv8ObsbqvHWXCwJDaQplJzdRLtrOKNjCuTbRO/m48kjehMUbdD+UYxR7lv9dOaDaxXdewvDkD1fje3+AOt03sYyLV71eqJaQubBZzYv0v5+JmEgX8kVcxfZte4zpZxO7YhigzXdllfG8DVoBUIHHlHO6yaCZSxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+zBCcdG; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c70fb6aa323so271297a12.3
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Mar 2026 18:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774317460; x=1774922260; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eIXrKDA73NF+pZizlSPKEVnOH0GBazyacpmOOa1fU90=;
+        b=Z+zBCcdGkMFJPJ+mQpFnzPTzLL1T55BmFW8k791Ui9HIz1nEab61r90qHky0IBMtO3
+         vmkZu6K3+UyOa2Dh9Tax/CxabARLtVEQEU7xYnMXZz1QWs7UWMFZTIved1TSwhNmB4xt
+         zc64GslY+f+3xur5rpqvQLBEPHqNe50tJo+Popal7MNO+tW6UYch2QzG8FJReAxrubUM
+         AJV26ELNJfLBnpzkLHFgKIUgdNYXVo9+YOivHMVde0nnMLrrW8CFYL8t+tHcO/b/ADEB
+         LHF/clm/XTa+CiUAw4ghX06uyo2nTDvatQJF4lVHQZWEvHwyhQCTCX1HWYnfTIedeCEF
+         YbvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774317460; x=1774922260;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eIXrKDA73NF+pZizlSPKEVnOH0GBazyacpmOOa1fU90=;
+        b=ic9t6CgerKDZRX7IOU8jne2WWC+QFrVr45EAYIoDrOkBiVEgrywbUyw6yxb5GpQtNV
+         BV81+GXlbUWtIzwDz+SWKZXyGp0RW4lYkAoYsrwuPxq4DZFghe/jziV67ZkMZON4SD6t
+         UOchuFJzTZJIQiYArG0hqD4DlWNW8QLmjHqcMZsP1zqeRvPOqjbrTudZ6tvwSIKcXywD
+         Gwiu/4TX6Mt4pLZB1CsBhENUnczR+vZt5eLAr/U7+mKYsgiZyHtDDqsLc0KUHEV78Ff6
+         rTlOagj32wJ0O0eXXD/LXwBWm181rRPQGRxH9fFeEYHZPoNn16ny6LvhHVIIY/tlK6Se
+         E/ww==
+X-Gm-Message-State: AOJu0YzZwdstqSez6p8r0p9TTqhi8p4ptWb5q+zMmFoy184QIOhf4Lsj
+	vxYtPJxzJ5tS+ELm0faZjDo6IWSNAdNr/EOgFHucQlB1ryPViz51Us9fcqPBfg==
+X-Gm-Gg: ATEYQzwC2+g9KScYz2dEtOWeH0nZKuSvt9Fxq708EVpH2MwDK+VLowvM1xBW62CXItO
+	MWH8qaYVfJYSkDpKlNmAp1wKtFOb0vHX4dsj5/IJjJKDwqKz+5+4O5cPQw6f1/HR3SmWokYMTzH
+	IcncWRsnoVgYx3a0ZqqvBzSSaErUh0w2KQY1npqmaBjlZUlRM+cwoB+nT5h71GhMSPVFvhgEWWo
+	1J/K1rBBxu1JXC5OjojPV9D3Tcq47svwUNsrsMuBL1RH2kLSm6P+PhWT3D0U24wjsVbbgpt4tIq
+	tYpATLkl/X0EDNZ8nwAcSfcJZgAtXBAtJaKkz4AwnjZ+9a7JhowwvO3E0tHqClUutYK6uWBEasF
+	3snUfhFYLXJrZz4o/V+lZNN7S15GMBL4K7ZBECwljhEDY3Tm4j/nSfuilDBbd1pu1yuNKoaf+dQ
+	RcroZYEPvYooXhHVdrPBrigVXgwTd3vEfDtz15nKFi5brj+B2oRTeT8+s=
+X-Received: by 2002:a17:902:e551:b0:2ae:ceeb:fa5f with SMTP id d9443c01a7336-2b08276a3b9mr131483105ad.28.1774317460022;
+        Mon, 23 Mar 2026 18:57:40 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:5b5d::8bd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08366b5besm127922615ad.55.2026.03.23.18.57.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 18:57:39 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-tegra@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCHv2] firmware/tegra: add COMPILE_TEST
+Date: Mon, 23 Mar 2026 18:57:22 -0700
+Message-ID: <20260324015722.12507-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -104,86 +92,88 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B075:EE_|DS7PR12MB5815:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32cc17bc-cbf4-40d2-b86c-08de8944f804
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|7416014|376014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	UlX0+F8ZXdYSv49fUzPeLJg/86IF88RJPu6nlZRKtS68TZDuR6aMAgrDnG0l/NlrSx9uKPUbBKu3hsWv36O567/mPyaPWmS85TRGNMS4iOgaZIWDOGye8yL7lFUUHm9Zz6YQHRWcWsPq3194GCanOX+vDtv2ZHIzxmqc/iwFVVHPI9HOjtYlePghTePqCHRpum25L2oSh0NEt9GdLXof5/k2KLdqHlu5uTzVSIMqmFqeBDi00kcJfiqjzPr9EGVKorcWcg+SoiobyyGJMCd32QmsNwu3qDy46SDAn+kJiMgrw5kqtB/um7hGP5Lr7/AUULsxu1ZlQF3N2wdCQ0pnQh9jVTrmq10dOFmcG7mFxLRDbzWVoG900c8RuAKEPyQhwXuiO6tnmILhiR74Xr/nBpRGlzgxPez6u6n5xKyFrYafbjBpmlZ9VCAOskQk8KKnADp1+WQQWkIxiSCJjX78sMuOait6lbycnnryz4btzkievRCyU+7FimOK2D9ic4Fib/unddL6JTByoEpFX6GAqyzDcQyT6wN+N95nFVIz0YYGSEwgAoL9wGkSR/sJW2YwMgRgCZ26w4YP0shhAWSSWUUHRMpkeRo8I4zgClNEKnSz7+sKtki+7DQC1mpUjfD4qGucBlnp+0L+DEc1B5s08WgXaHQiQw9wp0tNsIQFeggND1uz1pPaYYb2kvgVgqO1rki8j4KpGrvc3v2tEjSkrluMn9Xvi0BVNnzg5yPDirkq3paDIK9imx4ZlfwQBx46pMKUR2PFfhW1bFhf6jgA7g==
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(7416014)(376014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	L/7JJI5Bh8Pbmv5+n/i4xCvsPoX6pzL4wd8tHO8KjdK2ye+WnSURh46rg9bPuUyLupK6igAl7Bxd5XrII4gzTUDjmmcYeG1XZIjm7l4oGl8di6G9G1TC8XyUM3u1tMeeN3wjRTiV3/Aity//b/rjxfQGQ7iXMNa1I2r0+zIJQzq6ZmlSomeE/587Z9lLmuyuL+vDzymtjtNrnqzFxe+cWeV7UudqYw88KiZTYg2UudlQyOd5GD0P2kUi84JFZrqUT7KvZw45Q3p63VOnGd4Hp4hFD3Zqd87c+lUb3XXnIxYBkaaOxs27tQ0VuB3wK5x+vjG0Ip6s1CHAK6o/yX70q8Y0NXUd29/+b4UkTn/kkFxjbOP5FXKCLO6m8xbJs4Z7CU2g/ShYm2w4F+gvWtpUdJOJov96R6Wh3I0KVTIwFn7IS+0iKLoQcMiF3BXPwTQ9
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 01:30:44.3244
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32cc17bc-cbf4-40d2-b86c-08de8944f804
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B075.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5815
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13064-lists,linux-tegra=lfdr.de];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,gmail.com,nvidia.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13066-lists,linux-tegra=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bwicaksono@nvidia.com,linux-tegra@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,nvidia.com:mid,Nvidia.com:dkim];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 17EF2300966
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0FFBE300D30
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Enable the driver for NVIDIA TEGRA410 CMEM Latency and C2C PMU
-present in Tegra410 SOC, which is an ACPI-based ARM64 platform.
+For this driver specifically, there's no arch specific stuff needed.
 
-Signed-off-by: Besar Wicaksono <bwicaksono@nvidia.com>
+Build the tegra clk stuff as tegra_bpmp_init_clocks is defined there.
+CLK_TEGRA_BPMP also depends on TEGRA_BPMP.
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- arch/arm64/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ v2: also build the tegra clk stuff.
+ drivers/clk/Makefile           | 2 +-
+ drivers/firmware/tegra/Kconfig | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 45288ec9eaf7..3d0e438cb997 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1723,6 +1723,8 @@ CONFIG_ARM_DMC620_PMU=m
- CONFIG_HISI_PMU=y
- CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
- CONFIG_NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
-+CONFIG_NVIDIA_TEGRA410_CMEM_LATENCY_PMU=m
-+CONFIG_NVIDIA_TEGRA410_C2C_PMU=m
- CONFIG_MESON_DDR_PMU=m
- CONFIG_NVMEM_LAYOUT_SL28_VPD=m
- CONFIG_NVMEM_IMX_OCOTP=y
--- 
-2.43.0
+diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+index 760d9643705f..334d5c522394 100644
+--- a/drivers/clk/Makefile
++++ b/drivers/clk/Makefile
+@@ -154,7 +154,7 @@ obj-$(CONFIG_ARCH_STM32)		+= stm32/
+ obj-y					+= starfive/
+ obj-$(CONFIG_ARCH_SUNXI)		+= sunxi/
+ obj-y					+= sunxi-ng/
+-obj-$(CONFIG_ARCH_TEGRA)		+= tegra/
++obj-y					+= tegra/
+ obj-y					+= tenstorrent/
+ obj-$(CONFIG_ARCH_THEAD)		+= thead/
+ obj-y					+= ti/
+diff --git a/drivers/firmware/tegra/Kconfig b/drivers/firmware/tegra/Kconfig
+index 91f2320c0d0f..ae21f460807d 100644
+--- a/drivers/firmware/tegra/Kconfig
++++ b/drivers/firmware/tegra/Kconfig
+@@ -3,7 +3,7 @@ menu "Tegra firmware driver"
+
+ config TEGRA_IVC
+ 	bool "Tegra IVC protocol" if COMPILE_TEST
+-	depends on ARCH_TEGRA
++	depends on ARCH_TEGRA || COMPILE_TEST
+ 	help
+ 	  IVC (Inter-VM Communication) protocol is part of the IPC
+ 	  (Inter Processor Communication) framework on Tegra. It maintains the
+@@ -13,7 +13,7 @@ config TEGRA_IVC
+
+ config TEGRA_BPMP
+ 	bool "Tegra BPMP driver"
+-	depends on ARCH_TEGRA && TEGRA_HSP_MBOX
++	depends on (ARCH_TEGRA && TEGRA_HSP_MBOX) || COMPILE_TEST
+ 	depends on !CPU_BIG_ENDIAN
+ 	select TEGRA_IVC
+ 	help
+--
+2.53.0
 
 
