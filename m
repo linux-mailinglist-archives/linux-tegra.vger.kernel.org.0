@@ -1,193 +1,206 @@
-Return-Path: <linux-tegra+bounces-13106-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13108-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YFMcA7d7wmnqdAQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13106-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 12:55:35 +0100
+	id IK7pFVZ6wmnqdAQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13108-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 12:49:42 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6EE307B4C
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 12:55:34 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C807C3079B1
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 12:49:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1B9C6309BD66
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 11:42:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5B5173016EE7
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2026 11:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F025736AB4A;
-	Tue, 24 Mar 2026 11:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C483EF0DD;
+	Tue, 24 Mar 2026 11:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRzVXHG2"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ua/4y3Hj"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010001.outbound.protection.outlook.com [52.101.56.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2646F2F2
-	for <linux-tegra@vger.kernel.org>; Tue, 24 Mar 2026 11:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352539; cv=none; b=i+FENJE4SSEwUYHHmxnz3ReOdnPGbnBep6SK0HADWTW5MwH2OfJaqIYQ1pELC8dVPuOZVaB1aZMss0Zt9RiIUf1MN0S4lYLLazfzYBO580/OV2eIAYbtg1IesFkr9N1kC88IVkWMEaQhKdJqqhQA1PHdgN/eTPrZEKM3beVmiOg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352539; c=relaxed/simple;
-	bh=8Eg7N2NFFrw5aOudH38IVR9km/n9iAo4ZXJaD2aKftU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8Ns95DimwE6GjmH0BR9ZrQQ+FX1qpsocoHuk4RxsbutA0XZ1rvYIOP8NerReeiykr73BouemTKI1/E0GDhWni4tXu4ga8yroIufksZnWtLZhL+f/Vt3PoDqWzpqiLDENiExa/85yuKS7GOnfhqthTlBrZDuofNybnaHgRQ8roA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRzVXHG2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E93AC19424;
-	Tue, 24 Mar 2026 11:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774352539;
-	bh=8Eg7N2NFFrw5aOudH38IVR9km/n9iAo4ZXJaD2aKftU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GRzVXHG2B4OtkGixwiEXA0c1zPkQ3Gqkwg7G+mwbz9/TX1csyUrbdvIQIGJlLPnyx
-	 48t2FHy+vZGqJZIffNQYBsGXeNmTMwTqnznvsgrWc5wgYahpFbtJWiF9eW7LlZrO/q
-	 2n2mrzN2k/HkD9lBTqf7foX/c9PX8WzKSbZ2MTQUP2kUNkxJ3BWRm93uG2Yh/xpD/B
-	 nfKmEAgVqTMn02u+aSRKFvGiT9GHsA9AQrX6yQD4YxiQgp2ZUGMRqiqarBrT7Hy1cT
-	 5ygrNyEJnkHTztaupcIuaYXuN1NO8XIs6gWzlL0uv3HcMvFLtv4CugtIiwQvH42WbI
-	 mB7ftW67y97dg==
-Date: Tue, 24 Mar 2026 12:42:16 +0100
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Nicolas Chauvet <kwizart@gmail.com>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] [RFC] drm/tegra: fixup primary/overlay format for
- tegra210
-Message-ID: <acJ3g4_DXDLBw5oO@orome>
-References: <20260323130804.67936-1-kwizart@gmail.com>
- <10027014.CDJkKcVGEf@senjougahara>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69D43EF0D4;
+	Tue, 24 Mar 2026 11:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774352584; cv=fail; b=c0bJ13YazhfbYqy8X2NMmOl57SyrxE/pN8ghHxGeoL77I2iV9BjT/o8/0KnTWD0gVymeGr8Al/tTdUh1N1oeYHNmRnt7C2anR01bv9WW5N/ftb6kj9aDla2rhLTFxYWgzVh9GRnWDL3t/Lco5sR2QFGis2Ux1JWXjnEHNaWcScc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774352584; c=relaxed/simple;
+	bh=TOkZ+6i7BABVnOt/yDRqzDw3OyX7kl72WNevvDiqRH4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lWQ4mJ3Ok/Tpo20YsbqLNY28YueNjferLU5Y0/RHkEI7+1c8iEIakhnoFM3RXPAumMhpPxgrmR40UId8QkwEnGkWnXlshNr17YuRsNCEnUgf1vMb+puSwiIkHhzJehxlLA5UbTFS82tpqOmp6zGsrf0BXtKCVMyhvgYdTNZ6oOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ua/4y3Hj; arc=fail smtp.client-ip=52.101.56.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AFesgPangQabxx62sgAQzObkOI1EHWgI3Tm0UH46cfUyQ9h6NNzU4eoUNIbtGmmb3j1yGCzFmtkCtDBoHl74ILd5e9PwjESCGC1wRUcoyJIz96mMtYiJKS1hTg6F+ys9SWqQd1re5Ra8XEsmdKOws3CnFEzIiz5/h2iPnBoMTzlgUZDvpo+2LrzV2VzpUuOSx8f0aThY8cypo3alpeWYRWRBYpjm1yI6uGOc63qHJq/t+LRmxI54Fq2hwXw8AsfcWB44QquzcldwbWIR+Q/Up1sXL2bW6FhDS7Xm6EogZqahPbKwAYalJR43eCFP0QGLOIFCvrgBPXFh2B4lTMlhkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1ZgBK/sHSh5TfACEx1gMah1aWZdELuNCL19VwCQLNMc=;
+ b=FxIXQ5zy79fSKVMR14/2F6g8wyDw4R6sR1gvfbIMQcF5/oH/p9MmTER4e9JJhYlTrCyjnSliDorpClhuOOV8DgahpXUOYEnlikqMAXuwAmEQFZkOcbPlUpvkUqHvEGFAYi4uDJPnWdxv1mZ39D+ypgL9/uzOKBQfmiAkD5Bq3rHbNn6+DdP1ryTvBkGgJHa0Rwl98w7F5QoLJ5KVejDcn7kPdR2vyaaD0/fksey1aM2Nvi6JdQcfKmABvU/jqV7T+C4U63B66Z73o/mEFCBvyeOEQEY0gFsucdvAuI5e3FcZ7gAQee4HRpayIvAq71FSXx6W7Hu49siW6OzMSbtp4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ZgBK/sHSh5TfACEx1gMah1aWZdELuNCL19VwCQLNMc=;
+ b=ua/4y3HjUfNdwEkPpvgWtD1nVnk3hfzahN0Ri7wpST6fFUdwqsBGDchG0zoA0jeOehRWFUTpr0bvO9LcteDBML7DdedZbWeDMU3NIr+eK+tGRkPP1GFebTS3Sed+t8QqFa9SLEnZcLCbrhIYPrNTrqXmTm7vWddkynQcu799uMIAXbnGOINKTxW0XAYTr/R06MpxG+xnUWuJ04vK8c8Pf/chJt8r4FJ5L2iojE0WjDbZW4w1ssshd+95fAUPDAssqs+Y8+L2BhPm8XFLUW/6J6y6ZePhF014jhkIPk7vOOeyOeuuP8YYA7I4wCDuEt6pg0hX8Y3MGmyr8MVaBAjpJw==
+Received: from BN9P222CA0026.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::31)
+ by SN7PR12MB7346.namprd12.prod.outlook.com (2603:10b6:806:299::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Tue, 24 Mar
+ 2026 11:42:57 +0000
+Received: from BN2PEPF000055DD.namprd21.prod.outlook.com
+ (2603:10b6:408:10c:cafe::92) by BN9P222CA0026.outlook.office365.com
+ (2603:10b6:408:10c::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.25 via Frontend Transport; Tue,
+ 24 Mar 2026 11:42:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BN2PEPF000055DD.mail.protection.outlook.com (10.167.245.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.0 via Frontend Transport; Tue, 24 Mar 2026 11:42:56 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Mar
+ 2026 04:42:46 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Tue, 24 Mar 2026 04:42:46 -0700
+Received: from kkartik-desktop.nvidia.com (10.127.8.13) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Tue, 24 Mar 2026 04:42:44 -0700
+From: Kartik Rajput <kkartik@nvidia.com>
+To: <thierry.reding@gmail.com>, <jonathanh@nvidia.com>, <kkartik@nvidia.com>,
+	<kees@kernel.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] soc/tegra: fuse: Register nvmem lookups at probe
+Date: Tue, 24 Mar 2026 17:12:42 +0530
+Message-ID: <20260324114242.551939-1-kkartik@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ea3snzcml7i6yvwp"
-Content-Disposition: inline
-In-Reply-To: <10027014.CDJkKcVGEf@senjougahara>
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DD:EE_|SN7PR12MB7346:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc84d440-a09c-4aed-d23e-08de899a7e34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700016|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	46xmOxB+T22GX45hTvBYEZ5Fm3w26RDdYWeuVizMoh1QhEIZijf3OheActtBGkwPBHQMQUySv4o84TCfDePfBZDgAvLd5eBTp/oUg0t63xlLyW8/0ltpkY4uCLbWEVCcEK8pB2ajmJv0zPQHJcm80hU67RzQOlLAwV4LsTC+N/228ytvtyKc5PnRkRvIeZ3HRlNWZeOj9Tn2TfVQfvjHo+Rgbi3/plT3p1BWvJEVTeoRpBe0z5keCQWoqCz50bmKatu+PPdhWoLQqhdD4M872PbHBP825hpZFMzJf/PqgbeoaoVnFMlqTa0rudm+ykgWFa6nn2+gCFQ/XUuLQV41rCPoWX79cCugO6mz27Lurf+XFdpL5Qois+ze2SG6mdAzjSY/S5yuMwigcOHeV21HtHMxUtDnueWZhZC8S7I2li0JqZipwSJabsD97ZgO02Qwjyyfy5M5Czng6a+7r7FuKz+xi7HO72egu9eET9VSE7SLem3ksbJz98R2e4D1mQxmEN43+w99TOGUiuebOtus3rI0GgbSayYcF186WjndPV7pGAZDHdgop6or8YflbCrppcXumh2bpmXHM8I7BLWhbDlFxgplN9iLfVyU6vavY30hFRXKVzpaPyMPQXgMjzfDU6CMKRW9It3kMt1spMF+KJpOd99BFva0QKZOuS6UVnzBOSfX59IgcB+/5l5n0neyA0qZDmuZS0CQ8m206p0zXzVmhfgj0+F0dJS44hupQLyFV9WEymPByI4GtUHmU2aUQC8wyJoxGLo/kFjXKr3bbQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700016)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	w5cPo+nV0rpGuE836xYn67/HQ4HF92odL50AFbm4vlFO6uKxV49CXalgrDKktrO8dhh9hBQKxi8BxstZ8SWMBtSMw9S4BCJLC7DFtopithwPpn7ENzitgwm9QRRRWh8rmtRF6of0KYR23dNAaZIqnsnqgZj3DWBnyQ381q5FZuglBysTUC38iHa3i3Oa6si+OM42ybjACC79/HQeykHPu+EfektPVwqre4MvJ1elbaLTSYV6x4v7aXSFCmdIhpDi+cOZ3DYVAEm7tU5GtGc66mP8A9K8fgO339LOYXXmcvgkQizCtVM5kd1OyxRopD+ym/RlYGZvQk5YN2HkqsXQhu7V7lheXTJgjvtcT/DMJ4R7xTyE78VcezwJYwshG3CPRMaFZBySCG56Z2PAas9RjVJWIRZ0mX4NgYUIDhfZjqO1ySa6pmmDGEmsDBTxeMRl
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 11:42:56.6638
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc84d440-a09c-4aed-d23e-08de899a7e34
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000055DD.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7346
+X-Spamd-Result: default: False [1.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13106-lists,linux-tegra=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,nvidia.com,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-13108-lists,linux-tegra=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,kernel.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[kkartik@nvidia.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,Nvidia.com:dkim,nvidia.com:email,nvidia.com:mid];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5]
-X-Rspamd-Queue-Id: 3E6EE307B4C
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: C807C3079B1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Register nvmem lookups in tegra_fuse_probe(), after the nvmem device has
+been registered, since they can only be used after the nvmem device is
+registered.
 
---ea3snzcml7i6yvwp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] [RFC] drm/tegra: fixup primary/overlay format for
- tegra210
-MIME-Version: 1.0
+Signed-off-by: Kartik Rajput <kkartik@nvidia.com>
+---
+ drivers/soc/tegra/fuse/fuse-tegra.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-On Tue, Mar 24, 2026 at 04:05:19PM +0900, Mikko Perttunen wrote:
-> On Monday, March 23, 2026 10:07=E2=80=AFPM Nicolas Chauvet wrote:
-> > The primary_format and overlay_format were picked from earlier tegra114
-> > generation instead of using the previous tegra124 format leading to
-> > missing format.
-> >=20
-> > This patch is RFC because while it's unlikely that format availability
-> > have skipped to earlier tegra210 soc generation I haven't confirmed
-> > any runtime error nor experienced any regression by the lack of
-> > availability of theses format.
-> >=20
-> > Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
-> > ---
-> >  drivers/gpu/drm/tegra/dc.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> > index 06370b7e0e56..d5896f12f25f 100644
-> > --- a/drivers/gpu/drm/tegra/dc.c
-> > +++ b/drivers/gpu/drm/tegra/dc.c
-> > @@ -2942,10 +2942,10 @@ static const struct tegra_dc_soc_info
-> > tegra210_dc_soc_info =3D { .has_powergate =3D true,
-> >  	.coupled_pm =3D false,
-> >  	.has_nvdisplay =3D false,
-> > -	.num_primary_formats =3D ARRAY_SIZE(tegra114_primary_formats),
-> > -	.primary_formats =3D tegra114_primary_formats,
-> > -	.num_overlay_formats =3D ARRAY_SIZE(tegra114_overlay_formats),
-> > -	.overlay_formats =3D tegra114_overlay_formats,
-> > +	.num_primary_formats =3D ARRAY_SIZE(tegra124_primary_formats),
-> > +	.primary_formats =3D tegra124_primary_formats,
-> > +	.num_overlay_formats =3D ARRAY_SIZE(tegra124_overlay_formats),
-> > +	.overlay_formats =3D tegra124_overlay_formats,
-> >  	.modifiers =3D tegra124_modifiers,
-> >  	.has_win_a_without_filters =3D false,
-> >  	.has_win_b_vfilter_mem_client =3D false,
-> > --
-> > 2.53.0
->=20
-> Looking at the TRMs, I think indeed Tegra210 also supports the=20
-> DRM_FORMAT_RGBX8888/DRM_FORMAT_BGRX8888 formats, so this patch should be=
-=20
-> correct. Functionality-wise, the formats aren't handled currently in plan=
-e.c,=20
-> so I don't think there's any change in functionality.
->=20
-> These formats require enabling byteswap -- so do RGBA8888/BGRA8888, but=
-=20
-> plane.c doesn't currently do that, so I wonder if these formats are just =
-not=20
-> working right now.
+diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
+index 291484595dcf..d70ba4572c75 100644
+--- a/drivers/soc/tegra/fuse/fuse-tegra.c
++++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+@@ -182,10 +182,6 @@ static int tegra_fuse_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		fuse->soc->init(fuse);
+-
+-		err = tegra_fuse_add_lookups(fuse);
+-		if (err)
+-			return dev_err_probe(&pdev->dev, err, "failed to add FUSE lookups\n");
+ 	}
+ 
+ 	fuse->clk = devm_clk_get_optional(&pdev->dev, "fuse");
+@@ -231,6 +227,10 @@ static int tegra_fuse_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
++	err = tegra_fuse_add_lookups(fuse);
++	if (err)
++		return dev_err_probe(&pdev->dev, err, "failed to add FUSE lookups\n");
++
+ 	fuse->rst = devm_reset_control_get_optional(&pdev->dev, "fuse");
+ 	if (IS_ERR(fuse->rst))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(fuse->rst), "failed to get FUSE reset\n");
+@@ -566,10 +566,6 @@ static int __init tegra_init_fuse(void)
+ 
+ 	tegra_fuse_print_sku_info(&tegra_sku_info);
+ 
+-	err = tegra_fuse_add_lookups(fuse);
+-	if (err)
+-		pr_err("failed to add FUSE lookups\n");
+-
+ 	return err;
+ }
+ early_initcall(tegra_init_fuse);
+-- 
+2.43.0
 
-It's been a really long time that I've looked at this, but if I recall
-correctly at least on pre-Tegra186 we properly program the byteswap
-registers (see DC_WIN_BYTE_SWAP in dc.c's tegra_dc_setup_window()). It
-is possible that I never implemented this for Tegra186 and later, where
-all the plane programming happens in hub.c with the shared planes.
-
-I suspect that for Tegra210 we could add a bunch more formats, and I
-have a vague recollection that I had prototypes a few more a long time
-ago (notable some more YUV variants) but may never have submitted those
-patches because I couldn't find a good way to test them.
-
-Thierry
-
---ea3snzcml7i6yvwp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnCeJgACgkQ3SOs138+
-s6GN2Q//dcCpHo/B7v792uQ6cbaeceSQ+BB68non3+verUTmAHOnrq6f1/jNUzDD
-IJCLnNIUYQmBNKT8N7RR4wFFj3rezcmE2EWB0op92mwytVBZ4XFLLKE+xUtgmy97
-PaU0GkVy7Tj9Q7fmn5rVeAzinxeVpVq7o1jV4Z3I6F08rvIpbk6VPx4xjCByljRE
-zDtyZNBAnfXOvU8D7tvk+GbhFdwJYqJ3nWWCFlGoZB9S0u50t1Z/kmoTHJpwpiQD
-zXdtHMOJHGAhJctgQ/1gke8NQ026D24HspBSg4MBW0xAGQjDj6XDCmfpAqrpHpC1
-iqxMhzE1leF2dJ/k4YON70mePp2dNkwpj1w0JXk3EMqRoguPSNEzxf2FaHQSLtNt
-HTUaFI6HMGUhoqA962N4BJpgDkfdyXJWptLpU1GGxtZ1hAcU0R4VfDOPYWu8qpiB
-L50Dqx4XmhOknqF8D7Kea8HbPfND2uPnFVfrR0CJ9pz6brZTAn9ZyuuKg+O18eBD
-0Pg59iWgMFqcWomQQ1oV9YaQu9XXuWWFlTIwxwa/U+/AWC+pa+mQC1yYaTaZwrcS
-gG8o5dSqQD0lZPvBvLvaTLN2tiU+kfaKN+5Zd2RueLPm3iIM2P7oaqSwqKtSi/DT
-I0L+2fNyK8b31HHJ5ycLWab4IW44oSupoUczqSYhHENpi5OVy2E=
-=G4kj
------END PGP SIGNATURE-----
-
---ea3snzcml7i6yvwp--
 
