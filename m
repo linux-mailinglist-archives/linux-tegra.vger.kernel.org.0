@@ -1,291 +1,401 @@
-Return-Path: <linux-tegra+bounces-13251-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13254-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wEM/EmQ3xGnkxQQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13251-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 20:28:36 +0100
+	id AEG6NqM4xGnkxQQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13254-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 20:33:55 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D3332B3FB
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 20:28:35 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B7132B4DF
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 20:33:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DB825304D897
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 19:27:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id DCF4730055F5
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 19:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF4834D389;
-	Wed, 25 Mar 2026 19:27:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85AA3234964;
+	Wed, 25 Mar 2026 19:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FmBI7erZ"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fouXKc8v"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011053.outbound.protection.outlook.com [52.101.57.53])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011031.outbound.protection.outlook.com [40.93.194.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34283559C0
-	for <linux-tegra@vger.kernel.org>; Wed, 25 Mar 2026 19:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0302E22576E
+	for <linux-tegra@vger.kernel.org>; Wed, 25 Mar 2026 19:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.31
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774466820; cv=fail; b=Thw4b+VZCTNEgc9rQMu4+9tRdpPvbKTp2zfXAaJyvb3+KBA+/EkptC4i7i5iI3Fh7hApOuzxsOOrF0PuoaPo59H34XzZRdEQxClRvkDA3RNhtamkWbsAJnB+AimYeVfaAQqn/B8zu4gaVKfQp6sXk5p1hUamY+v6oMD8LykXLYE=
+	t=1774467230; cv=fail; b=nzUv2ST6Q0B63OcVM+mzml7/Xs4ksh7c6fom0oryyRwFsG7lnnqzIOfQrdgVzblwXW5/C/xquJeVWeTnD2et6DmK47qn1XDY6p/Uu/pXHXEAH07L+LBTHdCbzPlYhePqpoK+fpF6CuQgkG/CCTkoeI+0pb2PY675GZZ+2c9Yhi4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774466820; c=relaxed/simple;
-	bh=fqETSTchytMEoOb4oTcpjd/dWUQX4uvxOoU+83GhBXQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a/gYbGhGw9aQglrs6/XTiDKy8x7JGUWB1z8CPBxYYbUjnBixR2TMwbYCxBBdQAXFIFY6f12K0cKqbxFIyP0mjZerlf8vp3S8RiH/RHdDs0MKFIkrs9SVjYik22bqDGFOYwaYHigPDwR+6qE3JHdz+w6iyjZMiKUrWuJKeT6QtIY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FmBI7erZ; arc=fail smtp.client-ip=52.101.57.53
+	s=arc-20240116; t=1774467230; c=relaxed/simple;
+	bh=gff+uif0lAHag7rAT/elWloWV/z97be/1rj02EWVGSk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GQmCtLsk9Rl8lFzOIITuSa59G22cc5l/FguPF1FyaQKXubIBft37z1uxpUeJWVbiSOxpT6SYhOp5mQyOGDUYiSzNpmKbQHPSLSXpV7ULra6r8N04GGS01t36gz5mkLqJgxF/gtlv+SMmDzvhiHPjqoh40GK3PQBRcn9FRkAZ/2k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fouXKc8v; arc=fail smtp.client-ip=40.93.194.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RpLtOYDRp5P+oShG3hDncSL9gzoWhUhoV7UaIb6H7hVegFNqjWP/ADv+/wqimbQ9UWl/XiaViK0Sg81FGOqsJFYs1uI/94rUpIpmvdl9oB6Ey5+KKHBvQVtoHID8pILzHTU1CtI9nKlwtqy1rZJsBt26F+LdHUR+Grs0uZL0F6ZHDBMpT7mqV/gCgMncL2HJYsMKGZB8v2y/5Lz/UNnjFvNXNQghmg68P1DSdW1ptGLxPDVntleID8VCPeYcUc8O2fFSeWW3/VOpFf6xwey6O6oQ55Gvy4DfDI/zZ76Ve6dpQ585THR72CU87VI58kQyzidJy/kIMSG1SBs6ZUoCPA==
+ b=V0mm/68mhlStjbf8xzCSoJfWKd1F4nJKQ19DxB0HercCS0rOe3qonunBEtttk6CbTIFe54u2hkuUcnE5aEQuikHQPcGu8D6bNvJ/548TuQm6NKrMG7EOYIUTtDbrst7XJ9LgLxIRvmUtirBLinLixRBsRxqD08TZAjZ6T11d1Rpi0nJeyVJ7UIqp3KNumQqu6gSfJIs4IGX8BR6M8/H82WmS6Hh5NexxxC4kvTUuovHbnZ/+s8FzRBfV/2hBf8/m29NmeXWo8409dgYKfQ/crEqknC9RE0B6hSXjpp3xa6z2YMTl67QKMRs6FvFNlmvj6IPogIEndL5/53MCpTMIrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aiVfFrZRoE198H5izMTcc0JdtjEtQkGYusErFXdVO8g=;
- b=MTWKlxGieefR1HOb4bP8uWPZv5mSi2YnKRKgfgNBeqax0wjUCZ42ZNaglmFLtFs9mChRhGa+9r7AuhiKfjpusYdhT4FaxJvG2KTpjxc7sOrD523sh9qC2n6QjdsmIv39l16GlurTR5litLA323ahegXegL/vpz2fHPX2/7fcE1+AMIt5vSAR8Y/Pz8FTEaFbMCRoq6BxqvHBGChN1ORNDPVjHPNRWsVneMSoUVH6bNBaf5B0kCFc2jvbn2wsZWwLTstYRs9i9WK9ym3IYXIwSnmvt2SW2m+T17J+PC+1HI4mc9CYJwJOYqxrgNgKNjHSS96DcIdAdrkEZTYndCRtyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
+ bh=tlr8L0YZ/IttMXlRV+b7psv4f/x9CGwvI3W/pZmr6Og=;
+ b=bcgLs5WXn6PJltp8LaUjhSe7AMslvWvHPCX/wWOWP67i5mQ53aykfhiodR9tuZMrZf18x+zYyf9nCUxnYl+p0Y/Cfbb6KoemAE/Uw6kkCs68BV3S4z1DhPb7TEl5vQeiYWEegkzKMtpQOkk6m5x+jbcht1Ae+L/h1wFSykHdX8KPlXSOSMbE021bsjBWioSNFHe2lAlPMkVLQXF94Zn05pRExz4T8C+NKnx+ZkudrhOznz2LusBiR0WEtRZETj8T33FyhTWyxxCTfTADHsT3TNJ+VCLlZijHpG0Uso60y66yyohdTDUfWB8V23SI8YJhbwUY/+POJBIaIwSHfeILPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aiVfFrZRoE198H5izMTcc0JdtjEtQkGYusErFXdVO8g=;
- b=FmBI7erZ4pk8MrH1rahXw9emtHqTroNlh1CsMz74r9GFN/zhExFaRMxSj5+/GMwKC8v/H+BR+cp7/lYsJLvhYmIpXYyaamDC7nwNp+ywFJ4gvYhVrjfhWz1uUtcqK3RsJQS8AZYUK17DSASIMb2riju31ZONS99wh2B+KhHvhWxROi+Gr4UgTaxNJhUMdz2d/7tPRKvxKhQu7BtEHo+aw8dJ+QUDLaIGqn7/mvw8rIA0KvPSQtMkC/pp1mzCqauMyCqSgjkzdf9RGpXp/dGjVJWIsLC6V+f4xSimO8iB1aCeWEZD6RWT/35cR7u7oPgtSGrh+KZgn1Li9ce0hw0BwA==
-Received: from BL1P222CA0028.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:2c7::33)
- by MW6PR12MB8949.namprd12.prod.outlook.com (2603:10b6:303:248::11) with
+ bh=tlr8L0YZ/IttMXlRV+b7psv4f/x9CGwvI3W/pZmr6Og=;
+ b=fouXKc8vZazDGbX1Yz12SL0/K0NMqHNz32S6/EgFlC1+hTdlUVK3NxFiZKmA7nVa2hgArfxv8hpJaMAWW3FtKV1O0sLqS+Ch62iMZaNic78tP8K5Ffo7WxNW3xBDcwiLwnF4nQP8WUNG8pSP/I7nG4rv1fJtelrwMmKoDRreuimr7ZV4I8MZ1j3rDuqbnsQKTPPggZOg45nPX9Mf+hC2U+hMTdk3T6rSFPpIO9dJMpNViu2feTOZQvwicxaxN2TCaXMxeNZmx1FYi3h0YsKgLcemPpLagtiM6uxS+HeLWD069o3Gjtm0in4uF2QXpplwgKhH7ewFwsZQgDL+qIYnCw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
+ by MW4PR12MB6922.namprd12.prod.outlook.com (2603:10b6:303:207::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Wed, 25 Mar
- 2026 19:26:54 +0000
-Received: from BL6PEPF0001AB51.namprd04.prod.outlook.com
- (2603:10b6:208:2c7:cafe::f5) by BL1P222CA0028.outlook.office365.com
- (2603:10b6:208:2c7::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Wed,
- 25 Mar 2026 19:26:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- BL6PEPF0001AB51.mail.protection.outlook.com (10.167.242.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Wed, 25 Mar 2026 19:26:53 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Mar
- 2026 12:26:37 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 25 Mar 2026 12:26:36 -0700
-Received: from moonraker.home (10.127.8.14) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Wed, 25 Mar 2026 12:26:35 -0700
-From: Jon Hunter <jonathanh@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 19:33:45 +0000
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.20.9769.004; Wed, 25 Mar 2026
+ 19:33:45 +0000
+Message-ID: <15d21a29-96fd-464f-90d3-5a8cbe2810d3@nvidia.com>
+Date: Wed, 25 Mar 2026 19:33:41 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/10] soc/tegra: pmc: Add support for SoC specific AOWAKE
+ offsets
 To: Thierry Reding <thierry.reding@gmail.com>
-CC: <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 10/10] soc/tegra: pmc: Add IO pads for Tegra264
-Date: Wed, 25 Mar 2026 19:26:00 +0000
-Message-ID: <20260325192601.239554-11-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260325192601.239554-1-jonathanh@nvidia.com>
+Cc: linux-tegra@vger.kernel.org
 References: <20260325192601.239554-1-jonathanh@nvidia.com>
+ <20260325192601.239554-6-jonathanh@nvidia.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <20260325192601.239554-6-jonathanh@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR1P264CA0170.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:347::10) To DS2PR12MB9750.namprd12.prod.outlook.com
+ (2603:10b6:8:2b0::12)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB51:EE_|MW6PR12MB8949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8519ed5e-5034-4929-ed6e-08de8aa478e2
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|MW4PR12MB6922:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bb412e6-a36a-4b9d-84b1-08de8aa56df3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|56012099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|10070799003|366016|1800799024|376014|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	d26bmSVSmAEJyX12dD/re90tcMpf2ZgZLW81CqxD77HPjk64oo/rHDh3aAPYwnKnjj2MtWrES8WQymINbbw1AFfCu8ftC62t66FeGEGpwgyqdYuCOvGc9eQppKPBLikHoHpT+9bzOET1zVBuNdeyd/yS3oLvLe5Wm7sbC+ms3ErH3ITf74wzB5Q4iFeTCPNpGfnHkzDchcwUG//oLeKsq6t7IdZ3wkJEPTrRm+1RPoULqIZJU1V4oC9KLf/U27j6OznhStVnIgTYvqlW/aivrn9WEUywkvJfwmr25aKP4wLz2SfB35wFfY/28tOK4bHUEEp4R8H6iVYJZK+2jcl2GFpPgIZFIAyRM3V6A+BBhz6mDhlDXeBKaD+vaEvwJH2jgtpVz+z83RUaHGJqvJfvVbFR7vpfqeQV47jtxyMuoQEpZsRdCa1knvR/UNnID9+wZThKhtuZ9VhpbdnSG7yowAfn/skHHZHH1mu55V7tvrOATyQVmMqP3+FeujlrcoTdE6Dq9xfB7HU+JSG7mu9WXYDr6hw27dROgcZrnfAEp6xqzvT6wq8AA0bbrRuOptAN1en2AMzoWbFHJJxIIN3qqoe8PFD+yDLTDi+55GL6viWplEy4pdlpPeM/NZLMALccckubR6xykhmWsUjXGAkQwe8Bi5qTDweuYkgsRScg+9zcExR/0yIOPxLIrLfUJ3VPo16B6gxLG3R3wxrEqvXnubVEv5riWcqcdafxTKPWWMW9HY/UyoP2/VpXuZcG5y/S9QW3087CTiNL6aoBufbRuw==
+	Hqgp6LLlgHSYPxfinST3R8hGYZYcJ4+XzLAVn1dnzv8szupqYR/YVvhGoxveVGhZ1IjTxeTiOJTg7v9g3g57h7TejFOgINSkCYIT0kQk0HVa73yQ9DibC2b6DexdMC31pAVuvKd3C/D1imnhMjPWXdQE4e93V+z9tKukuvJNJDQZ2Orrpnz5/zTctti7V/U83T/6Lr420bJB8gNgiUH/KMb357Gko2zxAcFFImK7DIqiOir21xcbj99YyMzbZpQywUQYY+9sgGRWQLgKNmZrFOBN/Z2+8PvpOdV8uFHz/5gjHRoH6DkCeb3pZtDjcPzKF/EPKZL0ZuvF07E2pfAerZ/ubUDhXSoGXxWv7+Us45yvSsmpuTmPu+m6lp1XboHZM+mqRbWr83HmQCZsiyI6dT+HCE5JwK2YciXk5gLGBPKX9bOY2gBv/+bFAEsx5xI0yeEM439cN1DheS55X0wZuvc1iZzJlyyU9tU4Y0HE5KCv3qxKhIdmiLUE/guHFNONuM5vT6kbBWiZ5wYQiRfoKMWwpndBOLaOn509QPAQLuJVxYeKzk9Zr9bGz3i82s68UzJJFIcLnXkJW1N3fN0qKtUlUeSm4bno3WyfdzBG1ZhG2+utUiH9TO+2q39/+vGpXmxqhA2dWRI2TVU4FFR30Lek1KQKIwTYHBXKIVEJsCOrU6pVwG23qiCh94v0AJhtOvr/CweNKGXDJh/3hvqE3ciUDyM4l2lXmVlQ3GEbt3Q=
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	3l3bw00WtwqkDMimA5IEW7r5Ox7ytz8zbSFSV/77W6QKLN/gBXF8W9PClPxDJCuzh//kKPc0PH70kJ4xKNsfU8u+AXs5VrSBN2LxHbnEtwaLRVhFSJnPXFR/qKmXYUExGSWUp6vr/pcTkM7nQvcm21YtJxNWLEmsJD/fQSVJe1foeesUXZWXRaIG70NSXEdxy8DPk+34KX/oTLcKvMw4CGSd+pETYnEx++9BMwm0fE9h4j70DmgErEKUVVgyI5wBDOYfeqkxSXVdGxlcafwqV0tjV/vk9OXitzNm45W6fKVGv9HWYAOHGkiDCKCS86geUotfdYQzSjcjcTWhdvtYTLYgdDRRCw3g6mlbzo3Yx/EKCGILuSwlUCyct3MmFJEjaI5BbGC0c8111BplKWqii2nJAaVQENxfofFzmY9uC/wGLyrpKYBH52xrBq5JhKdL
+	=?utf-8?B?T0VLZnRDeDhSOWM3ajJWLzloKzhlQzNkM2wwZkd1OGxiVjNYRXpCUFNrVjZB?=
+ =?utf-8?B?MjZCbDFXNE13OVRxTEMzdTNGN1IwSTFvNk0zUFhvMmlTb0lrckp4cFZBcGtp?=
+ =?utf-8?B?blBldlAwZmdwREFmZURnYmdVSmk4dWhYdlU5U25BSWtkVkVXcWR3TzJHZmQ0?=
+ =?utf-8?B?VG1yeW5qWjQzSC92NnFYMkZqZHVUZlVRdlNMamNTcStyZmw0My9CWEJXRHdo?=
+ =?utf-8?B?L0s3WGFqdE9HY3RNZXZsaDhIV2o0MytDcEdUQWVGZ0M0SUdxZFdCUTlxVkRO?=
+ =?utf-8?B?VGUrdmtyay9ZQjNuenQ0cXJEQm80a0pJQkg5cWMxS0F2Sk5DMGJQMWRXR1lE?=
+ =?utf-8?B?WktMcFBRSWZBdmxyNmZ2Uzc2VGhYYjRLZXJXUGFWLzQwRmZoQlBYejRPTklk?=
+ =?utf-8?B?SkFmbThSajBsczR3d1NCWE5ZUGxIWEptSGp0djhFWFQvc3h0Wkpxd2FCRG9N?=
+ =?utf-8?B?aTQ3ZnZHU2hlUjVoanVoblJtVmdmRjNJdjlURld5MzVHZUJuOWkrd0RvUWVR?=
+ =?utf-8?B?SklGRitMNmxEVWM4YUU3L2NUbjFWOHNUTDZMT2FmbE9JSEM1ei8yMkVEV1p3?=
+ =?utf-8?B?ckY2ZDBrbngrKzFHanVaQ052a3ZlcEhGY2lJTHJMTkFXN0ZENFQ0RnhFbjVa?=
+ =?utf-8?B?MHlLbXpqYk5oWUZ1eng0U2V2azRBMGRMTzRKSVpaZWVMRHRrczJhbWQwUVVx?=
+ =?utf-8?B?MjlSLzdsc0NGM0hJVmYrdnJVS1c4ZkRXUUwrdTJSaEpuazJHdHlpa0NhQ0tK?=
+ =?utf-8?B?MW94TFoyMGV3LzRNeEdyS2FIWlRTdzRzOTBuVEJ4UmtjNEg2bVcxYXVLaE8x?=
+ =?utf-8?B?anRPSFNvMnRweStQWkFsRGpJYVRaMXVXRWlsaFZEK3dLRGpsQXNMTE5QZVFN?=
+ =?utf-8?B?SytNOHUzWWxLVEk5Qzg4djZUVSsvSUdVQ3l4ZWZPeC9KTlYxdVYzN0x5QkRL?=
+ =?utf-8?B?dDZHMkVmRnRkQWsyNzdkelg1NzhPd2Jpejh5MFpJc1k1REh4T0dUMDdvUXlV?=
+ =?utf-8?B?L0FlTDdWcUxYQ1d4ZWREUkpNVmIrLzk1Ykw0Sk5ML2cyK1hoZGVTcTZTZzJD?=
+ =?utf-8?B?M3J4bnVnMHZ2Q1Q0T2JoU1dwQzNGdmJvN3JKay9POUFmOXV6dHdmd2dpQ3pE?=
+ =?utf-8?B?anFkd2gwUXh1cW9vekVMNDFHM0pkQ1ViVEtwaWErRmpZZGM4bC92ZGtKeTJy?=
+ =?utf-8?B?L0hoZnU3UVphU29Lb2JmN21NYlZGYVBXNUJxZlNjc1RtbEFtVk5XMkRjNHN6?=
+ =?utf-8?B?VnF1emxUY1NtM1JlKzdGbUNIbEZIY0xFTTVJdzdQUzFWaTNEMEoybFNuU1Rh?=
+ =?utf-8?B?N2tlbG1FK29kM1RtcDJpRmNaeDhwckdpaTZmei8yTDVhaUNkOHI3blFxUUtw?=
+ =?utf-8?B?dnRlRWFwRWhDR05UVWo5RUdsVERmYUZ0UGl3OG0zK0dGdk5QNDZjcEdXM3Vn?=
+ =?utf-8?B?WHVsbWppOUpGQ1lad2J0d2Q3aXJJc2oydEJEMjdTcXcxZmd2RGx0NjVrejhi?=
+ =?utf-8?B?bDE2cXFHd3VZT0NOT2Z4K1VNckNybDhhU2FjcitjOU5DajF4d0Vic0NlN0g1?=
+ =?utf-8?B?dVEvdElIVzdoZmIwekV1cFFTRnNsQ1VpMWhVeDJZdFZkcWRCeDA4SlJIaU80?=
+ =?utf-8?B?cUl0Qk1DTGZSS1dQVHZ3RHQ1YXEwdUxFUkRiZ09sR2ZBQXdDTzFYWk9SVTVl?=
+ =?utf-8?B?UXcvUnBzU21iUFBWYklQRS9XT3RpTC8wTWtjVmoyR0xKVllBekpSbklwTGg2?=
+ =?utf-8?B?Y3JqN2Z5OVBYcjREUENJNWt1aHRpWVZOaUQyUmtqVmREMjhON3k5b29UMGFk?=
+ =?utf-8?B?UkYvdEdZalNqNEhYUlpFd3NqZ3V3N3BneDNJKzArL2hZMTZhUUxkdWp1TzdM?=
+ =?utf-8?B?TFV6VUNCTXZqMXRESW9HL2NwL0VDMlRnRFN5NVI3d2RRd0ZBVUd0a2k3ZlUr?=
+ =?utf-8?B?cTNhRXJKU2lvZlZiRkUzK05yVm1KbEJzWXpUdm5xN3ZMbHpwYlpJejZFbWlU?=
+ =?utf-8?B?RmplRVpPcDgvaXNUbG1YOG16ZExFMGUzRlJMd0hjUURlczVJREpJck5jc2xE?=
+ =?utf-8?B?NVZvdmVtcCs3U0lwVEpUajI4cHJ3RU5SM2ZGV1R1ZjVPemg1TVo1WmRwL1pS?=
+ =?utf-8?B?SHZ5YXdUenp1ajJWWE5GRDFLTXhUKzFoaEkrRUwzQzNwSHRrbjZld3NMS2pP?=
+ =?utf-8?B?cU9Cek5GTnYwNXdMU3IrUXlEL2pZbkhDVWpQUDE4a0w1Tit2a3laRW1jN3Bl?=
+ =?utf-8?B?VFA4b0pGYUh1T0NrL1RMMGgyV2owaEo1d0JmWmlDbnhJU2swYWNSNDRtS0hp?=
+ =?utf-8?B?L3ZxMVVCYzAyT1dCUldQSGRVcjFYajlqOUE4NFh1R2ZyeW1GblFKZ2ZZZzg2?=
+ =?utf-8?Q?1gBVJCvFiWsQbkG70YAkDzh3uR6hWNWC5kX+uJAjnQJ0v?=
+X-MS-Exchange-AntiSpam-MessageData-1: 6JrgNkThmyEjXQ==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 19:26:53.8648
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb412e6-a36a-4b9d-84b1-08de8aa56df3
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 19:33:45.4161
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8519ed5e-5034-4929-ed6e-08de8aa478e2
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB51.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8949
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CXYA4Umk96N3NvHN7KKi/UUMXQ90Dl7oIPzBow6oaRoV5d9vFvtfTmwU9LL/5U+8cT6QTk2T4edBoN8AYfC9gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6922
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13251-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13254-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jonathanh@nvidia.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-tegra];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 02D3332B3FB
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: B8B7132B4DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Populate the IO pads and pins for Tegra264. Tegra264 has internal 1.8V
-and 0.6V regulators that must be enabled when selecting the 1.8V mode
-for the sdmmc1-hv IO pad. To support this a new 'ena_1v8' member is
-added to the 'tegra_io_pad_vctrl' structure to populate the bits that
-need to be set to enable these internal regulators. Although this is
-enabling 1.8V (bit 1) and 0.6V (bit 2) regulators, it is simply called
-'ena_1v8' because these are both enabled for 1.8V operation. Note that
-these internal regulators are disabled when not using 1.8V mode.
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/soc/tegra/pmc.c | 66 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 64 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 6f0808faf4b5..eca56119b381 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -201,6 +201,9 @@
- #define  TEGRA_SMC_PMC_READ	0xaa
- #define  TEGRA_SMC_PMC_WRITE	0xbb
- 
-+/* Tegra264 and later */
-+#define PMC_IMPL_SDMMC1_HV_PADCTL_0	0x41004
-+
- struct pmc_clk {
- 	struct clk_hw hw;
- 	struct tegra_pmc *pmc;
-@@ -301,6 +304,7 @@ struct tegra_io_pad_vctrl {
- 	enum tegra_io_pad id;
- 	unsigned int offset;
- 	unsigned int ena_3v3;
-+	unsigned int ena_1v8;
- };
- 
- struct tegra_pmc_regs {
-@@ -1931,11 +1935,18 @@ static int tegra_io_pad_set_voltage(struct tegra_pmc *pmc, enum tegra_io_pad id,
- 
- 	value = tegra_pmc_readl(pmc, pad->offset);
- 
--	if (voltage == TEGRA_IO_PAD_VOLTAGE_1V8)
-+	if (voltage == TEGRA_IO_PAD_VOLTAGE_1V8) {
- 		value &= ~BIT(pad->ena_3v3);
--	else
-+
-+		if (pad->ena_1v8)
-+			value |= pad->ena_1v8;
-+	} else {
- 		value |= BIT(pad->ena_3v3);
- 
-+		if (pad->ena_1v8)
-+			value &= ~pad->ena_1v8;
-+	}
-+
- 	tegra_pmc_writel(pmc, value, pad->offset);
- 
- 	mutex_unlock(&pmc->powergates_lock);
-@@ -3724,6 +3735,7 @@ static const u8 tegra124_cpu_powergates[] = {
- 		.id		= (_id),				\
- 		.offset		= (_offset),				\
- 		.ena_3v3	= (_ena_3v3),				\
-+		.ena_1v8	= 0,					\
- 	})
- 
- #define TEGRA_IO_PIN_DESC(_id, _name)	\
-@@ -4583,6 +4595,50 @@ static const struct tegra_pmc_soc tegra234_pmc_soc = {
- 	.has_single_mmio_aperture = false,
- };
- 
-+#define TEGRA264_IO_PAD_VCTRL(_id, _offset, _ena_3v3, _ena_1v8)		\
-+	((struct tegra_io_pad_vctrl) {					\
-+		.id		= (_id),				\
-+		.offset		= (_offset),				\
-+		.ena_3v3	= (_ena_3v3),				\
-+		.ena_1v8	= (_ena_1v8),				\
-+	})
-+
-+static const struct tegra_io_pad_soc tegra264_io_pads[] = {
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIA, 0, 0x41020, 0x41024, "csia"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIB, 1, 0x41020, 0x41024, "csib"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_HDMI_DP0, 0, 0x41050, 0x41054, "hdmi-dp0"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIC, 2, 0x41020, 0x41024, "csic"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSID, 3, 0x41020, 0x41024, "csid"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIE, 4, 0x41020, 0x41024, "csie"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIF, 5, 0x41020, 0x41024, "csif"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_UFS, 4, 0x41040, 0x41044, "ufs0"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_EDP, 0, 0x41028, 0x4102c, "edp"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_SDMMC1, 0, 0x41090, 0x41094, "sdmmc1"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_SDMMC1_HV, UINT_MAX, UINT_MAX, UINT_MAX, "sdmmc1-hv"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIG, 6, 0x41020, 0x41024, "csig"),
-+	TEGRA_IO_PAD(TEGRA_IO_PAD_CSIH, 7, 0x41020, 0x41024, "csih"),
-+};
-+
-+static const struct tegra_io_pad_vctrl tegra264_io_pad_vctrls[] = {
-+	TEGRA264_IO_PAD_VCTRL(TEGRA_IO_PAD_SDMMC1_HV, PMC_IMPL_SDMMC1_HV_PADCTL_0, 0, 0x6),
-+};
-+
-+static const struct pinctrl_pin_desc tegra264_pin_descs[] = {
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIA, "csia"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIB, "csib"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_HDMI_DP0, "hdmi-dp0"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIC, "csic"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSID, "csid"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIE, "csie"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIF, "csif"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_UFS, "ufs0"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_EDP, "edp"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_SDMMC1, "sdmmc1"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_SDMMC1_HV, "sdmmc1-hv"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIG, "csig"),
-+	TEGRA_IO_PIN_DESC(TEGRA_IO_PAD_CSIH, "csih"),
-+};
-+
- static const struct tegra_pmc_regs tegra264_pmc_regs = {
- 	.scratch0 = 0x684,
- 	.rst_status = 0x4,
-@@ -4705,6 +4761,12 @@ static const struct tegra_wake_event tegra264_wake_events[] = {
- 
- static const struct tegra_pmc_soc tegra264_pmc_soc = {
- 	.has_io_pad_wren = false,
-+	.num_io_pads = ARRAY_SIZE(tegra264_io_pads),
-+	.io_pads = tegra264_io_pads,
-+	.num_io_pad_vctrls = ARRAY_SIZE(tegra264_io_pad_vctrls),
-+	.io_pad_vctrls = tegra264_io_pad_vctrls,
-+	.num_pin_descs = ARRAY_SIZE(tegra264_pin_descs),
-+	.pin_descs = tegra264_pin_descs,
- 	.regs = &tegra264_pmc_regs,
- 	.init = tegra186_pmc_init,
- 	.setup_irq_polarity = tegra186_pmc_setup_irq_polarity,
+On 25/03/2026 19:25, Jon Hunter wrote:
+> For Tegra264, some of the AOWAKE registers have different register
+> offsets. Prepare for adding the Tegra264 AOWAKE register by moving the
+> offsets for the AOWAKE registers that are different for Tegra264 into
+> the 'tegra_pmc_regs' structure and populate these offsets for the SoCs
+> that support these registers.
+
+I should have mentioned here that ...
+
+"Finally, update the applicable AOWAKE macros to use the 
+'tegra_pmc_regs' structure where necessary."
+
+
+> 
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> ---
+>   drivers/soc/tegra/pmc.c | 86 +++++++++++++++++++++++++++++------------
+>   1 file changed, 61 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 55c1117b1741..42176abb96ea 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -180,16 +180,18 @@
+>   #define WAKE_AOWAKE_CNTRL(x) (0x000 + ((x) << 2))
+>   #define WAKE_AOWAKE_CNTRL_LEVEL (1 << 3)
+>   #define WAKE_AOWAKE_CNTRL_SR_CAPTURE_EN (1 << 1)
+> -#define WAKE_AOWAKE_MASK_W(x) (0x180 + ((x) << 2))
+> -#define WAKE_AOWAKE_STATUS_W(x) (0x30c + ((x) << 2))
+> -#define WAKE_AOWAKE_STATUS_R(x) (0x48c + ((x) << 2))
+> -#define WAKE_AOWAKE_TIER2_ROUTING(x) (0x4cc + ((x) << 2))
+> -#define WAKE_AOWAKE_SW_STATUS_W_0	0x49c
+> -#define WAKE_AOWAKE_SW_STATUS(x)	(0x4a0 + ((x) << 2))
+> -#define WAKE_LATCH_SW			0x498
+> -
+> -#define WAKE_AOWAKE_CTRL 0x4f4
+> -#define  WAKE_AOWAKE_CTRL_INTR_POLARITY BIT(0)
+> +#define WAKE_AOWAKE_MASK_W(_pmc, x) \
+> +	((_pmc)->soc->regs->aowake_mask_w + ((x) << 2))
+> +#define WAKE_AOWAKE_STATUS_W(_pmc, x) \
+> +	((_pmc)->soc->regs->aowake_status_w + ((x) << 2))
+> +#define WAKE_AOWAKE_STATUS_R(_pmc, x) \
+> +	((_pmc)->soc->regs->aowake_status_r + ((x) << 2))
+> +#define WAKE_AOWAKE_TIER2_ROUTING(_pmc, x) \
+> +	((_pmc)->soc->regs->aowake_tier2_routing + ((x) << 2))
+> +#define WAKE_AOWAKE_SW_STATUS(_pmc, x) \
+> +	((_pmc)->soc->regs->aowake_sw_status + ((x) << 2))
+> +
+> +#define WAKE_AOWAKE_CTRL_INTR_POLARITY BIT(0)
+>   
+>   #define SW_WAKE_ID		83 /* wake83 */
+>   
+> @@ -302,6 +304,14 @@ struct tegra_pmc_regs {
+>   	unsigned int rst_source_mask;
+>   	unsigned int rst_level_shift;
+>   	unsigned int rst_level_mask;
+> +	unsigned int aowake_mask_w;
+> +	unsigned int aowake_status_w;
+> +	unsigned int aowake_status_r;
+> +	unsigned int aowake_tier2_routing;
+> +	unsigned int aowake_sw_status_w;
+> +	unsigned int aowake_sw_status;
+> +	unsigned int aowake_latch_sw;
+> +	unsigned int aowake_ctrl;
+>   };
+>   
+>   struct tegra_wake_event {
+> @@ -2629,20 +2639,20 @@ static int tegra186_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
+>   	bit = data->hwirq % 32;
+>   
+>   	/* clear wake status */
+> -	writel(0x1, pmc->wake + WAKE_AOWAKE_STATUS_W(data->hwirq));
+> +	writel(0x1, pmc->wake + WAKE_AOWAKE_STATUS_W(pmc, data->hwirq));
+>   
+>   	/* route wake to tier 2 */
+> -	value = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(offset));
+> +	value = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(pmc, offset));
+>   
+>   	if (!on)
+>   		value &= ~(1 << bit);
+>   	else
+>   		value |= 1 << bit;
+>   
+> -	writel(value, pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(offset));
+> +	writel(value, pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(pmc, offset));
+>   
+>   	/* enable wakeup event */
+> -	writel(!!on, pmc->wake + WAKE_AOWAKE_MASK_W(data->hwirq));
+> +	writel(!!on, pmc->wake + WAKE_AOWAKE_MASK_W(pmc, data->hwirq));
+>   
+>   	return 0;
+>   }
+> @@ -3309,7 +3319,7 @@ static void wke_write_wake_levels(struct tegra_pmc *pmc)
+>   
+>   static void wke_clear_sw_wake_status(struct tegra_pmc *pmc)
+>   {
+> -	wke_32kwritel(pmc, 1, WAKE_AOWAKE_SW_STATUS_W_0);
+> +	wke_32kwritel(pmc, 1, pmc->soc->regs->aowake_sw_status_w);
+>   }
+>   
+>   static void wke_read_sw_wake_status(struct tegra_pmc *pmc)
+> @@ -3322,7 +3332,7 @@ static void wke_read_sw_wake_status(struct tegra_pmc *pmc)
+>   
+>   	wke_clear_sw_wake_status(pmc);
+>   
+> -	wke_32kwritel(pmc, 1, WAKE_LATCH_SW);
+> +	wke_32kwritel(pmc, 1, pmc->soc->regs->aowake_latch_sw);
+>   
+>   	/*
+>   	 * WAKE_AOWAKE_SW_STATUS is edge triggered, so in order to
+> @@ -3340,12 +3350,12 @@ static void wke_read_sw_wake_status(struct tegra_pmc *pmc)
+>   	 */
+>   	udelay(300);
+>   
+> -	wke_32kwritel(pmc, 0, WAKE_LATCH_SW);
+> +	wke_32kwritel(pmc, 0, pmc->soc->regs->aowake_latch_sw);
+>   
+>   	bitmap_zero(pmc->wake_sw_status_map, pmc->soc->max_wake_events);
+>   
+>   	for (i = 0; i < pmc->soc->max_wake_vectors; i++) {
+> -		status = readl(pmc->wake + WAKE_AOWAKE_SW_STATUS(i));
+> +		status = readl(pmc->wake + WAKE_AOWAKE_SW_STATUS(pmc, i));
+>   
+>   		for_each_set_bit(wake, &status, 32)
+>   			set_bit(wake + (i * 32), pmc->wake_sw_status_map);
+> @@ -3359,11 +3369,12 @@ static void wke_clear_wake_status(struct tegra_pmc *pmc)
+>   	u32 mask;
+>   
+>   	for (i = 0; i < pmc->soc->max_wake_vectors; i++) {
+> -		mask = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(i));
+> -		status = readl(pmc->wake + WAKE_AOWAKE_STATUS_R(i)) & mask;
+> +		mask = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(pmc, i));
+> +		status = readl(pmc->wake + WAKE_AOWAKE_STATUS_R(pmc, i)) & mask;
+>   
+>   		for_each_set_bit(wake, &status, 32)
+> -			wke_32kwritel(pmc, 0x1, WAKE_AOWAKE_STATUS_W((i * 32) + wake));
+> +			wke_32kwritel(pmc, 0x1, WAKE_AOWAKE_STATUS_W(pmc,
+> +							(i * 32) + wake));
+>   	}
+>   }
+>   
+> @@ -3374,8 +3385,9 @@ static void tegra186_pmc_wake_syscore_resume(void *data)
+>   	u32 mask;
+>   
+>   	for (i = 0; i < pmc->soc->max_wake_vectors; i++) {
+> -		mask = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(i));
+> -		pmc->wake_status[i] = readl(pmc->wake + WAKE_AOWAKE_STATUS_R(i)) & mask;
+> +		mask = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(pmc, i));
+> +		pmc->wake_status[i] = readl(pmc->wake +
+> +					    WAKE_AOWAKE_STATUS_R(pmc, i)) & mask;
+>   	}
+>   
+>   	/* Schedule IRQ work to process wake IRQs (if any) */
+> @@ -4062,6 +4074,14 @@ static const struct tegra_pmc_regs tegra186_pmc_regs = {
+>   	.rst_source_mask = 0x3c,
+>   	.rst_level_shift = 0x0,
+>   	.rst_level_mask = 0x3,
+> +	.aowake_mask_w = 0x180,
+> +	.aowake_status_w = 0x30c,
+> +	.aowake_status_r = 0x48c,
+> +	.aowake_tier2_routing = 0x4cc,
+> +	.aowake_sw_status_w = 0x49c,
+> +	.aowake_sw_status = 0x4a0,
+> +	.aowake_latch_sw = 0x498,
+> +	.aowake_ctrl = 0x4f4,
+>   };
+>   
+>   static void tegra186_pmc_init(struct tegra_pmc *pmc)
+> @@ -4094,14 +4114,14 @@ static void tegra186_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+>   		return;
+>   	}
+>   
+> -	value = readl(wake + WAKE_AOWAKE_CTRL);
+> +	value = readl(wake + pmc->soc->regs->aowake_ctrl);
+>   
+>   	if (invert)
+>   		value |= WAKE_AOWAKE_CTRL_INTR_POLARITY;
+>   	else
+>   		value &= ~WAKE_AOWAKE_CTRL_INTR_POLARITY;
+>   
+> -	writel(value, wake + WAKE_AOWAKE_CTRL);
+> +	writel(value, wake + pmc->soc->regs->aowake_ctrl);
+>   
+>   	iounmap(wake);
+>   }
+> @@ -4281,6 +4301,14 @@ static const struct tegra_pmc_regs tegra194_pmc_regs = {
+>   	.rst_source_mask = 0x7c,
+>   	.rst_level_shift = 0x0,
+>   	.rst_level_mask = 0x3,
+> +	.aowake_mask_w = 0x180,
+> +	.aowake_status_w = 0x30c,
+> +	.aowake_status_r = 0x48c,
+> +	.aowake_tier2_routing = 0x4cc,
+> +	.aowake_sw_status_w = 0x49c,
+> +	.aowake_sw_status = 0x4a0,
+> +	.aowake_latch_sw = 0x498,
+> +	.aowake_ctrl = 0x4f4,
+>   };
+>   
+>   static const char * const tegra194_reset_sources[] = {
+> @@ -4400,6 +4428,14 @@ static const struct tegra_pmc_regs tegra234_pmc_regs = {
+>   	.rst_source_mask = 0xfc,
+>   	.rst_level_shift = 0x0,
+>   	.rst_level_mask = 0x3,
+> +	.aowake_mask_w = 0x180,
+> +	.aowake_status_w = 0x30c,
+> +	.aowake_status_r = 0x48c,
+> +	.aowake_tier2_routing = 0x4cc,
+> +	.aowake_sw_status_w = 0x49c,
+> +	.aowake_sw_status = 0x4a0,
+> +	.aowake_latch_sw = 0x498,
+> +	.aowake_ctrl = 0x4f4,
+>   };
+>   
+>   static const char * const tegra234_reset_sources[] = {
+
 -- 
-2.43.0
+nvpublic
 
 
