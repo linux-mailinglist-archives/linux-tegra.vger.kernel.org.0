@@ -1,51 +1,51 @@
-Return-Path: <linux-tegra+bounces-13208-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13209-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4PX4IUbAw2kRtwQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13208-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 12:00:22 +0100
+	id eN3IExvDw2kOuAQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13209-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 12:12:27 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B393236B5
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 12:00:22 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDD0323ADB
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 12:12:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4A07A3036A14
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:00:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB075301DE32
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:03:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8DA63C7E08;
-	Wed, 25 Mar 2026 10:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92AC3C7E01;
+	Wed, 25 Mar 2026 11:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cbm67t2V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BdtkAWcn"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9543C7DFA;
-	Wed, 25 Mar 2026 10:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80323C5542;
+	Wed, 25 Mar 2026 11:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436383; cv=none; b=EUdtnRGeD/iVAgQMMsfL7OKylDk0Kf1hcZfa1SC043S4hEMWE/aqgoN9XmhBb8GQ1sGuEzHz1zsPXqW+60Vk2reQKAT5eYu4n9X7V9XtmFhj5zg9uG6qYAdwS69mxZaBK7B9Fk0cgPrhYuzbcay5tIP2vYHT4KMLnD7bnuzcnn8=
+	t=1774436625; cv=none; b=MFUPAZykzQwYAIyT3cxNS2Zwe/rz3rNCvbW+PbBIQdEOOuJaVARBLEiTzfRyrCIC5k8gVngsi1I29es3PFWeOoMbzv/9yMdyg8WJ7eeILiAVNmarWMrpK3JcyDhMTv2ah/xMTsPTEpMj6bXPw1CSXl3/X6JpA9HhHsfZYNJ0H+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436383; c=relaxed/simple;
-	bh=q4ISp22s1rxl1zVxUTKr8kjuJzCoRUSlde0IbCZxE8g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mpBRPMqezIeqg9lneOiZTqsH8q6B5tSjAiese2xmbdLyPdZT9lsUH050KCMQRPVf+GbFjB8Q8Eybmsfu7kRU7Fug29eyxhbcfx8ygEWhjxVnyW5jCi5amJdWJQ6VZFtgNoU2hoE8L8/5Up2Z4qb4d6lP2FaW2Ujf87rPUHrQOck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cbm67t2V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F1AC2BCB0;
-	Wed, 25 Mar 2026 10:59:38 +0000 (UTC)
+	s=arc-20240116; t=1774436625; c=relaxed/simple;
+	bh=/OTs14n6e4lM+2UQQJLdG1GrLfT2+YR2cma9kWyjbe0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qQhLD2QqfAxIRbEqyvyl79YLSDHiOT4KyJYKRKZBGoGDpvznpQ+x2stwpnwj6TXr7zOyQINa9zKl7ePrHuURFDQSnQP6X9txaSfJmerqWmHh0VPJ21aNzL7R2/s6RYp7pyr1pKKwT0NKuzIXp5kuh9m4IRjGtZGsB6DrMJCKU9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BdtkAWcn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A877C2BC9E;
+	Wed, 25 Mar 2026 11:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774436383;
-	bh=q4ISp22s1rxl1zVxUTKr8kjuJzCoRUSlde0IbCZxE8g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Cbm67t2VwMHonR/cmaDiyOj80uub3hhSDkWZJqpJLx1JYc60DYJIO9ooJODqRr/XI
-	 qfl8uRV6Jz7IZmDpsSD1BajUC5e5AW5cXVHHWwPmM94rOA9cxoF/mZzaMuZ/RGsp0o
-	 gmxlAiIWaP2AFQ1/wWQke064eSHoxl9ASqiXuFGZB3sUF+1Uekb+9P2zkITaAq6DYO
-	 lXFhOn5XfVl1p3zmemxucIuPr2Duz/CJpuSaSWZ6deIWtwKkxQ80/O+MDWU7v3hN+3
-	 td/7MbfTOjXaB83ZZGyE4YLqiT0pnUtnaEEe2wLtvqHI03gt6phjN/HRhnXmgAMbgS
-	 bSVPoP1WROcTQ==
-Message-ID: <6342b6fd-9802-49d9-a269-ecb3b70b4604@kernel.org>
-Date: Wed, 25 Mar 2026 11:59:36 +0100
+	s=k20201202; t=1774436625;
+	bh=/OTs14n6e4lM+2UQQJLdG1GrLfT2+YR2cma9kWyjbe0=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=BdtkAWcnVv1iui5vIOhjVQeBzxmTUsOApf/pYppOehfw4fCCm23F5mdbILAInpITD
+	 quLa2QHKJcxC5w2CejKLcCjM4Ba+go6RnakxNQCNlg0KVxxLBHRJH9Oxk+RZKDjRil
+	 XDM9eYDhFKTFd/2Z6IyZHONzwLWnWTtWEweNFxcfG3YHZRexjlwXW2N+bg+bylj2nY
+	 oRmWVoU5erBSoCOst/yDMC/dD146ddtMyUI/bclMj+3Nv0DyPd4nwmnNw7O1womYDM
+	 2PNU+D+X+yFqFzWuGc9TaLuzMlpxGm7t/fHLiFr1OofftlP4U6zmzYTGF0OcHf7grZ
+	 5+tmBrG6smRsA==
+Message-ID: <ed3828b9-fd2d-46c1-b486-c5172f61eafa@kernel.org>
+Date: Wed, 25 Mar 2026 12:03:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -54,6 +54,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 12/12] arm64: defconfig: Enable I3C and SPD5118 hwmon
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Thierry Reding <thierry.reding@kernel.org>
 Cc: Akhil R <akhilrajeev@nvidia.com>, Frank.Li@nxp.com,
  acpica-devel@lists.linux.dev, alexandre.belloni@bootlin.com,
@@ -67,7 +68,7 @@ Cc: Akhil R <akhilrajeev@nvidia.com>, Frank.Li@nxp.com,
 References: <20260319-nano-manatee-of-vastness-fbafa1@quoll>
  <20260319170929.14543-1-akhilrajeev@nvidia.com>
  <67165a1f-9fa3-4853-b530-b1f9d6e4c2cf@kernel.org> <acO4NKPDUayny-I4@orome>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <6342b6fd-9802-49d9-a269-ecb3b70b4604@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -112,7 +113,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <acO4NKPDUayny-I4@orome>
+In-Reply-To: <6342b6fd-9802-49d9-a269-ecb3b70b4604@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -120,18 +121,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13208-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13209-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -141,39 +142,41 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 68B393236B5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: EBDD0323ADB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 25/03/2026 11:31, Thierry Reding wrote:
-> On Thu, Mar 19, 2026 at 06:15:14PM +0100, Krzysztof Kozlowski wrote:
->> On 19/03/2026 18:09, Akhil R wrote:
->>> On Thu, 19 Mar 2026 10:40:34 +0100, Krzysztof Kozlowski wrote:
->>>> On Wed, Mar 18, 2026 at 10:57:25PM +0530, Akhil R wrote:
->>>>> Add I3C subsystem support, DesignWare I3C master controller, and
->>>>> SPD5118 hwmon sensor as modules to the defconfig.
+On 25/03/2026 11:59, Krzysztof Kozlowski wrote:
+> On 25/03/2026 11:31, Thierry Reding wrote:
+>> On Thu, Mar 19, 2026 at 06:15:14PM +0100, Krzysztof Kozlowski wrote:
+>>> On 19/03/2026 18:09, Akhil R wrote:
+>>>> On Thu, 19 Mar 2026 10:40:34 +0100, Krzysztof Kozlowski wrote:
+>>>>> On Wed, Mar 18, 2026 at 10:57:25PM +0530, Akhil R wrote:
+>>>>>> Add I3C subsystem support, DesignWare I3C master controller, and
+>>>>>> SPD5118 hwmon sensor as modules to the defconfig.
+>>>>>
+>>>>> Why? If there is no user of that, why would we want it? Your commit msg
+>>>>> should explain that.
 >>>>
->>>> Why? If there is no user of that, why would we want it? Your commit msg
->>>> should explain that.
+>>>> Ack. This is for Tegra410 which has a DesignWare I3C host controller.
+>>>> I will add this in the commit message.
 >>>
->>> Ack. This is for Tegra410 which has a DesignWare I3C host controller.
->>> I will add this in the commit message.
+>>> Board or products. Not SoCs.
 >>
->> Board or products. Not SoCs.
+>> Is this a new requirement? I see a bit of both in defconfig changes.
 > 
-> Is this a new requirement? I see a bit of both in defconfig changes.
+> Almost every review from me has it for 2-3 years... And it is a known
 
-Almost every review from me has it for 2-3 years... And it is a known
-thing since always in a bit different wording: we do not care about
-downstream things and downstream products. defconfig does not serve
-downstream at all, makes no sense outside of our (upstream) work.
+And I already explained this to *you* 3 years ago:
 
-> Some mention specific products, other mention SoCs. Does this
-> requirement apply to DT platforms or also ACPI platforms?
+https://lore.kernel.org/all/ac8f30a7-fc72-9a44-74b3-a69001bfdaaf@linaro.org/
 
-Just like kernel, applies to all platforms, regardless of firmware
-interface.
+So how this could be a new requirement *now* if three years ago we had
+exactly same discussion.
+
+I understand question for the first time, but why this being brought up
+as "why is this a new thing" again?
 
 Best regards,
 Krzysztof
