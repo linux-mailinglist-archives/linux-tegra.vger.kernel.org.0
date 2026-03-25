@@ -1,232 +1,156 @@
-Return-Path: <linux-tegra+bounces-13197-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13206-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6O21BfW5w2nUtgQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13197-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:33:25 +0100
+	id eNHQEha8w2kKtwQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13206-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:42:30 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E893230C9
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991A53232E7
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 11:42:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 558373033883
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 10:19:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1FBBE3155F86
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2026 10:31:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58C903B47C4;
-	Wed, 25 Mar 2026 10:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 700B73B6C04;
+	Wed, 25 Mar 2026 10:31:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="l6hz2mOA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MNmggxTi"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010036.outbound.protection.outlook.com [52.101.61.36])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD99C3B38B2;
-	Wed, 25 Mar 2026 10:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774433855; cv=fail; b=XwhtZPFBegkWr5bascihWu1WfkY5RYamBMsqikVX+L4NiasovoueockOhH5yH6CSJQrTPzO/ZFnxQj9jWJ4jfZHmmF632mi68/OSarTMX0XZUyTf0TmqZStzxFOL5/2QsMOTG4oaqRGwNBtxfT0bhtoJ5fVtFQkMSuFdFBVSvQI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774433855; c=relaxed/simple;
-	bh=IbbaP7l4xdnMnlmPocIDYKv90S9eBdjokkLQ7kgefr0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HQhmVbEV5054wTn1n1Hwr23dFsdTbp7pwUdJ/wzxSk08onzEqoWOP/iUCsJGjQHmMVU6CMvtoCR7DhYegedWDkuW1KyWBfvM3spdus+9bHVKxTRCcBrawYSQNZY8qiYTCm0VDrzjJ/Vi8UbeFtqB7wA1z7FxE4BdE7b0QR0WbN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=l6hz2mOA; arc=fail smtp.client-ip=52.101.61.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gLVzmX0p7QdLa8PWgpvm6Uf+Za77Wy5GNFg+FLa0/BzWZdC5Y7zPginL3i3rGMXC9eMVVdFMf2r5A9xeXuCPv2XEdg5GPeY0a8N2ioy4XTPugrZvjTtZ4Mv1rNb7tLaiY0iwAe12OhG5apwCkqB4r/bQymTnVUEk1CK0IcDOXV0ulJAGr/PGMIno60GOSv1jGiRZn/kOVrUJ5Y9j2Yc+pBveF+gcp6CxzqL/V0VclsLFcG6G7xtflP0daOqqeG07i7rs6wJ0FJrEAUDWyh2t6rZPHWSnUK7mFDw9dUnmowVkbK7jmQVVIz16wOv/2StgbaIdODqDPUuCNJE7cB7NTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+iknQAC1cW3rclfCh+9O/9zL9JQt+1JHvsmRULzOKMo=;
- b=JVCZRyt5fLrA3ADbdL7tVMSkU2j0Edpri2Ks11O+Osst8fmB4JOJtxqlnuUybuldZ45axDllCmEvuoxC8ZetkWSnIMPwWH6zM5Rv9Q7YPIMny0YkclCmgN83SI4VALmuLXOaKrQJh6C98otPOtdAQJfDcZUvY8GHbrgspNXtnA3yUdz3HaPNirnTov2+W59Le46WTfZNIj5V3nGW1VhJibmwoDaBbW7AAwVpVM+nEmqznRUwa38yKxP4aRD01qjYqGa3jMP7zi4zlb1BPTF503w0j6IC4wux0wPtamf9wRIwq3VaRR189QmgC9Ry9n/kDiwZjJyEP2unoyc5VgLFKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+iknQAC1cW3rclfCh+9O/9zL9JQt+1JHvsmRULzOKMo=;
- b=l6hz2mOA06DqpUpzEygkwdo3SV1q8DGOnoiYA0t15DInMgq7wDq/woBOrLTbA6lM7lZwmSPVoeeJNLNCFXqPhRgEX1kEzTKzgYZ33OtBGEMEuvqnRZpGGBmZiUxqM+rvV3ue/FKIJ16hfDyvNo/QI5Z6NO2UCyOewPcF8TDGTf9PwDXZhF8k0ypbKvxDsB/HCjLU0tjxijQ/E5NP0x9a2nLjnwrA9Cgd5x3I2uLZW1t6vKJEnfyUzqIngsSrsrThDWgiRpm2Uny2Ha4mR84A42Sgy/5/n+dJuZ24gzXlU1ycu7NhAO1LGaSnWr85QXqxHbFtZ65c1TDEITBi2vd/uA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by CY5PR12MB6573.namprd12.prod.outlook.com (2603:10b6:930:43::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 10:17:30 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.20.9769.004; Wed, 25 Mar 2026
- 10:17:30 +0000
-Message-ID: <63d71f4c-97c0-4c2f-ac92-0a643fcdf75f@nvidia.com>
-Date: Wed, 25 Mar 2026 10:17:27 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ata: ahci_tegra: remove kcalloc
-To: Niklas Cassel <cassel@kernel.org>, Rosen Penev <rosenp@gmail.com>
-Cc: linux-ide@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260324211629.26924-1-rosenp@gmail.com> <acOPMJVsxpBltqGX@ryzen>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <acOPMJVsxpBltqGX@ryzen>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P302CA0001.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c2::6) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485273B6342;
+	Wed, 25 Mar 2026 10:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774434674; cv=none; b=CjJ5CCYnoqMIrEvR+p6uXFHVL5fCu2FBYo7d1+tMdPZOLuI7G3NmfVtZlA+0WeLtbvcgXwNSNdCLq0TfjmVwCDlB+IUzApVWuuSMOLImy2r3e/7a1vvlbVskPyI3PaJnnrakTA/Kzb50Xy04b77B41S5xdKDKD++q3cdl3Ubvmw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774434674; c=relaxed/simple;
+	bh=oJjXP7xdNnZ/BGIVuhLzu0MfsHL3XvKpMIM3SaBhYfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJTOnEZwmqOEOgrZ8ukUv2dAIsqrAxgZbQAuwJSnXdtgzOCzDygyYepIB+NSSGb2wEFB1hTcTGzjBZD96Tp3X+LqnSRtFyQMIL1Bkid8gYoCC6J34vwaQK6wgGvE9OFzu7J5s4ZTjsbKEbtGNzGAyRJIdTGvAOIzuaL7IuhLWPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MNmggxTi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BABC4CEF7;
+	Wed, 25 Mar 2026 10:31:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774434673;
+	bh=oJjXP7xdNnZ/BGIVuhLzu0MfsHL3XvKpMIM3SaBhYfk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MNmggxTin7K/6W/4SAhXxVVhhDmcwZaEhsjbkFJHNe0FYCa7T9o4k6z1t2QuMcGmk
+	 77wUYCQTFU54CIbmC1E+4JnJe/CDzVLutHSsNR3KlBsrlAzWiGVU8lz97OAW7eNgLn
+	 ALBL9WqwNniCGj6bi5utGFCqQ5UN9ep5k6/6yd8ImitK/Xp8jlegDjw45EM29a+j4N
+	 NkpbYmaW3cdXPPUHrBCkfPh+yfzQIXixAyYawvKhvA3/ia8HXrlMRm2a2qebz5JhoG
+	 00Pfy1wr7CgjBofXbGUNLA4uZhJ9yqh+asjiB1txJ98jFVMPlNTrrfibDmL9NQ9Sr9
+	 WARIuC86D6dCw==
+Date: Wed, 25 Mar 2026 11:31:11 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Akhil R <akhilrajeev@nvidia.com>, Frank.Li@nxp.com, 
+	acpica-devel@lists.linux.dev, alexandre.belloni@bootlin.com, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, ebiggers@kernel.org, fredrik.markstrom@est.tech, 
+	jonathanh@nvidia.com, krzk+dt@kernel.org, lenb@kernel.org, linux-acpi@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux@roeck-us.net, miquel.raynal@bootlin.com, 
+	p.zabel@pengutronix.de, rafael@kernel.org, robert.moore@intel.com, robh@kernel.org, 
+	smangipudi@nvidia.com
+Subject: Re: [PATCH 12/12] arm64: defconfig: Enable I3C and SPD5118 hwmon
+Message-ID: <acO4NKPDUayny-I4@orome>
+References: <20260319-nano-manatee-of-vastness-fbafa1@quoll>
+ <20260319170929.14543-1-akhilrajeev@nvidia.com>
+ <67165a1f-9fa3-4853-b530-b1f9d6e4c2cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|CY5PR12MB6573:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83e0e1bf-10ae-4a37-838b-08de8a57b929
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	jy7T9GUTiGKi7HHLYeE11iPAd0CYLLD5fu4ziG1pF8NO2q8KrB9JYGt9oXcup9H1991e8tCkEU+Qf7beMJ02O8pwgcVvncWXksmw2p4yhBxJBNddF5C1iCfOiIbMCo1PvfDtxMePRjYSo1kNHJPvUE2FOJbWquvGb49kiIZe32ftZu+fEAEYUtH+19XbZMeGXR+Okcn8DDk7FjsMYP0Xjv9FtH1Yz5QhKrfEzd6EDQoxpfyNNoHiv1CsK5iP/ggtCB4ePtXXf1E5gVfbGWRyyICAOC4wk6kdPbGIlEAgFhSU2Nkarid+x01LwVR4ff2m4SiPjl+/K2BdoLCEVtMbkj0naJPxIdJsOcKv6MkPvUiFELNuQwjPEP3amh+I4SVrUwkRG5BqEyNjOEfUv3VZB0SqVDbVdVLCziWUgMB+tWQX8ArOEGpXzvSke4oTUQNNRea18FoWkJz0CZE1a4mTPfelc3xjoCHzQn6AaReBoPPNyoC0xD2qa0Wb/UsgMDxDWKLAIRtDvFJeoReo0MefgDiCUcQJKG/yo1XFdszAYtSWSewVyYoHlXcMUPjgE106i/2BcR8bxdIiOsgPscNGdrSjDAzpkJFpHo+1x8JxfpQhD95BDHXAjuaVSsX42UQX1PEFqK6gebAvhIOxCHZz7X0hvyPbrBXLxbykLzRKSv1D6lQnVBPvM6D82vGa3yaIjd7d2Q0fG6o0SuSp5rbTwHg49K/sY2OnnnkKMaJ05U8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aWo0T1l4dEVmWjFPa1p3TnVmVVFrZjJiYXZZTng0cmxkaDAyNzNIdGxRaGU5?=
- =?utf-8?B?elliclFEY2s3YXEwZk1xU2VTclNVUkpmV0pWTGdJMnhQVVZ4cTZBVnpyR0hK?=
- =?utf-8?B?Z1dieS9Ja2U4T1hXYlpnaElaaWNhNnBadHg1OHA2SHB0dXdISFM3ZWlkby9r?=
- =?utf-8?B?ckNwbVlTSno2VHIvQ2dpNW0zNGdwUWtGMlVKVTdUK29ZR1QzQncyYndEZnNF?=
- =?utf-8?B?elpmYVl2eE1aemtSL2ttK1c0WC9jY1hxaUJVTUJ0VzRReWxtanhQeklEbkw1?=
- =?utf-8?B?MTc2T0VkZlRWOUFyaFdxVXVRQWt0Z2VxRDU3NWkyYnFYUnk3NFVPUmJrb2t5?=
- =?utf-8?B?VlZxamdpYnphSC81VDNWZ05ydXZ4bjZlbTVxbFlPOUFBYUd6L3lKZnEzOVE2?=
- =?utf-8?B?WUFhQzlXbm9vdVFKdVRtTVJlMURZUGtCRUZlZmY5b0lCWUpDWEtqUnVsSmxq?=
- =?utf-8?B?ZU4vbWt3d2t1R1JIS042YkN4cDBxWEN6QzhSZkNSaUFWZTNoMEk2UUVLQTk4?=
- =?utf-8?B?YzZPdmRudm16VjRiSElMT3VZUVpWYWN4T29BQ0pyRlhSWTNkYVBad2VOVHcy?=
- =?utf-8?B?NXVpYVdJbm1NNHluakVLMXgrVlpNYzJ3RHBtRTVXMitFdzdTZVVmbFVXNlFa?=
- =?utf-8?B?cksrakZocnBvS3BRbDFndGpSK01PVzU4MHI4WkFPVE56a1JGV2JtLzlLaWI4?=
- =?utf-8?B?R1pDbVRhMk0vQlN5OVh6bWFQMDgyTFV0VW5EVGpXOTd4V0ZLRTh2RVpJRWNt?=
- =?utf-8?B?NjBZWHhKSnN5K2dGckhmQUVBUm9hTFZCaCt6alFweGM1WG1YOU5yVEJMSzds?=
- =?utf-8?B?azU5UDVIUlZMLzVxN0V2bU1BMmNwa3JkRGVlb3BSOW1LMU5TaUN0QjEyUmc0?=
- =?utf-8?B?QUhXR2E2STVBZmk1MFJVcVUxKzY3Q202MXNUWDlVR2o5aFJxRlhQUnlVTmxy?=
- =?utf-8?B?ZXhML3lpak1tWjltM1FvSjZ2YnFmb3NVZ0lJS3E0dm55dHJwb3RaZU9xV1ZB?=
- =?utf-8?B?czFXS2pwWFRsODc1VGVIMnd4UERVbHN5TmVVai9GL0dENS82RmRnRzZpdkxM?=
- =?utf-8?B?U0JsM1VMaEhyTGxUcUNuNHVLVjMwTU5qSWNZYm5vRHdHUjV2aW9kMjBPS0NS?=
- =?utf-8?B?TWlFYWlBOU9DSjRsNnB1SklrZU5DTXhWOHVTSTVHOVh1czdTd2htRVcySnBm?=
- =?utf-8?B?RzRVUzU4RktWdEFCaGpnYzgwNzVSTm5mT3l5a01HdTlOa2ZjQ1pzRHJOcVJi?=
- =?utf-8?B?OFJvem82VUlwK3J2UXFMRGZvMHgzMlcyRUE3VWNJdFV2czhoVWZqdi9qWmxP?=
- =?utf-8?B?WUg2cStlTURaWFpOam16ZTV3bmlhWG9yV1I2cTJ5WG9DNXNwQzh0Z3NMekc2?=
- =?utf-8?B?QVkyY1piZDJ6dUtUVURzaEZzY0h3akNVTnVzN2IrbXBrKzhvdG1OOUFiQ0Yz?=
- =?utf-8?B?dkJpRDVsalRDTlJheFlKQW1GbmRNaWN4TExrM2lxV1lpbkpYTFl5WUIwcDhI?=
- =?utf-8?B?eENVazFPWmZCTXFoemFQL3dwNXNmZHJWNnZ0M0VSN2NZUmhLOEhISFBvTzBn?=
- =?utf-8?B?b29aaVlsU3A5SUxUc0lYOGlWeHd0K25sNmdzSGplQ3lFMXM3YjFIOWROdTZM?=
- =?utf-8?B?Y1FkeG9MR1BZYU1TczFHMGZXT0wwUEw2YzJJUlczVkJPQ3hwVjhjY0Y0U2FW?=
- =?utf-8?B?bWdpdFVMZTEyd1hEVkJ4cWxPRjk5eWtFU0V3V0VnRU41K1JXS0NOcHJSMWMz?=
- =?utf-8?B?MENIWGxrcHpQcG9WY05scGlTRnNVOUVoYmVNdnBGQTJkVDhiSVkxMm1DbGFm?=
- =?utf-8?B?bi8yQitGUldUUjN3clV4RlZOaE5oeFhHRHhEakx5RkpYQWVUVUJVWU1SWlBM?=
- =?utf-8?B?RHh1Z1ZLajRqcis3dHpBdDdlTS9JZTFTY3J4ZVF6dHBBZmJuKzhnSGw3UU9v?=
- =?utf-8?B?ZTNZNnUvYXBBZ2l3Y0pHT3YzTmZtc3ZPeDRLUDZDcEZUU3dvNFF4NEsrejBZ?=
- =?utf-8?B?eTNqd2xuRUJkQmYyWmNSTXEvRXRqODZCQ1Jqck5uM0gvQ0JsTGdmYy8yMTU4?=
- =?utf-8?B?dzhwRHVYYUhHYzFJaEtVS0sxM3BraTY0K1c3Y2pCZXhJMFMyRFhBSjF1cmNQ?=
- =?utf-8?B?Y3kvSEdaSTU0SitqNXlCQ295WXdqRWVQdWdMdVcvUkRMMUpPZEJSVkZQTm9r?=
- =?utf-8?B?eWxWVmdBcHplS3g1aThoSDhDUkh6OWZtSXFGYTFZQ0xvNVdTbWQ4Q2ZYbjFj?=
- =?utf-8?B?Unl4cWlrUkpNUWNWK2JwV3JXRzM5MzR1UDdaWjZTSnNncWFvZ3ZzcTdPV2Ux?=
- =?utf-8?B?OFJ0TUFjVFZzaXQrTHl1WU4raVNyQ29jU3NyNzVROHRlSFhrSHlxUE0wcG9i?=
- =?utf-8?Q?jbMuSdywdnYX/xAnER85guwHpEQF4miaOOAVXQK1hI2eK?=
-X-MS-Exchange-AntiSpam-MessageData-1: dwm2dIs+ZFFnIQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83e0e1bf-10ae-4a37-838b-08de8a57b929
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 10:17:30.7374
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uw6UqPJxoIBnxFLzZ4O2sfe7qnwlUR1vn19nCQehN/tN7MjkTtRC1Ml5JmLpL1jo9KBAMew92yGVr9wyFm3hdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6573
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hefw7yhop4kz6jja"
+Content-Disposition: inline
+In-Reply-To: <67165a1f-9fa3-4853-b530-b1f9d6e4c2cf@kernel.org>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-13197-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13206-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jonathanh@nvidia.com,linux-tegra@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:mid]
-X-Rspamd-Queue-Id: B5E893230C9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 991A53232E7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
-On 25/03/2026 07:30, Niklas Cassel wrote:
-> Hello Rosen,
-> 
-> subject is a bit misleading:
-> "remove kcalloc"
-> you are removing devm_kcalloc(), so device managed.
-> 
-> 
-> On Tue, Mar 24, 2026 at 02:16:29PM -0700, Rosen Penev wrote:
->> Combine allocations into one by using a flexible array member.
->>
->> Signed-off-by: Rosen Penev <rosenp@gmail.com>
->> ---
->>   drivers/ata/ahci_tegra.c | 15 ++++++---------
->>   1 file changed, 6 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/ata/ahci_tegra.c b/drivers/ata/ahci_tegra.c
->> index 44584eed6374..5972fe04ff3f 100644
->> --- a/drivers/ata/ahci_tegra.c
->> +++ b/drivers/ata/ahci_tegra.c
->> @@ -175,8 +175,9 @@ struct tegra_ahci_priv {
->>   	struct reset_control	   *sata_cold_rst;
->>   	/* Needs special handling, cannot use ahci_platform */
->>   	struct clk		   *sata_clk;
->> -	struct regulator_bulk_data *supplies;
->>   	const struct tegra_ahci_soc *soc;
->> +
->> +	struct regulator_bulk_data supplies[];
-> 
-> Personally I'm not a big fan of flexible array members, as there can be
-> only one. And if you use it you want to use counted_by().
-> 
-> Yes, there are two device managed allocations. But is that so bad?
-> 
-> Since it is device managed, it will get freed on device removal anyway.
+--hefw7yhop4kz6jja
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 12/12] arm64: defconfig: Enable I3C and SPD5118 hwmon
+MIME-Version: 1.0
 
-FWIW I am not a big fan of this either. It is not an obvious bang for 
-the buck for me. The one downside I see is that it does leave the door 
-open for someone accidentally putting another variable after the 
-flexible array member. Yes we should catch this in review, but there 
-really should be at least a comment saying this must be the final member 
-of the struct.
+On Thu, Mar 19, 2026 at 06:15:14PM +0100, Krzysztof Kozlowski wrote:
+> On 19/03/2026 18:09, Akhil R wrote:
+> > On Thu, 19 Mar 2026 10:40:34 +0100, Krzysztof Kozlowski wrote:
+> >> On Wed, Mar 18, 2026 at 10:57:25PM +0530, Akhil R wrote:
+> >>> Add I3C subsystem support, DesignWare I3C master controller, and
+> >>> SPD5118 hwmon sensor as modules to the defconfig.
+> >>
+> >> Why? If there is no user of that, why would we want it? Your commit msg
+> >> should explain that.
+> >=20
+> > Ack. This is for Tegra410 which has a DesignWare I3C host controller.
+> > I will add this in the commit message.
+>=20
+> Board or products. Not SoCs.
 
-Jon
+Is this a new requirement? I see a bit of both in defconfig changes.
+Some mention specific products, other mention SoCs. Does this
+requirement apply to DT platforms or also ACPI platforms?
 
--- 
-nvpublic
+Thierry
 
+--hefw7yhop4kz6jja
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnDuWsACgkQ3SOs138+
+s6GkJQ/+KHih7KGdwK8LUXDaRizPuwcIwvX5HHc3TOdKw2Gw/XtV+JaoI7c4wtx4
+MvnJjhsHhu4zH+4SMnxqEzTP8jbxcV96L9WhQ+Zfurvs+4X+vZ0KsNXN7H+uTeOB
+UKlf8JumnoVOs74dUSxIy4c9s2XoY/q6W/pBIguuczmMO/uyuUIIV7tiS+IAHVvG
+V+ySkgCNZR+6XH9tyAdN5xTvt7K26KFKoPUgOEXzY7k1gPWCL297YdEoWAfaw0PR
+7DxE9hn9z8DcflEbdkwLwD6z5wfJBgTPvZZgXNheyMv3Spr3lpmAOLFqW6a5QicG
+HllawC3G+ShlLltKAbjxygCX87Wf6fmKKYT40da3GrEkex+GWfDsDYXK5hijGDas
+2nxOZPvXBvQ8aV4Fx4kJHr0GmL6psv8VRVvDT1GWn3clzC7VBOzeMvf7cJBXImMv
+uxr53vBDzVSuLNZbt2ZZu+teJREZG+pM4nxC3jPIgh2t2tXWDtfco9O9qUyJsK2Y
+ibZ4l+p2uBzRu3cD3obBsHjnVLY79XEd6LN9RH6ZXNGn5t6PVHarP2gLW5hx5VI/
+rc++EMVFU2qrO2fe+duASYGyQs+BS4u7u5S9j/jnjEO+Z7kZi4zPk9cnAZEZXSZl
+tWV0O0BCLlbHYHHVrKTMZmT7Ay//JLt0uEEsogX+Cm7vH3z0U6M=
+=cTw6
+-----END PGP SIGNATURE-----
+
+--hefw7yhop4kz6jja--
 
