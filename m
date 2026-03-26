@@ -1,50 +1,50 @@
-Return-Path: <linux-tegra+bounces-13310-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13311-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJ5SAtd2xWnw+QQAu9opvQ
-	(envelope-from <linux-tegra+bounces-13310-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 19:11:35 +0100
+	id EFX9Gjl4xWnw+QQAu9opvQ
+	(envelope-from <linux-tegra+bounces-13311-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 19:17:29 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7915F339D25
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 19:11:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 456D4339E7A
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 19:17:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A1D0D3033227
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 18:09:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 307F730138CC
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2026 18:16:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F94138911C;
-	Thu, 26 Mar 2026 18:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5148139EF30;
+	Thu, 26 Mar 2026 18:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GPQKysa2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rH9ZhPho"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EE937F8AD;
-	Thu, 26 Mar 2026 18:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A33439EF1C;
+	Thu, 26 Mar 2026 18:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774548587; cv=none; b=rKNnJeSNpaUGfiFKeqEWQPan2gvv2zJBT53YvIiQEZHe6erhsGVWRB9vUoEJmW5CpX82J0sJNoeZAAJRKDuml25sxCPIJQmzsRT2X1nJdyuehdckkbq/M/Kzqs4+0tAcy+KpDiDkiEr9p6w8dl4CW57wq3lXc2Nlti8y6twr/7Y=
+	t=1774548986; cv=none; b=rQJg/yIjuPb6jlQutKT9VXrDM12cbTlRJo0OaQkRASCjfBATgAHMPkJvXDiDWLqBtzP2/SGdR0QJg+LtbaOXTfoDQwj9u6gkBQlJsNGA3BqhoUUo+ZKPejQYRVcnpXqmftrWFqwuXF8y9jzOamTsPyB5besmuSESfxPBG6sFeZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774548587; c=relaxed/simple;
-	bh=Rn+vhInqQodS/bAOEwWYdnq6SYa4NomZ2mbnsMoy6H0=;
+	s=arc-20240116; t=1774548986; c=relaxed/simple;
+	bh=43VqNhtITmRTb0E71wFtuKVyxafRya6of6b3L56zIuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=AHVzbyTqW3EaElpxV1iixRRmR/zXMCmo3/EBt9CcUdGKHDFNTFpLphKWVjDdZibxPyk0Z7WevwfOqLvnKl6vCYczTdGZgW3gPaJIUpFe9cK3PU1iHfwgDMP2shJb8oOA/NNlKgx5zxE7zJcG1GI8wMqgPra55iNiyeyGFSPYEm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GPQKysa2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9922C116C6;
-	Thu, 26 Mar 2026 18:09:46 +0000 (UTC)
+	 Content-Disposition:In-Reply-To; b=kRfO6rY2Unl4nf7foTDa8VlovACf7ESFmeLvQCoS86fJQEoZcy3pfp0q2F3w7EgGRolCnafJwf+pTqbUYpsLDUelb6wW7nboAy1yjuYQZV/qllDHkmVsAjTuNnv5hyzai+/ZlqKPx3Yvxs4sIZ96bFaft7s7Bqyxv+NzLwrbP14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rH9ZhPho; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B186C116C6;
+	Thu, 26 Mar 2026 18:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774548586;
-	bh=Rn+vhInqQodS/bAOEwWYdnq6SYa4NomZ2mbnsMoy6H0=;
+	s=k20201202; t=1774548985;
+	bh=43VqNhtITmRTb0E71wFtuKVyxafRya6of6b3L56zIuM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=GPQKysa2Kkl0pnDdhP2t5CHyGa0cSastDgmKm1O2tVeZiouqwEbsOgxTrwYLdJo+p
-	 Ufja9z0tJ2PtiRx9h6st1c6T9AoJRU36LL+yeBp8LiylI7/3RBzBX12VaEnqZNdgr7
-	 CA+E7cZdX0iMz4YCgV4wa0RAs2ytQxQNOrpeU+P/G7dkkXQcaLNf4hc1u87LijDMYT
-	 YK89haZnBIMHtd6lRQxHNY8CBETPQVS3QsUUPzBlpSyp7lGtqMmmkCDEgL5jqJl8N1
-	 WRrCF+Z4e5BzM1QOPKpSOgWr/y59L1IZRZ2xky1NUV6h8K+Mbe8i5vnaHXu6BC0S5Y
-	 i1dnY6VpNPZ8A==
-Date: Thu, 26 Mar 2026 13:09:45 -0500
+	b=rH9ZhPhoyZPAUHGu42qfHJzQoyDXiaLHk6u2TDy7jxtMKoyFyr1etgM02j2RMJag2
+	 +iwu/QLH6SDpzrX2Rwk7Xf0D6UaUv0Ye7LUU1K4BrOo4hIU5IkQT+aOp2QxQMFS4LN
+	 Sm/C7ZPguXcDl6fWI5t8T1BYmS/AirzbSCbMC4v3AtXUqoEUsbX80tNGQMYwKTFXAj
+	 8J0GdOJCo649nUq3toORH7UXb0O2mTBwPoR2YLTayka8sROxFdMkqb6K66rqL+ieDD
+	 X/OwHRNfv1L6odykUi95poRDrpG0rOAWuK8xO8B1T+sfP/rfAn6ckYa8+jwX+T1tkY
+	 XXnHox9MEju3w==
+Date: Thu, 26 Mar 2026 13:16:24 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Hans Zhang <18255117159@163.com>
 Cc: lpieralisi@kernel.org, jingoohan1@gmail.com, mani@kernel.org,
@@ -59,7 +59,7 @@ Cc: lpieralisi@kernel.org, jingoohan1@gmail.com, mani@kernel.org,
 	shawn.lin@rock-chips.com
 Subject: Re: [PATCH v9 1/5] PCI: Add pcie_get_link_speed() helper for safe
  array access
-Message-ID: <20260326180945.GA1331170@bhelgaas>
+Message-ID: <20260326181624.GA1331242@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -74,12 +74,12 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13310-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13311-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[163.com];
 	RCPT_COUNT_TWELVE(0.00)[21];
@@ -94,11 +94,11 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7915F339D25
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 456D4339E7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -115,9 +115,6 @@ On Sat, Mar 14, 2026 at 12:55:18AM +0800, Hans Zhang wrote:
 > removed from of_pci_get_max_link_speed().
 > 
 > Signed-off-by: Hans Zhang <18255117159@163.com>
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
 > ---
 >  drivers/pci/pci.h   |  2 ++
 >  drivers/pci/probe.c | 16 ++++++++++++++++
@@ -146,12 +143,23 @@ Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 >  
 > +/**
 > + * pcie_link_speed_value - Get speed value from PCIe generation number
+
+Wrong name here (pcie_link_speed_value vs pcie_get_link_speed)
+(pointed out by Sashiko).
+
 > + * @speed: PCIe speed (1-based: 1 = 2.5GT, 2 = 5GT, ...)
 > + *
 > + * Returns the speed value (e.g., PCIE_SPEED_2_5GT) if @speed is valid,
 > + * otherwise returns PCI_SPEED_UNKNOWN.
 > + */
 > +unsigned char pcie_get_link_speed(unsigned int speed)
+
+Sashiko also pointed out that the commit log says this returns "enum
+pci_bus_speed", while here we return unsigned char (which is also the
+type of pcie_link_speed[x]).
+
+https://sashiko.dev/#/patchset/20260313165522.123518-1-18255117159%40163.com
+
 > +{
 > +	if (speed >= ARRAY_SIZE(pcie_link_speed))
 > +		return PCI_SPEED_UNKNOWN;
