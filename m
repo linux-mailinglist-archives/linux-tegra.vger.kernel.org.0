@@ -1,65 +1,60 @@
-Return-Path: <linux-tegra+bounces-13377-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13378-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNUlB14Xx2mWSgUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13377-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sat, 28 Mar 2026 00:48:46 +0100
+	id SBwFBegXx2mXSwUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13378-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sat, 28 Mar 2026 00:51:04 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717AF34C8B6
-	for <lists+linux-tegra@lfdr.de>; Sat, 28 Mar 2026 00:48:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D13E34C8E3
+	for <lists+linux-tegra@lfdr.de>; Sat, 28 Mar 2026 00:51:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7EBAB3032CFE
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 23:45:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB1F4307FB9D
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 23:48:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75353344DB5;
-	Fri, 27 Mar 2026 23:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBFA03264DD;
+	Fri, 27 Mar 2026 23:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3HV9e8T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TG2MgLlT"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2ED334688;
-	Fri, 27 Mar 2026 23:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90742D8795;
+	Fri, 27 Mar 2026 23:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774655104; cv=none; b=M0E+QTvrN8/FYgSViK4yh71H3goLy110kewPKbe5qdsdwXogDdVHlnB5aG0ls8Tj1LmZsVG2s7WzvlCcDjT/BuyxtbSauiph2r7wRa8mtrwxJb6Ah3b+pJTgSeHEkKyfyO8M9Ct+f5Qlxw46VMKTce/klfwvMYXx6YVA2oiqgn0=
+	t=1774655290; cv=none; b=AkYH/fW5+Qp7lgHBWdc0yOXToWbPcHDRGLI1XPfViDuqjd6fHT6u8w6tim2nSttOHgxaiiq87m2Hznt9y7M57IvV6XkpIKxRE/bJ/303yUZm9Jzhm+2FbAbo0GQM0lenGGDoMUms86eLamvDEM66my45VB9dOINb3tBgY8Uq7Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774655104; c=relaxed/simple;
-	bh=qcEBrU54OnmjXXp127IJVyBBGSj3fSnTisG8DZv8qx4=;
+	s=arc-20240116; t=1774655290; c=relaxed/simple;
+	bh=gvuzInyL1s7mBPhcQ53ZyLAWB0v6xQc4KFMEABlBz5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZuGPSTUdHQc5UXH0sM6OlP/7LmXww39J+0u4hW5Edivqm9Qdopm3X0dxWoQiOJdoXS2Su2Ao058umkOLrh8kXOqkAS7fAfwtObkkeXvt0HekI9fNhFznDEHns5PQVQoCHAdMrYtJwTSmH7tXROGNQ6HPGXPajOw4OSYfzYlQ4sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3HV9e8T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F261C19423;
-	Fri, 27 Mar 2026 23:45:03 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=d4iql6Dd6CUg6xy6cFXtqTjWLslibtGTIgoZ9oDb/+QcW6nRwQazttdR2LTamxbRcg/WzrA8fjvoWzvtXiQXKFE7loW2bHIQRYmmWhuY64Ycvb+6tsnlQMyiChGXrM9FSkkd6lQ+uzjoeepGlvHuCrWYjMItkyy9yRKGsvzISAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TG2MgLlT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D937BC19423;
+	Fri, 27 Mar 2026 23:48:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774655103;
-	bh=qcEBrU54OnmjXXp127IJVyBBGSj3fSnTisG8DZv8qx4=;
+	s=k20201202; t=1774655290;
+	bh=gvuzInyL1s7mBPhcQ53ZyLAWB0v6xQc4KFMEABlBz5k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b3HV9e8T8g98gEg2esaiv6cbC4gyANKGDXPI13LU6/J7SkN4nobQ03hnO6StzJbyo
-	 tA1L92tXAjuQF8hj1XwArFEOy8w4wHglEan9Ely6CJp5UkwrE9pGzwXJZmaU0b7i5d
-	 8zfbF6vZJQScFJ1ZQDDGHy+l4bOHKxIOYGCkJ38KSeSWKWDg9l5DZimCChkSNt8c2e
-	 KwwxnN9f0OxeBIza7e71445OzP/U4oyd7ZJn4veOgFu1cCw3o4tOD0KESwp2wzPYar
-	 RuJmr5ypNUmBqhI0qS66yeIEeY66clgtM03p0+x10VPmL9pnXbbcjV/KiDHa9UkKqO
-	 DoxJr6FUJkXbQ==
-Date: Sat, 28 Mar 2026 00:45:00 +0100
+	b=TG2MgLlTuJwVVVf3TbSMZhbnGTLkgnbXsmf9RZdgRw4KfdbuT8yj+46pmgrkc3nBS
+	 LcTQkQVhLUTniSQv5zatgCBcW+iJ6UBjtvFc2U9zzSqqRdEcZN31lDBMIJjRT2PMz6
+	 4T3WlHj7LuXsFxCRGzim1TyALY5KwXkJDNs0RkmFY+HSELA+MCY5FuFuXEXHm4+J26
+	 KLR1HXlWEPcaSZBOCGUDdHtogyo+T5nFBCuej55GNZJ5JB6j5PpBUyLcTosSni88QF
+	 vZYqJ6rviYe5tNGge5rPY7EECJsruvmsq1vAvbMW44x3XhcdVhprGX/J0jinls+xy2
+	 zkT0+O4EtboXg==
+Date: Sat, 28 Mar 2026 00:48:07 +0100
 From: Thierry Reding <thierry.reding@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+Cc: Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ARM: tegra: transformers: add connector node
-Message-ID: <accWKnokG3o8WIGJ@orome>
-References: <20260223065500.13357-1-clamor95@gmail.com>
- <20260223065500.13357-3-clamor95@gmail.com>
- <acafk7munaGrCTK3@orome>
- <546AC4C1-CCC2-4C69-B563-B29BC1D865B5@gmail.com>
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/5] ARM: tegra: configure EMC and PMC
+Message-ID: <accWqpdggPTQLC8G@orome>
+References: <20260126191536.78829-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -67,118 +62,95 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bg4tbvk6kt3nlo44"
+	protocol="application/pgp-signature"; boundary="j3hiczsu5tlu2vze"
 Content-Disposition: inline
-In-Reply-To: <546AC4C1-CCC2-4C69-B563-B29BC1D865B5@gmail.com>
-X-Spamd-Result: default: False [-2.26 / 15.00];
+In-Reply-To: <20260126191536.78829-1-clamor95@gmail.com>
+X-Spamd-Result: default: False [-3.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,nvidia.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13378-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13377-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,nvidia.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	NEURAL_HAM(-0.00)[-0.998];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 717AF34C8B6
+X-Rspamd-Queue-Id: 6D13E34C8E3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---bg4tbvk6kt3nlo44
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--j3hiczsu5tlu2vze
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/2] ARM: tegra: transformers: add connector node
+Subject: Re: [PATCH v1 0/5] ARM: tegra: configure EMC and PMC
 MIME-Version: 1.0
 
-On Fri, Mar 27, 2026 at 05:28:04PM +0200, Svyatoslav Ryhel wrote:
+On Mon, Jan 26, 2026 at 09:15:31PM +0200, Svyatoslav Ryhel wrote:
+> Add nodes for ACTMON, EMC, PMC power domains and interlink them.
 >=20
+> Part of previous patchset: https://lore.kernel.org/lkml/20251125120559.15=
+8860-1-clamor95@gmail.com/
 >=20
-> 27 =D0=B1=D0=B5=D1=80=D0=B5=D0=B7=D0=BD=D1=8F 2026=E2=80=AF=D1=80. 17:18:=
-42 GMT+02:00, Thierry Reding <thierry.reding@kernel.org> =D0=BF=D0=B8=D1=88=
-=D0=B5:
-> >On Mon, Feb 23, 2026 at 08:55:00AM +0200, Svyatoslav Ryhel wrote:
-> >> All ASUS Transformers have micro-HDMI connector directly available. Af=
-ter
-> >> Tegra HDMI got bridge/connector support, we should use connector frame=
-work
-> >> for proper HW description.
-> >>=20
-> >> Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # ASUS TF T30
-> >> Tested-by: Robert Eckelmann <longnoserob@gmail.com> # ASUS TF101 T20
-> >> Tested-by: Svyatoslav Ryhel <clamor95@gmail.com> # ASUS TF201 T30
-> >> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> >> ---
-> >>  .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 21 +++++++++++++++++--
-> >>  1 file changed, 19 insertions(+), 2 deletions(-)
-> >
-> >Two things about you commit messages that I have to fixup every time:
-> >
-> >  1. caps after the subject prefix
+> Plus added commit with power domains.
 >=20
-> Prefix ends with ':' which does not imply using of capital letter as '.' =
-'!' or '?' do. Linux documentation does not regulate this.
->=20
-> Even more, examples use lower case
->=20
-> [PATCH 001/123] subsystem: summary phrase
+> Svyatoslav Ryhel (5):
+>   ARM: tegra: Add ACTMON node to Tegra114 device tree
+>   ARM: tegra: Add External Memory Controller node on Tegra114
+>   ARM: tegra: Add EMC OPP and ICC properties to Tegra114 EMC and ACTMON
+>     device-tree nodes
+>   ARM: tegra: add DC interconnections for Tegra114
+>   ARM: tegra: configure Tegra114 power domains
 
-I don't care.
+Unfortunately I can only apply patches 1 & 2, patches 3-5 seem to have a
+build-time dependency on the series at:
 
-> >  2. wrap commit message at 72 characters
-> >
->=20
-> The body of the explanation, line wrapped at 75 columns, which will be co=
-pied to the permanent changelog to describe this patch.
->=20
-> The commit message is wrapped by 75 characters, as linux documentation re=
-quests.
+    https://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D489808
 
-Fine, I'll accept 75 columns then. Pay attention to point 1 though.
-Helps keep me in a good mood.
+It's probably best to integrate patches 3-5 with that series so the
+dependency is implicit.
 
 Thierry
 
---bg4tbvk6kt3nlo44
+--j3hiczsu5tlu2vze
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnHFnkACgkQ3SOs138+
-s6Fq+Q/6A4gg6zcHMai9QTux6jqdlORmsm4HlrXqlqgkd+7AcngSPZEUkHO+EXO3
-6O70yBqZV98GVlIVWsUfAhkCgYMjDO6srsdd/X8Yk9DCwgASRa9Z9B/W93ZWoKzX
-zhQgiMann7su3eRLOopIBzV6vrSKbBCET3Rin748nSWGSpaSJn582PcIIQM2Kuf0
-07DfX7sxqoSG/z4bC+LRAdwIieokftKc7URoex4MmJ+JP3OFEB+LzwYv6JKWlf7Y
-03NfVpMoKqqY2DcEV+DFtYbLYGSrKDPNGEojR0lrDgMXcr5plLRlW1Mh11YGDTt/
-R8zspPdco4o/pTJ38cgSAul89Aw+EVFPDUo6DB7juFUKXkOoCbkS1jSCP8g6V6xC
-cJRm7BPRiEoYUyNjx+cY5fNdMkvVpBEHGHLzImU8+krk89FI+380HqkLgJF3DJMu
-XoxIM86E8gUezF20dG8SaA7A0v7sQn5HmfOhNWMGldFnYyLShRHMIUDp65Y09+W2
-qEnFw9q0d94CfwbAwj9lN5CcQUQ9CN2e0LKfAnW5rBS5Afuu1J1XJT3s0s+dBATa
-ZYwUq9nWqFE6epShvXJqwkp9kT9GReePyXU4EQqwwJXROadbkCAR9dxo7gsgR3nc
-uKAebuo1wc8dWcwQ3a/5zTt5BAI7bMOxGz7aIgikwa21iLN1cbE=
-=3CUp
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnHFzcACgkQ3SOs138+
+s6FUbg/9Fc0V5576xeQ7ZJLZkoEJFxuuj7EjdjqpHQ/AUgn9hP1oGtFFx+tP2jOC
+QVWrZCeJaZi9pxBDcpRwFbq+nlnq3lFC0rpGhaU/pYMwGkrXuQAIfYBo0B0hJ1ip
+JS7apiuYCwOfzChMdEZDyhZZt9D41kNQ0FwSjPq5Uj8mdcKwU68KIk5tVwRrk1+U
+LNun5AkdvLk5NFZySqW7+6kTtXFXWddEmFx+h1Pi3S/001aKSxf7x6SP56AwKw/K
+cdpHZQzQU5Smc5GLxC1aUB95jujeM2LRyrbc6HzsVX2KaAMTUrafBPog73W6JZsx
+/Am1zUfcoa/heIowSqQv3T+4/xMjASOpxpdE4L1i3vx62io4cSOXOm0adL40X/lm
+/wPnreTjaGI7dVZiqBP7filsISJOxfMfiesnoKGjRWsVj6ApM52J5VzFAmzf/5U7
+c5QV4D8ynMbFcVnybVQSS3SQkoqNQnQJ+VNHHs+RvDo8kV9kB/TvNaMp6ATKaivs
+JrcpHxKjDPey9Urgefs1zN8o2h8rXLbWr6l6W1Dai+9havwxlGBC8D0vMd1Addrs
+QwWId5rpiKIBQVpgYOzt/rMwc3VLuyxCa5J2eVyDe989BQfL5/iauBu5XKphfsDO
+yvQj+jsW25/Kj4zGojwg4J0ajxWLabQwat5jvYAFOTekF+W/8xU=
+=wRfJ
 -----END PGP SIGNATURE-----
 
---bg4tbvk6kt3nlo44--
+--j3hiczsu5tlu2vze--
 
