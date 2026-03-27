@@ -1,63 +1,60 @@
-Return-Path: <linux-tegra+bounces-13333-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13334-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GvZBWmWxmnrMQUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13333-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 15:38:33 +0100
+	id UJPqBPWaxmnrMQUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13334-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 15:57:57 +0100
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5877434633D
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 15:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76051346661
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 15:57:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 196D53012BC6
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 14:38:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F00BC3005650
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2026 14:54:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00E5E3F7ABF;
-	Fri, 27 Mar 2026 14:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55193FB044;
+	Fri, 27 Mar 2026 14:54:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFh1y7pR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMr8+zu3"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFCE3F7AAC;
-	Fri, 27 Mar 2026 14:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40583FA5ED;
+	Fri, 27 Mar 2026 14:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774622288; cv=none; b=jjhIua9KVNVK+onER31x6kKfueQl5j8BIQ3a0V6rGO4XT8pbVgj1HdIuKlHKtiZuWqe12eKjSvOdtPHaPuqJLhTKo1limH5KIPi2Np9h9esK2+3IEAmmYSFU7rCa/oOLtq3d6YOKutgBSU13qGvozUaYgSl0F/L0FrLCN/DA3pY=
+	t=1774623276; cv=none; b=snc9q87nAPgieaJ+VfS7ii2pR4UupkC3WRgoY8GKTWHWO0SsaYa1ObQJh9DbvdVs7MsbqnyVBHw+I50iifcUH+fMT8pvFvE0bgz2zEUeVnUF+jmpZ3KxTdkfvCJRtz+KocU6I0tahVjge+AK/UDaiQRQAhaBDUpRgu1k27O/i9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774622288; c=relaxed/simple;
-	bh=9dNEbNhEsFg2D8pemaMOwadUdUuNW18tq6Vuz1MWI7U=;
+	s=arc-20240116; t=1774623276; c=relaxed/simple;
+	bh=nT1a6Sj/ekEKm6N/GqGd72YIcrpOirlkjLRK43wNy+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3+t7mVlZYE4JP8wcyJqkNHUkNBfbCVfUC9wNvSgUvzX38iczNEcf2jNhZPbIVtqEivKMPaWd2uj5fC79/etxbynaVE7Y+9dAd/wILbwx6yhHUcvkLUElfqyxcl3D6qRLB/xynfXn9OFWgib9fDicep4qj2FApv9CNnoQUxzdZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFh1y7pR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4242AC19423;
-	Fri, 27 Mar 2026 14:38:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppdrKc+RO81Qg8qRVqfQ8vQuc/+dE3vGBMT3shiGystOHUB+i0xIeii7BGYM2SZgM1BkSZA9qIKZJI7PdBKx/YCJjM7wU5NKczF8OfJLdS132tD8ZRkwJoJMX7/onOJzBfFWBxGQ6gbXBdvlA8UKx4kf5oBmGQcXfdCba5iKC4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMr8+zu3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA63C19423;
+	Fri, 27 Mar 2026 14:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774622287;
-	bh=9dNEbNhEsFg2D8pemaMOwadUdUuNW18tq6Vuz1MWI7U=;
+	s=k20201202; t=1774623275;
+	bh=nT1a6Sj/ekEKm6N/GqGd72YIcrpOirlkjLRK43wNy+Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oFh1y7pRRWRLdsigBgPYXNOptvhd6z7D8lfl2w1GQTDbq+DngLVLgLm1psAF2x/wC
-	 Y9s6QQIfozvouCG0SqdEaMJ+whlGrJNx1SHO8B3poy9qYV03JfvYFgvkqNWIGby+os
-	 4KGBw3q0Il9xrbMzjZ/n8mgrQFapkiXUcVrA+lUURG53/8TcxXuhksaYJKVzLeJsnj
-	 nJeF4sMxFQl67x8XCeTDOquoNPaL4M5R4iSnKadyxgIcuJbJKgto8hvXFvpML8Ksq2
-	 cEyV7k/WKQAEDmE54G129j1JBkUhQWvFVQIUzKd6cNcNqyOW25/syBz3SnCHgo5H0I
-	 Ka2rsETG383ig==
-Date: Fri, 27 Mar 2026 15:38:05 +0100
+	b=LMr8+zu30UZIHhNoRR5VStnzk6CURwALGvT3Ya22dZyDNi+mJ63y5oM2s6OJ6qu9G
+	 Cvl93WEDyYHKWNL23HretSK63inPKM5LCWbXkXUc6Qu4d2gWXQduTszyDiEM1TY65N
+	 9AJTqmoXQAKDhhg58oupf2qUEVUpc58yllGW6mz2E5vghoxpWFjqEDLoMSgMcyIqOF
+	 kOKVjfv1gnFS1gyMsGW1kGDUUOWBSXrR/rfvOKk94udAezcHkDgBi0RAkvAfO6+EnY
+	 Cq8pZygAaf1lwTZ6sCxD9TVnILnbdvjdQZo2aqacoe64MO0gYjUd7gJsFGpqfXyFl3
+	 J01NUjmJo4OSw==
+Date: Fri, 27 Mar 2026 15:54:32 +0100
 From: Thierry Reding <thierry.reding@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] ARM: tegra: Add SOCTHERM support on Tegra114
-Message-ID: <acaWQgc3_gtHRqu7@orome>
-References: <20250828055104.8073-1-clamor95@gmail.com>
- <20250828055104.8073-7-clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/1] soc: tegra: pmc: enable core domain support for
+ Tegra114
+Message-ID: <acaaG8v98R9YE40F@orome>
+References: <20260126192030.79119-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -65,85 +62,88 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ar7a6xe4beb7qmat"
+	protocol="application/pgp-signature"; boundary="qhluspy2yvtoeaqi"
 Content-Disposition: inline
-In-Reply-To: <20250828055104.8073-7-clamor95@gmail.com>
+In-Reply-To: <20260126192030.79119-1-clamor95@gmail.com>
 X-Spamd-Result: default: False [-2.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13333-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13334-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,nvidia.com,kernel.org,csgroup.eu,linaro.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.967];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,intel.com,arm.com,gmail.com,nvidia.com,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra];
 	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 5877434633D
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 76051346661
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---ar7a6xe4beb7qmat
+--qhluspy2yvtoeaqi
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 6/6] ARM: tegra: Add SOCTHERM support on Tegra114
+Subject: Re: [PATCH v1 0/1] soc: tegra: pmc: enable core domain support for
+ Tegra114
 MIME-Version: 1.0
 
-On Thu, Aug 28, 2025 at 08:51:04AM +0300, Svyatoslav Ryhel wrote:
-> Add SOCTHERM and thermal zones nodes into common Tegra 4 device tree.
+On Mon, Jan 26, 2026 at 09:20:29PM +0200, Svyatoslav Ryhel wrote:
+> Pick after this patch[1] is applied.
 >=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
->  arch/arm/boot/dts/nvidia/tegra114.dtsi | 197 +++++++++++++++++++++++++
->  1 file changed, 197 insertions(+)
+> [1] https://lore.kernel.org/lkml/20260126191536.78829-6-clamor95@gmail.co=
+m/
+>=20
+> Svyatoslav Ryhel (1):
+>   soc: tegra: pmc: enable core domain support for Tegra114
+>=20
+>  drivers/soc/tegra/pmc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, finally.
+Applied, thanks.
 
-Thanks,
 Thierry
 
---ar7a6xe4beb7qmat
+--qhluspy2yvtoeaqi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnGlkwACgkQ3SOs138+
-s6Gncw/8Dt/FX+xnNjL2tgArxAADn///JW4L5JK68aiHtjZpyoCaMw4WXwcDgxhZ
-6enKJ4XJNjDjgskVEqSUn0OAfy7XE/HkpjPH2aTA/CLUaBudwYZcZ7JfSuGlw483
-rI1RaqXrgbj7RLfXsSXeXsTaGXrll8o4iQbeaKRlohyo7SSpC9mCJXe5qqhGg4h5
-Mg7SEFuR2r0HzVEoYfcq9ns99JDKPwbPRE3mipo/KOXcu8CFsYVvfIa5zCluy1/C
-G+G4Q7mTvICG8xbnjeVhxaA+tG/2ruiEt2Nquxh4wj476jLvOZl8CC7kV3PfV0VA
-T383jtg9xWpplNhUdaDnjLYvxOdzqy7JlvK56r6wVssOR3kyNZonwFcGjiW5/Qo0
-ON2SI7FI87bXwJ1ENL5QHlIzRzHcLaa6QiZmT5er6i9NsQbgiEDjr9mzaNOCQwt/
-4qql29mvPcSOHhc1LEcrWZf5wPOokhCdN0ULc/JPDs4PCzOhnt6XZAh82V/biJYp
-ZcyX5RjfUx61yH9fHYddJPaifyav/REnp65wO5oMB5u0J36IXQVKlog0j9CP6AcO
-UvGCP+e/xt8wn5/HUef2OMPCOz7kgfJMx110RggXuE1YNwc7hmFPC8q6zurmcy5P
-xKOnI5KvjURqTFJWro6UFTfaFpe0btCXuanY2WU8iUWHM3mgw7g=
-=tz65
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnGmiQACgkQ3SOs138+
+s6Elwg/9EbXkaFt7AxFEA1v47PX84v0tJBm3MIQn32eKd/bMi0jCBpy08lOe+NJh
+fDitXYynrvov7kOQyQBl4efCg15HbdJCYASfP1Yd9XMkp+gbQvguh9aW5bqosL5H
+UdJG5VDTP2W0iBvH3SL6v9tVbAS3JdwN1dNjPy/LG43Wlpf3pU/Sez/xnGrSJQ50
+RhF8iEEAIJEa7CMoj/bm+EJsfnrcIQq2BsnuYRyMaVGWxHYrXVdRytQfdTVR/7Ah
+ytMuJAJ+63khcQ8Ia3sjLnsCh8C0Oy9X/6zflSOwcfVQykShm5ovIG++AazXG5ie
+hWbkgs/qd0oQew7TDaLxutZ9L0emYZZbeVf5TVMX5Y7tEtBYcb13gs+2a0t7d05y
+pTKmQjrK3GPbHMcJ279wkYC6PTrH6CFgF7rJ31G5zt0dkmAtYIF+8d0eTzvPq+IW
+HEDTnAU+7wAYdRjxvxk1MfuaC4+P7s13dAfTBM/BDyIyOxHFM0yPlvq5wJF4cylr
+SmcfCF3sx9RVLv6tK82kyveSSC7jc4sEUxn49OuPlrqp22RZPShvpD0AuagL08qA
+guSB1KDygWh4wfH/BP8NrAONCmK1F3TnB1Ef2VEMcHFxDP/7yNCUw/SM3Eowq/Xp
+8lYX26Awq0Wshw9DwzExujhnWF+ec8C51ETwuKXWHPhFLF2DVSo=
+=EUU0
 -----END PGP SIGNATURE-----
 
---ar7a6xe4beb7qmat--
+--qhluspy2yvtoeaqi--
 
