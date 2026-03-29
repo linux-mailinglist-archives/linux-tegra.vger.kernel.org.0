@@ -1,49 +1,49 @@
-Return-Path: <linux-tegra+bounces-13390-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13391-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0FthLApByWm1wgUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13390-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 17:11:06 +0200
+	id IPn9Gg1ByWm1wgUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13391-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 17:11:09 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9F8352881
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 17:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531F7352888
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 17:11:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EAB763003986
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 15:11:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B5FF13001FDD
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 15:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 992B737DE89;
-	Sun, 29 Mar 2026 15:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2949237DE9B;
+	Sun, 29 Mar 2026 15:11:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gP148kpI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KpHv66hL"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773AE379999
-	for <linux-tegra@vger.kernel.org>; Sun, 29 Mar 2026 15:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D26379999
+	for <linux-tegra@vger.kernel.org>; Sun, 29 Mar 2026 15:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774797064; cv=none; b=TQeFU2U9ANGf401kNn8pxVSjV7N2XURocj0s5gyrOWu7uPCpeSodoWDO3ZtYeGyQIQfM2b2Yx/ZTZt2w3lVgjan5WSMPHrNZvfsmLHukVYxaWceKzoqN+obl4rGaEgdvBpPCw9z1E2iKYJjuJO+BY6p8Yrzw/hoYnJOD+OIESbs=
+	t=1774797067; cv=none; b=n+xUTpbpifg2t2I/SUuPDA24iIjBtM+m00FnnkUq2RslAD5+2y5fWRsRfwGgu3+loAQnrgTFreQ1gKAVvEiA75pfsloDBtRbIY53iMkLEtIAkM1qJAkV8mTps9ICUzGYaUDkrroFUQ06q83R06GHZtMD2geePg7f7EySm4v/Ru8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774797064; c=relaxed/simple;
-	bh=M0Z1EGRJhk11Ga2j5XNT/BdQe2P0sTVW3/Z0KGEXD+Y=;
+	s=arc-20240116; t=1774797067; c=relaxed/simple;
+	bh=uLUM4o+KLJe4YQmeHIHCsOs0ynRLdm3hUXmN7rvPPFI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dQmsF6UfDX+kiyo1sxi+vmeGkSaRlhladldVpMGSs5aZeqioag05p5sRatpVgQ7vwC3WAdOceKPkVLvc0QyQ8QL/FyC6qWXkSdas4m+QPlVjhIRaE2/Hwpl4NvS0tkWSLjFdp79zDalwMD1EdLEjCSEPMvLeq6f0eYmc2Az0+4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gP148kpI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94977C116C6;
-	Sun, 29 Mar 2026 15:11:03 +0000 (UTC)
+	 Content-Type:MIME-Version; b=nvIITZdcthS8ie77uXFt8pVSfKDlLKcvyrMXVfBXziyfVKn9c2L7Bl+e3vTHudPKtkfueIhaXUOxcv2matT64W9SIHrMJqPvaAHNRXv5WWcCgwL0ocRqfXvcwzqkaQSy7va5KeQr/oTsJftfq76WTTxIkECPc29RRJw6SIWfXRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KpHv66hL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58812C116C6;
+	Sun, 29 Mar 2026 15:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774797064;
-	bh=M0Z1EGRJhk11Ga2j5XNT/BdQe2P0sTVW3/Z0KGEXD+Y=;
+	s=k20201202; t=1774797066;
+	bh=uLUM4o+KLJe4YQmeHIHCsOs0ynRLdm3hUXmN7rvPPFI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gP148kpIifBN/QiM9Y9Sy3Xf42W9rIziwv7KfS8VaUWrXW+jdq+bkLohGOEVauBx5
-	 0wnyP71rweuemwyGbq1gkVagcFFtq/Lqgo9pC1JwgJXLKJU5iV4bGZeGpIoUeBqdSJ
-	 tlcwOTUP574abdG1eZTdIfkQQZcSxPatKGPqywKIrDHFXZDDA0iNvuu9AqbPBHPdiZ
-	 7GeObhVnM/lY66JvRh4MS8Ms/1rb6KeoLd/HzmtaE9BPmBRkuguC/ugm0ox/hKqV8A
-	 TrrKhkU17ywNcEzVluAy8d1V/kZWjmO/k9f8jIjGXDE+6qPSyeFB8wvly3Mpzt3i+K
-	 16lWo4PcGYR6g==
+	b=KpHv66hLSfg9e8z12WOw30PjF1clNYOndpyZVfBQ7NcAgwDuAHJ1cZywIEFtq2Nap
+	 CdiOQ+J3tIPUJP9SyQdeY8IlxfDuvnEzbY2H5I/7NMsf39BGfMaWODgAR1+bLtq/nm
+	 6K9C/SgiZ+ZyunoZdytc2IXgkJvNQxjl+QqWxtwtB1GEfYPHcMp6rI2eV8Jsm5E1nz
+	 3NSMcLICzlX7C4IT88GqxbnT6geVA03u2fi0N21szbL4Ii3KKeuAnlsj5ezeJFVL8H
+	 2/Hgj+GRttUNJx7PxR2/8y+LylFNPaeyFrUVlyHDDiV78FpC8mIDbWD5GuIbIZ9rR+
+	 OcdtAVImgjSSg==
 From: Thierry Reding <thierry.reding@kernel.org>
 To: arm@kernel.org,
 	soc@kernel.org
@@ -51,9 +51,9 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	Jon Hunter <jonathanh@nvidia.com>,
 	linux-tegra@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 5/7] ARM: tegra: Default configuration changes for v7.1-rc1
-Date: Sun, 29 Mar 2026 17:10:42 +0200
-Message-ID: <20260329151045.1443133-5-thierry.reding@kernel.org>
+Subject: [GIT PULL 6/7] arm64: tegra: Device tree changes for v7.1-rc1
+Date: Sun, 29 Mar 2026 17:10:43 +0200
+Message-ID: <20260329151045.1443133-6-thierry.reding@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260329151045.1443133-1-thierry.reding@kernel.org>
 References: <20260329151045.1443133-1-thierry.reding@kernel.org>
@@ -76,7 +76,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13390-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13391-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8C9F8352881
+X-Rspamd-Queue-Id: 531F7352888
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -107,31 +107,52 @@ The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-7.1-arm-defconfig
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-7.1-arm64-dt
 
-for you to fetch changes up to 21e380f272415387454d81788f2d62642e1fe93a:
+for you to fetch changes up to c70e6bc11d2008fbb19695394b69fd941ab39030:
 
-  ARM: tegra: defconfig: Drop redundant ARCH_TEGRA_foo_SOC (2026-03-25 10:49:00 +0100)
+  arm64: tegra: Add Tegra264 GPIO controllers (2026-03-28 01:36:46 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Default configuration changes for v7.1-rc1
+arm64: tegra: Device tree changes for v7.1-rc1
 
-Drop the various ARCH_TEGRA_*_SOC options from the default configurations
-since they are now enabled by default for ARCH_TEGRA.
+Various fixes and new additions across a number of devices. GPIO and PCI
+are enabled on Tegra264 and the Jetson AGX Thor Developer Kit, allowing
+it to boot via network and mass storage.
 
 ----------------------------------------------------------------
-Krzysztof Kozlowski (2):
-      soc/tegra: Make ARCH_TEGRA_SOC_FOO defaults for NVIDIA Tegra
-      ARM: tegra: defconfig: Drop redundant ARCH_TEGRA_foo_SOC
+Diogo Ivo (1):
+      arm64: tegra: smaug: Enable SPI-NOR flash
 
-Thierry Reding (1):
-      Merge branch 'for-7.1/soc' into for-7.1/arm/defconfig
+Jon Hunter (1):
+      arm64: tegra: Fix RTC aliases
 
- arch/arm/configs/multi_v7_defconfig |  4 ----
- arch/arm/configs/tegra_defconfig    |  4 ----
- drivers/soc/tegra/Kconfig           | 11 +++++++++++
- 3 files changed, 11 insertions(+), 8 deletions(-)
+Prathamesh Shete (1):
+      arm64: tegra: Add Tegra264 GPIO controllers
+
+Thierry Reding (6):
+      dt-bindings: pci: Document the NVIDIA Tegra264 PCIe controller
+      Merge branch for-7.1/dt-bindings into for-7.1/pci
+      arm64: tegra: Fix snps,blen properties
+      arm64: tegra: Drop redundant clock and reset names for TSEC
+      arm64: tegra: Add PCI controllers on Tegra264
+      arm64: tegra: Add Jetson AGX Thor Developer Kit support
+
+ .../bindings/pci/nvidia,tegra264-pcie.yaml         | 149 +++++++++
+ arch/arm64/boot/dts/nvidia/Makefile                |   2 +
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      |  12 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   2 -
+ arch/arm64/boot/dts/nvidia/tegra234-p3701.dtsi     |   1 +
+ arch/arm64/boot/dts/nvidia/tegra234-p3767.dtsi     |   1 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi           |   6 +-
+ .../dts/nvidia/tegra264-p4071-0000+p3834-0008.dts  |  11 +
+ .../boot/dts/nvidia/tegra264-p4071-0000+p3834.dtsi |  12 +
+ arch/arm64/boot/dts/nvidia/tegra264.dtsi           | 336 +++++++++++++++++++--
+ 10 files changed, 500 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegra264-pcie.yaml
+ create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p4071-0000+p3834-0008.dts
+ create mode 100644 arch/arm64/boot/dts/nvidia/tegra264-p4071-0000+p3834.dtsi
 
