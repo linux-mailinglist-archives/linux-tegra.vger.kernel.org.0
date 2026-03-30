@@ -1,105 +1,110 @@
-Return-Path: <linux-tegra+bounces-13433-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13434-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACtgFZudymmg+QUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13433-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:58:19 +0200
+	id 0J0IOb6dymmg+QUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13434-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:58:54 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AEA35E480
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:58:18 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DB835E491
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:58:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 004CC3008749
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 15:50:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 267F13052BB7
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 15:50:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DE90374726;
-	Mon, 30 Mar 2026 15:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5893F374160;
+	Mon, 30 Mar 2026 15:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vHrrryRj"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iUkpoNDV"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5271837418C;
-	Mon, 30 Mar 2026 15:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F50C346E54;
+	Mon, 30 Mar 2026 15:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774885799; cv=none; b=fdTKgpgL9jjlFXNR/mw4BJrZSx6gow3WOgPGJzzviz72rJaoy1Zv9XWj3lpF4pa1ZouoUGyqBIAXYZTbAJTXtLEGuZGn03LsNvS+5ytxwo7iwQtbcFZU82ej0JOWGYIUpYjRwIlP6yBxGokgiKAzrV3fSPby/K4pUEee96gRXPc=
+	t=1774885811; cv=none; b=PAJVFdIh3Rb8nfvdt4hQ8uH12fjglT646ag5C6yckfQ47KGfgGez8pa8EYNvbqBEBa2G0zhjlQT7FoqssmHvr4bqHi0QOZVgrRyEF+Sa3TWMlPp3FKe4dFVodQ/MqXphP8GOhj0E5edIqdtEIEhgTzoGUFTF27MC7i6EuAVubqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774885799; c=relaxed/simple;
-	bh=jFzutPKmwR4H7YIu8Qn5NsraS/tWHjU6p8juKpQbHZI=;
+	s=arc-20240116; t=1774885811; c=relaxed/simple;
+	bh=fdcUswHsiVrzGL2tlgudlUXpNxOC1l5VB37WuEcFNbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pz+fhIuYOqkaoKJv+wZhrFh0pUPwf2+D6bvBtacpoMu5K4jsSD6T7T5s6Io3/RaAn5zxBuvzB3jY2uWc38VY1krMaM50T5ATvZgcd3gA3U222xaB4UlnKEixNB3G4Z0glKtVQy2Odp1cMrCcQWs53QVOR9csidRq9Qnnwiak5Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vHrrryRj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CF4C4CEF7;
-	Mon, 30 Mar 2026 15:49:58 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDvAc9nbQOf5u1q7rU7O37scvXoBX7Cc2SlkzMvfneNgOqqAuRB564qdYFKYJETWu+rXIDPDkbT4m0EJh5SddZEbnDLaZ1ec7VABgC7dDtSWlazj+QRCNi855YtJs1cxf4vc3OyfI49/8TXIY/eYcgVlJOoVCp8xqYk49whf6VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iUkpoNDV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B39C4CEF7;
+	Mon, 30 Mar 2026 15:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774885798;
-	bh=jFzutPKmwR4H7YIu8Qn5NsraS/tWHjU6p8juKpQbHZI=;
+	s=korg; t=1774885810;
+	bh=fdcUswHsiVrzGL2tlgudlUXpNxOC1l5VB37WuEcFNbo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vHrrryRjA0bM6gE02Hgk52j7rXL80DitBIPY+THNyHjotnOi8l9UBC+i7qGIvh3tc
-	 gkBXQRES2o8DmFVTIC3xJ8Tiuc36211g4JD0rfXpJnLwf/YwrO7KIDq4e/vf9n1Cb4
-	 sMarwVgy4FoGVbkEESJaf1iVubPh6WsCLy6M2t4k=
-Date: Mon, 30 Mar 2026 17:49:55 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?H=FCseyin?= Can Erdem <erdemhuseyincan09@gmail.com>
-Cc: marvin24@gmx.de, ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: fix block comment formatting
-Message-ID: <2026033037-dealt-handiness-a92e@gregkh>
-References: <20260318170604.10254-1-erdemhuseyincan09@gmail.com>
+	b=iUkpoNDVGUX3jN+nZo+ouFglsvxSMrNgf6g8nN/95bZPMtI9xPYbn0Blq4ma+Hky3
+	 f8NuX8D95Q1bzCXHyFzoLpAe1+0iIUJ76dEzxOb/aCZ27WzWn/249tcUz/AuTSJIaa
+	 3wm7wmoTXfPkQsJg+3aLQHZNwVr5Z7JO1HvjFRYc=
+Date: Mon, 30 Mar 2026 17:50:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Cameron Pinchin <c.w.pinchin@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>,
+	"moderated list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER..." <ac100@lists.launchpad.net>,
+	"open list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER..." <linux-tegra@vger.kernel.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	CameronPinchin <cameronpinchin@cmail.carleton.ca>
+Subject: Re: [PATCH] staging: nvec: fix comment formatting
+Message-ID: <2026033004-speak-linseed-ca95@gregkh>
+References: <20260322023346.100296-1-c.w.pinchin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260318170604.10254-1-erdemhuseyincan09@gmail.com>
-X-Spamd-Result: default: False [2.34 / 15.00];
+In-Reply-To: <20260322023346.100296-1-c.w.pinchin@gmail.com>
+X-Spamd-Result: default: False [3.84 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13433-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13434-lists,linux-tegra=lfdr.de];
+	TO_DN_ALL(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmx.de,lists.launchpad.net,vger.kernel.org,lists.linux.dev];
+	FREEMAIL_CC(0.00)[gmx.de,lists.launchpad.net,vger.kernel.org,lists.linux.dev,cmail.carleton.ca];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F3AEA35E480
+X-Rspamd-Queue-Id: 45DB835E491
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 18, 2026 at 08:06:04PM +0300, Hüseyin Can Erdem wrote:
-> The block comment in nvec_interrupt() does not follow the kernel
-> coding style. Multi-line block comments should have a * at the
-> beginning of each line, and the closing */ should be on its own
-> separate line.
+On Sat, Mar 21, 2026 at 10:33:46PM -0400, Cameron Pinchin wrote:
+> From: CameronPinchin <cameronpinchin@cmail.carleton.ca>
 > 
-> Signed-off-by: Hüseyin Can Erdem <erdemhuseyincan09@gmail.com>
+> Fix comment formatting to align with kernel-doc guidelines.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Cameron Pinchin <cameronpinchin@cmail.carleton.ca>
 > ---
 >  drivers/staging/nvec/nvec.c | 3 ++-
 >  1 file changed, 2 insertions(+), 1 deletion(-)
@@ -119,7 +124,8 @@ On Wed, Mar 18, 2026 at 08:06:04PM +0300, Hüseyin Can Erdem wrote:
 >  		} else if (status == (I2C_SL_IRQ)) {
 >  			nvec->rx->data[1] = received;
 > -- 
-> 2.47.3
+> 2.53.0
+> 
 > 
 
 
