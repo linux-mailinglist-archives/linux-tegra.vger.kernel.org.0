@@ -1,236 +1,204 @@
-Return-Path: <linux-tegra+bounces-13396-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13398-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8FOhAdSUyWlizgUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13396-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 23:08:36 +0200
+	id aFfTOkPdyWmz3AUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13398-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 04:17:39 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C64F3541BC
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 23:08:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6631E354BA9
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 04:17:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CBE433002F4A
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Mar 2026 21:08:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 28546300A8C5
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 02:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0ED3389E08;
-	Sun, 29 Mar 2026 21:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F269390984;
+	Mon, 30 Mar 2026 02:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYBXuNmh"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Iwz4b8sL"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011062.outbound.protection.outlook.com [52.101.62.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574462BEFE5
-	for <linux-tegra@vger.kernel.org>; Sun, 29 Mar 2026 21:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774818505; cv=none; b=rphr/pjDretwI3dhDKLkIdE3Yl0Bi75HkjTub4OxYG1sm0wc88b/2/qeBF4cGT1gqZUbSvY+cfpxejiy+T+lJFlfljRAFoz0AWgmsdrijCbcjWDRbzBr/Ke9nEcIPXsDzXgjamVkO1a2+AdN/jmAnBVcPILDGv//n7vU4Xu/++w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774818505; c=relaxed/simple;
-	bh=57DrXeQnUGc6iR/CXOWyyyVZBnQ5MkHIKUWHPpAsMcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fZATnsQVnjAd1p6728uRIuKVvPtYffAvITvhYmXm+WCD+ySf6UbgntOSoZ1hmMfrfaCWNzTx2PLzrdSCeH1dbynQNR7Pz361NUk+5+GX0OF5HLaF4rkrZmXmTH+w+Z6nFb5n4ZApXZjIJ972GI0LtLndXDPY5jCzlt14FGLJbyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYBXuNmh; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56b65ffbda3so3422708e0c.1
-        for <linux-tegra@vger.kernel.org>; Sun, 29 Mar 2026 14:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774818502; x=1775423302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SVkfdJP2KulZKEM0URtofZekmehI6WAdAhgF+udGJlg=;
-        b=QYBXuNmhrEM4+ehc8nYYU3k872EhjxsEghzm5IGgtDH8NKV20q/+ZAkEn7XYXzbbQf
-         cLPbR7dLcTa1jDRMl0TfNkUY2QhmayEQobOqI1w4gxGKwKZ9Jbv1pHfX8y8vmEJWtJpH
-         omKX1lUorfbUd9PUfy95kWLGNBb72sjleNpcUs8AKGOwrIfqFLNhmQZ+IiijnKEPfib+
-         wvq7tOpr+Yvh9W8uw3Kk6jiw1uFLSSNJPdGC3/E7eCi1pEzS8bMEP0KLfyTdSGK6m5MN
-         QLOhQOV6Lu3zK6QQevbAL3jUHOo20y38HiceWSGWVMYkUrwy69ktmjC4ohTwbi8xYPh2
-         9rXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774818502; x=1775423302;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SVkfdJP2KulZKEM0URtofZekmehI6WAdAhgF+udGJlg=;
-        b=KYJcVoChuRJEoUXqJaXSkRUVuw0nTfeRS6C9Nd8P7a9Nt7sUPConyTZCw7Vezi4Csx
-         j2ZPzR1Y6OQiJCsfgyhkxVvYea8fHRY0++zmkCJGYAS9rUebBHzW0DYQyQ41mNKyeurg
-         4HBB+tqbvyzHUxaPaXqMhiDc+tVMCHAFARF52Cm315+LV7/zc829BpR4Az7t7oZPVkD/
-         RvVmw6GrCdFKxFC2bdO0iPe94V3GP47JVQSKVoJ1rVnifrqebWz9KLbET7/VYKFdfRS0
-         YqbgTuG+4b4FIHEx+gcHUkM7i6ke0VnsoKDNm4mQwDiBu/neY5u10lNXpn7jeuXhiZjl
-         8EFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlBTxozTv0RHHRpLkBedt6DiP3fZVnG/eymTBvRo3dS9OWSRWOSD8vVL0z1A2ZHK9Zs/HYWuyuGgGTqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytGH0E0iwY4Z31L5pfR2yWMSc+Jv9jPvFSBAY4LUpphq9cIrJk
-	gOnGO35SsSFX/g5u4noebCZTsLS4u74hSK8M77aw3F+nnfYtzYRMPlw8
-X-Gm-Gg: ATEYQzw+/b7gp9VE2lBANQJfMYjY+h2emf3l3bwN3ZrRcJpYTdIlZgkrwEThmtQihhF
-	teHU1FqEdLZxLpwd+eFAPnAL/WLYFVVUg5V5h+NlkeMiuwv/gkxa8452UocK1VkLhHmYHRUl+y6
-	tFGm82/rSDisLPwaFfdpLUm3QDWI1KS08hQjYaNCaIAWj50QgDpd+rp82CCycq1P2whF3vu28Mz
-	oaQe1cp5lFjPuzw+XsWkVWUOQB2artnrV+GoPDWK3UHO9AWTO1fcgsHzfyoadQam2F2o0/vUSzi
-	+rkq/xvaSOwdOz5OQwncr2sCIogI+vA+Lt6XL7H0QsPVeGEOYQMkSXh+4sKWpLg9MtCGb46cUCI
-	Wavbieep1WPO9CUWIVQOoOChoolXzvGFDgYdA+jwdyM553edLA1eL26PNDvf8FYCn9/FkYLfm8p
-	SDM+eAOBlEgEgTPN4d1uKHlmi0LiuZgSX8DA==
-X-Received: by 2002:a05:6122:8b1b:b0:56b:815c:961d with SMTP id 71dfb90a1353d-56d4a4d3b83mr4099294e0c.5.1774818502268;
-        Sun, 29 Mar 2026 14:08:22 -0700 (PDT)
-Received: from localhost.localdomain ([2a09:bac5:6d77:aa::11:1d6])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a46f4dsm6284108e0c.15.2026.03.29.14.08.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 14:08:21 -0700 (PDT)
-From: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>
-To: marvin24@gmx.de
-Cc: ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	=?UTF-8?q?Sebasti=C3=A1n=20Alba=20Vives?= <sebasjosue84@gmail.com>
-Subject: [PATCH v2] staging: nvec: validate battery response length before memcpy
-Date: Sun, 29 Mar 2026 15:08:00 -0600
-Message-ID: <20260329210800.597697-1-sebasjosue84@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81C21EFFB7;
+	Mon, 30 Mar 2026 02:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774837055; cv=fail; b=FwOUW4NsIcHETjMtz8W6/rqEjVlcZ+7q9bDUgJH5M69pZRAYPEMUHpMln6dcUmCl8LauP+4lM0P6qZokTHV3uhcMR8rSaBsFY9zm3qJ98X0jibRRWDbFL+xwPTood2uwxiE6D15Gq+O/NcfFkf6zxciehRrRrgVCE7uM8n3010E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774837055; c=relaxed/simple;
+	bh=1+44ff3QvcWaZ1TSmUuTDUuy1XtVV9sFpz8Whrjz6XE=;
+	h=Content-Type:Subject:From:To:Cc:In-Reply-To:References:Date:
+	 Message-Id:MIME-Version; b=KsOJ5dD9Ot7GvRPX8lRclLKVznGZQEhe0qt5oXjp5BUB8KmEZAy+WStP6T9F03+/Ug8jfFVKWvqkjDuseTeZYIplU/teKHrTFZ3QpFq8gHjZuUEsG7xyuML/NCL1HrjnEfyKk3VnYPtY757RjiLHNSLUoLl8zSdOG9YsKIrvpLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Iwz4b8sL; arc=fail smtp.client-ip=52.101.62.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mlDhBr+Dq+eQpjYKeLuSwWNnJPdsijeESspe20qQSzrepC4E+0GIT4s8nH0FQhgkld1vzvcU5uMaL1ZKc8aVrDCrhjWLPNauYoiB1c7/1q3QH5DSDAiWCgxccVGLpYDQnUkFDSHJ1pWolfnWJRoTpi37iy8ec3DuGZXYjSaTuV1Nz48Cwo+hxWdsLofnZHzsnGk59dx+fDfeFwFP8C6V+gNqcI0C5VFHHGNzSH2Wg93kuJQbvhuAy1g5AXOfcY2h8FpPU9s9BtcsK0I2hjrVOqbQkaunnS+e/79L9t1DSMWtH6imNsMveyZGOIIoTzhbqXwQz9NU4TpJSUpJwxPM0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T6qG3+YCcpM4p/0C0hnFmBoJ6Ec70A3ITd8yema5bo4=;
+ b=xUNsFY/q7t5IuZGamzazVRsP35S8tADRaJVhY5eF+6eCj5qVd5XJyy90kwnTd4X8uqNdFg9FiMBFKxm+l99aim0tK4FOpujGk94seCnnjnJIKxj8ymo6VfP07XFtsZI8Mfb9GDfW7NcHuisetg+jHBCQZib0NV+ajEajDUYhnByj+4eZenp/AvzYpmY0IOXX/3avY9TWvRPhzUKkwjNP1PYayzUljSoli1/Gfd3F+jqDmxmwWx+zXup/4tD6Shjfi4lukhxGcEqqgCCBxExa4uLOQRhCh2yvtp7kOsZrjbYDhkE1fwokKNDankY4pXoaRA1r1EyO+YmQRNVi6sPbpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T6qG3+YCcpM4p/0C0hnFmBoJ6Ec70A3ITd8yema5bo4=;
+ b=Iwz4b8sLPWctqFhGQ3GhNrEIPObfx9ov3hxGlTl//i2OOOUxLjhxOdZmBSjdWxK/SlsGkh/3UXqhQOpvnv/HYL2IB8GKT1KfzTX3XtV5Q75muS+4RrfqLhevgC7rESYhFlIUIZ5n0PSzq3vN7fMlEXFMS19ADiRn/flqel4gxw8i0wbPh2IOqtdU4IWXGeZoffrAX8tqoJCs0elY+5Bz4Y8607CF7Y99eI1uNh5xsOBP6BZhdjceDpJQHEJ8oWUrbxwFs0oSszT7NADoX6aPKpy7p2GyKX1zxqm0C6FL6nQwawpVI0egGUuZBgxSvrwq4i0Le0YeHb1CB0xDTKQ/7A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by BL1PR12MB5996.namprd12.prod.outlook.com (2603:10b6:208:39c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Mon, 30 Mar
+ 2026 02:17:30 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9769.006; Mon, 30 Mar 2026
+ 02:17:30 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 5/6] PCI: tegra: Add Tegra264 support
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jon Hunter <jonathanh@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-pci@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+In-Reply-To: <20260326135855.2795149-6-thierry.reding@kernel.org>
+References: <20260326135855.2795149-1-thierry.reding@kernel.org>
+ <20260326135855.2795149-6-thierry.reding@kernel.org>
+Date: Mon, 30 Mar 2026 11:17:16 +0900
+Message-Id: <177483703695.914339.17915071896858286824.b4-review@b4>
+X-Mailer: b4 0.16-dev-ad80c
+X-ClientProxiedBy: TYWP286CA0015.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:178::13) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|BL1PR12MB5996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70f6c2b6-b6b2-48b4-6118-08de8e027f0f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|10070799003|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	bm86FC06TAZCU7AblKEnnxh/sy3lPWRgKsXl0LJlQKE1G0+Bp1EDWR+tOltXkNsXhpjVpQUeznCmyIEkA6r9CDBkEnaEzTbm/SH8P9OHVtNea16ny9dYvrjLn6hPDjdYhmJeMjbmL+yVcY1Dwz1K4M6dno/3Oa9S3XSMrozMlKoWwJY8IvS+kFcerUHp0HTubkY10mxxllskik9pyThNNZIPJtrS1vynDWwWzProTkbjJMNx8URXzqcL/tDlI4lMx6L3ZsDDih+Om+zI5d2OKRQREnCTtKaMclivUhoXzZ7Er6WrDCLH+4y+765Wezjc3vbX7Q9IH2+LiHhmOVaPceUo0+cwGiNUhrTqA1I+on3EuB+NeCpa5m6XCU4elFNoqJ0QFJeaQKctY5Vgl78vWn6/L5NS7qNte8erM24O7m7nLyZF73CmMwaxkWcJhaq1RXQ3KkkqY+ERakbXutW/JxvM3tf3vLm1ZUJc0wWLR4zgy1JI0xdgUgc/Sz7j0s7cXkgWX7SlRI2oS9HvWYx3hxl0K6vmcIPmlj9Q32G8s3AtYH4gsVZ0yNw/0PhqpWwmIiobX7h1OrDJdesRyNKFrCo8NtIqXA5UOoH1X2O09ohudRsQNfTFoN8P3xc9H/ermjWlMWBNmZiGpLrSmFXeQj91+q/CLjfvYIs2z/GWFjv6cmEc02bFMArVyTWrBNeEqj9ekOPdFmCUfjcAZzRTpMXdOpVRK+b51W9ugpg8sZA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB9161.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RXNzL1JmSzJPY3Z4WklxNExYV0RIVUxmVHUxeXIxSmp3ME1ac2lLZXlMSUxL?=
+ =?utf-8?B?S0V2Wmo4RnB5dXBOVExDQVhTZUlkdjNDaU5FZnRveVhNQkdOUU5qMEVPOUtn?=
+ =?utf-8?B?RUowZUQ0OGxjMUo5NXp6QXI5UzFJY255bitqRlRKaUpqOHU5RyttTE16OGJJ?=
+ =?utf-8?B?VStxUm1Qb1pVSmMxdHZWZ0pxR0loYWJNQVEzSFRiTng1cnBYc1B6Vll5VXBR?=
+ =?utf-8?B?TXFaZklHb2pKRkxiVFV5SCszbG95bzgwQWh6b2JsMlNxdStUd1BXUlduT0ph?=
+ =?utf-8?B?cXRaSnlIVGdDeUs4amFzdndZWkNBcGp3Tm1qek5acHpOYlNNdGVLUUVFUnJX?=
+ =?utf-8?B?RHJWV0xabEgwU1ZXVC9TNVkxMGFyMzgydU9Vbm95SVkxenRDajJSMDA5Vitn?=
+ =?utf-8?B?QjRLcXNPY3BGdXl0Z1RLTEQ3eStYd1J3UzNYNmpVU0lDWEJ2V0lwRjcraXRq?=
+ =?utf-8?B?YU00bS9SeUVoaWxOSFA0cWNWRU9kMkxUUUFWUC9pclFMSnVwajlxR21vZnYy?=
+ =?utf-8?B?dGp6d0VsUDAwUzB1NGVCNXk3T3lNc2h2TFpQVktJbSsrYW1oNzMvdE1ZbnI1?=
+ =?utf-8?B?K0VhTTVSU2hiOFlraHovRlZGdXNHQWtZU1JnY3VPYlVtYVhlR0FoZ0xsZ0hl?=
+ =?utf-8?B?aDI3NC9mRTdBaTFiL3crdmFyQ0wrV2k5UWZSSi9nT2o0Ynpqc3p2NW9YMStG?=
+ =?utf-8?B?QlJaRG1MM0F6TkREVE16N0ZNTjY3SDRIaDBxMFdDVFdSUnBUNTZEUmxUTTF1?=
+ =?utf-8?B?QmR4UEdBdXo4ZVB4MmtIOWl5cnY3TWh6UW53by9lYTZMRG9ocFdBd3hyU1J6?=
+ =?utf-8?B?Y3NkSFF3WVJjc2pZRHpsMnlyck5TS0grUlVKZE5aUjNSWWJ3OTVaS0RJRTFq?=
+ =?utf-8?B?ZXhaa0RHRDFHTjRqT1EwM0NqM0xRTGhmZlFCSXdCTW0zY1U4bXJXZVVTZmFr?=
+ =?utf-8?B?c254VG9tUW5YZWcvK0trRytTWU4rNnRsYVJZVlJ3bDdpU2hYZXpId0o5TmFt?=
+ =?utf-8?B?ZDlyR1RXeTBzL1FCVzBnNThkcnllR2ZTelZ6cXJHc0lhMHFNbnh1NTZuWUE0?=
+ =?utf-8?B?TmtBTHd0RCtyeUlUbE9IdmFJWjhTMUFzSEExWEQvczBNNzhpcVYyNEtTaFhF?=
+ =?utf-8?B?c29MTnVCTkFuS3pjdFpFS05vVXRiOUdZVVZ0UU5kaEg0VTRXT1RCSkJTZlhE?=
+ =?utf-8?B?YnRmNHpRVmRObXBmaURwdUsvZmFLSElad1ZrMEttNGx5ck5WajZoL3pScDZN?=
+ =?utf-8?B?K1A5ekNyZDlZNWxYMWRmb3FoTEgvTlRPTWFCczV2cjh3U3QzVHUrSFNJUk9V?=
+ =?utf-8?B?M2ZRQ21XOU5RR05wblRLVXJKWkxCMmJQeDZyNlVMSXV0UERLekQ5WU5RaWdC?=
+ =?utf-8?B?TGVCSENGZi9zeHdXODQrZXFua21OWVZjRDBoRjV6TjRwVFd3aHV5QTBqQ1NX?=
+ =?utf-8?B?UVNpWlJkTG1odGMvY1hBaHJVRXhnc1g0WUxKMkwybXpZdm9XRGQvejlvbHR4?=
+ =?utf-8?B?QzRNb1I2YlA3blpIb2tSdjNmQUdZdGh2TUVWRk5heFlXa1Z3RXl3SDNIUkVS?=
+ =?utf-8?B?WDVBSVF4ZmVWZmNnRzRLczlBeFJjVEZlVzFLdXJUNThBdG5RbzNxQ0I3ZWQ2?=
+ =?utf-8?B?cWpZYmpINE1jbTV0V3RaTXFTNGZMY2VLcVVpTmpCWUR4YldFR2kyU0tZenJv?=
+ =?utf-8?B?a2FwcGRhRVJWWnp4MU9malpuT2p6N0ZoanZYUU80T0s4dnNmL0QzVzZFbzFW?=
+ =?utf-8?B?b2pkOVFoWXlUR2NwaWhyYkw4Q3RJNVQrS3RUcFNiUm1vOThCWkRjUmdFME5X?=
+ =?utf-8?B?N0o0OHZKbWNOMlpUb0l5MXpsaGNrUkt0QzMxTEpySkpZLytkMVYwc3dORE5T?=
+ =?utf-8?B?eEFJYk5MTHJ3KzVnQThjaTFLVkJNb0lFYnlFTlJGakFJcHgwRmNLRGFZRnZs?=
+ =?utf-8?B?SzZVZnlNNFExNDArT21jZUdteURWeDAvcU5RM2w4S0djcHpOTW9PcTZLMzNs?=
+ =?utf-8?B?eGxyUUY4cEs5cEtVR0lzRHVMVDFoVEZKUjVFSzYyVmhHRE11L0dFZGxQcDYz?=
+ =?utf-8?B?cGlnWks2WnplVTM4bWxQbkpNZlJNVzdseVBTTTJOODhMemQxeDM0VlQxYWJt?=
+ =?utf-8?B?eURkbEhYRFNUYXYvNDNhR1pTN1ZXTWkxQzhMYk44emErc2FKSGdNM3d6RHFM?=
+ =?utf-8?B?TXZRTzMvN1V0V2sySWNqUEdwVEoxSVdRc0NJalBlVWpTb3BSY2QwLzd3ODBz?=
+ =?utf-8?B?dTYxdEVSaWwvUWxDc2kycVJVV3BrcnhTNWhwRDhVSStpaCs3N1oxbi9LNEt2?=
+ =?utf-8?B?ZytQZmFBZi82a1lybTV5NkZieGpicDAraDNMTjVNYm1oaU5iaGhCMHpiYmFJ?=
+ =?utf-8?Q?oaghEo6IqxaJo8veXqmKLuuvJhbQRvsGDp2lyzCh+M3Eu?=
+X-MS-Exchange-AntiSpam-MessageData-1: aNdPrSxJpZOqNQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70f6c2b6-b6b2-48b4-6118-08de8e027f0f
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 02:17:30.7062
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3u+9rKx0NzKEsuz3yDontvKTH/e7zqR6cZX01hRKGCB9yu+cBvTzT+1S0tL97de7I34fHfQ8rRuxiT40v339SQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5996
+X-Spamd-Result: default: False [0.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.launchpad.net,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-13396-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13398-lists,linux-tegra=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sebasjosue84@gmail.com,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4C64F3541BC
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6631E354BA9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Sebastián Alba Vives <sebasjosue84@gmail.com>
+On Thu, 26 Mar 2026 14:58:52 +0100, Thierry Reding <thierry.reding@kernel.org> wrote:
+> diff --git a/drivers/pci/controller/pcie-tegra264.c b/drivers/pci/controller/pcie-tegra264.c
+> new file mode 100644
+> index 000000000000..21872797e41a
+> --- /dev/null
+> +++ b/drivers/pci/controller/pcie-tegra264.c
+> @@ -0,0 +1,522 @@
+> [ ... skip 137 lines ... ]
+> +
+> +	value = readw(pcie->ecam + XTL_RC_PCIE_CFG_LINK_STATUS);
+> +	speed = FIELD_GET(PCI_EXP_LNKSTA_CLS, value);
+> +	width = FIELD_GET(PCI_EXP_LNKSTA_NLW, value);
+> +
+> +	bw = width * (PCIE_SPEED2MBS_ENC(pcie_link_speed[speed]));
 
-In nvec_power_notifier(), the response length from the embedded
-controller is used directly as the size argument to memcpy() when
-copying battery manufacturer, model, and type strings. The
-destination buffers (bat_manu, bat_model, bat_type) are fixed at
-30 bytes, but res->length is a u8 that can be up to 255, allowing
-a heap buffer overflow.
+Nit: this now has unnecessary double parentheses.
 
-Additionally, if res->length is less than 2, the subtraction
-res->length - 2 wraps around as an unsigned value, resulting in a
-large copy that corrupts kernel heap memory.
-
-Introduce NVEC_BAT_STRING_SIZE to replace the hardcoded buffer
-size, store res->length - 2 in a local copy_len variable for
-clarity, and add bounds checks before each memcpy to ensure the
-copy length does not exceed the destination buffer and that
-res->length is at least 2 to prevent unsigned integer underflow.
-
-Tested-by: Marc Dietrich <marvin24@gmx.de>
-Cc: stable@vger.kernel.org
-Signed-off-by: Sebastián Alba Vives <sebasjosue84@gmail.com>
----
-v2:
-  - Introduce NVEC_BAT_STRING_SIZE constant to replace hardcoded
-    buffer size (Marc Dietrich)
-  - Store res->length - 2 in local copy_len variable for clarity
-    (Marc Dietrich)
-  - Use NVEC_BAT_STRING_SIZE in strncmp call for consistency
- drivers/staging/nvec/nvec_power.c | 41 +++++++++++++++++++++----------
- 1 file changed, 28 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
-index 2faab9fde..7b7980127 100644
---- a/drivers/staging/nvec/nvec_power.c
-+++ b/drivers/staging/nvec/nvec_power.c
-@@ -19,6 +19,7 @@
- #include "nvec.h"
- 
- #define GET_SYSTEM_STATUS 0x00
-+#define NVEC_BAT_STRING_SIZE 30
- 
- struct nvec_power {
- 	struct notifier_block notifier;
-@@ -38,9 +39,9 @@ struct nvec_power {
- 	int bat_temperature;
- 	int bat_cap;
- 	int bat_type_enum;
--	char bat_manu[30];
--	char bat_model[30];
--	char bat_type[30];
-+	char bat_manu[NVEC_BAT_STRING_SIZE];
-+	char bat_model[NVEC_BAT_STRING_SIZE];
-+	char bat_type[NVEC_BAT_STRING_SIZE];
- };
- 
- enum {
-@@ -192,22 +193,36 @@ static int nvec_power_bat_notifier(struct notifier_block *nb,
- 	case TEMPERATURE:
- 		power->bat_temperature = res->plu - 2732;
- 		break;
--	case MANUFACTURER:
--		memcpy(power->bat_manu, &res->plc, res->length - 2);
--		power->bat_manu[res->length - 2] = '\0';
-+	case MANUFACTURER: {
-+		size_t copy_len = res->length - 2;
-+
-+		if (res->length < 2 || copy_len > NVEC_BAT_STRING_SIZE - 1)
-+			break;
-+		memcpy(power->bat_manu, &res->plc, copy_len);
-+		power->bat_manu[copy_len] = '\0';
- 		break;
--	case MODEL:
--		memcpy(power->bat_model, &res->plc, res->length - 2);
--		power->bat_model[res->length - 2] = '\0';
-+	}
-+	case MODEL: {
-+		size_t copy_len = res->length - 2;
-+
-+		if (res->length < 2 || copy_len > NVEC_BAT_STRING_SIZE - 1)
-+			break;
-+		memcpy(power->bat_model, &res->plc, copy_len);
-+		power->bat_model[copy_len] = '\0';
- 		break;
--	case TYPE:
--		memcpy(power->bat_type, &res->plc, res->length - 2);
--		power->bat_type[res->length - 2] = '\0';
-+	}
-+	case TYPE: {
-+		size_t copy_len = res->length - 2;
-+
-+		if (res->length < 2 || copy_len > NVEC_BAT_STRING_SIZE - 1)
-+			break;
-+		memcpy(power->bat_type, &res->plc, copy_len);
-+		power->bat_type[copy_len] = '\0';
- 		/*
- 		 * This differs a little from the spec fill in more if you find
- 		 * some.
- 		 */
--		if (!strncmp(power->bat_type, "Li", 30))
-+		if (!strncmp(power->bat_type, "Li", NVEC_BAT_STRING_SIZE))
- 			power->bat_type_enum = POWER_SUPPLY_TECHNOLOGY_LION;
- 		else
- 			power->bat_type_enum = POWER_SUPPLY_TECHNOLOGY_UNKNOWN;
 -- 
-2.43.0
 
 
