@@ -1,58 +1,86 @@
-Return-Path: <linux-tegra+bounces-13419-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13420-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oFlRKGKLymn09gUAu9opvQ
-	(envelope-from <linux-tegra+bounces-13419-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 16:40:34 +0200
+	id cLn8EBuRymlV+AUAu9opvQ
+	(envelope-from <linux-tegra+bounces-13420-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:04:59 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED80A35D088
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 16:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AA235D6DC
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 17:04:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60AD1301E6F7
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 14:30:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 742573068268
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2026 14:38:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF903C278B;
-	Mon, 30 Mar 2026 14:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E269B2EC0BF;
+	Mon, 30 Mar 2026 14:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iS6wl7ye"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1XNAf7L"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90EA3BF67D;
-	Mon, 30 Mar 2026 14:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C7F2E091B;
+	Mon, 30 Mar 2026 14:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774881003; cv=none; b=JwPmjWXF1QI44eu1jh2nWwG8NsNW77kjYYvbWmvwjVSg34jBHlxrwW7EV9Nx0XrtbIPMn4uRh2iAN3yvDFBYymiOm44iXZd4bxFpM74a6kNEOdl05tyxiSZMOO2+wZ7vRU2WR+QPlopGMDEHoJfPJZGSRyK5SsHz5d7RQHR+puM=
+	t=1774881441; cv=none; b=jMwp/XCoZSucb9xNjs3XvRIppPOEPmdyC2VXpTpEm8d9CEB7cX2YOAYDT6G2u2unJbzfp06wwLQDXljJMotmN/mOtCPqwoWu1x96RG8xUoNO5l/haa3KKhMWt9GoBPo4k+V7nAlCglnNzfcH0QcTR0jXMjgdWBT7b96PNkBYiKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774881003; c=relaxed/simple;
-	bh=fpizcXYAwVqNmPJral1RNKXefb/SE1t5Xw4/QpJoDa4=;
+	s=arc-20240116; t=1774881441; c=relaxed/simple;
+	bh=FfsIVUKLPFqUD2jO1eTH3CMDTjs2wmEjz9bthk26meA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O/rFVei693061ryW3Iu4BMI/oKoAKlHu1xEuGhFAVwr+SlllOFe9Aro8E6EH0BX2q07MzTWwQ2ei4x28BBuLTS7DetXCBPN4wOEOG5h0nmlQ/A+1ocl8EsrypZz8Uyc9l8mLf2tnidI//1soxfMFrJf4gmorIENzTX8Umhyne+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iS6wl7ye; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CEEC19423;
-	Mon, 30 Mar 2026 14:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774881003;
-	bh=fpizcXYAwVqNmPJral1RNKXefb/SE1t5Xw4/QpJoDa4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iS6wl7ye0iUPDLUG1A8FfGJ7KMSdJmniAZwmqmrnCvUIIrjrhSPOJpvWeCbHnc80H
-	 dHR5JetN0rmzl0qY6/Kd6Mk4nCPeAsGRy3lJaZjxLuXqXVF3VqVWUguQuzOdL7GZrk
-	 cSqiPULGz9KpHUjKHHkAL++/YoCYsotc9op7T0Ng=
-Date: Mon, 30 Mar 2026 16:29:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Oskar Ray-Frayssinet <rayfraytech@gmail.com>, marvin24@gmx.de,
-	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: nvec: fix block comment style in nvec.c
-Message-ID: <2026033038-spectacle-judo-37ff@gregkh>
-References: <2026030929-uncheck-reclining-315b@gregkh>
- <20260309220718.6475-1-rayfraytech@gmail.com>
- <2026031833-pampers-steed-4804@gregkh>
- <accc-kOYHllCEnxi@orome>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rMEAD3G43tffOhQo1xsGd6fzThT95/7ST7k7BpLpvb5e8WGCN4KTozqrQlq8UD/UQm3wPmb2OY4Vvo+vqcpS5MZWWRkxF0CaDOZ8pLTaJkoAVzms3O4uG4wvRqOJt6F8dlmxEuaak7DeTx8npNGsJypuiVHhK9VAHSCItsgc/nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1XNAf7L; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774881440; x=1806417440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FfsIVUKLPFqUD2jO1eTH3CMDTjs2wmEjz9bthk26meA=;
+  b=f1XNAf7LVdSvhsGh7TuDRaG50/d5WRAAHRfC6SbiUCQd5cBaTIR5RHYT
+   X0WQ5lA2Av3Fj2/rRjKCZuj8p1HqmmYXti4NBCS8pJDooQtXgM0+dPwPR
+   Wb40NHVY3PNkQo3FQti9267CQQEj0VhJqHt2eunDZbxzBvfJkQUWfckdV
+   XR18HpnY12M3ewH/B6vPqt0gqF954h+38A1wH9kFrQYiD6TpdU+KP7JV7
+   ja4ypbwAQ7NK6UtutBw7foQCKquol9PzryHpb2jjoNIa0ezJqlQbD0r2Y
+   aISAv2pEG2gj/dBCCp/lMA49sMeQBa59XEqedTYqxcuoKT+A7fG0dfEjS
+   g==;
+X-CSE-ConnectionGUID: tqPNu9e/Tf+77S/YXn3Wug==
+X-CSE-MsgGUID: eorGjQYHTkiD+SAc2Vnn2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75770636"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="75770636"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:37:20 -0700
+X-CSE-ConnectionGUID: GQSdPSfWSXiYPERlw7dyaw==
+X-CSE-MsgGUID: T37eBBTtRSqbMyEgnSZ/aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="225245200"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 30 Mar 2026 07:37:16 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7Dju-000000001DN-01E6;
+	Mon, 30 Mar 2026 14:37:14 +0000
+Date: Mon, 30 Mar 2026 22:36:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Yi-Wei Wang <yiweiw@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>
+Subject: Re: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
+Message-ID: <202603302259.NdAkuCVx-lkp@intel.com>
+References: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -61,92 +89,92 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <accc-kOYHllCEnxi@orome>
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+In-Reply-To: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail,01.org:server fail,intel.com:server fail];
+	TAGGED_FROM(0.00)[bounces-13420-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13419-lists,linux-tegra=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,gmx.de,lists.linux.dev,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[nvidia.com,gmail.com,kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	TAGGED_RCPT(0.00)[linux-tegra];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim]
-X-Rspamd-Queue-Id: ED80A35D088
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
+X-Rspamd-Queue-Id: 77AA235D6DC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 01:21:40AM +0100, Thierry Reding wrote:
-> On Wed, Mar 18, 2026 at 03:59:43PM +0100, Greg KH wrote:
-> > On Mon, Mar 09, 2026 at 11:07:18PM +0100, Oskar Ray-Frayssinet wrote:
-> > > Fix block comment formatting to use * on subsequent lines
-> > > and */ on a separate line as required by kernel coding style.
-> > > 
-> > > Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-> > > ---
-> > >  drivers/staging/nvec/nvec.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> > > index e70fafc095f2..0e655f79ea4a 100644
-> > > --- a/drivers/staging/nvec/nvec.c
-> > > +++ b/drivers/staging/nvec/nvec.c
-> > > @@ -659,7 +659,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
-> > >  			nvec_tx_set(nvec);
-> > >  			to_send = nvec->tx->data[0];
-> > >  			nvec->tx->pos = 1;
-> > > -			/* Delay ACK due to AP20 HW Bug
-> > > +			/* delay ACK due to AP20 HW Bug
-> > >  			 * do not replace by usleep_range
-> > >  			 */
-> > >  			udelay(33);
-> > > -- 
-> > > 2.43.0
-> > > 
-> > > 
-> > 
-> > This change is not what you documented is changing :(
-> 
-> Hm... this is the 8th version of this patch that I've seen.
-> 
-> I don't know why there was a flurry of these. The checkpatch warning
-> certainly isn't new, so maybe this was a new wave of janitors or
-> something? Or maybe people using AI agents to get into kernel
-> development. Not that it matters much, but it's not a pattern that I've
-> seen before.
-> 
-> Also, the fact that 7 out of the 8 versions came in after the first had
-> already landed in linux-next:
-> 
->   29e79c66b3cc ("staging: nvec: fix block comment style in nvec_interrupt()")
-> 
-> suggests that people aren't using linux-next as their baseline. Do we
-> need to be stricter in this regard? Seems a bit wasteful for you to have
-> to spend so much time looking at duplicates, even though it seems like
-> your automation did a lot of the work.
+Hi Mikko,
 
-It's easy for me to reject things that obviously do not apply :)
+kernel test robot noticed the following build warnings:
 
-thanks,
+[auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
 
-greg k-h
+url:    https://github.com/intel-lab-lkp/linux/commits/Mikko-Perttunen/dt-bindings-pwm-Document-Tegra194-and-Tegra264-controllers/20260329-233356
+base:   11439c4635edd669ae435eec308f4ab8a0804808
+patch link:    https://lore.kernel.org/r/20260325-t264-pwm-v2-2-998d885984b3%40nvidia.com
+patch subject: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603302259.NdAkuCVx-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302259.NdAkuCVx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302259.NdAkuCVx-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:17,
+                    from include/linux/clk.h:13,
+                    from drivers/pwm/pwm-tegra.c:39:
+   drivers/pwm/pwm-tegra.c: In function 'tegra_pwm_probe':
+>> include/linux/limits.h:26:25: warning: unsigned conversion from 'long long int' to 'long unsigned int' changes value from '9223372036854775807' to '4294967295' [-Woverflow]
+      26 | #define S64_MAX         ((s64)(U64_MAX >> 1))
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-tegra.c:303:47: note: in expansion of macro 'S64_MAX'
+     303 |         ret = dev_pm_opp_set_rate(&pdev->dev, S64_MAX);
+         |                                               ^~~~~~~
+
+
+vim +26 include/linux/limits.h
+
+3c9d017cc283df Andy Shevchenko 2023-08-04  14  
+54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
+3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
+54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  25  #define U64_MAX		((u64)~0ULL)
+54d50897d544c8 Masahiro Yamada 2019-03-07 @26  #define S64_MAX		((s64)(U64_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  28  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
