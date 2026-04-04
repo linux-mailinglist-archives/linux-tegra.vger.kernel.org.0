@@ -1,53 +1,91 @@
-Return-Path: <linux-tegra+bounces-13557-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13558-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNGBL0VJ0Glu5gYAu9opvQ
-	(envelope-from <linux-tegra+bounces-13557-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sat, 04 Apr 2026 01:12:05 +0200
+	id 4zkRIdWx0Glu/AYAu9opvQ
+	(envelope-from <linux-tegra+bounces-13558-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sat, 04 Apr 2026 08:38:13 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDC9398FB3
-	for <lists+linux-tegra@lfdr.de>; Sat, 04 Apr 2026 01:12:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 133A239A23E
+	for <lists+linux-tegra@lfdr.de>; Sat, 04 Apr 2026 08:38:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 258B7305BBFD
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2026 23:10:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1E7FC3007537
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Apr 2026 06:38:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7B138C400;
-	Fri,  3 Apr 2026 23:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C5830DEAC;
+	Sat,  4 Apr 2026 06:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DocFHo+5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yx9GpBgH"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CF538C2AC;
-	Fri,  3 Apr 2026 23:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8932D2483
+	for <linux-tegra@vger.kernel.org>; Sat,  4 Apr 2026 06:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775257831; cv=none; b=fCsFFX5btMZwc475K3bVD2hg7LHIZQcasN+v4HqnQ3OSp+y9TugWNez+yH2bu+nKwj/GMxvYHDDvzB4qB+xmAaRe5uwoN3KsuEKnWRGkLxtRANCmPFOI2zSteHPvJ0u2XfdU/qUoUL2JQkhb7qyGiKpPKUnd9Lq72zZRtTOlXaM=
+	t=1775284688; cv=none; b=Tr6Io6lvjC50UyiFvQ9kbttsu8UixGKyWoqf+nDzm8C1+UuE5neqtuAF2QrSbO6+w8UnWnbydp84vPsD7qa1e5b1dY2Ueym06ywz7Pppkp4YDAWvfJYdvtlhbjn3bCHs7qn1RaY99TuB72qPM7SUMS6v3WOMpjZKYzJHA82y6u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775257831; c=relaxed/simple;
-	bh=7Qq+LYp5gQ0cm4ZoUBVvJkoKzNdpEci4Ll96Q4J9IwQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=qrzRlkW1yWphsTx6egc+PJH05r36FtbkMdkaa6KXrLlqeR+X7yohPXORwKoa5dwTob+2V1AYcRkd0LJlKk9UjDTQWv2k5hC8r/JPhyZK8BYUb3GUQu2BzC36mCCqtwHezu0xc5O3Ld5Ey7ykGoW2itd2BtJ4++1EWEVQE4lP3Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DocFHo+5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A3EC19423;
-	Fri,  3 Apr 2026 23:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775257831;
-	bh=7Qq+LYp5gQ0cm4ZoUBVvJkoKzNdpEci4Ll96Q4J9IwQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=DocFHo+5aNF44/UDrtsgsffqqnb6qIb0whkj7Bl6EkriLg2Ghh994qGXDvER6cCJd
-	 k9jocBZgvd92/wgT62jf7GHUd72E/QRzHGXrnxkDD0CbhAMTVGhFdMrLvnEfpSdV+L
-	 +La82Ab6N5T14txYwhlZ/muMxyAG6JHOXoDONFLAVQuD+cXXh+FPjGyow1ePduumd+
-	 0FWm2L0rV5kHPDs8HVpRUZ6d7+lFFTF9Cf1pFsSAyYQYh2kP2M6XaozL+jDsP76dx/
-	 bLCZuVkzYyPJpjiRPPJLu5C+aVZUlmobgkRe+iZ3O5I8fqTrd/LlMIbxs/vZl5yv37
-	 lDHewgnmNF9Fg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FC4A3809A14;
-	Fri,  3 Apr 2026 23:10:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1775284688; c=relaxed/simple;
+	bh=/+lWkp7yecAL4/sXTyDMOcLFOTTPY6lO+V3B2v8b3o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kFO9jeWtAEccDfQ8oY3ajt0OQqKcrxyS+47+wNciQcjkWOHxtpIjOiEeq4pgbjDCsh67v6OWFAIwx+V2FwELOeQaBLdFiygw/5J2Ie/ViCM7ZKRc5dPnr5uTkG4NgENVbUritTEt3a31XCBfYoMsf6v0yAtH0L+MVfftVujhFUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yx9GpBgH; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82cd6614a90so1064123b3a.3
+        for <linux-tegra@vger.kernel.org>; Fri, 03 Apr 2026 23:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775284686; x=1775889486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BVGzlXVQx5SVYG4bBEbahjoY/R94utZN8K4fZhyYB1w=;
+        b=Yx9GpBgHpwWGb2ijVdBli/gWmEhNlavRRW9O/n366r75Vy6A3AGeZAi1uRvfbk/n3S
+         QYwEmsJC1/ey/RAwjv3o4aLox5TZXAYYZ4ZSTt9S1UOkINuZlZsBGB6E4MerkRZrhnjV
+         F3UOsY8pk7HIgbXDt5h+jnvy8AuCwloCe//75PJbzxqiJz2zFQ1a6vOI5Ayj5DnCYPMj
+         ss8ybAl0gI27CBkZnC7UgkNE9TYyopC9lVD2+r8PhSKzJ+mjdk+R6/2qrTq4ri8wJXEc
+         AFJRAxFy7PbYNVKOGyq0lkViGMnUONtcEywAl+y1xptPG19olyQfZ3pHHRn5ow+M1Yxd
+         QhsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775284686; x=1775889486;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BVGzlXVQx5SVYG4bBEbahjoY/R94utZN8K4fZhyYB1w=;
+        b=BKdnOe0cuFpU+1tj8K4ixzyAdjcuqegxwLGs1g78CvZcJg3SJ1O+wal9n3TwCNZY5z
+         vs3B3P7bE6w25izWEvbDfirkxKkqxS31sfnhLsMqA2bfdAWCXRtTklFLHI0mgJabF/6m
+         Bop5mng3pNtg/y2tBZwYspDGNzsVVpbqVHVefr4Zt0MFNFP6VmFfKiOAGoisUqgNHzlN
+         B/wf0k5LJyxBsFYROs8pb36JJsuLYHGPhX2g0iQc6pkWXps3hVWncDIEOpvJheQRQg2m
+         ssOv6hgAXX3FodmJv5CnOfRJNYGB8XLfZr8IARUqT3/ub5yG8YGb0kEpJtAX5g7yx/C6
+         qo+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVIXoHMUL3+aNX43O/kfbFWodrXIk1x8n04TISicRvP2rT88M7l9Eq+0PcooaR4Bgh42iacL9lekN+0+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtoy6CY/vn7/19d0m5GCe6P2umgfcAdxNL650BloAIY+6FkCvb
+	uwOp+MtIWNgxKAaUbtp3wb+EDSbxZM66zMNlzgblSUt6vbrKPkWHKC09
+X-Gm-Gg: AeBDietfyBW8xWXuTSv9Qj5EyXNm/uNwjrJ16xV7TFhc4UUGG6lZnaq8LHxYmVLZ071
+	q75+dWdv7HxxWf0hgxkVYax29mU0TISEu0vSGYvmblgNNI8HCqI5L/HHKBxGreH9DH2wZYTInnV
+	1GiGihQeg/b1PrPEGJFP1dr9y29uTJuiT5gS8faPKwU/nVs3dUGuTZ2E65SQVBCNVh9vP/3hNXK
+	fUUbLxy8frj5fePDmgJGRoVJsvpMF/L6pwhf9RQ7tY9JhKmV3FD5WC6Y42gMTO8wQ5iKlejrklN
+	Tx4XVvDvjEYCSCaxw3jJ2ggik0tMzIT5z1TVCIjb4nO7B/BFawIZhg+MxnjIp4xFhfDTg7Bzc+P
+	IQ1t7li9tODZCTqvPjF1vtjWtVXMkT/ETInSGx57DTa3A50sj3djl2B42snucZGKDoJbSsVlNdI
+	MV3gXIAW9U21J2ZFAPO8FvCS0=
+X-Received: by 2002:a05:6a00:800d:b0:82c:d7c4:4c56 with SMTP id d2e1a72fcca58-82d0da838f3mr4876331b3a.15.1775284686283;
+        Fri, 03 Apr 2026 23:38:06 -0700 (PDT)
+Received: from fedora ([206.84.225.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c41b8dsm7174104b3a.34.2026.04.03.23.38.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 23:38:05 -0700 (PDT)
+From: Paarth Mahadik <paarth.mahadik@gmail.com>
+To: marvin24@gmx.de
+Cc: gregkh@linuxfoundation.org,
+	ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Paarth Mahadik <paarth.mahadik@gmail.com>
+Subject: [PATCH] staging: nvec: fix block comment style
+Date: Sat,  4 Apr 2026 12:07:47 +0530
+Message-ID: <20260404063747.114039-1-paarth.mahadik@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -55,81 +93,64 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH V4 0/3] net: stmmac: Fix Tegra234 MGBE clock
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177525781278.1484550.12961600432345411536.git-patchwork-notify@kernel.org>
-Date: Fri, 03 Apr 2026 23:10:12 +0000
-References: <20260401102941.17466-1-jonathanh@nvidia.com>
-In-Reply-To: <20260401102941.17466-1-jonathanh@nvidia.com>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, thierry.reding@kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13557-lists,linux-tegra=lfdr.de,netdevbpf];
-	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13558-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmx.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.launchpad.net,vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[paarthmahadik@gmail.com,linux-tegra@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra,netdev,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5FDC9398FB3
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 133A239A23E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello:
+Block comments should use * on subsequent lines and
+have the closing */ on a separate line.
 
-This series was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Signed-off-by: Paarth Mahadik <paarth.mahadik@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Wed, 1 Apr 2026 11:29:38 +0100 you wrote:
-> The name of the PTP ref clock for the Tegra234 MGBE ethernet controller
-> does not match the generic name in the stmmac platform driver. Despite
-> this basic ethernet is functional on the Tegra234 platforms that use
-> this driver and as far as I know, we have not tested PTP support with
-> this driver. Hence, the risk of breaking any functionality is low.
-> 
-> The previous attempt to fix this in the stmmac platform driver, by
-> supporting the Tegra234 PTP clock name, was rejected [0]. The preference
-> from the netdev maintainers is to fix this in the DT binding for
-> Tegra234.
-> 
-> [...]
-
-Here is the summary with links:
-  - [V4,1/3] net: stmmac: Fix PTP ref clock for Tegra234
-    https://git.kernel.org/netdev/net/c/1345e9f4e3f3
-  - [V4,2/3] dt-bindings: net: Fix Tegra234 MGBE PTP clock
-    https://git.kernel.org/netdev/net/c/fb22b1fc5bca
-  - [V4,3/3] arm64: tegra: Fix Tegra234 MGBE PTP clock
-    (no matching commit)
-
-You are awesome, thank you!
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e9af66a08448..0e655f79ea4a 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			to_send = nvec->tx->data[0];
+ 			nvec->tx->pos = 1;
+ 			/* delay ACK due to AP20 HW Bug
+-			   do not replace by usleep_range */
++			 * do not replace by usleep_range
++			 */
+ 			udelay(33);
+ 		} else if (status == (I2C_SL_IRQ)) {
+ 			nvec->rx->data[1] = received;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.53.0
 
 
