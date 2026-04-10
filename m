@@ -1,141 +1,289 @@
-Return-Path: <linux-tegra+bounces-13693-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13691-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qEJbCpkm2WmnmggAu9opvQ
-	(envelope-from <linux-tegra+bounces-13693-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 18:34:33 +0200
+	id ELUFF7X22GkYkQgAu9opvQ
+	(envelope-from <linux-tegra+bounces-13691-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 15:10:13 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55743DA724
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 18:34:32 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52ACA3D7F1A
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 15:10:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 04A1D30062FE
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 16:28:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3A1FD30028DB
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2026 12:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF063DC4C2;
-	Fri, 10 Apr 2026 16:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC41D218ADD;
+	Fri, 10 Apr 2026 12:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qodl49ST"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PT9XZv14"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126873DC4A2;
-	Fri, 10 Apr 2026 16:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F2D348453
+	for <linux-tegra@vger.kernel.org>; Fri, 10 Apr 2026 12:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775838527; cv=none; b=XHB3E0t77E67ce+fwAMB5JrbhHAk3855A1+gaRhaTUDZ918wmqVr44A4pprWAxywJfNWk8u74jQEtu2zufZiGLWrBgah42kfB8oMZoofpo1WfKqpMnlASNgwm7xB5yOOiNRa9hjas7O6Bw3A80+J/4hO1nahNonkHftyjqt+JBg=
+	t=1775825919; cv=none; b=OmFDWQ7kqZEH/WgoWxGBfTzkqWXWJu8MwRjAJhldgTPyDGKMFYOJIjZtS3Qx4WycmR9+NocN9WYiFjfCwA8oHFoH8rqRp7GhCaPfB9MB++Yu8s8EK9gT/dHqWnidpjYX/ugLzzjWMpel4rqlQx+8S/L4CB0CPnGZyQsPQr8qx04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775838527; c=relaxed/simple;
-	bh=rc3W/HiyxgR5C5XDOExOTvxFcAENf+46f3esVwJomaU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QSzgq1sNn3/VzeKynLXfVRfiJQy1p2CwJ1b57Ur+sasiJcbskR869g4L3uZ5WyEVOKNCzVd2PR0Q6dlzOo5lN1T4q7S2fY96+HAQFSmnzWBBGImJOvueMbdC2CECF7dOQ+WPteYAj+d8GkF0GblJaLJPuvdGuY73ie59NCPOlKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qodl49ST; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B00D0C19421;
-	Fri, 10 Apr 2026 16:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775838526;
-	bh=rc3W/HiyxgR5C5XDOExOTvxFcAENf+46f3esVwJomaU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Qodl49STcgYCfAADNEOh/lpW+DZTghN3gNRv4ej9hk0TwxqgYtm1Wd9/xg+3HqJ/d
-	 qASjLnvdH2uoD/a6NTQIEYBBPyTwTSoXIuwkxQ6tlPpwbJVbOC3QBv0Re7Bk5+AZW/
-	 a7wK5LSMvf8pd9A5WHr27kVRhivK1kOT8N5vJWJGXgls9CIYJvP1N1HTq0HVzxXeRc
-	 9zyVkGXwIe77k4W1i1wa885XjeXai/GSXFqnq4gReiSVNuAFPNYC84luTi+qK2EbWe
-	 ZhClvwPZi+USYPCWWbW2h/MpHVlbaOnz2P55sxV4Tv0l+SMvMnQl9VEARw1yxXXPlX
-	 Qaa9vTNKoo+jw==
-From: Mark Brown <broonie@kernel.org>
-To: Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Laxman Dewangan <ldewangan@nvidia.com>, Breno Leitao <leitao@debian.org>
-Cc: linux-tegra@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-kernel@vger.kernel.org, song@kernel.org, kernel-team@meta.com
-In-Reply-To: <20260408-tegra_warn-v1-1-669a3bc74d77@debian.org>
-References: <20260408-tegra_warn-v1-1-669a3bc74d77@debian.org>
-Subject: Re: [PATCH] spi: tegra210-quad: Fix false positive WARN on
- interrupt timeout with transfer complete
-Message-Id: <177582363192.1175120.78978701937069451.b4-ty@b4>
-Date: Fri, 10 Apr 2026 13:20:31 +0100
+	s=arc-20240116; t=1775825919; c=relaxed/simple;
+	bh=ZqoHXRcVfvsBna1aRNXakyPiZ+0rwW24Qd/Ju/et5BA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KZWNUAJ0YyPiMmGD4tHqeSCpp2M/1WzxJDAffnw8zTR+7YmCpiTlXcuzvDe25irFd8LDEluFm1aTBQuKeJalpt8gbor3lJJefgdyVFkWekiEEMlLcptPgDi0MXuidZC8bseVZ7hl1WlZxGZEOCRfR8X6TNV7GnKAmb3T9DqRVM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PT9XZv14; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=hZ69bOR3/6zlmi
+	UsLzPVxv31mozYAaVG3lW9J1qZUxI=; b=PT9XZv14TZKyIZjpRDMZJR1GC/7nt6
+	itsg24VEoIYNOGnXun4s5/H4GQGToC3SeshINnvbY183bBqOsOhePB+Evwg631S9
+	KmyOgPpt+Cb/MKTH9Zm2bqAYtzf+4d7WNi1B8C1POUALGRAPB99XCrlZpR/URL77
+	Cx2GcWQAYTKJFlU5pDstn8eobP4FuUfrXWgdqEEVD+VAeIHWBjMVB8urgNGBXW2y
+	JLWRn287bZxDsHggwgTknq010sAzJoinV4kngM3S0Ly3mMWSuWdrCzTo5a1QUg8E
+	pjxDcfdrEY4wbZepST3vrAAZM3HLsra9iaKkXRjbFmfbJWLaBQ47RKbQ==
+Received: (qmail 1249670 invoked from network); 10 Apr 2026 14:51:13 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2026 14:51:13 +0200
+X-UD-Smtp-Session: l3s3148p1@QqiHlhpPpI9UszZ9
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org,
+	Jassi Brar <jassisinghbrar@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH] mailbox: prefix new constants with MBOX_
+Date: Fri, 10 Apr 2026 14:49:12 +0200
+Message-ID: <20260410125105.39340-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1188; i=broonie@kernel.org;
- h=from:subject:message-id; bh=rc3W/HiyxgR5C5XDOExOTvxFcAENf+46f3esVwJomaU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2SU72LxXv7UmMiO3BYh0GPpG8sAZS5ZLj6sbF
- 4zfkJOBHIOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadklOwAKCRAk1otyXVSH
- 0LZECACCg4M1z1HL4an5V362t7NrSwfR5p0RVtaYi/yo+ZGbR7FxNeG80vnv9dQACcJyqSLyJKU
- b26hUmoz98vupyV2yI83cXvqkAcYlZtaZSSlqhijrYFnXLWS3/3/KgK46wVIMggUjks9m3fzOly
- iB0CXS1XirwwLUNQSwiFGWi+EhFa5nQoEanbCxzvLu2dmN9SGNlaABaPFMoi1d7Wk9EQxU3kZKC
- Ci2p6ihe49H/146401LkYym4EjinTaZ4fAa9p9ycyNKilQ7TQK/cWwUMM1MQbLWsa8qUKspwiTR
- kx/DlJpSxiYrOIS575ytXV/NiUqAZsYEW1ET6nYBbnpnUODH
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13693-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13691-lists,linux-tegra=lfdr.de,renesas];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	NEURAL_HAM(-0.00)[-0.996];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[sang-engineering.com,cixtech.com,nxp.com,pengutronix.de,gmail.com,collabora.com,kernel.org,nvidia.com,lists.infradead.org,lists.linux.dev,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B55743DA724
+	TAGGED_RCPT(0.00)[linux-tegra,renesas];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 52ACA3D7F1A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 08 Apr 2026 06:45:43 -0700, Breno Leitao wrote:
-> spi: tegra210-quad: Fix false positive WARN on interrupt timeout with transfer complete
+Commit 89e5d7d61600 ("mailbox: remove superfluous internal header")
+moved some constants to a public header but forgot to add a mailbox
+specific prefix. Add this now to prevent future collisions on a too
+generic naming.
 
-Applied to
+Link: https://sashiko.dev/#/patchset/20260327151112.5202-2-wsa%2Brenesas%40sang-engineering.com
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.1
+This patch improves the above mentioned commit which already sits in
+-next. It is not really a fix but it probably is still a good idea to
+apply it before rc1 to avoid confusion.
 
-Thanks!
+ drivers/mailbox/cix-mailbox.c      |  2 +-
+ drivers/mailbox/imx-mailbox.c      |  2 +-
+ drivers/mailbox/mailbox.c          | 22 +++++++++++-----------
+ drivers/mailbox/mtk-cmdq-mailbox.c |  2 +-
+ drivers/mailbox/omap-mailbox.c     |  2 +-
+ drivers/mailbox/tegra-hsp.c        |  2 +-
+ include/linux/mailbox_controller.h |  6 +++---
+ 7 files changed, 19 insertions(+), 19 deletions(-)
 
-[1/1] spi: tegra210-quad: Fix false positive WARN on interrupt timeout with transfer complete
-      https://git.kernel.org/broonie/spi/c/5b94c94caafc
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/mailbox/cix-mailbox.c b/drivers/mailbox/cix-mailbox.c
+index 8cfaa91b75bd..43c76cdab24a 100644
+--- a/drivers/mailbox/cix-mailbox.c
++++ b/drivers/mailbox/cix-mailbox.c
+@@ -413,7 +413,7 @@ static int cix_mbox_startup(struct mbox_chan *chan)
+ 	switch (cp->type) {
+ 	case CIX_MBOX_TYPE_DB:
+ 		/* Overwrite txdone_method for DB channel */
+-		chan->txdone_method = TXDONE_BY_ACK;
++		chan->txdone_method = MBOX_TXDONE_BY_ACK;
+ 		fallthrough;
+ 	case CIX_MBOX_TYPE_REG:
+ 		if (priv->dir == CIX_MBOX_TX) {
+diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailbox.c
+index 22331b579489..246a9a9e3952 100644
+--- a/drivers/mailbox/imx-mailbox.c
++++ b/drivers/mailbox/imx-mailbox.c
+@@ -732,7 +732,7 @@ static struct mbox_chan * imx_mu_xlate(struct mbox_controller *mbox,
+ 	p_chan = &mbox->chans[chan];
+ 
+ 	if (type == IMX_MU_TYPE_TXDB_V2)
+-		p_chan->txdone_method = TXDONE_BY_ACK;
++		p_chan->txdone_method = MBOX_TXDONE_BY_ACK;
+ 
+ 	return p_chan;
+ }
+diff --git a/drivers/mailbox/mailbox.c b/drivers/mailbox/mailbox.c
+index 138ffbcd4fde..30eafdf3a91e 100644
+--- a/drivers/mailbox/mailbox.c
++++ b/drivers/mailbox/mailbox.c
+@@ -72,7 +72,7 @@ static void msg_submit(struct mbox_chan *chan)
+ 		}
+ 	}
+ 
+-	if (!err && (chan->txdone_method & TXDONE_BY_POLL)) {
++	if (!err && (chan->txdone_method & MBOX_TXDONE_BY_POLL)) {
+ 		/* kick start the timer immediately to avoid delays */
+ 		scoped_guard(spinlock_irqsave, &chan->mbox->poll_hrt_lock)
+ 			hrtimer_start(&chan->mbox->poll_hrt, 0, HRTIMER_MODE_REL);
+@@ -162,7 +162,7 @@ EXPORT_SYMBOL_GPL(mbox_chan_received_data);
+  */
+ void mbox_chan_txdone(struct mbox_chan *chan, int r)
+ {
+-	if (unlikely(!(chan->txdone_method & TXDONE_BY_IRQ))) {
++	if (unlikely(!(chan->txdone_method & MBOX_TXDONE_BY_IRQ))) {
+ 		dev_err(chan->mbox->dev,
+ 		       "Controller can't run the TX ticker\n");
+ 		return;
+@@ -183,7 +183,7 @@ EXPORT_SYMBOL_GPL(mbox_chan_txdone);
+  */
+ void mbox_client_txdone(struct mbox_chan *chan, int r)
+ {
+-	if (unlikely(!(chan->txdone_method & TXDONE_BY_ACK))) {
++	if (unlikely(!(chan->txdone_method & MBOX_TXDONE_BY_ACK))) {
+ 		dev_err(chan->mbox->dev, "Client can't run the TX ticker\n");
+ 		return;
+ 	}
+@@ -344,8 +344,8 @@ static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
+ 		chan->cl = cl;
+ 		init_completion(&chan->tx_complete);
+ 
+-		if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
+-			chan->txdone_method = TXDONE_BY_ACK;
++		if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
++			chan->txdone_method = MBOX_TXDONE_BY_ACK;
+ 	}
+ 
+ 	if (chan->mbox->ops->startup) {
+@@ -499,8 +499,8 @@ void mbox_free_channel(struct mbox_chan *chan)
+ 	scoped_guard(spinlock_irqsave, &chan->lock) {
+ 		chan->cl = NULL;
+ 		chan->active_req = MBOX_NO_MSG;
+-		if (chan->txdone_method == TXDONE_BY_ACK)
+-			chan->txdone_method = TXDONE_BY_POLL;
++		if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
++			chan->txdone_method = MBOX_TXDONE_BY_POLL;
+ 	}
+ 
+ 	module_put(chan->mbox->dev->driver->owner);
+@@ -531,13 +531,13 @@ int mbox_controller_register(struct mbox_controller *mbox)
+ 		return -EINVAL;
+ 
+ 	if (mbox->txdone_irq)
+-		txdone = TXDONE_BY_IRQ;
++		txdone = MBOX_TXDONE_BY_IRQ;
+ 	else if (mbox->txdone_poll)
+-		txdone = TXDONE_BY_POLL;
++		txdone = MBOX_TXDONE_BY_POLL;
+ 	else /* It has to be ACK then */
+-		txdone = TXDONE_BY_ACK;
++		txdone = MBOX_TXDONE_BY_ACK;
+ 
+-	if (txdone == TXDONE_BY_POLL) {
++	if (txdone == MBOX_TXDONE_BY_POLL) {
+ 
+ 		if (!mbox->ops->last_tx_done) {
+ 			dev_err(mbox->dev, "last_tx_done method is absent\n");
+diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+index 547a10a8fad3..e523c84b4808 100644
+--- a/drivers/mailbox/mtk-cmdq-mailbox.c
++++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+@@ -728,7 +728,7 @@ static int cmdq_probe(struct platform_device *pdev)
+ 	cmdq->mbox.ops = &cmdq_mbox_chan_ops;
+ 	cmdq->mbox.of_xlate = cmdq_xlate;
+ 
+-	/* make use of TXDONE_BY_ACK */
++	/* make use of MBOX_TXDONE_BY_ACK */
+ 	cmdq->mbox.txdone_irq = false;
+ 	cmdq->mbox.txdone_poll = false;
+ 
+diff --git a/drivers/mailbox/omap-mailbox.c b/drivers/mailbox/omap-mailbox.c
+index 5772c6b9886a..535ca8020877 100644
+--- a/drivers/mailbox/omap-mailbox.c
++++ b/drivers/mailbox/omap-mailbox.c
+@@ -238,7 +238,7 @@ static int omap_mbox_startup(struct omap_mbox *mbox)
+ 	}
+ 
+ 	if (mbox->send_no_irq)
+-		mbox->chan->txdone_method = TXDONE_BY_ACK;
++		mbox->chan->txdone_method = MBOX_TXDONE_BY_ACK;
+ 
+ 	omap_mbox_enable_irq(mbox, IRQ_RX);
+ 
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index 7b1e1b83ea29..500fa77c7d53 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -514,7 +514,7 @@ static int tegra_hsp_mailbox_startup(struct mbox_chan *chan)
+ 	struct tegra_hsp *hsp = mb->channel.hsp;
+ 	unsigned long flags;
+ 
+-	chan->txdone_method = TXDONE_BY_IRQ;
++	chan->txdone_method = MBOX_TXDONE_BY_IRQ;
+ 
+ 	/*
+ 	 * Shared mailboxes start out as consumers by default. FULL and EMPTY
+diff --git a/include/linux/mailbox_controller.h b/include/linux/mailbox_controller.h
+index e3896b08f22e..a49ee687d4cf 100644
+--- a/include/linux/mailbox_controller.h
++++ b/include/linux/mailbox_controller.h
+@@ -15,9 +15,9 @@ struct mbox_chan;
+ /* Sentinel value distinguishing "no active request" from "NULL message data" */
+ #define MBOX_NO_MSG	((void *)-1)
+ 
+-#define TXDONE_BY_IRQ	BIT(0) /* controller has remote RTR irq */
+-#define TXDONE_BY_POLL	BIT(1) /* controller can read status of last TX */
+-#define TXDONE_BY_ACK	BIT(2) /* S/W ACK received by Client ticks the TX */
++#define MBOX_TXDONE_BY_IRQ	BIT(0) /* controller has remote RTR irq */
++#define MBOX_TXDONE_BY_POLL	BIT(1) /* controller can read status of last TX */
++#define MBOX_TXDONE_BY_ACK	BIT(2) /* S/W ACK received by Client ticks the TX */
+ 
+ /**
+  * struct mbox_chan_ops - methods to control mailbox channels
+-- 
+2.51.0
 
 
