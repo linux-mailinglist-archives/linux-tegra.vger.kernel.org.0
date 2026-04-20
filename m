@@ -1,459 +1,216 @@
-Return-Path: <linux-tegra+bounces-13816-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13814-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNmGHt0p5mnesgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-13816-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:27:57 +0200
+	id WFMxGXkm5mmgsgEAu9opvQ
+	(envelope-from <linux-tegra+bounces-13814-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:13:29 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B1742BC6D
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:27:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6E042B543
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:13:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C722C306D2FF
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 13:21:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C8311301230E
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 13:13:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB783B19A5;
-	Mon, 20 Apr 2026 13:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8DF38736C;
+	Mon, 20 Apr 2026 13:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uL/ZFLdr"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f17wxcHN"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010003.outbound.protection.outlook.com [52.101.61.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793BC3B19A0;
-	Mon, 20 Apr 2026 13:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691000; cv=none; b=gXqi2Hh8nFmzUcsL/7pdlHHAxlzv0GMGe8F/2PH+3+Bfzc980H3KPWd5oNPOr1itWslSk7FjhMx3uzKLNhoqoh3r/CuJlhmxq3nOhFFNQtpWSajhgkTL75/cYAVr9ivEtTyqtjfKHldVhLIMkFnGmaLBcg+0sAjX5LR4tVOBDYE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691000; c=relaxed/simple;
-	bh=sLlPteD7lQfoTv9dBR+y8MY+DTQXae9AAcAO6Liy7pM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oFpI6eV0gURKQqERg+vyv1DtvM9p0H8OqqeToFm6jbzqoaPbPgUx8AzdZbHJcBJEWHkk9aQfiOHlsc3qRmllDP706UDwb0EcuIop4I0aGgHChl72puZqSUtEEy5LItzYsfbY94jMyAmxUTVBWn1kt2Ij+yn3AB5k0GNMqH5+6I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uL/ZFLdr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F666C2BCB7;
-	Mon, 20 Apr 2026 13:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691000;
-	bh=sLlPteD7lQfoTv9dBR+y8MY+DTQXae9AAcAO6Liy7pM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uL/ZFLdrFDsfRc52cvS4/vmu8/uUgKta+/DwqT2AiFT3trzpPthFQ+H0Xywb37AxO
-	 sZiGu5Cjvqi6UTJAX6GqRzwckTESb9DCa2c17hFg7+4XbVGKEmyr7My9HyKRytN8xt
-	 lwiR6aiNMhRvO272TOb6vXDjaltQZrFbS00XgWwHDczOS4s69Z/Fc157taZeewIGn8
-	 UC72BrlVo2xxtVCcFJef8sZs6QIfVppOm5Nvym32Lw5hiDGjRGPN3WZ+Bcy6zc2dC2
-	 gH4Pq3+vc13uTLm8claMFOFxCZIvaKgps6tYoitlFj6GTN7jQ46tr6AwXxycQmCLXS
-	 uTAJ2HCLQrFtw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Vidya Sagar <vidyas@nvidia.com>,
-	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Sasha Levin <sashal@kernel.org>,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	thierry.reding@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] PCI: tegra194: Assert CLKREQ# explicitly by default
-Date: Mon, 20 Apr 2026 09:08:21 -0400
-Message-ID: <20260420131539.986432-35-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
-References: <20260420131539.986432-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7935639A7EC;
+	Mon, 20 Apr 2026 13:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776690805; cv=fail; b=gClcPFRojG/S266Blv6Qosp9UubeYQH/sQk2Xa8A/H1bgWHFbohptWfrec00W0fH34tBc6deUmQQ7KOEoZreR2j2sI5GKc+2/DltzdPOMdXY6HwXZnyraft+Tswulgh+SoB7gNqIxEUjmoJiuz1FGLH5vlQzM/Je8lltPHXjcDQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776690805; c=relaxed/simple;
+	bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dwnnJ6eGl5s49sEavYoqin3ajrklowUYozZUbCFkHMQWCGtaW62qAfEuigKYMDYJqUepSOTl1T3KQgdOrnOy39o7U8OIUKpK/6KTkb/1kiMgxFfw93GnvEZ23HBa0lgH7lmUH0x3wXOma0hSF+LercGhDirV6dOoZVokGNMWrAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f17wxcHN; arc=fail smtp.client-ip=52.101.61.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DpcdSo1fxshdrhq9kcHy32E+KvkU2toRawTfsoUZ0LcbV0oACC9cnfbaldj7R7SKE6gMyauxqQklChyBKTctbvp86U09Z5MVGmpyqqwuKJzY+3XomUOE4vbUKQsw3W/J1/L8q2+qS6DifGwBxumVEq72VkPapNjHjRnWw2RHjcRwDQpq+efbEumoIF3DWruIEQboXwMNAm+7zj2CLakzLhk/mvgZxaln7eH+bmQn61Nt1Oy922OErRCF0g/vg7szmK7VgLX0J4YXM4qcx6l6vSXFw4rg8vmIpergT24QVvFN4BX1P7yeh0ObfUV+5XUFGkT/Vm9Tp5agAUcR+cc2aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
+ b=He53D9JP5IVePnAgfNYw+5zi4BtcQA+hpY3UPerevUWRwsQo68hB0mwjJfrT5GE7x8tXd53DwlESyme7Wc3/6Imt05Z9g/4GQqWSXK/U4ZWO7WA68H3j2mrZT5lnoRDspmwVcSjvocdf70eDLzzfVbcskBPnhVbIj2YNP+EvoPTdt9AzlVZXKLBF29js69oJj7wHrJ4tszWZkZZkUx6wJ5q9lV4bV4I9xhOuc2sHkp9yhvRIg6d2XaYIp+iDvLVQ1G7G2blHjnNV2gcG6ldI23hRVlnWfbymeeSFrkeLcFy0ZK1j6BEbPAiiI7RWqSZ2D7OfSFS6HREacj6IR7ZrCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
+ b=f17wxcHNUDEjKpFpMMekioBzhZ92Yn3J0elEymf8uvS+S9qD65zb7J5NxuxAKagZYTxi0WiYSJQwUqITE5lTFgPUwFwf93bZlEbEgkqXqLguK3XJKulmCmsAg+z5EXMCBSnr9o4EjckehYI+JW24v1zkOdz8zHt/QVtRgm8P/Qrjvl7QinaIBJCunPefl7pqiPTd2MoFpthpOwgUUNQwzxIlAbeJ7h5Lo7qmum/v1a6wkJFTkNiG/WXfYiHPEGhjqFTxjS+ba8SInjR764+9LI/AqEGtm1INq6GmQMzs43CbFRlhNQAF9kOpBBIfREU92xsk4I49lN3gjGDayAjXYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by BY5PR12MB4082.namprd12.prod.outlook.com (2603:10b6:a03:212::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Mon, 20 Apr
+ 2026 13:13:20 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
+ 13:13:20 +0000
+Message-ID: <2b3d59b4-dc9e-4ef5-8cd1-9095cf5aa0a7@nvidia.com>
+Date: Mon, 20 Apr 2026 18:43:08 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq: CPPC: add autonomous mode boot parameter support
+To: Viresh Kumar <viresh.kumar@linaro.org>,
+ Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, zhenglifeng1@huawei.com, treding@nvidia.com,
+ jonathanh@nvidia.com, vsethi@nvidia.com, ionela.voinescu@arm.com,
+ ksitaraman@nvidia.com, sanjayc@nvidia.com, zhanjie9@hisilicon.com,
+ corbet@lwn.net, mochs@nvidia.com, skhan@linuxfoundation.org,
+ bbasu@nvidia.com, rdunlap@infradead.org, linux-pm@vger.kernel.org,
+ mario.limonciello@amd.com, rafael@kernel.org, sumitg@nvidia.com
+References: <20260317151053.2361475-1-sumitg@nvidia.com>
+ <4b1f100b-e699-43c1-a06b-5545056d174c@arm.com>
+ <b8debb30-67a5-4d2b-8c08-8fd287f7258e@nvidia.com>
+ <208360b1-36a5-419d-80f4-431914407f61@arm.com>
+ <zfoorh6tza4taswyr5zhxqn4rhcqzq4rtvz46eigoy25muxfls@tlbuypuwocvm>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <zfoorh6tza4taswyr5zhxqn4rhcqzq4rtvz46eigoy25muxfls@tlbuypuwocvm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0215.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1f3::19) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|BY5PR12MB4082:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5f8eac9-dd7d-47c9-144c-08de9ede976f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	UXZxEICYNX5Cw24W7Y0pmvfc/okPqcTycj+i3M/tiX9mcISg5Xlqp3GxWaxHIeGOtt6aTzbU4s21uCVR5oXg6OIloS7zWtt5C5ziZD5cydPujsWBtbcPyFKWHxhIaFSFaCbownH7TEHsAw7AWOMviOet1PeL3fZpyT0svId6YwLkuDMLsWlX9TgvrZP/xhjLkcG6+vq1Vpb2a44raGcAqz2FF/eQtu2AaXLJwql/NL0qQw5NpAlFzaPNVzFDqLXPV36g64/23HQixGX0NIYb2DayPuo7SfRAFTD/spzOnpxX/AyDadaj02pXXSNq70VMUF2jn0A+nR5wHqbKTHotqMz0nhoNP54rFAZC9JdGYP5EAQTQ4gwtPJWYU93AryyWVWJlxx7NxobUIDTohQv/os1t6loWXroNNhBlcTKCFHiw7mYHarvUSBNMQ6aPECG592rldxgGDLWyP54LtsBgosGmzxgNj/KcQRqA1nSgcUqvPp3M1Lhu2Ubzfo78mbD3Jipb7TQAjHXIUsAfY3P+5F5A64dyYWDuNg3nTDlj6hzsGeS41PmEGUrLKe4hbj2uEItZ4yyE29hEKo9oXAz1g0iDOt3qse0cnYim5LRfk3AGd+luz+X+fesUl1SzKzj+L3qAQa77eWuh3Vf9REwQzen9KugHHQR1FqXZffUwLIyF7drYnuYVAs09VvVU1xsfDEuiZiEeAAVODVrQ7SLfC6tZ7X9DqzOZnm4V7XQoHxE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YmRIaDQ2M2I2aVYrY2lxYWpYNDhwTUZFWU1OMTE1VktYNmpRU0kwemErOGhj?=
+ =?utf-8?B?UW5xZWhpUVJBTUhHQ2xzc296cE5hdGRRbllZZWNya0NOalNpMGpLblZ1USsr?=
+ =?utf-8?B?aDFZWHFWcTZLaWpyNTJERmRUOC9BcDd4eWxYck9TYkM0RmFMb0I3ZVdsMkg3?=
+ =?utf-8?B?cHJzWG8yd09CSlc1ZXJpa1BtcnBjN1hZL2NLYVduNXFMKzlvNExqUnhkUnU0?=
+ =?utf-8?B?QktSald4SGE5VDV0SElmQzhjMm4xa05xeHRBR1R6UVdDeCtwLzMyelRvMzZu?=
+ =?utf-8?B?OEpXL05kTEFZdk1Bc0xEb0FpbnlvUnQrNEpmRW1qbDNrL2hkWk9JOGNjMHZP?=
+ =?utf-8?B?RDB2TEpsbXVCR0VMMVE2ckQ3TWFFYlBxYVRBb2d4REJPM2FvSDJaY1JJa0VM?=
+ =?utf-8?B?VGhlVU55RStwMEYxVzBLajE1cElCbXg4T2tFalpndWtnMWw0VUgyZHNGNDEx?=
+ =?utf-8?B?a0dHK1VjU0JEWExhcUlDL2E3eDJxME1PL3hqOWI3RkxrZTkwdVhHdFY0aHBP?=
+ =?utf-8?B?U1R6WmhLcUx6dzZYV09UVlE1eDQwUGhNVDB0d0JUVDBNTmY4MjdwR3RYdlZu?=
+ =?utf-8?B?MmRhRUp6UVR4VW91Nm84TWhCVVF1K3NlZWtyK0pYcUdVTzdvUmExL01ha1I2?=
+ =?utf-8?B?SUgxT0pxbHRiVm9uZzBMYUc4ZURLSjhxRkkwWUQzL2JVTkVtMWcxV0VVbEcy?=
+ =?utf-8?B?VHpFdlNCZCtUVjlDRFZvUVczMCs5MnViQm1OTm9PWm9mUXdvMkw5V0lSdjQr?=
+ =?utf-8?B?Q1BBamdhVzd5SDlDRjlEb05vUi9JanVoS0l1VmlTNmJiZDFGSHRjOW03aGFE?=
+ =?utf-8?B?MnFXYk16eDQwMmtCZTlCUlZsd1AvSjhkaVhxTG5ZeCtHWmNGcG95VVJtUmRS?=
+ =?utf-8?B?NjJYL2VXM2o3SVVvZzJsMmI2Q3M5ODBVK3VnMk0xbWJLempQM21KOFJsRU5m?=
+ =?utf-8?B?d0s4aDY2WW1PU0FRaFN2M1hDUEN4em1uQ2JjbHFadHptb1I3WnFTcFVRMC9p?=
+ =?utf-8?B?clJoaFUwTldlMlpTWWlwbHpOYjVSWGJSa3F5RzBtcGtqUEtCUHBZMkpVV2xj?=
+ =?utf-8?B?VWhUUWo5WXo3WTQxUDJPY25LV1d3NFRTYkExWjMzdkt2N3pxSXYwNFh3azBm?=
+ =?utf-8?B?cHNPNUZ4MmNzcFIvZXovUVBzZG85Q3hrS2h0MGR0bmFKWHJrUFI5cFRGRk9j?=
+ =?utf-8?B?UXZud1JRalN0VU1HbnNQbll5T25GK21XZWIyV1VxcitlTEZhL05WV1BNb3A2?=
+ =?utf-8?B?TjAvQmV2TkxST0JpY0JoV01HbEo0dGtza1FFSXI0OXVFeVdMWFZxMzE0TXEz?=
+ =?utf-8?B?YVYwWGdNYytIdmZhZ2x6U0xwNkJBaDZ3Zk5Rb3JzSEU4bmRpRnpQK0k1bEdV?=
+ =?utf-8?B?SGJ0c1NjYkFRZUhtSWlrd2IvSkxORS82eW9PU2hPaWNCZnVHbk8xQWQrUStl?=
+ =?utf-8?B?S1QvYnZjZTNWa2ZXTkhINWRsTlI0a05BTnc2azFwOUU0S20yRzJwQ0pjL2Nq?=
+ =?utf-8?B?cjkxaTAyVFFLQm5Fd0NNZjV2UUs0a3JNTzR0cHFuUzE1eFk1c2ZZWWxYVlFi?=
+ =?utf-8?B?M25ZSFFHTHRRZ29oeCtUK0w4d09DR3hVZzJOalBpWm55OENaTXZTSk80dm9G?=
+ =?utf-8?B?blNTdDJZNmtVQzVWRmhBcHJGT1JLMHA0UVUrTERFdGRjNzBxbUk0cTczVmVx?=
+ =?utf-8?B?ZjBwRlNhTzYra3ZHWC8rU2xQVEd6RnU4T1VjNEdrbDRmTjhjM0NPZDN5T0VE?=
+ =?utf-8?B?ZXhYQU53dnRwcThaazNrZlF2K1pkeWNwM1lyeGUwMFFWY2JoT1F1dXVycDFX?=
+ =?utf-8?B?SnBZWS9oRk5LRUs2dnVzQUg0UDNuRWUzNjk5SjV1UklxMGo4VTdzUWR2N0Rq?=
+ =?utf-8?B?WEx2MkQrRjdaL0hwSDExWEdjZ0ZjQS9aQlc0blFBWXQzVTI4ODhrUmJKajh3?=
+ =?utf-8?B?djFUZU5ROTZ6MkJEdkN3QWpDNUl0QVVHNmxtaXZOVUNSdFBWU1BEUnp2Nitn?=
+ =?utf-8?B?TUpYQmNoc2t4SXdLaWQrejRUWlZ6ZzFEN3NjdXE0N0ZBVkJ3NWQ2RnloY2FR?=
+ =?utf-8?B?VTRieHBFWll6aEg1YUhHMUoyVjRxeGRmdGQ3MkdoZUY0WTdjajRvOFFEc2FF?=
+ =?utf-8?B?S2VSQ2N1VUxHaG0xY3hrc1ZZVmRDYVVQYzg4bEMyT1VDT3hlYXZpTWw3STlD?=
+ =?utf-8?B?K3BFTkVlK1hUSzF1VmM3NFRnUStaVlh4bXdrSng4bjI3dkdkdkZRRFEwWTJW?=
+ =?utf-8?B?eE5mTVVKOXlpOHhOMjRNNGJUbmJscHEvVjlsTkNkekl3SVdROGpJQ0ZUSmRU?=
+ =?utf-8?Q?tIuvTqw1qFOEpkkTfq?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5f8eac9-dd7d-47c9-144c-08de9ede976f
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 13:13:20.0850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qkBrD0d92bgRcQoB8SsSHjx0YrSWAOvnuIzhQgU/67FPDLRi/ldVLat/0SmdttXmL5yt30TML/NI+yWNeL8cVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4082
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13816-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_TLS_LAST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 38B1742BC6D
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13814-lists,linux-tegra=lfdr.de];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sumitg@nvidia.com,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+]
+X-Rspamd-Queue-Id: CD6E042B543
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Vidya Sagar <vidyas@nvidia.com>
 
-[ Upstream commit 01d36261ae331583e6bc2034e6aa75c101b83e1d ]
+On 13/04/26 11:21, Viresh Kumar wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 10-04-26, 15:47, Pierre Gondois wrote:
+>> I need to ping Viresh to check if this is still relevant.
+> I think its okay to clear the min/max state in the kernel once and for all if
+> you think it is not done nicely. As discussed earlier, try that in a fresh
+> series which only does that part.
+>
+> --
+> viresh
+
+Thanks Pierre and Viresh.
+
+In autonomous mode, the min/max_perf HW registers directly control the
+frequency range the hardware operates in, so the values programmed in
+.init() need to survive through the governor.
+I verified this on a platform where lowest_nonlinear_perf != lowest_perf,
+the min_perf register ends up at lowest_perf instead of the intended
+lowest_nonlinear_perf.
+Pierre's QoS seeding patch would fix this.
+Happy to test once it's sent.
+
+
+Thank you,
+Sumit Gupta
 
-The Root Port's CLKREQ# signal is shared with a downstream PCIe switch and
-the endpoints behind it. By default, APPL_PINMUX_CLKREQ_OVERRIDE only
-overrides the CLKREQ# input to the controller (so REFCLK is enabled
-internally); it does not drive the CLKREQ# output pin low. Some PCIe
-switches (e.g. Broadcom PCIe Gen4) forward the Root Port's CLKREQ# to their
-downstream side and expect it to be driven low for REFCLK, even when the
-switch does not support CLK-PM or ASPM-L1SS. Without driving the output
-pin low, link-up can fail between the switch and endpoints.
-
-Clear APPL_PINMUX_CLKREQ_DEFAULT_VALUE so the CLKREQ# output pad is
-explicitly driven low. That makes the shared CLKREQ# line low on the wire
-and avoids link-up issues with such switches.
-
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Link: https://patch.msgid.link/20260324191000.1095768-2-mmaddireddy@nvidia.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Now I have all the information needed. Let me compile the full analysis.
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
-
-### Step 1.1: PARSE THE SUBJECT LINE
-Record: [PCI: tegra194] [Assert (fix/enable)] [CLKREQ# output pin driven
-low by default to fix PCIe link-up failures with certain switches]
-
-### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-- **Signed-off-by**: Vidya Sagar (original driver author), Manikanta
-  Maddireddy (author), Manivannan Sadhasivam (PCI maintainer), Bjorn
-  Helgaas (PCI global maintainer)
-- **Tested-by**: Jon Hunter (NVIDIA kernel lead for Tegra)
-- **Reviewed-by**: Vidya Sagar (original driver author), Jon Hunter
-- **Link**: `https://patch.msgid.link/20260324191000.1095768-2-
-  mmaddireddy@nvidia.com` (patch 2 in series)
-- No Fixes: tag (expected)
-- No Cc: stable (expected)
-
-Record: Strong review chain - original driver author, NVIDIA Tegra
-kernel lead, and PCI subsystem maintainers all signed off/reviewed.
-
-### Step 1.3: ANALYZE THE COMMIT BODY TEXT
-The commit explains that `APPL_PINMUX_CLKREQ_OVERRIDE` only overrides
-the CLKREQ# *input* to the controller (enabling REFCLK internally), but
-does NOT drive the CLKREQ# *output* pin low. Some PCIe switches (e.g.,
-Broadcom PCIe Gen4) forward the Root Port's CLKREQ# to their downstream
-side. Without driving the output low, **link-up can fail** between the
-switch and endpoints.
-
-Record: Bug = PCIe link-up failure. Symptom = endpoints behind PCIe
-switches don't enumerate. Root cause = CLKREQ# output pad not driven low
-when it should be.
-
-### Step 1.4: DETECT HIDDEN BUG FIXES
-Record: This IS a bug fix - it fixes a real hardware link-up failure.
-The language "assert... explicitly" and "avoids link-up issues"
-describes fixing broken behavior.
-
----
-
-## PHASE 2: DIFF ANALYSIS
-
-### Step 2.1: INVENTORY THE CHANGES
-- **File**: `drivers/pci/controller/dwc/pcie-tegra194.c` (+2 lines)
-- **Change 1**: Add `#define APPL_PINMUX_CLKREQ_DEFAULT_VALUE BIT(13)`
-  in the register bit definitions
-- **Change 2**: Add `val &= ~APPL_PINMUX_CLKREQ_DEFAULT_VALUE;` inside
-  `tegra_pcie_config_controller()` in the `!supports_clkreq` block
-
-Record: Single file, 2 lines added. Functions modified:
-`tegra_pcie_config_controller()`. Scope: single-file surgical fix.
-
-### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-- **Before**: When `!supports_clkreq`, the code enabled CLKREQ# override
-  (bit 2) and cleared CLKREQ# override value (bit 3) - this overrides
-  the CLKREQ# *input* but left the *output pad default value* (bit 13)
-  unchanged (high by default)
-- **After**: Additionally clears bit 13, which explicitly drives the
-  CLKREQ# output pad low on the wire
-
-Record: Before = REFCLK internally enabled but output pad floats high.
-After = REFCLK internally enabled AND output pad driven low.
-
-### Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: Category (h) Hardware workaround. The hardware register has a
-default-high bit for the CLKREQ# output pad that wasn't being cleared,
-causing PCIe link-up failures with switches that forward CLKREQ#.
-
-### Step 2.4: ASSESS THE FIX QUALITY
-- Obviously correct: just clearing one more register bit in a register
-  already being configured
-- Minimal/surgical: 2 lines total
-- Regression risk: extremely low - only affects Tegra platforms in the
-  `!supports_clkreq` path, only clears an additional bit that logically
-  should be cleared
-Record: Fix quality = excellent. Regression risk = negligible.
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-### Step 3.1: BLAME THE CHANGED LINES
-The `!supports_clkreq` code block was introduced in commit
-`56e15a238d9278` ("PCI: tegra: Add Tegra194 PCIe support", 2019-08-13,
-v5.4) and modified by `ff5c2bb9c6f5ee` ("PCI: tegra: Fix CLKREQ
-dependency programming", 2019-10-05, also v5.4).
-
-Record: Buggy code has been present since v5.4, when the driver was
-introduced. The code exists in all stable trees since v5.4.
-
-### Step 3.2: FOLLOW THE FIXES TAG
-No Fixes: tag present. This is expected for candidate review.
-
-### Step 3.3: CHECK FILE HISTORY
-The file has many commits since v5.4 but the `!supports_clkreq` block
-hasn't changed since ff5c2bb9c6f5ee.
-
-Record: No prerequisites for this specific code block. The patch is
-standalone.
-
-### Step 3.4: CHECK THE AUTHOR
-Manikanta Maddireddy is an NVIDIA engineer working on Tegra PCI. Vidya
-Sagar (original driver author) reviewed the patch. Jon Hunter (NVIDIA
-Tegra kernel lead) tested and reviewed it.
-
-Record: Author is an NVIDIA Tegra PCI engineer. Original driver author
-and NVIDIA kernel team lead both reviewed/tested.
-
-### Step 3.5: CHECK FOR DEPENDENCIES
-The patch is patch 2 of a series (from the message ID). However, the fix
-is completely self-contained:
-1. The new `#define` doesn't depend on anything new
-2. The bit-clear operation is added to an existing code block
-3. No other functions or data structures are modified
-
-One concern: the diff context shows `DW_PCIE_VER_500A` /
-`DW_PCIE_VER_562A` macros, but the v7.0 tree uses raw hex values
-`0x490A` / `0x562A`. This means the commit was built on top of a tree
-with a version macro rename. However, this only affects context lines in
-the header area — the actual code change applies to a completely
-different part of the function.
-
-Record: Self-contained fix. Minor context mismatch in header defines
-area, but actual functional change applies cleanly.
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-### Step 4.1-4.5: MAILING LIST INVESTIGATION
-Lore.kernel.org was behind an anti-scraping challenge and could not be
-accessed. However:
-- b4 dig found the original CLKREQ fix (ff5c2bb9c6f5ee) was part of a
-  series
-- The commit was accepted through the PCI maintainer tree (Manivannan
-  Sadhasivam -> Bjorn Helgaas)
-- The strong review chain (Tested-by, Reviewed-by from original author
-  and NVIDIA kernel lead) provides high confidence
-
-Record: Could not access lore directly. Review chain provides strong
-confidence.
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-### Step 5.1-5.4: FUNCTION AND CALLER ANALYSIS
-`tegra_pcie_config_controller()` is called from:
-1. `tegra_pcie_init_controller()` (line 1526) — during initial
-   probe/boot
-2. `tegra_pcie_dw_resume_noirq()` (line 2346) — during resume from
-   suspend
-
-Both are critical paths. The fix affects both initial boot and resume,
-meaning without the fix, PCIe link-up can fail both at boot and after
-suspend/resume.
-
-The `!supports_clkreq` condition is determined by the `supports-clkreq`
-DT property (line 1138-1139). Systems without this property will hit the
-bug.
-
-Record: Critical paths affected (boot and resume). Impact depends on DT
-configuration.
-
----
-
-## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
-
-### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE TREES?
-Yes. The driver was introduced in v5.4, and the specific code block has
-been unchanged since ff5c2bb9c6f5ee (also v5.4). All active stable trees
-(5.4.y through 6.12.y and 7.0.y) contain the buggy code.
-
-### Step 6.2: BACKPORT COMPLICATIONS
-Minor context difference in the header define area (version macros
-changed upstream). The actual functional change in
-`tegra_pcie_config_controller()` applies cleanly to all stable trees
-since the `!supports_clkreq` block hasn't changed since v5.4.
-
-Record: Minor context adjustment needed for defines area. Functional
-code change applies cleanly.
-
----
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-### Step 7.1: SUBSYSTEM CRITICALITY
-PCI controller driver for NVIDIA Tegra194/234 SoCs. Platform: ARM64
-Tegra (Jetson, automotive, embedded).
-
-Record: Subsystem = PCI controller (drivers/pci/controller/dwc).
-Criticality = IMPORTANT (affects Tegra platform users, including Jetson
-dev boards and automotive systems).
-
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-### Step 8.1: WHO IS AFFECTED
-Users of Tegra194/234 PCIe root ports with downstream PCIe switches that
-forward CLKREQ# (e.g., Broadcom PCIe Gen4 switches), on systems without
-the `supports-clkreq` DT property.
-
-### Step 8.2: TRIGGER CONDITIONS
-- Triggered on every boot and resume when the hardware configuration
-  matches
-- Deterministic (not a race)
-
-### Step 8.3: FAILURE MODE SEVERITY
-PCIe link-up failure = devices behind the switch don't enumerate =
-hardware doesn't work.
-Severity: HIGH (complete loss of PCIe functionality behind the affected
-switch)
-
-### Step 8.4: RISK-BENEFIT RATIO
-- **Benefit**: HIGH — fixes complete PCIe link failure for affected
-  configurations
-- **Risk**: VERY LOW — 2 lines, clears one register bit, only affects
-  `!supports_clkreq` path on Tegra platforms
-- **Ratio**: Strongly favorable for backporting
-
----
-
-## PHASE 9: FINAL SYNTHESIS
-
-### Step 9.1: EVIDENCE COMPILATION
-
-**FOR backporting:**
-- Fixes real hardware link-up failures on Tegra platforms
-- Extremely small and surgical (2 lines)
-- Obviously correct (clearing a register bit to match intended behavior)
-- Strong review chain: original driver author, NVIDIA kernel team lead,
-  PCI maintainers
-- Tested by Jon Hunter
-- Falls into "hardware workaround" exception category
-- Code has been present since v5.4 — affects all stable trees
-- Affects boot AND resume paths
-
-**AGAINST backporting:**
-- No crash/security/data corruption — "just" link-up failure
-- Minor context difference in header area requires fuzz/adjustment for
-  backport
-- Part of a multi-patch series (patch 2/N) — though self-contained
-
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **YES** — Tested-by and Reviewed-by,
-   trivial change
-2. Fixes a real bug? **YES** — PCIe link-up failure
-3. Important issue? **YES** — complete PCIe failure for affected
-   configurations
-4. Small and contained? **YES** — 2 lines in 1 file
-5. No new features or APIs? **YES** — no new features
-6. Can apply to stable trees? **YES** — minor context adjustment may be
-   needed
-
-### Step 9.3: EXCEPTION CATEGORIES
-This falls into the **hardware quirk/workaround** category (explicitly
-allowed for stable).
-
----
-
-## Verification
-
-- [Phase 1] Parsed tags: Tested-by Jon Hunter, Reviewed-by Vidya Sagar +
-  Jon Hunter, SOBs from PCI maintainers
-- [Phase 2] Diff analysis: 2 lines added — 1 new #define + 1 register
-  bit clear in `tegra_pcie_config_controller()`
-- [Phase 3] git blame: buggy code block from ff5c2bb9c6f5ee (v5.4),
-  present in all stable trees
-- [Phase 3] git show ff5c2bb9c6f5ee: confirmed this was "PCI: tegra: Fix
-  CLKREQ dependency programming" — an earlier incomplete fix
-- [Phase 3] git show 56e15a238d9278: confirmed original driver added in
-  v5.4
-- [Phase 4] b4 dig found the earlier CLKREQ fix series at lore;
-  lore.kernel.org blocked by anti-scraping
-- [Phase 5] `tegra_pcie_config_controller()` called from
-  `tegra_pcie_init_controller()` (probe) and
-  `tegra_pcie_dw_resume_noirq()` (resume)
-- [Phase 5] `supports_clkreq` determined from DT property "supports-
-  clkreq" (line 1138-1139)
-- [Phase 6] Code exists in all stable trees since v5.4; context mismatch
-  only in header defines area
-- [Phase 8] Failure mode: complete PCIe link-up failure, severity HIGH
-- UNVERIFIED: Could not access lore.kernel.org to verify mailing list
-  discussion or whether patch 1 of the series has any relevance
-
-The fix is a small, surgical hardware workaround that fixes real PCIe
-link-up failures on Tegra platforms. It meets all stable kernel criteria
-and falls into the hardware workaround exception category.
-
-**YES**
-
- drivers/pci/controller/dwc/pcie-tegra194.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 06571d806ab31..8ac9863fcc7ad 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -44,6 +44,7 @@
- #define APPL_PINMUX_CLKREQ_OVERRIDE		BIT(3)
- #define APPL_PINMUX_CLK_OUTPUT_IN_OVERRIDE_EN	BIT(4)
- #define APPL_PINMUX_CLK_OUTPUT_IN_OVERRIDE	BIT(5)
-+#define APPL_PINMUX_CLKREQ_DEFAULT_VALUE	BIT(13)
- 
- #define APPL_CTRL				0x4
- #define APPL_CTRL_SYS_PRE_DET_STATE		BIT(6)
-@@ -1454,6 +1455,7 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
- 		val = appl_readl(pcie, APPL_PINMUX);
- 		val |= APPL_PINMUX_CLKREQ_OVERRIDE_EN;
- 		val &= ~APPL_PINMUX_CLKREQ_OVERRIDE;
-+		val &= ~APPL_PINMUX_CLKREQ_DEFAULT_VALUE;
- 		appl_writel(pcie, val, APPL_PINMUX);
- 	}
- 
--- 
-2.53.0
 
 
