@@ -1,216 +1,419 @@
-Return-Path: <linux-tegra+bounces-13814-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13817-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WFMxGXkm5mmgsgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-13814-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:13:29 +0200
+	id yNVvJM4x5mkGtQEAu9opvQ
+	(envelope-from <linux-tegra+bounces-13817-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 16:01:50 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6E042B543
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 15:13:28 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBC342C89D
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 16:01:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C8311301230E
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 13:13:27 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C70AE31BC95C
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2026 13:43:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8DF38736C;
-	Mon, 20 Apr 2026 13:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3210A3E0257;
+	Mon, 20 Apr 2026 13:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f17wxcHN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ht8SJa56"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010003.outbound.protection.outlook.com [52.101.61.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7935639A7EC;
-	Mon, 20 Apr 2026 13:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776690805; cv=fail; b=gClcPFRojG/S266Blv6Qosp9UubeYQH/sQk2Xa8A/H1bgWHFbohptWfrec00W0fH34tBc6deUmQQ7KOEoZreR2j2sI5GKc+2/DltzdPOMdXY6HwXZnyraft+Tswulgh+SoB7gNqIxEUjmoJiuz1FGLH5vlQzM/Je8lltPHXjcDQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776690805; c=relaxed/simple;
-	bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dwnnJ6eGl5s49sEavYoqin3ajrklowUYozZUbCFkHMQWCGtaW62qAfEuigKYMDYJqUepSOTl1T3KQgdOrnOy39o7U8OIUKpK/6KTkb/1kiMgxFfw93GnvEZ23HBa0lgH7lmUH0x3wXOma0hSF+LercGhDirV6dOoZVokGNMWrAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f17wxcHN; arc=fail smtp.client-ip=52.101.61.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DpcdSo1fxshdrhq9kcHy32E+KvkU2toRawTfsoUZ0LcbV0oACC9cnfbaldj7R7SKE6gMyauxqQklChyBKTctbvp86U09Z5MVGmpyqqwuKJzY+3XomUOE4vbUKQsw3W/J1/L8q2+qS6DifGwBxumVEq72VkPapNjHjRnWw2RHjcRwDQpq+efbEumoIF3DWruIEQboXwMNAm+7zj2CLakzLhk/mvgZxaln7eH+bmQn61Nt1Oy922OErRCF0g/vg7szmK7VgLX0J4YXM4qcx6l6vSXFw4rg8vmIpergT24QVvFN4BX1P7yeh0ObfUV+5XUFGkT/Vm9Tp5agAUcR+cc2aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
- b=He53D9JP5IVePnAgfNYw+5zi4BtcQA+hpY3UPerevUWRwsQo68hB0mwjJfrT5GE7x8tXd53DwlESyme7Wc3/6Imt05Z9g/4GQqWSXK/U4ZWO7WA68H3j2mrZT5lnoRDspmwVcSjvocdf70eDLzzfVbcskBPnhVbIj2YNP+EvoPTdt9AzlVZXKLBF29js69oJj7wHrJ4tszWZkZZkUx6wJ5q9lV4bV4I9xhOuc2sHkp9yhvRIg6d2XaYIp+iDvLVQ1G7G2blHjnNV2gcG6ldI23hRVlnWfbymeeSFrkeLcFy0ZK1j6BEbPAiiI7RWqSZ2D7OfSFS6HREacj6IR7ZrCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UruMHiDpVKWaJgqwmpAAQEc/isjxNugpaqjd58a53sU=;
- b=f17wxcHNUDEjKpFpMMekioBzhZ92Yn3J0elEymf8uvS+S9qD65zb7J5NxuxAKagZYTxi0WiYSJQwUqITE5lTFgPUwFwf93bZlEbEgkqXqLguK3XJKulmCmsAg+z5EXMCBSnr9o4EjckehYI+JW24v1zkOdz8zHt/QVtRgm8P/Qrjvl7QinaIBJCunPefl7pqiPTd2MoFpthpOwgUUNQwzxIlAbeJ7h5Lo7qmum/v1a6wkJFTkNiG/WXfYiHPEGhjqFTxjS+ba8SInjR764+9LI/AqEGtm1INq6GmQMzs43CbFRlhNQAF9kOpBBIfREU92xsk4I49lN3gjGDayAjXYw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by BY5PR12MB4082.namprd12.prod.outlook.com (2603:10b6:a03:212::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Mon, 20 Apr
- 2026 13:13:20 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
- 13:13:20 +0000
-Message-ID: <2b3d59b4-dc9e-4ef5-8cd1-9095cf5aa0a7@nvidia.com>
-Date: Mon, 20 Apr 2026 18:43:08 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cpufreq: CPPC: add autonomous mode boot parameter support
-To: Viresh Kumar <viresh.kumar@linaro.org>,
- Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, zhenglifeng1@huawei.com, treding@nvidia.com,
- jonathanh@nvidia.com, vsethi@nvidia.com, ionela.voinescu@arm.com,
- ksitaraman@nvidia.com, sanjayc@nvidia.com, zhanjie9@hisilicon.com,
- corbet@lwn.net, mochs@nvidia.com, skhan@linuxfoundation.org,
- bbasu@nvidia.com, rdunlap@infradead.org, linux-pm@vger.kernel.org,
- mario.limonciello@amd.com, rafael@kernel.org, sumitg@nvidia.com
-References: <20260317151053.2361475-1-sumitg@nvidia.com>
- <4b1f100b-e699-43c1-a06b-5545056d174c@arm.com>
- <b8debb30-67a5-4d2b-8c08-8fd287f7258e@nvidia.com>
- <208360b1-36a5-419d-80f4-431914407f61@arm.com>
- <zfoorh6tza4taswyr5zhxqn4rhcqzq4rtvz46eigoy25muxfls@tlbuypuwocvm>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <zfoorh6tza4taswyr5zhxqn4rhcqzq4rtvz46eigoy25muxfls@tlbuypuwocvm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0215.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1f3::19) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5583E024E;
+	Mon, 20 Apr 2026 13:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776691469; cv=none; b=dbaOGSigiiqEyRFOH63+SmuLEjzC7ofP7FCJ0gFC9OWO6N4nUce6PjaCGnSQvERLOnsXQ0S4zzMa962In8D9GOPxE9uuZdsCXPc/KPFpmwyr9qDh6f0eV4DxLNeHPjPIQawAcOWoO4JBIG+MiBYHRBAWLpUf/LZ2dsn5+fqYSy8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776691469; c=relaxed/simple;
+	bh=mdTTLFFRGSvS9pVXxreZEr6WIIMFyUkAMBZmnwnFgGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qmPPLdyYxtmOrWzJ1g2VVJVSJhrVSU8KKuwvm32ErYVKZL4KjjgY+n7hn4auO4C7Ml9mLrjxlg5sqWM+lLtF25CEHQgmzx154fC1haTgNdgh/VtTKeLfXKErGTK4cafvoUkZJ9RTDliC7wo4o+gkAmf27bgBcwwd7koIOVvBuLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ht8SJa56; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1D4C2BCB4;
+	Mon, 20 Apr 2026 13:24:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776691468;
+	bh=mdTTLFFRGSvS9pVXxreZEr6WIIMFyUkAMBZmnwnFgGM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ht8SJa563vBIdvtheNgt9tiBYHMZoa9Hz+7rjpLyO/o+rrpCqTbPDaOLEth6zt5Wu
+	 lWbMnNLYecz90pKu1r5cMtc6Qtf5QqV9nlJl/IclZ/4tZP+/96T97y5H1c8KXTHSR3
+	 6hSq3MuqMlXI8jHcCWrfL6TWY2YzVxrZ7g8+4QqUhZFv6u/Ce9ZydFGnu8Or2W2Hxe
+	 RCMbMB7hHuZI7oq7kx0/txJ8ssEffALSXNvspojoXxnvv8alroxYRtYLD5qTchu44N
+	 fES+MmgaXSc9A2pwlfp9A4sX5lv5kN1yU0OOAZCQNHo/T6JYzLHYJ6tQ+sm+31PZIg
+	 cU1TcKJHqqBaQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Thierry Reding <treding@nvidia.com>,
+	Sasha Levin <sashal@kernel.org>,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	thierry.reding@kernel.org,
+	jonathanh@nvidia.com,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-6.12] arm64: tegra: Fix snps,blen properties
+Date: Mon, 20 Apr 2026 09:17:21 -0400
+Message-ID: <20260420132314.1023554-47-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
+References: <20260420132314.1023554-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|BY5PR12MB4082:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5f8eac9-dd7d-47c9-144c-08de9ede976f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	UXZxEICYNX5Cw24W7Y0pmvfc/okPqcTycj+i3M/tiX9mcISg5Xlqp3GxWaxHIeGOtt6aTzbU4s21uCVR5oXg6OIloS7zWtt5C5ziZD5cydPujsWBtbcPyFKWHxhIaFSFaCbownH7TEHsAw7AWOMviOet1PeL3fZpyT0svId6YwLkuDMLsWlX9TgvrZP/xhjLkcG6+vq1Vpb2a44raGcAqz2FF/eQtu2AaXLJwql/NL0qQw5NpAlFzaPNVzFDqLXPV36g64/23HQixGX0NIYb2DayPuo7SfRAFTD/spzOnpxX/AyDadaj02pXXSNq70VMUF2jn0A+nR5wHqbKTHotqMz0nhoNP54rFAZC9JdGYP5EAQTQ4gwtPJWYU93AryyWVWJlxx7NxobUIDTohQv/os1t6loWXroNNhBlcTKCFHiw7mYHarvUSBNMQ6aPECG592rldxgGDLWyP54LtsBgosGmzxgNj/KcQRqA1nSgcUqvPp3M1Lhu2Ubzfo78mbD3Jipb7TQAjHXIUsAfY3P+5F5A64dyYWDuNg3nTDlj6hzsGeS41PmEGUrLKe4hbj2uEItZ4yyE29hEKo9oXAz1g0iDOt3qse0cnYim5LRfk3AGd+luz+X+fesUl1SzKzj+L3qAQa77eWuh3Vf9REwQzen9KugHHQR1FqXZffUwLIyF7drYnuYVAs09VvVU1xsfDEuiZiEeAAVODVrQ7SLfC6tZ7X9DqzOZnm4V7XQoHxE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YmRIaDQ2M2I2aVYrY2lxYWpYNDhwTUZFWU1OMTE1VktYNmpRU0kwemErOGhj?=
- =?utf-8?B?UW5xZWhpUVJBTUhHQ2xzc296cE5hdGRRbllZZWNya0NOalNpMGpLblZ1USsr?=
- =?utf-8?B?aDFZWHFWcTZLaWpyNTJERmRUOC9BcDd4eWxYck9TYkM0RmFMb0I3ZVdsMkg3?=
- =?utf-8?B?cHJzWG8yd09CSlc1ZXJpa1BtcnBjN1hZL2NLYVduNXFMKzlvNExqUnhkUnU0?=
- =?utf-8?B?QktSald4SGE5VDV0SElmQzhjMm4xa05xeHRBR1R6UVdDeCtwLzMyelRvMzZu?=
- =?utf-8?B?OEpXL05kTEFZdk1Bc0xEb0FpbnlvUnQrNEpmRW1qbDNrL2hkWk9JOGNjMHZP?=
- =?utf-8?B?RDB2TEpsbXVCR0VMMVE2ckQ3TWFFYlBxYVRBb2d4REJPM2FvSDJaY1JJa0VM?=
- =?utf-8?B?VGhlVU55RStwMEYxVzBLajE1cElCbXg4T2tFalpndWtnMWw0VUgyZHNGNDEx?=
- =?utf-8?B?a0dHK1VjU0JEWExhcUlDL2E3eDJxME1PL3hqOWI3RkxrZTkwdVhHdFY0aHBP?=
- =?utf-8?B?U1R6WmhLcUx6dzZYV09UVlE1eDQwUGhNVDB0d0JUVDBNTmY4MjdwR3RYdlZu?=
- =?utf-8?B?MmRhRUp6UVR4VW91Nm84TWhCVVF1K3NlZWtyK0pYcUdVTzdvUmExL01ha1I2?=
- =?utf-8?B?SUgxT0pxbHRiVm9uZzBMYUc4ZURLSjhxRkkwWUQzL2JVTkVtMWcxV0VVbEcy?=
- =?utf-8?B?VHpFdlNCZCtUVjlDRFZvUVczMCs5MnViQm1OTm9PWm9mUXdvMkw5V0lSdjQr?=
- =?utf-8?B?Q1BBamdhVzd5SDlDRjlEb05vUi9JanVoS0l1VmlTNmJiZDFGSHRjOW03aGFE?=
- =?utf-8?B?MnFXYk16eDQwMmtCZTlCUlZsd1AvSjhkaVhxTG5ZeCtHWmNGcG95VVJtUmRS?=
- =?utf-8?B?NjJYL2VXM2o3SVVvZzJsMmI2Q3M5ODBVK3VnMk0xbWJLempQM21KOFJsRU5m?=
- =?utf-8?B?d0s4aDY2WW1PU0FRaFN2M1hDUEN4em1uQ2JjbHFadHptb1I3WnFTcFVRMC9p?=
- =?utf-8?B?clJoaFUwTldlMlpTWWlwbHpOYjVSWGJSa3F5RzBtcGtqUEtCUHBZMkpVV2xj?=
- =?utf-8?B?VWhUUWo5WXo3WTQxUDJPY25LV1d3NFRTYkExWjMzdkt2N3pxSXYwNFh3azBm?=
- =?utf-8?B?cHNPNUZ4MmNzcFIvZXovUVBzZG85Q3hrS2h0MGR0bmFKWHJrUFI5cFRGRk9j?=
- =?utf-8?B?UXZud1JRalN0VU1HbnNQbll5T25GK21XZWIyV1VxcitlTEZhL05WV1BNb3A2?=
- =?utf-8?B?TjAvQmV2TkxST0JpY0JoV01HbEo0dGtza1FFSXI0OXVFeVdMWFZxMzE0TXEz?=
- =?utf-8?B?YVYwWGdNYytIdmZhZ2x6U0xwNkJBaDZ3Zk5Rb3JzSEU4bmRpRnpQK0k1bEdV?=
- =?utf-8?B?SGJ0c1NjYkFRZUhtSWlrd2IvSkxORS82eW9PU2hPaWNCZnVHbk8xQWQrUStl?=
- =?utf-8?B?S1QvYnZjZTNWa2ZXTkhINWRsTlI0a05BTnc2azFwOUU0S20yRzJwQ0pjL2Nq?=
- =?utf-8?B?cjkxaTAyVFFLQm5Fd0NNZjV2UUs0a3JNTzR0cHFuUzE1eFk1c2ZZWWxYVlFi?=
- =?utf-8?B?M25ZSFFHTHRRZ29oeCtUK0w4d09DR3hVZzJOalBpWm55OENaTXZTSk80dm9G?=
- =?utf-8?B?blNTdDJZNmtVQzVWRmhBcHJGT1JLMHA0UVUrTERFdGRjNzBxbUk0cTczVmVx?=
- =?utf-8?B?ZjBwRlNhTzYra3ZHWC8rU2xQVEd6RnU4T1VjNEdrbDRmTjhjM0NPZDN5T0VE?=
- =?utf-8?B?ZXhYQU53dnRwcThaazNrZlF2K1pkeWNwM1lyeGUwMFFWY2JoT1F1dXVycDFX?=
- =?utf-8?B?SnBZWS9oRk5LRUs2dnVzQUg0UDNuRWUzNjk5SjV1UklxMGo4VTdzUWR2N0Rq?=
- =?utf-8?B?WEx2MkQrRjdaL0hwSDExWEdjZ0ZjQS9aQlc0blFBWXQzVTI4ODhrUmJKajh3?=
- =?utf-8?B?djFUZU5ROTZ6MkJEdkN3QWpDNUl0QVVHNmxtaXZOVUNSdFBWU1BEUnp2Nitn?=
- =?utf-8?B?TUpYQmNoc2t4SXdLaWQrejRUWlZ6ZzFEN3NjdXE0N0ZBVkJ3NWQ2RnloY2FR?=
- =?utf-8?B?VTRieHBFWll6aEg1YUhHMUoyVjRxeGRmdGQ3MkdoZUY0WTdjajRvOFFEc2FF?=
- =?utf-8?B?S2VSQ2N1VUxHaG0xY3hrc1ZZVmRDYVVQYzg4bEMyT1VDT3hlYXZpTWw3STlD?=
- =?utf-8?B?K3BFTkVlK1hUSzF1VmM3NFRnUStaVlh4bXdrSng4bjI3dkdkdkZRRFEwWTJW?=
- =?utf-8?B?eE5mTVVKOXlpOHhOMjRNNGJUbmJscHEvVjlsTkNkekl3SVdROGpJQ0ZUSmRU?=
- =?utf-8?Q?tIuvTqw1qFOEpkkTfq?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f8eac9-dd7d-47c9-144c-08de9ede976f
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 13:13:20.0850
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qkBrD0d92bgRcQoB8SsSHjx0YrSWAOvnuIzhQgU/67FPDLRi/ldVLat/0SmdttXmL5yt30TML/NI+yWNeL8cVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4082
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-13817-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13814-lists,linux-tegra=lfdr.de];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
+	RSPAMD_URIBL_FAIL(0.00)[6a00000:query timed out,0.103.194.128:query timed out];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumitg@nvidia.com,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: CD6E042B543
+	TO_DN_SOME(0.00)[];
+	DBL_PROHIBIT(0.00)[0.105.73.32:email];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,6a00000:email,nvidia.com:email,0.103.194.128:email]
+X-Rspamd-Queue-Id: 6DBC342C89D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+From: Thierry Reding <treding@nvidia.com>
 
-On 13/04/26 11:21, Viresh Kumar wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 10-04-26, 15:47, Pierre Gondois wrote:
->> I need to ping Viresh to check if this is still relevant.
-> I think its okay to clear the min/max state in the kernel once and for all if
-> you think it is not done nicely. As discussed earlier, try that in a fresh
-> series which only does that part.
->
-> --
-> viresh
+[ Upstream commit 51f10c527a63dc4a71bce4b40fc53eee78bbbd52 ]
 
-Thanks Pierre and Viresh.
+The snps,blen property of stmmac-axi-config nodes needs to have 7
+entries in total, with unsupported burst lengths listed as 0.
 
-In autonomous mode, the min/max_perf HW registers directly control the
-frequency range the hardware operates in, so the values programmed in
-.init() need to survive through the governor.
-I verified this on a platform where lowest_nonlinear_perf != lowest_perf,
-the min_perf register ends up at lowest_perf instead of the intended
-lowest_nonlinear_perf.
-Pierre's QoS seeding patch would fix this.
-Happy to test once it's sent.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
+LLM Generated explanations, may be completely bogus:
 
-Thank you,
-Sumit Gupta
+Now I have all the information needed for my analysis.
 
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+**Step 1.1: Subject Line**
+- Subsystem: `arm64: tegra` (ARM64 device tree, Tegra SoC)
+- Action verb: "Fix" — direct bug fix language
+- Summary: Fix the `snps,blen` DT properties for MGBE Ethernet
+  controllers
+- Record: [arm64: tegra] [fix] [correcting snps,blen DT property to have
+  required 7 entries]
+
+**Step 1.2: Tags**
+- `Signed-off-by: Thierry Reding <treding@nvidia.com>` — Author is the
+  Tegra platform maintainer at NVIDIA.
+- No Fixes: tag, no Cc: stable, no Reported-by (expected for auto-
+  selection candidates).
+- Record: No notable tags beyond authorship. Author is the subsystem
+  maintainer.
+
+**Step 1.3: Commit Body**
+- States: "The snps,blen property of stmmac-axi-config nodes needs to
+  have 7 entries in total, with unsupported burst lengths listed as 0."
+- This describes a DT schema violation — the property had 4 entries but
+  the driver requires 7.
+- Record: Bug is a malformed DT property that doesn't match the driver's
+  expectation.
+
+**Step 1.4: Hidden Bug Fix Detection**
+- This is NOT a hidden fix — it's explicitly labeled "Fix." The
+  underlying bug is that `of_property_read_u32_array(np, "snps,blen",
+  axi_blen, 7)` fails silently when the property only has 4 entries,
+  leaving the stack buffer uninitialized.
+- Record: Direct bug fix, not disguised.
+
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: Inventory**
+- 1 file changed: `arch/arm64/boot/dts/nvidia/tegra234.dtsi`
+- 3 lines changed (each identical):
+  - `snps,blen = <256 128 64 32>;` → `snps,blen = <256 128 64 32 0 0
+    0>;`
+- Affects MGBE0, MGBE1, MGBE2 stmmac-axi-config nodes.
+- Record: Single DT file, 3 identical one-line changes. Scope:
+  minimal/surgical.
+
+**Step 2.2: Code Flow**
+- Before: DT property has 4 u32 entries.
+- After: DT property has 7 u32 entries (3 trailing zeros for unsupported
+  burst lengths).
+- The stmmac driver calls `of_property_read_u32_array(np, "snps,blen",
+  axi_blen, AXI_BLEN)` where `AXI_BLEN = 7`. With only 4 entries,
+  `of_find_property_value_of_size()` checks `prop->length (16) < min
+  (28)` and returns `-EOVERFLOW`. The stack array `axi_blen[7]` is never
+  written. Then `stmmac_axi_blen_to_mask()` processes uninitialized
+  stack data.
+
+**Step 2.3: Bug Mechanism**
+- Category: **Uninitialized data** / **incorrect DT specification**
+- Mechanism: The DT property is too short, causing
+  `of_property_read_u32_array()` to fail, leaving a stack buffer
+  uninitialized. The uninitialized data is then used to configure the
+  AXI DMA burst length register for network hardware.
+- Record: Uninitialized stack data used for hardware DMA configuration.
+  The fix ensures the property has the correct count.
+
+**Step 2.4: Fix Quality**
+- Obviously correct: all other DT files using `snps,blen` have exactly 7
+  entries (verified by grep across all arm64 DT files).
+- Minimal/surgical: 3 identical one-line changes.
+- Zero regression risk: adding trailing zeros only enables the driver to
+  read the property successfully, and zero entries are explicitly
+  skipped by `stmmac_axi_blen_to_mask()`.
+- Record: Fix is obviously correct, minimal, zero regression risk.
+
+## PHASE 3: GIT HISTORY
+
+**Step 3.1: Blame**
+- The buggy `snps,blen = <256 128 64 32>` was introduced by commit
+  `81695da63b977` ("arm64: tegra: Add AXI configuration for Tegra234
+  MGBE") by Thierry Reding, dated 2024-02-21, merged in v6.9.
+- Record: Bug introduced in v6.9 by the same author who is now fixing
+  it.
+
+**Step 3.2: Fixes tag**
+- No Fixes: tag present. The implicit fix target is `81695da63b977`.
+
+**Step 3.3: File History**
+- Recent changes to `tegra234.dtsi` are mostly DT cleanup/additions. No
+  related fixes.
+- Record: Standalone fix, no prerequisites.
+
+**Step 3.4: Author**
+- Thierry Reding is the Tegra platform maintainer at NVIDIA. He wrote
+  the original buggy commit and is now fixing it.
+- Record: Subsystem maintainer self-fix.
+
+**Step 3.5: Dependencies**
+- None. The fix is a pure DT property value change that applies
+  independently.
+- Record: No dependencies, applies cleanly standalone.
+
+## PHASE 4: MAILING LIST RESEARCH
+
+**Step 4.1: Original Submission**
+- Found via web search: patch is `[PATCH 09/10]` in a series "dt-
+  bindings: Various cleanups for Tegra-related bindings" posted
+  2026-02-23.
+- Part of a v3 cleanup series. While most patches in the series are DT
+  binding cleanups, this specific patch (09/10) is a genuine bug fix.
+- Record: Part of a larger DT cleanup series, but this patch is an
+  independent bug fix.
+
+**Step 4.2: Reviewers**
+- b4 dig found the original commit (81695da63b977) was reviewed and
+  tested by Jon Hunter (NVIDIA Tegra co-maintainer). The fix itself is
+  straightforward enough that formal review was likely implicit.
+- Record: Original buggy code was reviewed by Jon Hunter.
+
+**Step 4.3-4.5: Bug Reports / Stable History**
+- No specific bug report found. Likely discovered by the author during
+  code review / DT validation.
+- No prior stable discussion found.
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1-5.4: Key Functions**
+- `stmmac_axi_setup()` in `stmmac_platform.c` parses the DT property.
+- Called during stmmac platform driver probe for any device using
+  `snps,axi-config` DT phandle.
+- `stmmac_axi_blen_to_mask()` converts the burst length array to
+  register value.
+- The register value is written to hardware in `dwxgmac2_dma_init()` /
+  `dwmac4_dma_init()` / `dwmac1000_dma_init()`.
+- Impact: Affects AXI DMA configuration for MGBE Ethernet on Tegra234.
+
+**Step 5.5: Similar Patterns**
+- All other arm64 DT files consistently use 7 entries for `snps,blen`.
+  Tegra234 was the ONLY outlier with 4 entries.
+
+## PHASE 6: STABLE TREE ANALYSIS
+
+**Step 6.1: Buggy Code in Stable**
+- Commit `81695da63b977` was introduced in v6.9. It exists in stable
+  trees v6.12.y and any newer LTS branches.
+- It does NOT exist in v6.6.y (confirmed via `git merge-base --is-
+  ancestor`).
+- Record: Bug affects v6.9+ stable trees (v6.12.y at minimum).
+
+**Step 6.2: Backport Complications**
+- Pure DT change with no code dependencies. Should apply cleanly.
+- Record: Clean apply expected.
+
+**Step 6.3: Related Fixes**
+- No prior fix for this issue found in any tree.
+
+## PHASE 7: SUBSYSTEM CONTEXT
+
+**Step 7.1: Subsystem**
+- ARM64 Device Tree for Tegra234 MGBE (Multi-Gigabit Ethernet).
+- Criticality: IMPORTANT — affects Tegra234 network hardware users
+  (NVIDIA Jetson AGX Orin, etc.).
+- Record: [arm64/tegra DT] [IMPORTANT — Jetson platform network
+  hardware]
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: Affected Users**
+- Users of NVIDIA Tegra234 platforms (Jetson AGX Orin) using MGBE
+  Ethernet controllers.
+- Platform-specific but widely deployed in industrial/embedded
+  applications.
+
+**Step 8.2: Trigger Conditions**
+- Triggered on every boot when the MGBE driver probes. No special
+  configuration needed.
+- The AXI burst length read fails silently, so uninitialized data
+  configures DMA hardware.
+
+**Step 8.3: Failure Mode**
+- Uninitialized stack data used for DMA hardware configuration.
+- Could result in suboptimal network performance, potential DMA errors,
+  or undefined hardware behavior depending on what stack values happen
+  to be.
+- Severity: **HIGH** (hardware misconfiguration from uninitialized data,
+  affecting network DMA)
+
+**Step 8.4: Risk-Benefit**
+- BENEFIT: High — fixes broken AXI DMA configuration for 3 MGBE Ethernet
+  controllers on Tegra234.
+- RISK: Very low — 3 identical one-line DT property changes, adding
+  trailing zeros, no code change.
+- Record: Very favorable risk-benefit ratio.
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: Evidence Summary**
+
+FOR backporting:
+- Fixes real bug: `of_property_read_u32_array()` fails with only 4/7
+  entries, leading to uninitialized stack data being used for hardware
+  DMA configuration
+- Minimal, surgical fix: 3 identical one-line DT changes
+- Obviously correct: all other DT files use 7 entries
+- Written by subsystem maintainer (Thierry Reding, NVIDIA Tegra
+  maintainer)
+- Zero regression risk: trailing zeros are explicitly handled ("Burst
+  values of zero must be skipped")
+- Applies to v6.12.y+ stable trees
+
+AGAINST backporting:
+- No explicit user report of symptoms (could mean it works by luck with
+  stack data)
+- Part of a larger series (but this patch is independent)
+
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct? **YES** — all other DT files have 7 entries
+2. Fixes a real bug? **YES** — uninitialized data used for HW
+   configuration
+3. Important issue? **YES** — hardware DMA misconfiguration
+4. Small and contained? **YES** — 3 one-line changes in 1 DT file
+5. No new features? **YES** — pure DT fix
+6. Can apply to stable? **YES** — clean DT-only change
+
+**Step 9.3: Exception Category**
+- DT update fixing existing hardware description — automatic YES
+  category
+
+## Verification
+
+- [Phase 1] Parsed subject: "Fix" verb, arm64 tegra subsystem, snps,blen
+  property
+- [Phase 2] Diff: 3 lines changed in tegra234.dtsi, each adds `0 0 0` to
+  snps,blen property
+- [Phase 2] Verified AXI_BLEN=7 in `include/linux/stmmac.h` line 109
+- [Phase 2] Verified `of_property_read_u32_array()` calls
+  `of_find_property_value_of_size()` with min=28 bytes; property has 16
+  bytes (4 entries), so it returns -EOVERFLOW
+- [Phase 2] Verified `stmmac_axi_blen_to_mask()` skips zero entries
+  ("Burst values of zero must be skipped")
+- [Phase 3] git blame: buggy code from 81695da63b977 (v6.9), author:
+  Thierry Reding
+- [Phase 3] git merge-base: confirmed 81695da63b977 is in v6.12 but not
+  v6.6
+- [Phase 4] b4 dig: found original commit submission at lore (patch-id
+  match)
+- [Phase 4] Web search: fix is PATCH 09/10 of "dt-bindings: Various
+  cleanups for Tegra-related bindings"
+- [Phase 5] Verified all other arm64 DT snps,blen entries have exactly 7
+  values (grep across arch/arm64/boot/dts)
+- [Phase 5] Traced call chain: stmmac_axi_setup →
+  of_property_read_u32_array → of_find_property_value_of_size
+- [Phase 6] Bug exists in v6.9+ stable trees
+- [Phase 8] Failure mode: uninitialized stack data used for AXI DMA
+  register, severity HIGH
+
+**YES**
+
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+index 850c473235e36..04a95b6658caa 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+@@ -3621,7 +3621,7 @@ ethernet@6800000 {
+ 			snps,axi-config = <&mgbe0_axi_setup>;
+ 
+ 			mgbe0_axi_setup: stmmac-axi-config {
+-				snps,blen = <256 128 64 32>;
++				snps,blen = <256 128 64 32 0 0 0>;
+ 				snps,rd_osr_lmt = <63>;
+ 				snps,wr_osr_lmt = <63>;
+ 			};
+@@ -3663,7 +3663,7 @@ ethernet@6900000 {
+ 			snps,axi-config = <&mgbe1_axi_setup>;
+ 
+ 			mgbe1_axi_setup: stmmac-axi-config {
+-				snps,blen = <256 128 64 32>;
++				snps,blen = <256 128 64 32 0 0 0>;
+ 				snps,rd_osr_lmt = <63>;
+ 				snps,wr_osr_lmt = <63>;
+ 			};
+@@ -3705,7 +3705,7 @@ ethernet@6a00000 {
+ 			snps,axi-config = <&mgbe2_axi_setup>;
+ 
+ 			mgbe2_axi_setup: stmmac-axi-config {
+-				snps,blen = <256 128 64 32>;
++				snps,blen = <256 128 64 32 0 0 0>;
+ 				snps,rd_osr_lmt = <63>;
+ 				snps,wr_osr_lmt = <63>;
+ 			};
+-- 
+2.53.0
 
 
