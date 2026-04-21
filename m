@@ -1,66 +1,66 @@
-Return-Path: <linux-tegra+bounces-13830-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13832-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIU0EgIq52mo4wEAu9opvQ
-	(envelope-from <linux-tegra+bounces-13830-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 09:40:50 +0200
+	id wIz7Aikp52kf4wEAu9opvQ
+	(envelope-from <linux-tegra+bounces-13832-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 09:37:13 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED6D437BFD
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 09:40:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93905437B0A
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 09:37:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7A2D1300A4F6
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 07:37:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A92A300CBEF
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2026 07:37:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A7D331A78;
-	Tue, 21 Apr 2026 07:37:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582D7379ED4;
+	Tue, 21 Apr 2026 07:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RZUsWEgD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3XopyJxM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RZUsWEgD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3XopyJxM"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G+E0IoaR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o7m/TE0F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G+E0IoaR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o7m/TE0F"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58A92BE05F
-	for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2026 07:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090052BE05F
+	for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2026 07:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776757024; cv=none; b=a9epn+iXU4UlJ9UCEYZNRfFAAJTt0rFxkq+LmR7TganR8IQzXPdTrBQLXGo0VoMghPwkXzJYHwIGEPpqHDrTbtH4t+wERyfwlaI9ohW4KKbXB0B3dftTQKIooAKf+eHrzyD8gLKni5py/WdXDAjbpgT+m8xm7+9jxbx2bbNz2Cs=
+	t=1776757030; cv=none; b=mK+wVooYvE6y/1I129u6lxkHbP5FWXFzP9lOInvccket70eEC0opMlS1c7wi8ONFcixFvd8pm1T3JxkAzvZrPemk8kwxZLjwp3wg9WVedDmw/8SLQZGgWD5HDi2suQ+mInm7zMfP7Yg87XoFNCo1hjF/BQYH54c3kspzn/xDf+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776757024; c=relaxed/simple;
-	bh=Uoczr5WAhkWlRyCy57NfCw0qP8NmzaL7zfAO7ZGaLdM=;
+	s=arc-20240116; t=1776757030; c=relaxed/simple;
+	bh=+gN5O9ombVMPYxGdMcfNV5wi+WJJx0xPBiwx/NF05Wk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C9yMGtIHOBh7kzl0WRl5bxkROxmBty4K8FrJvSJgDXxeCKqc/dvJiRwHMV8qqQ5f/wfVAhYVRUBjog3pOELX5snHGDiu9PPSdJ/6aS8XwxA60c9H+hD023XojcnJox8qkh4bx0ExxM7SJJ7pA1V//59vhbIJQrkKB9X30VwIr0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RZUsWEgD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3XopyJxM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RZUsWEgD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3XopyJxM; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=AJ2xPBv94XSQ9heJgm5jUkWGyRk7XCFHfaDIghPLty2xmGs2MXIIHO2OPf3iPuyW2VkXABOfddK9bu1n3PhaPBtQcJsot9uCII9wpvO9YCO8BliOz6B8t24vc2fnft8PJ0ZJOrXZJNksisMvH3qZM/x2jmrqAUgf98LIw3hgKfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G+E0IoaR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o7m/TE0F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G+E0IoaR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o7m/TE0F; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 643455BCE1;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A42895BCEE;
 	Tue, 21 Apr 2026 07:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1776757015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Daf0Jsw+offRMnbEhayvvjA2M01+QV/OTxOZSJbv60s=;
-	b=RZUsWEgDmjaraOWNSccQN8EGULGlXV3aLFVCEVUd0l/O8ubP8RJECGDdkkBVMd644vkmM6
-	2/MuAQcGuifTcpaBokUILgPNYIXUgYzP5sTbysbLw3arnMXmxKobuWfw0Sl0sIv50H0SpE
-	t+oqHhVsnBgulbLdwNSQ0O76nA0u0IE=
+	bh=V6v2d000VBFK38+rdl2qZKRPaBJ05/EoUtK46bREAgA=;
+	b=G+E0IoaRHIHadzBHI8asI/BTFUa8dJBlFdpoaCWZnsOuuK2JFTI/rZ3RfBSzPhd7JNGjBQ
+	JWzJcOLxRDZJXeQNvTQIYcfEGG5SNCHJDAoqx//BKx/zc1bVvr8yr6XWpLGvnBePTs7KUX
+	HJi/1WHecuv1+T/Z54Nc6kQXr8laokE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1776757015;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Daf0Jsw+offRMnbEhayvvjA2M01+QV/OTxOZSJbv60s=;
-	b=3XopyJxMvmr9liFvmbQ4Ja4Fb82ZKw6e2PXSTIqum9iWPcQ/6+XLtUIW57MR8Ap+GNwM/M
-	DsoB97TNw9L/TXAw==
+	bh=V6v2d000VBFK38+rdl2qZKRPaBJ05/EoUtK46bREAgA=;
+	b=o7m/TE0FzL49Avo/dK+RfDqJrF1Rdn87zXfUeTOHQqhZxB8BYKmPTdEfN6M267FqSVss/P
+	AfYLdD89xlpLtLAA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -68,28 +68,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Daf0Jsw+offRMnbEhayvvjA2M01+QV/OTxOZSJbv60s=;
-	b=RZUsWEgDmjaraOWNSccQN8EGULGlXV3aLFVCEVUd0l/O8ubP8RJECGDdkkBVMd644vkmM6
-	2/MuAQcGuifTcpaBokUILgPNYIXUgYzP5sTbysbLw3arnMXmxKobuWfw0Sl0sIv50H0SpE
-	t+oqHhVsnBgulbLdwNSQ0O76nA0u0IE=
+	bh=V6v2d000VBFK38+rdl2qZKRPaBJ05/EoUtK46bREAgA=;
+	b=G+E0IoaRHIHadzBHI8asI/BTFUa8dJBlFdpoaCWZnsOuuK2JFTI/rZ3RfBSzPhd7JNGjBQ
+	JWzJcOLxRDZJXeQNvTQIYcfEGG5SNCHJDAoqx//BKx/zc1bVvr8yr6XWpLGvnBePTs7KUX
+	HJi/1WHecuv1+T/Z54Nc6kQXr8laokE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1776757015;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Daf0Jsw+offRMnbEhayvvjA2M01+QV/OTxOZSJbv60s=;
-	b=3XopyJxMvmr9liFvmbQ4Ja4Fb82ZKw6e2PXSTIqum9iWPcQ/6+XLtUIW57MR8Ap+GNwM/M
-	DsoB97TNw9L/TXAw==
+	bh=V6v2d000VBFK38+rdl2qZKRPaBJ05/EoUtK46bREAgA=;
+	b=o7m/TE0FzL49Avo/dK+RfDqJrF1Rdn87zXfUeTOHQqhZxB8BYKmPTdEfN6M267FqSVss/P
+	AfYLdD89xlpLtLAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 221AC593AF;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A6E2593B0;
 	Tue, 21 Apr 2026 07:36:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6KYjBxcp52lgMQAAD6G6ig
+	id YCHKGBcp52lgMQAAD6G6ig
 	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 07:36:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: thierry.reding@gmail.com,
@@ -100,9 +100,9 @@ To: thierry.reding@gmail.com,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 4/5] drm/tegra: fbdev: Use a DRM client buffer
-Date: Tue, 21 Apr 2026 09:29:08 +0200
-Message-ID: <20260421073646.144712-5-tzimmermann@suse.de>
+Subject: [PATCH 5/5] drm/tegra: Make tegra_fb_alloc() an internal interface
+Date: Tue, 21 Apr 2026 09:29:09 +0200
+Message-ID: <20260421073646.144712-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260421073646.144712-1-tzimmermann@suse.de>
 References: <20260421073646.144712-1-tzimmermann@suse.de>
@@ -113,22 +113,22 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -5.30
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch];
-	TAGGED_FROM(0.00)[bounces-13830-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13832-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -143,143 +143,50 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: BED6D437BFD
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 93905437B0A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace the internal DRM framebuffer with a DRM client buffer. The
-client buffer allocates the DRM framebuffer on a file and also uses
-GEM object handles via the regular ADDFB2 interfaces.
-
-Using client-buffer interfaces unifies framebuffer allocation for
-DRM clients in user space and tegra's internal fbdev emulation. It
-also simplifies the clean-up side of the fbdev emulation.
+Fbdev framebuffer allocation now goes through the regular ioctl call
+chain. This makes tegra_fb_alloc() an internal helper function. Declare
+it as static.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tegra/fbdev.c | 61 +++++++++++++++++++++--------------
- 1 file changed, 36 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/tegra/drm.h | 5 -----
+ drivers/gpu/drm/tegra/fb.c  | 1 +
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-index bcf32cfcf818..003e80cf7b9a 100644
---- a/drivers/gpu/drm/tegra/fbdev.c
-+++ b/drivers/gpu/drm/tegra/fbdev.c
-@@ -40,8 +40,7 @@ static int tegra_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- static void tegra_fbdev_fb_destroy(struct fb_info *info)
- {
- 	struct drm_fb_helper *helper = info->par;
--	struct drm_framebuffer *fb = helper->fb;
--	struct tegra_bo *bo = tegra_fb_get_plane(fb, 0);
-+	struct tegra_bo *bo = tegra_fb_get_plane(helper->fb, 0);
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index ae68b03d8483..bc720ae8d95e 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -184,11 +184,6 @@ struct tegra_bo *tegra_fb_get_plane(struct drm_framebuffer *framebuffer,
+ bool tegra_fb_is_bottom_up(struct drm_framebuffer *framebuffer);
+ int tegra_fb_get_tiling(struct drm_framebuffer *framebuffer,
+ 			struct tegra_bo_tiling *tiling);
+-struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
+-				       const struct drm_format_info *info,
+-				       const struct drm_mode_fb_cmd2 *mode_cmd,
+-				       struct tegra_bo **planes,
+-				       unsigned int num_planes);
+ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
+ 					struct drm_file *file,
+ 					const struct drm_format_info *info,
+diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+index 1e4803d355dd..0a7cb9e462ff 100644
+--- a/drivers/gpu/drm/tegra/fb.c
++++ b/drivers/gpu/drm/tegra/fb.c
+@@ -102,6 +102,7 @@ static const struct drm_framebuffer_funcs tegra_fb_funcs = {
+ 	.create_handle = drm_gem_fb_create_handle,
+ };
  
- 	drm_fb_helper_fini(helper);
- 
-@@ -50,8 +49,8 @@ static void tegra_fbdev_fb_destroy(struct fb_info *info)
- 		vunmap(bo->vaddr);
- 		bo->vaddr = NULL;
- 	}
--	drm_framebuffer_remove(fb);
- 
-+	drm_client_buffer_delete(helper->buffer);
- 	drm_client_release(&helper->client);
- }
- 
-@@ -70,15 +69,18 @@ static const struct drm_fb_helper_funcs tegra_fbdev_helper_funcs = {
- int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 				   struct drm_fb_helper_surface_size *sizes)
- {
--	struct tegra_drm *tegra = helper->dev->dev_private;
--	struct drm_device *drm = helper->dev;
--	struct drm_mode_fb_cmd2 cmd = { 0 };
-+	struct drm_client_dev *client = &helper->client;
-+	struct drm_device *drm = client->dev;
-+	struct drm_file *file = client->file;
-+	struct tegra_drm *tegra = drm->dev_private;
- 	struct fb_info *info = helper->info;
- 	u32 fourcc, pitch;
- 	u64 size;
- 	const struct drm_format_info *format;
--	struct drm_framebuffer *fb;
- 	struct tegra_bo *bo;
-+	struct drm_gem_object *gem;
-+	u32 handle;
-+	struct drm_client_buffer *buffer;
- 	int err;
- 
- 	fourcc = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
-@@ -90,23 +92,22 @@ int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 	bo = tegra_bo_create(drm, size, 0);
- 	if (IS_ERR(bo))
- 		return PTR_ERR(bo);
-+	gem = &bo->gem;
- 
--	cmd.pixel_format = fourcc;
--	cmd.width = sizes->surface_width;
--	cmd.height = sizes->surface_height;
--	cmd.pitches[0] = pitch;
--
--	fb = tegra_fb_alloc(drm, format, &cmd, &bo, 1);
--	if (IS_ERR(fb)) {
--		err = PTR_ERR(fb);
--		dev_err(drm->dev, "failed to allocate DRM framebuffer: %d\n",
--			err);
--		drm_gem_object_put(&bo->gem);
--		return PTR_ERR(fb);
-+	err = drm_gem_handle_create(file, gem, &handle);
-+	if (err)
-+		goto err_drm_gem_object_put;
-+
-+	buffer = drm_client_buffer_create(client, sizes->surface_width, sizes->surface_height,
-+					  fourcc, handle, pitch);
-+	if (IS_ERR(buffer)) {
-+		err = PTR_ERR(buffer);
-+		goto err_drm_gem_handle_delete;
- 	}
- 
- 	helper->funcs = &tegra_fbdev_helper_funcs;
--	helper->fb = fb;
-+	helper->buffer = buffer;
-+	helper->fb = buffer->fb;
- 
- 	info->fbops = &tegra_fb_ops;
- 
-@@ -118,19 +119,29 @@ int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 		if (!bo->vaddr) {
- 			dev_err(drm->dev, "failed to vmap() framebuffer\n");
- 			err = -ENOMEM;
--			goto destroy;
-+			goto err_drm_client_buffer_delete;
- 		}
- 	}
- 
- 	info->flags |= FBINFO_VIRTFB;
- 	info->screen_buffer = bo->vaddr;
--	info->screen_size = bo->gem.size;
-+	info->screen_size = gem->size;
- 	info->fix.smem_start = (unsigned long)(bo->iova);
--	info->fix.smem_len = bo->gem.size;
-+	info->fix.smem_len = gem->size;
-+
-+	/* The handle is only needed for creating the framebuffer. */
-+	drm_gem_handle_delete(file, handle);
-+
-+	/* The framebuffer still holds a reference on the GEM object. */
-+	drm_gem_object_put(gem);
- 
- 	return 0;
- 
--destroy:
--	drm_framebuffer_remove(fb);
-+err_drm_client_buffer_delete:
-+	drm_client_buffer_delete(buffer);
-+err_drm_gem_handle_delete:
-+	drm_gem_handle_delete(file, handle);
-+err_drm_gem_object_put:
-+	drm_gem_object_put(gem);
- 	return err;
- }
++static
+ struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
+ 				       const struct drm_format_info *info,
+ 				       const struct drm_mode_fb_cmd2 *mode_cmd,
 -- 
 2.53.0
 
