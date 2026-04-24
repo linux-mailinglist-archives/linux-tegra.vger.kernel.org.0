@@ -1,395 +1,196 @@
-Return-Path: <linux-tegra+bounces-13947-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13949-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wG74Lat262kQNAAAu9opvQ
-	(envelope-from <linux-tegra+bounces-13947-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 15:56:59 +0200
+	id 6H+FF2CN62k+OQAAu9opvQ
+	(envelope-from <linux-tegra+bounces-13949-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 17:33:52 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2176A45FDE8
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 15:56:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7A9460D00
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 17:33:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 429D9301F4B4
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 13:52:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AF684300A67E
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 15:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAB43D6CB6;
-	Fri, 24 Apr 2026 13:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7D43CF057;
+	Fri, 24 Apr 2026 15:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="XYD4GLvK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NC93A34s"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011005.outbound.protection.outlook.com [52.101.52.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562A2372B2B;
-	Fri, 24 Apr 2026 13:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777038758; cv=fail; b=EjaB7p3b+e88mAHiKIJ4g/R4fPq+lx28sUzHgk4T1iee1tdDSpyvxsUndPEXwkiyGyy0Mtzye0yxt0ErqqI0qYTTiiiNnWUKSG9i2AuMtzaL0c3IQf+ikGX9SCjds2joc0W3pfLP86WxiUn489Wd3Gsk+ttiONZKexU8WLfceG0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777038758; c=relaxed/simple;
-	bh=YoVUNS4pTK60E4tt9EW+8OjJFDVtcdn9vNVJtaQuaN0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=AZDqmj+FDZWNnSzni/unm93qpHS8wrZ/3IO0bA4Fdck31vFcNFwaNNqxYqcTwJCGeGHhFSquaHLJTtuN47CJ/xCsSXeKDkAovbJmqIUk3jSw3KD3T/gNG3xTpoC0A0YJjh0gNvT1jL0S+xm3gkUhjW+XzdrcS7evWD267OSydZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=XYD4GLvK; arc=fail smtp.client-ip=52.101.52.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PUr3XvdWfF/tlhcSAlDskZuTnHU8vcZblEjnFPwUIgLC1bSPyS6jSB92/6Yon20wBrg+/vzTxDnxqKHcxMoEURhk6zhGdn1jW/Z5LFdUxwUInWOtV7NkTo5Vj1VEDjketcQl/Z3d9VRCr88HXeLp4VAtTjKxQU6/kbVvHuQv5cXLCiMFMn3EUfxkTzo+XHIxDIUnovjbTjU56Kg5d4IvpsNFkAE0tOGtVXTbRBlnZKpXb7wCgmaRMgm3ZYvwXOT9QHnw6jMLmCE7nF2m+1HJgwz2hSgacbAYukl6pB3up5ZkRJrAQRiZ5i7hMl2rz61c7lsUWWEs00dkIpRuBiXOEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wguoXS4vWAheV2gEfPMcPrNQadbEfe87W/feicO7mTo=;
- b=Ao+gnAaWhdqjUBQotyQLg/OmK/6lAKzYx/3co5WmTArXWyJc8X0ZQjeKPwPlkE8kyXVFRtHtyLnl/OAxrcLd3WfXc2R0DO1ZzQXZAWKXyLGZuUSm5+5IeEWX/tAmKEBgY92oMbRWQ5eDErNM//+S+xB8NQdPeeebdam7Lg9ZoRWPInnNFNPXLo1RVfUh1YYtWq87U9dTbiMH4m+r3Jr0H99i72CctSQql7vJcOWKgzV+YPLmjj2VhqkhcH2iVgUA/o210mvxnV1iMpw3tJosOGonbDmmFvRH4lkRX/aogbZHP+E+Sp5uyBZNvE9jJs2MY4pcDb48s17gldADfTuihA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wguoXS4vWAheV2gEfPMcPrNQadbEfe87W/feicO7mTo=;
- b=XYD4GLvKICZQrKkT73z1fMJ2II9kfCahXP6C/9on9A9iWg5C8xvu1GhvT4L0ljriy7n8z2F+9WVR0L2T/AQ1GbS5ul5luBGjRzKIPFukbxFhonjvOKmK4lM8npZAtuA5Rhd0cfJkHCDKATsylYsYQ/kE4b2IUPGTBGh1KEs5TZLgsrljMg9EtQToxqX+ReJb4w1P4dKm80H1yVHnkVG4MXOmFZ2xHUVKZuCR1X0wolI2FPzErfgg/91vLvz4mDXRvcWl96FfuO7IBwL/NuJRFdmFQxU1XzgYh5YH1g/UPtr++I+92jFgKCU3XeH3pN/JjfSulTUSHFkfIfc7sOIwgQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by CY8PR12MB7434.namprd12.prod.outlook.com (2603:10b6:930:52::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
- 2026 13:52:31 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
- 13:52:31 +0000
-Message-ID: <4e3cba64-2bd5-4789-b118-95a7c980731d@nvidia.com>
-Date: Fri, 24 Apr 2026 19:22:20 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cpufreq: CPPC: add autonomous mode boot parameter support
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "zhenglifeng1@huawei.com" <zhenglifeng1@huawei.com>,
- Thierry Reding <treding@nvidia.com>,
- "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
- Jon Hunter <jonathanh@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
- "ionela.voinescu@arm.com" <ionela.voinescu@arm.com>,
- Krishna Sitaraman <ksitaraman@nvidia.com>,
- Sanjay Chandrashekara <sanjayc@nvidia.com>,
- "zhanjie9@hisilicon.com" <zhanjie9@hisilicon.com>,
- "corbet@lwn.net" <corbet@lwn.net>, Matt Ochs <mochs@nvidia.com>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- Bibek Basu <bbasu@nvidia.com>, "rdunlap@infradead.org"
- <rdunlap@infradead.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>,
- "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
- "rafael@kernel.org" <rafael@kernel.org>, sumitg@nvidia.com
-References: <20260317151053.2361475-1-sumitg@nvidia.com>
- <4b1f100b-e699-43c1-a06b-5545056d174c@arm.com>
- <b8debb30-67a5-4d2b-8c08-8fd287f7258e@nvidia.com>
- <208360b1-36a5-419d-80f4-431914407f61@arm.com>
- <0fdc7e64-31aa-4bfd-ab27-dea2f349693b@nvidia.com>
- <8349bae0-ec72-40bb-a6cf-6232d8c0cfe2@nvidia.com>
- <aeb16dd2-0eb5-4fba-9b45-b5ef483ab7b4@arm.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <aeb16dd2-0eb5-4fba-9b45-b5ef483ab7b4@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0207.namprd03.prod.outlook.com
- (2603:10b6:5:3b6::32) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A2F3A6B92;
+	Fri, 24 Apr 2026 15:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777044825; cv=none; b=E1IaFm8pHx3sdDHibxyTXMawOvSet4A58zH/caCQoDNDos2i5KPOz3jF9Me3SJ7jH296AMYJLWAhsBNfCqDBqUMShtwPG59hnQP083NbaTU+hju+IaUh7bViWQulsY921TIBMXRC7pLcAmZ+lYK+zH2DcPYRj/Zbod5ZsHkq5V0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777044825; c=relaxed/simple;
+	bh=PlKmT+kLjpcPtMfqCNu/qukSxWgKZX0kjiZgkAI2D9c=;
+	h=Date:From:To:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=aphlk7wZPFwjZFCQT22BTEbRQLk7Y59J4GRJWsYeJa14uDeh1IW5rpihTiuqv40Jiwa7QH4cQwG1k65hdlswIm3YkYxO4JSBOT4oN/iE+k45GGlk8v1PBT83dDMpMnsvLQaBtc31jW1Feb3M4Nur+/HYjJYFWc1MlQxrNZc5TP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NC93A34s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1154C19425;
+	Fri, 24 Apr 2026 15:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777044824;
+	bh=PlKmT+kLjpcPtMfqCNu/qukSxWgKZX0kjiZgkAI2D9c=;
+	h=Date:From:To:Subject:In-Reply-To:References:From;
+	b=NC93A34sB1ECfO39DSMdXI3/+42Rf98ePf43mqSSByZaRdM+TzxHGZicdgW3w/ECj
+	 UsRNjirWMqwcF+sQQ+haWl+FBnl9be/OX/hr+0BfMzepxXGiCXBiJNABaM10E2iOER
+	 pyh+Mb3MntIikRejCEbPNCMjolzzj9sv74iIkmT5Gh6xw5UloQaL9aJAVAw8nsCPx5
+	 82EBpgaZH7K4HWZY8xqhWT5hmIUg1vj35xdnIBJMO7RM419WtjwYra717XdI34bcTK
+	 VDkB3NG1uC4mBn/ThgYqbMisvGBmwvo3BM1oRWBdIIQuFid9pk3jjgA6V3AK0QlMpl
+	 swVv3wO1l8/ew==
+Date: Fri, 24 Apr 2026 08:33:41 -0700
+From: Kees Cook <kees@kernel.org>
+To: Kartik Rajput <kkartik@nvidia.com>, Tony Luck <tony.luck@intel.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ Jon Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_pstore/zone=3A_Emit_regist?=
+ =?US-ASCII?Q?ration_message_as_a_single_pr=5Finfo=28=29?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260424095820.1433700-1-kkartik@nvidia.com>
+References: <20260424095820.1433700-1-kkartik@nvidia.com>
+Message-ID: <273C4CEB-8FC5-4420-BC74-691A58E254F2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|CY8PR12MB7434:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ca6ca5e-f439-4453-40fb-08dea208ba98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|22082099003|18002099003|56012099003|11006099003;
-X-Microsoft-Antispam-Message-Info:
-	+J1B9jXQhVX8iHuBjp1nsnLm8X0XDIZ9KR6C035YfxSQz0sPeR5gZNq43jDBHynw7epZX+OasAASX+1F3KJ2Su9/7SkjaNTOh05M+3DXdsuPI+rz3LG4UdYok4prBxFFCJ0cUhicw1Ak4l7+to0iwBQtmwVtGUsC1/AHOe64HONNff3x0GOzY6Tpuu6f3tFyBvVnXJnBg7QWIvQRX+8DIp2xsYFmhrtlul0s68T7a5Jx6pNIsVTlx1sWrcRCl5PtG6iGwoJevLOKW9QzYy9oKkvP8zVnmAESpEwAQ77vi3ca8PtHvDTh9kxFUyQ3gWQyxkuBZ/+ahUaecBW78Jw+mp39AbpqjTvee8CUFJBSqbpVM7cddsK0BenHbZzqX3wUj3Ee41ZLH9+nybjCsrqs796X3AjTMM3ju0MLKdnV2UDGfdvN0bE9LoAXnyvGx5/Gi9+XedtwiOgg80H+wLKwVIqHBAmXlVjK0kxLJ/yDgbwT+zDVBeTUrS0BSNZF9mSWXJTbr21GXBfUUvbVM+N0WnJGCnZxnReI+J/pWbMKjOjRJ0MXXe353qqDMbwy+8AboJhlotMsooM4m9JR4DlMgzRtGB4DQ0MmIbhFlFLmQk816slrRRSwNzCd1HK5NDbiqkF/ytAK8VN782moBNKuD8mRuO2PUmapzuNm9F5kR/UEwNPAUB+N8+6HZbnTwXlVEb0FTWqWFUSwlPv+ZqFOBof3HJVNhgrSx39P7pxEHNkpVOwcVynV5hbYheelAEB9
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(22082099003)(18002099003)(56012099003)(11006099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d3hFajdqSFFOQndkQ08xYTZRVE52dTMydVdCTGg4R3R3MU1jd2NjT21BTGh1?=
- =?utf-8?B?VDhwbVoxcG5JZmZZd1ZBZGRIR21GMlRjOGVRTmkxOUpRaE42a1E1NktCb0JZ?=
- =?utf-8?B?SHF1TjlKMldzajE2NGtZbmNBMG1SQU5GQVpkZGZjcVA4Ujdvamt3QlliSnpM?=
- =?utf-8?B?VS9WK1RYQksxSDFoblB3enFRYVE2VW1DMWtIT0NsQkNTWis4bitEUXFPRmhw?=
- =?utf-8?B?UndzOW1LWk1UV3VhSVVuV3QweUFVOVdKMXRLN0oxK2lKN1lTRkNiVEZ2ZS82?=
- =?utf-8?B?dnNVbTFkUkxkUU5RSWJVYUJRTGRaK1poZjNPNHhhSWFkMUNzb1o0bmJGUUt1?=
- =?utf-8?B?bzdJVDZPZ0lNN3VoYjRPOTliUnFiNDU4WWpiUUhub2ViWHU1SU13S1hXRmRK?=
- =?utf-8?B?T3BrbE1rQlZkUU9pQ3Y4VWQ5YXpxYnNrc29jM1BHVUo5eDdTZ2JmL0hOeENo?=
- =?utf-8?B?MENseWN1MWllTkkvZ3E2MUU1UmZwbms2aHZZRGEzdGV3bCtTTU5LY3BtaFNw?=
- =?utf-8?B?R1VnSHRobDFVVVc2ZUkvRFA0d1pidkxYajZ5QTNIdm4xajNvNkN6MytpMlZE?=
- =?utf-8?B?VVIycEFONTJnNmx3aW9mekxhcEt0ZVdQVm41eUljZWxhcExheXFNbzZrMy9j?=
- =?utf-8?B?TGRYVHlKeEVZM0pqUjYwaGtnSUlvOGpiRDgyNGFLQk9pdHFuYXRzZDlsMk1M?=
- =?utf-8?B?QUhDR0ErK2pUbGMzaWZmR2dRc1Y5dm9rTW1ITnVBQWxoRXN4Q1J0bFVoVDVG?=
- =?utf-8?B?a0wrVnhEWE1YbXNMTEZGSXE1WmZXejdnMWlLNHZQaHlFWlBUVmRDM0JkY0tu?=
- =?utf-8?B?RW4wWWR6elAvZ2FJbG1rTGszcUZpcFRxU1BZcFl2cGFSMElUMVR2aXN5OFgx?=
- =?utf-8?B?Slp3ZXZZQm9zakN4TjBjS2VCdEZyS0ptc3pDdHJNSUc3WVljUGRaSHdOSmVF?=
- =?utf-8?B?NlRmWUdnbWhnTHBTNzV3V1dxalNoZ0VYRjZiRytRZHJ2S09QcG9yM2wxdk9w?=
- =?utf-8?B?Uk83Zy9TemtNSFVDWHJpT2M5TldwMk9Fb0V6T2Eyc1g5YmRtbzhhY2hNSEF4?=
- =?utf-8?B?SzAvd096MFBndG1RMXpPanJKNmZMZkxJbU9ZYjRtdk9pVVJ1Z2F4V05jL2F5?=
- =?utf-8?B?UVk0SlRTTTd0QW5xVlFtZ0FCMzRtRnFjY2VFQm5oVVI1WHk3VkVndDlVN1Ja?=
- =?utf-8?B?SExGUzRZdVRKbDVCREJrRGUvQ3hHL09OTHpHNk02cDUyNlZXZ3BURUU3VTEv?=
- =?utf-8?B?MXh3RHVtZTA3SVJqMWY4RWZlM1VZUXkyYkt0U05zYXdTZ0VIcThvSHNURWYr?=
- =?utf-8?B?aGJ2ODhaek5wTHFCblNsV1lqc2NyTTlObmtCT2JIYjFmTnFlTGlUK2ZJZ3Rj?=
- =?utf-8?B?WjRYdmRVT3Z5VVgrZTA0Y0ZNWWF6R3V6OTBRSGYxS0xZZGk2MjR2QlluUWE0?=
- =?utf-8?B?VjdOamkrdjhCb0dsbUJRZ1JnbGtvQlJTMnNNOUFEa2pPWEt2MjB3SC9ZU3dL?=
- =?utf-8?B?WGpablMvMmROWWdyWlFwTDRoaDhXQi9BdzNEQklYdHJ1UG5JTm1aM05VVThS?=
- =?utf-8?B?RFlvMTRvL1RMUGtycThrY0NsOXg1MGQ1bGhkYlhIVmcwdUtyTEljQXlnWVhs?=
- =?utf-8?B?L3c3RnYwQll1NXdrd0U1NVhPVVJPeWdRWnFyU1Q1c3FQdGtYYlhLR2g1R21q?=
- =?utf-8?B?bXhtZ1dDMnkzZDc3MmU5MEQ4YzVYSWlHUVU2VWFEWnZ4Z3BGblYxcmd0T1ZJ?=
- =?utf-8?B?Zk0zdmFraTR5VzhqbmsvckRZblNXUDQzOW95eSt3MjU3cnFGQm10LzBFODlx?=
- =?utf-8?B?TlFxWjl4TUd2UEJsZ0NPVGhUSTdZSGswZEZIdTFmaXN2QkVodllaT0hYYXI3?=
- =?utf-8?B?NHIwSXhwRjkwdEtCRXVIa2JoN2VVY0M1SzV1enNBVWdMczJQYUZVbkN2UWZ1?=
- =?utf-8?B?S1lJZlhFSFY4STB2cW5ZRDhJVXk1bTlQZS9BZFVlQ0Z1MnZ1SkhpWFl3MC82?=
- =?utf-8?B?YXRQcVZEZzZDN0hKVzA4MXdTTUk4dVZOUmFTY0t2NW9tNUtPd2pWSDQyTC9N?=
- =?utf-8?B?ZDNnRmFUSVZ5ZlBGRHVoaFVhMndVbXNMVTMzQjF1eEdwWFZWc1FUVmI3U2hZ?=
- =?utf-8?B?dTVhVStockdvY2krSEg2SG55Y0NYSnQ0UmQ0Z1Q0V2sxdi9hb1EyaDVTOTUw?=
- =?utf-8?B?M0FxOCs4ZnJVcVBTUy93aU5hMk04UHlZTmlUUytXQllJdlFzZ0VsVXFtaFlv?=
- =?utf-8?B?b04zMTFxYWdTdjhuQUM2Z0lxd0RjZ2V6OTViT2RBdi9KZjBOenpiTTdFT3Br?=
- =?utf-8?Q?ic5Nl/PFdYHOa9TYu1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca6ca5e-f439-4453-40fb-08dea208ba98
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 13:52:30.9821
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yxUKk32fKsC58bq42qcihfsf68Jtzl3t9rOKhuRXNyeTjg0hwK7eW7Q9s+fKtkkQKBLF3X++z+a+SOdJh/aDig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7434
-X-Rspamd-Queue-Id: 2176A45FDE8
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 5C7A9460D00
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.96 / 15.00];
+	SUBJ_EXCESS_QP(1.20)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13947-lists,linux-tegra=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-13949-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumitg@nvidia.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-tegra@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nvidia.com:email]
 
 
-On 24/04/26 18:25, Pierre Gondois wrote:
-> External email: Use caution opening links or attachments
+
+On April 24, 2026 2:58:20 AM PDT, Kartik Rajput <kkartik@nvidia=2Ecom> wro=
+te:
+>register_pstore_zone() prints its "registered =2E=2E=2E as backend for =
+=2E=2E=2E"
+>summary as a pr_info() followed by several pr_cont() calls=2E
 >
+>pr_cont() is not atomic and has no log level of its own=2E It appends
+>to whichever line was most recently opened by a printk()=2E If a
+>pr_err() or pr_warn() from another CPU or an interrupt handler
+>preempts the pr_info() / pr_cont() sequence, it closes the
+>continuation between the fragments=2E This can cause parts of the
+>pstore registration message to appear at the wrong log level and be
+>interleaved with other messages=2E
 >
-> On 4/24/26 14:10, Sumit Gupta wrote:
->>
->> On 20/04/26 18:37, Sumit Gupta wrote:
->>>
->>>>>> On 3/17/26 16:10, Sumit Gupta wrote:
->>>>>>> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
->>>>>>> CPPC
->>>>>>> autonomous performance selection on all CPUs at system startup
->>>>>>> without
->>>>>>> requiring runtime sysfs manipulation. When autonomous mode is
->>>>>>> enabled,
->>>>>>> the hardware automatically adjusts CPU performance based on 
->>>>>>> workload
->>>>>>> demands using Energy Performance Preference (EPP) hints.
->>>>>>>
->>>>>>> When auto_sel_mode=1:
->>>>>>> - Configure all CPUs for autonomous operation on first init
->>>>>>> - Set EPP to performance preference (0x0)
->>>>>>> - Use HW min/max when set; otherwise program from policy limits
->>>>>>> (caps)
->>>>>>> - Clamp desired_perf to bounds before enabling autonomous mode
->>>>>>> - Hardware controls frequency instead of the OS governor
->>>>>>>
->>>>>>> The boot parameter is applied only during first policy
->>>>>>> initialization.
->>>>>>> On hotplug, skip applying it so that the user's runtime sysfs
->>>>>>> configuration is preserved.
->>>>>>>
->>>>>>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
->>>>>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->>>>>>> ---
->>>>>>> Part 1 [1] of this series was applied for 7.1 and present in next.
->>>>>>> Sending this patch as reworked version of 'patch 11' from [2] based
->>>>>>> on next.
->>>>>>>
->>>>>>> [1]
->>>>>>> https://lore.kernel.org/lkml/20260206142658.72583-1-sumitg@nvidia.com/ 
->>>>>>>
->>>>>>>
->>>>>>> [2]
->>>>>>> https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/ 
->>>>>>>
->>>>>>>
->>>>>>> ---
->>>>>>>    .../admin-guide/kernel-parameters.txt         | 13 +++
->>>>>>>    drivers/cpufreq/cppc_cpufreq.c                | 84
->>>>>>> +++++++++++++++++--
->>>>>>>    2 files changed, 92 insertions(+), 5 deletions(-)
->>>>>>>
->>>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt
->>>>>>> b/Documentation/admin-guide/kernel-parameters.txt
->>>>>>> index fa6171b5fdd5..de4b4c89edfe 100644
->>>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>>>>> @@ -1060,6 +1060,19 @@ Kernel parameters
->>>>>>>                        policy to use. This governor must be
->>>>>>> registered in the
->>>>>>>                        kernel before the cpufreq driver probes.
->>>>>>>
->>>>>>> +     cppc_cpufreq.auto_sel_mode=
->>>>>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous
->>>>>>> performance
->>>>>>> +                     selection. When enabled, hardware
->>>>>>> automatically adjusts
->>>>>>> +                     CPU frequency on all CPUs based on workload
->>>>>>> demands.
->>>>>>> +                     In Autonomous mode, Energy Performance
->>>>>>> Preference (EPP)
->>>>>>> +                     hints guide hardware toward performance (0x0)
->>>>>>> or energy
->>>>>>> +                     efficiency (0xff).
->>>>>>> +                     Requires ACPI CPPC autonomous selection
->>>>>>> register support.
->>>>>>> +                     Format: <bool>
->>>>>>> +                     Default: 0 (disabled)
->>>>>>> +                     0: use cpufreq governors
->>>>>>> +                     1: enable if supported by hardware
->>>>>>> +
->>>>>>>        cpu_init_udelay=N
->>>>>>>                        [X86,EARLY] Delay for N microsec between
->>>>>>> assert and de-assert
->>>>>>>                        of APIC INIT to start processors. This delay
->>>>>>> occurs
->>>>>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c
->>>>>>> b/drivers/cpufreq/cppc_cpufreq.c
->>>>>>> index 5dfb109cf1f4..49c148b2a0a4 100644
->>>>>>> --- a/drivers/cpufreq/cppc_cpufreq.c
->>>>>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
->>>>>>> @@ -28,6 +28,9 @@
->>>>>>>
->>>>>>>    static struct cpufreq_driver cppc_cpufreq_driver;
->>>>>>>
->>>>>>> +/* Autonomous Selection boot parameter */
->>>>>>> +static bool auto_sel_mode;
->>>>>>> +
->>>>>>>    #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>>>>>>    static enum {
->>>>>>>        FIE_UNSET = -1,
->>>>>>> @@ -708,11 +711,74 @@ static int cppc_cpufreq_cpu_init(struct
->>>>>>> cpufreq_policy *policy)
->>>>>>>        policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->>>>>>>        cpu_data->perf_ctrls.desired_perf = caps->highest_perf;
->>>>>>>
->>>>>>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>>>>>> -     if (ret) {
->>>>>>> -             pr_debug("Err setting perf value:%d on CPU:%d.
->>>>>>> ret:%d\n",
->>>>>>> -                      caps->highest_perf, cpu, ret);
->>>>>>> -             goto out;
->>>>>>> +     /*
->>>>>>> +      * Enable autonomous mode on first init if boot param is set.
->>>>>>> +      * Check last_governor to detect first init and skip if
->>>>>>> auto_sel
->>>>>>> +      * is already enabled.
->>>>>>> +      */
->>>>>> If the goal is to set autosel only once at the driver init,
->>>>>> shouldn't this be done in cppc_cpufreq_init() ?
->>>>>> I understand that cpu_data doesn't exist yet in
->>>>>> cppc_cpufreq_init(), but this seems more appropriate to do
->>>>>> it there IMO.
->>>>>>
->>>>>> This means the cpudata should be updated accordingly
->>>>>> in this cppc_cpufreq_cpu_init() function.
->>>>> In an earlier version [1], the setup was in cppc_cpufreq_init() but
->>>>> was moved to cppc_cpufreq_cpu_init() to improve per-CPU error
->>>>> handling.
->>>>> Keeping the setup in cppc_cpufreq_init() helps to avoid the
->>>>> last_governor
->>>>> check. We can warn for a CPU failing to enable and continue so other
->>>>> CPUs keep autonomous mode.
->>>>> cppc_cpufreq_cpu_init() would then just check the auto_sel state
->>>>> from register and sync policy limits from min/max_perf registers when
->>>>> autonomous mode is active.
->>>>> Please let me know your thoughts.
->>>> FWIU the auto_sel_mode module parameter allows to
->>>> configure the default auto_sel_mode when the driver is
->>>> first loaded, so there should not need to check that again
->>>> whenever cppc_cpufreq_cpu_init() is called.
->>>> Maybe Ionela saw something we didn't see ?
->>>
->>> AFAIU, the concern in that review [1] was about error handling as the
->>> earlier version disabled auto_sel on all CPUs if any single CPU failed.
->>> Per-CPU error handling in cppc_cpufreq_init() (warn and continue)
->>> addresses that. Can't think of more reason.
->>> Do you have anything in mind?
->>>
->>
->> Actually, one case where cppc_cpufreq_cpu_init() would be needed
->> is when CPUs are offline at boot. So I will keep the setup in
->> cppc_cpufreq_cpu_init() in v2 same as present in current version.
->>
-> Wouldn't it be possible to loop over the "cpu_present_mask"
-> as you currently do in cppc_cpufreq_exit() ?
-
-On ARM64 it works since registers go through PCC/SystemMemory
-which don't require the target CPU online. But cppc_cpufreq.c
-is also built for RISCV, where cpc_write_ffh() uses
-smp_call_function_single().
-So setup in cppc_cpufreq_init() with for_each_present_cpu() would
-fail on RISCV+FFH platforms when CPUs are offline at boot.
-cppc_cpufreq_cpu_init() handles all cases naturally.
-
-
+>Furthermore, this causes the detection of new warning and error
+>messages in the kernel log to be unreliable=2E
 >
-> ------
+>Format the registration line in a small local buffer using
+>scnprintf() and emit it with a single pr_info() call, making the
+>line atomic with respect to concurrent printk() callers=2E  No
+>functional change to registration=2E
 >
-> Another issue about relying on "cpu_data->perf_ctrls.auto_sel" in:
+>Signed-off-by: Kartik Rajput <kkartik@nvidia=2Ecom>
+>---
+> fs/pstore/zone=2Ec | 20 ++++++++++----------
+> 1 file changed, 10 insertions(+), 10 deletions(-)
 >
-> """
-> if (auto_sel_mode && policy->last_governor[0] == '\0' &&
->     !cpu_data->perf_ctrls.auto_sel) {
-> """
->
-> is that the cpu_data struct is fresh memory coming from
-> cppc_cpufreq_get_cpu_data(), so it might always be 0
-> I think.
->
+>diff --git a/fs/pstore/zone=2Ec b/fs/pstore/zone=2Ec
+>index a3b003f9a3a0=2E=2Efbe0a252dd2a 100644
+>--- a/fs/pstore/zone=2Ec
+>+++ b/fs/pstore/zone=2Ec
+>@@ -1301,6 +1301,8 @@ int register_pstore_zone(struct pstore_zone_info *i=
+nfo)
+> {
+> 	int err =3D -EINVAL;
+> 	struct psz_context *cxt =3D &pstore_zone_cxt;
+>+	char buf[256] =3D "";
+>+	size_t len =3D 0;
 
-cppc_cpufreq_get_cpu_data() calls cppc_get_perf() (added in [1])
-which reads perf_ctrls including auto_sel from the HW register.
-So, cpu_data->perf_ctrls.auto_sel reflects the actual HW state,
-not the zeroed kzalloc value.
+Please use a seq_buf backed by a stack array instead of the scnprintf call=
+s=2E
 
-[1] https://lore.kernel.org/lkml/20260206142658.72583-2-sumitg@nvidia.com/
+Otherwise, yes, seems good to keep this all on one line=2E
 
-Thank you,
-Sumit Gupta
+Thanks!
 
+-Kees
 
+>=20
+> 	if (info->total_size < 4096) {
+> 		pr_warn("total_size must be >=3D 4096\n");
+>@@ -1383,30 +1385,28 @@ int register_pstore_zone(struct pstore_zone_info =
+*info)
+> 	}
+> 	cxt->pstore=2Edata =3D cxt;
+>=20
+>-	pr_info("registered %s as backend for", info->name);
+> 	cxt->pstore=2Emax_reason =3D info->max_reason;
+> 	cxt->pstore=2Ename =3D info->name;
+> 	if (info->kmsg_size) {
+> 		cxt->pstore=2Eflags |=3D PSTORE_FLAGS_DMESG;
+>-		pr_cont(" kmsg(%s",
+>-			kmsg_dump_reason_str(cxt->pstore=2Emax_reason));
+>-		if (cxt->pstore_zone_info->panic_write)
+>-			pr_cont(",panic_write");
+>-		pr_cont(")");
+>+		len +=3D scnprintf(buf + len, sizeof(buf) - len, " kmsg(%s%s)",
+>+			       kmsg_dump_reason_str(cxt->pstore=2Emax_reason),
+>+			       cxt->pstore_zone_info->panic_write ? ",panic_write" : "");
+> 	}
+> 	if (info->pmsg_size) {
+> 		cxt->pstore=2Eflags |=3D PSTORE_FLAGS_PMSG;
+>-		pr_cont(" pmsg");
+>+		len +=3D scnprintf(buf + len, sizeof(buf) - len, " pmsg");
+> 	}
+> 	if (info->console_size) {
+> 		cxt->pstore=2Eflags |=3D PSTORE_FLAGS_CONSOLE;
+>-		pr_cont(" console");
+>+		len +=3D scnprintf(buf + len, sizeof(buf) - len, " console");
+> 	}
+> 	if (info->ftrace_size) {
+> 		cxt->pstore=2Eflags |=3D PSTORE_FLAGS_FTRACE;
+>-		pr_cont(" ftrace");
+>+		len +=3D scnprintf(buf + len, sizeof(buf) - len, " ftrace");
+> 	}
+>-	pr_cont("\n");
+>+
+>+	pr_info("registered %s as backend for%s\n", info->name, buf);
+>=20
+> 	err =3D pstore_register(&cxt->pstore);
+> 	if (err) {
 
+--=20
+Kees Cook
 
