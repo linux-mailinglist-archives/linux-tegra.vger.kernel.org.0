@@ -1,384 +1,235 @@
-Return-Path: <linux-tegra+bounces-13946-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13948-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPayHrpo62m2MgAAu9opvQ
-	(envelope-from <linux-tegra+bounces-13946-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 14:57:30 +0200
+	id EH1DKvZ362kQNAAAu9opvQ
+	(envelope-from <linux-tegra+bounces-13948-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 16:02:30 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1618845EBF5
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 14:57:30 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B4145FF11
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 16:02:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C7DCD3013251
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 12:57:27 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BD4B430058CD
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2026 14:02:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FDE3D34B2;
-	Fri, 24 Apr 2026 12:57:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D1B13DA7FC;
+	Fri, 24 Apr 2026 14:02:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="izYIz9Mw";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="izYIz9Mw"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eVrbBPSa"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010006.outbound.protection.outlook.com [52.101.84.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5935B2853E0;
-	Fri, 24 Apr 2026 12:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.6
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777035443; cv=fail; b=L44s54/AiGIAy8P167+YY09cCnkCGv673ynQlukg0bt+KFUN4/rU5R/ss9NblvpAP6wm+YPJJ6cAmNebUO5GfC94u43lRRD8iJM/ZWw+DGjruhv/PeZS2+wGNqlPTXpznD7NX2Rn1lcQG1MdQSUu9rCDku88ws0xANS0HnPiHrs=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777035443; c=relaxed/simple;
-	bh=uoWPdyuNb3gUPNTrqrfjorW4XX14EM5wSyYTOdEf/A0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CvBnKY306F3srm7et8yHdj7U7XXV7EA0JOSFh+pfklxBSN3U2fTsyAfDXgkxSRmDYG8Se7wLO0cuIc0DN2yAqbtOK8qqlw8wxqvi6kuCcg7HeWATXSnVd1+V+84bPwDVRPDfT1oHqev+WozHLcY/aDXr2rCHce02JNvNr9t6BSc=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=izYIz9Mw; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=izYIz9Mw; arc=fail smtp.client-ip=52.101.84.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=PgkzmioDTkYsQV5l/usCUyEwb4OJUjNIj3elg2kWBR4C/jg53boHuB4Q6XrAdyPlVMbRxnf5krWk1+rVpJIfmiozx0Ihr5E7OLkfFVXxROW4YWELdcPtY0TGn7agH85QEgHcaSSrmVHayvT5Z8GBK8FWBPPAGOilMQVfjS3kpUJdB5abWcJuUTLRvjEqsE4P7zaZreZt6pWoU4hY/63S8ZNea6oPMvfRcSzExoFvNUhvVoMd1mlSsg6KPf6X3d0cgMBH1DcoW0HOXzpTyDSKklnJe+MvEYoFl3S+qF8J8v81NVPFPgjcAxwM0mj7KZkRpFST6znqqwB34724P+enVg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vDmouBAWP00821EwFCvLgl9hyS2RmnyV2az0cm38R+k=;
- b=ddWWfSQjD0z90yoO/0hSUAygGfbVF8GnNUhARCU06w9OJkFLiNHu7KUKnHTzWBIQriiVXFgqxEztoBnBsH/XG3GC7SK0BClwxYMj5inDNIYByVV1oJSqVcg/RZ02dJJth1F+l5JULoHDM/GqN4WkpPMwS4VzPpPMz+2pwPJ7nQEP7tI9xpKT1taxQ7/xLO5JQ7EgYkgY9RCHj+t0kCjj//HAJ2DBI7jzk9C7ektmDODsEZ2KGHB7arbxFFd6ZxJYGww8FFlmhCnp6LT7XEnNNhWjND1qAGjgBKtHbajzfjGuJpKi13+JN/7D5PE0WLGJun7Za3Kuvn7PON4XOj5YkA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=nvidia.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vDmouBAWP00821EwFCvLgl9hyS2RmnyV2az0cm38R+k=;
- b=izYIz9Mwos+wPInnQ1bnmJZLoZpvroyKmnh7yNzOM2D8H2zcVanZbvGGZBKvnZdaxGnS5XxZdBWIybNMIlqBtfU+lCRPtgA8AQpyxEAPTq7mwGY3dx76a9QbbEHHQSPxPwtY1gYQEvqYW9Tma4P2lqh81wQA51ukaMrvIeSf3/s=
-Received: from DU2P251CA0003.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::13)
- by DBAPR08MB5733.eurprd08.prod.outlook.com (2603:10a6:10:1b3::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
- 2026 12:56:56 +0000
-Received: from DU6PEPF0000B61F.eurprd02.prod.outlook.com
- (2603:10a6:10:230:cafe::90) by DU2P251CA0003.outlook.office365.com
- (2603:10a6:10:230::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Fri,
- 24 Apr 2026 12:56:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000B61F.mail.protection.outlook.com (10.167.8.134) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
- via Frontend Transport; Fri, 24 Apr 2026 12:56:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x/yXif/9vhcSEwV77PgqV34fx8+QtBKcuXlx4XC9GxgcyBL5IMngI2hbD1pdK5NDEs3lLaut9D18d3liWpTbfdgC2VhCILq/8LarV3ZjHky0Rte2vzojJElW2iAPnTcgpviw3Tm+u+IhXKv84pEJbdsbENsj0TkccwZRrJJ+vN53hnlxkhcG2i2rr0hggpCqWbcNhO2oNa8Y2vaEFpwtBn3Qc2odqb3iFqy3PitkUQIgKdS55gXiVNWXWlQO5vEZMxAz7iubAEM+UeBBAmIUzHwRqIQ1iWOGzSvykZhPZVtgdd5P7I4VKL57ILYpZnQWUdGbJ8/eVoXviroxf7jJlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vDmouBAWP00821EwFCvLgl9hyS2RmnyV2az0cm38R+k=;
- b=L7iszXkpsWw2AHKSFhypHFHBYUDD+c97SF2ccZf5A50rwA+Crq5dtTgDQkmWadM05BAjOZpoolYu+LbrZQRUydpFezRrqTmh0KS9Vz+epuDRHD+PKL1lqV8iT0GNKte+A9JP9qMXwyXye7StekkbPwiYTyOr5y35K99e3lUOIzKHEzpMidTX440uVBgcCTkCMxrEqsg+glOzA8APVMKbrmvMqz1FF1zpTTLf6JwCAdtZT0SJYQ67vmRd3gciR9884wljl91/nmvCDe0MGHVfXzU3asc+LJExmz1xd1MESN2gQD00qGI7jaC7qfFyXUaS+ICQgwABp3QS3EJ2t6bmFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vDmouBAWP00821EwFCvLgl9hyS2RmnyV2az0cm38R+k=;
- b=izYIz9Mwos+wPInnQ1bnmJZLoZpvroyKmnh7yNzOM2D8H2zcVanZbvGGZBKvnZdaxGnS5XxZdBWIybNMIlqBtfU+lCRPtgA8AQpyxEAPTq7mwGY3dx76a9QbbEHHQSPxPwtY1gYQEvqYW9Tma4P2lqh81wQA51ukaMrvIeSf3/s=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB10391.eurprd08.prod.outlook.com (2603:10a6:800:20c::6)
- by PAWPR08MB10090.eurprd08.prod.outlook.com (2603:10a6:102:367::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Fri, 24 Apr
- 2026 12:55:48 +0000
-Received: from VI0PR08MB10391.eurprd08.prod.outlook.com
- ([fe80::fa6b:9ba8:5c2f:ac91]) by VI0PR08MB10391.eurprd08.prod.outlook.com
- ([fe80::fa6b:9ba8:5c2f:ac91%3]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
- 12:55:47 +0000
-Message-ID: <aeb16dd2-0eb5-4fba-9b45-b5ef483ab7b4@arm.com>
-Date: Fri, 24 Apr 2026 14:55:40 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cpufreq: CPPC: add autonomous mode boot parameter support
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "zhenglifeng1@huawei.com" <zhenglifeng1@huawei.com>,
- Thierry Reding <treding@nvidia.com>,
- "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
- Jon Hunter <jonathanh@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
- "ionela.voinescu@arm.com" <ionela.voinescu@arm.com>,
- Krishna Sitaraman <ksitaraman@nvidia.com>,
- Sanjay Chandrashekara <sanjayc@nvidia.com>,
- "zhanjie9@hisilicon.com" <zhanjie9@hisilicon.com>,
- "corbet@lwn.net" <corbet@lwn.net>, Matt Ochs <mochs@nvidia.com>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- Bibek Basu <bbasu@nvidia.com>, "rdunlap@infradead.org"
- <rdunlap@infradead.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>,
- "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
- "rafael@kernel.org" <rafael@kernel.org>
-References: <20260317151053.2361475-1-sumitg@nvidia.com>
- <4b1f100b-e699-43c1-a06b-5545056d174c@arm.com>
- <b8debb30-67a5-4d2b-8c08-8fd287f7258e@nvidia.com>
- <208360b1-36a5-419d-80f4-431914407f61@arm.com>
- <0fdc7e64-31aa-4bfd-ab27-dea2f349693b@nvidia.com>
- <8349bae0-ec72-40bb-a6cf-6232d8c0cfe2@nvidia.com>
-Content-Language: en-US
-From: Pierre Gondois <pierre.gondois@arm.com>
-X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
- attachmentreminder=0; deliveryformat=1
-X-Identity-Key: id1
-Fcc: imap://pierre.gondois%40arm.com@outlook.office365.com/Sent
-In-Reply-To: <8349bae0-ec72-40bb-a6cf-6232d8c0cfe2@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0095.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:191::10) To VI0PR08MB10391.eurprd08.prod.outlook.com
- (2603:10a6:800:20c::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D1A3845CB;
+	Fri, 24 Apr 2026 14:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777039343; cv=none; b=QwqGNvsoSkUbh19EmdDdmaeoYvUoiFqmJalbYArGGi1ky/NKHmOFA5XpmrNn20EgTLQXs0O4ue+OccyvgLDTEll0zbWjxD/40o4wlMHkjI/mFjcRvb6H1PMqm+nfw25nejI88ZBRZeWNQ4uEGTrcskgIlmNwYuzwkGldAWI1mj4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777039343; c=relaxed/simple;
+	bh=ack7mYbip6ZcuORQPpGdCVHFIO+2WE0qOIuDR99tjcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sRoOebb+MrJ65ce4GV1vlcQOxqpjMMYEex+ohRjF59lHBiYNqKWetpbbNSIUlPv+gONPHAXDBQqsS2m63cSsxFnD56Zfh1qFcM3ba/54O9Ogj3/YxVYnmP0q1SNU1fBS7HbvC4abiRkLgDVyXm5kYHm3re82Qpg3Sp0zSXleqGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eVrbBPSa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 300E0C19425;
+	Fri, 24 Apr 2026 14:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777039342;
+	bh=ack7mYbip6ZcuORQPpGdCVHFIO+2WE0qOIuDR99tjcI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eVrbBPSay5lsKqpmLH1QRqkLYOnAbpPXdwffDswEX5wCx3OM8YNgFVoAszeWet41J
+	 N7en7QHUFyw55uVogTj/9asNhK9JcorV9woWHwY6p95kzbYb9NwfRCbUQ+iccUgFGa
+	 1atSKUuBQu1QGh/D5JqOoasZsOzablfgD/xYZz5k=
+Date: Fri, 24 Apr 2026 15:34:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
+Message-ID: <2026042442-luxurious-antonym-f20c@gregkh>
+References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
+ <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
+ <2026042346-trustable-register-095a@gregkh>
+ <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
+ <2026042422-deem-chemist-8d0f@gregkh>
+ <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
+ <2026042428-blemish-helpline-7d8d@gregkh>
+ <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI0PR08MB10391:EE_|PAWPR08MB10090:EE_|DU6PEPF0000B61F:EE_|DBAPR08MB5733:EE_
-X-MS-Office365-Filtering-Correlation-Id: d77baa69-daf8-4959-dfd1-08dea200f76c
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|7416014|376014|10070799003|1800799024|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original:
- eqEhgAMvc4arkJalF7sdWdu8N6s/VaCa46v/2EGELxH1NK1F34kFBJODsU+5CyREV/PMT8FEXDMUoJzwC3PVFZ34e3L0Qq2HDHhHRg+hGjiGx6n5hd2gODMCn/4A1L99xGpL7mpdgBlaSjwz+gSmEaR6UORBXs+l7gxBtdDKt2WPyDNya8lhjD0LMLT27xJd36pnQGQCXfVqIaaBWTzK9MFFfSOMry31F1/usfVxUh73FB9qWJtMOdhsqtVh8SoudTu4yYfLc2kqbr/aFEB2hi4xVV7dnzVS+73pYt23k2MJtPfO34076T71XgOgsyRQfrPSEZCTxloVUegn/fF5aMqT6JE1iunxIGITRrGuJUimIHkZ9mPi2F4cxLV/uFJcQ7+ooNuBMFayOu1+OQxbaIgVxjqJpGDSEDOZlLk8f7Oxb7OdUrmAEO/sXipJF5gre89uVvmc62zzlVAo2bpAeEclkyls4ZqLJv8ddUXvQFNchEGK+ApdFbhvJBmUvvF+EPNnpvuhTbOIL/j8Q9g4CbhYQ/T5Jo2OG/knlQ1vsLt3YMo3ilu+0jO7Pp0Q9BynCkO1FTmHDcDVQ79JJSEIG4ZO0pshLXpxTkv+b0f6QbWMMqSUIUWgzfEALQYqxb2OCHMyVUkepyRu00u3ua/v7phtXbxtuUA1fyCr2S7J4CPYYcCT5KHeoT4uC4j/3B/wonflHQ7Sc1284L3fqf+DCCQj0GnT1NZjHtIjtnt9Md4OSmHb6R65Wedre7MuDDMO
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB10391.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- c/VyUbBRzFNz1nWU9BAvlMY6o+JVV/l55SqilxgPUmN1snYgQ6OheFaWX3oRxX/srZ2663uIPAruyjEXqPHF/9fMO8/5cGu/rYzGdGx7sdyMF6IuyLyM3hmBAtwXa0JlAwepWqkWtMOeA3xSIfQmxXARSe/UEpQuXlLULwV6catsSU0emvrlncBxqGF2pOPINSYhVRswfPuGr6WuESUmnNoemo0/OssYRiVtA568s2IVwJX50nah34HBEkFVP5douRQ5UKX/HMwcsfJPPQJg/59aTixhGN0+MtrnBe0bRWOydmzj7gxttMKWop/8PtPqtQL7qKkUH2UVDzycbMMkBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB10090
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU6PEPF0000B61F.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	a6aea381-3c92-4c21-ad65-08dea200cde7
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|35042699022|36860700016|7416014|376014|14060799003|1800799024|82310400026|56012099003|22082099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	jGzd78BarACFmOQht1NGxmE9jjEhlmp01ICPPNS8hGXE39Top1mvgSDubWB0aqhIdblvl78/xlBfKSWBUIbfZ+cxL54GyuKPt2Xt18JYwlmzqs/Fkl+vS2H8R2PMyJbs1SmDhPpUIWHTc8KqFuIoWx6Y0/Mwd+9+aBEQnffndNR4bddJkq3eEzce2JlVNG8CWVUPhEVlikZs8EqCm3o/+vKdT9z4IwvUfUJB5uBJkD7U4KHItKCN9wk7DwjB2h13k1hygdpWbwF8M6fTc705ot9TDii1a9RkWdqWCyr+7MwFWAEQSkGMqlKLYzqMjDze+A6nXOuvlO3jeY1wKK+xQvhY1+w0zAjTnfJ4w4WcvqJHfQESYIrk3Krx7Xe5wQPmG9Z77D+8VTniL1Ksifl0ZIw8AMh1TBl8ixqSaBEC8OCYoVhLscBWswdu/OBqO4vSG22rT+v2UQHHAofHYr6E9stsuLxhDUbWKTrHwcf/eXCFq3VfydAWUA5BgQSpef0ZT4gX+sf5sprhVT1nfNqoWaD76oLtS+cn1WIbiOj/alA2Ouo5DklKKzsE5yyZuBoxu9UC5ye8Boyk7PFU7qNopOEmJAx8mFZcz5MxsK+mO23WyqXmKUozyoP/CNZAGbMlEyk/y1a7KjU4kSyuih4l40DKB1PPNzCOjj9sykRyLmI13AvKKyuOan3MEFeP6bwEP3MX3Ied/vwFjvpYC7648QJRGXKxW7l1doHJls5g4GwpH7yIuuFuwCeJly6TO4KPP9IeAfcskCmgBo9saaHKrelBeVVmWUP1s6rIzDPa+v8=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(36860700016)(7416014)(376014)(14060799003)(1800799024)(82310400026)(56012099003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	T/NBG5BcUHemB/F8fVsEzW7iFu9/eQFD47nud/dUAkhizcFjki1iDyOsZIwP7223PhGC98NC0xoClypqaVRvuOrJaB/YvqQ2lOBxgq690qiH1yTJsynBRMzOdDtXNrCqxmZqJ7WylEKezMZW1y1hU4ILl3N2QeaYyjIcVKlIe4Czn2U4/XXXt1HyJVQKGQ8pwpeNUOK1tW9Jip1BaHZxhsH/Peya+WjqKaVyb4y2CqYHee9NbS03tCZNH57M16KekWJtQAh7ygN6sD4hVHmh56N43zrTZc9DS7BooMbv8YjfCIYlGGNQDyB0c7xtLta4GvEWwjPy3+yIVT3CDjmPiQuiQkpEFWZ684X/ujsGEt0+eDizgN8GRc2Jm/1KVSiREDi2QEjCazSPQadEQDu4m8bH9f8G8zaB4oJDOgp3gaFyxCNN3i5DGR3nKKXXUFce
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 12:56:56.6836
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d77baa69-daf8-4959-dfd1-08dea200f76c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF0000B61F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5733
-X-Rspamd-Queue-Id: 1618845EBF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 97B4145FF11
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=3];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [3.84 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13946-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	DKIM_TRACE(0.00)[arm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pierre.gondois@arm.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13948-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,8bytes.org,arm.com,linaro.org,nvidia.com,gmail.com,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RSPAMD_EMAILBL_FAIL(0.00)[vikash.garodia.oss.qualcomm.com:query timed out,busanna.reddy.oss.qualcomm.com:query timed out];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	RCVD_COUNT_SEVEN(0.00)[8]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email]
 
+On Fri, Apr 24, 2026 at 06:12:09PM +0530, Vishnu Reddy wrote:
+> 
+> On 4/24/2026 5:25 PM, Greg Kroah-Hartman wrote:
+> > On Fri, Apr 24, 2026 at 05:15:02PM +0530, Vishnu Reddy wrote:
+> >> On 4/24/2026 4:43 PM, Greg Kroah-Hartman wrote:
+> >>> On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
+> >>>> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
+> >>>>> On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
+> >>>>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >>>>>>
+> >>>>>> When a driver needs to create virtual device at runtime and map it to
+> >>>>>> an IOMMU context for memory isolation, there is no common bus available
+> >>>>>> for this purpose. Each driver ends up implementing its own bus type,
+> >>>>>> leading to duplicated logic across multiple drivers.
+> >>>>>>
+> >>>>>> host1x driver implemented its own bus type to attach an IOMMU context to
+> >>>>>> a dynamically created device. The Iris VPU driver now has the same
+> >>>>>> requirement. Rather than duplicating the same bus logic again, a shared
+> >>>>>> bus type is introduced under drivers/base that multiple drivers can use
+> >>>>>> directly.
+> >>>>>>
+> >>>>>> The bus takes care of creating a device and attaching the IOMMU context
+> >>>>>> to it based on the client inputs.
+> >>>>>>
+> >>>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >>>>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >>>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> >>>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> >>>>>> ---
+> >>>>>>  drivers/base/Kconfig            |  3 ++
+> >>>>>>  drivers/base/Makefile           |  1 +
+> >>>>>>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
+> >>>>>>  include/linux/dma_context_bus.h | 26 ++++++++++++++
+> >>>>>>  4 files changed, 107 insertions(+)
+> >>>>> as you can not have a device on multiple busses at the same time, this
+> >>>>> makes no sense to me at all.  "dma context" is a bus-specific thing, so
+> >>>>> please add it to the bus that you are wanting it for.  It can't be a
+> >>>>> generic bus as that just doesn't work.
+> >>>>>
+> >>>>> Or what am I missing here?
+> >>>>>
+> >>>>> And why is DMA somehow "special" here from any other hardware attribute?
+> >>>> Let me give brief information which was discussed, in the initial series,
+> >>>> the iris VPU used platform bus for dynamically created devices and we got
+> >>>> the comment/suggestion from Robin to implement a proper bus_type with a
+> >>>> .dma_configure callback.
+> >>>>
+> >>>> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
+> >>>>
+> >>>> based on the discussion, implemented the dma_context_bus and used for iris
+> >>>> VPU devices instead of platform bus.
+> >>> Why not make a irus_vpu_bus where you can do what you want?
+> >> Initially iris_vpu_bus was introduced, and it was made generic based on the
+> >> discussion,
+> >>
+> >> https://lore.kernel.org/all/20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com/
+> > I don't really see that request here, I see a "make this better and more
+> > generic for other busses" but that does not mean "dump it into
+> > drivers/bus/ for someone else to maintain" :)
+> >
+> >>>> Here, the device have only one bus (dma_context_bus), not multiple buses.
+> >>>>
+> >>>> Regarding the "DMA" naming, the core operation of this bus is its
+> >>>> .dma_configure callback, which calls of_dma_configure_id() to map the device
+> >>>> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
+> >>>> purpose.
+> >>>>
+> >>>> I am open to suggestions from you or Robin or anyone else, if there is a
+> >>>> better or preferred way to achieve this, I am happy to consider it and
+> >>>> rework the implementation accordingly.
+> >>> As there is only one user, just make this your own bus please and do all
+> >>> of the needed bus operations for your devices there (i.e. don't hang an
+> >>> "empty" device off of it.)
+> >> The reasoning behind to make it generic was to have more users - host1x,
+> >> Iris VPU, QDA on the generic context bus, instead of each of them having
+> >> their own. Let me know if you suggest to have the iris_vpu_bus.
+> > But you did not add such users here, so how would we know this?
+> >
+> > And still, I have no idea what this bus really is doing.  Is it dynamic?
+> > Is it self-describing?  Why not just use aux-bus?  What is it supposed
+> > to be doing and used for?
+> 
+> This bus will allow users to create a dynamic device and map to IOMMU stream
+> ID via .dma_configure callback which calls the of_dma_confgure_id() based on
+> the user inputs. This bus is under the iommu_buses list to register for bus
+> notifier callbacks for iommu_probe_device() and iommu_release_device() during
+> add and remove.
 
-On 4/24/26 14:10, Sumit Gupta wrote:
->
-> On 20/04/26 18:37, Sumit Gupta wrote:
->>
->>>>> On 3/17/26 16:10, Sumit Gupta wrote:
->>>>>> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable 
->>>>>> CPPC
->>>>>> autonomous performance selection on all CPUs at system startup 
->>>>>> without
->>>>>> requiring runtime sysfs manipulation. When autonomous mode is 
->>>>>> enabled,
->>>>>> the hardware automatically adjusts CPU performance based on workload
->>>>>> demands using Energy Performance Preference (EPP) hints.
->>>>>>
->>>>>> When auto_sel_mode=1:
->>>>>> - Configure all CPUs for autonomous operation on first init
->>>>>> - Set EPP to performance preference (0x0)
->>>>>> - Use HW min/max when set; otherwise program from policy limits 
->>>>>> (caps)
->>>>>> - Clamp desired_perf to bounds before enabling autonomous mode
->>>>>> - Hardware controls frequency instead of the OS governor
->>>>>>
->>>>>> The boot parameter is applied only during first policy 
->>>>>> initialization.
->>>>>> On hotplug, skip applying it so that the user's runtime sysfs
->>>>>> configuration is preserved.
->>>>>>
->>>>>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
->>>>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->>>>>> ---
->>>>>> Part 1 [1] of this series was applied for 7.1 and present in next.
->>>>>> Sending this patch as reworked version of 'patch 11' from [2] based
->>>>>> on next.
->>>>>>
->>>>>> [1]
->>>>>> https://lore.kernel.org/lkml/20260206142658.72583-1-sumitg@nvidia.com/ 
->>>>>>
->>>>>> [2]
->>>>>> https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/ 
->>>>>>
->>>>>> ---
->>>>>>    .../admin-guide/kernel-parameters.txt         | 13 +++
->>>>>>    drivers/cpufreq/cppc_cpufreq.c                | 84
->>>>>> +++++++++++++++++--
->>>>>>    2 files changed, 92 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt
->>>>>> b/Documentation/admin-guide/kernel-parameters.txt
->>>>>> index fa6171b5fdd5..de4b4c89edfe 100644
->>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>>>> @@ -1060,6 +1060,19 @@ Kernel parameters
->>>>>>                        policy to use. This governor must be
->>>>>> registered in the
->>>>>>                        kernel before the cpufreq driver probes.
->>>>>>
->>>>>> +     cppc_cpufreq.auto_sel_mode=
->>>>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous
->>>>>> performance
->>>>>> +                     selection. When enabled, hardware
->>>>>> automatically adjusts
->>>>>> +                     CPU frequency on all CPUs based on workload
->>>>>> demands.
->>>>>> +                     In Autonomous mode, Energy Performance
->>>>>> Preference (EPP)
->>>>>> +                     hints guide hardware toward performance (0x0)
->>>>>> or energy
->>>>>> +                     efficiency (0xff).
->>>>>> +                     Requires ACPI CPPC autonomous selection
->>>>>> register support.
->>>>>> +                     Format: <bool>
->>>>>> +                     Default: 0 (disabled)
->>>>>> +                     0: use cpufreq governors
->>>>>> +                     1: enable if supported by hardware
->>>>>> +
->>>>>>        cpu_init_udelay=N
->>>>>>                        [X86,EARLY] Delay for N microsec between
->>>>>> assert and de-assert
->>>>>>                        of APIC INIT to start processors. This delay
->>>>>> occurs
->>>>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c
->>>>>> b/drivers/cpufreq/cppc_cpufreq.c
->>>>>> index 5dfb109cf1f4..49c148b2a0a4 100644
->>>>>> --- a/drivers/cpufreq/cppc_cpufreq.c
->>>>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
->>>>>> @@ -28,6 +28,9 @@
->>>>>>
->>>>>>    static struct cpufreq_driver cppc_cpufreq_driver;
->>>>>>
->>>>>> +/* Autonomous Selection boot parameter */
->>>>>> +static bool auto_sel_mode;
->>>>>> +
->>>>>>    #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>>>>>    static enum {
->>>>>>        FIE_UNSET = -1,
->>>>>> @@ -708,11 +711,74 @@ static int cppc_cpufreq_cpu_init(struct
->>>>>> cpufreq_policy *policy)
->>>>>>        policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->>>>>>        cpu_data->perf_ctrls.desired_perf = caps->highest_perf;
->>>>>>
->>>>>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>>>>> -     if (ret) {
->>>>>> -             pr_debug("Err setting perf value:%d on CPU:%d. 
->>>>>> ret:%d\n",
->>>>>> -                      caps->highest_perf, cpu, ret);
->>>>>> -             goto out;
->>>>>> +     /*
->>>>>> +      * Enable autonomous mode on first init if boot param is set.
->>>>>> +      * Check last_governor to detect first init and skip if 
->>>>>> auto_sel
->>>>>> +      * is already enabled.
->>>>>> +      */
->>>>> If the goal is to set autosel only once at the driver init,
->>>>> shouldn't this be done in cppc_cpufreq_init() ?
->>>>> I understand that cpu_data doesn't exist yet in
->>>>> cppc_cpufreq_init(), but this seems more appropriate to do
->>>>> it there IMO.
->>>>>
->>>>> This means the cpudata should be updated accordingly
->>>>> in this cppc_cpufreq_cpu_init() function.
->>>> In an earlier version [1], the setup was in cppc_cpufreq_init() but
->>>> was moved to cppc_cpufreq_cpu_init() to improve per-CPU error 
->>>> handling.
->>>> Keeping the setup in cppc_cpufreq_init() helps to avoid the 
->>>> last_governor
->>>> check. We can warn for a CPU failing to enable and continue so other
->>>> CPUs keep autonomous mode.
->>>> cppc_cpufreq_cpu_init() would then just check the auto_sel state
->>>> from register and sync policy limits from min/max_perf registers when
->>>> autonomous mode is active.
->>>> Please let me know your thoughts.
->>> FWIU the auto_sel_mode module parameter allows to
->>> configure the default auto_sel_mode when the driver is
->>> first loaded, so there should not need to check that again
->>> whenever cppc_cpufreq_cpu_init() is called.
->>> Maybe Ionela saw something we didn't see ?
->>
->> AFAIU, the concern in that review [1] was about error handling as the
->> earlier version disabled auto_sel on all CPUs if any single CPU failed.
->> Per-CPU error handling in cppc_cpufreq_init() (warn and continue)
->> addresses that. Can't think of more reason.
->> Do you have anything in mind?
->>
->
-> Actually, one case where cppc_cpufreq_cpu_init() would be needed
-> is when CPUs are offline at boot. So I will keep the setup in
-> cppc_cpufreq_cpu_init() in v2 same as present in current version.
->
-Wouldn't it be possible to loop over the "cpu_present_mask"
-as you currently do in cppc_cpufreq_exit() ?
+But a device is nothing on its own.  You can not just have a random
+'struct device' hanging out there that does nothing but iommu, right?
+It should be doing something else that is very "bus" specific.
 
-------
+Again, why not create a bus for your hardware type and have that control
+the bindings of drivers to the devices, like it should be done.  You
+better not be creating platform devices for these things :)
 
-Another issue about relying on "cpu_data->perf_ctrls.auto_sel" in:
+> auxilary bus don't have the .dma_callback and bus notifier callbacks where it
+> can do iommu_probe_device() and iommu_release_device(). iommu_release_device(),
+> being a static api, need to be called from bus notifier callbacks which should
+> be under the list of iommu_buses.
 
-"""
-if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-     !cpu_data->perf_ctrls.auto_sel) {
-"""
+True, because aux bus devices don't do that directly, they are "sharing"
+resources with their parent device and something has to mediate for it.
+So yes, you are right, that is not a good idea.  Make a custom bus type
+instead please.
 
-is that the cpu_data struct is fresh memory coming from
-cppc_cpufreq_get_cpu_data(), so it might always be 0
-I think.
+thanks,
 
+greg k-h
 
