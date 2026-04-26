@@ -1,162 +1,136 @@
-Return-Path: <linux-tegra+bounces-13976-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-13977-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CO29M7Xd7mlhywAAu9opvQ
-	(envelope-from <linux-tegra+bounces-13976-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:53:25 +0200
+	id uFttOPTd7mlhywAAu9opvQ
+	(envelope-from <linux-tegra+bounces-13977-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:54:28 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8C846CA35
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF0E46CA6F
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:54:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C0B39303DD10
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 03:50:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E39BE3053766
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 03:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF51F372B57;
-	Mon, 27 Apr 2026 03:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0CA3659EB;
+	Mon, 27 Apr 2026 03:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p3+GdMzx"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sze+oJxS"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A57537188B;
-	Mon, 27 Apr 2026 03:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFB62E11D2;
+	Mon, 27 Apr 2026 03:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261829; cv=none; b=jSeZSX4FhqkcwngWikgTtJa2LJHpWKq/LKtQkn0KgoxBbPdNDAaOcdZiHMYCu1ao1q9cbH2eOL6EZuCwtpfNfUdHO/hEE8dCHDmZijSjSpWeSGfPDGdiR41Pv2JgGphoo2AgBhSFQFC35Iq+WiyT3WSq/7CMaVIeo3SSMq6LbRA=
+	t=1777261834; cv=none; b=kZsYm5qOKhb0zPP0a5cxj80IR7wDOnL1KxDlG4oWEIPdlqYSxTN6BdX68fmDQgqABFuOPbMyWDAtrO5+aJOOnjCtFp/rBwGHRk2nQcF5KcaoQOMAIkEtv7gf1uVY5P1EP4ghuce8KFojD5XiQmBjg9Yj+M+e2pQVKNHQfGVhljY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261829; c=relaxed/simple;
-	bh=SNKExMtP0mF6P9s24J9Raxbs30ghElwvYVrehrWh/Qg=;
+	s=arc-20240116; t=1777261834; c=relaxed/simple;
+	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibye+x9Fm2oDt6t1zXnN1aIiPU7UGOcBdKx/S2d2JKY9APT2XJGfGwukDadsdaSidcH8Yb7axz4E17/rBGDYilc9btUcpRu5HIDvcc5Vl0XMqaJm+NKcVDjLlRnOn585vb70lGnCdBGiGEX0K3Ubu3X8lsZRYQ7ZlRQpAO7+ac8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=p3+GdMzx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C48A3C19425;
-	Mon, 27 Apr 2026 03:50:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSbLPQ9fMSymCgrWUlJksfWbpKJ/vAuA/GRluVcwKLYc68kbT8QtjGYeCMYZfftRGXvL03fkm293IbFeeuI/iTxajmTgAZgqMWJu2wEJmYQJ7I2anS8e/DH1rETmYmkJZGbUrIbD3MIvx5+UWZhbOOHVi3+wKsZeocotYPyNcBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sze+oJxS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6257C19425;
+	Mon, 27 Apr 2026 03:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261829;
-	bh=SNKExMtP0mF6P9s24J9Raxbs30ghElwvYVrehrWh/Qg=;
+	s=korg; t=1777261832;
+	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p3+GdMzx9N6mXknwy7mv7s5xay+h/Nk0EWHeb8hFR4ie57at4fzHtp30qPnkz7XwQ
-	 F9VgO8h/qg6krHw+ciwAeTuGfrFrOqNdePrvkaJ0L13CgR37fGQUJaf7Zdatu1poFR
-	 5UGzpEpj3Bf+AkVknsLBuBbmGvbawxoWMeqg23Ds=
-Date: Sun, 26 Apr 2026 21:01:55 +0200
+	b=sze+oJxSHGomxtCIx8Cr6fVsiRmDQ1EqmUNCL9WTGuSo8cREkFY9j0BzXBndFSLZN
+	 cWdccKad7YuF+vb1/r0l/17F9lC9011wI1jBP4cBCTv8B8lj2ubmE9UrTT4gVnQqhw
+	 CL9I+IR8old0PwBGfFcs5bi5xlYjipOpI98SaA/U=
+Date: Sun, 26 Apr 2026 21:04:14 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Cc: marvin24@gmx.de, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: nvec: Fix block comment formatting
-Message-ID: <2026042651-unlit-botanical-9aaf@gregkh>
-References: <20260411144326.3366-2-shyamsunderreddypadira@gmail.com>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, linux-tegra@vger.kernel.org, marvin24@gmx.de
+Subject: Re: [PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
+Message-ID: <2026042640-cultivate-flagman-0665@gregkh>
+References: <20260413151236.612404-1-hossu.alexandru@gmail.com>
+ <20260413200203.726726-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260411144326.3366-2-shyamsunderreddypadira@gmail.com>
-X-Rspamd-Queue-Id: 4D8C846CA35
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260413200203.726726-1-hossu.alexandru@gmail.com>
+X-Rspamd-Queue-Id: 5EF0E46CA6F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.34 / 15.00];
+X-Spamd-Result: default: False [3.84 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13976-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13977-lists,linux-tegra=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.linux.dev];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com,gmx.de];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Sat, Apr 11, 2026 at 08:01:12PM +0530, Shyam Sunder Reddy Padira wrote:
-> Place the closing */ of block comments on a separate line
-> to follow the coding style.
+On Mon, Apr 13, 2026 at 10:02:03PM +0200, Alexandru Hossu wrote:
+> tegra_nvec_remove() unconditionally sets pm_power_off = NULL, even if
+> nvec was not the one that registered it. This breaks any other driver
+> that may have set pm_power_off to its own handler.
 > 
-> No functional changes.
+> Replace the unconditional assignment with a guarded check so that
+> pm_power_off is only cleared if nvec was the one that set it.
 > 
-> changes in v2:
-> -Fixed trailing whitespaces issues.
+> Also remove the stale FIXME comment, as the guard addresses exactly
+> what it was asking for.
 > 
-> Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 > ---
->  drivers/staging/nvec/nvec.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index e9af66a08448..4799510d2d12 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->  			nvec_tx_set(nvec);
->  			to_send = nvec->tx->data[0];
->  			nvec->tx->pos = 1;
-> -			/* delay ACK due to AP20 HW Bug
-> -			   do not replace by usleep_range */
-> +			/*
-> +			 * delay ACK due to AP20 HW Bug
-> +			 * do not replace by usleep_range.
-> +			 */
->  			udelay(33);
->  		} else if (status == (I2C_SL_IRQ)) {
->  			nvec->rx->data[1] = received;
-> -- 
-> 2.43.0
-> 
-> 
+> v3:
+>  - Drop incorrect Fixes tag
 
+I'm confused, I see lots of different patches here, with this final
+thread looking like this:
 
+ Apr 13 Alexandru Hossu (  51) [PATCH v2 1/2] staging: nvec: fix use-after-free in nvec_rx_completed()
+ Apr 13 Alexandru Hossu (  40) └─>[PATCH v2 2/2] staging: nvec: fix unconditional pm_power_off teardown
+ Apr 13 Dan Carpenter   (  26)   ├─>
+ Apr 13 Alexandru Hossu (  42)   └─>[PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
 
-Hi,
+What is patch v3 of?  What about patch 1/2?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+This is really confusing.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+When redoing a patch in a series, you need to resend the whole series as
+a new version.  Otherwise I have no idea what to do (and our tools get
+_VERY_ confused as well.)
 
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+So a v4 full series please?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
+
 
