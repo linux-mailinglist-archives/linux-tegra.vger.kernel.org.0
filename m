@@ -1,136 +1,145 @@
-Return-Path: <linux-tegra+bounces-13977-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14002-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uFttOPTd7mlhywAAu9opvQ
-	(envelope-from <linux-tegra+bounces-13977-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:54:28 +0200
+	id EJyDG1Y672mD+gAAu9opvQ
+	(envelope-from <linux-tegra+bounces-14002-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 12:28:38 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF0E46CA6F
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 05:54:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC58471038
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 12:28:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E39BE3053766
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 03:50:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8960B3084D96
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 10:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0CA3659EB;
-	Mon, 27 Apr 2026 03:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAC5F30DD2F;
+	Mon, 27 Apr 2026 10:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sze+oJxS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYYb/LwI"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFB62E11D2;
-	Mon, 27 Apr 2026 03:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14BF30AD05;
+	Mon, 27 Apr 2026 10:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261834; cv=none; b=kZsYm5qOKhb0zPP0a5cxj80IR7wDOnL1KxDlG4oWEIPdlqYSxTN6BdX68fmDQgqABFuOPbMyWDAtrO5+aJOOnjCtFp/rBwGHRk2nQcF5KcaoQOMAIkEtv7gf1uVY5P1EP4ghuce8KFojD5XiQmBjg9Yj+M+e2pQVKNHQfGVhljY=
+	t=1777285282; cv=none; b=DSSX5CcwmE3EszFKZJ9abQBslk6+DUkVDV5IEPbACAsXKTrzSQqyW5xhtkJcUl6IJOl1OPKXCmk4u3M8R/JjXjHvqdLTO7vWYc1o6PtGG7aMZijz9ffjIUzatmKRSbFfi8+FyO+BGzlbLT4Gaum6FPyuCt8/u4+WN7MJApVGNps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261834; c=relaxed/simple;
-	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSbLPQ9fMSymCgrWUlJksfWbpKJ/vAuA/GRluVcwKLYc68kbT8QtjGYeCMYZfftRGXvL03fkm293IbFeeuI/iTxajmTgAZgqMWJu2wEJmYQJ7I2anS8e/DH1rETmYmkJZGbUrIbD3MIvx5+UWZhbOOHVi3+wKsZeocotYPyNcBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sze+oJxS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6257C19425;
-	Mon, 27 Apr 2026 03:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261832;
-	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sze+oJxSHGomxtCIx8Cr6fVsiRmDQ1EqmUNCL9WTGuSo8cREkFY9j0BzXBndFSLZN
-	 cWdccKad7YuF+vb1/r0l/17F9lC9011wI1jBP4cBCTv8B8lj2ubmE9UrTT4gVnQqhw
-	 CL9I+IR8old0PwBGfFcs5bi5xlYjipOpI98SaA/U=
-Date: Sun, 26 Apr 2026 21:04:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com, linux-tegra@vger.kernel.org, marvin24@gmx.de
-Subject: Re: [PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
-Message-ID: <2026042640-cultivate-flagman-0665@gregkh>
-References: <20260413151236.612404-1-hossu.alexandru@gmail.com>
- <20260413200203.726726-1-hossu.alexandru@gmail.com>
+	s=arc-20240116; t=1777285282; c=relaxed/simple;
+	bh=1x2ug0f/EJYc9A6t4ILJ/dTuDb/McXn/ci0WuDylM5c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RyCPcxWsFhvThITQvoCnqS0bcBXe9HJbaWl4RqCdvaLKNzBikyAnQ2xKavU4kzpBsIlKp5/XEN3+6Endnpil9VN1FRBGKtcnksSFIuZbQ8fxoGgEaEpJ6fPl60eTJA6Tun6V6iH6DqpFSMSsosfWqZSCd7EQwzl2eOgwTmFzKno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYYb/LwI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E09C2BCB4;
+	Mon, 27 Apr 2026 10:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777285282;
+	bh=1x2ug0f/EJYc9A6t4ILJ/dTuDb/McXn/ci0WuDylM5c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jYYb/LwIrHiUCZpi32Y/LxCDDcbonCUPYVPSwA33Vh5pbPy/lsw/ST4I+GNpDl7OP
+	 SaY33+eH5hkVy5LX7nNAwOwf+Qq9tuiEeDAWDiZfDKuw4R7UT+5wi1n7du0xYCYDBg
+	 MoVZakL0PUJbT+W0vmGpNMzKs+1ccZWHk2WewFjejHNTzRSdLDIfErTOeODl51FUCG
+	 0qPn3bEgYWauc+ayG4+QzMHt3aYfaK9Uka60O8XeBITeujOlhYo6n1bW1FEjKDRtbH
+	 XYd+wMtUaMI83cC5WEiLt7rPxnnVTk2DckKLhlfNENFn6/a4tKfz1xm5EyLfRZfi+l
+	 VAtCDGbMFb0ww==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Sasha Levin <sashal@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>, 
+ =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260426000249.54799-1-sashal@kernel.org>
+References: <20260426000249.54799-1-sashal@kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: Remove stale snd-soc-tegra-utils
+ composite module definition
+Message-Id: <177724580444.266775.11334935850320228755.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:23:24 +0900
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260413200203.726726-1-hossu.alexandru@gmail.com>
-X-Rspamd-Queue-Id: 5EF0E46CA6F
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=1x2ug0f/EJYc9A6t4ILJ/dTuDb/McXn/ci0WuDylM5c=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7zifr34p931kUBCnIMRINKPgT0TqbD5kV/ach
+ ZCr4yEKRRyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84nwAKCRAk1otyXVSH
+ 0PCVB/4vntDSlpApCCkVSkDOcYiCVwD5YRJn1vtBYiq99IV50QC3LyHczq0iHKMSp51H/bbi7UC
+ /wY/qBhCVIF75rtbmIFtEPcs6F8dbavzPzwQHpYiG8wkgmA+EHNbnbuwE7IRuzIYY+MFn0r8fWV
+ KQdikFg+zrtvYaU47DEOUOslpNpCohhIa8sW+F2VfCXl+KPy3PES+c1dH+zxaPphwf02QOHZ51L
+ 2Cy1pK07h5COkVKVxdfXHaCyu3g5a9nv65UVP8nA+4giY1+qvIRhwvvxuHqw3kmPTikDORrDrp5
+ 43NlMOkF9jaNDAfVbceC34kxu4LDhlOkbNKbB3ZnmTePw2rQ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Rspamd-Queue-Id: CDC58471038
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13977-lists,linux-tegra=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14002-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,nvidia.com,gmail.com,yahoo.de,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com,gmx.de];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-tegra];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Mon, Apr 13, 2026 at 10:02:03PM +0200, Alexandru Hossu wrote:
-> tegra_nvec_remove() unconditionally sets pm_power_off = NULL, even if
-> nvec was not the one that registered it. This breaks any other driver
-> that may have set pm_power_off to its own handler.
-> 
-> Replace the unconditional assignment with a guarded check so that
-> pm_power_off is only cleared if nvec was the one that set it.
-> 
-> Also remove the stale FIXME comment, as the guard addresses exactly
-> what it was asking for.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
-> v3:
->  - Drop incorrect Fixes tag
+On Sat, 25 Apr 2026 20:02:49 -0400, Sasha Levin wrote:
+> ASoC: tegra: Remove stale snd-soc-tegra-utils composite module definition
 
-I'm confused, I see lots of different patches here, with this final
-thread looking like this:
+Applied to
 
- Apr 13 Alexandru Hossu (  51) [PATCH v2 1/2] staging: nvec: fix use-after-free in nvec_rx_completed()
- Apr 13 Alexandru Hossu (  40) └─>[PATCH v2 2/2] staging: nvec: fix unconditional pm_power_off teardown
- Apr 13 Dan Carpenter   (  26)   ├─>
- Apr 13 Alexandru Hossu (  42)   └─>[PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-What is patch v3 of?  What about patch 1/2?
+Thanks!
 
-This is really confusing.
+[1/1] ASoC: tegra: Remove stale snd-soc-tegra-utils composite module definition
+      https://git.kernel.org/broonie/sound/c/dad701bdb743
 
-When redoing a patch in a series, you need to resend the whole series as
-a new version.  Otherwise I have no idea what to do (and our tools get
-_VERY_ confused as well.)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-So a v4 full series please?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-thanks,
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-greg k-h
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
