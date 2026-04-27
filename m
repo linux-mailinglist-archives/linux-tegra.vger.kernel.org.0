@@ -1,221 +1,557 @@
-Return-Path: <linux-tegra+bounces-14010-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14012-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKQxGoxo72lZBAEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14010-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 15:45:48 +0200
+	id MAn0BEV172mZBgEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14012-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 16:40:05 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C4D473B12
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 15:45:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAE84748C7
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 16:40:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6442430160EA
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 13:44:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8D0883077E2A
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2026 14:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4141B3CEB9B;
-	Mon, 27 Apr 2026 13:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69C002FD68B;
+	Mon, 27 Apr 2026 14:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dqNs/blm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fI+ebUoe"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010023.outbound.protection.outlook.com [52.101.85.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FE83CD8D3;
-	Mon, 27 Apr 2026 13:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777297441; cv=fail; b=gmrGCxZcxbWqCtiKEkJNe99gyAgma0zCLZKYjUWNbcq2e2xWG5MLzqipZZ+atgVQpOEChtGKvZcenHrq5NKqCKmDcBPMVf9WXFIR7U23x6aCd++1rYI13YwyxxxC54RN3bP01u/rTEmA/+HtMfCYFxkXEuty2pz7NJDCdR7b2JI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777297441; c=relaxed/simple;
-	bh=+D9QfCu679Hed6oO3GPOwAUOqA77IqBeqH/PZ5RY+hY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RY/raBhExIrpADjIvLqUlA3UjwMdEUDxrDvg04fPCEylT7xviPqnB9HCkJQoDL9oDeBWBG8Z/HWIa0IZVepg+Gy22vyJ7Yf0qNICp5W/q8XHW4TUEpgOsPLaQprhEqn82Ge+ze0/ve79PnkYgfnd48gZQ5l3ufapyQaefNkiHNA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dqNs/blm; arc=fail smtp.client-ip=52.101.85.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MMgR83du74QIqLUvbcB/tLnXSKyzjCcfviTgJFqZr1zLDAYbaClNwZJxabxVTkhPRTnxuJm7kedj2aL1oeIwsVuK9l5B6jzCjB3U1cqkh2l8lTaYLrXFyBecHWYgTxJhZiVFTAANSv9uOt/6DTyXYjxHiE3+FoOElYWFCrmYpW8Rza/7o+kKogeso22F+baf5nRDpgoJm+Yq/Eyn/OOzKxENmfvJgUDfKCbDTZbZaTx4nDpzf2cBVI1SEJQb6GulySrc9qhighLZSpq5txWxI+jJxWPKikBr9aNLDHT1JndAcqch+PRLgpjtk3BjHAVCKwq/FIwiIBrbVyaEf+73eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ryBToxP+sJYQm0qzUtolUzGetysQOFnbYJgEeD11KAg=;
- b=GLuU5cOBZb6k3O7sbaIzNZPvswb4Gdi6QK28EynYmVf+DMyqAeU4s67Ok+r3WB26v5mAVEioXzRxeaFFGK2g7WASCHCS+5L3hE58RVnlvyPNbp6wNMIGjmjVzj2sIieXAIl0+SZ5FHtxVwpyh6KHLJFmD1VkfRoHkHY4375ikgFkmbv3GzoJGGxSh7tRACFIgJRB6klbCsIKy4J9OlKGHBciWNkwDbRzrP/XKTkHSTsu/kx6x2Jmtoo/gPJMDGtqN7Z244gX/oSmmg396fTsm3wU+QSn7Yaf3FwEjEhsHP0Lh1Crrs2XNObX0j4IaMMY3sKtrnALldmlSTik9dKWfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ryBToxP+sJYQm0qzUtolUzGetysQOFnbYJgEeD11KAg=;
- b=dqNs/blmhTLdbYe32cBxP4rNCX836h8pDBPiftFImqpMosLKf/CPmqwQ8kVxFKuO3Ey88IUS+ZTLmTWghmvsGeWmmygW8O9phrCAfEY04xbCEi1nCRf3EAnv/tUmgDkcKyfXHvC3u+nmoNaRF1TdVQaCN5ZSUPZvf9NCmLU7cOKzM400StWjryirY3k0Q05CjYPijmlbY/sQCbrvxPDZVjK3Y30lSkcjxk1NtvmeG84vQRpWATWj56enCHU2cRqhnQdLC/gUZo1Izd7TjQSteucGOZIaO9JDJN263CzsgPl6GwLPCnrsiZHyw4ktaCXW4dkzMQuqS7mxIkI3pszWBw==
-Received: from BY5PR16CA0015.namprd16.prod.outlook.com (2603:10b6:a03:1a0::28)
- by PH7PR12MB6442.namprd12.prod.outlook.com (2603:10b6:510:1fa::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.15; Mon, 27 Apr
- 2026 13:43:53 +0000
-Received: from SJ1PEPF000023CB.namprd02.prod.outlook.com
- (2603:10b6:a03:1a0:cafe::bf) by BY5PR16CA0015.outlook.office365.com
- (2603:10b6:a03:1a0::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Mon,
- 27 Apr 2026 13:43:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF000023CB.mail.protection.outlook.com (10.167.244.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Mon, 27 Apr 2026 13:43:53 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Apr
- 2026 06:43:30 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Apr
- 2026 06:43:30 -0700
-Received: from build-pshete-noble-20260401.internal (10.127.8.11) by
- mail.nvidia.com (10.129.68.10) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Mon, 27 Apr 2026 06:43:26 -0700
-From: <pshete@nvidia.com>
-To: <linusw@kernel.org>, <thierry.reding@kernel.org>, <pshete@nvidia.com>,
-	<jonathanh@nvidia.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>
-CC: <webgeek1234@gmail.com>, <rosenp@gmail.com>,
-	<linux-tegra@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 6/6] arm64: tegra: Add pinctrl nodes for Tegra264
-Date: Mon, 27 Apr 2026 13:42:31 +0000
-Message-ID: <20260427134231.531222-7-pshete@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260427134231.531222-1-pshete@nvidia.com>
-References: <20260427134231.531222-1-pshete@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C9E2F9D82
+	for <linux-tegra@vger.kernel.org>; Mon, 27 Apr 2026 14:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777300436; cv=none; b=sjnZcx4g19WMtIp3BgjY3Db6jcPLFO7ZT31Mxouwund5zgawpX667Rt09+B8iOYizTgDMxupxJcTnpiwgo2jwVWVX4xJtXnBvR6XsaGNlbL7k7o269ANKaZPw5c4YxBx2/sP4aTKiE3p9kESHZAD084GpqLpucQ3ydYDBsXMrac=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777300436; c=relaxed/simple;
+	bh=OdxGEVLDGfCzmwySpRONhPp8fjCDJ1uuCN5VyQfhs+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PaqK0C58aa8HdgfFF1Xn6BQAzDJi6YwimMdrh76TyWtdwqZFttziCL+I7R6BtRxrLiH7X7NP9aFkbPkBOg8yK8cgOH0QtTDZ++aiprSsvtwRElhnDZsFl2XaNIQ6jyIcQtmuaaRBAmj5Alm0GezrGeEJn3yIukyrVKZ6LA3jdtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fI+ebUoe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07437C2BCC4
+	for <linux-tegra@vger.kernel.org>; Mon, 27 Apr 2026 14:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777300436;
+	bh=OdxGEVLDGfCzmwySpRONhPp8fjCDJ1uuCN5VyQfhs+c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fI+ebUoeH5hWPcG/wBq6WXo+uDqrD7zDrJCB0V6xJH97cEPHEb6ih0xyph6z4WGY4
+	 FQZZQkfSjg9YUdNic1DKGx2zL7IShuHZs9fk/U0aqCUwEleso1RPa1hUfUgEdchW3i
+	 tQCVJ8nKEBmJMHtDURiFWzJxjPKHY0u0birO+d/p6dK57m8IHevLHDhiJI0+ZAxmUz
+	 nlhHbDi8GvzQdbCS82cdd6LQPFt/L3tVDUDZb5+ffZe/bVMACLzbGmycmwEqLc49wu
+	 cY3jsiqD1CDYPU4GKl2/33IUG04DaB7XrbVGKm8XKl3OTN+/TNb0gI5ZUyrEhcZiE/
+	 A6KEmzkaljblA==
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-671c24f23b1so15102751a12.0
+        for <linux-tegra@vger.kernel.org>; Mon, 27 Apr 2026 07:33:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9/nIj+mqasiO8HSr93IrnffhQAdBbRV/N682WiKuGgX4z49vOTxXqJzoowgf17scXCDSmUG/ukATdkNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/TNzD2fEtPi3BsXhAbrP9ksEIjt7AMsUD8lPdbVPk9263ZB+r
+	kwExUXZUPbS2d+lJQLyNPFK9rSDel4b1Opneo8B4KAdxvseVd8A9YangLEWocAEY7LKwTUi8lme
+	Ct+GSuLs1slLOd6TjsDXLUXAU5EcEUg==
+X-Received: by 2002:a05:6402:2804:b0:672:f7a:1e7 with SMTP id
+ 4fb4d7f45d1cf-672bfdca2b4mr20198931a12.17.1777300434403; Mon, 27 Apr 2026
+ 07:33:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023CB:EE_|PH7PR12MB6442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2441411b-db9f-492f-4798-08dea4630562
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	jMDaluLuN8dMANj902N7LnRh1Wrqt31C9Q6zDKdfRuwKZSyHPEwrla9gLGCqymRF0g5m8Mz29I8KmewggUtI2QTDfF018UE6Eyq0ZmwBbtomJGAi2NPl0axYOK4xe4wEtHkv7xAoGZVUnlh9K8sDEUYP12IVnkJvu3lOvnMn76hSUumU/KD3x7pSLFSzmIwMtYYxCbOHiSaaPyAD8ukythT/aqEYrOlDv01j9Ioq+fzRhxD5zmHSdyh2OWEg9LpIKcHJRhTSqKHYeOgkefJZ7gpRwSAJebXB+UQnZ/lgLK3MIYjlvfTArF0bANdRZNssd1tMD7+m/ye3PEcisnYD+CYD6AhelwU6x1AGMHZBaf3NTs5KT3q+MbOwGHzvfWx+fmAnzyOt8RAro6oEmcfUqLhNqewOxFPuiTS96DCfOyq5uZ0ShfKqRozNXAAUPL2fomacejvpmoa7Lr76DU37cQseJFZ2TDM4w6uoYjpt0fRMMg2yRvBH48+F71Tu1aDVRkyepDvpcqYMcgfKGlXq9Cf/Lb1OtvVZ96RQZgjl5qDqukzQtcatsfreoBkYSNvv5Oz24EttpuTiejivpB0F1mX3YtnpA2MF/MDuCCDqfo2h7UOhbc+m7CVrFyE5OKYSW82YY/37COUqOC7EJLzcGwqNwsKhQBuYB4JoMXnyzt0MvaYMmpddTxZ9gHPgeFcDh7i3FdO1LLTwFa5ERVdmbwBC1PvMU8MHsA+rFAx3qADZOxArIBjkb0RW1Wot5k2B+fsoTyY0HiG6Zw2/EH+o9g==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	dWZTOsSLBKyQYCWXVVv062K0KexEqMVeMqpcJQSIYXfuPaHOeJhifpgKxJpt5OwCS2j1R09Qqpz1pnTvBZwwRof0fjrY4nyHeJ/Vx97WisTKb7fVPPxe1QuhyjiMoCwBQuIboFcGU7YWZeC6CGAtgq3Bq4l7PN0XsKnt6opTDft3osLmqZeackT9hDoHPiNvdYtB8mrTOHfsEbyQCsBTVTrcDB6xR2bfofpuIi9jN83IUDvZ+UiJXOeE3KKpGTKZwi5Q4jTruvc4iPzdUbYwx4/f9SkL7kugK6wZZG/Kx0rl5dzbL86o7nKFN1mbrNkfEYLx2dEhhtJMcBTqQNYulvbxPqbU115uk7toFgcE8PrjPtuQygzM4McNrazu7Qp54J7AdSZH6vbUqxM9+yTsCstCwYrtpy3saFZgSTHeESoV+xL8jOP/ibIrjNUK3d1l
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 13:43:53.0886
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2441411b-db9f-492f-4798-08dea4630562
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023CB.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6442
-X-Rspamd-Queue-Id: D3C4D473B12
+References: <20260224121948.25218-1-linux.amoon@gmail.com> <20260224121948.25218-2-linux.amoon@gmail.com>
+ <20260306004333.GA863798-robh@kernel.org> <CANAwSgS7RhZ1D-zPR8LpvrQJVp+1be9ALC5HcE1XhouyNOS6Jg@mail.gmail.com>
+In-Reply-To: <CANAwSgS7RhZ1D-zPR8LpvrQJVp+1be9ALC5HcE1XhouyNOS6Jg@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 27 Apr 2026 09:33:42 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJY2Wv5YFVmW5P7dTmNK5QVdfxZZsMFt-Zn4i-ubPkf3Q@mail.gmail.com>
+X-Gm-Features: AVHnY4KbfNzxvVk_fcwP_CGe9fDgzTP7yX99CVzMt3_OyekAOqH2-F6dcA50sp0
+Message-ID: <CAL_JsqJY2Wv5YFVmW5P7dTmNK5QVdfxZZsMFt-Zn4i-ubPkf3Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: PCI: Convert nvidia,tegra-pcie to DT schema
+To: Anand Moon <linux.amoon@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Aaron Kling <webgeek1234@gmail.com>, 
+	"open list:PCI DRIVER FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>, 
+	"open list:PCI DRIVER FOR NVIDIA TEGRA" <linux-pci@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 5FAE84748C7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-14012-lists,linux-tegra=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14010-lists,linux-tegra=lfdr.de];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	FROM_NO_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pshete@nvidia.com,linux-tegra@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,google.com,kernel.org,nvidia.com,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-From: Prathamesh Shete <pshete@nvidia.com>
+On Wed, Mar 11, 2026 at 1:46=E2=80=AFAM Anand Moon <linux.amoon@gmail.com> =
+wrote:
+>
+> Hi Rob,
+>
+> Thanks for your review comments. Sorry for the late reply.
+>
+> On Fri, 6 Mar 2026 at 06:13, Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Tue, Feb 24, 2026 at 05:48:57PM +0530, Anand Moon wrote:
+> > > Convert the existing text-based DT bindings documentation for the
+> > > NVIDIA Tegra PCIe host controller to a DT schema format.
+> >
+> > I just reviewed the same thing from Thierry... This one looks a bit
+> > better for overall structure (fewer if/then schemas), but I think misse=
+s
+> > some things like deprecated supplies. Please resolve the differences
+> > between the 2 and coordinate who is going to send the next version.
+> >
+> Ok, I checked this, but couldn't find the deprecated supplies.
+>
+> The drive code maps SoC-supplied regulators to an array for the buck regu=
+lators.
+> [1] https://github.com/torvalds/linux/blob/master/drivers/pci/controller/=
+pci-tegra.c#L1929-L2078
+>
+> I will fix it if I need to.
+> > >
+> > > Also update the MAINTAINERS file to reflect this change.
+> > >
+> > > Cc: Jon Hunter <jonathanh@nvidia.com>
+> > > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+> > > ---
+> > > v3: Tried to address the issues Krzysztof pointed out.
+> > >    Added missing regulator binding as suggeested by Jon.
+> > > v2: Tried to address the isssue Rob pointed
+> > > [1] https://lkml.org/lkml/2025/9/26/704
+> > > improve the $suject and commit message
+> > > drop few examples only nvidia,tegra20-pcie and nvidia,tegra210-pcie
+> > >
+> > > $ make dt_binding_check DT_SCHEMA_FILES=3DDocumentation/devicetree/bi=
+ndings/pci/nvidia,tegra-pcie.yaml
+> > > ---
+> > >  .../bindings/pci/nvidia,tegra-pcie.yaml       | 528 ++++++++++++++
+> > >  .../bindings/pci/nvidia,tegra20-pcie.txt      | 670 ----------------=
+--
+> > >  MAINTAINERS                                   |   2 +-
+> > >  3 files changed, 529 insertions(+), 671 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegr=
+a-pcie.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegr=
+a20-pcie.txt
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.=
+yaml b/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> > > new file mode 100644
+> > > index 000000000000..0675bec205e8
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> > > @@ -0,0 +1,528 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: NVIDIA Tegra PCIe Controller
+> > > +
+> > > +maintainers:
+> > > +  - Jon Hunter <jonathanh@nvidia.com>
+> > > +  - Thierry Reding <treding@nvidia.com>
+> > > +
+> > > +description:
+> > > +  PCIe controller found on NVIDIA Tegra SoCs which supports multiple
+> > > +  root ports and platform-specific clock, reset, and power supply
+> > > +  configurations.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - nvidia,tegra20-pcie
+> > > +      - nvidia,tegra30-pcie
+> > > +      - nvidia,tegra124-pcie
+> > > +      - nvidia,tegra210-pcie
+> > > +      - nvidia,tegra186-pcie
+> > > +
+> > > +  reg:
+> > > +    items:
+> > > +      - description: PADS registers
+> > > +      - description: AFI registers
+> > > +      - description: Configuration space region
+> > > +
+> > > +  reg-names:
+> > > +    items:
+> > > +      - const: pads
+> > > +      - const: afi
+> > > +      - const: cs
+> > > +
+> > > +  interrupts:
+> > > +    items:
+> > > +      - description: Controller interrupt
+> > > +      - description: MSI interrupt
+> > > +
+> > > +  interrupt-names:
+> > > +    items:
+> > > +      - const: intr
+> > > +      - const: msi
+> > > +
+> > > +  clocks:
+> > > +    minItems: 3
+> > > +    items:
+> > > +      - description: PCIe clock
+> > > +      - description: AFI clock
+> > > +      - description: PLL_E clock
+> > > +      - description: Optional CML clock
+> > > +
+> > > +  clock-names:
+> > > +    description: Names of clocks used by the PCIe controller
+> > > +    minItems: 3
+> > > +    items:
+> > > +      - const: pex
+> > > +      - const: afi
+> > > +      - const: pll_e
+> > > +      - const: cml
+> > > +
+> > > +  resets:
+> > > +    items:
+> > > +      - description: PCIe reset
+> > > +      - description: AFI reset
+> > > +      - description: PCIe-X reset
+> > > +
+> > > +  reset-names:
+> > > +    items:
+> > > +      - const: pex
+> > > +      - const: afi
+> > > +      - const: pcie_x
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  interconnects:
+> > > +    minItems: 1
+> > > +    maxItems: 2
+> > > +
+> > > +  interconnect-names:
+> > > +    items:
+> > > +      - const: dma-mem
+> > > +      - const: write
+> > > +
+> > > +  pinctrl-names:
+> > > +    items:
+> > > +      - const: default
+> > > +      - const: idle
+> > > +
+> > > +  pinctrl-0: true
+> > > +  pinctrl-1: true
+> > > +
+> > > +  operating-points-v2:
+> > > +    description:
+> > > +      Defines operating points with required frequency and voltage v=
+alues,
+> > > +      and the opp-supported-hw property.
+> > > +
+> > > +  iommus:
+> > > +    maxItems: 1
+> > > +
+> > > +  avdd-pex-supply:
+> > > +    description: Power supply for analog PCIe logic. Must supply 1.0=
+5 V.
+> > > +
+> > > +  vdd-pex-supply:
+> > > +    description: Power supply for digital PCIe I/O. Must supply 1.05=
+ V.
+> > > +
+> > > +  avdd-pex-pll-supply:
+> > > +    description: Power supply for dedicated (internal) PCIe PLL. Mus=
+t supply 1.05 V.
+> > > +
+> > > +  avdd-plle-supply:
+> > > +    description: Power supply for PLLE, which is shared with SATA. M=
+ust supply 1.05 V.
+> > > +
+> > > +  vddio-pex-clk-supply:
+> > > +    description: Power supply for PCIe clock. Must supply 3.3 V.
+> > > +
+> > > +  vddio-pex-ctl-supply:
+> > > +    description: Power supply for PCIe control I/O partition. Must s=
+upply 1.8 V.
+> > > +
+> > > +  hvdd-pex-supply:
+> > > +    description: High-voltage supply for PCIe I/O and PCIe output cl=
+ocks. Must supply 3.3 V.
+> > > +
+> > > +  avdd-pexa-supply:
+> > > +    description: Power supply for analog PCIe logic. Must supply 1.0=
+5 V.
+> > > +
+> > > +  vdd-pexa-supply:
+> > > +    description: Power supply for digital PCIe I/O. Must supply 1.05=
+ V.
+> > > +
+> > > +  avdd-pexb-supply:
+> > > +    description: Power supply for analog PCIe logic. Must supply 1.0=
+5 V.
+> > > +
+> > > +  vdd-pexb-supply:
+> > > +    description: Power supply for digital PCIe I/O. Must supply 1.05=
+ V.
+> > > +
+> > > +  avddio-pex-supply:
+> > > +    description: Power supply for analog PCIe logic. Must supply 1.0=
+5 V.
+> > > +
+> > > +  dvddio-pex-supply:
+> > > +    description: Power supply for digital PCIe I/O. Must supply 1.05=
+ V.
+> > > +
+> > > +  hvddio-pex-supply:
+> > > +    description: High-voltage supply for PCIe I/O and PCIe output cl=
+ocks. Must supply 1.8 V.
+> > > +
+> > > +  dvdd-pex-supply:
+> > > +    description: Power supply for digital PCIe I/O. Must supply 1.05=
+ V.
+> > > +
+> > > +  hvdd-pex-pll-supply:
+> > > +    description: High-voltage supply for PLLE (shared with USB3). Mu=
+st supply 1.8 V.
+> > > +
+> > > +  vddio-pexctl-aud-supply:
+> > > +    description: Power supply for PCIe side band signals. Must suppl=
+y 1.8 V.
+> > > +
+> > > +patternProperties:
+> > > +  "^pci@[0-9a-f]+(,[0-9a-f]+)?$":
+> > > +    type: object
+> > > +    allOf:
+> >
+> > Don't need allOf.
+> Ok.
+> >
+> > > +      - $ref: /schemas/pci/pci-pci-bridge.yaml#
+> > > +    properties:
+> > > +      reg:
+> > > +        maxItems: 1
+> > > +
+> > > +      nvidia,num-lanes:
+> > > +        description: Number of lanes used by this PCIe port
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        enum: [1, 2, 4]
+> > > +
+> > > +      phys:
+> > > +        description: Phandles to PCIe PHYs
+> > > +        items:
+> > > +          maxItems: 1
+> >
+> > How many cells a phy entry has depends on the provider, which is outsid=
+e
+> > the scope of this binding.
+> Ok, actually, phys and phys-name are not part of patternProperties.
+>
+> phys and phy-name are required properties for Tegra124 and later.
+>
+> [2] https://github.com/torvalds/linux/blob/master/Documentation/devicetre=
+e/bindings/pci/nvidia%2Ctegra20-pcie.txt#L153-L158
+>
+> And the board's example is as follows.
+>
+> [3] https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/nvi=
+dia/tegra210-p2371-2180.dts#L11-L32
+>
+> [4] https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/nvi=
+dia/tegra210-p3450-0000.dts#L36-L63
+> >
+> > > +        minItems: 1
+> > > +        maxItems: 4
+> >
+> So I have modified the device tree binding as follows.
+> -----8<----------8<----------8<----------8<----------8<----------8<-----
+>
+> $ git diff .
+> diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> b/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> index 0675bec205e8..73af8d2895a8 100644
+> --- a/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.yaml
+> @@ -103,6 +103,18 @@ properties:
+>    iommus:
+>      maxItems: 1
+>
+> +  phys:
+> +    description: Phandles to PCIe PHYs
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  phy-names:
+> +    description: Names of PCIe PHYs
+> +    items:
+> +      pattern: "^pcie(-[0-3])?$"
+> +    minItems: 1
+> +    maxItems: 4
+> +
+>    avdd-pex-supply:
+>      description: Power supply for analog PCIe logic. Must supply 1.05 V.
+>
+> @@ -157,8 +169,8 @@ properties:
+>  patternProperties:
+>    "^pci@[0-9a-f]+(,[0-9a-f]+)?$":
+>      type: object
+> -    allOf:
+> -      - $ref: /schemas/pci/pci-pci-bridge.yaml#
+> +    $ref: /schemas/pci/pci-pci-bridge.yaml#
+> +
+>      properties:
+>        reg:
+>          maxItems: 1
+> @@ -168,20 +180,6 @@ patternProperties:
+>          $ref: /schemas/types.yaml#/definitions/uint32
+>          enum: [1, 2, 4]
+>
+> -      phys:
+> -        description: Phandles to PCIe PHYs
+> -        items:
+> -          maxItems: 1
+> -        minItems: 1
+> -        maxItems: 4
+> -
+> -      phy-names:
+> -        description: Names of PCIe PHYs
+> -        items:
+> -          pattern: "^pcie(-[0-3])?$"
+> -        minItems: 1
+> -        maxItems: 4
+> -
+>      required:
+>        - nvidia,num-lanes
+>
+> @@ -274,6 +272,33 @@ allOf:
+>          - pinctrl-0
+>          - pinctrl-1
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra124-pcie
+> +              - nvidia,tegra210-pcie
+> +    then:
+> +      required:
+> +        - phys
+> +        - phy-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra20-pcie
+> +              - nvidia,tegra30-pcie
+> +              - nvidia,tegra186-pcie
+> +    then:
+> +      properties:
+> +        phys:
+> +          deprecated: true
+> +        phy-names:
+> +          deprecated: true
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -495,34 +520,19 @@ examples:
+>              dvddio-pex-supply =3D <&reg_pex_1v05>;
+>              vddio-pex-ctl-supply =3D <&reg_pexctl_1v8>;
+>
+> -            status =3D "okay";
+> -
+>              pci@1,0 {
+> -                device_type =3D "pci";
+> -                assigned-addresses =3D <0x82000800 0 0x01000000 0 0x1000=
+>;
+> -                reg =3D <0x000800 0 0 0 0>;
+> -                bus-range =3D <0x00 0xff>;
+> +                phys =3D <&{/padctl@7009f000/pads/pcie/lanes/pcie-0}>,
+> +                    <&{/padctl@7009f000/pads/pcie/lanes/pcie-1}>,
+> +                    <&{/padctl@7009f000/pads/pcie/lanes/pcie-2}>,
+> +                    <&{/padctl@7009f000/pads/pcie/lanes/pcie-3}>;
+> +                phy-names =3D "pcie-0", "pcie-1", "pcie-2", "pcie-3";
+>                  status =3D "okay";
+> -
+> -                #address-cells =3D <3>;
+> -                #size-cells =3D <2>;
+> -                ranges;
+> -
+> -                nvidia,num-lanes =3D <4>;
+>              };
+>
+>              pci@2,0 {
+> -                device_type =3D "pci";
+> -                assigned-addresses =3D <0x82001000 0 0x01001000 0 0x1000=
+>;
+> -                reg =3D <0x001000 0 0 0 0>;
+> -                bus-range =3D <0x00 0xff>;
+> +                phys =3D <&{/padctl@7009f000/pads/pcie/lanes/pcie-4}>;
+> +                phy-names =3D "pcie-0";
+>                  status =3D "okay";
+> -
+> -                #address-cells =3D <3>;
+> -                #size-cells =3D <2>;
+> -                ranges;
+> -
+> -                nvidia,num-lanes =3D <1>;
+>              };
+>          };
+>      };
+>
+> -----8<----------8<----------8<----------8<----------8<----------8<-----
+>
+> But I am not able to resolve the build error
+>
+> $ make -j$(nproc) dt_binding_check DT_SCHEMA_FILES=3Dnvidia,tegra-pcie.ya=
+ml
+>   DTC [C] Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.example=
+.dtb
+> Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.example.dts:179.2=
+5-186.19:
+> Warning (unit_address_vs_reg): /example-1/bus/pcie@1003000/pci@1,0:
+> node has a unit name, but no reg or ranges property
+> Documentation/devicetree/bindings/pci/nvidia,tegra-pcie.example.dts:188.2=
+5-192.19:
+> Warning (unit_address_vs_reg): /example-1/bus/pcie@1003000/pci@2,0:
+> node has a unit name, but no reg or ranges property
 
-Add the three pin controller (MAIN, UPHY, AON) device-tree nodes found on
-Tegra264.
+PCI nodes have to have a 'reg' entry. Otherwise, how do we match a
+node to a device?
 
-Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
----
-Changes in v3:
-  - Wrap commit message to 75 chars per line (v2 was too short).
-Changes in v2:
-  - This patch is added as part of v2.
----
- arch/arm64/boot/dts/nvidia/tegra264.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+> FATAL ERROR: Can't generate fixup for reference to path
+> &{/padctl@7009f000/pads/pcie/lanes/pcie-0}
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra264.dtsi b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-index 06d8357bdf52..dc7793088d2e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra264.dtsi
-@@ -3380,6 +3380,11 @@ i2c3: i2c@c610000 {
- 			status = "disabled";
- 		};
- 
-+		pinmux_aon: pinmux@c7a2000 {
-+			compatible = "nvidia,tegra264-pinmux-aon";
-+			reg = <0x0 0x0c7a2000 0x0 0x2000>;
-+		};
-+
- 		pmc: pmc@c800000 {
- 			compatible = "nvidia,tegra264-pmc";
- 			reg = <0x0 0x0c800000 0x0 0x100000>,
-@@ -3586,6 +3591,11 @@ pci@c000000 {
- 			status = "disabled";
- 		};
- 
-+		pinmux_main: pinmux@c281000 {
-+			compatible = "nvidia,tegra264-pinmux-main";
-+			reg = <0x00 0x0c281000 0x0 0xc000>;
-+		};
-+
- 		i2c14: i2c@c410000 {
- 			compatible = "nvidia,tegra264-i2c";
- 			reg = <0x00 0x0c410000 0x0 0x10000>;
-@@ -3862,6 +3872,11 @@ bus@a800000000 {
- 			 <0x00 0x20000000 0x00 0x20000000 0x00 0x60000000>, /* non-prefetchable memory (32-bit, 1536 GiB) */
- 			 <0xa8 0x80000000 0xa8 0x80000000 0x57 0x80000000>; /* I/O, ECAM, prefetchable memory (64-bit) */
- 
-+		pinmux_uphy: pinmux@82e0000 {
-+			compatible = "nvidia,tegra264-pinmux-uphy";
-+			reg = <0x00 0x082e0000 0x0 0x4000>;
-+		};
-+
- 		gpio_uphy: gpio@8300000 {
- 			compatible = "nvidia,tegra264-gpio-uphy";
- 			reg = <0x00 0x08300000 0x0 0x2000>,
--- 
-2.43.0
+You can't use paths that don't exist. You can only use labels which
+don't exist. The examples are built as overlays to allow that.
 
+Rob
 
