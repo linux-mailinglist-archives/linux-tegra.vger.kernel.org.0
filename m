@@ -1,157 +1,264 @@
-Return-Path: <linux-tegra+bounces-14033-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14034-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOkqNpID8WnubgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14033-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 20:59:30 +0200
+	id sDUCGMUT8WlZcwEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14034-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 22:08:37 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467E248AF03
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 20:59:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B457D48B7A6
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 22:08:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E4EDF30561D5
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 18:59:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6EF5E308E15F
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2026 20:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2444647CC87;
-	Tue, 28 Apr 2026 18:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 293493CD8C2;
+	Tue, 28 Apr 2026 20:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iy+Xi6L5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gCWlP4++"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B775F47B401
-	for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2026 18:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA993BBA0B
+	for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2026 20:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777402761; cv=none; b=r9vrLlaOKTNo/DBjcdb8JsfipxeZ5BaQCf7xdNuwUhRneNW4FEzNlj0bIPo8bT7lBA/E2TutiLyR4ablkeiSdYtW6J5xhdiHnPaIJkGp3ptdeDr7ThO6JirCQC1wSFZsEWBedoPLOMsfKIjA9xS+8V2S60Ei1+mqPwRKUW5wq6c=
+	t=1777406851; cv=none; b=GiUEZwr3Smc8kisZ0rlp2qNSN9FCD0Z5SeDPaDB2gB7uwrhkWlbBbm54s9oMnaTd8U9YJ2J6iXlCc+MBsHlefooMes3ovQyt/7YnTpitxAUSQHSAXBikiWZhFm+VzJAugUzBUVYj7TTv0wdUn/F21MqBBCOLFwXxQVFvg2GvwOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777402761; c=relaxed/simple;
-	bh=6a9Orqs4M+G9Ps0bWLS4aQAcCVzvmv1AumdBspToX0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDjxI/+9Coy4zzOEAO5rYciqjUrqZAsvIzlFj2lyZqoi5axziB/DOsKihHWsHORNSiZSn11yznfo6I4D8b8Nfp91vDmm7ppkQTCrSYvWju5m6h0HY5z1OpowdtEXwZJhiTR5YMeMRagyKSoYo/KzVKBPefx0p6cqvkjAKgiUdak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iy+Xi6L5; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488ad135063so107162465e9.0
-        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2026 11:59:19 -0700 (PDT)
+	s=arc-20240116; t=1777406851; c=relaxed/simple;
+	bh=ksXQeqM5axRgUsGjCWqfJTytSjsUbB4ll76rBVY/214=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DcMZ2qONL+mJl1qA8I2pqwQG/PWipQX2+/uyu4sFGxY1m6WFuZzvAwLzRIjN7MAv5Fhp3Dh2YVXp4QFvovH3xn7pQs+d7YK9GwGbn3Rk5qmafbtZt27QK0h1dzkp/CAnCAHlSc1KGAzFsHvqLqRHpA3CguZBT1dGbBv3y6Fpw+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gCWlP4++; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12ddbe104ccso2053646c88.0
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2026 13:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777402758; x=1778007558; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iXO2sWkYj08jDd50w1qkyZoYNw3zJTVw3EQTk5oc1B8=;
-        b=iy+Xi6L5tNxo7dbhFAp7TjRoDU/fX7dJZZsBbr8WxwdCyCdxJeukYdoe6MsGEulxym
-         LoezibCGUSm4SBY3THjTcPHzPOPOB2muiTRZpTzSwmsvaO4ie90G0Ku4R5DxBoGT6Ue9
-         p5M4Akt8xBlGfUEkzUp4axo9jGMrtTUpJnO4DhvydPa3TuBa+EznCA3XBPgTuafkI9uT
-         41oATH9bb19X7q3YYF9wnEq79BijYYt7D5pf6S+o/BCRu6cTok3p+bcyIi6gyBztBoLF
-         3PqfyDshmbDJTFSeIQRghpcg+JoM07jezQu8GtQbOrNuYr5va64/TUI4Q0A7LuqXyvdv
-         ms3Q==
+        d=chromium.org; s=google; t=1777406848; x=1778011648; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oKQRvM+woDu6KBLreGPcHmP1j9kbXpV/WZYBI8HqOII=;
+        b=gCWlP4++xcNr9+Gf+fqTnVbbgA8YOADh3IFpBiDZBsSn5havxoaKvL9GdHxwLKLxkb
+         zFVvECzbbn/CyuqATemdznWR14f6NLOH3Ym9iV/MhYVW/qYWL/D+PmltI62KSjKNKldh
+         sTwvpsTDTXXhYlZiGxNnSpDxvoDln+d4GWE/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777402758; x=1778007558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iXO2sWkYj08jDd50w1qkyZoYNw3zJTVw3EQTk5oc1B8=;
-        b=gxvQ9SWIj7a0KaFMPy0rYjsJ6XBE0mxmWlxwAPYFb9H5/bG7VYmYjc1dtzZMadFqaa
-         cyTR+WgiQclpHSSaqzMM0ngABSDSSTAX/bmPM/qzYgtXGMHMdMgddd1OorWp7xDv7Tcj
-         VB2t6bbhNngOcAjEZaC1Lg95ILXsvg1LmFSXswfqYqMmLH+L1qfU5d1qQeixsEMweicB
-         LqoxZaFcJUJz1JFC4anNi0UjltOiyGDQGPk3yg9qiX8mp5u+3iDQoTUIbaN1yARuQVvz
-         NtsRG5hmgd9BtM9RlcJVZSNOM35CtXafHjMeTTNorrH0TIok4nCoVPVXSd71BuYgf35U
-         I+aw==
-X-Forwarded-Encrypted: i=1; AFNElJ9ovFwd3yVYWp9uqgceFZY0ttxtyNcWIsj2Rqn23gpKzyQ33PR6IvZCTleE546ndlga/ZDpQUYWbpW5WA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqutbDgQNCVxcprCyeoVqDYiSXN8uqB2rfAws6UEbrfuXmM8BY
-	lZxgAHxfFhiw46yvbeLNgexj2gMdXT8mF5hbqLLBm1sCGSITg1Ugn3g2
-X-Gm-Gg: AeBDietjKMv8jWXyCaR9W7rqT1rBV5r4QBz4v0n//rEuHSZG7mmiUKQm/XjOAI1s8u9
-	MrJiaZfdIlQ5JEaA1Z8ga2k7u7KLmWvoRJ0+tjVZJ7ZnqrJv+j2MbzEw2Olf9NmZBK7Av+meqTW
-	aTV2RiYhdTY0V2b7vU4jEL4un3PMFywZdVBxmHP5qNNbm6dlwNkVP+GxlL/1APO55SZU1ttGXku
-	weqMRuOBDVGt6itOn2vwvqB+IhwquuRByA8TKUMZRF2WN6drH+HTW/aFCaopIpdQm7B5e7M0Elw
-	K1lnhVQJ+NmEXtpp+Pq7EXUtQEVDHsW0Dwuy2DbkLU99hp2ZM/xoHvlzeAbRvD8MVUZ0rtx2m7d
-	a9N5SSJchFnVsGcpjVxXQI6nAk1FakxbNkx08s7RYbHqnNi5Vcri7zJC/AGW8sDktNl1WggitAx
-	3Q/AUQj3sRN9e0GFx60xeqitqI+xd+FbqBWscGJ1MP
-X-Received: by 2002:a05:600c:6610:b0:489:1ba8:5bf0 with SMTP id 5b1f17b1804b1-48a7b54009cmr13442935e9.21.1777402757968;
-        Tue, 28 Apr 2026 11:59:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463fa89038sm8391584f8f.26.2026.04.28.11.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 11:59:17 -0700 (PDT)
-Date: Tue, 28 Apr 2026 21:59:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Marc Hanna <marchanna111@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
-	mchehab@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] staging: tegra-video: Align wrapped function arguments
-Message-ID: <afEDgrzzxGf_VM5B@stanley.mountain>
-References: <20260428185024.853-1-marchanna111@gmail.com>
+        d=1e100.net; s=20251104; t=1777406848; x=1778011648;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oKQRvM+woDu6KBLreGPcHmP1j9kbXpV/WZYBI8HqOII=;
+        b=Pf0l2MLbyWbJ9ZRoFWzmN/BUlth1+ORSEGn16d5S0XrtQUwYUCsBAvGa1SdFaBndZ7
+         Z9r5V0HMOeGnnlu0Mup13Y4Ux+s+2GCDRmFehYdO/ttvw3m7K6+kRv6j9MQjWncXtM4y
+         oeUqrETLBO9uEEepbkwa8kzvJPKbJXKxw1+tuG+u1ZrImw5i0NWIQt4WrnnsCZLH/zNn
+         rL62rXqOytYUcFrXSzSkk5vnWC3M8hgGyNRWXF2PdLwqOc8/qisQUzpFE72+0j1NwnbF
+         W1aPK8jJlNMLkuvTe2MwwtnLRVf13Spu88a/ifS+/vKq7WT3/kSyBBBZmRyx4qNFYxR6
+         J8SQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/3EOJ5fUEQsgn8KBAgztf+WWCqO9pENfOL43oxUgpQXhFM3AVrYAwjUKcJIZtn1zgKdF5meufTs0GH0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSAWDogkH9BbnxQyUTVWkKXc385fWVWojwJ4m9j6Uf2jmE6oSr
+	wrl7K4F5IlZpkxExJeg3joktrh6PXTtnlBnz0LGF+wGmdAhzeIoU/5TSkkARZ2kNaw==
+X-Gm-Gg: AeBDietrxB9m0vYcFOErpXDkRC2airbIULEoqtCcgy7THW9Wpmf12VYjzzHdMT0v4Pz
+	LBA4fnE4EEUcI1UAdn24Q8r6lf+gVBrbBD/lnZMsJ/gT1/BsAj0mnSJpUdXono/HMivaM2NQ1/e
+	QfMRH2VOHpp9qaQ7Z+qIEGXFFmqJIrpr6dtunTT7yZ+myKjiLmyhdxVsov7PAepdAUzte9v8GpP
+	td6JWHjWsqiH9qp7O9GUknwUME/5BRd8gWylRwkUxySxhkwqMpYzMSl4alPPHL5Wkr2YBn1rh+0
+	E6F1x3s66+wKwqDPy2iPXYGTsMTh2sWDjEAO5IgcFn2amgZQ3gCyXugCXRxA2ojeqc8cIGU6mY7
+	9Wb75sIoeJul5Pw5MK2ASJhjHNnCkl44sOruTAxxnrIrynyYW52hkMxaV4lf87GMRHXT8OqJCtf
+	Bv2zMcCe2J2IdgqV9gC5r8u2GJrw11/OUUXzboZ1ledWd5e1oxr+4yRqsPVSW/XcaETSrCUKpc
+X-Received: by 2002:a05:7022:fe06:b0:12d:de3f:d84d with SMTP id a92af1059eb24-12dde3fdd97mr1431757c88.38.1777406848179;
+        Tue, 28 Apr 2026 13:07:28 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:4ff5:9607:c7e5:48f3])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-12ddd93abadsm2784062c88.6.2026.04.28.13.07.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 13:07:27 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	Doug Anderson <dianders@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	Brian Norris <briannorris@chromium.org>,
+	linux-rockchip@lists.infradead.org,
+	Julius Werner <jwerner@chromium.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] dts: Add /firmware/#{address,size}-cells to Chromium-based DTs
+Date: Tue, 28 Apr 2026 13:06:52 -0700
+Message-ID: <20260428200712.2660635-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428185024.853-1-marchanna111@gmail.com>
-X-Rspamd-Queue-Id: 467E248AF03
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B457D48B7A6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-14033-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com,nvidia.com,bootlin.com,kernel.org,linuxfoundation.org];
+	TAGGED_FROM(0.00)[bounces-14034-lists,linux-tegra=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,sntech.de,gmail.com,collabora.com];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,stanley.mountain:mid]
+	FROM_NEQ_ENVFROM(0.00)[briannorris@chromium.org,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:dkim,chromium.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,crrev.com:url]
 
-The subject still says the patch is aligning function arguments when
-the patch is about long lines.
+Chromium/Depthcharge bootloaders may dynamically add a few device nodes
+to a system's DTB under a /firmware node. A typical DT looks something
+like the following:
+
+  ## From a RK3399 Gru/Kevin Chromebook:
+  # find /sys/firmware/devicetree/base/firmware
+  /sys/firmware/devicetree/base/firmware
+  /sys/firmware/devicetree/base/firmware/coreboot
+  /sys/firmware/devicetree/base/firmware/coreboot/ram-code
+  /sys/firmware/devicetree/base/firmware/coreboot/compatible
+  /sys/firmware/devicetree/base/firmware/coreboot/board-id
+  /sys/firmware/devicetree/base/firmware/coreboot/reg
+  /sys/firmware/devicetree/base/firmware/coreboot/name
+  /sys/firmware/devicetree/base/firmware/chromeos
+  /sys/firmware/devicetree/base/firmware/chromeos/readonly-firmware-version
+  /sys/firmware/devicetree/base/firmware/chromeos/active-ec-firmware
+  /sys/firmware/devicetree/base/firmware/chromeos/firmware-version
+  /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-storage
+  /sys/firmware/devicetree/base/firmware/chromeos/vboot-shared-data
+  /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-size
+  /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-offset
+  /sys/firmware/devicetree/base/firmware/chromeos/hardware-id
+  /sys/firmware/devicetree/base/firmware/chromeos/compatible
+  /sys/firmware/devicetree/base/firmware/chromeos/firmware-type
+  /sys/firmware/devicetree/base/firmware/chromeos/fmap-offset
+  /sys/firmware/devicetree/base/firmware/chromeos/name
+  /sys/firmware/devicetree/base/firmware/ranges
+  /sys/firmware/devicetree/base/firmware/name
+
+The /firmware node has an empty 'ranges', but does not have
+address/size-cells.
+
+Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
+non-translatable addresses") started requiring #address-cells for a
+device's parent if we want to use the reg resource in a device node.
+This leads to errors like the following:
+
+[    7.763870] coreboot_table firmware:coreboot: probe with driver coreboot_table failed with error -22
+
+This series adds appropriate #{address,size}-cells to the device trees
+used on Arm Chromebooks to work around the problem.
+
+Note that Google provides bootloader updates for some devices that add
+{address,size}-cells [1], but these are only delivered via Google OS
+updates. Not all users receive Google software updates, and even if they
+do, not all devices still receive bootloader updates from Google.
+
+This problem was first noticed in OpenWrt, where some Chromium-based
+routers ran into the same issue:
+
+https://github.com/openwrt/openwrt/issues/21243
+
+Relevant OpenWrt fixes: https://github.com/openwrt/openwrt/pull/22951
+
+There is also discussion at [2].
+
+I've currently only tested:
+1) the aforementioned OpenWrt routers (with non-upstream DTS/DTB)
+2) RK3399 Gru/Kevin Chromebook (patch 1)
+3) Qualcomm SC7280 Herobrine (patch 7)
+
+I assume the others should follow the same pattern. I don't know if I've
+covered every relevant Depthcharge-using device, but I've made a good
+attempt to identify them all.
+
+I reviewed Depthcharge code history and found that this problematic
+bootloader behavior dates back to at least 2014, with the Tegra/Nyan
+device. Older devices may have similar DTB structures, but I'm not sure
+if they have the same address-cells problems. In any case, these changes
+shouldn't hurt even if a device was not affected.
+
+Brian
+
+[1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
+    https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
+    #size-cells for firmware node")
+
+[2] [regression] of: mis-parsing Depthcharge's /firmware
+    https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
 
 
-On Tue, Apr 28, 2026 at 01:50:24PM -0500, Marc Hanna wrote:
-> Align wrapped arguments in tegra20.c
-> to follow kernel coding style.
-> 
-> v2:
-> - Fix From header
-> - Update commit message per review feedback
-> 
-This goes under the --- cut off line.
+Brian Norris (7):
+  arm64: dts: rockchip: Add #{address,size}-cells to Chromium-based
+    /firmware
+  ARM: dts: rockchip: Add #{address,size}-cells to Chromium-based
+    /firmware
+  ARM: dts: nvidia: Add #{address,size}-cells to Chromium-based
+    /firmware
+  ARM: dts: samsung: Add #{address,size}-cells to Chromium-based
+    /firmware
+  arm64: dts: mediatek: Add #{address,size}-cells to Chromium-based
+    /firmware
+  arm64: dts: nvidia: Add #{address,size}-cells to Chromium-based
+    /firmware
+  arm64: dts: qcom: Add #{address,size}-cells to Chromium-based
+    /firmware
 
-> Signed-off-by: Marc Hanna <marchanna111@gmail.com>
-> ---
-  ^^^
-here.
+ arch/arm/boot/dts/nvidia/tegra124-nyan.dtsi           | 5 +++++
+ arch/arm/boot/dts/nvidia/tegra124-venice2.dts         | 5 +++++
+ arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi         | 5 +++++
+ arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi | 5 +++++
+ arch/arm/boot/dts/samsung/exynos5250-spring.dts       | 5 +++++
+ arch/arm/boot/dts/samsung/exynos5420-peach-pit.dts    | 5 +++++
+ arch/arm/boot/dts/samsung/exynos5800-peach-pi.dts     | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi          | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi        | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi      | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi       | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi      | 5 +++++
+ arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi       | 5 +++++
+ arch/arm64/boot/dts/nvidia/tegra132-norrin.dts        | 5 +++++
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts         | 5 +++++
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi          | 5 +++++
+ arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi        | 5 +++++
+ arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi          | 5 +++++
+ 18 files changed, 90 insertions(+)
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-regards,
-dan carpenter
+-- 
+2.54.0.545.g6539524ca2-goog
 
 
