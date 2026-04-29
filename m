@@ -1,144 +1,202 @@
-Return-Path: <linux-tegra+bounces-14046-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14044-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPHROA+H8WmchgEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14046-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 06:20:31 +0200
+	id qG3kLVaG8WlEhgEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14044-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 06:17:26 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8328848F1AE
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 06:20:31 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B7748F127
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 06:17:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7AA8A300DED4
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 04:20:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4A22D30090A9
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 04:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A29389472;
-	Wed, 29 Apr 2026 04:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B6DE38550B;
+	Wed, 29 Apr 2026 04:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUGqAwa5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dvDACpim"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBFE3859E2;
-	Wed, 29 Apr 2026 04:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777436429; cv=none; b=EUUy1vr8UH/z3yJTgtAg70/9LluWEYSaKVGnvTLU7u8iP1TEEgT1vTbWWykqJktzYCaxc57xdGh8l8Qll1AsW1d+eSreMeGOc8toF7Ah0HXU30WcUUYUBq43jex7/whik5sqPSc1g1R+RjioPqeKpF/txS6wEkr64agd3/H2utw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777436429; c=relaxed/simple;
-	bh=USJ0+cRmunuLt54HmeoCaeeVG6X1G37RdfZY8UkUAso=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GZYlTIT3SohlCn8Z5Y8CDeo7x6p2vR0G25N3NW2l72BcJCBoalWcSmue2MttxApTsmKdjVgrc2kFabIJ6F/l1M5ZXup0kXax2wz2ZA9JC12/YxIZerq6hmVkgLl3enD3O4Y+ftljAq6VGpf+gWOOALe5o96/osgj3PFyvrsMc/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUGqAwa5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53B21C19425;
-	Wed, 29 Apr 2026 04:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777436428;
-	bh=USJ0+cRmunuLt54HmeoCaeeVG6X1G37RdfZY8UkUAso=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bUGqAwa5621xDyUPf9Hj5pU7WE0ISPoSXE6OqcQl9647GWqJuX3z/74Vifq52beDf
-	 bFQ+QQ8lvBlUi+CjZVmsfMZrZSWfmECXn45PuMlwx/slQyD7t2JlvOi9yoZClglA4i
-	 p+tlP4JzIn3s5X6/LdAFSluxyp6xXELiKkE5pSH/4LZfqqVRJt0WPyGbO0eKqhFc2e
-	 92oETFFmKXYeLhEbyvfbhwOOoVBUwvk3KqpfN9GmhaTLhP3QSZ4hQD0TuKvfvRnmuV
-	 U77aDxsut1wH6xmWcfr8g5GvAnwS5FWlb5nOywMifLVoxPRkZegqaBOSrRFTp2MXeU
-	 gAqJtZnioPY2Q==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Sheetal <sheetal@nvidia.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
- linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Anupama Kunkulagunta <akunkulagunt@nvidia.com>
-In-Reply-To: <20260428051216.2746030-1-sheetal@nvidia.com>
-References: <20260428051216.2746030-1-sheetal@nvidia.com>
-Subject: Re: [PATCH] ASoC: tegra: Add S8 PCM format support for MVC
-Message-Id: <177742890949.363516.14048311665636522512.b4-ty@b4>
-Date: Wed, 29 Apr 2026 11:15:09 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5950613C918
+	for <linux-tegra@vger.kernel.org>; Wed, 29 Apr 2026 04:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777436244; cv=pass; b=otlNlhcs3P+lDEbFfVJD2YS3rYGBSGaenhFSiQZNJ3zo3Mo50JQxd20pz1L5N625NI5UPpJOI3BwVX1LtOZerMftsGg71I4ZppopzlgEwugbtFes10OV52GBWhq43kqDSC1sJbbXoViZlrlg8+YCssjJaAcE1dLb9vD1UU1IfyM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777436244; c=relaxed/simple;
+	bh=ucY3TNrWMvRb0oHVhltYdiDBL03lh8F0+Cv3NgZ1q9E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EId41DTECxVnjng3AqYPdMYsa00dd3phJL/SxnMpZ7q2LRQQSoEoveaFk5NxPBmV+HsV1z6Vtaz9nmCFtX1o5xPKot6C2+lGvYmbX4GOLZXIuWpN0OolN1G/0GoFmFMvouB7rTm2/NHzYMVd5Md99jPnrqyPtauzvHSmxn8F6DE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dvDACpim; arc=pass smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a2c7427ad9so11859953e87.1
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2026 21:17:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777436241; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dpoLTF0SgI7ZMYnZ5n3RV7Mv9MdxpDtB3ins8y7sF5840B1VP2j2J3ziBIcD5bIbOM
+         X0U2UjpNoEblo61aC6lVElSJ70i9One9westpxFrDI/4Dl9vziemJz54RqJws1KF9d5v
+         5+XmiZM9TeecbrQZZ5UmY/XEAe3L4shcWzR87b6KhzAP14FGWrSDofLsqn/0DlOtjV5p
+         uR5fqjWMjk5BpOYVp6CMGrxbDjaiJT6e/17eYIlHj2S52FCQuFrS1Wqdg4XcOzYA9q8d
+         U8LBR3/50hwxnjlhfNY5kxOszoClJpxy7ey4wmLeCsQTzRjAJd30K6mF86NFl0CoTS53
+         9ImQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=S+wgx278PuWohl1935Byl8WX7gkc8WHJmkUS4pGdFI4=;
+        fh=su/PcUdZkJ5qmkQyoJscOeKsEq8kvCtYWdr4QlQDy0c=;
+        b=Ersw0twd0CkmIOq6xAnu9Q1EhOgAen+brEEMrEWhSYMgUBlwreQzXSWl+VN9uMkWNz
+         4Ej9bjMpWP4p40jE9eM83mmpjmwEEVRw0e8XLWAF0zJbMUr6Qo+2kXPaoJF3NzWcpOjn
+         DA3yM6Z41OOkzLyC/JMD7WLrEHdD9h/wE8qza5yTyaZfb0YCUg4nAgzM84DSx95JdxHL
+         Q86JJLdQvkvF77RoizpHT3/h9+LmldDxC9Dqva390thX4a610hV6UBtpEOwwykpKoA+r
+         YyBeY3XSe8E94kpf/NnOYNaDk3Cf6GVrrJRGG/qA1uglOQr+LraG3B9JPOFHTO4cGNMm
+         3G7g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777436241; x=1778041041; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S+wgx278PuWohl1935Byl8WX7gkc8WHJmkUS4pGdFI4=;
+        b=dvDACpimEfz+lkjDu+p4DjT+fvQBqaJ38nt13vAj6O5Zjc3j5SRV7RVEUyAsHY5zDy
+         k7SDY3R2RpdAJvuxg2G9SneYMEVqCzmGkqLfRFIYzTR0vB68T5h0PdGzttJYBLPSjwwp
+         zysiSnFZUrxLZPQ4xUk/g5MimDPy32mTPkyA0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777436241; x=1778041041;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=S+wgx278PuWohl1935Byl8WX7gkc8WHJmkUS4pGdFI4=;
+        b=mfyq/oiYEViJkdHfrcY3BcE6PqaqnBAxRyesjqLRFx+CnXEEXpbOncvk2C55JbG3Hh
+         +yFmGHRe83slP9k1nq1U+cUf5GDR3AiA1jzU/dPbOdzQ1lHCntx+jJwN7WyQkjaGor43
+         J8gkrKanJ4NaUliZm4H5j/pG5KD49s7K0SZ+x+duUcziRA7KvJlTSQcJfkB+8mSE/rrv
+         jj+L+HdUi4+WPr9p5/h7ddaqyWrusfuQ8kahJB1OWOi7odXa0mYZ70iM/Lz0kxP5N/3M
+         NpsoLT8GnKVP6nFsFQ/blZILZ6V3BUjf3PKVHFw58+a+oCyYGHFke/4YDfIBzoyOSAQQ
+         GNyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Y39HE6phSXyG6jLk9Gut27T+Kv/0uidwJHDBDobQHcsuZrWYyNejgObUXTYau6nLCmcpA/JGS1sTvrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyb23KHmkxvvEoaO7StPjUKwk60EHV6j5w2ZoiSygplTX5XXVVV
+	PGb+1qfRW7z8nDD4AMtKtLwAHxuWZRVvKuW5ami8hvY34inqfsIUrfW7mJ0fx2gkf7XAzb9Df3K
+	bLj4MNk/ClBBl3j3now2/KNwaIyqbfhm4f0bbjFyVHUz0rTEIfTeVsw==
+X-Gm-Gg: AeBDiesR3hDkWIxgusicV47rsP0ptqYqSISX56dww8wjiOBX+YGY2UVRk00TBRwk3UX
+	fyQ9YtpsopQ9jG56N+TLORaPStGSHCa2s6EtOdosIgzrIeTCwI5EIVO/EwYOpJFe1Y1myeRZI+N
+	SREYG+ml+UB2cUD4GF2E8FE/fokHhIhv9BOA56QQPflNgutdMfpjjU6pC5Cayb0X0qrQufblLwI
+	MThmyD6uHum0QpsWpTJ1pLQYkhLJHWoagDgJxvxa6rtfXKrwwxWtHUGjSEeuhYho51XAQxOVNZt
+	fYrgvyCAYvhkFAYAng==
+X-Received: by 2002:a05:6512:3983:b0:5a2:836a:ca47 with SMTP id
+ 2adb3069b0e04-5a746623733mr2096698e87.20.1777436240634; Tue, 28 Apr 2026
+ 21:17:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1105; i=broonie@kernel.org;
- h=from:subject:message-id; bh=USJ0+cRmunuLt54HmeoCaeeVG6X1G37RdfZY8UkUAso=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8YcIiBya6NQcTJtwWwHSXExYAkoGaTNPfiL/i
- Cyv1GLbD86JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafGHCAAKCRAk1otyXVSH
- 0LdMB/9K4MI4PBz36bQrlkHl7uKu3RPyQilMFaYpENU7OivosJv3NQtzH+EIXQNzk08V7P1FMw+
- 5uIQmubZefdn+iW9YqKTM4HUbQp51byn9ZJIJw0GFZnEz63q5eARXKDqWopwbSAT4WB/4qsttAi
- asUZbaquhBE//9D/J/sVoqHaiEO/df916v+C+7TbPqXVT4ZnNo2wJ7Y77HVDeMj6EgjA6i0RDlE
- 0H5k3O/v8QNVIKT1PlcbtowaTMDt/9Ab9a/OLlaMR466ahgthYYBZ2xYmFLfw4lcRZ0ufcPAx4l
- rcCx6kmCmbRaIy1BFu55zS+TbhTUZd6RfkMRmMNRrCYkfIRu
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-X-Rspamd-Queue-Id: 8328848F1AE
+References: <20260428200712.2660635-1-briannorris@chromium.org> <20260428200712.2660635-6-briannorris@chromium.org>
+In-Reply-To: <20260428200712.2660635-6-briannorris@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 29 Apr 2026 13:17:09 +0900
+X-Gm-Features: AVHnY4JUF2jGqzImUjvVT0R20VSVC4ANB99NMBVznnvWckelDQ9DcqAgZCUM5q8
+Message-ID: <CAGXv+5FZ0kTqrqWEu8AX_1cxtEQD0urr=FJO=Van20h75_Z1Xw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: mediatek: Add #{address,size}-cells to
+ Chromium-based /firmware
+To: Brian Norris <briannorris@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	devicetree@vger.kernel.org, Doug Anderson <dianders@chromium.org>, 
+	linux-arm-kernel@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	Julius Werner <jwerner@chromium.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 54B7748F127
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14044-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-14046-lists,linux-tegra=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,sntech.de,gmail.com,collabora.com,vger.kernel.org,chromium.org,lists.infradead.org,lists.linux.dev,samsung.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[wenst@chromium.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
 
-On Tue, 28 Apr 2026 05:12:16 +0000, Sheetal wrote:
-> ASoC: tegra: Add S8 PCM format support for MVC
+On Wed, Apr 29, 2026 at 1:12=E2=80=AFPM Brian Norris <briannorris@chromium.=
+org> wrote:
+>
+> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
+> to a system's DTB under a /firmware node. A typical DT looks something
+> like the following:
+>
+> / {
+>         firmware {
+>                 ranges;
+>
+>                 coreboot {
+>                         compatible =3D "coreboot";
+>                         reg =3D <...>;
+>                         ...;
+>                 };
+>         };
+> };
+>
+> Notably, the /firmware node has an empty 'ranges', but does not have
+> address/size-cells.
+>
+> Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
+> non-translatable addresses") started requiring #address-cells for a
+> device's parent if we want to use the reg resource in a device node.
+> This leads to errors like the following:
+>
+> [    7.763870] coreboot_table firmware:coreboot: probe with driver corebo=
+ot_table failed with error -22
+>
+> Add appropriate #{address,size}-cells to work around the problem.
+>
+> Note that Google has also patched the Depthcharge bootloader source to
+> add {address,size}-cells [1], but bootloader updates are typically
+> delivered only via Google OS updates. Not all users install Google
+> software updates, and even if they do, Google may not produce updated
+> binaries for all/older devices.
+>
+> [1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
+>     https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
+>     #size-cells for firmware node")
+>
+> Closes: https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
+> Fixes: 6e5773d52f4a ("of/address: Fix WARN when attempting translating no=
+n-translatable addresses")
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
-
-Thanks!
-
-[1/1] ASoC: tegra: Add S8 PCM format support for MVC
-      https://git.kernel.org/broonie/sound/c/116c535ea477
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
