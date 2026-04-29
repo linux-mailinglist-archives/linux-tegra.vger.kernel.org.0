@@ -1,182 +1,162 @@
-Return-Path: <linux-tegra+bounces-14057-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14058-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oF6bH3vd8Wn3kwEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14057-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 12:29:15 +0200
+	id WB4kLozi8WlZlAEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14058-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 12:50:52 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6620492ECF
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 12:29:13 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D003493292
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 12:50:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D78C3303E239
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 10:28:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9FCCD303A9EC
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2026 10:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8346C3D9DB3;
-	Wed, 29 Apr 2026 10:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F1763EE1ED;
+	Wed, 29 Apr 2026 10:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MR1fHvxS"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bqtEgdOR"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E653D6494
-	for <linux-tegra@vger.kernel.org>; Wed, 29 Apr 2026 10:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BBC3EB7F0
+	for <linux-tegra@vger.kernel.org>; Wed, 29 Apr 2026 10:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458483; cv=none; b=aP0pp+FxhgZkpSosSaBAnUef4GdoQL8cPAkWuT6keqNWG20Q0F2ZMkMRPzP+/8lB2HKqvk+LrAsfb98V9aoLO9uVBTvnUoS993T9NSE6JwhTeo0zvdbwbbc6DD3YUx66WG3kIzTzcj2TvRpIMhQiBt0qviRwXR5a8lDjEMsw3D0=
+	t=1777459802; cv=none; b=c+n1/ySQ+Zvevvcu8BYa/leVdZLSWRbATALF4zLjxA0VaO/was9mPFxBTca1Z4FaN/Qb8q0u/+E88QjLjfUyrAF2nn45bET44iX5oFKodT+Z90Su6xuy/HJEXoUQaPts2UZN+ObtEx7KO3e07o6aMOEAW5wFW+hl0hRCfDei6y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458483; c=relaxed/simple;
-	bh=aVFPK7SUpcpakPalTN3Yuz97INHgAbhDB4lXhxI43k0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TBRF0lw2e0jhfwcuYxrrpmH237laQocBn8CAUyHEOUyJ6ZjHo47YkHRXcCRbGxFQslHpOVvoj6YFfMTLAlhdKhcASnCEhACtkYjYKme55OITt4BgqMpZMR2pDqs/ME0ACQCV1+ktG48SVcZOU6pbDPafeWuvYaL6VD+4pJM8zec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MR1fHvxS; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35da9692ec3so10404224a91.1
-        for <linux-tegra@vger.kernel.org>; Wed, 29 Apr 2026 03:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777458480; x=1778063280; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+9QBBMU8htpcS6BmZ6YxHpCBuohfRwpwtrnTFil/Yo=;
-        b=MR1fHvxSxBm93sjFnEN0TH0225cWbCntxDq+TVuvvJCRCUtD1B/JKe5zbtEJ6lfXWA
-         MTej4gZl54gBesKO88Kr2Xsj8InHVVTlGsXCYv69lMW6kSm/j7Hz4/RjYUfdSn0hxQ1L
-         wBs1nJ3TGYj67j05vo76VXz0pZGnyOb1IsxjhxL8/1lkGj7XWDEwSjkyhlwhyQia3BYx
-         8q4m4AYnEGr00BfT66NFw8fEs60GCPvR9Vz9yQz5bquKNF63jn+C7Lqvw9YiBBxiwzA9
-         G09Db2h/1cWDivP8D70ov8VVaWKhZBFn4fS3bcCJUmgx41qhdvt3iHbDjQNiH9LLlcwq
-         waMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777458480; x=1778063280;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i+9QBBMU8htpcS6BmZ6YxHpCBuohfRwpwtrnTFil/Yo=;
-        b=VVK3FIysG1/qbmA7v7zeVAMTpuHCjC40Q0td7eGyMGLeMRLsmL13BkIk18DHeRUmwQ
-         6uOYKEUvtY8n6Jk6y+FgK+bMqNMdKNvCPxRShpkQJvg1UUKpNbLmO3v7va1/tR5bj77H
-         qCFFF3mRB3MMpqZc2aEV6MwDI+cx+dI9xn8mfcPYuic1PHI9FRql63sxfE2FeFdnLmtr
-         T8WUhUy+VB3Pz5/duAFWHbw04EmhnL6mh0+wRE9kAy7z49/QyVTxxJTiSiAG2isCwK0a
-         Nqh1bxbXGl8X61UESQMIqYqa7uSVDDZbWjEDHTXo04v8AXyFaI+HvF0AtOLwc2Wi4dPc
-         +sqw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Qz9uLwa8c/8NCcsuqf0vkrMV5mk7cofu0ft9Npuy+KQyUFF8VV8LIHbkQYITZClah55rP4UYOsh6dyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWsS2GB0BBYGcCgQH/nJSm8UEIOYWGu6TAN771ATlMQBYDqg9D
-	D3vY3YrmgpRLfJozs9v+9jNBShdyhlYcZQP7yQHjYIBZ5gzNvL8DfRzC
-X-Gm-Gg: AeBDieuSPgPe4LmAoOyZXrwUJ2ELvVPd45tt0jFoLYop5xYyjiJQPt0MpOnfHDMB7ve
-	juIwVd+aDUSiZXhYYw7VB0GAggrSaxLtQQGhDvCP0lse7bHFpcSR+48nS3W6snx+DUcdtQM5rZR
-	iuSAdaPFA666S5NJILJrx02pbYr0nt9njIuBa3NdXW9TKjKu+M4bJBxgL6tmiVcwJwB+iSG7qZf
-	P5X2V3rgmfln4JPg4Bd/dBwR1haXiEcKrIfs6Cc2W0b1b2e6iwp2jwoKnUoh/9wIztvUp7Ecz6X
-	qUam5V5NECceRJS6sp9GFu1Wv/Dcw1UJ221D2QPPvVgy0BQsQv0Gv4B0w1MRnb3J1kzRGTfK3xa
-	xuDG6G93vs6wlc9fi6kOVFblFl0v6chFnWtccPRovcdOoJej1iaIsCdUyS1DrruE7VZNjEZ3ipq
-	xf5uxcJaEDb/tWaNIU3/p6aD5cdUOQxWZu7UH0WhYAQkaX+ATB1iqmQBSG2ipsT7alWkJX
-X-Received: by 2002:a17:90a:e18c:b0:35e:5929:d78d with SMTP id 98e67ed59e1d1-364a0ade51bmr3299256a91.3.1777458479986;
-        Wed, 29 Apr 2026 03:27:59 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364a27c356asm1107003a91.0.2026.04.29.03.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 03:27:59 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sheetal <sheetal@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: tegra: Use guard() for mutex locks
-Date: Wed, 29 Apr 2026 17:27:43 +0700
-Message-ID: <20260429102743.103197-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1777459802; c=relaxed/simple;
+	bh=Oh/Ob5Y/L8o14cR6ZoVlhC9Kq0oV/DMTyaQSm/rDuWU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=YMdsuXlYr9ma+4YulyDaBJXahpVecXPclvoGRzn5K9DuuNBVmTaRoHzVON+jo8HqZqnYrhmmZRiVxvM3scNhnHFzJzUtmsh3Yd9fYm49SxXMwWc04ZVQnR5LvrTG4tcrTZ1AoCjdM3igBwd653g3+P+3Ade2cRNoUBzMmIpGxaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bqtEgdOR; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8B1454E42AED;
+	Wed, 29 Apr 2026 10:49:58 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 577EC601DF;
+	Wed, 29 Apr 2026 10:49:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1178910729835;
+	Wed, 29 Apr 2026 12:49:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777459797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=WXbajj9BBIsUoAggvYIZsmgmbeeRvJ4lzJfq8wHWrnM=;
+	b=bqtEgdORUNeErEiYzN2IAtMlvp2mklDRGorR7bsrVZWoGfMhzWvPDoa3ciPplfC9n7DJdJ
+	zbaOQtR3qe7R0gd5VVcBiV/5clg7uC/XNCWCdY0ve9NqYjPc4tavSHsJh+KjkkSmurlPQh
+	dz8Rz3ZYiX38Qm+0fAyh1XuxOn+Jq0Hct8Nse1AqIrrK68f9uZX1sq9HZxS/u9AgRReVZP
+	e3Lk7rELors7g6uTYydPl0noWzJD3enkS/SA/CVgNdunCA04/JVL/CO6qWhd9PJ/C/U6I3
+	AoZeQ76EGV2j+Q6AIBr9cqUHoUglsAASMt2Ulo+Qkug4MEjp8OzYhkvGooB8oA==
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E6620492ECF
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Apr 2026 12:49:55 +0200
+Message-Id: <DI5KWT8REASP.1XFX10F0TLQGP@bootlin.com>
+Subject: Re: [PATCH] staging: tegra-video: replace bit shifts with BIT()
+ macro
+Cc: <thierry.reding@kernel.org>, <jonathanh@nvidia.com>,
+ <skomatineni@nvidia.com>, <mchehab@kernel.org>,
+ <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Mhanna112-code" <marchanna111@gmail.com>,
+ <linux-staging@lists.linux.dev>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20260428163312.7374-1-marchanna111@gmail.com>
+In-Reply-To: <20260428163312.7374-1-marchanna111@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 5D003493292
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,perex.cz,suse.com,vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14058-lists,linux-tegra=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14057-lists,linux-tegra=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FROM_NO_DN(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.997];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-tegra@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com,lists.linux.dev];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-tegra@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-0.999];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bootlin.com:url,bootlin.com:dkim,bootlin.com:mid]
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue Apr 28, 2026 at 6:33 PM CEST, Mhanna112-code wrote:
+> Replace manual bit shifts with the BIT() macro to follow kernel
+> coding style and improve readability.
+>
+> Fixes the following checkpatch warning:
+>
+> CHECK: Prefer using the BIT macro
+>
+> Signed-off-by: Marc Hanna <marchanna111@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/tegra20.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
+g/media/tegra-video/tegra20.c
+> index eb1fc5b7e2cd..f3edca909684 100644
+> --- a/drivers/staging/media/tegra-video/tegra20.c
+> +++ b/drivers/staging/media/tegra-video/tegra20.c
+> @@ -177,15 +177,15 @@ enum tegra_vi_out {
+>  #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
+>  #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
+>  #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
+> -#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
+> +#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
+>  #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
+>  #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
+>  #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
+> -#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
+> +#define       CSI_PP_PAD_SHORT_LINE_PAD1S		BIT(24)
+>  #define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
+>  #define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
+>  #define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
+> -#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
+> +#define       CSI_PP_OUTPUT_FORMAT_PIXEL		BIT(16)
+>  #define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
+>  #define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
+>  #define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+I think this change would make code worse, not better. These look like
+enum-like values for 2-bit register fields, and as such should be described
+the same way for readability.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/tegra/tegra_isomgr_bw.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+If we want to change them they should perhaps use a GENMASK or similar, but
+it probably makes sense to just leave them as is. They are mostly unused
+anyway.
 
-diff --git a/sound/soc/tegra/tegra_isomgr_bw.c b/sound/soc/tegra/tegra_isomgr_bw.c
-index fa979960bc09..db33acbf6c67 100644
---- a/sound/soc/tegra/tegra_isomgr_bw.c
-+++ b/sound/soc/tegra/tegra_isomgr_bw.c
-@@ -55,19 +55,18 @@ int tegra_isomgr_adma_setbw(struct snd_pcm_substream *substream,
- 				sample_bytes;
- 	}
- 
--	mutex_lock(&adma_isomgr->mutex);
--
--	if (is_running) {
--		if (bandwidth + adma_isomgr->current_bandwidth > adma_isomgr->max_bw)
--			bandwidth = adma_isomgr->max_bw - adma_isomgr->current_bandwidth;
--
--		adma_isomgr->current_bandwidth += bandwidth;
--	} else {
--		adma_isomgr->current_bandwidth -= adma_isomgr->bw_per_dev[type][pcm->device];
-+	scoped_guard(mutex, &adma_isomgr->mutex) {
-+		if (is_running) {
-+			if (bandwidth + adma_isomgr->current_bandwidth > adma_isomgr->max_bw)
-+				bandwidth = adma_isomgr->max_bw - adma_isomgr->current_bandwidth;
-+
-+			adma_isomgr->current_bandwidth += bandwidth;
-+		} else {
-+			adma_isomgr->current_bandwidth -=
-+				adma_isomgr->bw_per_dev[type][pcm->device];
-+		}
- 	}
- 
--	mutex_unlock(&adma_isomgr->mutex);
--
- 	adma_isomgr->bw_per_dev[type][pcm->device] = bandwidth;
- 
- 	dev_dbg(dev, "Setting up bandwidth to %d KBps\n", adma_isomgr->current_bandwidth);
--- 
-2.43.0
+Luca
 
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
