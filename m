@@ -1,60 +1,61 @@
-Return-Path: <linux-tegra+bounces-14166-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14165-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGBkER1E+WmX7QIAu9opvQ
-	(envelope-from <linux-tegra+bounces-14166-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:13:01 +0200
+	id iMliN5VD+WnH7QIAu9opvQ
+	(envelope-from <linux-tegra+bounces-14165-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:10:45 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0144C5AFA
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:12:59 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E65D84C5AA2
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:10:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6290C30322B8
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 01:09:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6CECF301EEE1
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 01:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 008BB356A24;
-	Tue,  5 May 2026 01:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4DD3559F2;
+	Tue,  5 May 2026 01:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xx8kGxiy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMsHh4M6"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D193E282F13;
-	Tue,  5 May 2026 01:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A479351C22;
+	Tue,  5 May 2026 01:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777943389; cv=none; b=RxpTxaBo2UNjSS6GOUHjre9yYPmrxIWbJ0PgrJfd2e/LgtrT9s2zq8Rh/NtQFKbvFRvgeOEX+CPJljwQZjqITEIJY2D1W43S7iotIzxSiZb5EHTCcKrJuvMmhlcGE2fLEe9sAzp4iJ7hcqD3811hvTHj214UQqvCVJ3vlqwwfGI=
+	t=1777943344; cv=none; b=cVW0z7CTq6+GtqS+7vYN4dN/Lr/3sljpTzBRbrW4dpvNOIHgllnL+nzXWVdw4ZhyboH9RM9zSHpPejcWkwRZnMtME2mmeyCePGF+jFRaBYHASNpTbEAX1dbHHRQOvryRkdoKz9aCY0mWY32xUA0rijFCIc4uiCHbQerZJ9EbQIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777943389; c=relaxed/simple;
-	bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
+	s=arc-20240116; t=1777943344; c=relaxed/simple;
+	bh=TpGYXCaAFTOqebHvjztPC+qbVAYxHWhPNx008iiZQp0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KSNziLXn1WeXwovTPgnp3myhBEo3ToHGUNblvxU1a1OwyYkCtrWA3C7IUdwhK1kUPdZ7JD5ay8sTCmgoDTk+ZElPZRnCAY0RkYU8Ztl1qaMj0wMLkwbv1feVoz7W5DBeZf7y/7mNaRdchddZq7crPEaQHTTh2L+OmGdN75q8yrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xx8kGxiy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ACBBC2BCB8;
-	Tue,  5 May 2026 01:09:47 +0000 (UTC)
+	 MIME-Version:Content-Type; b=LbdYPjMIAPZ4bbaTY1Y+AcNL4iiecTi6rjedxmrSnK69ZiZtx0HTCN/WYcEsEWimkO4e8tWygO61bMEk9+EpZH7/WidwRs/mUHJk1MhQSsXLFLbuFm5EpF9NpDmFdH5fKJ1T+HPSL348RpmrJu3B1Thp6DJK9vjT3ZgcbBXyD4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMsHh4M6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC2B4C2BCB9;
+	Tue,  5 May 2026 01:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777943389;
-	bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
+	s=k20201202; t=1777943344;
+	bh=TpGYXCaAFTOqebHvjztPC+qbVAYxHWhPNx008iiZQp0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Xx8kGxiy6QsfCyJcJPeUbryYPzcdq7rHqAfCRHqxa3BkpL7dD9imQv3adkFaKD4CK
-	 m6T6SPFtfQytBFNzT215/s7T2d/s5IZJJnw1vOMw1THI0ex8UlPk/lMlqFDz6OJ1ej
-	 qtXu11tVBw5Hebybbh6OgfHdABOzSGlPjIVJR1y8+oloGDa3uEnopC77khK0b7vOr/
-	 qAWK7l/mKVDcHVpgc6tb7s63Xf6+n+19WCcrpsAGKWwVwAVfvIrpyAeNMryry9dcP0
-	 4GVcXccCtMaHwbUfBjoPO0YagDVjTEXXGR+nZl3raC46dDPEgXo9c3qndEV5Ge3ilP
-	 4Zt50no8VNkZQ==
+	b=DMsHh4M6qdvwacvzCJwyFc7Gtf+zRpjXlmy2efcs6wg7CZ2F5qdbuQH/XCoppdkZO
+	 Tj5d3JRY0jIp38LdvPQkG39WqAUnktqxa1+aqNn4vHqTuESKwfqaOwoZHSao9IMkgL
+	 qqafecAklTJF9OPF6FJ1bKdLto9vRw+5sVe6zvMUOABwsmCGxOsGp3sdRjnb7boC9h
+	 Q9QA199eq4QZazPtQyh56j4GOe6v2Ox2jWmWxFU0VTlzUw7k7H7f3qfABKpFyct0+T
+	 24Zb9zg4W2dSv+Uneo+NM7dnvC2PgxZRVlk9a8gj6Xz94ZfBXUSP8Pp9GV2ECBGamA
+	 McSD8G8gLPqkQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+To: Liam Girdwood <lgirdwood@gmail.com>, phucduc.bui@gmail.com
+Cc: Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Sheetal <sheetal@nvidia.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20260503003037.11942-1-rosenp@gmail.com>
-References: <20260503003037.11942-1-rosenp@gmail.com>
-Subject: Re: [PATCHv2] ASoC: tegra: ADMAIF: allocate with a single kzalloc
-Message-Id: <177789971653.458539.7304051237550317105.b4-ty@b4>
-Date: Mon, 04 May 2026 22:01:56 +0900
+In-Reply-To: <20260429102743.103197-1-phucduc.bui@gmail.com>
+References: <20260429102743.103197-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH] ASoC: tegra: Use guard() for mutex locks
+Message-Id: <177789999646.458539.912040697689212199.b4-ty@b4>
+Date: Mon, 04 May 2026 22:06:36 +0900
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -64,50 +65,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
- h=from:subject:message-id; bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+UNbwEBE6yb8jJ9qJRXuJXP1+MncX7PC53pys
- 8qZ1zIZqjKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaflDWwAKCRAk1otyXVSH
- 0ANpB/41GOe+dCeLeSLpTUfO9j7cYX9viLeQ6Ipi8HHXX7T4iGH3Pl/u2mFxZR5nhNeX+Znsx74
- RGWFPIrbyc00OxyoJF6f9CQziR91H61F+UIoyj4MawRJAHfgLYCE1j+zuwVNFinrKH17/51CzsT
- H9xFAsFK8Hg1jvR40pChWtoav/smGBmoJJjMNB3d2JKSF97bnJX7J6Q09umnXfe2VZ6ewXiu7lw
- 6CL12pDVK7b8srx978SLRQrU9pXUCejGafnlKklTF/1zJXzDULH2TUTCJBDYfDlFO8DvLz9aObJ
- XAaOQryvlpgbmf7o4ffUtT++zuaAJnMpUStkYYM5k9KDgj64
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=TpGYXCaAFTOqebHvjztPC+qbVAYxHWhPNx008iiZQp0=;
+ b=kA0DAAoBJNaLcl1Uh9AByyZiAGn5Qy2iyjgQFLwDiiUWEnpDKH71X5BFWPmjdsMc1y+RkonGp
+ YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJp+UMtAAoJECTWi3JdVIfQYy0H/1fO
+ rXO9HddOf3wHCkzOFP6QtXfKybcBXc568T6LijmesaxVew9l9YzBhs8LJly8wAteD6enomhfVEo
+ GCQRvjQO8QgmwfWJRqi4wjh53boEfDNElyyClUZO+Vf7KbiJ5/WmCRkyi57iCSV3DxVvaI5BPNz
+ 8kH/5Y1R2nokfkMmkJ4ZvWjjbWGiV127zDKz3GAs7Mv/vdG8P0lH65QMumuyZZSnCslneb04jug
+ svmdBlBDmqEeGM1BBhpEgvnMwrl89LYbkZhuL2zaIyGukEQjCIvNCAvHc1T4rzIcE7ryt4ok1yz
+ RJYEjSOvpHWfX+RsVR2Xf+NF5FvT1+Xr8sKUgZ8=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-X-Rspamd-Queue-Id: 5D0144C5AFA
+X-Rspamd-Queue-Id: E65D84C5AA2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14166-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-14165-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,kernel.org,nvidia.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[]
 
-On Sat, 02 May 2026 17:30:37 -0700, Rosen Penev wrote:
-> ASoC: tegra: ADMAIF: allocate with a single kzalloc
+On Wed, 29 Apr 2026 17:27:43 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: tegra: Use guard() for mutex locks
 
 Applied to
 
@@ -115,8 +116,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tegra: ADMAIF: allocate with a single kzalloc
-      https://git.kernel.org/broonie/sound/c/7ff50c1f3183
+[1/1] ASoC: tegra: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/b5a1493d9479
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
