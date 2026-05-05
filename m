@@ -1,192 +1,147 @@
-Return-Path: <linux-tegra+bounces-14218-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14220-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IKoBID3e+WlPEwMAu9opvQ
-	(envelope-from <linux-tegra+bounces-14218-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 14:10:37 +0200
+	id mLKuMwHx+WnGFQMAu9opvQ
+	(envelope-from <linux-tegra+bounces-14220-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 15:30:41 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DE74CD414
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 14:10:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D69374CE852
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 15:30:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2861F300AEC0
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 12:10:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7B8B73027C6C
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 13:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2666039A7FD;
-	Tue,  5 May 2026 12:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179903624B5;
+	Tue,  5 May 2026 13:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JhI6/+dm";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="akrP1jbO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkYpK2pR"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA8839B482
-	for <linux-tegra@vger.kernel.org>; Tue,  5 May 2026 12:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7414282F2F;
+	Tue,  5 May 2026 13:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777983033; cv=none; b=bs6DXQ0zah41e9uw76spE9NhsU9PRNHT7YoWzyJ2IoUQDNAKqLQ0+rWmKJQLm/jYFoAw+u9G/430VVjz2Hse6Pl8BM8No5UxG4Gx5MArK0LH1L9S7BrB6nJHBBxSqMFD3sQbEYYvAGZDBXIziwHQ589zX8N8Yw3eeDKN2L0iPxk=
+	t=1777987393; cv=none; b=Wa+sqkvDGjGne9al8XAtr8EUHmtaJOB+lYvgaWjiJwY+/lt2LaoI0clGpirf8WyLnkje/65bFw3VQ+CLOVqYIyxK7TnudP06sTwTcnOey+wNtJIV8LRLNBVfxDYfqJxF+T6xnQUgtpXblOZThRL6UUg6UoMdtSdIARHagl5NyKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777983033; c=relaxed/simple;
-	bh=m+OmXuXGMU6wUk+WZ1RB6GmPxqyzm9AXjy954KVhZ80=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=SPZgCvVlgenKTlIuo8pSw3sZuofJVrW6aVuP7+7yGdgkuD3X1UjcM4kN/s72+EWDnYMfGEXIg+T3gxWtbSyQhwzFEFP5PqzIXOZAvwZL/X0zdpo0gSSacIrY5sFF2+Ssdv/QbdGCvTRE52TV2/xmOtdBaEe34SP8ClvQybZxD9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JhI6/+dm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=akrP1jbO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6457EPPe366314
-	for <linux-tegra@vger.kernel.org>; Tue, 5 May 2026 12:10:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YJDA9Dw9DQRR6r6ZVUHzUEY6axXFWifKuuHs5zUrzRI=; b=JhI6/+dmrPEccOCg
-	tYg6BDsttRs89uzgbwa/6JVgnQGpIEsFnyxrz46yINXWj1+O06G4/bXWrjML+BDs
-	exLUELVYWW1cSAzbA0grX/Yip7KkVddkeeRxEn50uGINmO6QJn+pqUzsi7VU9w9F
-	PkRv1hq+90j1eLaWAmaxOaJs8g9csJ2eUSk7bakk15X81kp9Z75G0XWv9Os5YIni
-	q4t25xRwgH2ir+8X8zxPseRqN93aaToUq5gYNn3FxssOJvREsBm7yIwVVt25ru+6
-	2yhS1qJUGQHMERAdLp81MOvbMzltd/5V6O1xaz9+ILuA9gmC7yBjsja/DZV/fJrz
-	eRGBRg==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dxvn6vc32-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-tegra@vger.kernel.org>; Tue, 05 May 2026 12:10:29 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-95cfe3d4c16so4333113241.3
-        for <linux-tegra@vger.kernel.org>; Tue, 05 May 2026 05:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777983029; x=1778587829; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YJDA9Dw9DQRR6r6ZVUHzUEY6axXFWifKuuHs5zUrzRI=;
-        b=akrP1jbOOaToUc2g0r/0/Gtel4mJLnCGg6otWof1jTKmZfi79MupLa+YgdTljIo0vN
-         OF/TLcAJgPNy7kpOBgCWGPEvNXy52MgcqEdnfB33hWBONo6xbeGL5mj6jMSfpJyUwBCL
-         5QQVYAs2j9Rz+688AysEPc+XI37DqfFbkZ2sjoul6d1RPmg0MvPbnhLKRePpGsoPo67Q
-         q+HxwdvB3FAIhoZzfUmal9hXKPNVAMMz2S4nkx8mzoHF2duVzBoqdU/I2JpDkqTQ65Ik
-         xCnpCHM2LcDU5D9lPDthxPQsdm+tl8gLHSNt7+1WtbKHcLZyHgcvHcg22cS4HpKCRHBw
-         ZvtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777983029; x=1778587829;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YJDA9Dw9DQRR6r6ZVUHzUEY6axXFWifKuuHs5zUrzRI=;
-        b=RHiGsuasYVS33RjAfalGxwthmVBSn9suvcX27LJm7hR4E5zJ1Tcf3e4syonOHWYwig
-         L9aZAFisjCgaOKMz2YlBPBRQdY1whzxzwC/roqF/JBe6c5aUDv70Frg2in/PpdJuQAaU
-         C0UIP2Xlo7+iJ0XjvlJTSUXqp/9hYU3nvb/lNGjmqbj3yw/enq3IpCdVWp7Xa71kJ9Z2
-         DfWT2Ze7a81/kA9jKNkDMnsuvxvCMseX7QaYXRFhFSdDPzRKVNjCI2ztSyLCae3PB/Y7
-         lutMsBIxymHsv2LDHCZrdDq02cgyS3JnOhN9DtZ1aJStqPuI9+gB2Wdhks+KBw0joS4z
-         N2OQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/JAqcFUhuZg38ag8Pn+w6PAlMCChiccJqmE3cbrjjPUYYVwucYkqutNgZ8WM91J/mYZmW77uLsikznFg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6aajyomMWX5TUrCmn/ipoKX4Lgwz7P7ATxQBWPI0k05grcm6t
-	KIqlyWJt62srhhryqAhPgYfsQTfh9L1w5OdgAoEERs81BmiVyjKQII5v1v4AJp/nuL7x6R7gL8V
-	MLPJgGYNeaHmZNkYtFFb+PlHfvDJGxNADars0y9qNKoB8JPp2LtorI+Q9Mwi2G8Hyvw==
-X-Gm-Gg: AeBDievxsVsBNzVV1iLR88EmSZVOnpVWROUv2kh0nCpilsFmBxwolOE2DpOG0nNYU6A
-	l3aMpyLNUsEtMoLLCjJJRVKHgEp9bKXDrZSCQ0g4/ony7qBa7SZV55xJVW+ZGBLYLcq8+NCCp3w
-	Kxf0ElGQ04k/i5Yvd1zcVKjUgmC+mqiUzyAgwOahbgJfsCNo4QtjU9j36pWEw7FxmOR7M/czLJB
-	a8HsYlV98qm4wDhlI+eh5WrEaLoQtVbAwHaKY8LDgopGRNfXaj04ucasCdMGYaePyM3NwOrF35t
-	xrmdtYKIERM+cVz5VP8pb4OKykQkOT6mm9r5CjyGIJkDHpUf/zoRVEsCFCpRmqaHZO2wSt7FdKX
-	RymMp/vPsGcrNxDnkYYg/1zyVUrQOGKEsd2O/cBfSCQge5wVZsVs1lfIMUyHOVsalngXo5tFtbJ
-	lUJNPZVLMFt3t0WCOC
-X-Received: by 2002:a05:6122:3c44:b0:56f:7c7e:f33a with SMTP id 71dfb90a1353d-57547fd53a0mr1224776e0c.0.1777983029118;
-        Tue, 05 May 2026 05:10:29 -0700 (PDT)
-X-Received: by 2002:a05:6122:3c44:b0:56f:7c7e:f33a with SMTP id 71dfb90a1353d-57547fd53a0mr1224731e0c.0.1777983028778;
-        Tue, 05 May 2026 05:10:28 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:3d0:c2e8:9f02:5c9d? ([2a05:6e02:1041:c10:3d0:c2e8:9f02:5c9d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eba865fsm312206105e9.10.2026.05.05.05.10.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2026 05:10:27 -0700 (PDT)
-Message-ID: <3075fe5c-e8c3-4439-be5c-0f6eb2fb6e48@oss.qualcomm.com>
-Date: Tue, 5 May 2026 14:10:27 +0200
+	s=arc-20240116; t=1777987393; c=relaxed/simple;
+	bh=cefudk32snOl/nbbvFdfp5Vnw/EQCTWqq5PCVaxb3Qo=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pwUg3+0Ndhd61tKxcbA2cX4fgYBjJTO9KNQ4QtSGE0cSbZx95Xup71sDluz8dOMYilgq1BBj9NzeC2WhzZwOc4vHGM3TB7NDa1Qxewvw7EJ+cVGsbmbBEYEycCWqqr8OPWdsNpV2+4hB7oPPdFTnr6gQcVomYBygaY6CRDBrUKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkYpK2pR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97E4C2BCB4;
+	Tue,  5 May 2026 13:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777987392;
+	bh=cefudk32snOl/nbbvFdfp5Vnw/EQCTWqq5PCVaxb3Qo=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=rkYpK2pRxq7d9ml/8BrXHNIVzBelWfsJF2TH3LPXWtB2cV99dAyBvB8zTqqJXZnMY
+	 MzHCKiIqtcRuCca4DVRjOlq24BbpNH8loMORCuNiLuidLcuyfq8fMWYLwVlH+cc+tn
+	 7TOhhYZZNerTdS6IAH071Sefz4k1vRepSAf1aO9bFGH+F2H3Vxe3BpJfeTYbAcEsXD
+	 UYZiG38zX72VdeyPFbEd9XK6Klt52t2oiZRzQmbjcnVcfw0ZaclgMXLjly2uVhuryc
+	 FPcb9uNNExz1rcKi68iJgudygnnibYVnBZd7/Ee2XjrwByZ01X6MPPx6rN1OJDY3p6
+	 FgYTwwru7c00w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260505102803.183455-3-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260505102803.183455-3-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] ASoC: tegra: Move MODULE_DEVICE_TABLE next to the
+ table itself
+Message-Id: <177798325040.568329.5475184475659729159.b4-ty@b4>
+Date: Tue, 05 May 2026 21:14:10 +0900
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drivers/thermal/tegra/soctherm: Use
- devm_add_action_or_reset() for clock disable
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-To: rafael@kernel.org, daniel.lezcano@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com
-Cc: rui.zhang@intel.com, lukasz.luba@arm.com, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-References: <20260424160019.41710-1-daniel.lezcano@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260424160019.41710-1-daniel.lezcano@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: atOlW3JYK_q9QUcbS-yysgTMpq4RFQAG
-X-Authority-Analysis: v=2.4 cv=Z+vc2nRA c=1 sm=1 tr=0 ts=69f9de35 cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
- a=TJ0kvanGE02mnE8zDPUA:9 a=QEXdDO2ut3YA:10 a=1WsBpfsz9X-RYQiigVTh:22
-X-Proofpoint-GUID: atOlW3JYK_q9QUcbS-yysgTMpq4RFQAG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDExNCBTYWx0ZWRfX1yFfvn+ZDtNH
- rxeFr9BBdZhcW6dF8s3zKxTWs+UdOEFT92t99iO9L/Mt85CXLbeAuaFdDoWaMi9Aezf1vNvokwg
- NfgaOnYfcynacjRD6/CKdC/U6lGt0OsJfD7vFiPRosOe8moK6su+RTQw63h5mYU3oNx6JO/K9b6
- 2fg8TDTvZl92q3cY97xTM7QyFAMX5eCA3t+42uUZ6pggguUESge8LWGCoK5V9wYKiGIWCbh9p4b
- LESDJRbQfRX2G7v+44VqzUcayVWb88jjbl4dA+9UvZgSF2+O8RXCzML3w4nyLnR1wo5dS4ivxjz
- q8FiQove0gi5TYDcLs8xxcbdQ1NuwJdLw+rtVAtusHKM0Vz/rYQ0bOOk4XKJAUeAoNCIscvM3+L
- Ywo2jMboBnaABgqMa/69HsNkzkz0Vz6LQcUAs8b96yGea3HmNOopx6XFG0euVlzqro59QwZUcOI
- kGZFvVCQR8uTNmgDZ7g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 adultscore=0 impostorscore=0 malwarescore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2605050114
-X-Rspamd-Queue-Id: F3DE74CD414
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1281; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cefudk32snOl/nbbvFdfp5Vnw/EQCTWqq5PCVaxb3Qo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+e88pPymfwqltCc9XAr3YDRsUA7DBlqSCA6Is
+ JH013PlTkaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafnvPAAKCRAk1otyXVSH
+ 0IFdB/wM8EiD0jprJ3GQuxIGKno9/xqIRj95icFwM4m1Ni+Xe9fgCyCV0qOqEv2oLeAfHUmypV2
+ pB5UfRncjVuIpLh07vtuCI2wDBP91FZOLI31oSWi31Zt0nHoQ8AFOPpifk6jRY/eaPQjrd0PyqT
+ 8wz9pBYX+fxyPMXbi8emdbChfpZqtaGdd6L+4uwMH2bdFBTBGj15A/IA+QKf+3Tmx7he98vHZH0
+ Czk3cuNpRDfyLgS4EgHv5pK2wiXMRpHBbpAn0Qwbh04h6gNQIfkvixhLUHkSX7VlheOOo1IWwjm
+ QYXgcnoo6ACsHm4/+Oqz8fCEUxz1EHkBqH092FhhNUIjRpl5
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Rspamd-Queue-Id: D69374CE852
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14218-lists,linux-tegra=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,perex.cz,suse.com,sntech.de,kernel.org,nvidia.com,vger.kernel.org,lists.infradead.org,oss.qualcomm.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,nvidia.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-14220-lists,linux-tegra=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.lezcano@oss.qualcomm.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On 4/24/26 18:00, Daniel Lezcano wrote:
-> Replace the manual error handling paths disabling the clocks with
-> devm_add_action_or_reset(). This ensures the clocks are properly
-> disabled on probe failure and driver removal, while simplifying the
-> code by removing the explicit error paths.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-> ---
+On Tue, 05 May 2026 12:28:04 +0200, Krzysztof Kozlowski wrote:
+> ASoC: tegra: Move MODULE_DEVICE_TABLE next to the table itself
 
-If nobody is against these two changes, I'll apply them
+Applied to
 
-Thanks
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-   -- Daniel
+Thanks!
+
+[1/2] ASoC: tegra: Move MODULE_DEVICE_TABLE next to the table itself
+      https://git.kernel.org/broonie/sound/c/a28d17fdd3f7
+[2/2] ASoC: rockchip: Move MODULE_DEVICE_TABLE next to the table itself
+      https://git.kernel.org/broonie/sound/c/7ed0e11bea0e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
