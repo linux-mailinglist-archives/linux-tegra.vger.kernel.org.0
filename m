@@ -1,174 +1,158 @@
-Return-Path: <linux-tegra+bounces-14223-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14224-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wNsSOEgb+mkJJgMAu9opvQ
-	(envelope-from <linux-tegra+bounces-14223-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 18:31:04 +0200
+	id kFgXAL40+ml8KwMAu9opvQ
+	(envelope-from <linux-tegra+bounces-14224-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 20:19:42 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D144D1506
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 18:31:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733CF4D290A
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 20:19:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 99A8230556E6
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 16:26:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ED4BB304D245
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 18:19:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3CC248BD53;
-	Tue,  5 May 2026 16:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8784A3404;
+	Tue,  5 May 2026 18:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3c57A43"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="eveGNBOR"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B0F3EE1C4;
-	Tue,  5 May 2026 16:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A861539B952;
+	Tue,  5 May 2026 18:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777998391; cv=none; b=b2XqrhMSx9cgqNL5aIJy/EEMCa4y7XwGuepE7hurErLXRA/YP+qllxrFRA6frgYh6ik4XxdbRKMG3XxjzkJ5CpIYcU/98fjbb+v02TWZrWiYpLGc2cW3qHOoHeERPPSI7gFQjYbtQab9wwxkU+/yVJgo2bijO+gucVg7GiOaj/g=
+	t=1778005167; cv=none; b=VVE1zf+ErPvFfq1ZeHWjcQXVtbrhmxis9sCzO96EsG21FSf5BLd5xrqkn01gUhqaiNpbFoAUSiPyJrv13owQL/PP6hpS4D4KMLrsD5Svxn2vzU/77qY7wnNj5kF6oLy0PF6TsjHLAyXDqv3rVh4uCvUulbXNh2BozP/0nEzDZQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777998391; c=relaxed/simple;
-	bh=d9oRhAaRGwydDiDuK7BhCRvRWDp8pOBlU9+d0qcoLXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=YjO8IVpMtSzCXGDC2g79qdmSNbTcXozg1SPKqgVjg/MPfo+j/eJYcAoIiSrMv0yC2XUaaLSE6CFwkfpe0i40Hb0Ukrk+jajW6M67+pxCmfcbur3xRzWfG3w1C/EKjxUMVnc8yjw1nBI3bv2L42x3uN9ljDkWbOiEsxuHHHZEPM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3c57A43; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D7D5C2BCB4;
-	Tue,  5 May 2026 16:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777998391;
-	bh=d9oRhAaRGwydDiDuK7BhCRvRWDp8pOBlU9+d0qcoLXY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=P3c57A43Ly9U95oakv1tzSfsBDMAQvbGX3L5fDur0PPxN8g/BkGWOrF0IQ1vnb8kn
-	 q5FpFULXXt5CFm8Sy/qdB+pGfZ+595OPQ/+H2h/dpiAmaAvc14vlTx4Z7a774smhAG
-	 mRi8mWrUgi+n3TQ7klBwMiCHYz3eCKtTXeoo5Vugwd9W8wFUQWC/qxp4tUJmAVvLgS
-	 jHSgvFYD9WkXPVvCXJZvfwe/RjozMVbFHi4OoCu3mLeSQZDLHCSt79QQSlDeG2UmtL
-	 GPSyoqLckepvJjFkRnrQa3yfyKh+iIz18B0bEQzeLYkJERNnopW8hE0+mQWVZV5SLC
-	 bwYA1sJR8mQqw==
-Date: Tue, 5 May 2026 11:26:29 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	s=arc-20240116; t=1778005167; c=relaxed/simple;
+	bh=pBxc7D93t0f0QZtmD0TKOUx/5ScHJ9VgFzmhUFh8+P0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Az9oP1CGSF8B5qWp1x7y/91wAggP/FI1j5a/0HgNZncJsWPJXtTgoAOwCirn+CFA4Gjqjk1onBdpHR9CvQPPRvje/Q60/+L1k70nCr/0B+8+THeUzcgUbrPCniKHe+i4LRaYqDd690hRrov+M5yP4a8SUHpXiEbK75LO2P3bx+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=eveGNBOR; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=CZieGdswKQbAOybvHi0PMqwJLD1M3MBzPazARBFonZA=; b=eveGNBORgDJ20PJlLoNRQhaMgV
+	cts1zTnfdjoMi0WghO+3TnFOgTrS0fd173ms8UnoRGUIhXCNlsz/uIDZ89vOiYo7dEQM633M23WHo
+	DxyysTzdgLniY+9H/XYKgpFj/oRx2KB1p+4fIUhoR3ncoFa5zhNscugF7TsQNlEuX9a83b22cQcdm
+	fxuzxHLN9ks+Os1DVlGI/r0WnBZczEBlt+yJoCCh+WXpyI8UKIDh2MqcrOkvjRy7WX2tIxNnajgRg
+	eoCBwkS7QYJ7ZZ719f8TKMjYuclU9iXoPPKUY258ND2tPTJbIKVGWeMg+Yo0ZY9lVAFtMe0FwAZ+4
+	OWL0bNTg==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Brian Norris <briannorris@chromium.org>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	devicetree@vger.kernel.org,
+	Doug Anderson <dianders@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev,
 	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Tom Joseph <tjoseph@cadence.com>
-Subject: Re: [PATCH v8 phy-next 01/31] PCI: cadence: Preserve all error codes
- in cdns_plat_pcie_probe()
-Message-ID: <20260505162629.GA734488@bhelgaas>
+	Julius Werner <jwerner@chromium.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/7] dts: Add /firmware/#{address,size}-cells to Chromium-based DTs
+Date: Tue,  5 May 2026 20:19:08 +0200
+Message-ID: <177800448363.3286457.17373798042642521210.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260428200712.2660635-1-briannorris@chromium.org>
+References: <20260428200712.2660635-1-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505100523.1922388-2-vladimir.oltean@nxp.com>
-X-Rspamd-Queue-Id: 99D144D1506
+X-Rspamd-Queue-Id: 733CF4D290A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
+	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-14224-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14223-lists,linux-tegra=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[32];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,collabora.com,chromium.org];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sashiko.dev:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,cadence.com:email]
+	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[sntech.de:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[]
 
-[+cc Tom, author of bd22885aa188 in case there's something subtle here]
 
-On Tue, May 05, 2026 at 01:04:53PM +0300, Vladimir Oltean wrote:
-> The blamed commit functionally changed the error path of
-> cdns_pcie_host_probe(), now cdns_plat_pcie_probe().
+On Tue, 28 Apr 2026 13:06:52 -0700, Brian Norris wrote:
+> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
+> to a system's DTB under a /firmware node. A typical DT looks something
+> like the following:
 > 
-> When the old code path executed "goto err_get_sync", the PCIe controller
-> probe function propagated the pm_runtime_get_sync() error code. The new
-> code doesn't, and returns 0.
+>   ## From a RK3399 Gru/Kevin Chromebook:
+>   # find /sys/firmware/devicetree/base/firmware
+>   /sys/firmware/devicetree/base/firmware
+>   /sys/firmware/devicetree/base/firmware/coreboot
+>   /sys/firmware/devicetree/base/firmware/coreboot/ram-code
+>   /sys/firmware/devicetree/base/firmware/coreboot/compatible
+>   /sys/firmware/devicetree/base/firmware/coreboot/board-id
+>   /sys/firmware/devicetree/base/firmware/coreboot/reg
+>   /sys/firmware/devicetree/base/firmware/coreboot/name
+>   /sys/firmware/devicetree/base/firmware/chromeos
+>   /sys/firmware/devicetree/base/firmware/chromeos/readonly-firmware-version
+>   /sys/firmware/devicetree/base/firmware/chromeos/active-ec-firmware
+>   /sys/firmware/devicetree/base/firmware/chromeos/firmware-version
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-storage
+>   /sys/firmware/devicetree/base/firmware/chromeos/vboot-shared-data
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-size
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-offset
+>   /sys/firmware/devicetree/base/firmware/chromeos/hardware-id
+>   /sys/firmware/devicetree/base/firmware/chromeos/compatible
+>   /sys/firmware/devicetree/base/firmware/chromeos/firmware-type
+>   /sys/firmware/devicetree/base/firmware/chromeos/fmap-offset
+>   /sys/firmware/devicetree/base/firmware/chromeos/name
+>   /sys/firmware/devicetree/base/firmware/ranges
+>   /sys/firmware/devicetree/base/firmware/name
 > 
-> Similarly for the "goto err_init" previously triggered by
-> cdns_pcie_host_init() errors, and now triggered by
-> cdns_pcie_host_setup() and cdns_pcie_ep_setup() errors. These are not
-> propagated and will result in probing success, which is incorrect.
-> 
-> Fixes: bd22885aa188 ("PCI: cadence: Refactor driver to use as a core library")
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Manikandan K Pillai <mpillai@cadence.com>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
+> [...]
 
-I guess this driver is orphaned.
+Applied, thanks!
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+[1/7] arm64: dts: rockchip: Add #{address,size}-cells to Chromium-based /firmware
+      commit: 0b74f1a037672980c477bbe6b3848fb5341eb4f1
+[2/7] ARM: dts: rockchip: Add #{address,size}-cells to Chromium-based /firmware
+      commit: 98461edf564a35ee00a97a64f5463eaece586546
 
-> v7->v8: patch is new, issue was flagged by Sashiko
-> https://sashiko.dev/#/patchset/20260430110652.558622-1-vladimir.oltean@nxp.com
-> ---
->  drivers/pci/controller/cadence/pcie-cadence-plat.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> index b067a3296dd3..8b12a46b5601 100644
-> --- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> +++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> @@ -126,7 +126,7 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
->  	while (phy_count--)
->  		device_link_del(cdns_plat_pcie->pcie->link[phy_count]);
->  
-> -	return 0;
-> +	return ret;
-
-This affects cases where pm_runtime_get_sync(),
-cdns_pcie_host_setup(), or cdns_pcie_ep_setup() return failure.
-
-Seems right to me to fail the probe when these fail.
-
-Not all users of pm_runtime_get_sync() check for failure, but I think
-all the other controller drivers that do check return failures from
-the .probe().
-
->  }
->  
->  static void cdns_plat_pcie_shutdown(struct platform_device *pdev)
-> -- 
-> 2.34.1
-> 
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
 
