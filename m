@@ -1,162 +1,164 @@
-Return-Path: <linux-tegra+bounces-14164-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14167-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLJ1A3v0+Gk73gIAu9opvQ
-	(envelope-from <linux-tegra+bounces-14164-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 04 May 2026 21:33:15 +0200
+	id gKP9FfVI+Wmf7gIAu9opvQ
+	(envelope-from <linux-tegra+bounces-14167-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:33:41 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622AE4C3482
-	for <lists+linux-tegra@lfdr.de>; Mon, 04 May 2026 21:33:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF5E4C5C34
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 03:33:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8E2563043F84
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2026 19:27:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2A3383018C19
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 01:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 339BE3FA5D4;
-	Mon,  4 May 2026 19:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E154921ABD7;
+	Tue,  5 May 2026 01:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ua2wkKQE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TcrBL9Qj"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCE13FA5C2;
-	Mon,  4 May 2026 19:27:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB8E78F4A;
+	Tue,  5 May 2026 01:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777922842; cv=none; b=UMm/dn5oAGNpZIOwMWp+nsodBhPGk1O48EauFMH4GUCnUXx4HtoMpENCvctzbbNWpv0AurUsonsV2l5ZZNvJ1E1l6qUQ3/eeGufp6FNaG/vW8jNmlNrKoFyrH64k8Haio9YWS8SIHYkjk+gYeyc93Euq/pFG4oE+AZbIflUFMEk=
+	t=1777944814; cv=none; b=a6yzqqGX35GYVIGvEq2JSqm2/jPpMfGkZzBHGpXZ5oQxUOnfoHD8ZgkCNz0ztrDpaj6PKIUlYTMY8Fk6lh2jigwemD5oufW6/cz1KfjyrmW3f+4Tp8oZoaP4y5SizznDc5tm5R3w9WcTF3nUjgw6ZaDWXxBy+d8OHZn2NXkaZkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777922842; c=relaxed/simple;
-	bh=pQ8x2z5zy31JcNHoKfUVoU4UMbyxbAb3ewMKvBf9Nig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qmpslszq7D2itLgqaSCSny5zW2Qz7XmrjvzwcI0ECkG9btG9air0aOhPY6UFum8LG3hx5Cvr56Zv0xZySMHdaASF2Qcb08kpa/nO3yrIjIOL55UJFIafOW91ybNubQFHSxARh+rVYaxabPqyNfYCQvCXlZS5kzeh5U420sqi/Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ua2wkKQE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FEF2C2BCB8;
-	Mon,  4 May 2026 19:27:19 +0000 (UTC)
+	s=arc-20240116; t=1777944814; c=relaxed/simple;
+	bh=531U/ura2lGclcMT9muQeinmIdsS8LIUdVAX3tvAsy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S1xpPcGzpL57hm5PS03MNHs/ojsjMQ8arrDeFnJ9CcT0dZ2E7BDDjno0E5QLFDySH0wU3crbTJ9wv/vk3tp9Q82gln3iBQNWjlltrAtNM167iGAn0+vsuL0mgbh7iMxiwtgnOT9HG3JhNeGNNT6E4t+m6a0r1GJqoY/+f9QeeCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TcrBL9Qj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32159C2BCB8;
+	Tue,  5 May 2026 01:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777922841;
-	bh=pQ8x2z5zy31JcNHoKfUVoU4UMbyxbAb3ewMKvBf9Nig=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ua2wkKQEJkOWTR+uPDKsJAIolWixSStdxkDysoCenk2NEu5Zk5+jsKKiSU8hqvsgg
-	 0WZnrp84pvJmaoFWGW3azsrhve4WuSGtUSiemPUrrdmDHmkYCesieIr+aiOYAdfxsB
-	 fFycUdTa6v1Fb0NnH+xHUNgiNk0hfjkBDzGK4sMmIlYiPp2/WYAOXfSq2u6Cp3tVav
-	 MN1mxaQUr+mixd1jVsvSDXE04fPs3H7W3jcGTCGSm66aISTJ85siKCYhWtI1+NAeer
-	 Qkk7HQzUuNZPA96inkSW8S/jx9wTzZyLOqZmWoHme4t1VRiTrp3YzUvU9cT2pQ0ctd
-	 rpUhdMbj/Nhhg==
-Message-ID: <01ea0e45-4957-4bc1-b851-9c1b51cc9283@kernel.org>
-Date: Mon, 4 May 2026 21:27:17 +0200
+	s=k20201202; t=1777944814;
+	bh=531U/ura2lGclcMT9muQeinmIdsS8LIUdVAX3tvAsy4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TcrBL9QjrDAsDwjWv4afTcgoMhSpWEzKqwdxnXCqQTmMCDoCocmu5yXSpINQGaMfz
+	 R5haR4luO2MvOD7MLoyS5/JSPETHcO3zggS0kjzzEJZ927vQlEbu0glUYx1WsuEvOz
+	 HbCG1fm5XsqUMMCzjg29hK16b/L+xGaXXFlUw4836Hqg/uMxDBlht6N73XyGiaGgkf
+	 Omfdvw1FBkjLZcMlN0W543l6OfQEJhl8vZhzA/NUlZONlIc0hM1LO1kXYRNjYHPN4g
+	 VH4xMlzJP6yo5eKRswJ18OzledVeZFeiy3Tkf6b6kD2W8toJJaxPm/u0lZ0PAmm9bR
+	 EIxDsOoYi/s7A==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 111451AC586C; Tue, 05 May 2026 02:33:32 +0100 (BST)
+Date: Tue, 5 May 2026 10:33:32 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Sheetal <sheetal@nvidia.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: tegra: Add per-stream Mixer Fade controls
+Message-ID: <aflI7IFr6nt05g4R@sirena.co.uk>
+References: <20260504100051.3820808-1-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] dt-bindings: memory: Document Tegra114 Memory
- Controller
-To: Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20260427070312.81679-1-clamor95@gmail.com>
- <20260427070312.81679-2-clamor95@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260427070312.81679-2-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 622AE4C3482
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TwBU4RHH5eeFXzaY"
+Content-Disposition: inline
+In-Reply-To: <20260504100051.3820808-1-sheetal@nvidia.com>
+X-Cookie: Alex Haley was adopted!
+X-Rspamd-Queue-Id: BDF5E4C5C34
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,nvidia.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-14164-lists,linux-tegra=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,kernel.org,nvidia.com,renesas.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-14167-lists,linux-tegra=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-tegra@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-tegra];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TO_DN_SOME(0.00)[]
 
-On 27/04/2026 09:03, Svyatoslav Ryhel wrote:
-> Add Tegra114 support into existing Tegra124 MC schema with the most
-> notable difference in the amount of EMEM timings.
-> 
-> Each memory client has unique hardware ID, add these IDs.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../nvidia,tegra124-mc.yaml                   | 31 +++------
->  include/dt-bindings/memory/tegra114-mc.h      | 67 +++++++++++++++++++
 
-Thierry,
-I put the header on dedicated branch, so I can provided them via stable tag.
+--TwBU4RHH5eeFXzaY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Mon, May 04, 2026 at 10:00:51AM +0000, Sheetal wrote:
+
+> +static int tegra210_mixer_put_fade_duration(struct snd_kcontrol *kcontrol,
+> +					    struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct soc_mixer_control *mc =
+> +		(struct soc_mixer_control *)kcontrol->private_value;
+> +	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
+> +	struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+> +	unsigned int id = mc->reg;
+> +	u32 duration = ucontrol->value.integer.value[0];
+> +
+> +	if (duration == 0)
+> +		return -EINVAL;
+> +
+> +	if (mixer->duration[id] == duration)
+> +		return 0;
+> +
+> +	mixer->duration[id] = duration;
+> +	mixer->fade_pending[id] = true;
+> +
+> +	return 1;
+
+We're not validating against TEGRA210_MIXER_FADE_DURATION_MAX here,
+similarly for the gain.
+
+
+> +static int tegra210_mixer_get_fade_status(struct snd_kcontrol *kcontrol,
+> +					  struct snd_ctl_elem_value *ucontrol)
+> +{
+
+> +		if (count >= mixer->duration[id]) {
+> +			ucontrol->value.integer.value[id] = TEGRA210_MIXER_FADE_IDLE;
+> +			mixer->in_fade[id] = false;
+
+This doesn't disable the sample counting so subsequent enables will be
+noops (due to use of _update_bits()).
+
+--TwBU4RHH5eeFXzaY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn5SOsACgkQJNaLcl1U
+h9DFqgf/RN2JgQVwd8dwjlnkphKnsXAyl9hIfOWWJ6X4YesN+kTET713RTWIRwnS
+H0uRUOW4wEaBUY7ukytDQq9ZM9pYyeNm9YvE0w5aL1ORdpFC4h3SBiD0wC0ixUxR
+iRChXAFYOfDuKYh5L+0kNsw7LrG/iwv+mPhW2DNwrrtBhkHjvnoU1H4aNLmT3WfE
+FvDSbJb0zADimA/j8TQ/3I1QPpE7KYeYbnXmUdiPOaxzPqULz744tvC01wCVv5r9
+IH5wBGNxbkQ4x/AU/vddiN/UCq0ChWfvwwrt/d44l2s53BGGgvrI0UYE28Are4+C
+6XeBmhR0SPIbdFTVpTe/rx5A7bwu6Q==
+=CNlT
+-----END PGP SIGNATURE-----
+
+--TwBU4RHH5eeFXzaY--
 
