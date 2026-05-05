@@ -1,262 +1,292 @@
-Return-Path: <linux-tegra+bounces-14208-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14210-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qDOCOAfJ+WmFEAMAu9opvQ
-	(envelope-from <linux-tegra+bounces-14208-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 12:40:07 +0200
+	id QMj+DCXL+WmFEAMAu9opvQ
+	(envelope-from <linux-tegra+bounces-14210-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 12:49:09 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC094CBA1E
-	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 12:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A754CBCDF
+	for <lists+linux-tegra@lfdr.de>; Tue, 05 May 2026 12:49:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9145130A44A7
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 10:19:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA6B0304C123
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2026 10:28:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B34247F2CF;
-	Tue,  5 May 2026 10:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EBDE328B56;
+	Tue,  5 May 2026 10:28:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mXAXBv/p"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bNvpU9mv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LSzovF1e"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011067.outbound.protection.outlook.com [52.101.65.67])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E49E47ECD2;
-	Tue,  5 May 2026 10:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777975625; cv=fail; b=kuTtasv3VetwCaO2J6Y5WSF9HcGFul3DIQ0wbsUokdi7rD4fjQwp1fLhMqRcfu3pZR0dHVaEOY4TqlUga+SidGNv+UCOulmYC15A+J/qa7pm0klMPirptwsTDRPcJYxYv8JxnU66VNNyCi0SLMMYV9KavaB8oiZSlN7rJK0G3Bg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777975625; c=relaxed/simple;
-	bh=jq0QfPkpcUWFX13J1T+S3n/LE6oD7r6KwvKVGUTuzCw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rqjppQOvPwmJPnwZSrb7OOJfPxEUPdyLKnGDnSm3aPY61/F+fmdnZZAEkjWBnJXoTARIb2cjI5fFdJvyV7pJBuumzO8HzHaLtOD6BhfJ3xCa5GiQs7NHsWGItc/hlJbElxidmCpnFE1RnqVSRBO75jxZyRywIrK0OVF9I93aXAM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mXAXBv/p; arc=fail smtp.client-ip=52.101.65.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OCB39w2PjkpZXPvz1OidQY00H5eh4yCVPTDCSdZdZJRbmqkpRw2e2y2ih3IZEyzf9rdxnVZCJ55P573eLbozWKufJ0zy59NgbHPBLcPZOyVj6JX+i0KXf0wTF5EhrU1ERFQO4AIWlNVcrei98dqN6MZVYeR4iu1bza7g+7McYgvEESlIfiKQcMhLG9Z/zJEasJAqoIJNL/F+iczWQNcgeAeeZCvNZgAJqY2Adh+/DlErHdLhm45KlpOf2EVBobrgEzvwjUpL0q9qn+RhUBQe5SH1jp4DpPnh9yDtQ9P2Z5/gdQDK4aMvU6XyPTd1XVS6GL3IDn0aHORNCiCWLW0PyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qKTVOqUBH8QtKpRjECrCqFpDhqx+n7aHbc5h/JJ9rB4=;
- b=mWAc7B4Zlamimps4WDTsVUXPt5/YtZCuAI+E327iUPHTkb8zMOM+qOhulFbzVUgdn+Z0vAHwVrIMbrkWhEe91/6iW1nWoZ7mPHej81QUMtn2oJrLbMNlE6LFKwO4zpr7EJCyekL8UKNlDUCm24CRIaseQdqxzrX+N3HpzNtlMXIhj1bGGJyjWtlg3esfPnfFqqmpW817N3b3uTLs0guTbD6oIemLCXpjJcHWfEFwEwUEy8DGU7C1FdBY4FP2/+aC6NXJ36Wx3UrOam6JIhcZoAvOd+HPQruN0idxDiiO/WBjAOKtXqWreUamke49VgDwcq0Rnwz+Ba0bGr6vmbJ5qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qKTVOqUBH8QtKpRjECrCqFpDhqx+n7aHbc5h/JJ9rB4=;
- b=mXAXBv/pYjGaJtVDFf/lSlLQ+8/R2urc5eFkOeK6CcyC5JOiNQBuUzneIeVi1n0PchXVJb4/YXPp0T3QlUe/JTN5lfqy7PEwzTUnVWClfQsqao6B/CwW66LJ1VbPoiWl6evLUBvFpx7EaiN2ZW8snNVvqgg74rVMhWEEvYBs63uIorGZ+0vmudJvLM5KJVFQVIuxOrxzQHSg5QMHzv2PX4MpDizNqKZm/+NhTIDVkrUlVuJSJ+NoLjVoQhXSDu8DngMmUdw506xmOc+FCI7/+idntMjaSGigoMstNqkW8jama8KyBSMb4UK+O5UMMZfwaSqThNOjNwLBjR/WGZdSjA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by AM9PR04MB8308.eurprd04.prod.outlook.com (2603:10a6:20b:3e3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 10:06:51 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
- 10:06:51 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Joe Perches <joe@perches.com>
-Subject: [PATCH v8 phy-next 31/31] MAINTAINERS: add regexes for linux-phy
-Date: Tue,  5 May 2026 13:05:23 +0300
-Message-Id: <20260505100523.1922388-32-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
-References: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P190CA0006.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5de::9) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D153246FE
+	for <linux-tegra@vger.kernel.org>; Tue,  5 May 2026 10:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777976899; cv=none; b=uKmSsYbPLd2pK6PzrNSDL23+OsnOZhoOlZoVVK8JzYwzTHAXMbuFFBDcAEhB6n8teyvoiQdZhCASACuv+12VjVwy77cnJMDq0ky5JPjIYZXCUx2Uut3/deDHOmTCK9GtBXMPEHaEFmK4Y+AIFXu4gZ5GwO5R078WsKfb0J+7ot8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777976899; c=relaxed/simple;
+	bh=XVPD+W616R8y/3NolQ5AG12OfNJrpdVU9osOz5k7zUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PPkMgBDzGXIdJOmlOjqSryPRYRZuiGdATUhVzU/jVRZsHyT8oIX6a5NEscsl6inpt/L0XEs9WUXAoeBQi0flRZ3HfUYUIMcza0jGeX9UL49xZk7driephsaEUbnQdL7VKhgihrTOeeyRTSkH/3E2NVxaotpNHr37SSKCSfJnjx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bNvpU9mv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LSzovF1e; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6456llPi3187611
+	for <linux-tegra@vger.kernel.org>; Tue, 5 May 2026 10:28:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=U5kZwARyzl50XHwnIIgnTM4EUs3/eZVvYSC
+	UYEqXM1o=; b=bNvpU9mvouLG/7dPG9Ma7uCaJFIPu/2iXuOdUgE9938x9791Y81
+	Du5g4RPzNfZ3Wkg2ReINzGoTrhSFh9HGPEMZmrjC47mxJsjN4d1pgWIG3jFTfxpc
+	0aA5UBk639Muu/pzr89RfUX4jeHtcnuUJGVVP4Ko2ALRJjKEeL/WsiKZMr83X2AM
+	1H68bNoYHl4twkt4xCQUv3DX32dCBJ3J8WGrhuK4uhAtMH3m21eHA2pb43NXiGis
+	sGQ/E+BnopElT/e2PJrfpK7gzC/Lc8bm3Yy16HfzEn+nrGN02WBWUt4iPC+E/l6c
+	EigN3JXycdkUML1kMAucJwtyVCMne9WPkbQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dybkk8t9p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-tegra@vger.kernel.org>; Tue, 05 May 2026 10:28:16 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50fb007bc36so126851301cf.3
+        for <linux-tegra@vger.kernel.org>; Tue, 05 May 2026 03:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777976896; x=1778581696; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5kZwARyzl50XHwnIIgnTM4EUs3/eZVvYSCUYEqXM1o=;
+        b=LSzovF1ehgszKWANpgOp7dUP6D2U/zGscLEOEaJkhEF6pTI8WFpPw5jZpJ5iJ9cHI9
+         Aer/2OO8nlLTsdEOMxJ/jJjJTNGCScGwkZd3AZVDjxS1aumYGvOxYiPah4trgWO0UO9Z
+         hBaEw4+SyqklXo8094Ru4mUnt8oiraG3tqVcXDHvp3hTIn3ZTh/F507ZFWiQhKS79O5O
+         jrgWwmsTirwQf81gfsm2ak0mzxBvsclppRjFFSt81WIjmryoxfXxl/r2t1i9T84qfUi1
+         yfjdoCLLpafNoNCmqbtTAnB5ZeL/le6Kdyi/+/e2BZzFevs7u2L3jcCtmddCfmJf4cO4
+         v7cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777976896; x=1778581696;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U5kZwARyzl50XHwnIIgnTM4EUs3/eZVvYSCUYEqXM1o=;
+        b=tYa4aXIfQGqsRhhkDH9zT0AsTtI/H687mkbZpMIPzBq1jbjbMbmd4r8n38vuyS28dd
+         ziHPVMXVAAoNf3MA9RnF2lxloJaILEQzqBrTVCNyQUFjH1cNKhPBDQmNY3vp77QFSnaa
+         fzHhqnd+yb+tseFMkCJmshxm5SvM/FO3ElToKdLLA1PQK+cdW1kKZ262NwpJPV+fts/N
+         zN4+bopiB9qiIOxq3LlwwtUAAqDc4LDNR8YoP6lh2D+xz7VTp4uYAwHKaDxrFrPSyt+l
+         tTGeOMKZ3RIotPzmiyjyemWmaBVGZzepfRHtUnXa1vOkBoe2XijeRtmjntSvmQzyGwuf
+         jHgw==
+X-Forwarded-Encrypted: i=1; AFNElJ91xtWYudOZq+D7AobVkf1i8BVzVdZqimBAKUWrTZZBgP8ULUdiHWm+e3Vz6JO3lExihcrC6Czqd658WA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3qDoufy+3N04gKB068aEmv3mECmM/sgc4B/ewda5xTlLgXTMe
+	BjKs3GmXl0mg+yOwAjSVwsQZx59/H3CFi8cVL19jI0lQTz5zRE0uzP64tYDhq1QILrY7Cc31hiU
+	BGAgiYz5xFSzaFUJEsIC+qftdCLuRPGxN37VHUeaYpmWneeERepuYoewNKp7+3kbn9Q==
+X-Gm-Gg: AeBDies6F9u1Q8Q1U+NyuAp/9zGY9M9QaHclBqHsISKyTldMh/yoQXt8rqxhb5ZWlQL
+	8nO13nC3qsRqRdTmJ4H2zxtem6bqnQqLXFmBiDGlORKtT9gPgFiOLLT0bsuood0juyf4TDPaQJ8
+	5B5KmC3Qy3U5lkrrD+JdC+Kgnl3rpMCQyOg2gbxSjXc7e593g/IsH/jhkaeV3SJo0bZZL/ri4y9
+	6QK0lHHBEq+I5hcI6M0HRgkWukaYg3A+SCSS52UGFwSQhcb1Z/LGelZr2Wp+dAcCJ3Kc5Z0w7YB
+	wAqXn8GafQLNtlR49H6/wlfmWCSLeetG7++YJ3Ry5590FqXXWNtaTc849HOKNOFmVSNyTOyrUPb
+	VgK4l25tdUbbL2Ndi19pCjwibjhPTxoHaqF/UwQPX76TgYvw=
+X-Received: by 2002:a05:622a:2304:b0:50b:86f5:8fbc with SMTP id d75a77b69052e-5104c034745mr195430541cf.51.1777976895995;
+        Tue, 05 May 2026 03:28:15 -0700 (PDT)
+X-Received: by 2002:a05:622a:2304:b0:50b:86f5:8fbc with SMTP id d75a77b69052e-5104c034745mr195430191cf.51.1777976895389;
+        Tue, 05 May 2026 03:28:15 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48af0d5a613sm140661845e9.2.2026.05.05.03.28.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 03:28:14 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 1/2] ASoC: tegra: Move MODULE_DEVICE_TABLE next to the table itself
+Date: Tue,  5 May 2026 12:28:04 +0200
+Message-ID: <20260505102803.183455-3-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|AM9PR04MB8308:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81316246-3822-4ff9-6cee-08deaa8e072f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|19092799006|376014|7416014|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Tr6N73yKU4jVUqrCYRzWyGNUzDQedFywIG6xvx9rVYrCdzkOobUHMNJfo8Zzn3LHzPj+Q4VgJ95G3BwQA5X02WwAfaTZEqclrqUXWb/Nu6RiC1VgM6ioXXv2RieyTAkmMkYvLuBuquKJPci4B2vnQDEfvsUbFuWJ7i/CyJmjC63horv9X0btXTgjleFivSrx1bKUWkyMUVoH95DdjejzP1B5pttWc580luVW3Hg8nAGucZI6QpgRGCE/w+A9V9DL1c7Bb3lKw8VEX8a0AIG36GRlJw6tiEuQlI+W+46jskZGeWL7BjTV41GSyVh2VuESVa8kmgBlml67Saw9DLhIvfYD3C02oGQ+NcI4+REzjGnGkUkwv2i/XPmPQgPcrB+JhQ4dQ5/TZSivuZUk8bal9zXhQY5RuZ89RmBJlxqXlCqYFFcHQyVRehXg9dj+pj47Q95Idc6AMoE1qEYrFZFtHGm8DtaB4rpUqEsYq1X1yVqjHv+QEosm+FIq0nDZBPmmzg+KKqmVf7ddimU08WKLX1G+D73ndSy32GP3S5TouZKnK6fZNp7D0l6qfAFk5nV4Md7p7wvtIaKJYB1hqALPRZpv9i8CGy7l/AD3Jltrp9DC79YXkKF/j0dZrv9c3GaaP+Spa4vNPzmE/zSECN/M5Kn+B3qRJ0Cg6mYeCCtFZjDlEt4VDeUwm3KiwrH3/RxiHVHhQ8nJXw6/ohUsnzgMHQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7jl2Efzb+BdIM5dq6qSAbxw+LHeU/+tFx1FO29asejOC9G6o/g17ovNuI/tW?=
- =?us-ascii?Q?MSi+7PxhVbRz5R6U8nMHE1VZQeVmzRZdOa7VwFbsDdL09WxIkffFepSgVGnJ?=
- =?us-ascii?Q?M1fAWIYDad+J79eBEN4YreyUhHWW+L4/9lES0+lGhThCygZzHOKoz3Y+G11P?=
- =?us-ascii?Q?CxB9hiEtQI3NsI2m7ptj1A6JUw6LO+luswJ6HO1looHdekmzbt5JzZ1fE/g2?=
- =?us-ascii?Q?ftGw4OEJg/5jC1ig438MAbYiJWXCkAajraEVk8nij4yQzhgdMo6L2Fa2NXYn?=
- =?us-ascii?Q?5qHPtm6N2//T6Nn8okYQun6FktC5BM7BHp0nCkXiMrEkKJQxtXw6jED5i6Cl?=
- =?us-ascii?Q?DcblCu12kl2PUHTAhzVvTAu7PduMlCBazHrCpEga3RGnsBgHR5AQYF3nvCjc?=
- =?us-ascii?Q?DhjNqTAnQZg9XK52allR9O2tfoCNIc5Qvb6QOEj/nFTMCXoKzToM27a7F5hJ?=
- =?us-ascii?Q?tbosn4MNsWXlOF0fn6XP8nId4xvah74xvRr9d10f//RdOnxjJvcCCZINUnG4?=
- =?us-ascii?Q?pdVYi9YGQzNQXiyuUN6nFYsyWwpIfGgmn0Thlszqnorj3Fhc+MGgcGTQY0Kc?=
- =?us-ascii?Q?o1d39vmSBYjje62QIOi1Qas00Fa5az/a38m9SgY3dCh5ajHBw4DpXOq+Wy+E?=
- =?us-ascii?Q?UWYOyFjUQPW3w/W3wL5+Wdscl46o7Zyeg/ebhyJ3Ms1FYSktQclPYjqno9dO?=
- =?us-ascii?Q?8qBrQJFVAGY+tmpJITwCfxdQQ36J1oaRzsDtmTSCbzCs+psXvggry8Hksmwp?=
- =?us-ascii?Q?gaPWxzSl10LNtC9T/kaIRKT/ot0BiKr9i3FFCJKBJdMIAg/8c7FwCTUa6u5A?=
- =?us-ascii?Q?kUe6AZCL8NnN5PcDkqcRwuMqqDUL/aCMEE/yAXhk3AhGqkyqQb/HS+dFDoYE?=
- =?us-ascii?Q?69eLWF9JWR5A2EmkHuXABzKg5l6AaOX7244/cCPR2sIdmn4Wnzuk/gmwREPb?=
- =?us-ascii?Q?QO4aME1IOA3bS+/BK6yb4ZvVT9ru3tgOjdHYjehVSTfiISqA8Too+6LqwM4t?=
- =?us-ascii?Q?g6qDpGPOyawDf9Jv4bdNJ7Pgcg9THoyhQ6g7bXvrSt3XFHs56YKi9mShgh42?=
- =?us-ascii?Q?JSUXmD/8dQUxJOtgt0MsotDW8CsqmntrSAZNpbuafhN08an2PGlUOkpPxcOT?=
- =?us-ascii?Q?+WtFSdOFJJ1gjU/RKm7I4PcXrqLsnEA4oJOYKs7SG/Sou1pTdaHEZfyIeIiQ?=
- =?us-ascii?Q?WTvouOS4lzZQbb4aSrE/+VAd5xwvs5Dqq75Nfk8xjnqj0wf6rrtOlJaGhHxg?=
- =?us-ascii?Q?DkabHNmmRiHUV/ElwfE/Dxf7Mfwo0l5QvYxEH/7GyQqej4IzTGLe/nwWbPs2?=
- =?us-ascii?Q?mPGdudQGVrjdFefCNpT9/RE4G0joddfXhqVXMb5eKlOTEiHBkJfekjbvLUVf?=
- =?us-ascii?Q?vpKoH3YN2/mgRGIcrUVZ5EaksKEJ4TtfCEovoTLgkOLk5dpSDcQP/mt5rTYc?=
- =?us-ascii?Q?hjavf5WS2YQ/9x1Do+PEAIAmN4Wrvg15Cay8nm/2lTwMIVZwzCdnIGNT9rJc?=
- =?us-ascii?Q?a0sgBw4o7/xvr4m59eLwMikJfJqKTLBSE2hPGov3Kj97zn20gs+mBnthrDok?=
- =?us-ascii?Q?C4T/FQIQFpEhC1exOOxrMEduUixoe1GEUNiK6hfTNeLeagcSp5s2Q8YccGk+?=
- =?us-ascii?Q?IGiGiXD4tLaspIQBm4sqFGWmk7t2H6bErBDIVqnLeX1xddgVez+nfXCDaKvg?=
- =?us-ascii?Q?KdyVFBKwBfkgPDFeLm4obFb4V1csxINd5uMPXt76s2+h6xieUQ5KCDKFP0nl?=
- =?us-ascii?Q?BbZphSmVbw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81316246-3822-4ff9-6cee-08deaa8e072f
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 10:06:51.8300
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8DzyuBiofOXIqhCsNWrUzQMXKLrJkczddBNGfmLDb8aKoRyh+ga884gTROknFOHU6LFBDwTkJSmnorVViPPRQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8308
-X-Rspamd-Queue-Id: 7DC094CBA1E
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4190; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=XVPD+W616R8y/3NolQ5AG12OfNJrpdVU9osOz5k7zUo=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBp+cYzGhX9vBzZinmPzQmxC1YRTCLeIfGMsAgSQ
+ CuPZALwv+CJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCafnGMwAKCRDBN2bmhouD
+ 1yB6D/sG86we9BBj1y7ZakpR857UpaCg961KT4yS8rXNLZX8PwEQXk1kmGhbypYl5BwQLlQo/Nd
+ xoKUC/YSn80w71teMhyUrBS8rCS4kZiQFg5+G9pnBwL13hf5YaOhUYecI9MZ7b57uAOl0LnMJLs
+ NyxFCmCvy+kTl7UpLdBQ3JG4brPkyHR8tQWagBP2/mGabQa4KJLVNRBAmX6xbVbFBY7ZGX9R661
+ qBJQxTlJHJ/QoFydP/OznA/LVedghRIwfqpdgpDNR3du+f9QhtxCMaW4R4ymNcuaH52P8i+cI5Q
+ eXit2jRzGBujRnlIyuiuvaEMBtIH7Uw8i+EQVXIfKSDk9DAm/zNixUG3sJlmHtNDtd1rS08d2zX
+ KEgKpyhq9s+7TJHW12o2uhBoX3FsIsweIB1fxg7JCY26o4+h8GGMacRCgCUti7pQnGCEaW3vOx1
+ aksHBOQDd5PyVz4he02viSTqsh+o/bYXUZx/UsLqOeMg9gGPK04AMV/8peJQvzH9r2e+wIn9fLP
+ 7i2aaawOY8edXRtDDN6HOIvS02iuRfrGwvil99v7wBKtSZ3wr59gM/Yldzv1PDUveEbthbW9NCf
+ OUk3j4NAHxAnEyMNnLvxq/OaZOQyPKzFKMjEAyvOUovISkjAM9UTJZqrgqqMubD4Z+pusUCb4EY mq1MJkn0mN96ntA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDA5NyBTYWx0ZWRfXyjbUOfcS68EY
+ QZUFsAqmmgg4V8rWd0Um/0I0Va12egxlEsdLOcuvt+8mOb/k5cFu3K09tulvAaH5mHuKSjT92rp
+ H7/89EThK5YcSgc0NXxJX0QzaejzgN9nZxqhJYH/9/oG6+BdL+v4JykQB8oGlHc9Sx8Wyx9CgOI
+ E14D+R4kTWxnmx/imJwMguWvxUDZGcBJbPf+gFoPEnzV7bGhkO4VIX/4AgqMfObu4jnllPqm0LH
+ 5BcGlhus+9Zo7e9oD6s/zW2sgLmK8EuD/XH0RxAR/vJscDa5ZzSnkefZyYZDDvaSaM68NFU6iwx
+ g55H9hXYzYuDS/T4bgoBXUHRInMB9Jj09lF3q3/uXle1iEHEaOmXy/MrDWqagNHI4HRFiDUYSB8
+ ezc2Ut+1lqZv2zjfX80Ub+AbnpQ6vOsuQo8hql0NsKXFI3Bz3AIa3Q1nBOcw3I0agd0JCiVvvj4
+ MnCqVOB4hy8vz5Kznwg==
+X-Authority-Analysis: v=2.4 cv=SPBykuvH c=1 sm=1 tr=0 ts=69f9c640 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=Ikd4Dj_1AAAA:8 a=jFLt6X_-GGHsf4P6n_8A:9 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: pw7p5X5dXnHLwI_ivJ-kX6Y6zpo5tima
+X-Proofpoint-ORIG-GUID: pw7p5X5dXnHLwI_ivJ-kX6Y6zpo5tima
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
+ bulkscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605050097
+X-Rspamd-Queue-Id: A4A754CBCDF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,perex.cz,suse.com,sntech.de,nvidia.com,vger.kernel.org,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14208-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_FROM(0.00)[bounces-14210-lists,linux-tegra=lfdr.de];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,nxp.com:dkim,nxp.com:mid,sang-engineering.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,perches.com:email]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzysztof.kozlowski@oss.qualcomm.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-which put a burden on the framework. A lot of these can be caught during
-review.
+By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
+exports, because this is easier to read and verify.  It also makes more
+sense since #ifdef for ACPI or OF could hide both of them.
 
-Make sure the linux-phy list is copied on as many keywords that regexes
-can reasonably catch.
+Most of the privers already have this correctly placed, so adjust
+the missing ones.  No functional impact.
 
-Some considerations that led to this solution and not a simpler one:
-- Consumers may be located anywhere, and their file naming provides no
-  indication whatsoever that they are PHY API consumers.
-- The network PHY API has similarly sounding API: phy_start(),
-  phy_connect(), etc. Similarly, matching on "phy" would hit
-  phys_addr_t, "cryptography", etc.
-- The header files themselves need attention to avoid matching on
-  include/linux/phy.h (network PHY), include/linux/usb/phy.h,
-  drivers/net/vendor/device/phy.h, etc.
-- At least for a transitional period, I suppose developers will still
-  try to add PHY providers outside the subsystem (which is discouraged).
-
-So I used \b to try to match on actual word boundaries and I went for
-listing all markers of PHY API use as they may appear in patch contexts.
-
-Bit rot is a valid concern. I will add a test to the build automation
-that newly introduced struct and function names in include/linux/phy.h,
-include/linux/phy-props.h and drivers/phy/phy-provider.h are matched by
-the MAINTAINERS entry K: patterns.
-
-The keyword patterns were written with great help from Joe Perches
-<joe@perches.com>.
-
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
-Cc: Joe Perches <joe@perches.com>
+ sound/soc/tegra/tegra20_ac97.c | 2 +-
+ sound/soc/tegra/tegra20_das.c  | 2 +-
+ sound/soc/tegra/tegra20_i2s.c  | 2 +-
+ sound/soc/tegra/tegra30_ahub.c | 2 +-
+ sound/soc/tegra/tegra30_i2s.c  | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-v7->v8: match phy_request_bus_width()
-v3->v7: none
-v2->v3:
-- escape forward slash in linux/phy/phy.h in regex pattern:
-  https://lore.kernel.org/linux-phy/9fd14d166e860f26febfbc9061a6dcae6a166961.camel@perches.com/
-v1->v2:
-- split into multiple regex patterns
-- use matching-only (insted of capturing) regex patterns
-- adjust commit message to reflect the Q&A from v1
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fb1c75afd16..67318abfd91c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10799,6 +10799,18 @@ F:	Documentation/devicetree/bindings/phy/
- F:	drivers/phy/
- F:	include/dt-bindings/phy/
- F:	include/linux/phy/
-+K:	(?:linux\/phy\/phy\.h|phy-props\.h|phy-provider\.h)
-+K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
-+K:	\bphy_(?:create|remove)_lookup\b
-+K:	\bphy_(?:get|set)_drvdata\b
-+K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
-+K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
-+K:	\bphy_(?:init|exit|power_(?:on|off))\b
-+K:	\bphy_(?:get|set)_(?:mode(?:_ext)?|media|speed|max_link_rate)\b
-+K:	\bphy_(?:get|set|request)_bus_width\b
-+K:	\bphy_(?:reset|configure|validate|calibrate)\b
-+K:	\bphy_notify_(?:connect|disconnect|state)\b
-+K:	\bstruct\s+phy(?:_ops|_attrs|_lookup|_provider)?\b
+diff --git a/sound/soc/tegra/tegra20_ac97.c b/sound/soc/tegra/tegra20_ac97.c
+index 08c58e8f3c22..0df1fc64f532 100644
+--- a/sound/soc/tegra/tegra20_ac97.c
++++ b/sound/soc/tegra/tegra20_ac97.c
+@@ -441,6 +441,7 @@ static const struct of_device_id tegra20_ac97_of_match[] = {
+ 	{ .compatible = "nvidia,tegra20-ac97", },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra20_ac97_of_match);
  
- GENERIC PINCTRL I2C DEMULTIPLEXER DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
+ static struct platform_driver tegra20_ac97_driver = {
+ 	.driver = {
+@@ -456,4 +457,3 @@ MODULE_AUTHOR("Lucas Stach");
+ MODULE_DESCRIPTION("Tegra20 AC97 ASoC driver");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_DEVICE_TABLE(of, tegra20_ac97_of_match);
+diff --git a/sound/soc/tegra/tegra20_das.c b/sound/soc/tegra/tegra20_das.c
+index c620ab0c601f..b48cc4a6967b 100644
+--- a/sound/soc/tegra/tegra20_das.c
++++ b/sound/soc/tegra/tegra20_das.c
+@@ -188,6 +188,7 @@ static const struct of_device_id tegra20_das_of_match[] = {
+ 	{ .compatible = "nvidia,tegra20-das", },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra20_das_of_match);
+ 
+ static struct platform_driver tegra20_das_driver = {
+ 	.probe = tegra20_das_probe,
+@@ -202,4 +203,3 @@ MODULE_AUTHOR("Stephen Warren <swarren@nvidia.com>");
+ MODULE_DESCRIPTION("Tegra20 DAS driver");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_DEVICE_TABLE(of, tegra20_das_of_match);
+diff --git a/sound/soc/tegra/tegra20_i2s.c b/sound/soc/tegra/tegra20_i2s.c
+index 51df0835ce3e..d9ab210ad69a 100644
+--- a/sound/soc/tegra/tegra20_i2s.c
++++ b/sound/soc/tegra/tegra20_i2s.c
+@@ -485,6 +485,7 @@ static const struct of_device_id tegra20_i2s_of_match[] = {
+ 	{ .compatible = "nvidia,tegra20-i2s", },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra20_i2s_of_match);
+ 
+ static const struct dev_pm_ops tegra20_i2s_pm_ops = {
+ 	RUNTIME_PM_OPS(tegra20_i2s_runtime_suspend,
+@@ -507,4 +508,3 @@ MODULE_AUTHOR("Stephen Warren <swarren@nvidia.com>");
+ MODULE_DESCRIPTION("Tegra20 I2S ASoC driver");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_DEVICE_TABLE(of, tegra20_i2s_of_match);
+diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
+index 51e5ab6c276b..ee68f28852c4 100644
+--- a/sound/soc/tegra/tegra30_ahub.c
++++ b/sound/soc/tegra/tegra30_ahub.c
+@@ -509,6 +509,7 @@ static const struct of_device_id tegra30_ahub_of_match[] = {
+ 	{ .compatible = "nvidia,tegra30-ahub",  .data = &soc_data_tegra30 },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra30_ahub_of_match);
+ 
+ static int tegra30_ahub_probe(struct platform_device *pdev)
+ {
+@@ -684,4 +685,3 @@ MODULE_AUTHOR("Stephen Warren <swarren@nvidia.com>");
+ MODULE_DESCRIPTION("Tegra30 AHUB driver");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_DEVICE_TABLE(of, tegra30_ahub_of_match);
+diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+index b121af9ef8ed..1d7b3aed51fd 100644
+--- a/sound/soc/tegra/tegra30_i2s.c
++++ b/sound/soc/tegra/tegra30_i2s.c
+@@ -402,6 +402,7 @@ static const struct of_device_id tegra30_i2s_of_match[] = {
+ 	{ .compatible = "nvidia,tegra30-i2s", .data = &tegra30_i2s_config },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra30_i2s_of_match);
+ 
+ static int tegra30_i2s_platform_probe(struct platform_device *pdev)
+ {
+@@ -567,4 +568,3 @@ MODULE_AUTHOR("Stephen Warren <swarren@nvidia.com>");
+ MODULE_DESCRIPTION("Tegra30 I2S ASoC driver");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_DEVICE_TABLE(of, tegra30_i2s_of_match);
 -- 
-2.34.1
+2.51.0
 
 
