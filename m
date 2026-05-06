@@ -1,142 +1,143 @@
-Return-Path: <linux-tegra+bounces-14227-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14228-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMgINaji+mmGTgMAu9opvQ
-	(envelope-from <linux-tegra+bounces-14227-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Wed, 06 May 2026 08:41:44 +0200
+	id uOGUEnDn+mlIUAMAu9opvQ
+	(envelope-from <linux-tegra+bounces-14228-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Wed, 06 May 2026 09:02:08 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526214D6B33
-	for <lists+linux-tegra@lfdr.de>; Wed, 06 May 2026 08:41:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 666824D6E99
+	for <lists+linux-tegra@lfdr.de>; Wed, 06 May 2026 09:02:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1011D30488FB
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2026 06:41:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 31A863007239
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2026 07:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896753081A2;
-	Wed,  6 May 2026 06:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDFAE346FC3;
+	Wed,  6 May 2026 07:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4I4AwYbQ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pyeCEy4W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iw+HgHVI"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3891E3101A7;
-	Wed,  6 May 2026 06:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99204239E9B;
+	Wed,  6 May 2026 07:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778049669; cv=none; b=UHnjbPpxDDm+f+ybif5O2qtkI1SvXfxXEAU+nusfZ5541YC8zKwzFyzx3BBJpGR79YHIPa7YySZeWQ9MCk0cupKYNP01I3/qv2eFWb2/LYuHE2YERUsUv9EB4f3dBdWJtufPsfRZQKHAjMnN8oi2HU48jiePpld7R8f/joj58XE=
+	t=1778050917; cv=none; b=Yxyig6hsuWct7eAvd6n2thpmFDUqcqOFLX/w/wyY9UUYPJ1Zp5Yqo4YCUqa5eqs5GZZ9HEEggk9s4EOqP0Y+DtETwCA7Ans1uZXxA6A+Lx1FEEaR99IrIkM8caqaIF8dEbHMPMjmHU7/eT/WoW7ci1o0ZKVJ3Kfe4u00KF+yU/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778049669; c=relaxed/simple;
-	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqTp+sr/XdyY2HhhgZssKKieedtpLDDb/Z2m5cIjcggEBh8gicx8QCKsA5Vlpa9PtxkBA5EWI6HaqoGauzCHk2E+st1h6+DuL5f7V1bVRG1Z5AMbGgCLZM732B1K1SIsOybw55YYDpWxVY99Hhi2AWdugzD8OzpdtCyqFHNvPY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4I4AwYbQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pyeCEy4W; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Wed, 6 May 2026 08:41:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1778049666;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
-	b=4I4AwYbQAZ9tzhfcl9HGOznA+HWoAiAqrUiz1qHflGOZg5bJ1GJkPgn7T5x5EL9GGPC9dC
-	BkEIwk7ZU3+3BzjUkJ+3WpxTkfVsPHWz8NwZ0G/jP3AnZQsVPzRiqdCx4ugvCg1WGVJNwL
-	stFBGi8JJZVtx50LMYid4kQg6COs6Uej6rJLeBUMLL8Ojmy8MULBtwQewXkT9olyc7oUqv
-	RNEfC9fBBAElb0kkTFpXMfj13U8iT+O3A0OIpG9A+fiCm5uRMQ6UjbHDUUXniO48AZKVH4
-	MtwzTCQ7Wpn7DS7u5lu76UTRGcFZzYK/Pvqb4c0XQjhYGE/JzwTjYGg6HZbrCA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1778049666;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
-	b=pyeCEy4WrMGax2ZI0Do75MWLWWVBnca+/u7SrEgYSoFHRJQdOs6pDECIhQj4ZuoK8rBFFk
-	jbIYCPNQVOLTsxAw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Waiman Long <longman@redhat.com>
-Cc: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	jberring@redhat.com
-Subject: Re: [PATCH] firmware: tegra: bpmp: Make atomic_tx_lock a raw_spinlock
-Message-ID: <20260506064105.7R4Q7XJP@linutronix.de>
-References: <20260504163448.1063474-1-longman@redhat.com>
- <20260505062714.jayZOl2t@linutronix.de>
- <afdb5fc1-f478-4547-aa39-04d477854d64@redhat.com>
+	s=arc-20240116; t=1778050917; c=relaxed/simple;
+	bh=nFXJ31MeL8wdtJ1sRUMDN4AP5mPWE6KDoQbqaVcX0qg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=AzrbvcOMUdB9TxTYk9Nq2PKhF4T4M+vWK6eYnou+xOwkMLvv9reG0LTiU50L/MEdS4NBAF9PkMGTzQls9LHjJMVfGzbC6CO6uz2nLkwkqjhU1blKbXAiyy+T9wtTNzds/WYm3oSaQOZsVYY/cpQySehHwLZ9+ylduDUfq9AIRxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iw+HgHVI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB61AC2BCB8;
+	Wed,  6 May 2026 07:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778050917;
+	bh=nFXJ31MeL8wdtJ1sRUMDN4AP5mPWE6KDoQbqaVcX0qg=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=iw+HgHVIBbzBia0aoERyg6T3TwQ2XlICSNGPJKD/Mka4FS4GzAgwduJOJoTV2xihn
+	 hqCP5hhghKOQhG1p4fge/bthxTZ7ZcAxK/xRxFbSw4axOUdumQLz4NYjM2V5nBmc2d
+	 hTL/qDi8599MT+ngZ5026xqGmtmUi9OEA2ugN34n6HXPWJopHrcaJT5huRG5IMLDKN
+	 jSjruwYertCuQAbfDksrF2L7UFDqiYoWXnfwGEbYdKnukSKm6O6/SacNW+lfofpWPh
+	 iwCCsOO1uEwGUcsrgLTzmNa0rGynvwmZv6re4cwgBIlU2cy9YrXQXEPzjmwD5jcp5g
+	 0YvuDCkUIYEQw==
+Message-ID: <448dc5a8-a4f1-4fd7-aa99-f5529abbae97@kernel.org>
+Date: Wed, 6 May 2026 09:01:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <afdb5fc1-f478-4547-aa39-04d477854d64@redhat.com>
-X-Rspamd-Queue-Id: 526214D6B33
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: tegra-video: vi: fix invalid u32 return value in
+ format lookup
+To: Hungyu Lin <dennylin0707@gmail.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260412000245.26696-1-dennylin0707@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260412000245.26696-1-dennylin0707@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 666824D6E99
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-14227-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14228-lists,linux-tegra=lfdr.de,cisco];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[linutronix.de:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,bootlin.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bigeasy@linutronix.de,linux-tegra@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-tegra@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RBL_SEM_IPV6_FAIL(0.00)[2600:3c15:e001:75::12fc:5321:query timed out];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:dkim,linutronix.de:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On 2026-05-05 15:47:23 [-0400], Waiman Long wrote:
-> =C2=A0__might_resched+0x254/0x330
-> =C2=A0rt_spin_lock+0x70/0x140
-> =C2=A0tegra_bpmp_transfer_atomic+0x118/0x3c0
-> =C2=A0tegra_bpmp_probe+0x564/0x6f0
+On 12/04/2026 02:02, Hungyu Lin wrote:
+> tegra_get_format_fourcc_by_idx() returns a u32 but uses -EINVAL
+> to signal an out-of-bounds index. This results in a large unsigned
+> value being returned, which may be interpreted as a valid fourcc.
+> 
+> Return 0 instead to indicate an invalid format.
+> 
+> Callers assign the return value directly to pixelformat, so returning
+> an error code encoded in u32 is unsafe.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 9c0b38585d63..966792a6ec19 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -81,7 +81,7 @@ static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
+>  					  unsigned int index)
+>  {
+>  	if (index >= vi->soc->nformats)
+> -		return -EINVAL;
+> +		return 0;
 
-So this is tegra_bpmp_ping().
+Returning 0 is not a valid fourcc either.
 
-> I know that interrupt is disabled becasue of the following code.
->=20
-> 346 int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp, 347 struct
-> tegra_bpmp_message *msg) 348 { 349 struct tegra_bpmp_channel *channel; 350
-> int err; 351 352 if (WARN_ON(!irqs_disabled())) 353 return -EPERM;
+This should never happen, so use WARN_ON_ONCE in the 'if' and return
+vi->soc->video_formats[0].fourcc;
 
-Well, yes. It disables interrupts just probably to document the time it
-took for the transfer so it can write it then via dev_dbg().
-It is hard to tell what the worst-case delay here is but it is probably
-not important if this is just boot time/ driver probe. Maybe.
-What I am bit more concerned if the actual path of this
-tegra_bpmp_transfer_atomic() invocation via i2c driver is actually
-invoked with disabled interrupts on PREEMPT_RT. Because that might not
-be the case. I've been looking at the i2c call chain and it is not
-obvious what the actual call chain is. There is just
-i2c_in_atomic_xfer_mode() check. So it may or may not be used in the
-end.
+That's at least better than the current code.
 
-> Cheers, Longman
+Regards,
 
-Sebastian
+	Hans
+
+>  
+>  	return vi->soc->video_formats[index].fourcc;
+>  }
+
 
