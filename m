@@ -1,45 +1,46 @@
-Return-Path: <linux-tegra+bounces-14292-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14295-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKneHwW0/GnlSgAAu9opvQ
-	(envelope-from <linux-tegra+bounces-14292-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 07 May 2026 17:47:17 +0200
+	id QNWgA6u1/Gm0SwAAu9opvQ
+	(envelope-from <linux-tegra+bounces-14295-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 07 May 2026 17:54:19 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FFE4EB548
-	for <lists+linux-tegra@lfdr.de>; Thu, 07 May 2026 17:47:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 608D04EB85E
+	for <lists+linux-tegra@lfdr.de>; Thu, 07 May 2026 17:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F03B83016B50
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2026 15:47:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6E52E309ED0C
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2026 15:47:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F7744B666;
-	Thu,  7 May 2026 15:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B0131E82F;
+	Thu,  7 May 2026 15:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SjigiaIe"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f4foOIos"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012042.outbound.protection.outlook.com [52.101.43.42])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011066.outbound.protection.outlook.com [52.101.52.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD9343D504;
-	Thu,  7 May 2026 15:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85A13B583E;
+	Thu,  7 May 2026 15:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778168811; cv=fail; b=f72FCR6REXo9UlnCNmHdA0CHOL8SaEyU+orl/sqmYHxJptGuC8Jwj7rvybSE+xcSX1pw0Fh/RP3RPjY+VUrt+J0hTtCd/2bjIbx75hiIPLubLneaHBw/WLYnslJPk2Jiy6axh/kSAsKprtiBQDc1IDKgkQTWWLhJjp8TnTCfkD0=
+	t=1778168844; cv=fail; b=XMAbRYY1ANt9BNq7eVuM2m0hxnxNibfSWZuyM3iWlC/Sn0nHAoTkbfN93OBaQP/LELOlPK6WjU+Ewdhvy05lJdm35hE/0+aZfXtz1I7yzUyutrkQJYtBeKgGw5UGjumf1MX8ZB90zSA3MYTlr9dVsNrTqrhmylxFZycM68f4MOU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778168811; c=relaxed/simple;
-	bh=ZQKpX0pROAvL/IWoXq8oAZylau4Mgmf0bGOD5y8KP64=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CyJX6Rg3nb6qJ99l7Jb6BknX/Ii9wAQ3DRkq0teDs0mI+0Ng2ak7W82fdlCgTrilfiJMdcWB67Pg1/Lmrlpi86OeJZF/uQoFDaAjuuM9+cznK3AUhhTXjcTYUSc/OncfqRnbXf86V77HqMnB6wgEcqQTZLjpw7pEPrnTyWQ4zxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SjigiaIe; arc=fail smtp.client-ip=52.101.43.42
+	s=arc-20240116; t=1778168844; c=relaxed/simple;
+	bh=9Dm/sHoOFUgpeGgXe4XsCiNfcLtPzB50LBbQEKp1mZ0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SsvF5aoN0MnVv46DUtUZpGsmJ3ncrfOQlztZdtsnWZI9mWdaYVE4q9TVeHsAer89myQqpQpCv7kB6Gr4/NPyLCFH5aMRCs/b+ldeD182o06byusK3zdBstr9YcrFRfbdop76n99I+nHzAt4qFx+DJkL9PhniA8+FKA/gpPXWsqs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f4foOIos; arc=fail smtp.client-ip=52.101.52.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LxyzvbfyUYFW6WxrPkA9gTit6P66JrY41rdXJofxofzgXNBk4uhYVWSLzFW2nkSxj49mDCDZXpBgbgq9vx3L5mq/3vcrImrDAhIkF00GRRdpZvAdGOWTaFquSO3skJFMqS8WC3PKPvkH9f2rCRbw0SX+vRyao6Q7Q9UNXfvjwbbUOeBvMuQ3kBLXl+dffKMW5PVqiriz7BCQ6vNlKVD1mLbcNp8nht4TdFQvvG1YkQ+i+erK/eSRi0Bofx/jvxb5C7HyVcRxDQCpdYrh1oPY6h7zIMKtKBJZBFdlErjvT0Yev3Tmxar6D4sonNbqqp8RGSPy5wurQuDSUSpfIF8Yog==
+ b=NSseR2PUe0HJ9eVCICaAOmA1K66ZP1E2j3vLvxGfmB7Lnb29TlyRXzL9DUyX/GKCKkGtX6jHP9ctY6q/wlrDQwpD+ex3ULLGTvzXYn9KHY4eKaXSxvRMbrFK9jgLcNFDsUDypXmghCBQLbDFNbkFO2oitayaVCzLPt52tVSJ8JK1fR1+nl/dD+zQNRFbp0RppR+Y/n+3kQQXw1gvq8/B+t7TcWrEAWUxMt/ssjKrvd7LZejBrv+jCTVx6PqEZHzb3AjlFpfNuxu4c5BE7Qlu/JoXkSmyK5KyUk/d4YY/zMQOaZXLhh1lbx1Px5FjEf0sqY6cJIFYXo0MDAfdr6zXxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LRmp+j0swpXLTY+E9OL0A5JTXsNEOnxKmrQnE1Zj9iU=;
- b=JTA47+zXLwFI1zW081H+4mfIynEsBw0PFIoWPxm9nOEyj36tTp0OW1EQlGL9qYbyNbSqZcegBapquKLSXFS6FviHnlTVz1Gcm4a+aNi732lPV+z4ZT9GRyg0oxYqBE/66BA1ZLrichofHUKAm4bcowGj64FouUZGFjHKo8ad7yrANsNZWLdpLMMzf8W05ZoZup0ZzR7gNKaujzaokwjMiebYBctJ29dG6bVllZT9iBP6nhN0CUAQRLrZnvEIL4gjJAT+nZSH/UBQE321LOB5dVDjllU0pYyC4vE0f7daUj6DOiILgtkrERTSA2TKFIi+W9JfDOxKw7cfLKuZnJEx8Q==
+ bh=mbj6hZQkxCTP0Yi0RKyrymjwiPmk8ciw2v1t5767OMU=;
+ b=gejT3WeZ7JV8t810jTBARB2nHD9evgAqnHZaqggk4KvWUpyT8HmaiMYSuBDqMUeOsoax2X8yPrxqqfNQp27Wo+/6kkeyz6RNnHIEigL/Z2zZdqJC5pF5+r6yysL/dtAArcXP2QigF7CfvCGHBm9Orj48XuPr/wit7cCaLRm6EHPA39JEEW1652eIPtRZo5Aoss5S741+cHnjn8UH4mps4RX5t+a99soeNdMW4SGc7aYeRs24/P8QB8dxren2/rKa1lV+GNFbwwwnwg+PwB4AIXVjpPlrFjjSinuBeoIftEcZ7tJFRe5RndTtdVXYAdjFjdK671OTLqiiRVItakr3JQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -47,17 +48,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LRmp+j0swpXLTY+E9OL0A5JTXsNEOnxKmrQnE1Zj9iU=;
- b=SjigiaIe5cq/W0kcCPa85SBX7nfSkM92LqBDnQ1F/S5tP7jDPMqZNRX9DD0VdO6m/BaxVyb9nL90RPzk5P3svphHY1C3pvg1vllA5M7bGi3R+LtyG9g4+Afu6HlmFyb3YhBLMR51WasLleXAcBHzY3fymsEMocBTXXY8PUpLW1RVkI98BY2kj1fZYRbZScsxRovnIyngsFzynRbzDe37qtbQMW/z2eo+krYPki0s368TBWIBQrpl+c+sQBH+rwn7RJWZEb7G7Smw5zJpeTrnk/hYqQ3XT6CfiomkD0z9jQ1aDLlT9VdJNEqWgohPMG2fEx3XdVNnAmDdJu0INJf4+w==
-Received: from BN9PR03CA0904.namprd03.prod.outlook.com (2603:10b6:408:107::9)
- by DS0PR12MB6485.namprd12.prod.outlook.com (2603:10b6:8:c6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.16; Thu, 7 May 2026 15:46:43 +0000
-Received: from BL02EPF0001A0FA.namprd03.prod.outlook.com
- (2603:10b6:408:107:cafe::4c) by BN9PR03CA0904.outlook.office365.com
- (2603:10b6:408:107::9) with Microsoft SMTP Server (version=TLS1_3,
+ bh=mbj6hZQkxCTP0Yi0RKyrymjwiPmk8ciw2v1t5767OMU=;
+ b=f4foOIos/ScFv0ywQCtE9oMgGYNQ3T3nLgvcFeTfFsoAsrzORDjdkcGdIvJ2KUOBKzPS5ye2+AUrwbQiEBkcX0JsYc0k0g2HpBUCCVPPmLdgpCa9w3PqXczP8VvfC4OWwNb8W0wuPfYZ81PAaBNS4dr1W/KX/IaWtBMJSAA1Iz+M8CU7FOlxB1hlu+08gVJPNmRpnw/+YvHuPS0shZtwZ/MNbP2PRai2nW7MQpKft2KX6i03u2s08fn4t7MIq6v/vYeucMDIt25s59cUFGfNWXDlNn9X19xM1W7IPyAUlyrNmKgCkaIBlajHa2Z3JJG7zubF2d/Ob18ri2LEf9TOzw==
+Received: from MN0PR04CA0008.namprd04.prod.outlook.com (2603:10b6:208:52d::22)
+ by PH7PR12MB7212.namprd12.prod.outlook.com (2603:10b6:510:207::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
+ 2026 15:47:16 +0000
+Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
+ (2603:10b6:208:52d:cafe::91) by MN0PR04CA0008.outlook.office365.com
+ (2603:10b6:208:52d::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.18 via Frontend Transport; Thu,
- 7 May 2026 15:46:43 +0000
+ 7 May 2026 15:47:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -65,29 +67,32 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.232 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.232) by
- BL02EPF0001A0FA.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Thu, 7 May 2026 15:46:42 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ 15.20.9891.9 via Frontend Transport; Thu, 7 May 2026 15:46:50 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
  (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 7 May
- 2026 08:46:18 -0700
+ 2026 08:46:22 -0700
 Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 7 May 2026 08:46:18 -0700
+ 15.2.2562.20; Thu, 7 May 2026 08:46:21 -0700
 Received: from kkartik-desktop.nvidia.com (10.127.8.13) by mail.nvidia.com
  (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Thu, 7 May 2026 08:46:15 -0700
+ Transport; Thu, 7 May 2026 08:46:18 -0700
 From: Kartik Rajput <kkartik@nvidia.com>
 To: <daniel.lezcano@kernel.org>, <tglx@kernel.org>, <wim@linux-watchdog.org>,
 	<linux@roeck-us.net>, <thierry.reding@kernel.org>, <jonathanh@nvidia.com>,
 	<kkartik@nvidia.com>, <linux-watchdog@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: [PATCH 0/4] Add support for Kernel WDT
-Date: Thu, 7 May 2026 21:15:53 +0530
-Message-ID: <20260507154557.2082697-1-kkartik@nvidia.com>
+CC: <stable@vger.kernel.org>
+Subject: [PATCH 1/4] clocksource/drivers/timer-tegra186: Fix support for multiple watchdog instances
+Date: Thu, 7 May 2026 21:15:54 +0530
+Message-ID: <20260507154557.2082697-2-kkartik@nvidia.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260507154557.2082697-1-kkartik@nvidia.com>
+References: <20260507154557.2082697-1-kkartik@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -99,38 +104,38 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FA:EE_|DS0PR12MB6485:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec20aecd-5c15-4a32-e583-08deac4fd639
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|PH7PR12MB7212:EE_
+X-MS-Office365-Filtering-Correlation-Id: 090e7576-f8a9-47ed-1e6e-08deac4fdafe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|376014|82310400026|921020|56012099003|18002099003;
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|921020|18002099003|22082099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	u4yx+JAn4m9sByb67IaHxCh6VgNF8elBMJ4rhT81XMOR3indb8Ih0JBp3I/zhJEVSewBh8oPjpJQzOAkQv7YMQBH2W8UK5U9q2qDOmmudaYCDk1uXDA+TjUNLpIP0FFZeYxSv2CmA7UmXKw+i8kjemw5k/u5PYOWdnTSpi4vf0WjrzZNLRNvBcOHY5xxgfv9pXePqqc/+vqZRb9eueoI/QNGi0KOtKgM+hxfGoZuGL3mL47utJuc3AmplTYy4YGoVJ+OQvO499+BN4REYI6MutO6cr6iAFLll9H+sZdt12z4IIWM+YYu57ZTyvT635HlZC1qmFu30tw5nT8yEo+2/7/VPJUhUHRaSoe2rxsztElGjdbUgJljTJfKT4maiuqc2H6xYb/ub9FCR0phXGcoAw1ruSY0Ipki8GIke+aXKzXZw6Y+z8U6m/7L59LaZS/U8dEmM727wTyp2Hs7PsB6G761MXP2zBD/HCGQGWC80NCaBhbeofXNxKGVU8AvAVB5bnfAxecdAXhIruD9UGGDQ+mSUEYCd57WfqM+eXz8v9Y2sqxJlBWXZYLNdPS/Z31Q2wW0xkSViBa65HYpum59FNuNK/ECDI3Q+k94UCek8hUEgctQfxrs6IOGNMBBx7hB6DjDwylX4bu3FcQhkezWG8/opfhf5RREQF3XagUmPPQ+9/xC0iT8uluhXPI9RZU54LTlrQibh+tBhl0umOix8EtmO+cM7Qz9XrxqfqCD5Oz2DdS1+e4M7ymXRZfU6hmF/1md2QnX+Tccp68EeHI47g==
+	lXodxVUngW+BS2+z+6eKflEb1Xagi0jqQCxU4/jOQDbkOGeZGUbXeCEPO/0U6CbfzACTyf1xdEQdiWnDLfhUV2s2dRoPBzcvmXfpAmOhwEVdXQABDkAhs1A9SS5I+xzJna0R64S6/+VynoNP5VceJ+Ic5oR3vLPhVQT07NveEECJK71b9LiCFq6DuG0/X81RIYmXi1xVKiKS6IEbGEJJVpIwRFgur67KWiGW17YGwqqd432GiqIUr2pBcBJQS0KfhzRFUYzBn8pxxoieQHPbgG/69miCkSd0PJ6uPoR91LL+u/rFsY4oSDka+bNiiHF52woPfrHb2zS6e59cjRVn62I2ZOBp4e+UmZyweTPBwoF2tsZ+m6jzehSH72NQ1VU/VS2DFi2dBw0hXVT4GXawM09EFJZfkXtM1zBI3fL7NzgU3RCHOW4u+Owlz0MdrReTpD0YLL+DfUMvIu3lDKJpcU9ldybCoOILS6i4HC9xFUxTOeGpQPWltRPJFMuiVovJ7MnzunKRTjjgL+2tSFyTb99/7jW71rSXZIddDWqbLG0DOacOSSAQvBLHQWE2U6HdGZATr4hv9lF1XVey6pjhqTJOp6kaMQePUdMAfa6ACKyqqMr8bI2D+YnHjyWsn/DQ5mF1d04wi3L55fz+fh7SX+vw1/oTLmBcn9i/Ofk3KpqVKns1n1Oe6t7h5iG2bJ1vDwky61nxuyYJn8nksZN1roVpfERznMHwwb4r/wTZW7CE4ibWYX0U9m0NSytMZgo2q9nNc1t2kU8CAYcopRPXEw==
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(82310400026)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	DcuLAIhwkRZuL7Rl/VGdWXIfcWyz1vLgBE1zSAZm1zoPbkRM9IZ07JPop7Bv4KeoG1RvfVLWWBOMDgWbJcDq4Pl5VkK3tOC/Df2oMqpP8xHlXO4s9kGOuLzPVDRHmWYKmEHyLPXslUcGhNmNdfaUuiOqaYvEXKSMzAB3ZpRjnaykjvqhLq6Wr4+/LpQDhF85gJAje7gtM1t4i8cgAOz1Vv/1z2lEtfW9ycorIUPIXFi9+4J1gcqXyyowu/2tp1v0Er/stkbU/SIPfZdYXc58PF0NPFEMwRrLAVTyDb7QxgZojhIqJqqF2D36xFjVf4yIe514UqJuJO25qvvSPb28QoiBZdmc7YQ7Y+5IaYEGaM/rRSVVBdDzGijdW/o/lhElrJw3FfmY7advmkJTf8emL1fqedIKqTjAQ6rUPDBXjYsAozgV3f9tqv0hpH6CHE0P
+	NrxJZxwTX0oHysKpoZnhdRPW9s33CXHk/kuO5IAHoOneuB4cv/mXgbFV1wft8q45IfC2nznrSWREf9m43QTkDbeJFQGFTVrjCGnRYbFkyo46VddbffoRUgaq5aW2jeVYSTKnayMrFpmlLJeiGJxasKdqK2eFkRcaDEIjt0vSR3uBVZh8/xZesE8fry0kkulNC7uYdO5KnmsguJpVyFqgg17oqzqYYkvqed60No6pefLQZ3Pn+DcuHRsWvU5P9pqG5v9lR4ridoKTkJieznTWwcp3xuFlBt6i7JWK57b+A3qEVT3faTCnPKoy+Y6Krp3/SyWXWuHOKydFOlV4JXxZaJkvSdnLz/Vd7Tl8tLR0vuwmtUGK/fvQJdneOmeuLiSx9o+rg+EQfO7xJ1nIQ4qNJb28Lkj6b7QCwOjN5WqTuSgwU1Saw56mTLOYEUlYyt6C
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 15:46:42.7677
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 15:46:50.7910
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec20aecd-5c15-4a32-e583-08deac4fd639
+X-MS-Exchange-CrossTenant-Network-Message-Id: 090e7576-f8a9-47ed-1e6e-08deac4fdafe
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A0FA.namprd03.prod.outlook.com
+	BL02EPF0001A0FB.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6485
-X-Rspamd-Queue-Id: 22FFE4EB548
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7212
+X-Rspamd-Queue-Id: 608D04EB85E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.34 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -138,55 +143,51 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[Nvidia.com:+];
-	TAGGED_FROM(0.00)[bounces-14292-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14295-lists,linux-tegra=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,nvidia.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,Nvidia.com:dkim];
 	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[kkartik@nvidia.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-Tegra186 and later SoCs support multiple watchdog timers in the TKE
-block, the driver so far only uses WDT0. This series extends it to
-make use of the additional instances and reserve the first available WDT
-for Kernel.
+Tegra SoCs support multiple watchdogs; currently only one (WDT0) is
+used. When multiple watchdogs are registered, tegra186_wdt_enable()
+overwrites the TKEIE(x) register, discarding any existing watchdog
+interrupt enable bits. As a result, enabling one watchdog inadvertently
+disables interrupts for the others.
 
-Patch 1 fixes a read-modify-write bug in tegra186_wdt_enable()
-that would otherwise make registering more than one watchdog unsafe.
+Fix this by preserving the existing TKEIE(x) value and updating it
+using a read-modify-write sequence.
 
-Patch 2 corrects num_wdts for Tegra186 and Tegra234. WDT2 is connected
-to the Audio Processing Engine (APE) and cannot be accessed from Linux,
-so only WDT0 and WDT1 are available.
+Fixes: 42cee19a9f83 ("clocksource: Add Tegra186 timers support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Kartik Rajput <kkartik@nvidia.com>
+---
+ drivers/clocksource/timer-tegra186.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Patch 3 iterates over all WDTs and registers the ones whose TKE SCR
-firewall grants OS access.
-
-Patch 4 reserves the first accessible watchdog as a kernel-only
-watchdog, arms it at probe with a 120 s timeout, and pets it from
-the driver's IRQ handler, it is not exposed to userspace, so the
-system can still reset if the kernel hangs before userspace opens a
-watchdog.
-
-Kartik Rajput (4):
-  clocksource/drivers/timer-tegra186: Fix support for multiple watchdog
-    instances
-  clocksource/drivers/timer-tegra186: Correct num_wdts for Tegra186 and
-    Tegra234
-  clocksource/drivers/timer-tegra186: Register all accessible watchdog
-    timers
-  clocksource/drivers/timer-tegra186: Reserve and service a kernel
-    watchdog
-
- drivers/clocksource/timer-tegra186.c | 122 +++++++++++++++++++++++----
- 1 file changed, 104 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/clocksource/timer-tegra186.c b/drivers/clocksource/timer-tegra186.c
+index 355558893e5f..bfe16d2d5104 100644
+--- a/drivers/clocksource/timer-tegra186.c
++++ b/drivers/clocksource/timer-tegra186.c
+@@ -149,7 +149,8 @@ static void tegra186_wdt_enable(struct tegra186_wdt *wdt)
+ 	u32 value;
+ 
+ 	/* unmask hardware IRQ, this may have been lost across powergate */
+-	value = TKEIE_WDT_MASK(wdt->index, 1);
++	value = readl(tegra->regs + TKEIE(wdt->tmr->hwirq));
++	value |= TKEIE_WDT_MASK(wdt->index, 1);
+ 	writel(value, tegra->regs + TKEIE(wdt->tmr->hwirq));
+ 
+ 	/* clear interrupt */
 -- 
 2.43.0
 
