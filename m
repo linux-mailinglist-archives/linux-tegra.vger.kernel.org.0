@@ -1,184 +1,146 @@
-Return-Path: <linux-tegra+bounces-14300-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14334-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CD9dM5ce/WnXXwAAu9opvQ
-	(envelope-from <linux-tegra+bounces-14300-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 08 May 2026 01:21:59 +0200
+	id oBVdGj18/mlurgAAu9opvQ
+	(envelope-from <linux-tegra+bounces-14334-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 02:13:49 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DA44F010F
-	for <lists+linux-tegra@lfdr.de>; Fri, 08 May 2026 01:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5904FCFAC
+	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 02:13:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E747A303897B
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2026 23:21:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 621913017F8B
+	for <lists+linux-tegra@lfdr.de>; Sat,  9 May 2026 00:13:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98D5301704;
-	Thu,  7 May 2026 23:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 022AC1C695;
+	Sat,  9 May 2026 00:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sBpkTEJp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSFeZg5B"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABADC175A99
-	for <linux-tegra@vger.kernel.org>; Thu,  7 May 2026 23:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00A83BB48;
+	Sat,  9 May 2026 00:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778196116; cv=none; b=tjn2h3qEPd/z5KwgcOHeQYQAI+Z+pIztTLdqRtpySCPeuAq5MKioLJ3nFZ9JHoSbT0fzu1oK4fOgmOJ3wAwTDYaU5CGfJt19hsVhfSMbrAgnCtlU5ysLlthYXYcfIlaD8gV8Ll44mmMwPKlB0nnwOUkfQGzh76HdlxBFqLiJKdw=
+	t=1778285624; cv=none; b=uoSjIGvet38wGLR6NefYHdhK+3/AugiuA8KynhU1efar9pLwYNAU/NC/DYxpSVGqWgy+t6+gPCEwH6R8rNHfkChVSpsEeI4iAfmfGPKwE8QH/ufwvHgZq67Y0AgHwWxANWEen/+9t61dzEzh29kUfd/eBCD8JHrUZ3l29lEYP8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778196116; c=relaxed/simple;
-	bh=/7jMOqiqfS5E2Aa8V7nTqrJGxlbfE7BVeWQEGpFRgbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kt9zNKnkp6skqMyWhwvxUsMPJyOIckNwLL7RIkeY4lQiW/kcuv8abxdYdr7q2jfUjLHw17AVW/n4iYvfPwsdjDlNEGgcxJwf9J6/Lo8sG5GzEykoIWw5FXhSJrhhzZT8ERvGekSlFVY9c473Ds9hcs+1a2lJ2nCjPNrkqntWU0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sBpkTEJp; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso508348a12.3
-        for <linux-tegra@vger.kernel.org>; Thu, 07 May 2026 16:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778196115; x=1778800915; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
-        b=sBpkTEJpzYsRNV0AbinK7c5oWYCuTeSL4wLPYHAN30/Zi4ptIEROuxetZ5tRtUY3Er
-         KHtcGrmU0YP2TOY2slqFOcdm744tj3vemm4QeVWURNkWctYZbvXR3b+fcaDpkoG5XsKJ
-         bmbA+ZS6PzwLj2hGbg5dGyYTu7cUzbDeOeMg4+edSqlv4whe7npShrpHpmLUA9En/2wz
-         fhen9+jjGUtwua7lBqrBYudoKYM9NAUjA0+XWXWTPskN3wv6qKJgC5zte139+3U8tpNI
-         Y++NSp1WzsGR+toETJ2XwdvbSyqQGWDuxa9vAsnqSof0cE9QE2uQXH7y9xP37V6DgSJ8
-         ET+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778196115; x=1778800915;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
-        b=Xwpk/xrEZg+e9+xw4GiRplnazMNjq8Pown1mCoSPCe2x3kKyzCwnacWFTAn04DpaPq
-         obds2Z/dJqva+W5zBd90Qt9eFYfrAtEnxA7+HWurt3liMeUfVWztQeqg5IDvrd7NrUba
-         NW1a7ggz7aSH5LQeC8zXTcSghG47Wvh3FBKedXrxFc8pY7ordEB92zySIVfFZ0u3bvnu
-         VGQ/wF8yuy5sBcxrs7abV3/a0Uq1xUKPK1iW9UFDcdixoZ89PWGy1jEJJg/SM5Ft/WyD
-         QlOeVU40RhEpf9OV+Eed5A8fTshmiJt+KNYG/jZ4fxWF+k/jv1k3Qr1RK+DbfO3BXon5
-         u2AA==
-X-Forwarded-Encrypted: i=1; AFNElJ82Oi9Ni8mtopn6RaUFwis5CtShV2g1/mC9NEG7/jYQNYUbkjNXn+JqwlFOIjG9IolNPr+2UhUP2rT6/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNvAFP8duVmajYHAaTrtnTDkWOi0WkbyYpi+kfpSDl5SoIwpl5
-	8R2DkF/0EO/xTZPHhW8kWvNxSf6vdNonIX8tqhCT287J8s5s4IeQ9Rfd
-X-Gm-Gg: Acq92OFnWUX8jm6iMyHNSdZUdrxlb0npKFo23G1ON+9wset4A46QNxjTMFCfCh/FqFq
-	XmqaZG6vYhGpMQpZsiEOtV3VuYEOX9Iqj90aFeb6zC3Q7g4Rwdp1btCtgVhgFFteNHU3LhqVpK6
-	jGmlppB5eQr5qHClcXEbGFY5amwHTstmSEn7JgCV48KLImSVFHDVqJs5WPDRfZqqIUUl4v2mmoL
-	vh3PgACiNU5a7kRyfbYq9ErRcYuGpM42/zCnsl/FSKSUqiPXMW4ODO0ggPslUc/6pWkypbbmbJD
-	iU1PFc6Yn5if5T3nVJQWE9awEmrm5vHF7KstA+8P1mKrc82eKttwWvAHZJJtHEvxMbPJrcoicMn
-	MqPyUOZYYl9JblKzs8WDw0jW/AXcJVvEoEt+4mREuLod3KUX5OK3CApYVg9yQYr9qmUpUNSGYsZ
-	VAJ2dtDG+dGWlvXuH4ZmlHkVRAQS778i4rxZZUjbmA8WU9aMWrFjGfJDu3uKHH9ejF4tdXmYYjN
-	gIqbanOGEzUejnuS5y+ANvkUcxJJ5XqpGo=
-X-Received: by 2002:a17:903:28c:b0:2b2:45b7:306e with SMTP id d9443c01a7336-2baf0cf2c98mr2125795ad.3.1778196110299;
-        Thu, 07 May 2026 16:21:50 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae752f766sm9064475ad.2.2026.05.07.16.21.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 16:21:49 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
-	linux-kernel@vger.kernel.org (open list),
-	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
-Subject: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
-Date: Thu,  7 May 2026 16:21:31 -0700
-Message-ID: <20260507232131.438589-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1778285624; c=relaxed/simple;
+	bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Hmu17YfhvHSQbhfMOJGzv/2LvamAThgl8nlvcLOIGGaBCRHRY0+JuOu7TofTKe9s6OrP+hFtAMDqJz2fz278jS9r5opFf7bzXOpXAEYeAIZMCpVQw+qXvcpG3rptWNdCUwp9YoFt79PvrXXb4TgIcihXWBa5qLVMylX/ynstrfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSFeZg5B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C09C2BCB0;
+	Sat,  9 May 2026 00:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778285624;
+	bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TSFeZg5BvwFcbzHvLdipCuAa8qoC5gj0XT2Mdz9hxcS0t1ljMUxTHYkpA7j+CL6oE
+	 q79nxhzYdQatXOlp3fgd2mtRGCfiJEL9G2kpGJwx5IuBA5hwE8SF0vvYvYsLhZPV/n
+	 Q0ccVBP+gRPYT2HHJviOtIoRjsxPCItqNV5QLA20X8EhRC0mbllvGhfk5QDOKC7KEW
+	 Y872LI9y3sbdiIep0CI+g++L0qAv/DR1cGgHRrU+GVubxVYTm0QaduMnsrc2oDmJQ8
+	 0p28xf60d6VYB3CyyTBjq2ube7S5vz5VbzsAlA4s9ch5/KIbNPx10PoiGRxxAnzZzK
+	 mh/pVbjQsFoSA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev
+In-Reply-To: <20260507232131.438589-1-rosenp@gmail.com>
+References: <20260507232131.438589-1-rosenp@gmail.com>
+Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit
+ division
+Message-Id: <177820154024.916152.3561938548534364041.b4-ty@b4>
+Date: Fri, 08 May 2026 09:52:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 93DA44F010F
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp/nwvSLAZh/1jMiuKH1AOYXdSE8Wb+OoBCdOYQ
+ LE3nQlXPByJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaf58LwAKCRAk1otyXVSH
+ 0JjbB/9lmEoXmnJS2o2tSyfaNxH+R7UCa1oCU5UaOKAVdoqYQsOPQTSuMOUmc5ilqPsXF7T/cx3
+ +C/EDwU1c6DE25HmZoJPXel61wUh/G9lGCYoJ8LNur+90w+6rsUyOwH1lRk5pls9nxYyV31TkF+
+ s0WCkQh6rM1kxXlPf+jyvQ81XfzNA0wCqsJb/hPqjidYiDo2K0bxfb5tKWyFBkU+LD3aldcvk7Z
+ PuqNrFyPZgIjEI1limpojzvrdqWBUaGOmaNn4MVsYxw8gg2DsvRbrwUkppvwfM2pn/7NNDx4HsQ
+ levtHctid7d8n62VjOFe/QtgIuK0fmFhTAeSiwUHphk9Q2p1
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Rspamd-Queue-Id: DF5904FCFAC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,nvidia.com,google.com,vger.kernel.org,lists.linux.dev];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-14300-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14334-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,linux-tegra@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-tegra,lkml];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,kernel.org,nvidia.com,google.com,vger.kernel.org,lists.linux.dev];
+	TAGGED_RCPT(0.00)[linux-tegra,lkml];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-A MIPS allmodconfig build with LLVM fails during modpost:
+On Thu, 07 May 2026 16:21:31 -0700, Rosen Penev wrote:
+> ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
 
-  ERROR: modpost: "__udivdi3"
-  [sound/soc/tegra/snd-soc-tegra210-mixer.ko] undefined!
+Applied to
 
-tegra210_mixer_configure_gain() divides a 64-bit BIT_ULL() value by the
-fade duration. On 32-bit MIPS, clang emits a call to __udivdi3 for that
-plain C division, but that compiler helper is not exported to modules.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Use div_u64() for the inverse duration calculation so the driver uses the
-kernel's 64-bit division helper instead of emitting a compiler runtime
-call.
+Thanks!
 
-Assisted-by: Codex:GPT-5.5
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- sound/soc/tegra/tegra210_mixer.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+[1/1] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
+      https://git.kernel.org/broonie/sound/c/04b8f96b1088
 
-diff --git a/sound/soc/tegra/tegra210_mixer.c b/sound/soc/tegra/tegra210_mixer.c
-index f05617b5f433..bfdd457f740c 100644
---- a/sound/soc/tegra/tegra210_mixer.c
-+++ b/sound/soc/tegra/tegra210_mixer.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/io.h>
-+#include <linux/math64.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -157,8 +158,8 @@ static int tegra210_mixer_configure_gain(struct snd_soc_component *cmpnt,
- 			if (i == DURATION_N3_ID)
- 				val = mixer->duration[id];
- 			else if (i == DURATION_INV_N3_ID)
--				val = (u32)(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR) /
--					    mixer->duration[id]);
-+				val = div_u64(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR),
-+					      mixer->duration[id]);
- 			else
- 				val = gain_params.duration[i];
- 		}
--- 
-2.54.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
