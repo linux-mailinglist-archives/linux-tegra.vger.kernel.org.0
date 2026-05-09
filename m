@@ -1,636 +1,204 @@
-Return-Path: <linux-tegra+bounces-14339-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14341-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mEmnA2U8/2kQ3wAAu9opvQ
-	(envelope-from <linux-tegra+bounces-14339-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 15:53:41 +0200
+	id X04bJLdm/2mT6AAAu9opvQ
+	(envelope-from <linux-tegra+bounces-14341-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 18:54:15 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B69D4FFE75
-	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 15:53:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95DE50095E
+	for <lists+linux-tegra@lfdr.de>; Sat, 09 May 2026 18:54:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2FBAB30060B9
-	for <lists+linux-tegra@lfdr.de>; Sat,  9 May 2026 13:53:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA53D300B465
+	for <lists+linux-tegra@lfdr.de>; Sat,  9 May 2026 16:54:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8935338AC8B;
-	Sat,  9 May 2026 13:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B87370D62;
+	Sat,  9 May 2026 16:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="W2ZZ42Y8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="a1RU1Rdx"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012049.outbound.protection.outlook.com [52.101.53.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A75633F580;
-	Sat,  9 May 2026 13:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778334814; cv=none; b=uRhAqV4A5S35Zl9E/FshD67peNu0xw8u80iEiPI2Wkvwq0QH4wl99DCiNKbR0zOdrW2OYUjp+v/deqitSFhLtCbvPe3ilnmrRHCgE6ALlulCZ+BYS+D4jp0s5EDvdtZ1kmhCS4muHG2IECdL1n4jF2qAM9HyBTCbfkXPxUHsk9g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778334814; c=relaxed/simple;
-	bh=8TLiI9LtglvQIlwwvvoeDYjEpoeHmafpexwJm0HumI8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ApWt1lTp8EH7Xa2rst0hv0QHIgnK3I86y7dla62PKFTB6iyvvrkONChgJm/R/ZIKtuHcUYaTb6oWbkFlFN720VUiOKpJVi2BlFY3+4Q4fwEeg/+lNpG2ZcILbSVZ3xrCVzNkZkaj4enXKSwtVKfJ5rKXH4pakuBMV9pNaR2RE/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=W2ZZ42Y8; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=bA
-	NmvbLt+8Ujqf6tYt1+682HyqqifCqoKidfg9mgZAE=; b=W2ZZ42Y88kYSULRPhs
-	GVnKkWbp8CHhnbXdmTp3wWc6HxYG+850fIqoKx8Zf1Dznqq2BHQd3ZHPRfAUBRQf
-	vdP/ljd8Gz9M4KBKQ8SeRqsTDvUU5a9QlqOb7PUiTweaxkWqwbtTUSU7vq76xQrf
-	fZ8EhNs3cqk+wUinSMdBCN4q0=
-Received: from Precision-7960.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDXLzL8O_9p486jAQ--.37610S5;
-	Sat, 09 May 2026 21:52:00 +0800 (CST)
-From: Hans Zhang <18255117159@163.com>
-To: bhelgaas@google.com,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	jingoohan1@gmail.com
-Cc: mx@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hans Zhang <18255117159@163.com>
-Subject: [PATCH 3/3] PCI: dwc: Simplify platform drivers using cached capability offset
-Date: Sat,  9 May 2026 21:51:52 +0800
-Message-Id: <20260509135152.2241235-4-18255117159@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260509135152.2241235-1-18255117159@163.com>
-References: <20260509135152.2241235-1-18255117159@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A241334C1F
+	for <linux-tegra@vger.kernel.org>; Sat,  9 May 2026 16:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778345651; cv=fail; b=Rbr3SD75fHw1dDIKZSBsDYxZvLavd3Vnj5zaHNvPpZCkAwVN34NFhlZMgQMm7vYnxgMcaBtLu5E2Hw0fc7wLwk6Br9BasSxQZfbX4xy+gP3OUN0BX3dAiEBuPjrD/ROEAthpuwqMkoVYvljTG6KKcg7fSNMBovia27zIMoY9UGk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778345651; c=relaxed/simple;
+	bh=SQGnMjZXV0WEv24+RAnzRCnscF6SkgJ59XH5FPt7uQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=n2o6NEI3OXvahTPRt3o0hnyXK8bEvwt41GSif8IynnJVuNLUKWB3m/TMuO7FcF3M+pbWR4TTUAi0nBy33MVnRKlrn/oSFRoqaVSWIi2lTrsHj7Cg3tJsbURp1PDGr2Fvb/RxWaqucmpuVl2eoAfEoga7SRqzDKMq52jwnZ+5xi4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=a1RU1Rdx; arc=fail smtp.client-ip=52.101.53.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uDEYNyvG75T+B3eK6BpvhL5YtVejT+DVI+U2hn3R2Ou0rC9r+EcSICniY272My/zk0Oath5IHKEjF2+cpKQccBULu05GpLxr9DM3hlK29ejnI0aMJ1Nc6qKBQ/jChX10Lk8g4ay5VYDAKsj1yQEpilIAV4dKpK9JsG0bECNybuBDHIB5sxImqWwm/SCjO2o1nVT2+FfWv6QDSYqqGkwlI53WIAUHr0SHG05n6c5shAbN3ryCNw59wBcPp/FxztOj3Di/AV0ibIlNtYj/FbHyekFs1TDYb243nTBRqnZvVGJaH4NCMhbM4Hb1Te443Sl6jpP7SB7zSqhwGRXaPoD1RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+306wj3e1bAWNCJw5Soq2MlQFgMYoSZG5jLsfZ1UUxo=;
+ b=hWb3pRKoDMYAmDy5dOFTjeVyaWIu0eyaNsSz8/aBMTCdQZL4O6tG6sitvbsb2lBSWIfZHbj8CcufT1ifqpkMUmsvoRKCS3gWqk5Qr+RHcdUyDle6FlRpsIgBBQ5KRa8q9YPYLhBFhP65cZsw/HzOKDBxi6TdwS65/jhPyqdTEIzzUQaIGegRsNVkfsEEEs7CwyoRC30QBwhJ8vm5nRu7EV3MqTU8TmHtqEbztcRuhHlicUqmTTL9/5AjapZx7IARsFI4dIr+BTVYyXfzqCd6/yVFQk+6oVlp2Xg+Szc/4QvtQWb1/Qmx8MIgLwioIoyXEamkyVMh5yI+Lw8BvzJaRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+306wj3e1bAWNCJw5Soq2MlQFgMYoSZG5jLsfZ1UUxo=;
+ b=a1RU1RdxZzNr1/qJOsJZXaY3tCrU9iRRlY0dCyeq9GDTWvRLdhmuQPKtpF3zzi3cMmwozGOduLXcmhk+Ec3IZ3m2iK8qSReunF8kZCvfDE7Eocj/StoUanWv6LE4NWp8WA+bziExj6OFlkpmdDP26w1pV8ZseR8bRdkV7da39ZkJJn6w6UIcX7bQzHKAKTrfru3vVFfdePbtsHnX9LX3LAiT/+Zw4RkZHsvdnKusAIDbhoG/S+LVmzNBpKS/NfwRTPfjU9mVGSYemF5/5M8xelnoSzf0GykbTahaRHvwcVTMqUIMdcFw/E8owh9ath7BKGwx0Kl+7k+yrckz3lBn6w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by SN7PR12MB7978.namprd12.prod.outlook.com (2603:10b6:806:34b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.21; Sat, 9 May
+ 2026 16:54:02 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9891.019; Sat, 9 May 2026
+ 16:54:02 +0000
+Date: Sat, 9 May 2026 13:54:01 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Pranjal Shrivastava <praan@google.com>
+Cc: iommu@lists.linux.dev, Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Krishna Reddy <vdumpa@nvidia.com>, Will Deacon <will@kernel.org>,
+	David Matlack <dmatlack@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Mostafa Saleh <smostafa@google.com>
+Subject: Re: [PATCH 7/9] iommu/arm-smmu-v3: Directly encode CMDQ_OP_ATC_INV
+Message-ID: <20260509165401.GL9254@nvidia.com>
+References: <0-v1-b7dc0a0d4aa0+3723d-smmu_no_cmdq_ent_jgg@nvidia.com>
+ <7-v1-b7dc0a0d4aa0+3723d-smmu_no_cmdq_ent_jgg@nvidia.com>
+ <af3NH0cihPUQ8PST@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af3NH0cihPUQ8PST@google.com>
+X-ClientProxiedBy: YT4PR01CA0038.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fe::29) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXLzL8O_9p486jAQ--.37610S5
-X-Coremail-Antispam: 1Uf129KBjvAXoWfCFykJFykWr15uF1kWw48WFg_yoW8uF1fGo
-	Z3Xry8X3W7Gr18XrWIvanxKry7ZwnFv3W5Arn293yDu343A3W5Jr93J3Z8uw12kr4Iyw45
-	AayDGw1fZFsrWw17n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4RRrWFUUUUU
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC6wBpDWn-PAC1jgAA3e
-X-Rspamd-Queue-Id: 2B69D4FFE75
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SN7PR12MB7978:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89eb2f74-eab6-4aed-0ad6-08deadeb92ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	LU/wZE0NuvXEV/NPi9SqNnGGPFTWqLVNPB8FcH99NuCS2dIVwWDiRRn3Ve72cgdTeOq5E7YitLYcaqhOZb0gKTH+USRnCyheVwUd83UkqaPkAoGhpf4N+KLjCd4U9uzJf86to0JL8oPXQZSRf3/f1N2fulu5siwLOPbASEvy3wAfnBL1eP2BCs84DZWAPDX65M78A9SnZI6GwbOCxennXnLgZSykxBniT1x/Y7xIAKq/URGt5qswT+5BmOoTFldtgpNpZ+VepTQIDuDfzt+c8UZXG1gb2qB/E4olIPkCoAIk71FHobOot7nD/Lnu+yBY/9icC9ZO9K0OF5kJKi/nUQvdKpFmI/Q6f+Rhpzlq7LdpOvE86bvd5kSAPa+cHiv5/gGTNzxXMmK5xdwajOUdMrlm8EXulvahdbqYo++MoJMxqTZSDwliutXZvjMW0yyLiBJLG02cT1LHn42e0CJP4T5KUSBCpCc2vX0nmn8sixJmclBVUQdbVO7tOnmDvwF3zq90FMtud/tY0X7QZj25owFLcUMqYWg05CFIZqVKfMN46OL1Iq1ykaFwKSNgM0sFBqTr6mRT7V4VKhNFWfOrMHZ4Kg+yeyyLcNMDBH3npUUSfe0r1y0mvfwGHA0OBwvlT+mdJc6OUkpwaedxQk5AJ70KvofyOPKBQrtVJ6ceJAzsJVOj22GUZ+kRGYpLzBvo
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?z7aU3lNItMNFPieCxLXvW+mSkmQ/5bsbQKB1IIXA6UObC2YwpZ50KWOBJL3C?=
+ =?us-ascii?Q?OZ8MldO7VznQLE2e6HRQmA/hKUgsCOqVtsOYKhZNIKwCkzG3Z3VS3mGcU8Z8?=
+ =?us-ascii?Q?GhcQV+Hy5YiMKyCOHNlEV8SRYc+jaMREjz1ZsmZHo07KA6rNcjnp08nVVXa0?=
+ =?us-ascii?Q?AYo9IYAqLHkBXZAH1f1RKazHckrDz4Yc7Io9W4D7nAQRTh+kgf5YM+PLiZtk?=
+ =?us-ascii?Q?8Qm3SRgL2G4SOQfGrdKTOjUt/MBh0Z2wOiNk3UvUEziivOILJvwUOlfNHoaR?=
+ =?us-ascii?Q?/eJlDYqaZR/rTOrBuVm/up6jpR+I2nghvwGxPq7oHnBxgrSYSkCWOMbmFG96?=
+ =?us-ascii?Q?y7WfystgkiHr3camxR5O/dHwyyheCNNsTVk/LjPXVCPZJaL7eEakY3lUsqeS?=
+ =?us-ascii?Q?gIxl+ksA2FkUtqW/xBJQ5bkxWW6jS4QopLY4TnK/QFRbdwDSj9xtzjSztbea?=
+ =?us-ascii?Q?6ZHA76dl/hYz2oI9sUzxYJzTj9l24GAhIHg0wHpEydUxctOYFVks9kc8Mp8l?=
+ =?us-ascii?Q?T9Fr0BpzN0Zipl8LEygoIS+dLHTbsdI3SVl+i4QtfzJEWph468+q+qvpkCkC?=
+ =?us-ascii?Q?pULu8PtlBtBfHw64tp66JNOm/ORqkA1AzvGPHToekLXZZ9mbZkjesLRu6nkq?=
+ =?us-ascii?Q?laKV1tYEs4gyTI9rGRSjjwWCBRysei/g+38BR10ifpvDP5a7YInbxGiwWcZo?=
+ =?us-ascii?Q?fsspDkIbiG87bEvND9O9JLj63zl3JT3Upw2q3RNrZONRj+AX/DNzpqyQcXoU?=
+ =?us-ascii?Q?W3z2wENr5AFH8lFS6R/FpTHOkLWN5PVKMJ3cqUgZKfo3gp44Q2ZAD8pWiRb9?=
+ =?us-ascii?Q?aIbZ87IVOqdnARTgrEk8q1/qwRW1Fqy0svMwZg912IDzj5zzjEsDWsHCM3tL?=
+ =?us-ascii?Q?iMnl98cmepKrxQWfBhOCsWa0gh53jTpU0/0dhAX7H/cyPf18xizxCHk7LdXL?=
+ =?us-ascii?Q?635mQgLOyb0OQcIirkGgQUeNcoaNhR3LxmKGQ2JmGO/TfotYJ8SdqCYCyjvO?=
+ =?us-ascii?Q?nL0jOALorRBw1u4czoSGM1QvZDkq+iXSVcqIB+rBMvIU8GURjOpiOpodcy2s?=
+ =?us-ascii?Q?T+Of0k42kosVAgCchhK7rdt3XjjDlwhxmReDIpc8tfDnN99EboHHP1DPCrZx?=
+ =?us-ascii?Q?qliEODEyoLEMgjZbcFrCjBZPQE6dR3kpTiQahDpxsVFz7FKI1gjNGMX0cbTj?=
+ =?us-ascii?Q?ecxdW2nYMj8P9XG49R8sl3aDqX/PLTmm19TKSl0LENYa64A4K3fZC0gAjO6H?=
+ =?us-ascii?Q?lYbseBJkt5wzvGf1fkPKklXQxSFJ4Qxgu23V4W9VkbVGSQfVknUGQh66rxiO?=
+ =?us-ascii?Q?I038TRWaATQ7K74V+LDszQRJ8mdeqv6Zd/JZgF5obrwzrJTrOXszAnKCPy3B?=
+ =?us-ascii?Q?aY0zNJEyM6xqmIs2sxc12T9OXugveXAGHo8C1L3yNOZB8kSd0ko55Cd8/eBd?=
+ =?us-ascii?Q?Y2gjCbb8pllE998v4rCZFy0OXzE0FnBu3iEaqrSzyYmFnPUm/b+CLqhDX4rt?=
+ =?us-ascii?Q?cl6MRJNHyULKOeApv2O3NGEdnnLmTLxId3FnmIJwJeCI4NWnYIKSPNl8OOpQ?=
+ =?us-ascii?Q?aReHALNOFYb4esXKY5Zvxhn0Zcoq8527j5Qr2T+MvGaf7iME4k4fviWStZzz?=
+ =?us-ascii?Q?IwOMzKJD2ftfLKLpBmwVvzZjakCTN6Q0YMJsiHNg0Cv74u0pPQd8fL5wRJaz?=
+ =?us-ascii?Q?SS6ayOxRgo/wI7mYOsOv7cdMzpY8yZxKPjUj4CsGioTmRq4i?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89eb2f74-eab6-4aed-0ad6-08deadeb92ca
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2026 16:54:02.7082
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K5MGMuVS6fhslcrf2CKHQJnXHFJ86Q2+4+YqmWmx2Ypxtb84d23qYDYovywKm6u8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7978
+X-Rspamd-Queue-Id: C95DE50095E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-14341-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[google.com,kernel.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[163.com];
-	TAGGED_FROM(0.00)[bounces-14339-lists,linux-tegra=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.linux.dev,lists.ozlabs.org,lists.infradead.org,vger.kernel.org,163.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	NEURAL_HAM(-0.00)[-0.996];
-	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-tegra@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,linux-tegra@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DKIM_TRACE(0.00)[163.com:+];
-	FROM_HAS_DN(0.00)[]
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,nvidia.com:mid,Nvidia.com:dkim]
 X-Rspamd-Action: no action
 
-Replace explicit dw_pcie_find_capability(pci, PCI_CAP_ID_EXP) calls
-with the cached pci->pcie_cap in all DWC-based platform drivers:
+On Fri, May 08, 2026 at 11:46:39AM +0000, Pranjal Shrivastava wrote:
+> On Fri, May 01, 2026 at 11:29:16AM -0300, Jason Gunthorpe wrote:
+> > Add a new command make function and convert all the places using
+> > ATC_INV.
+> > 
+> > Split out full invalidation to directly make the cmd instead of
+> > overloading size=0 to mean full invalidation.
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > ---
+> 
+> Nit: I guess it's worth mentioning that we remove CMDQ_ATC_0_GLOBAL as
+> we don't set ent->atc.global = true anywhere in the driver anymore.
 
-- i.MX6, Layerscape EP, Meson
-- Rockchip (also remove redundant NULL check and fix typo)
-- Eswin, Fu740
-- Intel Gateway, Qualcomm EP, Qualcomm RC
-- Sophgo, Spacemit-k1, Spear13xx
-- Tegra194 (remove private pcie_cap_base)
+I added this:
 
-For drivers that need the offset before the core caches it (e.g.,
-ls_pcie_ep_probe), use dw_pcie_get_pcie_cap() to ensure caching.
+In section "3.9.1 ATS Interface" of F.b the specification says:
 
-Adjust variable types from u16 to u8 where appropriate.
+  When the SMMU returns an ATS Translation Completion for a request that
+  had a PASID, the Global bit of the Translation Completion Data Entry
+  must be zero.
 
-Signed-off-by: Hans Zhang <18255117159@163.com>
----
- drivers/pci/controller/dwc/pci-imx6.c         |  6 +--
- .../pci/controller/dwc/pci-layerscape-ep.c    |  4 +-
- drivers/pci/controller/dwc/pci-meson.c        |  4 +-
- drivers/pci/controller/dwc/pcie-dw-rockchip.c | 15 +++---
- drivers/pci/controller/dwc/pcie-eswin.c       |  3 +-
- drivers/pci/controller/dwc/pcie-fu740.c       |  2 +-
- drivers/pci/controller/dwc/pcie-intel-gw.c    |  2 +-
- drivers/pci/controller/dwc/pcie-qcom-ep.c     | 11 ++--
- drivers/pci/controller/dwc/pcie-qcom.c        | 24 ++++-----
- drivers/pci/controller/dwc/pcie-sophgo.c      |  8 ++-
- drivers/pci/controller/dwc/pcie-spacemit-k1.c |  5 +-
- drivers/pci/controller/dwc/pcie-spear13xx.c   |  6 +--
- drivers/pci/controller/dwc/pcie-tegra194.c    | 51 +++++++------------
- 13 files changed, 56 insertions(+), 85 deletions(-)
+Even though it faithfully forwards the G bit through to the ATS
+invalidation command there is no way to create G mappings so there is
+never any need to send a G invalidation. Thus don't expose global in the
+new helpers and leave CMDQ_ATC_0_GLOBAL unused.
 
-diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
-index e35044cc5218..dc464b460fc1 100644
---- a/drivers/pci/controller/dwc/pci-imx6.c
-+++ b/drivers/pci/controller/dwc/pci-imx6.c
-@@ -936,10 +936,10 @@ static void imx_pcie_ltssm_enable(struct device *dev)
- {
- 	struct imx_pcie *imx_pcie = dev_get_drvdata(dev);
- 	const struct imx_pcie_drvdata *drvdata = imx_pcie->drvdata;
--	u8 offset = dw_pcie_find_capability(imx_pcie->pci, PCI_CAP_ID_EXP);
-+	struct dw_pcie *pci = imx_pcie->pci;
- 	u32 tmp;
- 
--	tmp = dw_pcie_readl_dbi(imx_pcie->pci, offset + PCI_EXP_LNKCAP);
-+	tmp = dw_pcie_readl_dbi(pci, pci->pcie_cap + PCI_EXP_LNKCAP);
- 	phy_set_speed(imx_pcie->phy, FIELD_GET(PCI_EXP_LNKCAP_SLS, tmp));
- 	if (drvdata->ltssm_mask)
- 		regmap_update_bits(imx_pcie->iomuxc_gpr, drvdata->ltssm_off, drvdata->ltssm_mask,
-@@ -965,7 +965,7 @@ static int imx_pcie_start_link(struct dw_pcie *pci)
- {
- 	struct imx_pcie *imx_pcie = to_imx_pcie(pci);
- 	struct device *dev = pci->dev;
--	u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	u32 tmp;
- 	int ret;
- 
-diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-index 8936975ff104..fdb89ae13e4a 100644
---- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
-+++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-@@ -84,7 +84,7 @@ static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
- 
- 	if (val & PEX_PF0_PME_MES_DR_LUD) {
- 
--		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+		offset = dw_pcie_get_pcie_cap(pci);
- 
- 		/*
- 		 * The values of the Maximum Link Width and Supported Link
-@@ -266,7 +266,7 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, pcie);
- 
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	offset = dw_pcie_get_pcie_cap(pci);
- 	pcie->lnkcap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
- 
- 	ret = dw_pcie_ep_init(&pci->ep);
-diff --git a/drivers/pci/controller/dwc/pci-meson.c b/drivers/pci/controller/dwc/pci-meson.c
-index 0694084f612b..e8750178fbb0 100644
---- a/drivers/pci/controller/dwc/pci-meson.c
-+++ b/drivers/pci/controller/dwc/pci-meson.c
-@@ -276,7 +276,7 @@ static void meson_set_max_payload(struct meson_pcie *mp, int size)
- {
- 	struct dw_pcie *pci = &mp->pci;
- 	u32 val;
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	int max_payload_size = meson_size_to_payload(mp, size);
- 
- 	val = dw_pcie_readl_dbi(pci, offset + PCI_EXP_DEVCTL);
-@@ -292,7 +292,7 @@ static void meson_set_max_rd_req_size(struct meson_pcie *mp, int size)
- {
- 	struct dw_pcie *pci = &mp->pci;
- 	u32 val;
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	int max_rd_req_size = meson_size_to_payload(mp, size);
- 
- 	val = dw_pcie_readl_dbi(pci, offset + PCI_EXP_DEVCTL);
-diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-index 731d93663cca..9acdc18a573e 100644
---- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-+++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-@@ -366,17 +366,14 @@ static void rockchip_pcie_configure_l1ss(struct dw_pcie *pci)
- 
- static void rockchip_pcie_enable_l0s(struct dw_pcie *pci)
- {
--	u32 cap, lnkcap;
-+	u32 lnkcap;
- 
- 	/* Enable L0S capability for all SoCs */
--	cap = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--	if (cap) {
--		lnkcap = dw_pcie_readl_dbi(pci, cap + PCI_EXP_LNKCAP);
--		lnkcap |= PCI_EXP_LNKCAP_ASPM_L0S;
--		dw_pcie_dbi_ro_wr_en(pci);
--		dw_pcie_writel_dbi(pci, cap + PCI_EXP_LNKCAP, lnkcap);
--		dw_pcie_dbi_ro_wr_dis(pci);
--	}
-+	lnkcap = dw_pcie_readl_dbi(pci, pci->pcie_cap + PCI_EXP_LNKCAP);
-+	lnkcap |= PCI_EXP_LNKCAP_ASPM_L0S;
-+	dw_pcie_dbi_ro_wr_en(pci);
-+	dw_pcie_writel_dbi(pci, pci->pcie_cap + PCI_EXP_LNKCAP, lnkcap);
-+	dw_pcie_dbi_ro_wr_dis(pci);
- }
- 
- static int rockchip_pcie_start_link(struct dw_pcie *pci)
-diff --git a/drivers/pci/controller/dwc/pcie-eswin.c b/drivers/pci/controller/dwc/pcie-eswin.c
-index 2845832b3824..2e5b94c27026 100644
---- a/drivers/pci/controller/dwc/pcie-eswin.c
-+++ b/drivers/pci/controller/dwc/pcie-eswin.c
-@@ -84,8 +84,7 @@ static int eswin_pcie_start_link(struct dw_pcie *pci)
- 
- static bool eswin_pcie_link_up(struct dw_pcie *pci)
- {
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--	u16 val = dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKSTA);
-+	u16 val = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 
- 	return val & PCI_EXP_LNKSTA_DLLLA;
- }
-diff --git a/drivers/pci/controller/dwc/pcie-fu740.c b/drivers/pci/controller/dwc/pcie-fu740.c
-index 66367252032b..553a940e6d89 100644
---- a/drivers/pci/controller/dwc/pcie-fu740.c
-+++ b/drivers/pci/controller/dwc/pcie-fu740.c
-@@ -179,7 +179,7 @@ static int fu740_pcie_start_link(struct dw_pcie *pci)
- {
- 	struct device *dev = pci->dev;
- 	struct fu740_pcie *afp = dev_get_drvdata(dev);
--	u8 cap_exp = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 cap_exp = pci->pcie_cap;
- 	int ret;
- 	u32 orig, tmp;
- 
-diff --git a/drivers/pci/controller/dwc/pcie-intel-gw.c b/drivers/pci/controller/dwc/pcie-intel-gw.c
-index c21906eced61..939b9dcac7fe 100644
---- a/drivers/pci/controller/dwc/pcie-intel-gw.c
-+++ b/drivers/pci/controller/dwc/pcie-intel-gw.c
-@@ -121,7 +121,7 @@ static void intel_pcie_ltssm_disable(struct intel_pcie *pcie)
- static void intel_pcie_link_setup(struct intel_pcie *pcie)
- {
- 	u32 val;
--	u8 offset = dw_pcie_find_capability(&pcie->pci, PCI_CAP_ID_EXP);
-+	u8 offset = pcie->pci.pcie_cap;
- 
- 	val = pcie_rc_cfg_rd(pcie, offset + PCI_EXP_LNKCTL);
- 
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-index 257c2bcb5f76..d041189be248 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-@@ -307,14 +307,14 @@ static void qcom_pcie_dw_write_dbi2(struct dw_pcie *pci, void __iomem *base,
- static void qcom_pcie_ep_icc_update(struct qcom_pcie_ep *pcie_ep)
- {
- 	struct dw_pcie *pci = &pcie_ep->pci;
--	u32 offset, status;
--	int speed, width;
--	int ret;
-+	int speed, width, ret;
-+	u32 status;
-+	u8 offset;
- 
- 	if (!pcie_ep->icc_mem)
- 		return;
- 
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	offset = dw_pcie_get_pcie_cap(pci);
- 	status = readw(pci->dbi_base + offset + PCI_EXP_LNKSTA);
- 
- 	speed = FIELD_GET(PCI_EXP_LNKSTA_CLS, status);
-@@ -492,14 +492,13 @@ static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
- 	dw_pcie_dbi_ro_wr_en(pci);
- 
- 	/* Set the L0s Exit Latency to 2us-4us = 0x6 */
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	offset = dw_pcie_get_pcie_cap(pci);
- 	val = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
- 	val &= ~PCI_EXP_LNKCAP_L0SEL;
- 	val |= FIELD_PREP(PCI_EXP_LNKCAP_L0SEL, 0x6);
- 	dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, val);
- 
- 	/* Set the L1 Exit Latency to be 32us-64 us = 0x6 */
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
- 	val = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
- 	val &= ~PCI_EXP_LNKCAP_L1EL;
- 	val |= FIELD_PREP(PCI_EXP_LNKCAP_L1EL, 0x6);
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index af6bf5cce65b..ddb0ae2bf64b 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -333,26 +333,22 @@ static int qcom_pcie_start_link(struct dw_pcie *pci)
- static void qcom_pcie_clear_aspm_l0s(struct dw_pcie *pci)
- {
- 	struct qcom_pcie *pcie = to_qcom_pcie(pci);
--	u16 offset;
- 	u32 val;
- 
- 	if (!pcie->cfg->no_l0s)
- 		return;
- 
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--
- 	dw_pcie_dbi_ro_wr_en(pci);
- 
--	val = readl(pci->dbi_base + offset + PCI_EXP_LNKCAP);
-+	val = readl(pci->dbi_base + pci->pcie_cap + PCI_EXP_LNKCAP);
- 	val &= ~PCI_EXP_LNKCAP_ASPM_L0S;
--	writel(val, pci->dbi_base + offset + PCI_EXP_LNKCAP);
-+	writel(val, pci->dbi_base + pci->pcie_cap + PCI_EXP_LNKCAP);
- 
- 	dw_pcie_dbi_ro_wr_dis(pci);
- }
- 
- static void qcom_pcie_set_slot_nccs(struct dw_pcie *pci)
- {
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
- 	u32 val;
- 
- 	dw_pcie_dbi_ro_wr_en(pci);
-@@ -362,9 +358,9 @@ static void qcom_pcie_set_slot_nccs(struct dw_pcie *pci)
- 	 * notifications for the Hot-Plug commands. So set the NCCS field to
- 	 * avoid waiting for the completions.
- 	 */
--	val = readl(pci->dbi_base + offset + PCI_EXP_SLTCAP);
-+	val = readl(pci->dbi_base + pci->pcie_cap + PCI_EXP_SLTCAP);
- 	val |= PCI_EXP_SLTCAP_NCCS;
--	writel(val, pci->dbi_base + offset + PCI_EXP_SLTCAP);
-+	writel(val, pci->dbi_base + pci->pcie_cap + PCI_EXP_SLTCAP);
- 
- 	dw_pcie_dbi_ro_wr_dis(pci);
- }
-@@ -900,7 +896,7 @@ static int qcom_pcie_init_2_3_3(struct qcom_pcie *pcie)
- static int qcom_pcie_post_init_2_3_3(struct qcom_pcie *pcie)
- {
- 	struct dw_pcie *pci = pcie->pci;
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	u32 val;
- 
- 	val = readl(pcie->parf + PARF_PHY_CTRL);
-@@ -1209,7 +1205,7 @@ static int qcom_pcie_init_2_9_0(struct qcom_pcie *pcie)
- static int qcom_pcie_post_init_2_9_0(struct qcom_pcie *pcie)
- {
- 	struct dw_pcie *pci = pcie->pci;
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	u32 val;
- 	int i;
- 
-@@ -1254,8 +1250,7 @@ static int qcom_pcie_post_init_2_9_0(struct qcom_pcie *pcie)
- 
- static bool qcom_pcie_link_up(struct dw_pcie *pci)
- {
--	u16 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--	u16 val = readw(pci->dbi_base + offset + PCI_EXP_LNKSTA);
-+	u16 val = readw(pci->dbi_base + pci->pcie_cap + PCI_EXP_LNKSTA);
- 
- 	return val & PCI_EXP_LNKSTA_DLLLA;
- }
-@@ -1559,15 +1554,14 @@ static int qcom_pcie_icc_init(struct qcom_pcie *pcie)
- 
- static void qcom_pcie_icc_opp_update(struct qcom_pcie *pcie)
- {
--	u32 offset, status, width, speed;
-+	u32 status, width, speed;
- 	struct dw_pcie *pci = pcie->pci;
- 	struct dev_pm_opp_key key = {};
- 	unsigned long freq_kbps;
- 	struct dev_pm_opp *opp;
- 	int ret, freq_mbps;
- 
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--	status = readw(pci->dbi_base + offset + PCI_EXP_LNKSTA);
-+	status = readw(pci->dbi_base + pci->pcie_cap + PCI_EXP_LNKSTA);
- 
- 	/* Only update constraints if link is up. */
- 	if (!(status & PCI_EXP_LNKSTA_DLLLA))
-diff --git a/drivers/pci/controller/dwc/pcie-sophgo.c b/drivers/pci/controller/dwc/pcie-sophgo.c
-index 044088898819..5a2cd95c6de7 100644
---- a/drivers/pci/controller/dwc/pcie-sophgo.c
-+++ b/drivers/pci/controller/dwc/pcie-sophgo.c
-@@ -164,15 +164,13 @@ static void sophgo_pcie_msi_enable(struct dw_pcie_rp *pp)
- static void sophgo_pcie_disable_l0s_l1(struct dw_pcie_rp *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
--	u32 offset, val;
--
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u32 val;
- 
- 	dw_pcie_dbi_ro_wr_en(pci);
- 
--	val = dw_pcie_readl_dbi(pci, PCI_EXP_LNKCAP + offset);
-+	val = dw_pcie_readl_dbi(pci, PCI_EXP_LNKCAP + pci->pcie_cap);
- 	val &= ~(PCI_EXP_LNKCAP_ASPM_L0S | PCI_EXP_LNKCAP_ASPM_L1);
--	dw_pcie_writel_dbi(pci, PCI_EXP_LNKCAP + offset, val);
-+	dw_pcie_writel_dbi(pci, PCI_EXP_LNKCAP + pci->pcie_cap, val);
- 
- 	dw_pcie_dbi_ro_wr_dis(pci);
- }
-diff --git a/drivers/pci/controller/dwc/pcie-spacemit-k1.c b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-index be20a520255b..6f0556336f44 100644
---- a/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-+++ b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-@@ -114,12 +114,9 @@ static void k1_pcie_disable_resources(struct k1_pcie *k1)
- static void k1_pcie_disable_aspm_l1(struct k1_pcie *k1)
- {
- 	struct dw_pcie *pci = &k1->pci;
--	u8 offset;
-+	u8 offset = pci->pcie_cap + PCI_EXP_LNKCAP;
- 	u32 val;
- 
--	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
--	offset += PCI_EXP_LNKCAP;
--
- 	dw_pcie_dbi_ro_wr_en(pci);
- 	val = dw_pcie_readl_dbi(pci, offset);
- 	val &= ~PCI_EXP_LNKCAP_ASPM_L1;
-diff --git a/drivers/pci/controller/dwc/pcie-spear13xx.c b/drivers/pci/controller/dwc/pcie-spear13xx.c
-index 01794a9d3ad2..920454266f3f 100644
---- a/drivers/pci/controller/dwc/pcie-spear13xx.c
-+++ b/drivers/pci/controller/dwc/pcie-spear13xx.c
-@@ -122,7 +122,7 @@ static int spear13xx_pcie_host_init(struct dw_pcie_rp *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
- 	struct spear13xx_pcie *spear13xx_pcie = to_spear13xx_pcie(pci);
--	u32 exp_cap_off = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	u8 offset = pci->pcie_cap;
- 	u32 val;
- 
- 	spear13xx_pcie->app_base = pci->dbi_base + 0x2000;
-@@ -132,9 +132,9 @@ static int spear13xx_pcie_host_init(struct dw_pcie_rp *pp)
- 	 * default value in capability register is 512 bytes. So force
- 	 * it to 128 here.
- 	 */
--	val = dw_pcie_readw_dbi(pci, exp_cap_off + PCI_EXP_DEVCTL);
-+	val = dw_pcie_readw_dbi(pci, offset + PCI_EXP_DEVCTL);
- 	val &= ~PCI_EXP_DEVCTL_READRQ;
--	dw_pcie_writew_dbi(pci, exp_cap_off + PCI_EXP_DEVCTL, val);
-+	dw_pcie_writew_dbi(pci, offset + PCI_EXP_DEVCTL, val);
- 
- 	dw_pcie_writew_dbi(pci, PCI_VENDOR_ID, 0x104A);
- 	dw_pcie_writew_dbi(pci, PCI_DEVICE_ID, 0xCD80);
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 9dcfa194050e..0d5a5e9027d9 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -268,7 +268,6 @@ struct tegra_pcie_dw {
- 	u32 num_lanes;
- 	u32 cid;
- 	u32 ras_des_cap;
--	u32 pcie_cap_base;
- 	u32 aspm_cmrt;
- 	u32 aspm_pwr_on_t;
- 	u32 aspm_l0s_enter_lat;
-@@ -312,7 +311,7 @@ static void tegra_pcie_icc_set(struct tegra_pcie_dw *pcie)
- 	struct dw_pcie *pci = &pcie->pci;
- 	u32 val, speed, width;
- 
--	val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA);
-+	val = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 
- 	speed = FIELD_GET(PCI_EXP_LNKSTA_CLS, val);
- 	width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val);
-@@ -340,22 +339,22 @@ static void apply_bad_link_workaround(struct dw_pcie_rp *pp)
- 	 * stable anyway, not waiting to confirm if link is really
- 	 * transitioning to Gen-2 speed
- 	 */
--	val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA);
-+	val = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 	if (val & PCI_EXP_LNKSTA_LBMS) {
- 		current_link_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val);
- 		if (pcie->init_link_width > current_link_width) {
- 			dev_warn(pci->dev, "PCIe link is bad, width reduced\n");
--			val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-+			val = dw_pcie_readw_dbi(pci, pci->pcie_cap +
- 						PCI_EXP_LNKCTL2);
- 			val &= ~PCI_EXP_LNKCTL2_TLS;
- 			val |= PCI_EXP_LNKCTL2_TLS_2_5GT;
--			dw_pcie_writew_dbi(pci, pcie->pcie_cap_base +
-+			dw_pcie_writew_dbi(pci, pci->pcie_cap +
- 					   PCI_EXP_LNKCTL2, val);
- 
--			val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-+			val = dw_pcie_readw_dbi(pci, pci->pcie_cap +
- 						PCI_EXP_LNKCTL);
- 			val |= PCI_EXP_LNKCTL_RL;
--			dw_pcie_writew_dbi(pci, pcie->pcie_cap_base +
-+			dw_pcie_writew_dbi(pci, pci->pcie_cap +
- 					   PCI_EXP_LNKCTL, val);
- 		}
- 	}
-@@ -399,17 +398,17 @@ static irqreturn_t tegra_pcie_rp_irq_handler(int irq, void *arg)
- 			apply_bad_link_workaround(pp);
- 		}
- 		if (status_l1 & APPL_INTR_STATUS_L1_8_0_BW_MGT_INT_STS) {
--			val_w = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-+			val_w = dw_pcie_readw_dbi(pci, pci->pcie_cap +
- 						  PCI_EXP_LNKSTA);
- 			val_w |= PCI_EXP_LNKSTA_LBMS;
--			dw_pcie_writew_dbi(pci, pcie->pcie_cap_base +
-+			dw_pcie_writew_dbi(pci, pci->pcie_cap +
- 					   PCI_EXP_LNKSTA, val_w);
- 
- 			appl_writel(pcie,
- 				    APPL_INTR_STATUS_L1_8_0_BW_MGT_INT_STS,
- 				    APPL_INTR_STATUS_L1_8_0);
- 
--			val_w = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
-+			val_w = dw_pcie_readw_dbi(pci, pci->pcie_cap +
- 						  PCI_EXP_LNKSTA);
- 			dev_dbg(pci->dev, "Link Speed : Gen-%u\n", val_w &
- 				PCI_EXP_LNKSTA_CLS);
-@@ -675,7 +674,7 @@ static void init_host_aspm(struct tegra_pcie_dw *pcie)
- 
- 	l1ss = dw_pcie_find_ext_capability(pci, PCI_EXT_CAP_ID_L1SS);
- 
--	pcie->ras_des_cap = dw_pcie_find_ext_capability(&pcie->pci,
-+	pcie->ras_des_cap = dw_pcie_find_ext_capability(pci,
- 							PCI_EXT_CAP_ID_VNDR);
- 
- 	/* Enable ASPM counters */
-@@ -766,15 +765,12 @@ static void tegra_pcie_enable_system_interrupts(struct dw_pcie_rp *pp)
- 		appl_writel(pcie, val, APPL_INTR_EN_L1_18);
- 	}
- 
--	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
--				  PCI_EXP_LNKSTA);
-+	val_w = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 	pcie->init_link_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val_w);
- 
--	val_w = dw_pcie_readw_dbi(&pcie->pci, pcie->pcie_cap_base +
--				  PCI_EXP_LNKCTL);
-+	val_w = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKCTL);
- 	val_w |= PCI_EXP_LNKCTL_LBMIE;
--	dw_pcie_writew_dbi(&pcie->pci, pcie->pcie_cap_base + PCI_EXP_LNKCTL,
--			   val_w);
-+	dw_pcie_writew_dbi(pci, pci->pcie_cap + PCI_EXP_LNKCTL, val_w);
- }
- 
- static void tegra_pcie_enable_intx_interrupts(struct dw_pcie_rp *pp)
-@@ -903,10 +899,6 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
- 
- 	pp->bridge->ops = &tegra_pci_ops;
- 
--	if (!pcie->pcie_cap_base)
--		pcie->pcie_cap_base = dw_pcie_find_capability(&pcie->pci,
--							      PCI_CAP_ID_EXP);
--
- 	val = dw_pcie_readl_dbi(pci, PCI_IO_BASE);
- 	val &= ~(IO_BASE_IO_DECODE | IO_BASE_IO_DECODE_BIT8);
- 	dw_pcie_writel_dbi(pci, PCI_IO_BASE, val);
-@@ -927,10 +919,9 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
- 
- 	/* Clear Slot Clock Configuration bit if SRNS configuration */
- 	if (pcie->enable_srns) {
--		val_16 = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
--					   PCI_EXP_LNKSTA);
-+		val_16 = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 		val_16 &= ~PCI_EXP_LNKSTA_SLC;
--		dw_pcie_writew_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA,
-+		dw_pcie_writew_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA,
- 				   val_16);
- 	}
- 
-@@ -1047,8 +1038,7 @@ static int tegra_pcie_dw_start_link(struct dw_pcie *pci)
- 
- static bool tegra_pcie_dw_link_up(struct dw_pcie *pci)
- {
--	struct tegra_pcie_dw *pcie = to_tegra_pcie(pci);
--	u32 val = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA);
-+	u32 val = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 
- 	return val & PCI_EXP_LNKSTA_DLLLA;
- }
-@@ -1878,16 +1868,13 @@ static void pex_ep_event_pex_rst_deassert(struct tegra_pcie_dw *pcie)
- 		dw_pcie_writel_dbi(pci, GEN3_RELATED_OFF, val);
- 	}
- 
--	pcie->pcie_cap_base = dw_pcie_find_capability(&pcie->pci,
--						      PCI_CAP_ID_EXP);
-+	dw_pcie_get_pcie_cap(pci);
- 
- 	/* Clear Slot Clock Configuration bit if SRNS configuration */
- 	if (pcie->enable_srns) {
--		val_16 = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
--					   PCI_EXP_LNKSTA);
-+		val_16 = dw_pcie_readw_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA);
- 		val_16 &= ~PCI_EXP_LNKSTA_SLC;
--		dw_pcie_writew_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKSTA,
--				   val_16);
-+		dw_pcie_writew_dbi(pci, pci->pcie_cap + PCI_EXP_LNKSTA, val_16);
- 	}
- 
- 	clk_set_rate(pcie->core_clk, GEN4_CORE_CLK_FREQ);
--- 
-2.34.1
-
+Jason
 
