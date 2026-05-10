@@ -2,13 +2,13 @@ Return-Path: <linux-tegra+bounces-14346-lists+linux-tegra=lfdr.de@vger.kernel.or
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GgsI6x9AGoUJgEAu9opvQ
+	id MIv7GyZ7AGqaJQEAu9opvQ
 	(envelope-from <linux-tegra+bounces-14346-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Sun, 10 May 2026 14:44:28 +0200
+	for <lists+linux-tegra@lfdr.de>; Sun, 10 May 2026 14:33:42 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6165D50412A
-	for <lists+linux-tegra@lfdr.de>; Sun, 10 May 2026 14:44:22 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18316503F0C
+	for <lists+linux-tegra@lfdr.de>; Sun, 10 May 2026 14:33:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
 	by sin.lore.kernel.org (Postfix) with ESMTP id 3A966300E6B2
 	for <lists+linux-tegra@lfdr.de>; Sun, 10 May 2026 12:31:58 +0000 (UTC)
@@ -66,12 +66,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
-X-Rspamd-Queue-Id: 6165D50412A
+X-Rspamd-Queue-Id: 18316503F0C
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[vkoul@kernel.org,linux-tegra@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
 	RCPT_COUNT_SEVEN(0.00)[9];
