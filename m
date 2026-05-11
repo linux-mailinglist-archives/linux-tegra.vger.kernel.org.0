@@ -1,81 +1,79 @@
-Return-Path: <linux-tegra+bounces-14355-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14358-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8BnsBDGKAWpJcwEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14355-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:50:09 +0200
+	id IKqbME+NAWqNdwEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14358-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 10:03:27 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A612F5098E4
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:50:08 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 843E7509BF7
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 10:03:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4ED7F3014804
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:49:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CC1883028E9D
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480C53A7855;
-	Mon, 11 May 2026 07:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B6353A6EF9;
+	Mon, 11 May 2026 07:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CQ0nEDzu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kroAUAT9"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCBE3A872C
-	for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 07:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598153A5E78
+	for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 07:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778485704; cv=none; b=VpLp2q4B7W25Ti+AAi2h3HhCMG9X+eQH7Y7Q9lX80Ai6S5dkgqTUNzwp3HyOFXj7U1gI2UWr77qTKBxCgtPbxGGiYwNMeSPV9/ifUsu902UmPFN2i7mjTwpXUCxZhy/PygOrQW82yok2ks3Yyg99TW6JgbKhLrz2kgwUhc8MG1M=
+	t=1778485771; cv=none; b=WqNL0apxE9RZsPmHUCsJVwRl1+FozsdPThvb9RqoXXYXJSyWdDL25iqI+rKZ04Rd1LaDkyJ5Ve4RluIABmx3z/UYHJ8ftxoftiDwq5U+8ey3zd7Nhw5QXD0uMWnpNXAqLyTCq1fDeAAVOi41HugjAk3pxKSGMQ6vXTebu/H47pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778485704; c=relaxed/simple;
-	bh=s11kfFQEfwmRPGys4vi9dNVvePO0MgLuNby1VOtRHEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zi0zorDs+H6Z7UkVHnM5nu68MsSHYGUFdBr7+oK1SZoglqv2/RI/c7bbewKbX69xpROsn8GxcVkWEtN8rId/AnSj3pHD9Tm6yDcQOb2ngazREh83yt0BhSWYGBJhcpycXoT1jLDG2PND93Qx8QLY8tuy35ddlHbzRP0LK1nOLVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CQ0nEDzu; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1778485771; c=relaxed/simple;
+	bh=o79OwXp+nB2WI8QPW9U8EHinPAtqGbntaWN2rWZ7iQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NdlQqYkl52MvIxJGU7VvFW8fFApsSETBIVfaFrkAbycDBeNlfsYNfVWbT8+ELGydR7OaB47PKWGGUekoyFfkl7KOZ/rBjHqgzyC1LdeEDDop/3rY/gPsRfy3IPxv/vvTmbuvwX7Z9J10bol3/RyvU52WEOxnjxz55zprWSsgtaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kroAUAT9; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so3957535e87.3
-        for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 00:48:11 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3559965e87.3
+        for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 00:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778485689; x=1779090489; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FCRPXJuyMzLZkmX2SvGMR/caiVTF8zEmEw035VGaKNA=;
-        b=CQ0nEDzurYYLCNllRYCk4O3JVGzf3HZWTd6g37jKmrD8Wg/msEkt3i7TFKEHuR3bX+
-         XVTF6lTNAOlCgaBw5dpxFYIR1ewVYamwHwOewYRnqfdSjDcpp3B1oEFRFkJG0jR1nltu
-         T9uSk0nP8PUhounf6HLyDaHV/frx3mm0raeK4H5XleYkDd6QDJEGrXNgwFF/xF+lgpgv
-         T18p2rehxa7J884Gc5sLlGOygmcRb8yZ2+C+GH5jElOV34kj2vfPDIg51paHZZQuw+gN
-         qgNtjjPCf6rchqQRQXGes30zyN/icUl3ckyOaxuCW9f6U7EwYbQZZUAw/sA1w8C1HTFY
-         jNYQ==
+        d=gmail.com; s=20251104; t=1778485756; x=1779090556; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rH3pd/6i05BMy2p7WNOEU7tz8bhUgdoOEFSJvfQO1lg=;
+        b=kroAUAT9BVZFjhdlZ7GZO+q8WpEx3sDKYXawBVQLZI85Ixty7m7mCoVcJfyvLUIdjO
+         tBbN5xQwUSO2FWBAi+9doiPFSZHTZqx02AQYzI1XtWjznnRyZXKn8nX0hvmmzoZYO+0b
+         qrM6begnCAdGty9vyTBz40Ry79vAx8/k2M2j26dwIe8aEVnYYxeGncJtzm6NXqpoL/hH
+         t5lTrnDZnGZPtPZXoPHq37vGe7s8X0nlKEZhQAyNlsvknj2orHsMe6Jh2aUEXQ69HV7r
+         t995mjVNylnJn31KLQJHdF6GY2RMCAwjk9Z7/xJmTZwPtfBsSazQdTh/LRhDpMUqmi1j
+         SDlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778485689; x=1779090489;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FCRPXJuyMzLZkmX2SvGMR/caiVTF8zEmEw035VGaKNA=;
-        b=LzaFT3d+yLBbzREko+qOzNDkfoRp31aPIdaezeZrEA4gan+pMU15Myvsz2qcL8pA3Z
-         6uXwe5paapfdJUEz8VRoGKuhHeFd9Ln7BMdEsCFteVIauQg5Emo9mOzGlqtvD55px0lc
-         IfAI9/1z2kYMX8bfuAs4QVwD2Y6qHpoEUmWaphuya0ghePif2VFW1KjtoRdlt1LK85u0
-         nldeEmf/cD54gPAQRtFXOpU6VuJ6zB3FC9j8pP7kVpVGjBn7C5x7oYCPgGAN6Ob6DV09
-         sPbdHdb8pVQPjhyQGsmbX8EQgrdrdJ/aVGSaJ6fBc+KL2tfkdyE4SGbJ/12myyGCHfSV
-         hSMA==
-X-Forwarded-Encrypted: i=1; AFNElJ8VQHFbYufmHL2pr/Llxoi8lq4c2o0GbGrzLznzNjQ2YXnNtAiqc0PmKtafTj4Lr9eYyrP2FonAQTz3FA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmydgtCD04oi323tlyNjyW7WyhKjtuyHi3/X3mcxqXSyui5XUI
-	sdmRilkS0xWtlkIok2sDmjtWe31exKIcVKbNnngabJvQCC8aJ3jp/nzz
-X-Gm-Gg: Acq92OEA/3BnNi9XjBNHzISyOC6N32L3qAqjFBVFu8YOqfIQ10dgoRjtYbaA4/hDBf6
-	fyN1NNbDQ8wmYQyerHmVdPjF5CsyVWwHtU1IfMeWlZgj2qL7t3itFuXk3K9j8QSjZuwUE5mvoCh
-	GU+VC1BARM3AKeCFh30vS6vRQSqDWQYZjiviOKKhNftcdmNMGFarUPf/332TW9rYlfyETxmnK3W
-	ixoO/aR5LXY5ElxFVvFeIjNE5uA4ZLi26bHIOrfNS6+Y+2IfxG4jsk9U6ny/5DuxThkL8ovBLby
-	t++lfMV0IXO9CUECkWh2+1w1BkaTk8UQE+R9U7D2H7tycGYKSfxberG7rFu3G0yhbxQHXIb8q4/
-	yarvclXnZKuH+38pGsZymCaut7jbYdqg6EYSgjrPy9183gmEGy55zDMd1JTNDOtSrBlxuvcCVqV
-	qXEsIsbVMSNvXA
-X-Received: by 2002:a05:6512:15a6:b0:5a8:9135:126e with SMTP id 2adb3069b0e04-5a8913516d3mr6026981e87.36.1778485688619;
-        Mon, 11 May 2026 00:48:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778485756; x=1779090556;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rH3pd/6i05BMy2p7WNOEU7tz8bhUgdoOEFSJvfQO1lg=;
+        b=FqfTMhb65NZ2hZbRjy6HnOGDytg6iNjbi9m2fk6KPEaT2FbddCyHahbSq1vKD0BSuq
+         6LD3HBuOy2dod9/s5DdSejLaXGctigLG4Dif41Vao6Sr5JnTDDJT/eTb34IDtkgki3DY
+         DQCJxVqRdTESb/pI4V7MuCbcaIZNvRFRHQ+sMIczYbcGBUGxEWJP+XfzGWmfBUFT6OjO
+         mDHNYvXFDu9rQc8+gsLZw2UmkFSSSGjLa/aQfkzNvUt7avJhVi6NTB7vV7rLUxQSXNM3
+         dvaOO3QBwnDvdGpqPpVYoXBxkD1seuUUmw/oH+Gk4amxtS+ZBxCur+x/AsujXXA5U79t
+         W4pQ==
+X-Forwarded-Encrypted: i=1; AFNElJ89iM0ddDNKBURul84m8Yhd8u7pj5cbO1faZfsG1id/bLZHquMUIKjDxm5hAt8SAQ1Ia3JninFjDqSC0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxliia28aHBHLwvp1smuwHFZOBytNDTum77kk7h9Ewzo+LKpo4m
+	TVknTG3IBjVcSjyhIogFBhjVefoA/uAjfHDgIcrIXcn/n7s/Zpm/OonG
+X-Gm-Gg: Acq92OH/1Mc+Uh+r7klM5ikknUm7NWkf8kI6ihASuuxbSw4jrlRWVUdjLW2dpJVeKgg
+	h0Khsb7TG7d8ZPcZyEmmT++Gbar13tQrS9JEQlu+KXPqH4wziJLYZgYSyjhgYd/SufUNz39g//i
+	l/JRB04f8rmMKndY+cI7XFbxTdCN8znmMCF3vSgTdeU83dT+Uqy8jqBamDNWMKhZaoJYkKjtq+a
+	/A+AlOXheoYY77nrBdVxH6zGbtUERqBIhMxwP3EMgpoh7QKl25XT02FOzcdi9RSvb24P9De1bTH
+	M5tQu7tKRSO1UnDulM4+TE6P7JQXx9vWV0P59avG3KcWVdDgy2q0pS7VJR+ZMGiTSgpFAeHwnzM
+	0nFSt6CXEL/LFiHCkQDB36ge1shvnErGpUGaBKqPQuH+FESs8z88hikqvR60KR33spw5BUPyp6E
+	rQ1c01kMJ6zRZX
+X-Received: by 2002:ac2:4c41:0:b0:5a8:896c:8989 with SMTP id 2adb3069b0e04-5a8a94c2079mr4159021e87.30.1778485756240;
+        Mon, 11 May 2026 00:49:16 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955e096sm2386670e87.38.2026.05.11.00.48.07
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a94cac4esm2507271e87.0.2026.05.11.00.49.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 00:48:08 -0700 (PDT)
+        Mon, 11 May 2026 00:49:15 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -88,12 +86,10 @@ To: Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/5] gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
-Date: Mon, 11 May 2026 10:47:51 +0300
-Message-ID: <20260511074752.24745-5-clamor95@gmail.com>
+Subject: [PATCH v1 0/9 RESEND] ARM: tegra: complete a few Tegra30 device trees
+Date: Mon, 11 May 2026 10:48:50 +0300
+Message-ID: <20260511074859.24930-1-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260511074752.24745-1-clamor95@gmail.com>
-References: <20260511074752.24745-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -101,7 +97,7 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A612F5098E4
+X-Rspamd-Queue-Id: 843E7509BF7
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -109,7 +105,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -119,9 +115,9 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,agorria.com,yahoo.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14355-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14358-lists,linux-tegra=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
@@ -129,173 +125,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-0.988];
+	NEURAL_HAM(-0.00)[-0.984];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Tegra20/Tegra30 are fully compatible with existing tegra DSI driver apart
-clock configuration and MIPI calibration which are addressed by this patch.
+Configure camera support for ASUS Transformers, Google Nexus 7 and
+LG X3 devices. Fix RTC on LG X3 devices. Lower throttling temperature
+for LG P880. Add panel support for TF600T.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/gpu/drm/tegra/drm.c |  2 ++
- drivers/gpu/drm/tegra/dsi.c | 69 ++++++++++++++++++++++---------------
- drivers/gpu/drm/tegra/dsi.h | 10 ++++++
- 3 files changed, 54 insertions(+), 27 deletions(-)
+Ion Agorria (1):
+  ARM: tegra: p880: Lower CPU thermal limit
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 4596073fe28f..5d64cd57e764 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, host1x_drm_suspend,
- 
- static const struct of_device_id host1x_drm_subdevs[] = {
- 	{ .compatible = "nvidia,tegra20-dc", },
-+	{ .compatible = "nvidia,tegra20-dsi", },
- 	{ .compatible = "nvidia,tegra20-hdmi", },
- 	{ .compatible = "nvidia,tegra20-gr2d", },
- 	{ .compatible = "nvidia,tegra20-gr3d", },
- 	{ .compatible = "nvidia,tegra30-dc", },
-+	{ .compatible = "nvidia,tegra30-dsi", },
- 	{ .compatible = "nvidia,tegra30-hdmi", },
- 	{ .compatible = "nvidia,tegra30-gr2d", },
- 	{ .compatible = "nvidia,tegra30-gr3d", },
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 3f91a24ebef2..85bcb8bee1ae 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -662,39 +662,48 @@ static int tegra_dsi_pad_enable(struct tegra_dsi *dsi)
- {
- 	u32 value;
- 
--	value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
--	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-+	/* Tegra20/30 uses DSIv0 while Tegra114+ uses DSIv1 */
-+	if (of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra20-dsi") ||
-+	    of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra30-dsi")) {
-+		value = DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTROL_LPDNADJ(0x1) |
-+			DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_SLEWDNADJ(0x6) |
-+			DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTROL_PDIO(0) |
-+			DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PULLDN_ENAB(0);
-+		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-+	} else {
-+		/*
-+		 * XXX Is this still needed? The module reset is deasserted right
-+		 * before this function is called.
-+		 */
-+		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
-+		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
-+		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
-+		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
-+		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
-+
-+		value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
-+		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-+
-+		value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
-+			DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
-+			DSI_PAD_OUT_CLK(0x0);
-+		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
-+
-+		value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
-+			DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
-+		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
-+	}
- 
- 	return 0;
- }
- 
- static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
- {
--	u32 value;
- 	int err;
- 
--	/*
--	 * XXX Is this still needed? The module reset is deasserted right
--	 * before this function is called.
--	 */
--	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
--	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
--	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
--	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
--	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
--
- 	/* start calibration */
- 	tegra_dsi_pad_enable(dsi);
- 
--	value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
--		DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
--		DSI_PAD_OUT_CLK(0x0);
--	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
--
--	value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
--		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
--	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
--
- 	err = tegra_mipi_start_calibration(dsi->mipi);
- 	if (err < 0)
- 		return err;
-@@ -1615,7 +1624,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
- 		goto remove;
- 	}
- 
--	dsi->clk_lp = devm_clk_get(&pdev->dev, "lp");
-+	dsi->clk_lp = devm_clk_get_optional(&pdev->dev, "lp");
- 	if (IS_ERR(dsi->clk_lp)) {
- 		err = dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
- 				    "cannot get low-power clock\n");
-@@ -1636,10 +1645,14 @@ static int tegra_dsi_probe(struct platform_device *pdev)
- 		goto remove;
- 	}
- 
--	err = tegra_dsi_setup_clocks(dsi);
--	if (err < 0) {
--		dev_err(&pdev->dev, "cannot setup clocks\n");
--		goto remove;
-+	/* Tegra20/Tegra30 do not use DSI parent muxing */
-+	if (!of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra20-dsi") &&
-+	    !of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra30-dsi")) {
-+		err = tegra_dsi_setup_clocks(dsi);
-+		if (err < 0) {
-+			dev_err(&pdev->dev, "cannot setup clocks\n");
-+			return err;
-+		}
- 	}
- 
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-@@ -1709,6 +1722,8 @@ static const struct of_device_id tegra_dsi_of_match[] = {
- 	{ .compatible = "nvidia,tegra132-dsi", },
- 	{ .compatible = "nvidia,tegra124-dsi", },
- 	{ .compatible = "nvidia,tegra114-dsi", },
-+	{ .compatible = "nvidia,tegra30-dsi", },
-+	{ .compatible = "nvidia,tegra20-dsi", },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
-diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
-index f39594e65e97..d834ac0c47ab 100644
---- a/drivers/gpu/drm/tegra/dsi.h
-+++ b/drivers/gpu/drm/tegra/dsi.h
-@@ -95,6 +95,16 @@
- #define DSI_TALLY_LRX(x)		(((x) & 0xff) <<  8)
- #define DSI_TALLY_HTX(x)		(((x) & 0xff) <<  0)
- #define DSI_PAD_CONTROL_0		0x4b
-+/* Tegra20/Tegra30 */
-+#define DSI_PAD_CONTROL_PULLDN_ENAB(x)	(((x) & 0x1) << 28)
-+#define DSI_PAD_CONTROL_SLEWUPADJ(x)	(((x) & 0x7) << 24)
-+#define DSI_PAD_CONTROL_SLEWDNADJ(x)	(((x) & 0x7) << 20)
-+#define DSI_PAD_CONTROL_PREEMP_EN(x)	(((x) & 0x1) << 19)
-+#define DSI_PAD_CONTROL_PDIO_CLK(x)	(((x) & 0x1) << 18)
-+#define DSI_PAD_CONTROL_PDIO(x)		(((x) & 0x3) << 16)
-+#define DSI_PAD_CONTROL_LPUPADJ(x)	(((x) & 0x3) << 14)
-+#define DSI_PAD_CONTROL_LPDNADJ(x)	(((x) & 0x3) << 12)
-+/* Tegra114+ */
- #define DSI_PAD_CONTROL_VS1_PDIO(x)	(((x) & 0xf) <<  0)
- #define DSI_PAD_CONTROL_VS1_PDIO_CLK	(1 <<  8)
- #define DSI_PAD_CONTROL_VS1_PULLDN(x)	(((x) & 0xf) << 16)
+Svyatoslav Ryhel (8):
+  ARM: tegra: lg-x3: Complete video device graph
+  ARM: tegra: lg-x3: Set PMIC's RTC address
+  ARM: tegra: grouper: Add support for front camera
+  ARM: tegra: transformer: Add support for front camera
+  ARM: tegra: transformers: Add connector node for common trees
+  ARM: tegra: tf600t: Configure panel
+  ARM: tegra: tf600t: Drop backlight regulator
+  ARM: tegra: tf600t: Invert accelerometer calibration matrix
+
+ .../tegra20-asus-transformer-common.dtsi      |  22 ++-
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 128 ++++++++++++++
+ ...egra30-asus-nexus7-grouper-maxim-pmic.dtsi |   4 +-
+ .../tegra30-asus-nexus7-grouper-ti-pmic.dtsi  |   4 +-
+ .../boot/dts/nvidia/tegra30-asus-tf600t.dts   |  71 ++++++--
+ .../tegra30-asus-transformer-common.dtsi      | 159 +++++++++++++++++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-p880.dts  |  41 +++++
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts  |  46 +++++
+ arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi   | 157 +++++++++++++++--
+ 9 files changed, 595 insertions(+), 37 deletions(-)
+
 -- 
-2.48.1
+2.51.0
 
 
