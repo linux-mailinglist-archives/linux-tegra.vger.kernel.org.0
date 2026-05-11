@@ -1,81 +1,81 @@
-Return-Path: <linux-tegra+bounces-14364-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14367-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sCGmGaSKAWpJcwEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14364-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:52:04 +0200
+	id GFD2KHuNAWqNdwEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14367-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 10:04:11 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E835099A5
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:52:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F709509C49
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 10:04:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1EC633010BDE
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:51:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3E735309794A
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF283AA1BF;
-	Mon, 11 May 2026 07:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFA923A784E;
+	Mon, 11 May 2026 07:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fk9C6gRi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPBeqN2e"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013F63AB281
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A8E3AB286
 	for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 07:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778485785; cv=none; b=YTTQzkPnqgoqJao1AVDRIQ2Y5d0Ki68EaTH0a7BtN8ONOr4+DbPUr+DluUytkCkdHa+px5JdPy2NYQkRYpydneTj0tjRzAuLoF0tfTPWKhqWSrskXQknwk+dS4SwCmJTTqvg2e/sBi+cbXvQ4AVXkGFiIp0YrjNSbh3F57X83Uo=
+	t=1778485789; cv=none; b=T3G/EGqdZcmbrzqWYxhXcfiBi5kpkp527XAj7+7cagxH/VbinIezg50W7plZxGiRdXz4HPyLOlCBy0nAIdZLjgIDYhKx+k582YNCXl2ZYqG83En3vetQXiNy5Mdz2hDWns9v+/7HEkFKjHlJj/7IphYavX/S2IdTfxY8RGNEQpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778485785; c=relaxed/simple;
-	bh=3yrZD3kUqUFtnfW7CJEM53Vi/Lg2JOO94rBYam+onYQ=;
+	s=arc-20240116; t=1778485789; c=relaxed/simple;
+	bh=9AkI0Nz1ZzMhKBtxhwDRab9jEHmljwJvezZnjRbkhVc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YeCKJ825v0yerXHCqdimRbO5/nTpJ4tLphaiYqbo3S9KAs1YU6bpBQg8Bl7iQPYKq/b8B38z8AL2Lb7R0iSrxBxnhgIgg4rVlPurmcIX4fzzGLMaxnFQRixgLJ/KaFFDocvwCrECKrRotu7p3RukmyhYbYLJ9Qq1RtDzsaZaN/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fk9C6gRi; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version; b=LKWoSW7ztWBTWfqIt40flPVBsQpWAOO9FYbjYc/ViPDZapZmcRxjmX0DrYcYUn0m9fKRox28xLKarp8dC2bFk7sB2MibwV0384sweisKagWUTcherNkI6PKJa2zRT0mtFy+gEoW7ro5UHPrE3AmAS1o6iR+zCiTA1Lr2uQ52nis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lPBeqN2e; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3560155e87.3
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a87edf88b3so2978922e87.0
         for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 00:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778485766; x=1779090566; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778485767; x=1779090567; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ZzhB7vHBcFUBfR2BiDFSMeGlYuUMXHq/TSRPK44UZY=;
-        b=Fk9C6gRiEpQ8S9/nj/p/tziV1YIYn9HeN1oID9+99fczrmCBvqq1WT2bLt1mlKIihZ
-         5obica/cztPXv9oAYTZlHTdep7sfM0lnjbD1BtjxazPDWR5Cm3E0hqaiJuXr3AInk28x
-         x0d5jINUk7hwDy2DgXD0eIu9UI/NWkvGT4qm/YT57mk/mLJXpWO99AVVaejwXmAAwi83
-         DGjQrWg3zkGnD3sKOc8EOjYWxTrurRhD2hjpNAQz+GrtJk0eD6ygy1bgZazJzFxUGUNQ
-         3rYpsHu474t5I+BIU/Hxzj+AjxH1pulmDWuKgNA41Cq+MEhYxkdPHR00NjceDq745mPG
-         u71g==
+        bh=9nwdcazcd5nv+n45NTFsXMrutWV/muXgCl4fYEEYQm0=;
+        b=lPBeqN2e9ErSrMh8A3cTXPcgf9iBSBAzKCT9Vr2arQCC273vZyXvYZ4nJTa1l7uQxv
+         ECJDKtr/SKtHINTJWECgcCdfcqp19T8yLe/WxFGsskO3rH1dDIj2uU9OV7a2NjufsQ9h
+         gHSwHOTDisI2FIm/MfbyKP56DWHKvFmWl2eLIgrkDiZdnE90d3FAfnESZs2wClLhJfUE
+         X5u5+0UaYIPKKVO6esJ22moSM4XH7fOAEQ+4eZuj+rDqT8osENwGCYrGKcgcESvCpUWM
+         N906inbSvoelUmlNeImo0TGdQ7sUBCpupLw4uUD6eGpF1hHH6o5V4TsrKUwzI1TeFvVJ
+         T+zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778485766; x=1779090566;
+        d=1e100.net; s=20251104; t=1778485767; x=1779090567;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0ZzhB7vHBcFUBfR2BiDFSMeGlYuUMXHq/TSRPK44UZY=;
-        b=DRfGDCI4BoHJDOH41V54j6LckO2tG6UarcuVSrA8Y6he+pDVksr2EavG1XZ02sNO6x
-         KimDeqOgpCYRZnOoiaXB6XF3uUOI+tlxHLr8lt111rdfUnWhhlG0X6quzNV08EmPbnPc
-         j4lyOMyZZFqy/ptVVQKLWu1MaOtD0YtaXhSWghSzYY+XStD1cOnJm2qx4g1WmiDMUsv1
-         ve8HKcg3t5Y8VSeDOJP9N6jHdYx+WyEyUHnGn60/LqBsDRXSlS4ajFwj3cICyWRdRumB
-         Lr1TUnlyflaT2ep6LY0gpaQFoCROvsceekTzGf/e5oDCw4M/+N00YHLBSp11OhWGErYS
-         VMyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ99qChVFtEIiVojyBaKU+IVV4NhRM6d2YvFGazukOz910FLjnznj37+d2s2EihQkCL+0jST3bgaJ99Hag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQRgWnZf6nvPs0RAbNDPP2wzJTSBb0f1dT+ykOTIqHcI/hZ31K
-	hidAny2sgp6US/mNXimoJOv6wz89weGcST0wrwGybMTPENcPSDSeIHio
-X-Gm-Gg: Acq92OH/19cyjGPtOrugtxDprm5IOCt57NWNwehDLxdIXsLorY33gzAIfCbPfK57c61
-	2IaT4WGjzww/XFuVRbE2yvhYl/uMV6+6ovmYTLnP7+MMweQ150c9jsTPrMPPC52HwXfsa5vAhwB
-	2t4Fd22IDeFHtV/5yHIUevXo9XKUEH2UpcM7lw5HWyni7EwMi+IGJpqQQnDmSaWqNTMPMtq/k3u
-	NCHLLEFre/1LEeQs4pYubiuu5VaYtqhh0IRnDSJQRrbU7Z9ReB5vzxSizig29tcsmDkrXSxkBhN
-	Cp3gsMVBr/DAw1V9DzSic1QWhhrxzD9elSyRwqtqnzMY2I6A09THkDzTUH7P2x8+SN8VbIPOc+u
-	fctRNzgmDgfGpAWwcpWNzKvZfr7pHj+cLBcuuxXhCdpimUSMIRymO1SnUn00pW7x+ef+PpyKDtu
-	qMcDQJbekkgScH
-X-Received: by 2002:a05:6512:2252:b0:5a4:b2d:25c0 with SMTP id 2adb3069b0e04-5a8a949f103mr4343741e87.3.1778485765742;
-        Mon, 11 May 2026 00:49:25 -0700 (PDT)
+        bh=9nwdcazcd5nv+n45NTFsXMrutWV/muXgCl4fYEEYQm0=;
+        b=pr729Tw1eWtn870NGOhDzfTzqLKtQXACUTfKmAr7T17t4X2MoKU9xLQtK7ePMlqMh8
+         fcovI9F3uzjgKEccRcyqKvdVjArnKBUMk+CiDKGO+1nKbbpgtojb0CciuzztN2Fzq8Sa
+         fj6dCpZR0v/fGvUXYQDkGzfV2tjnOyhpntTLMb0cvuMXhEGo2z9hQET1dkwsYRhFgAeS
+         qfEA1hrmw66mZk0Ryx6G7az3+GQHwPxYD1gpT1eBldXfpUuvDl1VDmIWbp2JX6RSuYG/
+         Lhw5LFcxFjvGG8RzVhZGeszgj/Pyk30FVujfxNYFXLvNcgycHgPjHl2oa9Esv1quVWUO
+         Xxmw==
+X-Forwarded-Encrypted: i=1; AFNElJ8W4nW8Wk2sMct4RrZhFuyqJN6kmh9UWE0g+iivUQ/dOVcSp3MA3wCjDqlM+F/UM8+5xoGKcZ1USHipkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YziYWW9SEImnatdUmAPwvlJu2NpcvVF/SN6s+lvY0yV7m4aBQ6C
+	943zb358ijY70HAMyGNJsUVdIY1tFME7RfWbhHkBluWccv7jG/YaHWohKJIk5w==
+X-Gm-Gg: Acq92OE3QBswPAWteVaKTUQnOiDztGSOfVJCB+A0GR9siZHWGrm5I9VP3zXY3ciAcje
+	MPuTl5ZbuMTeMQEXmsXYYGdeCYQeeDrY5vnMIRAgTQOomQa66M8HDCMJ3y6wlbzR+sCi1HDq3gj
+	IDHcMeFiSe8KXbdhd0TCxVDw/XIFDarkxMvbEj/ckslsFgstBHgqbyUgimu1e2qEr3olbsILqDW
+	aFHAIoXtvWWbEfbJ1fe6Sfu9OUYYQuGpqOy7mkapsWCQrmH/SdzR6HDiW5eiO8UUSZIlJ4zoPqa
+	Yekzk3TRwwSGjhS2fuMhvfS2V5ta0Q5uKpLfbI6HaA/ynfG4pHaPEwUGxVOdwYogBb4TegLMckw
+	tHn4iGEDGQl8BWh2r3Jmsc04cfBs80ZRxDIN84oKvJA7ZaDbd/wmWW3Id8V6YnxkwH7OVP8wCsL
+	baSTz3VVfv1HDWV74WM/nTJJc=
+X-Received: by 2002:a05:6512:2350:b0:5a8:9672:e297 with SMTP id 2adb3069b0e04-5a8b70926d4mr2899659e87.26.1778485766903;
+        Mon, 11 May 2026 00:49:26 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a94cac4esm2507271e87.0.2026.05.11.00.49.24
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a94cac4esm2507271e87.0.2026.05.11.00.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 00:49:25 -0700 (PDT)
+        Mon, 11 May 2026 00:49:26 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -88,9 +88,9 @@ To: Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 7/9 RESEND] ARM: tegra: tf600t: Configure panel
-Date: Mon, 11 May 2026 10:48:57 +0300
-Message-ID: <20260511074859.24930-8-clamor95@gmail.com>
+Subject: [PATCH v1 8/9 RESEND] ARM: tegra: tf600t: Drop backlight regulator
+Date: Mon, 11 May 2026 10:48:58 +0300
+Message-ID: <20260511074859.24930-9-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260511074859.24930-1-clamor95@gmail.com>
 References: <20260511074859.24930-1-clamor95@gmail.com>
@@ -101,153 +101,81 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 20E835099A5
+X-Rspamd-Queue-Id: 3F709509C49
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14364-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,agorria.com,yahoo.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,agorria.com,yahoo.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14367-lists,linux-tegra=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-0.986];
-	DBL_PROHIBIT(0.00)[0.0.0.0:email,2.250.240.128:email];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-0.987];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.3.32:email,0.0.0.1:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Configure DSI panel used in ASUS VivoTab TF600T.
+Drop dedicated backlight regulator since the GPIO used in it is actually
+SFIO controlling backlight and setting it as GPIO causes backlight to
+freeze at maximum level.
 
 Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 62 ++++++++++++++++++-
- 1 file changed, 60 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
 diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-index 9296e7970ce4..8b68bfef8dee 100644
+index 8b68bfef8dee..0bebea0cb8c4 100644
 --- a/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
 +++ b/arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
-@@ -23,6 +23,7 @@ aliases {
- 		rtc0 = &pmic;
- 		rtc1 = "/rtc@7000e000";
+@@ -2192,7 +2192,7 @@ backlight: backlight {
+ 		compatible = "pwm-backlight";
  
-+		display0 = &lcd;
- 		display1 = &hdmi;
+ 		enable-gpios = <&gpio TEGRA_GPIO(H, 2) GPIO_ACTIVE_HIGH>;
+-		power-supply = <&vdd_5v0_bl>;
++		power-supply = <&vdd_5v0_sys>;
+ 		pwms = <&pwm 0 71428>;
  
- 		serial1 = &uartc; /* Bluetooth */
-@@ -55,6 +56,37 @@ linux,cma@80000000 {
+ 		brightness-levels = <1 255>;
+@@ -2422,17 +2422,6 @@ vdd_3v3_als: regulator-als {
+ 		vin-supply = <&vdd_3v3_sys>;
  	};
  
- 	host1x@50000000 {
-+		vi@54080000 {
-+			status = "okay";
-+
-+			csi@800 {
-+				status = "okay";
-+
-+				avdd-dsi-csi-supply = <&avdd_dsi_csi>;
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					vi_ppa_input: endpoint {
-+						/* Link to the rear camera */
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					vi_ppb_input: endpoint {
-+						/* Link to the front camera */
-+					};
-+				};
-+			};
-+		};
-+
- 		hdmi: hdmi@54280000 {
- 			status = "okay";
- 
-@@ -68,6 +100,22 @@ hdmi_out: endpoint {
- 				};
- 			};
- 		};
-+
-+		lcd: dsi@54300000 {
-+			status = "okay";
-+
-+			avdd-dsi-csi-supply = <&avdd_dsi_csi>;
-+
-+			panel@0 {
-+				compatible = "hydis,hv101hd1";
-+				reg = <0>;
-+
-+				vdd-supply = <&vdd_panel>;
-+				vio-supply = <&vio_panel>;
-+
-+				backlight = <&backlight>;
-+			};
-+		};
- 	};
- 
- 	vde@6001a000 {
-@@ -1123,11 +1171,10 @@ pmic-sleep-hog {
- 			};
- 
- 			regulators {
--				vdd_lcd: vdd1 {
-+				vio_panel: vdd1 {
- 					regulator-name = "vddio_ddr_1v2";
- 					regulator-min-microvolt = <1200000>;
- 					regulator-max-microvolt = <1200000>;
--					regulator-always-on;
- 					regulator-boot-on;
- 					ti,regulator-ext-sleep-control = <8>;
- 				};
-@@ -2386,6 +2433,17 @@ vdd_5v0_bl: regulator-bl {
- 		vin-supply = <&vdd_5v0_bat>;
- 	};
- 
-+	vdd_panel: regulator-panel {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vdd_panel";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		gpio = <&gpio TEGRA_GPIO(L, 4) GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		vin-supply = <&vdd_3v3_sys>;
-+	};
-+
- 	hdmi_5v0_sys: regulator-hdmi {
+-	vdd_5v0_bl: regulator-bl {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vdd_5v0_bl";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-		regulator-boot-on;
+-		gpio = <&gpio TEGRA_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
+-		enable-active-high;
+-		vin-supply = <&vdd_5v0_bat>;
+-	};
+-
+ 	vdd_panel: regulator-panel {
  		compatible = "regulator-fixed";
- 		regulator-name = "hdmi_5v0_sys";
+ 		regulator-name = "vdd_panel";
 -- 
 2.51.0
 
