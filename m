@@ -1,194 +1,178 @@
-Return-Path: <linux-tegra+bounces-14349-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14352-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YKjHNORmAWpUYAEAu9opvQ
-	(envelope-from <linux-tegra+bounces-14349-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:19:32 +0200
+	id 6CemDcmJAWpJcwEAu9opvQ
+	(envelope-from <linux-tegra+bounces-14352-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:48:25 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D302508260
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:19:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8999509856
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 09:48:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AE9033004056
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 05:18:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BD7F7304E8D4
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2026 07:46:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E32F366814;
-	Mon, 11 May 2026 05:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D0939FCAF;
+	Mon, 11 May 2026 07:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0IPhONn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qcIC1GQ8"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DD72E63C;
-	Mon, 11 May 2026 05:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386703A1E9E
+	for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 07:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778476717; cv=none; b=N8CeBkoHSEQwKpChSrpRrzPa7hfuK6tIE83vcfH9HqVdb4U5ORxareL9fIhZqj489JLD3MByevtOwFPEwl0bH36Dr4fouNLwNhIm09Se7mjqh3czg2aQUlJdyeHdBPiu+HcFSLP6jTMP36poxqvJUeAPFhY7j5YrROB6y5M+YW4=
+	t=1778485570; cv=none; b=q9zp79ylDR6Vd4NUlxwH3VsY+6aPohC3amy70M7/6r35IJ1ux6rLHXpshKxvk6mmXrbEcpqnI2D4rxFcLKZLX8TwI8i9clHV/auf8ymWjsaVlqF7kqJ2/MjZpFM7S/KNVuy/M5VnTSybr4SYB9jB0ElBCR5uGgKQXdhrHYe7WIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778476717; c=relaxed/simple;
-	bh=DlsXme9lwoqKsJyGSBaGtI+ozuQkDWi5uzvbU8C2c5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QB49FcpI5Tlzf0hQEdMDb1kLODH+vIxCcFehjB9eeRTsPdC5EJ6n3ZMQ6ERYPr5pwnquKvWZRNT0J2Lqwj5HWKaKB1CuSoW7MwFFeK/dtZISddaTsat41GYyQiCxxlBadkKc42SU5Es6lwlDv7F1uJBTPWg2NN87LUsdbLUWfD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0IPhONn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F31ABC2BCB0;
-	Mon, 11 May 2026 05:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778476717;
-	bh=DlsXme9lwoqKsJyGSBaGtI+ozuQkDWi5uzvbU8C2c5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A0IPhONnhKqguTZYEEPJfmmarergtLTe7mSrEWz5PN6QF7cnCSYkd/psKMt4cjrOA
-	 iPMZg2uf0DMUlg80+8RIvT6HZyor+xgMmBfmWNyMmJMfIDrRn9Dt7l/BQpjFalaRxn
-	 H7UXcyE2WHjJMAVqakihPkV1OUbFTRvxNK6I16Vcb6e3rL6der9faCerOOxCyiFn6C
-	 sxeaPKDNEjql2Hzl93lyBYKXl9/ShZTiBz6jAoAzt5uhiyhs756PQ2ybYTYgJGs6uI
-	 SiAI5AQKrpi7bWoZ+YmwJPK+xeL3gnS8t2PuKFUvZjdbLOxWJ07vze0/pdsRPsoXFS
-	 A/cGX5Bsb1I6w==
-Date: Mon, 11 May 2026 10:48:23 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, 
-	manivannan.sadhasivam@oss.qualcomm.com, Thierry Reding <treding@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	"David E. Box" <david.e.box@linux.intel.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Chia-Lin Kao <acelan.kao@canonical.com>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-Message-ID: <fb6uzh3jfes3hky6fblpsh2vvg3daij5ogecydiuhmytxbglcb@tdqjcoxuymsk>
-References: <20260122152903.GA1247682@bhelgaas>
- <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
+	s=arc-20240116; t=1778485570; c=relaxed/simple;
+	bh=c+EH/hXRJdrpmjmHibfkAOD6Pb40AA262yyOb7eHym8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RpBO46JtLz/V6xbSwLaxPigzeiPtaTwUvhnaOEeWd8RjjjqBqFMqil5TyruXAw/zb6l/wISUAuR1K/9gqpNHp/mx2uzntJ3lar8g3AHpj6fYP/0tgjOuyivDop3FMSC2lHrNv6YahrIcyVLCSI8OKaCRB9l6CFrOJ6SFEU6g/Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qcIC1GQ8; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a748d5ece4so3796290e87.2
+        for <linux-tegra@vger.kernel.org>; Mon, 11 May 2026 00:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778485556; x=1779090356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hQSj4yb9M7hPwSpBxDj8hHK3jRimcbsKCK5DUSyRAe0=;
+        b=qcIC1GQ8pucBYrQYfrU3BseQErBW2g4CjGFrqg/ZHZF3FeoaL3UlobYoEqbFEjODIw
+         lfvoFnUhjblwGuH/3FVl3ocr5N00YViBvQIUd0Pg/eYmS+9vuz8OghkQiGh6gYsZU5MD
+         NxYgd4zn19+Kh2tOYTlQxpOPavxx6fRYtTItIbfbUbzU13OPnb3NcL9FilfjGteTdjZ4
+         0Pl9SBpvM2Tn2zavntGCjePeyF2Oh7UGdBzeAzieWnoFTGv147c2jAzcK9TBmg3mogx1
+         sJrsvr7ZeUwY/Yi0wfIQz7vi6lGv9pC5u68Y6wKPcDqCnj7mFDv5e/HXkhMdyuMIm79l
+         jpmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778485556; x=1779090356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hQSj4yb9M7hPwSpBxDj8hHK3jRimcbsKCK5DUSyRAe0=;
+        b=VPCNWthy0022vFJpWQTbEcKe2KFbqjFtX6Lj2ZwSV4rur2bs+7k8aGPyajZjtXD16h
+         xkr5hoo3Ug1SJVk4Ji9pItvH9gp86n28CMFcSLdgHHZGc5hbiLlpo/RiqcS6i0sq6a1J
+         vyTXhj4oTyOi6hkW4Fm4zP6ZXnMEAq/WjJin8dC6FFPRe3VvJ9EFSQz4TWLYM8mQ0NDY
+         uql/ZCc3naSE1F5Al1r30thYcpmxFNMDBrQ1QfXUo0AP5g7BbMl2gvnLPNs+JgEMuncC
+         r0s6pxuyDYIYPIMBXyz8Kz0TzYell0J+5IPUbervd6NO9XYtBwD2oEKkfdXSofyynsg2
+         ev8A==
+X-Forwarded-Encrypted: i=1; AFNElJ+gyRVgmpsyMD7msASkXROzd1Zos/N0UD3FH+xW9MUijotEKqNklNRCiAc9ob5PVwpnhY7y+S/LVffR6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYsWdTgBbf7g6RmVupX8G7d3JCPWxRsS1e2aiMt8hLVT+KcRiy
+	bNEUwhaHZ+WUvmNBaTzcn/mRnmilUzhuPVOuN6+qbzSDp8t7eBu6pH/R
+X-Gm-Gg: Acq92OF02hpcLsnk9hzOEtFr8D+sVEZXGTn8H/XxQ44N+1gMk/NomrePe1/ua1338A7
+	6fMhy8ue+MePqmQL4XMCxkMk5DXbfMgMdskKXV+G488FuXNbEK7j15Xsevk5f13BPj5Yf+bE7Ro
+	B8ZigqvOKUrk/TyUkvnDKP/gtYFrHAV5YGRXh7KJ+IDD8l6QbXXF9yB01kARd+k+ExTFIzZE8zo
+	8iG7D+LLudawItnruDltve/8X0r+T8vzX3aYJU27FCATOfM4LqVm0+nkdhS3yjCfWb4X+kUsScR
+	1W0FnMauKMAcJ/Y3ggRHN58G0Xca+9rv0TFMV13jEVBAPsSftG7gy35H4XbZF7XjfBOwcEnrLsX
+	9DEJEd1KjH63CN6tSJfAyDIeLvthtKnmw7LX92Jk/6QEwqO30Czl3fhHbIrS5MuBtfcFRyEuDET
+	njnvXfKSx8CFVv
+X-Received: by 2002:a05:6512:308b:b0:5a8:89c5:2bee with SMTP id 2adb3069b0e04-5a889c52ce3mr9201102e87.39.1778485556237;
+        Mon, 11 May 2026 00:45:56 -0700 (PDT)
+Received: from xeon ([188.163.112.56])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a952705asm2404394e87.32.2026.05.11.00.45.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 00:45:55 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2 RESEND] gpu/drm: tegra: add DSI support for Tegra20/Tegra30
+Date: Mon, 11 May 2026 10:45:35 +0300
+Message-ID: <20260511074538.24563-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
-X-Rspamd-Queue-Id: 1D302508260
+X-Rspamd-Queue-Id: A8999509856
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-14352-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14349-lists,linux-tegra=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,nvidia.com,google.com,vger.kernel.org,linux.intel.com,canonical.com,gmail.com,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,tecnico.ulisboa.pt];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-tegra@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.996];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Thu, May 07, 2026 at 11:25:23AM +0100, Jon Hunter wrote:
-> Hi Bjorn, Mani,
-> 
-> On 22/01/2026 15:29, Bjorn Helgaas wrote:
-> > [+cc NVMe folks]
-> > 
-> > On Thu, Jan 22, 2026 at 12:12:42PM +0000, Jon Hunter wrote:
-> > > ...
-> > 
-> > > Since this commit was added in Linux v6.18, I have been observing a suspend
-> > > test failures on some of our boards. The suspend test suspends the devices
-> > > for 20 secs and before this change the board would resume in about ~27 secs
-> > > (including the 20 sec sleep). After this change the board would take over 80
-> > > secs to resume and this triggered a failure.
-> > > 
-> > > Looking at the logs, I can see it is the NVMe device on the board that is
-> > > having an issue, and I see the reset failing ...
-> > > 
-> > >   [  945.754939] r8169 0007:01:00.0 enP7p1s0: Link is Up - 1Gbps/Full -
-> > >    flow control rx/tx
-> > >   [ 1002.467432] nvme nvme0: I/O tag 12 (400c) opcode 0x9 (Admin Cmd) QID
-> > >    0 timeout, reset controller
-> > >   [ 1002.493713] nvme nvme0: 12/0/0 default/read/poll queues
-> > >   [ 1003.050448] nvme nvme0: ctrl state 1 is not RESETTING
-> > >   [ 1003.050481] OOM killer enabled.
-> > >   [ 1003.054035] nvme nvme0: Disabling device after reset failure: -19
-> > > 
-> > >  From the above timestamps the delay is coming from the NVMe. I see this
-> > > issue on several boards with different NVMe devices and I can workaround
-> > > this by disabling ASPM L0/L1 for these devices ...
-> > > 
-> > >   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5011, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5036, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0x1b4b, 0x1322, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0xc0a9, 0x540a, quirk_disable_aspm_l0s_l1);
-> > > 
-> > > I am curious if you have seen any similar issues?
-> > > 
-> > > Other PCIe devices seem to be OK (like the realtek r8169) but just
-> > > the NVMe is having issues. So I am trying to figure out the best way
-> > > to resolve this?
-> > 
-> > For context, "this commit" refers to f3ac2ff14834, modified by
-> > df5192d9bb0e:
-> > 
-> >    f3ac2ff14834 ("PCI/ASPM: Enable all ClockPM and ASPM states for devicetree platforms")
-> >    df5192d9bb0e ("PCI/ASPM: Enable only L0s and L1 for devicetree platforms")
-> > 
-> > The fact that this suspend issue only affects NVMe reminds me of the
-> > code in dw_pcie_suspend_noirq() [1] that bails out early if L1 is
-> > enabled because of some NVMe expectation:
-> > 
-> >    dw_pcie_suspend_noirq()
-> >    {
-> >      ...
-> >      /*
-> >       * If L1SS is supported, then do not put the link into L2 as some
-> >       * devices such as NVMe expect low resume latency.
-> >       */
-> >      if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
-> >        return 0;
-> >      ...
-> > 
-> > That suggests there's some NVMe/ASPM interaction that the PCI core
-> > doesn't understand yet.
-> > 
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/controller/dwc/pcie-designware-host.c?id=v6.18#n1146
-> 
-> 
-> I want to revisit this issue. From my perspective low-power suspend has now
-> been broken on some of our Tegra platforms (that have NVMe devices) since
-> v6.19 and so far this is no resolution to this issue. The patch that was
-> proposed to fix this [0] has been rejected by qualcomm and although this
-> does workaround the issue, my confidence that this is the right fix is now
-> low.
-> 
+Tegra20/Tegra30 DSI is quite similar to Tegra114+ apart MIPI calibration
+logic and clocks. With a few minor tweaks, existing tegra DSI driver
+should work on Tegra20/Tegra30 devices just fine. Tested on
+Motorola Atrix 4G (T20) and ASUS VivoTab RT TF600T (T30).
 
-The referenced patch is now merged into arm-soc for v7.2:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7602c0ec0bbfd3985d49f4f0cad281c1414008c9
+This patchset depends on Tegra20/Tegra30 CSI bringup since both share
+MIPI calibration logic. Ideally these patches should be picked after
+CSI bringup but they will not break anything even if picked before
+CSI patches.
 
-I hope this takes care of the issue you are dealing with.
+---
+Changes in v2:
+- removed all MIPI calibration, it is handled within CSI bringup
+- added per-soc structures into of_match
+- added fix for hang caused by register access with uninited hw
 
-- Mani
+Changes in v3:
+- switched from version DSI to boolean flags
+- added comment regarding Tegra30 clock configuration
+- commits were picked:
+  "clk: tegra20: reparent dsi clock to pll_d_out0"
+  "ARM: tegra: adjust DSI nodes for Tegra20/Tegra30"
+- commit adapted to recent DSI changes:
+  "gpu/drm: tegra: dsi: move prepare function at the top of encoder
+    enable" > "gpu/drm: tegra: dsi: re-add clear enable register if
+    DSI was powered by bootloader"
+
+Changes in v4:
+- switched to device_get_match_data and added check
+- added comment regarding Tegra124+ quirk
+- adjusted commit titles and message formatting
+---
+
+Svyatoslav Ryhel (2):
+  drm/tegra: dsi: add support for Tegra20/Tegra30
+  drm/tegra: dsi: re-add clear enable register if DSI was powered by
+    bootloader
+
+ drivers/gpu/drm/tegra/drm.c |   2 +
+ drivers/gpu/drm/tegra/dsi.c | 126 +++++++++++++++++++++++++++---------
+ drivers/gpu/drm/tegra/dsi.h |  10 +++
+ 3 files changed, 107 insertions(+), 31 deletions(-)
 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.51.0
+
 
