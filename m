@@ -1,60 +1,64 @@
-Return-Path: <linux-tegra+bounces-14451-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14452-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EMA6Oz4QBmoFegIAu9opvQ
-	(envelope-from <linux-tegra+bounces-14451-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 20:11:10 +0200
+	id sM6MHFQQBmoFegIAu9opvQ
+	(envelope-from <linux-tegra+bounces-14452-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 20:11:32 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66629545BA2
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 20:11:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D9F545BC1
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 20:11:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 078B6303EEBF
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 18:11:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 494B03019506
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2026 18:11:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1843339769E;
-	Thu, 14 May 2026 18:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A45F38F939;
+	Thu, 14 May 2026 18:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1ibrMER"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tVMT1O4X"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D9F346E60;
-	Thu, 14 May 2026 18:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14783332EAC;
+	Thu, 14 May 2026 18:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778782258; cv=none; b=Bm6ufZDKJdsgNtLoAfAkOzAOpZdPs5vnDktsJWOQ/PDxR6U7k+ir/rVGajBg5AIg7KNqL9TwLE9TuGHmslJqfSu0Y6r01fMelcshuxw3jrnzIL+CejvnfU72N7ORUKbxQw0pFeVg93UQd9WJptYhl9fP4FEqcWYNUS3Z5xkiWCY=
+	t=1778782287; cv=none; b=P7Xoyz/ET7nq+rSjfj/mmY67MT7d8Xz7B8gFAlRVXn22mAPXOKXROst4isEbukxoQLM3fjxLGkcW5lAcg1Was45qoZzJ+zriwrTcseG6bQZEYvgDyY9jynPgeY1U9bx1Q+r5Lo5BxEof3KeFLfl8lPd1Kf5mwKy8gXYVfVGqTpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778782258; c=relaxed/simple;
-	bh=pXB7gvkMrq8uaqboYD6QkHzg968yxGg94Mk5cRIwvcU=;
+	s=arc-20240116; t=1778782287; c=relaxed/simple;
+	bh=2HTCI05MSUVQvNLNK3ddjhBLnCigyqWHLaWSd69Plu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y6zy9G9lIGHtPLo34PMLFGi6paUgjs5II34tXbddonkb1AXwg5fyG+Q/cekjikdBcpYk5y3Nf26QOaJCkuY8VfoQg/tE5I88EGV9nU8GMq4d/QVzvRWnv26x/lCVGUP1UuZDkmmUQNgpROsDD1Tth2uXEkIai1RqixKqDuQ6p84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1ibrMER; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC49C2BCB3;
-	Thu, 14 May 2026 18:10:55 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=b7QlzWZ/5uIGtSebANo33+P0N507IMgD2fjmJk95yEjMTQjx77DKZjTMj6GBzuzHzAfjPtW16lGpabya2FXwKqjCwdZfpaRsIiLMojBS+h9wmb+hP61jCl6GREMwrDkIoRA/szSmvg2uXCsM/cs/lKdhaHV5JJqUJNYn4eGJnu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tVMT1O4X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC40C2BCB3;
+	Thu, 14 May 2026 18:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778782257;
-	bh=pXB7gvkMrq8uaqboYD6QkHzg968yxGg94Mk5cRIwvcU=;
+	s=k20201202; t=1778782286;
+	bh=2HTCI05MSUVQvNLNK3ddjhBLnCigyqWHLaWSd69Plu4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e1ibrMERd1kdJFeozYDWh9bQWWpffzhPf5y1335qRmA217In7WbsZo9IaoJZ/J5I9
-	 7x+i31JVxsjQfMrw4OCQ3ZlsLEljBfleuWhJonERQ/ntg+sT886G4qFykE7SGIQ5IY
-	 +evmmsvWBA1rG/EduQW2uqj/T6Ivtq+gznYT2EVrOqfaggPq+kGRFndJlEO66Q5HDn
-	 6fPbLncoIq71hY8/HWfss/+yQuxkm6UGBS3osz9qQ+QUI5UBBGvHTeqDCLRLCI5O/D
-	 nLYcyiyojxNwsxjGFB4rh41Q0nCLxJLKSAuLkWGAaBbtFdFCvek24cSDa9+iA3p6Xe
-	 7iVpFc9gVtxPg==
-Date: Thu, 14 May 2026 19:10:53 +0100
+	b=tVMT1O4XPEL76VAZLeRrc7Ly6riiAPd2w/qLowmXvCPWwmOtrdTkVE48PncTXzC49
+	 XHSiPSMJj93LQW5Hz9ce3sgznFK78kcGKnygeq0gW+lA0+o0rDXdTFCyvL8oohBSvc
+	 A3Qwi1YmAY2e0pm3D8tHxa4S5Ibtm/QqGuqRWFP6D1W4Yp5GA7CdJCKE8OivfFGtYZ
+	 XjR52Z66Etv8emqHSC+EjSQb2X9usehdCxNkdUzQ3HLwusYesYdMysQzGpwqOqmdIn
+	 pyKbatDaPM6Ov5IY/8L8OslFTT/AJtZI1titxSLy7sh85wYktxntOnDam/dOkQl/0T
+	 nFdcK/IZJolXA==
+Date: Thu, 14 May 2026 19:11:22 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Prathamesh Shete <pshete@nvidia.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: tegra: pmc: Add Tegra238 compatible
-Message-ID: <20260514-shadow-motto-c01032b002a4@spud>
-References: <20260514124856.108606-1-pshete@nvidia.com>
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: gpio: Add Tegra238 support
+Message-ID: <20260514-compound-rubble-33def8d298d1@spud>
+References: <20260514124835.108532-1-pshete@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -62,59 +66,59 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bDYP720XtDu9eVUT"
+	protocol="application/pgp-signature"; boundary="9vp8H5uXrVXn9W5P"
 Content-Disposition: inline
-In-Reply-To: <20260514124856.108606-1-pshete@nvidia.com>
-X-Rspamd-Queue-Id: 66629545BA2
+In-Reply-To: <20260514124835.108532-1-pshete@nvidia.com>
+X-Rspamd-Queue-Id: 05D9F545BC1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-3.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14451-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_FROM(0.00)[bounces-14452-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-tegra@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,microchip.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,microchip.com:email]
 X-Rspamd-Action: no action
 
 
---bDYP720XtDu9eVUT
+--9vp8H5uXrVXn9W5P
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 pw-bot: not-applicable
 
---bDYP720XtDu9eVUT
+--9vp8H5uXrVXn9W5P
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagYQLQAKCRB4tDGHoIJi
-0vRiAQDnHqZBv2S+0n8nFOch0O4TcGGUI/I08MKU3SpvzuHDnAD9G4QCEZm/Nj0U
-eWL9saiXpf+Z/3LCvKeQFmva5h9GWQw=
-=Bpaq
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagYQSgAKCRB4tDGHoIJi
+0uwDAPwIIazClz88bsL6vSy5Di9ZoEBiiRslZYjI5QDX8sVZKAEAzKg66b/FbOds
+kZHqe/pPMD0CpWLKhuZBi8NaY0X7UAQ=
+=DbgO
 -----END PGP SIGNATURE-----
 
---bDYP720XtDu9eVUT--
+--9vp8H5uXrVXn9W5P--
 
