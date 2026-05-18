@@ -1,65 +1,65 @@
-Return-Path: <linux-tegra+bounces-14519-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14514-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GNYoFpDsCmo89gQAu9opvQ
-	(envelope-from <linux-tegra+bounces-14519-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:40:16 +0200
+	id GNNULg7oCmoE9QQAu9opvQ
+	(envelope-from <linux-tegra+bounces-14514-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:21:02 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB7456AD4C
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:40:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 285D056A93B
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:21:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4E7A43039CFB
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 10:31:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8DAAC300A768
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 10:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3ED3EDAC6;
-	Mon, 18 May 2026 10:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42403343D7F;
+	Mon, 18 May 2026 10:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="VqEQFLf8"
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="L0efM9Xg"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B252327C13;
-	Mon, 18 May 2026 10:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92B032470E;
+	Mon, 18 May 2026 10:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100256; cv=none; b=NBrMi3eJQtCpeNyeLXWnXdg4Cy/nxQ/n3tNoyx1s/aofY9cf47LLlirt9I5jAWng9Qx1KWTTqfn9XKskGof8xrCjkQPvLsnEBlYZ1M9FGek2giL6Aja02fmKDK//aTpnMNCuHDt9Fwp06veh7aGfXh+TeNseZzItA8UL5L69zos=
+	t=1779099616; cv=none; b=ubzbyKJrBk+tr8g65znXwDAJMPhzjuxeVMe4o+3ETaxLhz+ArOE93j7mmr7S+2NQXvLOluTKhHyuiyAdHfeRKOZcnANO6FM7sfMSJVQQ7Wt9YcbxuFJEmHFDi/xV3bGkw2j0dwPF3nL66s22tYGr3960chx+lWbIRxsrQm0Rp1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100256; c=relaxed/simple;
-	bh=50TjhgnVmYRUF6Xy+gJCwmaxbDzOViHP9xJuJuhoEVo=;
+	s=arc-20240116; t=1779099616; c=relaxed/simple;
+	bh=lnmr+Tsr/Pi3mBRQX9k33KTQHyV3H2FAwHmofyYMs7Q=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=arCT83TczSdauJwylg41I4243xLC+YcBduhINVtAu4ETQgJ50kEKX2jj4MeluE3TVQTQ+9BttJxwSeVq8ow6ZUMyToMz2pkj9F9pNKf8bcBqg0eVkLUpGvBkTTmVxaBewiFbzTmU4sA/+U68E3xXdhKZlN5Q4Gfeiw6FQ6zuFlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=VqEQFLf8; arc=none smtp.client-ip=211.125.139.71
+	 In-Reply-To:To:Cc; b=CqZDjWEw8de23t0RQL9ru5dUnDdREGuM63BK3uwOfCtBNKqEdUpsPLS8i6dIBggPMoZC/nNQzt49ig6Xq2mXPHdNDPvAN0bcbmuwXK+qrG1Khv4vCOP70YijFHKiX6hNGnAMQkuYGha7dbHO1MKBEt9cmIKkFQcDASaXJvOzB3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=L0efM9Xg; arc=none smtp.client-ip=211.125.139.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1779100243; x=1810636243;
+  d=sony.com; s=s1jp; t=1779099613; x=1810635613;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=57BKhrzrww/oj2bQTyT2tJUOOogiCFZ1vx7aZ99NI/s=;
-  b=VqEQFLf81PXMqObVdG7itwjKWHkV8pxGEq1qezh6/XZ3whE0dT6LMGWW
-   xcwp3RLXQ9q6tixEgdw6AXTaubtFEaBX9GxEWYqIPCv55krsWdDpIsKHx
-   NOQkRVvdwie77KMTQX7M+4jwXtjh+zw1q/FhDO9TdYd7gX+lzpbsgXLbD
-   u/55b4K6MOw3QHF6bMER0lj0BUSExNVOQxrn77lgaP9W0/9cVguBfrGhc
-   oVNBiTQVPhppLxvSYE7vHSGOuk6G2pJPznLmmLC2lEhOva3BNF0p3Xeiy
-   CAKLmJic8h5I4w3I7bLuV07i9zfL+v6ZXQ9D6EOrKec5gf4bv9dNFdP4n
-   w==;
-X-CSE-ConnectionGUID: LMr5h8RXTJ65sbn4Ssps7g==
-X-CSE-MsgGUID: 731x69l5S825Um3O2xXqEQ==
+  bh=dyx/WAd/4hjOcMcsJmCxGjIgR8e2a5jk1JUwFrJZSao=;
+  b=L0efM9XgRixXcbt/6b3LVqSnMGrTsEpaDjthjvw20UWUNo/aPPILw5Bw
+   cDgwxXTtkPsTHp2H0MobU54Ystd7pN4X0yrX/sD0KgP5mr18cVQ9VgDEe
+   XKQnrD0+2ohYIEedjdmfLMDOZg35OkidZnHQ0gjIfsXKIq++TPPrSTaG2
+   VBDwUUqgOKGPYlKI0xsUHVpSh+ZCtfeHcBi75QAoGmJyGXKVBNbx2Mu1I
+   wYNpPryP/s3+5GVb6IDVWhrgcQUX6v1yeVEcVzjHUXLWnLff+Z8crfXD8
+   N7slbHiVCrTHRzqeFQaohgnCtT60ZKBJmzpu1KBDJqf7Xk2sFcF76xNyh
+   A==;
+X-CSE-ConnectionGUID: yO9V46fRRc+PhGmlKW9uLQ==
+X-CSE-MsgGUID: qAL+DhRaSoOBHbKOGlzjRQ==
 Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
-  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:20:04 +0900
-X-CSE-ConnectionGUID: 4jQSlB5ITpKgajH3gphI2g==
-X-CSE-MsgGUID: spYUaIejTPeTbctKBbAqhA==
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:20:05 +0900
+X-CSE-ConnectionGUID: XQMiEi2RTcWpArWyYri4mg==
+X-CSE-MsgGUID: VrHP121bRvWEDxjNnwRL5g==
 X-IronPort-AV: E=Sophos;i="6.23,241,1770562800"; 
-   d="scan'208";a="56041670"
+   d="scan'208";a="56041672"
 Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 18 May 2026 19:20:04 +0900
+  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 18 May 2026 19:20:05 +0900
 From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Date: Mon, 18 May 2026 19:19:58 +0900
-Subject: [PATCH v5 2/4] kernel: param: initialize module_kset in a
- pure_initcall
+Date: Mon, 18 May 2026 19:19:59 +0900
+Subject: [PATCH v5 3/4] coresight: pass THIS_MODULE implicitly through a
+ macro
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260518-acpi_mod_name-v5-2-705ccc430885@sony.com>
+Message-Id: <20260518-acpi_mod_name-v5-3-705ccc430885@sony.com>
 References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
 In-Reply-To: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -96,34 +96,34 @@ Cc: Rahul Bukte <rahul.bukte@sony.com>,
  linux-modules@vger.kernel.org, linux-tegra@vger.kernel.org, 
  Sumit Gupta <sumitg@nvidia.com>
 X-Mailer: b4 0.16-dev-3bfbc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1488;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8553;
  i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=50TjhgnVmYRUF6Xy+gJCwmaxbDzOViHP9xJuJuhoEVo=;
- b=owGbwMvMwCU2bX1+URVTXyjjabUkhiyu5xdWZa8Xc9j/a/HiLfnr7GZMC0mpaJOM53hY9ts7L
- vfTnPfBHaUsDGJcDLJiiiylStW/9q4IWtJz5rUizBxWJpAhDFycAjCRAGlGhp35Qbwq4genvz/c
- eqls3p7zR5wUv7ScuuN55aj5/X/+XJYMf+X3CN8/0yHf2HpXsvXSPRsfwZ+H1wVz7Up/0GhxY2f
- iTUYA
+ bh=lnmr+Tsr/Pi3mBRQX9k33KTQHyV3H2FAwHmofyYMs7Q=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhiyu5xeL6j6mXzyT/uGF70aDo31uxSyL06W1tC23mtqIz
+ HF4bne5o5SFQYyLQVZMkaVUqfrX3hVBS3rOvFaEmcPKBDKEgYtTACYiwcTI0Kt24U3Bli+PBDzu
+ vaxdf7+6Ick61OyqYMXqfRpLkqoTShn+ux7vjjhvIrh925kNh5vO88i5vRRa57VuMcu+FRlTLsv
+ YcQMA
 X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
  fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
-X-Rspamd-Queue-Id: 5BB7456AD4C
+X-Rspamd-Queue-Id: 285D056A93B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[sony.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[sony.com:s=s1jp];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14519-lists,linux-tegra=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14514-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[arm.com,linaro.org,linux.intel.com,linuxfoundation.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,lwn.net,suse.com,atomlin.com,nvidia.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[39];
 	DKIM_TRACE(0.00)[sony.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[shashank.mahadasyam@sony.com,linux-tegra@vger.kernel.org];
@@ -132,45 +132,196 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sony.com:email,sony.com:mid,sony.com:dkim,garyguo.net:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sony.com:email,sony.com:mid,sony.com:dkim,linuxfoundation.org:email]
 X-Rspamd-Action: no action
 
-Commit "driver core: platform: set mod_name in driver registration" will set
-struct device_driver's mod_name member for platform driver registration. For a
-driver to be registered with its mod_name set, module_kset needs to be
-initialized, which currently happens in a subsys_initcall in param_sysfs_init().
-The tegra cbb drivers register themselves before module_kset init, in a
-core_initcall. This works currently because lookup_or_create_module_kobject(),
-which dereferences module_kset via kset_find_obj(), is not called if mod_name
-is not set, which is the case now.
+Rename coresight_init_driver() to coresight_init_driver_with_owner() and replace
+it with a macro wrapper that passes THIS_MODULE implicitly. This is in line with
+what other buses do.
 
-So in preparation for the commit "driver core: platform: set mod_name in driver registration",
-move module_kset init to pure_initcall level, ensuring it happens before tegra
-cbb driver registration.
-
-Suggested-by: Gary Guo <gary@garyguo.net>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
 Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
 Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 ---
 Patch 4 depends on this patch
 ---
- kernel/params.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hwtracing/coresight/coresight-catu.c       | 2 +-
+ drivers/hwtracing/coresight/coresight-core.c       | 6 +++---
+ drivers/hwtracing/coresight/coresight-cpu-debug.c  | 3 +--
+ drivers/hwtracing/coresight/coresight-funnel.c     | 3 +--
+ drivers/hwtracing/coresight/coresight-replicator.c | 3 +--
+ drivers/hwtracing/coresight/coresight-stm.c        | 2 +-
+ drivers/hwtracing/coresight/coresight-tmc-core.c   | 2 +-
+ drivers/hwtracing/coresight/coresight-tnoc.c       | 2 +-
+ drivers/hwtracing/coresight/coresight-tpdm.c       | 3 +--
+ drivers/hwtracing/coresight/coresight-tpiu.c       | 2 +-
+ include/linux/coresight.h                          | 6 ++++--
+ 11 files changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/kernel/params.c b/kernel/params.c
-index 74d620bc2521..ac088d4b09a9 100644
---- a/kernel/params.c
-+++ b/kernel/params.c
-@@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
+diff --git a/drivers/hwtracing/coresight/coresight-catu.c b/drivers/hwtracing/coresight/coresight-catu.c
+index ce71dcddfca2..0c8698c8fc5e 100644
+--- a/drivers/hwtracing/coresight/coresight-catu.c
++++ b/drivers/hwtracing/coresight/coresight-catu.c
+@@ -706,7 +706,7 @@ static int __init catu_init(void)
+ {
+ 	int ret;
  
- 	return 0;
+-	ret = coresight_init_driver("catu", &catu_driver, &catu_platform_driver, THIS_MODULE);
++	ret = coresight_init_driver("catu", &catu_driver, &catu_platform_driver);
+ 	tmc_etr_set_catu_ops(&etr_catu_buf_ops);
+ 	return ret;
  }
--subsys_initcall(param_sysfs_init);
-+pure_initcall(param_sysfs_init);
+diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+index 46f247f73cf6..54ad5193b850 100644
+--- a/drivers/hwtracing/coresight/coresight-core.c
++++ b/drivers/hwtracing/coresight/coresight-core.c
+@@ -1694,8 +1694,8 @@ static void __exit coresight_exit(void)
+ module_init(coresight_init);
+ module_exit(coresight_exit);
  
- /*
-  * param_sysfs_builtin_init - add sysfs version and parameter
+-int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+-			  struct platform_driver *pdev_drv, struct module *owner)
++int coresight_init_driver_with_owner(const char *drv, struct amba_driver *amba_drv,
++				     struct platform_driver *pdev_drv, struct module *owner)
+ {
+ 	int ret;
+ 
+@@ -1713,7 +1713,7 @@ int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+ 	amba_driver_unregister(amba_drv);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(coresight_init_driver);
++EXPORT_SYMBOL_GPL(coresight_init_driver_with_owner);
+ 
+ void coresight_remove_driver(struct amba_driver *amba_drv,
+ 			     struct platform_driver *pdev_drv)
+diff --git a/drivers/hwtracing/coresight/coresight-cpu-debug.c b/drivers/hwtracing/coresight/coresight-cpu-debug.c
+index 629614278e46..3a806c1d50ea 100644
+--- a/drivers/hwtracing/coresight/coresight-cpu-debug.c
++++ b/drivers/hwtracing/coresight/coresight-cpu-debug.c
+@@ -757,8 +757,7 @@ static struct platform_driver debug_platform_driver = {
+ 
+ static int __init debug_init(void)
+ {
+-	return coresight_init_driver("debug", &debug_driver, &debug_platform_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("debug", &debug_driver, &debug_platform_driver);
+ }
+ 
+ static void __exit debug_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-funnel.c b/drivers/hwtracing/coresight/coresight-funnel.c
+index 3f56ceccd8c9..0abc11f0690c 100644
+--- a/drivers/hwtracing/coresight/coresight-funnel.c
++++ b/drivers/hwtracing/coresight/coresight-funnel.c
+@@ -412,8 +412,7 @@ static struct amba_driver dynamic_funnel_driver = {
+ 
+ static int __init funnel_init(void)
+ {
+-	return coresight_init_driver("funnel", &dynamic_funnel_driver, &funnel_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("funnel", &dynamic_funnel_driver, &funnel_driver);
+ }
+ 
+ static void __exit funnel_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-replicator.c b/drivers/hwtracing/coresight/coresight-replicator.c
+index 07fc04f53b88..2f382de357ee 100644
+--- a/drivers/hwtracing/coresight/coresight-replicator.c
++++ b/drivers/hwtracing/coresight/coresight-replicator.c
+@@ -418,8 +418,7 @@ static struct amba_driver dynamic_replicator_driver = {
+ 
+ static int __init replicator_init(void)
+ {
+-	return coresight_init_driver("replicator", &dynamic_replicator_driver, &replicator_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("replicator", &dynamic_replicator_driver, &replicator_driver);
+ }
+ 
+ static void __exit replicator_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-stm.c b/drivers/hwtracing/coresight/coresight-stm.c
+index aca6cec7885a..4e860519a73f 100644
+--- a/drivers/hwtracing/coresight/coresight-stm.c
++++ b/drivers/hwtracing/coresight/coresight-stm.c
+@@ -1050,7 +1050,7 @@ static struct platform_driver stm_platform_driver = {
+ 
+ static int __init stm_init(void)
+ {
+-	return coresight_init_driver("stm", &stm_driver, &stm_platform_driver, THIS_MODULE);
++	return coresight_init_driver("stm", &stm_driver, &stm_platform_driver);
+ }
+ 
+ static void __exit stm_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
+index c89fe996af23..bc5a133ada3e 100644
+--- a/drivers/hwtracing/coresight/coresight-tmc-core.c
++++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
+@@ -1046,7 +1046,7 @@ static struct platform_driver tmc_platform_driver = {
+ 
+ static int __init tmc_init(void)
+ {
+-	return coresight_init_driver("tmc", &tmc_driver, &tmc_platform_driver, THIS_MODULE);
++	return coresight_init_driver("tmc", &tmc_driver, &tmc_platform_driver);
+ }
+ 
+ static void __exit tmc_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tnoc.c b/drivers/hwtracing/coresight/coresight-tnoc.c
+index 96a25877b824..9e8de4323d28 100644
+--- a/drivers/hwtracing/coresight/coresight-tnoc.c
++++ b/drivers/hwtracing/coresight/coresight-tnoc.c
+@@ -344,7 +344,7 @@ static struct platform_driver itnoc_driver = {
+ 
+ static int __init tnoc_init(void)
+ {
+-	return coresight_init_driver("tnoc", &trace_noc_driver, &itnoc_driver, THIS_MODULE);
++	return coresight_init_driver("tnoc", &trace_noc_driver, &itnoc_driver);
+ }
+ 
+ static void __exit tnoc_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tpdm.c b/drivers/hwtracing/coresight/coresight-tpdm.c
+index eaf7210af648..8464edbba2d4 100644
+--- a/drivers/hwtracing/coresight/coresight-tpdm.c
++++ b/drivers/hwtracing/coresight/coresight-tpdm.c
+@@ -1563,8 +1563,7 @@ static struct platform_driver static_tpdm_driver = {
+ 
+ static int __init tpdm_init(void)
+ {
+-	return coresight_init_driver("tpdm", &dynamic_tpdm_driver, &static_tpdm_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("tpdm", &dynamic_tpdm_driver, &static_tpdm_driver);
+ }
+ 
+ static void __exit tpdm_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tpiu.c b/drivers/hwtracing/coresight/coresight-tpiu.c
+index b8560b140e0f..7b029d2eb389 100644
+--- a/drivers/hwtracing/coresight/coresight-tpiu.c
++++ b/drivers/hwtracing/coresight/coresight-tpiu.c
+@@ -310,7 +310,7 @@ static struct platform_driver tpiu_platform_driver = {
+ 
+ static int __init tpiu_init(void)
+ {
+-	return coresight_init_driver("tpiu", &tpiu_driver, &tpiu_platform_driver, THIS_MODULE);
++	return coresight_init_driver("tpiu", &tpiu_driver, &tpiu_platform_driver);
+ }
+ 
+ static void __exit tpiu_exit(void)
+diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+index 2131febebee9..cd8fb47a1192 100644
+--- a/include/linux/coresight.h
++++ b/include/linux/coresight.h
+@@ -691,8 +691,10 @@ coresight_find_output_type(struct coresight_platform_data *pdata,
+ 			   enum coresight_dev_type type,
+ 			   union coresight_dev_subtype subtype);
+ 
+-int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+-			  struct platform_driver *pdev_drv, struct module *owner);
++int coresight_init_driver_with_owner(const char *drv, struct amba_driver *amba_drv,
++				     struct platform_driver *pdev_drv, struct module *owner);
++#define coresight_init_driver(drv, amba_drv, pdev_drv) \
++	coresight_init_driver_with_owner(drv, amba_drv, pdev_drv, THIS_MODULE)
+ 
+ void coresight_remove_driver(struct amba_driver *amba_drv,
+ 			     struct platform_driver *pdev_drv);
 
 -- 
 2.43.0
