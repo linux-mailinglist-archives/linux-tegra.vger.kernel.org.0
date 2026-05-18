@@ -1,49 +1,64 @@
-Return-Path: <linux-tegra+bounces-14516-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14520-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YLjFJrzpCmpt9QQAu9opvQ
-	(envelope-from <linux-tegra+bounces-14516-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:28:12 +0200
+	id 0JFTGCntCmo89gQAu9opvQ
+	(envelope-from <linux-tegra+bounces-14520-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:42:49 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3646356AB2E
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:28:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3E656ADD9
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 12:42:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D84963008252
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 10:28:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 749C1305115E
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 10:34:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685953E9C11;
-	Mon, 18 May 2026 10:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB2553F074E;
+	Mon, 18 May 2026 10:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="w3u6WSpT"
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="UoteJgeB"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jpms-ob02-os7.noc.sony.co.jp (jpms-ob02-os7.noc.sony.co.jp [211.125.139.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBBD3E8338;
-	Mon, 18 May 2026 10:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB5B3E92AF;
+	Mon, 18 May 2026 10:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100081; cv=none; b=l4x9D+MqOUTPLWzWpvUp7HJBFV3IQkXVED6YXbGo+j5uuCdi3bOgT9VqWfhlGqXVwAAke5PvydBkehZu6PXl/fRg29t+7pibdfFU7DK9QADet+hparGEgamS1xzie3uLUAnssQhXFKSVHKs+sQIFzgNMm7LAvYpYtW+OnVkg1og=
+	t=1779100384; cv=none; b=f8pYxX+sj2HCpL/DrUwQbZlLlSaS0aqcsTWRTNCeeksN8mh2gC4AP0yDL92Mlkj0ORMBxo45cy6D35HmGPlJbZL3w8qq1S38cRDO+IVhSb0AaA1xGsByKL+a3uVcylqFJevlegpvPOy0uYixYc5sz6pVWOFA6JiB1UhQBLNCXH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100081; c=relaxed/simple;
-	bh=YLOEOYqUNAQEFO1TexjQZE85HRrFgr8e3AuK7+W2Ze0=;
+	s=arc-20240116; t=1779100384; c=relaxed/simple;
+	bh=y/ZSU6WO76m6NnoFZ2UHtM+29I7tmfGcQeI6Sr56gGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qNF7wpePauV1kvnwiI7/oKQjegL19ohkjhNUgBOr08Iqgk7TUizpEMyo6bP9RtFMA71xbRwjh/F5UFpJi8nEhJZ7lT1tCnLAAC1ePbq8GPBuwmKRJBeLKRFTk0w+s/lrj56AyTqvD7vNMTZk3pv3XRib7jlpFeNdwY6OnmxKKHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=w3u6WSpT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B823CC2BD00;
-	Mon, 18 May 2026 10:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779100079;
-	bh=YLOEOYqUNAQEFO1TexjQZE85HRrFgr8e3AuK7+W2Ze0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=w3u6WSpTP7/fvpaD9J1vxQsgPtGOq9pwBQ4hOSpDu7mD3Epg+4S2oOfqHu5BAfz/F
-	 npl9YyI8s4EW1teGk3jRiZFSgfO2GGQ4nLaa57Y3PCHfRU2dVIhzdc9ILBVf7bEvT6
-	 dElLkIS98P0GYrTqMhex6X2E7csM9pIRdMkUv8ao=
-Date: Mon, 18 May 2026 12:27:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4XJ7STZjOd1Nq7g0D4FGqXGkJIZfcSEiM2+iBhXVgXxoTNS0YtvBfilVFqHHH1Z+ZILN7MSXhGHkuKtUINQksqdO3mBOaItgf+0Lnqje+lUcGCiUnsrdCwFwl5oAPduB3nVqMOOJONXgoP0bOIP11+M1gtCAtUJ5pKhFR8D6tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=UoteJgeB; arc=none smtp.client-ip=211.125.139.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1779100360; x=1810636360;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qg52IZakrDwa+7/YtZM2VQOBVW4gzCDrQLRgDaIE4Fk=;
+  b=UoteJgeBJo1onKpWNx13hF9V0wSu25tCka7zdAPqSXrBODw5MFs0O8Bj
+   J3cfseLF1BE4gIUknGGR0ZpSbpY+LLOAhjV/4ln5n/sFDYIsKMLX3OOc/
+   3/t7/VEt/9MdvW0wCYfPmXv4+QggzY8H06hScZcdnUCP7READRNMER+Kj
+   a/WK7jY+DOZ2gnylOjoTtm1PB+9hICkzLeWPxp59me304zZNDwMO/dAiI
+   7pyjJ6kootiikGW9FmgcOsZ3lb0ZdFBIpaMuVmYgTZpk0liPJIpYgX5Dr
+   6CBImYg++LvlW/LbWYWzyVUUnRpmHR39TBB79BAdssNeL6EHoTPTqzrHY
+   w==;
+X-CSE-ConnectionGUID: rEk16PglQ42apwMEHjNHGA==
+X-CSE-MsgGUID: gcvWBvR0RE2G3yOmVc5ccw==
+Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
+  by jpms-ob02-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:32:30 +0900
+X-CSE-ConnectionGUID: LE5Xik2fR8SdQOdHHPC7kA==
+X-CSE-MsgGUID: tneGe+ukRCC0giD8+owyPg==
+X-IronPort-AV: E=Sophos;i="6.23,241,1770562800"; 
+   d="scan'208";a="66945202"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:32:29 +0900
+Date: Mon, 18 May 2026 19:32:28 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
 	James Clark <james.clark@linaro.org>,
 	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -72,9 +87,10 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
 	linux-tegra@vger.kernel.org, Sumit Gupta <sumitg@nvidia.com>
 Subject: Re: [PATCH v5 4/4] driver core: platform: set mod_name in driver
  registration
-Message-ID: <2026051827-curler-disjoin-c83f@gregkh>
+Message-ID: <agrqvIiNWrYtGvTk@JPC00244420>
 References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
  <20260518-acpi_mod_name-v5-4-705ccc430885@sony.com>
+ <2026051827-curler-disjoin-c83f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -83,92 +99,89 @@ List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260518-acpi_mod_name-v5-4-705ccc430885@sony.com>
-X-Rspamd-Queue-Id: 3646356AB2E
+In-Reply-To: <2026051827-curler-disjoin-c83f@gregkh>
+X-Rspamd-Queue-Id: CE3E656ADD9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	DMARC_POLICY_ALLOW(-0.50)[sony.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[sony.com:s=s1jp];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14516-lists,linux-tegra=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linaro.org,linux.intel.com,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,lwn.net,linuxfoundation.org,suse.com,atomlin.com,nvidia.com,sony.com,vger.kernel.org,lists.linaro.org,lists.infradead.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-14520-lists,linux-tegra=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[37];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[arm.com,linaro.org,linux.intel.com,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,lwn.net,linuxfoundation.org,suse.com,atomlin.com,nvidia.com,sony.com,vger.kernel.org,lists.linaro.org,lists.infradead.org,lists.linux.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-tegra@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	FROM_NEQ_ENVFROM(0.00)[shashank.mahadasyam@sony.com,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[sony.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sony.com:email,linuxfoundation.org:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sony.com:email,sony.com:dkim]
 X-Rspamd-Action: no action
 
-On Mon, May 18, 2026 at 07:20:00PM +0900, Shashank Balaji wrote:
-> Pass KBUILD_MODNAME through the driver registration macro so that
-> the driver core can create the module symlink in sysfs for built-in
-> drivers, and fixup all callers.
+On Mon, May 18, 2026 at 12:27:13PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, May 18, 2026 at 07:20:00PM +0900, Shashank Balaji wrote:
+> > Pass KBUILD_MODNAME through the driver registration macro so that
+> > the driver core can create the module symlink in sysfs for built-in
+> > drivers, and fixup all callers.
+> > 
+> > The Rust platform adapter is updated to pass the module name through to the new
+> > parameter.
+> > 
+> > Tested on qemu with:
+> > - x86 defconfig + CONFIG_RUST
+> > - arm64 defconfig + CONFIG_RUST + CONFIG_CORESIGHT stuff
+> > 
+> > Examples after this patch:
+> > 
+> >     /sys/bus/platform/drivers/...
+> >         coresight-itnoc/module		-> coresight_tnoc
+> >         coresight-static-tpdm/module	-> coresight_tpdm
+> >         coresight-catu-platform/module	-> coresight_catu
+> >         serial8250/module		-> 8250
+> >         acpi-ged/module			-> acpi
+> >         vmclock/module			-> ptp_vmclock
+> > 
+> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> > ---
+> > This patch depends on patches 1, 2, 3
+> > ---
+> >  Documentation/driver-api/driver-model/platform.rst |  3 ++-
+> >  drivers/base/platform.c                            | 21 ++++++++++++++-------
+> >  drivers/hwtracing/coresight/coresight-core.c       |  5 +++--
+> >  include/linux/coresight.h                          |  5 +++--
+> >  include/linux/platform_device.h                    | 17 +++++++++--------
+> >  rust/kernel/platform.rs                            |  4 +++-
+> >  6 files changed, 34 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
+> > index cf5ff48d3115..9673470bded2 100644
+> > --- a/Documentation/driver-api/driver-model/platform.rst
+> > +++ b/Documentation/driver-api/driver-model/platform.rst
+> > @@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
+> >  provides helpers to register and unregister an array of drivers::
+> >  
+> >  	int __platform_register_drivers(struct platform_driver * const *drivers,
+> > -				      unsigned int count, struct module *owner);
+> > +				      unsigned int count, struct module *owner,
+> > +				      const char *mod_name);
 > 
-> The Rust platform adapter is updated to pass the module name through to the new
-> parameter.
-> 
-> Tested on qemu with:
-> - x86 defconfig + CONFIG_RUST
-> - arm64 defconfig + CONFIG_RUST + CONFIG_CORESIGHT stuff
-> 
-> Examples after this patch:
-> 
->     /sys/bus/platform/drivers/...
->         coresight-itnoc/module		-> coresight_tnoc
->         coresight-static-tpdm/module	-> coresight_tpdm
->         coresight-catu-platform/module	-> coresight_catu
->         serial8250/module		-> 8250
->         acpi-ged/module			-> acpi
->         vmclock/module			-> ptp_vmclock
-> 
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> ---
-> This patch depends on patches 1, 2, 3
-> ---
->  Documentation/driver-api/driver-model/platform.rst |  3 ++-
->  drivers/base/platform.c                            | 21 ++++++++++++++-------
->  drivers/hwtracing/coresight/coresight-core.c       |  5 +++--
->  include/linux/coresight.h                          |  5 +++--
->  include/linux/platform_device.h                    | 17 +++++++++--------
->  rust/kernel/platform.rs                            |  4 +++-
->  6 files changed, 34 insertions(+), 21 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
-> index cf5ff48d3115..9673470bded2 100644
-> --- a/Documentation/driver-api/driver-model/platform.rst
-> +++ b/Documentation/driver-api/driver-model/platform.rst
-> @@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
->  provides helpers to register and unregister an array of drivers::
->  
->  	int __platform_register_drivers(struct platform_driver * const *drivers,
-> -				      unsigned int count, struct module *owner);
-> +				      unsigned int count, struct module *owner,
-> +				      const char *mod_name);
+> Why can't you just use the owner->name value instead?  They are always
+> the same here, right?
 
-Why can't you just use the owner->name value instead?  They are always
-the same here, right?
-
-thanks,
-
-greg k-h
+owner is NULL for built-in modules.
 
