@@ -1,203 +1,334 @@
-Return-Path: <linux-tegra+bounces-14544-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14546-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id A68lOc87C2oaFAUAu9opvQ
-	(envelope-from <linux-tegra+bounces-14544-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 18:18:23 +0200
+	id aAzlBe5KC2o7FQUAu9opvQ
+	(envelope-from <linux-tegra+bounces-14546-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 19:22:54 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00210570BCC
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 18:18:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8961457193E
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 19:22:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0A9FF30ABCF8
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 16:10:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8154C3014688
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2026 17:22:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C6EA4611F4;
-	Mon, 18 May 2026 16:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3D43845BE;
+	Mon, 18 May 2026 17:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Ei6TGLRc"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h/Z16HuH"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010066.outbound.protection.outlook.com [52.101.201.66])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011002.outbound.protection.outlook.com [40.107.208.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A2B3F6C4E;
-	Mon, 18 May 2026 16:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC54384250;
+	Mon, 18 May 2026 17:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120516; cv=fail; b=PAf/zdmxvhvvpSl52JXj5SwWI9Ku6IDAXTbWaq+2Ea+NYKx83Ph8x/Z5j4XXwUEWzoGuzRf29A21ezlFrgSeJFIxkKEQiIumYrDisvsOoPpfFC4dD/ZjmtpGyS7Hm9QRVUjJ5PE+zgZTrP2Y6wugoCCtY4Q59zL+hozWvbcGb3A=
+	t=1779124965; cv=fail; b=LQgttkwHRXq2Ky1uDjVPYJpSRptnMPNiHH97+M9ty8yMUXXc0c1G5FVddWkAmbK31YaQ6WyykzhWR34O5pTEA9vMlMG1FA48+GneeivWfOfI4lyj1/4hm+ffjJuJ3mZnIKYIqfsbTDPFL0FtjA/CCEhEvU3B7tKIXA0v3evhvTU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120516; c=relaxed/simple;
-	bh=X7zMk1Xrnn1vkRKNPQLHtVA7DT6G55m6ikcZzGfXVuE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qXNV9zG3BjlGbgT7dVtasICPfGt3xI0saVdVW2ewAkx65ZDTXWaH1wsSHG6LKBEimOOTLZE8knoZMtM+aBdMwuIyWj/uAI24kKDRXX00VIhj8e0vS6ydyVoYS0WU6lzGookM2MOgl5Jsl5kMrMKONrQrrlYdlqUvynxthjnwI5Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Ei6TGLRc; arc=fail smtp.client-ip=52.101.201.66
+	s=arc-20240116; t=1779124965; c=relaxed/simple;
+	bh=YShGaYtiiYwF3BgwWWlaIGqTGpzPopn5tgxZ1Od/UdM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=V5iG8x8PMXxojij6B+QDlHUFsCYOYLQpElwz+MVLw9vxQi+zGNmyq4ba/FDiMzJMsECTeX5Lio/MVqWJwrb2u8lOsZTCjZ4tEeiv/JQwAiIgJSJHlFatTovkJu4rSAmKm8HYb6EC+X+dsVMx6EmCCxJ1Pf4oRUKsx8Fdot3lV0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h/Z16HuH; arc=fail smtp.client-ip=40.107.208.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vM43iDt/O1eNG8ejPZA76IQwlMmobO+fP4213RAnR3Q+BDUZjB7Ys7VmBLAR08VNBQVoeuAMWljiFSY4ADkEOgtuoPwP5O72bCG1MVeMIdVjYZInS4tTAfpXeKGD2CdA5zoyVagATdd7y72kYpYpmRm+Wn45W4VzGZfa9ZVyr7EO6I1yonYf9t277EtohwpTHlVidGcnreUqX6EscIgDQDdN5HbO/ZtSzuwGGeD942MRdsh84GoVcob0AV7XiMPUXIfxKPj51h1Y8x0SpwBhBOy11jGK+fYXqK3LtgZVrNXekOV0SpHoMXB4OMpvuukaRF7b/1fEjM462ou8Cf01uw==
+ b=nVkUs9mE/ZeGWu2wrf4yHf0vmlR8e7pPsfwwAqqupX+ZEhHR+69TqSNFGgbra2IMcblsb/oWTH5bGMiUWUAcbGd0CQg25Hj1/xnBvpEI5G7/B7IlM+LSpC3oZU86iLUtC/2YC6MyRHnKEHpIan10gNsSoOUZmfoUk+hIahX4heoxy2Rk7LJdqedvyouHqqOBv+UYZx6hRNM07SEZhzM1OXt3Qxty3bUrsL66v6QV/sAQBvhfXTX+eQf6zb307a6fxVgkv529Tuq8tlGZotJgqxJGZcqCOSZovZc5+v0ZRaFUo+4X4ENiZGgPtXJLvfMFLDmmhFlj461bYENA+qPfvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kXEXHq8itm8bpzS+n52QBJm7k/iLBd6lTzVbVvAIT28=;
- b=mbilo6gie+EDeDtAhKPOkMiQO2MUwDKnH8fBy0RgL3TO2yx7qzPgwtOc549Hy3yKi27qbThzoWskVyP5nLFENrQDjrnFmeCz554kYhRn2P7n4j2gtlZ2Ovemp/FINwWN7CXYaFw94PSLVG1bhAnZrAY07QDRl0eoZnJ5hl+grMEzJrd8nsM/snJwb/jSzGnbOvoPwmoHPk8IjsPaQ3fmB0ehKy11bY+KQTxtleeQdAqk0fJWyQfE8LHyIfe8lcGT3gmiQg1bQdaAChk+hs6q0qm1n5WStDwuenk0vOh+91FC9OPNxiaa3JREy1Ru0GKoclqPPROsepauM4yNPS86nQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
+ bh=GtZtQjUFYnitUt1W+35O0JYa2C4FrO1tHDAPplNRBXw=;
+ b=hGlmMTZ40SIoT/4yxHnbp39wbz2uCAhTyxG4VmHkjZv9+amwffuqjasTcbedWzN4kfmxvOK8OUoP7MHTLlvuLfTUr1mNQSZPCCE50swFUwe/lg5F7mp13nGKvcQybFdrqSX8+mEJNfRgwVtcedFvcc63Nm20KmQ8DaR6t11Wk6IZUA6GUw5xHCLdQrbuTB2LbY5nHmZndFopyXMU7xvz5j4P0RG0nU60XFYgu37xQQWZ1nwPItqFQHdZn7p614ZePPF5/eeKawOLtXQCGItwamM4Mb+/4O5r3/kv7b2YuNSiU0+ckQA8Qo++LlfOHEuaFgaznWIHGoGg9RXE2yuYCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kXEXHq8itm8bpzS+n52QBJm7k/iLBd6lTzVbVvAIT28=;
- b=Ei6TGLRc8jZf4mhYGC9qg/p31yv2Kk29YRxYsjtblBL4NWIjaD0OO5mStHOmygT+hq9JTL8vfGp4DubBqwUjQuPU05GGhAih0Gt7pbZSfvHAzwCy1n97PD7toHDE4fc6grvQOsCVudmq0XRhlW+Aahs78UJY9lY4kCMl0usTFyo2XHon6fgRQN+3fGlih1UzxBB42x87Us/hJjs30mK/dSIGQibtmMFqUpSME+70O3J0yjF1Oh8gumlJDz32MMBXaO03XCT16Ujrk4nwKttRlrGrGUP42q7sDm0rKYQ54D9tlZdbOntVrXFWuXelrP5ECoxg2w/ELmzw2v+N8LGQ5g==
-Received: from BLAPR03CA0140.namprd03.prod.outlook.com (2603:10b6:208:32e::25)
- by CH1PPF68E8581EB.namprd12.prod.outlook.com (2603:10b6:61f:fc00::611) with
+ bh=GtZtQjUFYnitUt1W+35O0JYa2C4FrO1tHDAPplNRBXw=;
+ b=h/Z16HuHzXbtm6fr+2q9z1KCVYRkXeWJx+2fwyGoUcO20P5cZC2vPF8B4Y0pbZe3A9hDw8IwLsOKr/D3AQolMoil0C9ThVojiUnll2jqo7C1okOoLxm7FqWSRnRQL4R/N1EAvvaxrazHzFg8TEVo2rAxLsLBUf7ttGMLw/dhX9BB+RBZynKWeSYNJMT6CTEOsBBq4qjhUEZAhFhiivrfL8qIXqk9HuQ+gs/SObypdYVcLIraajTJoJwCE60O9RdBpJlOpypFbbh79faj226nPPEio2Nsi2HHiFCXUCapLWjbjVtcvOtEGL2yFp2LPK20HUM2WSN99qLt77+QHSLyVA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by DM4PR12MB5794.namprd12.prod.outlook.com (2603:10b6:8:61::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Mon, 18 May
- 2026 16:08:08 +0000
-Received: from BL6PEPF0001AB4D.namprd04.prod.outlook.com
- (2603:10b6:208:32e:cafe::2c) by BLAPR03CA0140.outlook.office365.com
- (2603:10b6:208:32e::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.23 via Frontend Transport; Mon, 18
- May 2026 16:08:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL6PEPF0001AB4D.mail.protection.outlook.com (10.167.242.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.11 via Frontend Transport; Mon, 18 May 2026 16:08:08 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 18 May
- 2026 09:07:42 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 18 May
- 2026 09:07:41 -0700
-Received: from build-va-bionic-20260204.nvidia.com (10.127.8.12) by
- mail.nvidia.com (10.129.68.10) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Mon, 18 May 2026 09:07:41 -0700
-From: Vishwaroop A <va@nvidia.com>
-To: Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter
-	<jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>
-CC: Vishwaroop A <va@nvidia.com>, Laxman Dewangan <ldewangan@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Breno Leitao
-	<leitao@debian.org>, Suresh Mangipudi <smangipudi@nvidia.com>, "Krishna
- Yarlagadda" <kyarlagadda@nvidia.com>, <linux-tegra@vger.kernel.org>,
-	<linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] spi: tegra210-quad: Process small PIO transfers in hard IRQ context
-Date: Mon, 18 May 2026 16:07:39 +0000
-Message-ID: <20260518160739.3286438-4-va@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260518160739.3286438-1-va@nvidia.com>
-References: <20260518160739.3286438-1-va@nvidia.com>
+ 2026 17:22:34 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.21.0025.022; Mon, 18 May 2026
+ 17:22:34 +0000
+Message-ID: <985f976f-1144-445b-96c2-df5bd57ecf05@nvidia.com>
+Date: Mon, 18 May 2026 22:52:22 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Mario Limonciello <mario.limonciello@amd.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
+ zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com
+References: <20260515122624.1920637-1-sumitg@nvidia.com>
+ <20260515122624.1920637-3-sumitg@nvidia.com>
+ <bf521e4e-1aa5-49ce-bec5-52845f02214e@amd.com>
+ <139d2f0e-72d9-4721-9d5a-d1d4a2a95fa1@nvidia.com>
+ <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
+ <e1a546f2-6e7e-4236-97bb-f72bea0137f7@nvidia.com>
+ <7d7a6ab6-b1ea-484c-a275-19acca50c483@amd.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <7d7a6ab6-b1ea-484c-a275-19acca50c483@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0081.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d8::13) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4D:EE_|CH1PPF68E8581EB:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06c335de-f178-4519-70ce-08deb4f7a6f9
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|DM4PR12MB5794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 338ae25c-81c5-41a1-263f-08deb5020c7d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|11063799003|18002099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|1800799024|376014|366016|7416014|921020|56012099003|11063799003|4143699003|18002099003|3023799003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	kZ4U3N97ZrF6/FGslHQk2UzPrC8jLPfXtoEwM2g3VTsUpckoLzU23wX3oYk6h6AOMvlvp+XBuYb3Lxok8B5DT+hlyUBbgeObNYZjTOschvDdtG+5PK3vlBPwOBIU73pSd+6dZ6qARqc8lMWzezD1KvZMAWpWuQ/Id9rgGQ0xF+nsq7MIROh2pW9X50490YsxLB+Ah3DQtMqEWqCxJGFfTKlcutHEgTNroujKpgNA5d0+moHiU7Ly6HeTST4CJ0KvwROrYF4CbvzMkybT93mvQPmmezrMd3F+uy2ewUMChp38wTLOomXTZqh0Jy6p4lIFDsSr0Ve421+RylPmIxD43VmgghTajdsfwKGq/5Du4e35VjtGD6TrlIY5FFn3UaCEMaI93MdU9JYifX+1I+5HGSmD5G4PaiO6aiONOjW20NY0/tM8L7f3UrKJV2MovOT7+YXzvrE0+T5X6EWEgKZOr7TT49jbMLIwL+GPrQDsC3OC8pGZPbFtouW5yQt/DIqM09glCixv2ypRN+Orsg3Zmv129O8DWVQOQ1wT+1si0uNUSdXqSYQO1Vf4Uo9Xts9nRbNH4+0y9HsrUyQtMNwWsAuC8HGQWbwLcrJVyYMT2rnWYpfGV25q0UkpJm9DQIqlNi6nX/3bmHTSqen4Oo68G7deVf/ca4TRRLLxM+iQ/n9c3saT1KOohoWvFpNF4KBWncLHDAiGhgh+l+iRXW90Z7xQI8JJqOh1DykRPJlDNPI=
+	tcANej4n2z6DoeA4b+q2GQBAmMKQEhUeH+eggK7sL9Kz//yxDnFonWbrUTKug9e1Ad+z30f1AiySMpI6KyXAxTnkhVGRggMhR61M7/1J0ucGR6cmfoC75eTp8coR5cYhpdqAwgEBUVNAyJfWYH5bXCMGDLaFvlHEQsy9fhZq9fqbWP1F5WXwK4WcQOqp+FgzdoETNxjer7xMsBDf6pEiW8OLl1ya88HH16YFZGZeL9/QVpvK+qx1dIEcNYQDA/5GiBWbFeZFgaKGZm055usDSLmI/X/w0NSiDT9t1VgQ/yFsJ+zjp7vjiALpw4uXQkPZ+xac/Sq7kBSfiZBZwW24Jmb8bgT6id4eNoa0i08wbhohjjS0E8ojiB6Ky3WIq92Ihv4VsbFvhoJnY4mI+tENDdPbpHjpiU35THdG6uWMrXG+egkxtmEtLMBRRIm2hU+xxMueiEPbDbsSDhmWHFLj/HO/xgxiBHs60eD597JudFKOHp3XPV7h9oMSbq8WyTaHOvd5Mfd6GqMv4QVH4b/DogS7B7hUshYtyJFJ6IfAlKD2z/tODALbbN86zac7UwIl6aEqWlIivr6gvOt7T21EulE5kKjGfvewnDJN7dKseAL+KUnuH/qlao5lOdj8hVSsg1vWV3FSew1B4b7Jn4RhsutDyVRUy9jdStUzJPnW4Wh2WEwtAvcWmtCVxdgqbRLDRZ/XkSL3EL1YKgapzuwRw2d9Fau4tl5cLYX8d+NSSLxVc8AP/QnrQKFBzEo5r6pQ
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(11063799003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(921020)(56012099003)(11063799003)(4143699003)(18002099003)(3023799003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	YvokVPqweF+7+cr23Bina2vThS32auPD0uufZUqp9xReHIPkiWYSuIwG8JB2cgxBBGxxnu7QIMBvPl2rPUWgwctfpsPMwGKFh7Od4Ih6hMe/nzNMnoAxTrcqpznKKyDC0j4SiRaklipUpqucyNH7o7h8v4c3umgKVRew/zAEkbLoEpAGHeK4mQ7Kbjhj8N4ILvhaY8HN13fHFpx9lgMTexIraI0++mL4+gA4YI0xoLxjCqeail5V6JhIdMnHLJd3Ol45jtOXznYgc9OuntjqG7vDLFjiSV+lTMmCmvgTM0vdgPni5nyK6SHO9iZOh8ZPNgxgY80K55HmPsAp1LqHa0rQMrKXfuMAJuPlCmpA7d4vbDUs93F3m2IVkK92XdZ6n2+ywIiA9Cl3NJzBDXUBpIcQstmSikuV4q0JOEx4FvWtMo4SrGxFwIVzCNGtxI+C
+	=?utf-8?B?QzFTOGFvUjRFS3dMM1I3dFdKN0phdkxtREpSZ1R0OWlrV3BuUXdqd0VGanRz?=
+ =?utf-8?B?MmtDYXpKU3F5cTNoN2w2QlI1SWZhdG0wMFVVL3BIampmUDFHTFJoOHpicXBJ?=
+ =?utf-8?B?VnlobVVBSjNCNnZGdFB2RGJuRXZBSkllcVNWTEp5cWxWWnh5M002SEswRy9P?=
+ =?utf-8?B?QlBvUlA2OC9DY29GYWxNbm5aWXQvQVdkTW01SCtXTWRRZEJERnJPTG56NDBB?=
+ =?utf-8?B?MXBHV2FDeUtQUXdKdjhvUFJjUkcyMEIyelNWOUtjSHI2T09FN1VDbzNBM1Jq?=
+ =?utf-8?B?eW15c2FPSjU3ZldlT1RiYmNjRjZGM3c3c216UE1oYlliSm5jVTNrTGNITlps?=
+ =?utf-8?B?bUlsU2pIUUhwa2J3aXNkNlVBRjJhdFpXMVlqTU5yR2U2VEJhMGtCYVdGWWJU?=
+ =?utf-8?B?S3NHYng1SjczRy8xSmlVY3h0aTJJbWhwVHR1RHpRbEtmc3M2M2lCYUdpeGZT?=
+ =?utf-8?B?RlpML0Y2d1QzaEpwUElPN1VDc1JacERzTUQvQUtrVVhaZ3dSK0Z2Mkg4S3N2?=
+ =?utf-8?B?d2hoOGtQM2xQR2RoWjAvZm5VZ0g2a1g0Vjd4ZEo0elVMOGVBUmtZelpndTJ2?=
+ =?utf-8?B?S3J6c3g4ZHdyVlpEcVZZa1AwTzdlVXZuUC8zZkQzUXY4Z05XOHJuWFRWejg0?=
+ =?utf-8?B?WE50cFRxd2FzbTY0WUU1MlFMT3c4UDJsTnRQa09Va29FODhieGhRSkx0NllM?=
+ =?utf-8?B?WTJmK05WVXp0enpyV0JsZmd3SUZ4cUgvK0E0cUpLeFowNEpCL1BjSGM5Szhi?=
+ =?utf-8?B?dDIwdUVHY21hTFJQZEQwa2xrSGwycThsWWk3eDJsVXlxRjFQbHB6S0ZNUTV4?=
+ =?utf-8?B?VElPc1MyUmkxZXhEVnF4a3VDVTRDNXJUeFBnNlpyMHZTc1pLK0lKeVRFNnVR?=
+ =?utf-8?B?RzRvZ2JaVW5qT1R6Q2hHMU1vZ0hWNnBUQmIyOEhQQmJsSmN6aWxZRGF6d3lx?=
+ =?utf-8?B?aUx5NHhLak5BaGF3Rm9ZazZ2a2pZVTEvZ0ZvVkJSSmJjV1kreHFqVE9BcGlq?=
+ =?utf-8?B?WGRrNVFDUjhjQThlZ2dEd2p2R2hKSWt4dVR6Q21HTXdQYm1XMjRiUWJDa3dv?=
+ =?utf-8?B?QTdBVW9kUTlGZDQ3SEZPMmx5QnplSG9ma2ttV2FrbEF4L2NDa1dvdkVhaHFk?=
+ =?utf-8?B?YVdtVjF2YnQzT2hST3hJRWFMT2puN1VwUmlmUU1LOEJuMHZRQVlmeVhkNUts?=
+ =?utf-8?B?Q1UwYnBJc3pBNThQcExraDA2ZWYrUkxuSWpnM2R0Y3Z2cmlVK0IvSVI2eEha?=
+ =?utf-8?B?ekRUcUZmdklIdVY1dmtTUXdXT3J6VkRKOWxlZnVQT2NLMFRnRDV3c2U5MGZ3?=
+ =?utf-8?B?RjE3TGZYL0xreS9UREhzOFIwdnRJU0o2RjZQeGJoRTBDdTY0RTBOQ3VqNmx1?=
+ =?utf-8?B?S0hBTldkSjdpOHlUZm93T1FlTmRMUDlwaGVLOHB6UHljUWlqeFNYTjljWVZ4?=
+ =?utf-8?B?QiszS29qWjNDMUdjUG5WeGpXbWJOWFM2UTZtQ1VUbFpiaTFZeWdtMlo3MWlu?=
+ =?utf-8?B?dndFdVFGVCt3L093LytPTk1wWTBjMlhoejVCWnEwQ1g4QlBVYkVsVlY3bk8w?=
+ =?utf-8?B?eWlJVGJpRGJ3ejNsb245TVRmRGRDdFRtd1Ara24vRjQrREl6VTZsZzZEYWI5?=
+ =?utf-8?B?bS9zRDA3WEF6bkxXY2RvNkRYdWIyMTgwcXR0dkpuMlB2dkovNzVBUE9xQUFX?=
+ =?utf-8?B?TDhRdjg0WnVFUTRpYkExZmtEZHg3UWE4VERkOUZHNmgraGxUTUdqMkl2OUJt?=
+ =?utf-8?B?dENJc1ExSlR5VTNFTit6RnRpN3RGbnAzSFo2WW5WczZnTmZoNVIrbVU2Skox?=
+ =?utf-8?B?M1RFNVVRSGFnNDJKODZPMXYrZzRUbTFzbS9vL1E5allMa1J4QW5wSW9QTEc1?=
+ =?utf-8?B?OEdzeFdDbzk0aTZoamZKaklMWGJUMmthRE5vOERVYVJ3MjNNejZiblNKU0Nz?=
+ =?utf-8?B?YVFWNWY2OFZpb0ZtWk5zTEdOWHVSQUp4cVpMZjU2VzFLVGIrN0JVejd6QU55?=
+ =?utf-8?B?bjFDOVg1VGtuc09ObzluMVZ0K0xzODRCcDZKMjd2REZTUG5nbjVldWNtMGtK?=
+ =?utf-8?B?M0N5eEZhUkZTaUVyOGNRNGRDZXJ6dEJkaVMwKzRCcWs2V21tcmNGNy8vNkZj?=
+ =?utf-8?B?U2NGQ1hCSzdEaFVIckk3bVM5bFBlMklCbDl4Y3JIUVlSN0Z1YUREdDhKeWp1?=
+ =?utf-8?B?WSsxcFlSMDJYc2VwTlpOak1VQTh1a2xiMzZYU3ZLRDFVcG5iK29vSVNoME1F?=
+ =?utf-8?B?YTh1RDFzb1BMSE9Za2xlYjVzaGh0VUs3N2VxWXdBMTJPcDJKSWt5N1RlaFUw?=
+ =?utf-8?B?UEtkYTF6L3dTdXNGOFhjdGJXaExvRE0yTDlaNlNyQmtlTUx2ZzNtUT09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 16:08:08.2550
+X-MS-Exchange-CrossTenant-Network-Message-Id: 338ae25c-81c5-41a1-263f-08deb5020c7d
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 17:22:34.1429
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06c335de-f178-4519-70ce-08deb4f7a6f9
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4D.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF68E8581EB
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UT216jOQRQkt+2Fdc88p4g57BYrjJfgKnYAXPzjD+ejyrrf5wkNlRNrcgq7KQ0VFvhjYyG/4dfLZTgk4chXukw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5794
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[va@nvidia.com,linux-tegra@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,nvidia.com:mid,nvidia.com:email];
-	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14544-lists,linux-tegra=lfdr.de];
+	TAGGED_RCPT(0.00)[linux-tegra];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14546-lists,linux-tegra=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,arm.com:email,Nvidia.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sumitg@nvidia.com,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: 00210570BCC
+X-Rspamd-Queue-Id: 8961457193E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On heavily loaded systems, workqueue scheduling delays can exceed
-transfer timeouts even for high-priority queues, causing false timeouts
-for latency-sensitive devices like TPM despite hardware completing in
-microseconds.
 
-Process small PIO transfers (≤256 bytes) directly in hard IRQ context
-instead of deferring to workqueue. This reduces completion latency
-from 1000ms+ to microseconds and matches the pattern used by other
-SPI drivers.
+On 18/05/26 19:51, Mario Limonciello wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 5/18/26 09:15, Sumit Gupta wrote:
+>>
+>> On 18/05/26 19:20, Mario Limonciello wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On 5/18/26 08:44, Sumit Gupta wrote:
+>>>> Hi Mario,
+>>>>
+>>>>
+>>>> On 16/05/26 02:43, Mario Limonciello wrote:
+>>>>> External email: Use caution opening links or attachments
+>>>>>
+>>>>>
+>>>>> On 5/15/26 07:26, Sumit Gupta wrote:
+>>>>>> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
+>>>>>> CPPC autonomous performance selection on all CPUs at system startup.
+>>>>>> When autonomous mode is enabled, the hardware automatically adjusts
+>>>>>> CPU performance based on workload demands using Energy Performance
+>>>>>> Preference (EPP) hints.
+>>>>>>
+>>>>>> When the parameter is set:
+>>>>>> - Configure all CPUs for autonomous operation on first init
+>>>>>> - Use HW min/max_perf when available; otherwise initialize from caps
+>>>>>> - Initialize desired_perf to max_perf as a starting hint
+>>>>>> - Hardware controls frequency instead of the OS governor
+>>>>>> - EPP behavior depends on parameter value:
+>>>>>>    - performance (or 1): override EPP to performance preference 
+>>>>>> (0x0)
+>>>>>>    - default_epp (or 2): preserve EPP value programmed by BIOS/
+>>>>>> firmware
+>>>>>>
+>>>>>> The boot parameter is applied only during first policy 
+>>>>>> initialization.
+>>>>>> Skip applying it on CPU hotplug to preserve runtime sysfs
+>>>>>> configuration.
+>>>>>>
+>>>>>> This patch depends on patch series [1] ("cpufreq: Set policy->min 
+>>>>>> and
+>>>>>> max as real QoS constraints") so that the policy->min/max set in
+>>>>>> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
+>>>>>> during init.
+>>>>>>
+>>>>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>>>>> ---
+>>>>>> [1] https://lore.kernel.org/lkml/20260511135538.522653-1-
+>>>>>> pierre.gondois@arm.com/
+>>>>>> ---
+>>>>>>   .../admin-guide/kernel-parameters.txt         |  16 +++
+>>>>>>   drivers/cpufreq/cppc_cpufreq.c                | 122 +++++++++++++
+>>>>>> ++++-
+>>>>>>   2 files changed, 133 insertions(+), 5 deletions(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/
+>>>>>> Documentation/admin-guide/kernel-parameters.txt
+>>>>>> index 0eb64aab3685..7e4b3a8fd76f 100644
+>>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>>>> @@ -1048,6 +1048,22 @@ Kernel parameters
+>>>>>>                       policy to use. This governor must be 
+>>>>>> registered
+>>>>>> in the
+>>>>>>                       kernel before the cpufreq driver probes.
+>>>>>>
+>>>>>> +     cppc_cpufreq.auto_sel_mode=
+>>>>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous
+>>>>>> performance
+>>>>>> +                     selection. When enabled, hardware 
+>>>>>> automatically
+>>>>>> adjusts
+>>>>>> +                     CPU frequency on all CPUs based on workload
+>>>>>> demands.
+>>>>>> +                     In Autonomous mode, Energy Performance
+>>>>>> Preference (EPP)
+>>>>>> +                     hints guide hardware toward performance (0x0)
+>>>>>> or energy
+>>>>>> +                     efficiency (0xff).
+>>>>>> +                     Requires ACPI CPPC autonomous selection 
+>>>>>> register
+>>>>>> +                     support.
+>>>>>> +                     Accepts:
+>>>>>> +                       performance, 1: enable auto_sel + set EPP to
+>>>>>> +                                       performance (0x0)
+>>>>>> +                       default_epp, 2: enable auto_sel, preserve 
+>>>>>> EPP
+>>>>>> value
+>>>>>> +                                       programmed by BIOS/firmware
+>>>>>> +                     Unset: cpufreq governors are used (auto_sel
+>>>>>> disabled).
+>>>>>
+>>>>> Rather than unset doing nothing, have you considered having it take a
+>>>>> midpoint like 128?  That's what we do in amd-pstate (default to
+>>>>> balance_performance).  I think it turns into a reasonable balance.
+>>>>
+>>>> Thanks for the suggestion.
+>>>> I can add balance_performance that enables auto_sel with EPP=128 in 
+>>>> v4.
+>>>>
+>>>> On changing the driver default (no param behavior) to auto enable
+>>>> balance_performance, it would be good to keep the current behavior for
+>>>> now since cppc_cpufreq is generic across ARM64/RISC-V platforms where
+>>>> EPP and Autonomous Selection registers are optional.
+>>>> A default change would affect existing users relying on governors.
+>>>>
+>>>> Thank you,
+>>>> Sumit Gupta
+>>>
+>>> But couldn't you make the "no module parameter set" follow the behavior
+>>> to only set the registers if they're available?
+>>>
+>>> So the systems that support it start using it, the ones that don't it's
+>>> a NOP.
+>>>
+>>
+>> Would it work to add balance_performance as a new mode in v4,
+>> and discuss changing the default separately as a follow-up?
+>>
+>
+> Sure.
+>
+>> Runtime detection helps for unsupported platforms. But platforms which
+>> support the registers use OS governors today, and silently switching
+>> them to autonomous mode on a kernel update is a behavior change for
+>> existing users. They would also have no way to boot into sw governor.
+>>
+>
+> But hopefully it should be better battery life/responsiveness for those
+> scenarios too, right?
+>
 
-The 256-byte threshold (FIFO depth) ensures small transfers for devices
-like TPMs use the fast path, while larger transfers continue using
-workqueue.
+Yes in many cases, but if some workloads rely on specific OS governor
+configurations, then that would get impacted.
+I will send a separate change later to seek broader consensus on
+enabling auto_sel as default without any param.
 
-Signed-off-by: Vishwaroop A <va@nvidia.com>
----
- drivers/spi/spi-tegra210-quad.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thank you,
+Sumit Gupta
 
-diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
-index 6148267a51cd..435e14d80bfa 100644
---- a/drivers/spi/spi-tegra210-quad.c
-+++ b/drivers/spi/spi-tegra210-quad.c
-@@ -1666,6 +1666,15 @@ static irqreturn_t tegra_qspi_isr(int irq, void *context_data)
- 
- 	spin_unlock(&tqspi->lock);
- 
-+	/*
-+	 * For small PIO transfers (e.g., TPM), process directly in hard IRQ
-+	 * context unless there was a FIFO error. Error recovery calls
-+	 * device_reset() which can sleep, so must be deferred to workqueue.
-+	 */
-+	if (!tqspi->is_curr_dma_xfer && tqspi->curr_dma_words <= QSPI_FIFO_DEPTH &&
-+	    !tqspi->tx_status && !tqspi->rx_status)
-+		return handle_cpu_based_xfer(tqspi);
-+
- 	queue_work(tqspi->wq, &tqspi->irq_work);
- 
- 	return IRQ_HANDLED;
--- 
-2.17.1
+....
+
 
 
