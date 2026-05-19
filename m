@@ -1,145 +1,154 @@
-Return-Path: <linux-tegra+bounces-14631-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14556-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Jq1OfswEGoaUwYAu9opvQ
-	(envelope-from <linux-tegra+bounces-14631-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2026 12:33:31 +0200
+	id 6NuBIzNuDGpKhgUAu9opvQ
+	(envelope-from <linux-tegra+bounces-14556-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 16:05:39 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B6F5B22BA
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2026 12:33:31 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E439958037B
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 16:05:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8D89D302A2E3
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2026 10:26:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B687D3010C1C
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 13:58:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72DFC3E024E;
-	Fri, 22 May 2026 10:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17D003ED3B3;
+	Tue, 19 May 2026 13:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4Uz54eZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjXyKLC6"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0A63C988F;
-	Fri, 22 May 2026 10:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63D9175A69;
+	Tue, 19 May 2026 13:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445361; cv=none; b=oeR4SJ21W6cChxmiPstDbuHNGnMevzLOuPhjKV12MLVYRpXV50UvG7NmEhdoTPOln94eWuTdEJDrCpxdU9UdZ93mOyMlFlF+RTlM7+hmZTT6m280v/P7eSJCsePYR1rP64o4W9xFfqUEm8oq5EzgzXxO17LKhCuqyBX02cOkDO8=
+	t=1779199083; cv=none; b=IO2YZiUNlcqQ/XZf35aKFC0jiTV25riuYCb2qogNwPJkQyZB102JDIn4ZEnvhuNFzOmUVAtJ7GEIHfT1FkKYzGBt2rwI1P0VWfKJsu96sL/aW7L4RBZDprIfis0tfx/XcWzFPM5Vedhy5FjaE/8PN2ahmK6LYPEe5XLtEp9xDhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445361; c=relaxed/simple;
-	bh=hIeZXSIZZkfKc9rj4LZ2qsEcjRiO4rkLrvgGPaY2XBY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eijlRnNOtmFZA1AGHo0eZ/uTrEkqgXTiUhs5OTPOTMJzYEJdOhmnnKiuMFmdM62uMpSwN5WcHu+4tI6n/2EznmTEWOB3XFDNgbRKP9qIrTgg8UC0fqGQr2rcBpmn0adhp+hkGqupdCuB/s5z/v557inJTtoF7rQkk9gU7PR/A9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4Uz54eZ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF9D1F000E9;
-	Fri, 22 May 2026 10:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445359;
-	bh=mdr+eJJQ1xD5Izla6bNFp0COZv5KOnGXBfoNjI7GR/U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=c4Uz54eZyiQNUWMLB9yzZH1lEq/FZnEqu75WE9ppNPYLsddfeIREPgy+NHzS85jIl
-	 hVmPZ7Kwh2BQmN6drwidB1SsJAgdZbDp3+0oP9pMo1bmJZPbi5Jnzk4o+ua3uWMe7+
-	 nmXXEkSy4dzCiL0YS3ssBIquFpVKMz6BZO/0LDeT66Wp2RzfeWWx4Y7dsJFD7MwemG
-	 vVpu6u/sMLcC3WtBvsoyFIZTmXLrojNNF2ipE5kZJ3cheEuJvedhq6uFpzchXYm4EE
-	 oaqczBJLdwlqSt9J8FpYscx3j98asBR9PD1u+DIfKr7MydonZxY8SrcFtssltoor98
-	 +IJ6K4IgHwNdg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Sheetal <sheetal@nvidia.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>, 
- Sameer Pujar <spujar@nvidia.com>, Rosen Penev <rosenp@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260519094858.1426057-1-sheetal@nvidia.com>
-References: <20260519094858.1426057-1-sheetal@nvidia.com>
-Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Reject too-short fade
- durations
-Message-Id: <177919749589.6167.8613168760190955242.b4-ty@b4>
-Date: Tue, 19 May 2026 14:31:35 +0100
+	s=arc-20240116; t=1779199083; c=relaxed/simple;
+	bh=nfEX+4aODCvAUv+wyKcqPTid35QTc5cD/VwXCz3ADcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bRLkCvASc66hI1sD8lOAkkzVyHv+WEZMLzoPMcbKWPwPhj6YFJD6gtsFN7dLj1n0G0ggbzgZK2A+HawGR7s2DdA42mBeahwa91MBI+/WAeO8qVo0Ctz+QPOHAtrgnPTamv53e1+ZkjbgmeguDXaY+4s7Vx4rMPyyzTjxv4ZlS6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjXyKLC6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76AC3C2BCB3;
+	Tue, 19 May 2026 13:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779199082;
+	bh=nfEX+4aODCvAUv+wyKcqPTid35QTc5cD/VwXCz3ADcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IjXyKLC6RnfU2IV5vALZIj8Ip/8qoyK/R3psuwMTG3JXO9BTcuOc3el0D8NNI8chT
+	 s0gGRepmdjn02maEMVKdztKHkmL0PIRI1De0REdgunGfSBH+Jxn7oMMz0xGiu00Bnm
+	 V2FTqeNiIYu+Dh6VViDLtkb4Ds0j2QzD96R1MrZyXxs7u8yH5s+l1TzD4x35lylgJ3
+	 9/G+prDp/+eIrDIqw6OrAJVNIFWXJr5E3BqmCHSGMhvHJnGYTvBoElvWGf0y8kqAcN
+	 2Iq5THM2nomRkDRaKihObdG6sjEnVdNnX2RH/YlaWNy/FEJXedmSno2xWIrD0A4HU7
+	 zfFdSHFaj+oqg==
+Date: Tue, 19 May 2026 19:27:53 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Hans Zhang <18255117159@163.com>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
+	jingoohan1@gmail.com, mx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	spacemit@lists.linux.dev, linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] PCI: dwc: Cache PCIe capability offset and simplify
+ drivers
+Message-ID: <beqy5ykxgo4ianya6r4mahkkyujs6lly475u26vqaemgqsdnhp@2pn5ipczwc34>
+References: <20260509135152.2241235-1-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
- h=from:subject:message-id; bh=hIeZXSIZZkfKc9rj4LZ2qsEcjRiO4rkLrvgGPaY2XBY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5sTvXol5wenjsFqTk2dhQUNhtejZ1XxPNiP
- IsK8lQZOTOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAubAAKCRAk1otyXVSH
- 0K+XB/42TO3yjZd2AWawsjb5aKzQo76+6opnAVcXUNZNvwaZCSF11p2DZ4Kx/z5REgXQD39XGmf
- TPLZOUDltDiZSxVXcoNUvpo7scoTYvqy9NW0BxqOGlgpzddNURVgicjziPwpXagXlZaAW201d92
- q3FTkF8ttVtyJKiHv5wdfrN8Eh76MCZzWDVwxSkA3v/uLUzv9vc+glRAovyt2HdbXEtwLC3vPsF
- COsrNXr/jb4enFveXoUqjeATNaaSQjeE0DUnbD1/b2HwJVbNQuCUAcppw/yqiu30kfvZxTEqX0p
- opvVWaezKU3NVdIIpxFtEQFGQnhL1qhtpNHI8niJNnhoSCBP
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260509135152.2241235-1-18255117159@163.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DATE_IN_PAST(1.00)[69];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14631-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-14556-lists,linux-tegra=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-tegra@vger.kernel.org];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,nvidia.com,gmail.com,renesas.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-tegra@vger.kernel.org];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,lists.linux.dev,lists.ozlabs.org,lists.infradead.org,vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A9B6F5B22BA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: E439958037B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 19 May 2026 09:48:58 +0000, Sheetal wrote:
-> ASoC: tegra: tegra210-mixer: Reject too-short fade durations
+On Sat, May 09, 2026 at 09:51:49PM +0800, Hans Zhang wrote:
+> The DWC PCIe core and its many platform drivers repeatedly call
+> dw_pcie_find_capability(pci, PCI_CAP_ID_EXP) to obtain the offset of the
+> PCI Express Capability structure. This is wasteful and makes the code
+> verbose. And some even search for the PCI_CAP_ID_EXP offset value within
+> the suspend/resume functions.
+> 
 
-Applied to
+Sashiko has flagged some real issues with this series in accessing DBI space
+very early and 'pci->pcie_cap' being 0.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+Those needs to be fixed.
 
-Thanks!
+- Mani
 
-[1/1] ASoC: tegra: tegra210-mixer: Reject too-short fade durations
-      https://git.kernel.org/broonie/sound/c/75a3e43339a2
+> Add a cached pcie_cap field in struct dw_pcie and a helper
+> dw_pcie_get_pcie_cap() to initialize it once at probe time. Then replace
+> all explicit capability searches with the cached value across the
+> entire dwc subtree.
+> 
+> Hans Zhang (3):
+>   PCI: dwc: Add pcie_cap field and helper in designware header
+>   PCI: dwc: Use cached PCIe capability offset in core
+>   PCI: dwc: Simplify platform drivers using cached capability offset
+> 
+>  drivers/pci/controller/dwc/pci-imx6.c         |  6 +--
+>  .../pci/controller/dwc/pci-layerscape-ep.c    |  4 +-
+>  drivers/pci/controller/dwc/pci-meson.c        |  4 +-
+>  .../pci/controller/dwc/pcie-designware-ep.c   |  4 +-
+>  .../pci/controller/dwc/pcie-designware-host.c |  4 +-
+>  drivers/pci/controller/dwc/pcie-designware.c  | 16 +++---
+>  drivers/pci/controller/dwc/pcie-designware.h  | 17 +++++++
+>  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 15 +++---
+>  drivers/pci/controller/dwc/pcie-eswin.c       |  3 +-
+>  drivers/pci/controller/dwc/pcie-fu740.c       |  2 +-
+>  drivers/pci/controller/dwc/pcie-intel-gw.c    |  2 +-
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c     | 11 ++--
+>  drivers/pci/controller/dwc/pcie-qcom.c        | 24 ++++-----
+>  drivers/pci/controller/dwc/pcie-sophgo.c      |  8 ++-
+>  drivers/pci/controller/dwc/pcie-spacemit-k1.c |  5 +-
+>  drivers/pci/controller/dwc/pcie-spear13xx.c   |  6 +--
+>  drivers/pci/controller/dwc/pcie-tegra194.c    | 51 +++++++------------
+>  17 files changed, 85 insertions(+), 97 deletions(-)
+> 
+> 
+> base-commit: 70390501d1944d4e5b8f7352be180fceb3a44132
+> -- 
+> 2.34.1
+> 
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+மணிவண்ணன் சதாசிவம்
 
