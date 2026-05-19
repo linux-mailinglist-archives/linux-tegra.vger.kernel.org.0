@@ -1,347 +1,247 @@
-Return-Path: <linux-tegra+bounces-14554-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14555-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIewIIk8DGp8aQUAu9opvQ
-	(envelope-from <linux-tegra+bounces-14554-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 12:33:45 +0200
+	id 2NPZEExPDGqXegUAu9opvQ
+	(envelope-from <linux-tegra+bounces-14555-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 13:53:48 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A2157C4E8
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 12:33:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B7C57E16D
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 13:53:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 851033148556
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 10:17:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D29393055722
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2026 11:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50174C9542;
-	Tue, 19 May 2026 10:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 452D348AE1D;
+	Tue, 19 May 2026 11:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCrGJOXQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jJcFlSg2"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730FD4C040B
-	for <linux-tegra@vger.kernel.org>; Tue, 19 May 2026 10:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209C433A9C4;
+	Tue, 19 May 2026 11:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779185814; cv=none; b=t9p4OTTcdxD0nEXB9yh4QuWlL7k74wHkq/NDWulzUEHcOTvDVUgCC4bdWdh847weGFUr+lF40YOZXojJpZQ5E0L168DFxNs7LlxRfsANyWoaMbnUBo6S9hLL7A4r8NLYl5H0eJnCvBeOnQ/cfxpCFjnOOOdPtUY1VniM7NP0Rzo=
+	t=1779190885; cv=none; b=ATwDvZI7xWShqiebiv+juCmSvZ57qpx7enUC/kCSet6NNF8fw9OgYw6NR6FqnAcY9xmFCwmzjVoHc1O/xAHgbjoAovKM8k452sNEqqq3chNWTprg8+x+wqE8y8pJyNLqM6+dfDaD2kvWrl3K78S9jnSDVTm17HhlmxJwNyow0ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779185814; c=relaxed/simple;
-	bh=mLpwP7JVosrq5U1uvrR7w/BkeawFbuswelwbPzZNmsM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jmAdH+cxvgNrx0e6mcg3NN5Tuy5DOiptmE2KFZONcdvMzaczwAtUPlRtx01rCZVlobfgQNnEpcBhCrdFoVag+Jm/lNF76wKugqKsqLfsjFRQK0Lt6KW5VXOiOPxa5nTmXKESzXmFEoAHVqvW+51ekbkJyXuwa2dWso45+auEkVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCrGJOXQ; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so5854907a12.1
-        for <linux-tegra@vger.kernel.org>; Tue, 19 May 2026 03:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779185808; x=1779790608; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvt4MjoGA0L3/prTXoqHWkNBgnaKme2r46Dy9xiUW1k=;
-        b=bCrGJOXQLttU6f0CifUXSjdZ6LogzjUyGjuDGvnGSFPgzaByoPbJqBfb1OIYUV3KOw
-         URZGoX7WTHPTlFCxlQXBN6zsiIxTRvPdMIcPsRKTmNqar6RiwJh36mAYMc0OtwesE6X6
-         6Idq5f+Zni2aOeJYGeCUzJ58L+/AosmGpPyK7IC26kXxIUuq8dauVJU65ECsOVXygGKg
-         hpMpCHlRV3QIzMcpkNev+YTEqdHKeqSC+cHb0Sw/K02PqP4e85eQjU5x7offuXRuaqlX
-         VYEYfLUGaStU2cON7Op8ASeitHfxs1B3eySnk2t+Iaam6ftCBbDYN+mRAoUTbQQAxVn3
-         Qy8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779185808; x=1779790608;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yvt4MjoGA0L3/prTXoqHWkNBgnaKme2r46Dy9xiUW1k=;
-        b=qxkMhKd2IUFasL0VqxferZH+devh+fKv8knSbEab7PA8cbIsVr9MQKUr2r5f9iLocG
-         JQmU5u0wiucAd90/Z5AjVgWlTN5p4ok6+jMNR/RfRhKjERry51/7MREI2H3lM6HXQOP+
-         63tXTsvFrcyyzRugmjJ1RdNvdR2xWQf5CyVwOY2cVoOHnn0ZV19rFDJpHGuxr5yX2IHx
-         ibM0Luo1TLh3nJPl/y3rlrlsn6wVbvFbPIrkLclKjPJSw4Np81bMbzsY7c+0xYkRhM1F
-         +rD4m0HNQyk+6+Ko1XFGhzkhZU3/6oBJqtSWt4wnbQunBcEJOHVuTfKevuN8wHH8e00s
-         n++g==
-X-Forwarded-Encrypted: i=1; AFNElJ9dpW7jdtKSJ8PxTfG0A9I5MSb/NPAfCzXvawmV9zlX1iQsKaD0yjtuQoOGlwRhYE6r7EqP1U1NWXbJjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3c9l0XKOTk7Xq92Gdz6FJikiqqeHnGULrcaM4wqVKUYDCKt8w
-	AS2IIV28sD3YuJ4sXuQ9FrjNqzVjVOjjBUFQsqb4BKoQB6tvV2haByDB
-X-Gm-Gg: Acq92OGb4openAtBbQanbaXy8FnlkwB15pwK5q/OgAND1UeuAdKYT0+YAImdIctmQMc
-	cOJ9qhH5P3AJA+Oj5w18ivj/JE8yIbqi8lrOGca+MPdx4bclK6bw7ZB1cD3szxQnBWahYMiVmGz
-	SMi1Fmn8TukSWmFVxfaIQIwQKfpvRnYY94lErTcH6OFxbsBckmRN3QiAYUowfL+RZEqdxA0HAvg
-	HSOLgUoTkO1oJYYHm+YqnGEcfUCsCaeGSTuIs2HxRINxR/Obrdtc7ZtIX2ojrQVTDxeAlBeEmg8
-	GasjF2M6A2hzqbPcW9+PXE/xKlhUhbgzre71vmZHHuHwdOwY25Z8M/ZxrkowJdNmPjaXwF+siEL
-	iitqj84PPtmETZlr62xdj5Gr2A6NIvpinTAeZpy12Qob5AhCKvov8slpe5KjASJgfBvKE5v35Vm
-	sR4Hf4P0SbSv3Kghp/XRIEAoZmU3Q/8vy98Z1FhoCGEg==
-X-Received: by 2002:a05:6402:556:b0:67e:9e04:31d0 with SMTP id 4fb4d7f45d1cf-683bd779fe2mr6892342a12.23.1779185807853;
-        Tue, 19 May 2026 03:16:47 -0700 (PDT)
-Received: from [127.0.0.2] ([2a02:a312:c59b:a180:5a91:2947:87c1:9e0f])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310b50a34sm6340111a12.7.2026.05.19.03.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 03:16:47 -0700 (PDT)
-From: Artur Kowalski <arturkow2000@gmail.com>
-Date: Tue, 19 May 2026 12:16:43 +0200
-Subject: [PATCH] gpu: host1x: trace: fix string fields in host1x traces
+	s=arc-20240116; t=1779190885; c=relaxed/simple;
+	bh=ib9xuq7mz9wkkR2wofm2oAut+oQGRmrHathVnbHHYCc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IupjsJw6iYUAHE14EuDl3yM7TWbSrygIEqq+wBmX2SaqvZmUH0NlJIARJ0x5W7iGCT/mePObHZTHt8BzOVtrpM1Av7hqTZY6fMJv56PnpbVkkX9774YfW/UQEsmumSDBlbhFY28ScPh+LUpigQJ9hARnRBLvRefTeENKd0Aofks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jJcFlSg2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9821C2BCB3;
+	Tue, 19 May 2026 11:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779190884;
+	bh=ib9xuq7mz9wkkR2wofm2oAut+oQGRmrHathVnbHHYCc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jJcFlSg2TV6X8YwiNcBW42WILMCCnQupCHhrJ3QN7QQnx6L+SH+oiqdGZ9234bE/J
+	 vNG1CSLznWklaAr1qP5KlYIn8iqkxGp1/zfv9D2ZG1/kzmgXuaSXB25RpMLooYey9h
+	 KRX7/ow9cMP0BGqlBcHuhbH9dpNvh2NT4A3NGzyxH+xuEHQkETewvOaFotpNYXU5r2
+	 BGpykkfz7cpjmxBKi+OiFcXrqNlu+RuTM81ZeRR1k5OPN7Az+uObP5Buo+EUHbJgIe
+	 h56GkplHJtSObDS6VVF6kIyj9iAsljGE5Aqi/SPdn8xov881rRbWbuCGzCaP3hAuZq
+	 JtM2i7JwrrRDw==
+Date: Tue, 19 May 2026 12:41:18 +0100
+From: Will Deacon <will@kernel.org>
+To: Besar Wicaksono <bwicaksono@nvidia.com>
+Cc: mark.rutland@arm.com, james.clark@linaro.org, yangyccccc@gmail.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, treding@nvidia.com,
+	jonathanh@nvidia.com, vsethi@nvidia.com, rwiley@nvidia.com,
+	sdonthineni@nvidia.com, mochs@nvidia.com, nirmoyd@nvidia.com,
+	skelley@nvidia.com
+Subject: Re: [PATCH v4] perf/arm_pmu: Skip PMCCNTR_EL0 on NVIDIA Olympus
+Message-ID: <agxMXsznrU3mvcfE@willie-the-truck>
+References: <20260504175204.3122979-1-bwicaksono@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-host1x-tracing-v1-1-55afb8cbd186@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAIo4DGoC/yXMQQ6DIBBG4auYWUsCGK32KsaFxb86LrBh0JgQ7
- 15sl9/ivUSCwBB6FokCDhbefIYpC3LL6GconrLJatvo2nRq2SSaU8UwOvazgp0a3cLVqB6Uo0/
- Am8/fsB/+lv21wsX7Qtf1BZJD2TtyAAAA
-X-Change-ID: 20260519-host1x-tracing-e2d608ec5e37
-To: Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-tegra@vger.kernel.org, Artur Kowalski <arturkow2000@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5737;
- i=arturkow2000@gmail.com; h=from:subject:message-id;
- bh=mLpwP7JVosrq5U1uvrR7w/BkeawFbuswelwbPzZNmsM=;
- b=owGbwMvMwCVmYeTc/TaVxZzxtFoSQxaPRd/fzY4xUyqerd8QFrf+5NPXP5vtFOp35a5YXu38L
- jrzHadPRykLgxgXg6yYIovZQ6EvPPO83m94ubUTZg4rE8gQBi5OAZjI0UaG/0X/ihNe8/9Y62Lw
- Pu20etwreaPzrkLlJ56kudjsNmsR9GVk2CR09PzF/jdPm5ctyPm5VTDGIi7Zcf0K/xLWms89xz9
- c4AEA
-X-Developer-Key: i=arturkow2000@gmail.com; a=openpgp;
- fpr=F60710C8D69E03A01A2801CD87A47D20C2709637
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260504175204.3122979-1-bwicaksono@nvidia.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-14554-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14555-lists,linux-tegra=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[arm.com,linaro.org,gmail.com,lists.infradead.org,vger.kernel.org,nvidia.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arturkow2000@gmail.com,linux-tegra@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[will@kernel.org,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: A3A2157C4E8
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,nvidia.com:email]
+X-Rspamd-Queue-Id: 44B7C57E16D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use __assign_str and __get_str as required by tracing subsystem. Fixes
-string fields being rejected by the verifier and unreadable from
-userspace.
+On Mon, May 04, 2026 at 05:52:04PM +0000, Besar Wicaksono wrote:
+> PMCCNTR_EL0 may continue to increment on NVIDIA Olympus CPUs while the
+> PE is in WFI/WFE. That does not necessarily match the CPU_CYCLES event
+> counted by a programmable counter, so using PMCCNTR_EL0 for cycles can
+> give results that differ from the programmable counter path.
+> 
+> Extend the existing PMCCNTR avoidance decision from the SMT case to
+> also cover Olympus. Store the result in the common arm_pmu state at
+> registration time, so arm_pmuv3 can keep using a single flag when
+> deciding whether CPU_CYCLES may use PMCCNTR_EL0.
+> 
+> Signed-off-by: Besar Wicaksono <bwicaksono@nvidia.com>
+> ---
+> 
+> Changes from v1:
+>   * add CONFIG_ARM64 check to fix build error found by kernel test robot
+>   * add explicit include of <asm/cputype.h>
+> v1: https://lore.kernel.org/linux-arm-kernel/20260406232034.2566133-1-bwicaksono@nvidia.com/
+> 
+> Changes from v2:
+>   * Move the Olympus PMCCNTR avoidance check from arm_pmuv3.c to the
+>     common arm_pmu registration path.
+>   * Replace the PMUv3-only has_smt flag with avoid_pmccntr, covering both
+>     the existing SMT restriction and the Olympus MIDR restriction.
+>   * Use the cached per-CPU MIDR from cpu_data instead of calling
+>     is_midr_in_range_list() from armv8pmu_can_use_pmccntr().
+>   * Add the required asm/cpu.h include for cpu_data.
+> v2: https://lore.kernel.org/linux-arm-kernel/20260421203856.3539186-1-bwicaksono@nvidia.com/#t
+> 
+> Changes from v3:
+>   * Move avoidance check based on MIDR to __armv8pmu_probe_pmu() to make sure
+>     the MIDR is retrieved from the correct online CPU.
+> v3: https://lore.kernel.org/linux-arm-kernel/20260429215614.1793131-1-bwicaksono@nvidia.com/
+> 
+> ---
+>  drivers/perf/arm_pmu.c       |  7 ++++-
+>  drivers/perf/arm_pmuv3.c     | 51 +++++++++++++++++++++++++++++++-----
+>  include/linux/perf/arm_pmu.h |  2 +-
+>  3 files changed, 51 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
+> index 939bcbd433aa..aa1dac0b440f 100644
+> --- a/drivers/perf/arm_pmu.c
+> +++ b/drivers/perf/arm_pmu.c
+> @@ -931,8 +931,13 @@ int armpmu_register(struct arm_pmu *pmu)
+>  	/*
+>  	 * By this stage we know our supported CPUs on either DT/ACPI platforms,
+>  	 * detect the SMT implementation.
+> +	 * On SMT CPUs, the PMCCNTR_EL0 increments from the processor clock rather
+> +	 * than the PE clock (ARM DDI0487 L.b D13.1.3) which means it'll continue
+> +	 * counting on a WFI PE if one of its SMT sibling is not idle on a
+> +	 * multi-threaded implementation. So don't use it on SMT cores.
+>  	 */
+> -	pmu->has_smt = topology_core_has_smt(cpumask_first(&pmu->supported_cpus));
+> +	pmu->avoid_pmccntr |=
+> +		topology_core_has_smt(cpumask_first(&pmu->supported_cpus));
+>  
+>  	if (!pmu->set_event_filter)
+>  		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_EXCLUDE;
+> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+> index 8014ff766cff..1ee4a09d0dcc 100644
+> --- a/drivers/perf/arm_pmuv3.c
+> +++ b/drivers/perf/arm_pmuv3.c
+> @@ -8,6 +8,7 @@
+>   * This code is based heavily on the ARMv7 perf event code.
+>   */
+>  
+> +#include <asm/cputype.h>
+>  #include <asm/irq_regs.h>
+>  #include <asm/perf_event.h>
+>  #include <asm/virt.h>
+> @@ -1002,13 +1003,7 @@ static bool armv8pmu_can_use_pmccntr(struct pmu_hw_events *cpuc,
+>  	if (has_branch_stack(event))
+>  		return false;
+>  
+> -	/*
+> -	 * The PMCCNTR_EL0 increments from the processor clock rather than
+> -	 * the PE clock (ARM DDI0487 L.b D13.1.3) which means it'll continue
+> -	 * counting on a WFI PE if one of its SMT sibling is not idle on a
+> -	 * multi-threaded implementation. So don't use it on SMT cores.
+> -	 */
+> -	if (cpu_pmu->has_smt)
+> +	if (cpu_pmu->avoid_pmccntr)
+>  		return false;
+>  
+>  	return true;
+> @@ -1299,6 +1294,41 @@ static int armv8_vulcan_map_event(struct perf_event *event)
+>  				       &armv8_vulcan_perf_cache_map);
+>  }
+>  
+> +#ifdef CONFIG_ARM64
+> +/*
+> + * List of CPUs that should avoid using PMCCNTR_EL0.
+> + */
+> +static struct midr_range armv8pmu_avoid_pmccntr_cpus[] = {
+> +	/*
+> +	 * The PMCCNTR_EL0 in Olympus CPU may still increment while in WFI/WFE state.
+> +	 * This is an implementation specific behavior and not an erratum.
+> +	 *
+> +	 * From ARM DDI0487 D14.4:
+> +	 *   It is IMPLEMENTATION SPECIFIC whether CPU_CYCLES and PMCCNTR count
+> +	 *   when the PE is in WFI or WFE state, even if the clocks are not stopped.
 
-Tested on v6.18.21.
+So surely the weird part here is that Olypmus chose one behaviour for
+PMCCNTR and another for the CPU_CYCLES event? The Arm ARM text isn't
+clear to me as to whether that's permitted but I think we should call
+it out here.
 
-Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
----
- include/trace/events/host1x.h | 50 ++++++++++++++++++++++---------------------
- 1 file changed, 26 insertions(+), 24 deletions(-)
+> +	 * From ARM DDI0487 D24.5.2:
+> +	 *   All counters are subject to any changes in clock frequency, including
+> +	 *   clock stopping caused by the WFI and WFE instructions.
+> +	 *   This means that it is CONSTRAINED UNPREDICTABLE whether or not
+> +	 *   PMCCNTR_EL0 continues to increment when clocks are stopped by WFI and
+> +	 *   WFE instructions.
+> +	 */
+> +	MIDR_ALL_VERSIONS(MIDR_NVIDIA_OLYMPUS),
+> +	{}
+> +};
+> +
+> +static bool armv8pmu_is_in_avoid_pmccntr_cpus(void)
+> +{
+> +	return is_midr_in_range_list(armv8pmu_avoid_pmccntr_cpus);
+> +}
+> +#else
+> +static bool armv8pmu_is_in_avoid_pmccntr_cpus(void)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  struct armv8pmu_probe_info {
+>  	struct arm_pmu *pmu;
+>  	bool present;
+> @@ -1348,6 +1378,13 @@ static void __armv8pmu_probe_pmu(void *info)
+>  	else
+>  		cpu_pmu->reg_pmmir = 0;
+>  
+> +	/*
+> +	 * On some CPUs, PMCCNTR_EL0 does not match the behavior of CPU_CYCLES
+> +	 * programmable counter, so avoid routing cycles through PMCCNTR_EL0 to
+> +	 * prevent inconsistency in the results.
+> +	 */
+> +	cpu_pmu->avoid_pmccntr |= armv8pmu_is_in_avoid_pmccntr_cpus();
 
-diff --git a/include/trace/events/host1x.h b/include/trace/events/host1x.h
-index 1ba84b738e46..1b6aeb7b177b 100644
---- a/include/trace/events/host1x.h
-+++ b/include/trace/events/host1x.h
-@@ -21,9 +21,11 @@ struct host1x_bo;
- DECLARE_EVENT_CLASS(host1x,
- 	TP_PROTO(const char *name),
- 	TP_ARGS(name),
--	TP_STRUCT__entry(__field(const char *, name)),
--	TP_fast_assign(__entry->name = name;),
--	TP_printk("name=%s", __entry->name)
-+	TP_STRUCT__entry(__string(name, name)),
-+	TP_fast_assign(
-+		__assign_str(name);
-+	),
-+	TP_printk("name=%s", __get_str(name))
- );
- 
- DEFINE_EVENT(host1x, host1x_channel_open,
-@@ -52,19 +54,19 @@ TRACE_EVENT(host1x_cdma_push,
- 	TP_ARGS(name, op1, op2),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(u32, op1)
- 		__field(u32, op2)
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->op1 = op1;
- 		__entry->op2 = op2;
- 	),
- 
- 	TP_printk("name=%s, op1=%08x, op2=%08x",
--		__entry->name, __entry->op1, __entry->op2)
-+		__get_str(name), __entry->op1, __entry->op2)
- );
- 
- TRACE_EVENT(host1x_cdma_push_wide,
-@@ -73,7 +75,7 @@ TRACE_EVENT(host1x_cdma_push_wide,
- 	TP_ARGS(name, op1, op2, op3, op4),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(u32, op1)
- 		__field(u32, op2)
- 		__field(u32, op3)
-@@ -81,7 +83,7 @@ TRACE_EVENT(host1x_cdma_push_wide,
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->op1 = op1;
- 		__entry->op2 = op2;
- 		__entry->op3 = op3;
-@@ -89,7 +91,7 @@ TRACE_EVENT(host1x_cdma_push_wide,
- 	),
- 
- 	TP_printk("name=%s, op1=%08x, op2=%08x, op3=%08x op4=%08x",
--		__entry->name, __entry->op1, __entry->op2, __entry->op3,
-+		__get_str(name), __entry->op1, __entry->op2, __entry->op3,
- 		__entry->op4)
- );
- 
-@@ -100,7 +102,7 @@ TRACE_EVENT(host1x_cdma_push_gather,
- 	TP_ARGS(name, bo, words, offset, cmdbuf),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(struct host1x_bo *, bo)
- 		__field(u32, words)
- 		__field(u32, offset)
-@@ -114,14 +116,14 @@ TRACE_EVENT(host1x_cdma_push_gather,
- 					words * sizeof(u32));
- 		}
- 		__entry->cmdbuf = cmdbuf;
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->bo = bo;
- 		__entry->words = words;
- 		__entry->offset = offset;
- 	),
- 
- 	TP_printk("name=%s, bo=%p, words=%u, offset=%d, contents=[%s]",
--	  __entry->name, __entry->bo,
-+	  __get_str(name), __entry->bo,
- 	  __entry->words, __entry->offset,
- 	  __print_hex(__get_dynamic_array(cmdbuf),
- 		  __entry->cmdbuf ? __entry->words * 4 : 0))
-@@ -134,7 +136,7 @@ TRACE_EVENT(host1x_channel_submit,
- 	TP_ARGS(name, cmdbufs, relocs, syncpt_id, syncpt_incrs),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(u32, cmdbufs)
- 		__field(u32, relocs)
- 		__field(u32, syncpt_id)
-@@ -142,7 +144,7 @@ TRACE_EVENT(host1x_channel_submit,
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->cmdbufs = cmdbufs;
- 		__entry->relocs = relocs;
- 		__entry->syncpt_id = syncpt_id;
-@@ -151,7 +153,7 @@ TRACE_EVENT(host1x_channel_submit,
- 
- 	TP_printk("name=%s, cmdbufs=%u, relocs=%u, syncpt_id=%u, "
- 		  "syncpt_incrs=%u",
--		  __entry->name, __entry->cmdbufs, __entry->relocs,
-+		  __get_str(name), __entry->cmdbufs, __entry->relocs,
- 		  __entry->syncpt_id, __entry->syncpt_incrs)
- );
- 
-@@ -161,19 +163,19 @@ TRACE_EVENT(host1x_channel_submitted,
- 	TP_ARGS(name, syncpt_base, syncpt_max),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(u32, syncpt_base)
- 		__field(u32, syncpt_max)
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->syncpt_base = syncpt_base;
- 		__entry->syncpt_max = syncpt_max;
- 	),
- 
- 	TP_printk("name=%s, syncpt_base=%d, syncpt_max=%d",
--		__entry->name, __entry->syncpt_base, __entry->syncpt_max)
-+		__get_str(name), __entry->syncpt_base, __entry->syncpt_max)
- );
- 
- TRACE_EVENT(host1x_channel_submit_complete,
-@@ -182,19 +184,19 @@ TRACE_EVENT(host1x_channel_submit_complete,
- 	TP_ARGS(name, count, thresh),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(int, count)
- 		__field(u32, thresh)
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->count = count;
- 		__entry->thresh = thresh;
- 	),
- 
- 	TP_printk("name=%s, count=%d, thresh=%d",
--		__entry->name, __entry->count, __entry->thresh)
-+		__get_str(name), __entry->count, __entry->thresh)
- );
- 
- TRACE_EVENT(host1x_wait_cdma,
-@@ -203,16 +205,16 @@ TRACE_EVENT(host1x_wait_cdma,
- 	TP_ARGS(name, eventid),
- 
- 	TP_STRUCT__entry(
--		__field(const char *, name)
-+		__string(name, name)
- 		__field(u32, eventid)
- 	),
- 
- 	TP_fast_assign(
--		__entry->name = name;
-+		__assign_str(name);
- 		__entry->eventid = eventid;
- 	),
- 
--	TP_printk("name=%s, event=%d", __entry->name, __entry->eventid)
-+	TP_printk("name=%s, event=%d", __get_str(name), __entry->eventid)
- );
- 
- TRACE_EVENT(host1x_syncpt_load_min,
+Do we also want to hide the cycle counter from userspace? It sounds like
+it's going to get very confused if it tries to use it...
 
----
-base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
-change-id: 20260519-host1x-tracing-e2d608ec5e37
-
-Best regards,
---  
-Artur Kowalski <arturkow2000@gmail.com>
-
+Will
 
