@@ -1,134 +1,171 @@
-Return-Path: <linux-tegra+bounces-14669-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14668-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AMUK2OCFWoSWQcAu9opvQ
-	(envelope-from <linux-tegra+bounces-14669-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 13:22:11 +0200
+	id 0J7AAvGAFWqtWAcAu9opvQ
+	(envelope-from <linux-tegra+bounces-14668-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 13:16:01 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EA25D4CDA
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 13:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9449B5D4C13
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 13:16:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C72283055E82
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 11:18:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 21E833038A67
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 11:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740033E009E;
-	Tue, 26 May 2026 11:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35243DF015;
+	Tue, 26 May 2026 11:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHs42++e"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mailout3.hostsharing.net (mailout3.hostsharing.net [144.76.133.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3963321BD;
-	Tue, 26 May 2026 11:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.133.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17EB3DDDBB
+	for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 11:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779794335; cv=none; b=Y4H8a2VRLrB3yMvHv0e3TTI5e/lOIHGpba7zJG9Nw6nHWT7uxF0Z5zZQLqOYtHQTntLRkq9L60BEb1rfWIs/W/6yAIr36rQN6+az0zpSWhsj/NmBVlNVJowqKg+CQhzp5BIi8MazpIVYbiSROK+pFB37+Xn/jVrKhePZae6eGig=
+	t=1779794091; cv=none; b=QFGRvomcSINecqyATgOP1EeDhYV1V66XRgRzUYhCHuvz7tT1Ok0qoGReMonqIwTGTWtnJMFChxs1EZ8PJN6X71ZW+i2tga2xRbiEd6QumgEbCaXMJmic9DkeFxmgnYRiegrm/Mf//gycs+p8SOcpYBAootZPvc0Da1K5WMoI4p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779794335; c=relaxed/simple;
-	bh=NJVVcILKyx4gZPT982sDkKyrsOuJppXb9db7z9pGu6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aYch+QVW12jL/2iysLIbsV/2rv8GocCEcydNvvrOvrOVsHGEcLD6xhLLYg4VGCoK4mqB98J4B8LuK20uwq1LnLQQ67qBE/J8IN3nWv1suAvyHQHNFP5Mqg/11wqQRrXWSRdskJABh/dBUqpsjdT5fX1TLSkufyg8igx+VLjUuks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=144.76.133.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout3.hostsharing.net (Postfix) with ESMTPS id 463BFC93;
-	Tue, 26 May 2026 13:10:39 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 1E2B36109E4F; Tue, 26 May 2026 13:10:39 +0200 (CEST)
-Date: Tue, 26 May 2026 13:10:39 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof Wilczy??ski <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-	Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Kevin Xie <kevin.xie@starfivetech.com>, Aksh Garg <a-garg7@ti.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v5 2/4] PCI: Use standard wait times for PCIe link
- monitoring
-Message-ID: <ahV_r6NJWnmJptT2@wunner.de>
-References: <20260526-tegra264-pcie-v5-0-84a813b979d7@nvidia.com>
- <20260526-tegra264-pcie-v5-2-84a813b979d7@nvidia.com>
+	s=arc-20240116; t=1779794091; c=relaxed/simple;
+	bh=8x7v1Mv6tuIs9sjMbBqRcyLtfQG/Nl3LqnbWxIpVYko=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=baY8tIJ/CqPkVWDJS9bu4UZPlMOCK914pQ1AzyMeOzSDHIj3Kt1RTNYQUoR851CSoPXgQZE5SUpGRoPxuK8YsPZ9wPQTVdE6RRFGsB34X2vSuf4dQxA53ikfjFMjZzQpUyLorTonH4wbsiUoT/N+XnPdWJBOXOzqc6kCJ1CBM20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHs42++e; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524EE1F00A3E
+	for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 11:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779794090;
+	bh=E2kOdFDhgWIu+MPmwrmzf4P6ZSq1/YuSms4C2k+gQRg=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=QHs42++eN9Hq+gywnoG2SxUijkwj0RfbQ1EibLSsZqGBmVDIcqgmwzk1TEy0+XRF7
+	 xlZFi4LTRfvpJivbojpXE3PWke7paRh5MAuZKje8TLf6GzRugPZtKfCJzgrZRdWp5B
+	 eixGeKt7kLvPREF3XDCZp2CMWtKpJkJ6gg9SSYslAV/auP5yxoAnEV7bDl//qQTd17
+	 Q2NBvTu0yAdDOx1qJkYUO/DOFqB1AnwEFlbW0ChR7ac41GkgjGP0jOKj9OTuZohWyo
+	 Ad89S60OeuM0TUiRUoRy+ptY8zMvng8MrlQd/swUULu/8vy+XzJu80d+NsI/gtM+LW
+	 vJ6UTxIQUMsOw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38e97e73234so89305461fa.1
+        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 04:14:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ939FOjpG9UCN80YEXnr6RX8o+UHemVXs97nvQdUXkzf6SrtJk5nLtJWpAF7ggPfjmEONjvCN71kc6k8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQbBQfV39Uon6zRSX/DJzykhYP1ov0ihxyQ2X2YLG5mkZ6wFsN
+	+YRG8GN942U3JfG4WGwSOcKKm5zfn6wqkQwAw8RKGFZs2pFU5OLCZKuiSV6RtbIpgWIlINC/05x
+	5Zc7aSbavNIBUZTGjrNQTJSOWs/NvtxDvsvU9/eBwKg==
+X-Received: by 2002:a05:651c:1586:b0:392:454a:47a with SMTP id
+ 38308e7fff4ca-395d8dc6495mr56382991fa.28.1779794089011; Tue, 26 May 2026
+ 04:14:49 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 26 May 2026 07:14:47 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 26 May 2026 07:14:47 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <CAPVz0n1G5Yu2X5f+=q90RAbnsWi9psMq-L5tWDMM4JRC4R_mPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260526-tegra264-pcie-v5-2-84a813b979d7@nvidia.com>
-X-Spamd-Result: default: False [0.04 / 15.00];
+References: <20260523085102.51000-1-clamor95@gmail.com> <20260523085102.51000-2-clamor95@gmail.com>
+ <CAMRc=MfXVwD2u0e115RapnyLzf5JRjWMs=2PSNzMnm0GDd7aaQ@mail.gmail.com> <CAPVz0n1G5Yu2X5f+=q90RAbnsWi9psMq-L5tWDMM4JRC4R_mPg@mail.gmail.com>
+Date: Tue, 26 May 2026 07:14:47 -0400
+X-Gmail-Original-Message-ID: <CAMRc=Me4G-YqKoFan3epofXk2OWzxY1iPE1mP=uwEjs9wgA6Cw@mail.gmail.com>
+X-Gm-Features: AVHnY4LR9l-b2s5D4U7lp3jFcFTBHEkrzcFP4aWpe-PQvVMcMIisw4oZPWQMLPY
+Message-ID: <CAMRc=Me4G-YqKoFan3epofXk2OWzxY1iPE1mP=uwEjs9wgA6Cw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: soc: tegra: Document Nvidia Tegra
+ modem pwrseq
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,nvidia.com,mobiveil.co.in,nxp.com,bootlin.com,amd.com,starfivetech.com,ti.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-14668-lists,linux-tegra=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14669-lists,linux-tegra=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[wunner.de: no valid DMARC record];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lukas@wunner.de,linux-tegra@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.930];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-tegra@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 56EA25D4CDA
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 9449B5D4C13
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 26, 2026 at 10:53:11AM +0200, Thierry Reding wrote:
-> Instead of defining the wait values for each driver, use common values
-> defined in the core pci.h header file. Note that most drivers don't use
-> the millisecond waits, but rather usleep_range(), so add these commonly
-> used values to the header so that all drivers can use them.
+On Tue, 26 May 2026 12:03:59 +0200, Svyatoslav Ryhel <clamor95@gmail.com> s=
+aid:
+> =D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 12=
+:51 Bartosz Golaszewski <brgl@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>>
+>> On Sat, May 23, 2026 at 10:51=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmai=
+l.com> wrote:
+>> >
+>> > Document the Tegra modem pwseq used by various devices based on the Nv=
+idia
+>> > Tegra SoC, describing its usage. The power sequence provides interacti=
+on
+>> > between the modem and SoC-specific interface configurations.
+>> >
+>> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+>> > ---
+>>
+>> ...
+>>
+>> > +
+>> > +examples:
+>> > +  - |
+>> > +    #include <dt-bindings/gpio/gpio.h>
+>> > +
+>> > +    pwrseq-modem {
+>> > +        compatible =3D "nvidia,tegra-modem-pwrseq";
+>> > +
+>> > +        enable-gpios =3D <&gpio 165 GPIO_ACTIVE_HIGH>;
+>> > +        power-supply =3D <&vdd_3v3_vbat>;
+>> > +
+>> > +        nvidia,usb-bus =3D <&usb2>;
+>> > +    };
+>> > --
+>> > 2.51.0
+>> >
+>>
+>> I assume there's no such component as the tegra modem *pwrseq*?
+>
+> Hardware component, I assume no.
+>
+>> What is the relationship between this node and the "infineon,xmm6260"
+>> compatible node?
+>>
+>
+> The xmm6260 has a phandle reference to it. Since there is consumer
+> matching logic in the pwrseq driver I am leaning towards removing this
+> node entirely. This patches is still in non-final stage and I would
+> like to hear any opinions on the way to improving it.
+>
 
-Hm, why not just replace usleep_range() with msleep() and use the existing
-macro instead of defining new ones?
+The node attached to the pwrseq provider device should represent a real
+hardware component. Are the enable-gpios and power-supply lines connected
+to the modem package? Is there an internal structure to it, like a PMIC to
+which these lines connect that controls the actual modem IC?
 
-> +++ b/drivers/pci/pci.h
-> @@ -63,6 +63,8 @@ struct pcie_tlp_log;
->  /* Parameters for the waiting for link up routine */
->  #define PCIE_LINK_WAIT_MAX_RETRIES	10
->  #define PCIE_LINK_WAIT_SLEEP_MS		90
-> +#define PCIE_LINK_WAIT_US_MIN		90000
-> +#define PCIE_LINK_WAIT_US_MAX		100000
-
-If you absolutely positively want to add a new macro, consider
-90 * USEC_PER_MSEC instead of 90000.  Moreover, consider using
-fsleep() instead of adding an additional MAX macro.
-
-Thanks,
-
-Lukas
+Bart
 
