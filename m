@@ -1,58 +1,98 @@
-Return-Path: <linux-tegra+bounces-14671-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14672-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sNRoDZOTFWpSWgcAu9opvQ
-	(envelope-from <linux-tegra+bounces-14671-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 14:35:31 +0200
+	id mEnuDFGYFWqNWgcAu9opvQ
+	(envelope-from <linux-tegra+bounces-14672-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 14:55:45 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43C65D59E9
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 14:35:30 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0200E5D5DBC
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 14:55:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 77D223027949
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 12:35:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 720EA301361C
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2026 12:55:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D29E3F9F32;
-	Tue, 26 May 2026 12:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2253927AC45;
+	Tue, 26 May 2026 12:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LwVpsN6P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LW537hYj"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D081282F1D
-	for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 12:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798904; cv=none; b=Gf1Cln9InB2VHQQmddV4cEpTrHWwKiFOX9XKPYgEPc+AGccLEMS/QLQIAFgGaYlfCANW/3gbUAyCVzvEjcUMozpxtzhG3sm8TOMrOfjHkLzrQ6N/NqbmUokl2pDqvUv2e0+nYMcfTxDiSEPUspz+i0VdBsoLnVWsNKUHnB+uoto=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798904; c=relaxed/simple;
-	bh=jawOlGnnD26Ppp+JufdrTQn9Lmw7mrNyUF89gdMdb9o=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784AC23E320
+	for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 12:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779800122; cv=pass; b=pxd1TMFY0jwiOUdDRsi5wvXj9mgGLKWfHzYxZ550UEAh9UZv09IxpxfHQcC982XNFMmE1i2XtkwcI5FnBAQMnJjLuC/26sttjWy8LBwHJoBc9VmSiuhM/cTHm46Bc50Nu3flEphBh6vP11R+XJAW2ZQVnMaryq8tt916MTEUyYY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779800122; c=relaxed/simple;
+	bh=NPceGcX3PswichgjQ3Txb5qWCLz/58AAZcjid0lj8wA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k9TRVsAU/+7fMLbqnwCmzb8q2CgaqaehseKTw29NWOVJdrNXyZcWy0ngmgTkwprcTJEedt85mmM3TutIEXBr1PNV0buZlfxxQx3NBaZUOQXIS1MvrBZkDWo24ZDdIdC0uJMktJzWoXW/OYJ7Ijn/56dB4WLN8OGqPUugEztJgAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LwVpsN6P; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9FA1F00A3D
-	for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 12:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779798903;
-	bh=jx8+h1I+icjwj5kn/NeTmz1laMq204QO0s7URIhHUtI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LwVpsN6P5UEzTeVt5QAJXNyIaW3bUzRSi9pyWqIQCau+pSgBlVl2c0A/uY1byxZ4U
-	 lGfpwYaaxGMaOskeSHnMrKJuwuKbJ0vyczbks7yYqegBu8BfpI/m16r2Sqv2fEufFp
-	 6Pyn+y+DhToXxl4O+wHYlypWvHpBShkloWAsNK9Kbl+p2qWq4iP6RfEeUcqgAxMv3O
-	 eW3dkE0gK80ccpkU4UBYmeUSyg8SDCDToEhBULBI14cX63G/t7Hu1feBHfrZMfmYHM
-	 LsXAB8WKzh4tZkeEPy1K2lcCPvc60NXeOTG5QbuVnNt7fm+3f8tXZfKHTMsm7zWTU7
-	 LMM0+cUoNvDfA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38ea6a5a0b3so84194131fa.3
-        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 05:35:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/nzrok1S2xJSdubkVga8TaABu+Ka5wBkY3T2t0nOEDuC8pJ6Ab1LIXegeBtsI8o0qldnj0mBDhEY98/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywhs5sz9603vfQk8Kp9kKXmXLTl2C23c+orb7ptIXCV+IZdH6rr
-	pLrBjKTxOK+D6WZJgLuaNKufB/DFWOyrclxw5DTebuKwKK38cEOD8QXG1SJxLOmnU00TSqNqBmO
-	KaFzMamg9kM6oYXzZ6Lzy1aWe/MtpdUwmFvPD6RcXig==
-X-Received: by 2002:a05:651c:541:b0:391:1570:b6c6 with SMTP id
- 38308e7fff4ca-395d8c64fd3mr62255981fa.2.1779798901544; Tue, 26 May 2026
- 05:35:01 -0700 (PDT)
+	 To:Cc:Content-Type; b=j7RNExAsEW3ITiU2WpGOzUYx9hFcKoLNHlcvWpmqCiXeIcNcsmsc98mW+BAZb8qymLSaCBt4sqGLhrjZCdm/Q3I51ffg4DBwhHvRhPsqnoEU5zdHcflVUYIpkqEKYByXKCYq9M5URfjz40t12Ck3NBUuKTX0GKiYwyglYvcCQow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LW537hYj; arc=pass smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2f0d3e07e30so34723537eec.0
+        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2026 05:55:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779800120; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GOfEyIUOAytNPs1KdOlhEcldMOdQ6WigHiZY3Q27cGQZbRSsdS7mecThvn+RoGcRWj
+         oxgnsmzMlioFNSXIEL0y8M+AgUEkiHfLsmdBHzJpygEvNrujNdYgDfBpVBDIP4+J1iTw
+         mdJ4L7BH9R8Buuvp8/GElOmpI+ArzLbf8Gjqce1ficK0pH77S+TRBx5zcBmPHTImdkRF
+         Ia6aXjTizL1IX8NVPjOblzKedlVj+lUWHkk45/oDX2nmxficaMx20V51rPXb6xKrdpCu
+         HUWLGVajsiKjpEjn9qE6IRW4rgA9Ssk6VSZ1qxXp95oCVXM6R2sinJ36FYQJA0U/HGaI
+         nOpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kzs/MAQKWcUn71oLtzdfn8RCw0kMPvaTRDu9OkTS6Wk=;
+        fh=G2O25N+JduVj9A7yhDhDxhhGeOqtVmnuEVUqtgPYpVE=;
+        b=ZTVS5gUCSnMaaceDDBcep9LwweZJj5Dz1QMUBpS80wMPC3X+Bzz5WZu9tnxBIApqSs
+         0oYxD2/2dSxuRvSCEflH7evWSDIp3/6rG8ZdiuiArCy0xYlpJwcmmAnfge8rN0Fxl0TA
+         2Sz/v9t4mXzPmcGjI1eGOIiXkFQAHFOlJr1IeLFLxPwbXAxl/h37zyoGbeUD60TYEunu
+         zSjslV8EXoiXHX9IxC/h7S1s/pzK0aat0zfEMcUeUDK9MCo3pvQVd7c06sVT49qFtDmk
+         RYc0FTt3cXKr17N6/hAYwepKjHV2VRVUlLT8jcpV2IlBLfIbzUodnB0USOyRoFnDSqBO
+         8aLg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779800120; x=1780404920; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kzs/MAQKWcUn71oLtzdfn8RCw0kMPvaTRDu9OkTS6Wk=;
+        b=LW537hYjR0WybDVCeLMHW/NbrVJs6R0akoDbpiNLYkLLTY4HeVs7gsyRQqBZGbn0sz
+         UfCACL+O5QMsR+ZDWFAc7LXD7FA1r/dlzTIeXbT+vqNOZNB+Spx0s9BabDiMVNONYIqn
+         UQfWCDe1Va9tZMdUJvBbcqBHGbVpbBj137Ol1CgmlWsk/ZFZPWKuipV+7kYwLkFtvv2S
+         8C7U4EefLkOckO62sSi6JyOGuSaL6zHgY5wR/55nIuvf5EGinc6bDVoOs8RpeT90ohht
+         9dP2sJO+B3lr1UviygArCx05yYkDz6n1fZmIO058QA6InNj8LkGhfeEAV68cZteZ7ZAq
+         +SYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779800120; x=1780404920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kzs/MAQKWcUn71oLtzdfn8RCw0kMPvaTRDu9OkTS6Wk=;
+        b=dRg0PsbVRBEj30AKsUWKOKboB5yXHKKUzbEvd74cMcbNCRxbLJYij6/p5xCo1hUjcG
+         8AyaucVQ4b6lgFu6aWBhTjYc03R1f0//MmTkfJaTBKBoAbB7cTFb7ut/d7pCfsbMa4Ez
+         WE9/HVKwGwOZCuAykQ7KHleNMTnrr6nBpJlFhLJDO9obwWaUQNmo+2lPidZJAfbpaS0C
+         qGJG5//0oGNjmif3B2R/hFUNL5Lb9QSPu6t8WCDmifNYbgR4uGwlXIlA9ZsMVf/8XK89
+         p8IC/YBK7P9EKHR1FltTGU8HzqTXBohwFKPB7mBu4dMIKf2wcQBw7b1VV9byKlI/ci5B
+         QRwQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8KJeQ/O/3/nwp0KgUZIzRCRKFi35tZXbKWJJcxeFSRab8lkvDgaFMnMO5WDh65gu6yd/1iI2MCGFT5fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWADY6HUNHg/zBj15y07JQtXWfNyG2V9ZUeeaow4uovLzBVlz1
+	3RDcH7kmx9bPt3ud8O9VslTNCALfjDs1Pf1KUM5Fh/LSu8qCJ6slOfI8BU/rwXyuLZbIO0WnNa3
+	It2Ug92ON0SO6uYX9vr1F7nWSW1mMA9Q=
+X-Gm-Gg: Acq92OHuTwLp1H4FxdXpGOashRnTtgY67GmbOPjfTeWW6GMJNUrvY0EEedUB+YodawS
+	MLcxoiwSIPxt7ODdvlCmqBfvWm6Ztj8uS17f77ULkLLeNs2UgnVNlvTLxkbuR0JjA8gCUZ6NrjX
+	oOZh9FL4rRqzaHdL3CHhwC1aYgvoWXeAiybc7QeH11jCg0umiM7lUBKe8JZlwhZ5qVcDq3Dtcis
+	wBTTbH8IMoOO2r7qDzK2XwukMhhjoV75t6wD/GyvF0gV2Vdz2PAg5hIc8XZN10usAM3NCxzZzG9
+	9lxIaZtk
+X-Received: by 2002:a05:7301:d0f:b0:2ed:e15:c923 with SMTP id
+ 5a478bee46e88-30449142740mr8172308eec.31.1779800119575; Tue, 26 May 2026
+ 05:55:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -62,16 +102,16 @@ MIME-Version: 1.0
 References: <20260523085102.51000-1-clamor95@gmail.com> <20260523085102.51000-2-clamor95@gmail.com>
  <CAMRc=MfXVwD2u0e115RapnyLzf5JRjWMs=2PSNzMnm0GDd7aaQ@mail.gmail.com>
  <CAPVz0n1G5Yu2X5f+=q90RAbnsWi9psMq-L5tWDMM4JRC4R_mPg@mail.gmail.com>
- <CAMRc=Me4G-YqKoFan3epofXk2OWzxY1iPE1mP=uwEjs9wgA6Cw@mail.gmail.com> <CAPVz0n2P-zB1_uetZN9pVcQChK+FkdQowbF4Z0YZOBQBsB76WQ@mail.gmail.com>
-In-Reply-To: <CAPVz0n2P-zB1_uetZN9pVcQChK+FkdQowbF4Z0YZOBQBsB76WQ@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 26 May 2026 14:34:48 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MfAAE4UtnW4S1=pY+2yvS6Hsd-U9+uveUFtPGoJPrv6aA@mail.gmail.com>
-X-Gm-Features: AVHnY4KHpaK2guCMzD84efob-Fn_1e4ff05aeaWlnbgoKMEGNNeAbfQ9YXcn-6s
-Message-ID: <CAMRc=MfAAE4UtnW4S1=pY+2yvS6Hsd-U9+uveUFtPGoJPrv6aA@mail.gmail.com>
+ <CAMRc=Me4G-YqKoFan3epofXk2OWzxY1iPE1mP=uwEjs9wgA6Cw@mail.gmail.com>
+ <CAPVz0n2P-zB1_uetZN9pVcQChK+FkdQowbF4Z0YZOBQBsB76WQ@mail.gmail.com> <CAMRc=MfAAE4UtnW4S1=pY+2yvS6Hsd-U9+uveUFtPGoJPrv6aA@mail.gmail.com>
+In-Reply-To: <CAMRc=MfAAE4UtnW4S1=pY+2yvS6Hsd-U9+uveUFtPGoJPrv6aA@mail.gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 26 May 2026 15:55:08 +0300
+X-Gm-Features: AVHnY4JRp0uoVu7T9D5O6sRRvjrX-3sJh-DKTWd-v6Qt1vrT7npN-zOtTEgIKHE
+Message-ID: <CAPVz0n2COsDL+fNBAuKr1ty_AVe9sK5yNJithkXex6GNa1T_Tw@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] dt-bindings: soc: tegra: Document Nvidia Tegra
  modem pwrseq
-To: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
 	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org, 
@@ -79,111 +119,134 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-14671-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-14672-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-tegra@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-tegra@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: B43C65D59E9
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-tegra,dt];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 0200E5D5DBC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 26, 2026 at 2:29=E2=80=AFPM Svyatoslav Ryhel <clamor95@gmail.co=
-m> wrote:
+=D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 15:3=
+5 Bartosz Golaszewski <brgl@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> =D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 14=
-:14 Bartosz Golaszewski <brgl@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> On Tue, May 26, 2026 at 2:29=E2=80=AFPM Svyatoslav Ryhel <clamor95@gmail.=
+com> wrote:
 > >
-> > On Tue, 26 May 2026 12:03:59 +0200, Svyatoslav Ryhel <clamor95@gmail.co=
-m> said:
-> > > =D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=
+> > =D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE =
+14:14 Bartosz Golaszewski <brgl@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Tue, 26 May 2026 12:03:59 +0200, Svyatoslav Ryhel <clamor95@gmail.=
+com> said:
+> > > > =D0=B2=D1=82, 26 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=
 =BE 12:51 Bartosz Golaszewski <brgl@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >>
-> > >> On Sat, May 23, 2026 at 10:51=E2=80=AFAM Svyatoslav Ryhel <clamor95@=
-gmail.com> wrote:
-> > >> >
-> > >> > Document the Tegra modem pwseq used by various devices based on th=
-e Nvidia
-> > >> > Tegra SoC, describing its usage. The power sequence provides inter=
-action
-> > >> > between the modem and SoC-specific interface configurations.
-> > >> >
-> > >> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > >> > ---
-> > >>
-> > >> ...
-> > >>
-> > >> > +
-> > >> > +examples:
-> > >> > +  - |
-> > >> > +    #include <dt-bindings/gpio/gpio.h>
-> > >> > +
-> > >> > +    pwrseq-modem {
-> > >> > +        compatible =3D "nvidia,tegra-modem-pwrseq";
-> > >> > +
-> > >> > +        enable-gpios =3D <&gpio 165 GPIO_ACTIVE_HIGH>;
-> > >> > +        power-supply =3D <&vdd_3v3_vbat>;
-> > >> > +
-> > >> > +        nvidia,usb-bus =3D <&usb2>;
-> > >> > +    };
-> > >> > --
-> > >> > 2.51.0
-> > >> >
-> > >>
-> > >> I assume there's no such component as the tegra modem *pwrseq*?
+> > > >>
+> > > >> On Sat, May 23, 2026 at 10:51=E2=80=AFAM Svyatoslav Ryhel <clamor9=
+5@gmail.com> wrote:
+> > > >> >
+> > > >> > Document the Tegra modem pwseq used by various devices based on =
+the Nvidia
+> > > >> > Tegra SoC, describing its usage. The power sequence provides int=
+eraction
+> > > >> > between the modem and SoC-specific interface configurations.
+> > > >> >
+> > > >> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > >> > ---
+> > > >>
+> > > >> ...
+> > > >>
+> > > >> > +
+> > > >> > +examples:
+> > > >> > +  - |
+> > > >> > +    #include <dt-bindings/gpio/gpio.h>
+> > > >> > +
+> > > >> > +    pwrseq-modem {
+> > > >> > +        compatible =3D "nvidia,tegra-modem-pwrseq";
+> > > >> > +
+> > > >> > +        enable-gpios =3D <&gpio 165 GPIO_ACTIVE_HIGH>;
+> > > >> > +        power-supply =3D <&vdd_3v3_vbat>;
+> > > >> > +
+> > > >> > +        nvidia,usb-bus =3D <&usb2>;
+> > > >> > +    };
+> > > >> > --
+> > > >> > 2.51.0
+> > > >> >
+> > > >>
+> > > >> I assume there's no such component as the tegra modem *pwrseq*?
+> > > >
+> > > > Hardware component, I assume no.
+> > > >
+> > > >> What is the relationship between this node and the "infineon,xmm62=
+60"
+> > > >> compatible node?
+> > > >>
+> > > >
+> > > > The xmm6260 has a phandle reference to it. Since there is consumer
+> > > > matching logic in the pwrseq driver I am leaning towards removing t=
+his
+> > > > node entirely. This patches is still in non-final stage and I would
+> > > > like to hear any opinions on the way to improving it.
+> > > >
 > > >
-> > > Hardware component, I assume no.
-> > >
-> > >> What is the relationship between this node and the "infineon,xmm6260=
-"
-> > >> compatible node?
-> > >>
-> > >
-> > > The xmm6260 has a phandle reference to it. Since there is consumer
-> > > matching logic in the pwrseq driver I am leaning towards removing thi=
-s
-> > > node entirely. This patches is still in non-final stage and I would
-> > > like to hear any opinions on the way to improving it.
-> > >
+> > > The node attached to the pwrseq provider device should represent a re=
+al
+> > > hardware component. Are the enable-gpios and power-supply lines conne=
+cted
+> > > to the modem package?
 > >
-> > The node attached to the pwrseq provider device should represent a real
-> > hardware component. Are the enable-gpios and power-supply lines connect=
-ed
-> > to the modem package?
+> > Yes, enable-gpio is connected to the modem and signals that USB is set
+> > and ready to work with the modem, while power-supply is an optional
+> > supply connected to the modem's vbus input.
+> >
 >
-> Yes, enable-gpio is connected to the modem and signals that USB is set
-> and ready to work with the modem, while power-supply is an optional
-> supply connected to the modem's vbus input.
+> The modem is a hard-wired USB device? Do you implement it as a
+> platform driver or a USB driver?
 >
 
-The modem is a hard-wired USB device? Do you implement it as a
-platform driver or a USB driver?
+It is not a traditional USB device. XMM6260 is an embedded modem used
+in the Tegra phones, it is linked with the AP using USB line in HSIC
+mode. The driver is implemented as a platform device since it does not
+interacts with the exposed USB device directly, it just ensures that
+USB device is properly configured and is ready for IPC.
 
-Is there a connector of any kind that could be used as the HW
-component represented by the pwrseq device?
+> Is there a connector of any kind that could be used as the HW
+> component represented by the pwrseq device?
 
-Bart
+I assume control over USB line is the HW base, but as I have said, I
+can integrate binding in the modem node itself, and pwrseq can get all
+it needs from the match. Pwrseq framework states "This framework is
+designed to abstract complex power-up sequences that are shared
+between multiple logical devices in the Linux kernel." it does not say
+that it must represent some specific hardware.
+
+Using pwrseq allows modem driver to be SoC independent since USB line
+handling is moved into SoC specific power sequence, and this modem is
+used in Exynos and OMAP too with similar setup but they all have
+different USB controllers. Maybe you can point me where SoC specific
+USB controller handling can be implemented?
+
+>
+> Bart
 
