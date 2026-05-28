@@ -1,129 +1,152 @@
-Return-Path: <linux-tegra+bounces-14753-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14754-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QLJJD5ysGGphmAgAu9opvQ
-	(envelope-from <linux-tegra+bounces-14753-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 22:59:08 +0200
+	id 8EyvLN+sGGpolwgAu9opvQ
+	(envelope-from <linux-tegra+bounces-14754-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 23:00:15 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9A05F9FB7
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 22:59:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9075FA084
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 23:00:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 56F9230A32F7
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 20:52:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EF7A13001C6B
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 20:54:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C34330B32;
-	Thu, 28 May 2026 20:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57A6D33291F;
+	Thu, 28 May 2026 20:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJ54DL13"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iz09SeYN"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6589C2F1FEF;
-	Thu, 28 May 2026 20:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82D232AADE;
+	Thu, 28 May 2026 20:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780001542; cv=none; b=ST3F1MwKln/hq9cHhkrcj/ddFCbUpt/zPcUD/KynF6gszWf5Qd4cXR1oIVRvO6ejdCfX6tGBFhmJyWRmJMtVv0yWdEOshD1aZJyDBq4jkkWvcmpuzL7loOgYuEVPbwIxVs/CoNVmeRggk+USx9spWU5BCzU0zfq1tcpWfEW7ZlU=
+	t=1780001663; cv=none; b=gow8iRP0uYori9xu29hG/S8frH45zgFZLIRcQsVWNC6nCM16muAo3W2mz3YEq3RyOD4el/LHXVX+g73mo9nAteUiUeAEQP19baiHLVpLaCu+W1G158OLcoJVIMxhqpO5ljefJCjyG9vwdWcHrlkPUyBr3xONEQmTSFp2aCTl+5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780001542; c=relaxed/simple;
-	bh=5ifrZwLIoVEquM9WTWncPwEfdCGSa8t6hv8wV3vlGnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b9pvWB1z179SSW7nIKdPP36F6dWq+mLzra7VHfhJxJI63yi0z8vQmc+9r3nHHuj3w/a6+j2s5Ww2dNLMfUbLrBOHTocn/RiNSS5o4I1Y5c+kPRTzl6kcBzaqr7QVhgK5GKw5AsIo5Ccmxys05tLxs0CM6333OFC2C+8vas4IY2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJ54DL13; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D2C1F00A3A;
-	Thu, 28 May 2026 20:52:20 +0000 (UTC)
+	s=arc-20240116; t=1780001663; c=relaxed/simple;
+	bh=BTN7qLK+52a2HJxIYQc+mWk4qZm/9K3r+nUc1Cj5nyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hbK6d3C0P2iHdGxwDZkc/YgGkouvfAaRSy0qX2T9RA9yi/SC+hVBrG36oWgFEmDnxOd0xSvpuuZnMeaJ66kGv2IyPSUSv+Yq/RPMt006hRlig0Vk5hHWODdbE6Awz3Q1se3f7n7agg50kZMnRBOg5gJHg8V/dgaOgcNWvqIutvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iz09SeYN; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCD21F000E9;
+	Thu, 28 May 2026 20:54:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780001541;
-	bh=D7DiZFC+m9rs0TUa2kmuB/E5ONWjaeXpAJf6tk5LF5M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hJ54DL13q1oyzgu+NLatQEYrbnn5y0UMNvoSy8ijmk3MPa4qqAeqCgbvkWm8O+Plj
-	 FIE9oHywnasoJCt7Y0rc7VklmKIU31tlaXIKxUP1FupiR7i4aQhuYWF3X9SIPsP5zI
-	 dPlR3MwQRBS6bMny9BTOcEBPhJglM6uoutZJmrh3Fa/71754sLrUA0qZJMRpDNbF+B
-	 gwUKTi0T9o9G2w1Ij2Eflxn02RoqPAoO73AHT/3cvz1fiz6vM1uWL+1VEzSuU2KG1/
-	 TZ2hm36E7GEchnj449ZTVFZuhRZI30Q5SEMfs856inQvaUlYREgj/TpkFDwSZ10f4q
-	 7nv967GXTck8A==
+	s=k20260515; t=1780001661;
+	bh=2G34fnGmkmRCuga2v0nSyRziiDYtvnbdhLlcoW44ug4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iz09SeYN4Iyo7/d0Y1asGiSqpFxJ6DEuwVmbPBLu6rS1g2/p4TvnaIf8kN+OYOAvS
+	 HxaUYHZCEY15IiiybTkFbaMPI/i0fs9omYnI38tKrgaaAMH0mq4Hy2+VOXdgBC0MzP
+	 DwmVmhNPgjebG5WvTVnZFwwfWMMIFKWjRySLEdmIjBUaOQZZ+mP2rNQmQuzDEEv+9Y
+	 Q0TTiF2cEETZe3NQLYtFJGabAMrGGmHDBz8rVGxbUAokYWUJTqbOYd67FLeCgIjTNO
+	 bBs923GW+GF7FmKeoxIQzND+9Q47wkcDyqeTlNYiLArjUDHkMf2cTsIcekHnzSwH5U
+	 hhu8W3ZJI2Qcg==
+Date: Thu, 28 May 2026 22:54:19 +0200
 From: Thierry Reding <thierry.reding@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/4] power: sys-off: fix Pixel C shutdown via MAX77620
-Date: Thu, 28 May 2026 22:52:14 +0200
-Message-ID: <178000152079.187267.3029370685286533529.b4-ty@b4>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260514-smaug-poweroff-v1-0-30f9a4688966@tecnico.ulisboa.pt>
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: Mark Rutland <mark.rutland@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/4] firmware: psci: switch SYSTEM_OFF to sys-off handler
+ API
+Message-ID: <ahirc5aAH3dwDawe@orome>
 References: <20260514-smaug-poweroff-v1-0-30f9a4688966@tecnico.ulisboa.pt>
+ <20260514-smaug-poweroff-v1-1-30f9a4688966@tecnico.ulisboa.pt>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nzilneadabmojjrh"
+Content-Disposition: inline
+In-Reply-To: <20260514-smaug-poweroff-v1-1-30f9a4688966@tecnico.ulisboa.pt>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-14753-lists,linux-tegra=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14754-lists,linux-tegra=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nvidia.com:email]
-X-Rspamd-Queue-Id: BD9A05F9FB7
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 2E9075FA084
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Thierry Reding <treding@nvidia.com>
 
+--nzilneadabmojjrh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/4] firmware: psci: switch SYSTEM_OFF to sys-off handler
+ API
+MIME-Version: 1.0
 
-On Thu, 14 May 2026 16:47:18 +0200, Diogo Ivo wrote:
-> This series migrates PSCI and MAX77620 poweroff handling to the
-> sys-off framework and fixes shutdown on the Pixel C (Smaug).
-> 
-> The first two patches replace legacy pm_power_off usage in the PSCI
-> and MAX77620 drivers with sys-off handlers. Besides aligning both
-> drivers with the modern poweroff infrastructure, this removes the
-> global callback dependency and allows multiple handlers to coexist
-> with explicit priorities.
-> 
-> [...]
+On Thu, May 14, 2026 at 04:47:19PM +0200, Diogo Ivo wrote:
+> Replace the legacy pm_power_off hook with the generic sys-off
+> handler infrastructure.
+>=20
+> Convert psci_sys_poweroff() to the sys-off callback prototype and
+> register it through register_sys_off_handler() with firmware
+> priority. This removes the direct dependency on pm_power_off and
+> drops the now-unused <linux/pm.h> include.
+>=20
+> This aligns the PSCI poweroff path with the modern system-off
+> framework used by other firmware and platform drivers.
+>=20
+> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> ---
+>  drivers/firmware/psci/psci.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-Applied, thanks!
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-[4/4] arm64: tegra: smaug: mark MAX77620 as system power controller
-      commit: ec36d6d5960cf75bea780a639db346cac42fab9c
+--nzilneadabmojjrh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoYq3oACgkQ3SOs138+
+s6EvIQ/+NSPLjpH1GzS6NNKI/4+bRuT5u2FFyygNCKfSSaR9Px7pHu8aO1Hi9vFr
+CKqWer/BMr6/hRqVTNO7TTV49hZL2l8wx0koB/j8OjXph2KrDTEFug6ExD5zUld7
+rzNgPkHWOZF7DwwJfdBuUgon+THoxNeoEU590foaoGhl8xZQ0WMcsuRKj4w1p3UZ
+Ma5NEmgtBecUfZfttyiaUnbvF8b6nD5fp1aVC6AhMzkr4PUGDjSMytv54cVkOrZy
+mWvpq1hW7kW21cuki+jCNxgIykuwQmm/XOkxqGibhZTwi+B8c0nQxFH2slPkX4rM
+4Xt+vZrOKyOvqS7PStE5+4u61koGJs2Cc8pocqIMjfNvIS/Vea2lHD+gvO9IwWa6
+PHZKr2+UYFt3YTwCD5dJuoUaMtBo+GEv9KDMC0FD928gg7vBr+dya7cD27XO2iGS
+d0JqnT/1OkLZy1s7EA9KuWdU5/h5gvMPlcWAur2tSavXEO3IxjzJDJYmW1H+4xil
+TRxSzzJMGxlAPxJQNnQDzqixLaeDqwVRws+gxH6RJyJoGBbPPFGm7UTu2+7zKBDb
+F0hRL8bI8ZYq06Zn0F1J3kIrWlUO/CHXWugomWD/6IuCVM6fVQC5UmhaQtTqUbXH
+gSZ3ocRT1zcTmO5V4rx+Djg/ZhfjKv3j/tJVGSYPuAv15BluSOU=
+=7W3h
+-----END PGP SIGNATURE-----
+
+--nzilneadabmojjrh--
 
