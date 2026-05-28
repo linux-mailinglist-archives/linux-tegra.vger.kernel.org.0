@@ -1,61 +1,60 @@
-Return-Path: <linux-tegra+bounces-14737-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14738-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8K9bGLBIGGpSiggAu9opvQ
-	(envelope-from <linux-tegra+bounces-14737-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 15:52:48 +0200
+	id sAftAP5LGGr4iggAu9opvQ
+	(envelope-from <linux-tegra+bounces-14738-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 16:06:54 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2595F3157
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 15:52:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 867CE5F35DF
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 16:06:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5A08D30D93F7
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 13:46:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F1A3E301D968
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2026 13:55:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AD3233959;
-	Thu, 28 May 2026 13:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D3D0282F25;
+	Thu, 28 May 2026 13:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQZLWfQo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krMe+hDI"
 X-Original-To: linux-tegra@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B20124677F
-	for <linux-tegra@vger.kernel.org>; Thu, 28 May 2026 13:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C566276028;
+	Thu, 28 May 2026 13:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779975973; cv=none; b=FJmZvLhbyW/rw6ejcLqclk2wXD6kAhWfUTqx7N8QNT6PeNZ2DR5nPIwQXDEsW+6qTGQOCjM8q0vhbmkKm30jNU6sjF40BWOhyv99KJJMEepMU8fbigaStEEQSrdiqRH2zT6ooLzDFzZKMwbLblvBi60dvvPFwp0GscC+neJlbas=
+	t=1779976554; cv=none; b=gRyXCsL5ng6xb20TuwwGt2vtqXcj4shwPszNW5t3mr5DrcttOgNPu2v8n7W+BEM/q9Rf1xoslAu52eh6C2CNJPg9hTiAD61UWDEii7D0xOXXtuYPf6mcoIKHVFRcM3PYgtGMWIl9dTkQ1HL235oY0AmQ+HZK46R/SDcbKiw5lyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779975973; c=relaxed/simple;
-	bh=uYWCuQzCSBayFbZ7P93KPRRlCtKHi7FnqbsN6EDw+9I=;
+	s=arc-20240116; t=1779976554; c=relaxed/simple;
+	bh=hfTmoTh3/23jC/r9GqRvcrXq+7MOjYgv7vismxC6ZgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSa73zZJUc9sZydJ7ZPgQbvg0cMcbSSMKs5HxsUser5NDLuu5vIyBJ50MpKpG2Wr+qRXxKJ28QzrkP5B4XRVeqw6X5ziqyLkr9oX7/KIrfpqyQaObcvSAVMHNedNatZ2ob7cEBiNOoFZq49pjP8dbRxS5ghW8297ghuSCIDzac8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQZLWfQo; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB6D1F000E9;
-	Thu, 28 May 2026 13:46:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=d2ul+Vm9dQ8qJKGwxiLWwDSEkPQ/n8/qL1tb8sra7of6rP3VN0JjfVkQpWH5Axoa0hH5DPKjPNHt+ubesHaviGUGntZKtKGxNOh7A8rw7r8eLLyQgr6fa8sVG0atwJ6wMJ3+kqT0e8soodxi+HSQv2s+nLimDGaMjN1p5qKUSAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krMe+hDI; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCDE1F000E9;
+	Thu, 28 May 2026 13:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779975971;
-	bh=vLsnfRAsWknOTtYGDlhCmX8HlRYciNFtxaGdwI3lvC8=;
+	s=k20260515; t=1779976551;
+	bh=6vXPVOsgWJMM4xrGhIeE6c8yPIwKd9SKDcBi/TmrvTw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AQZLWfQo30IbMmECOBqe0IWz/L4umlFg0+V5uPpn9AqNqAAH2MlcpB5g2cezO4GB1
-	 e5jDagmwH/Vc5wjIBEl70mLw/lUkHAGfXRdbqHT7tSm99odei2KSu80qUYI2AKhfMH
-	 14Af44OtKxQVlOrhC+nTGrhx6dodFfSntUdGTX9fHGX9gLSBn9+y6WNAftpToytYBf
-	 prf8Ib0/Cf7IGKFOPW8B3GZz5sDl1f2qKRMtTPrNKcDk4aiEhkB16fJd6MJUns6ro3
-	 akWFNVrhFZE3yqQgypOApuW4NMjZxjNwQZQEpf62hd1ix1XlJ81GUFBil1jTRbWWxC
-	 ZkqwmHvWQeOcA==
-Date: Thu, 28 May 2026 15:46:09 +0200
+	b=krMe+hDI0k9sbghVoiLGVOwcK9PzH2Oji+omKBOfs2qZIHWFUHWpjCFusrOE+R7Rm
+	 Z86V/veOCDKJy1bDb4MBcSQhKjkLJ+BZLeEAiVeCCCniEH4BrMFqIVCc1DZWKaxDtA
+	 UPddp6sWbpkGYXruj594LPFqROj5zUHkiAE3tGfXpWnoAmtV8ZV2d2n18+t50Rs6pi
+	 EJaK3+Ej7ltewTWUnyyQ/AAq2PXzEsGqm8yjTGVxfMxS/V9t1qbk/5a6cUKOpOOcyn
+	 4fQbsbwYK/hC7JMvKFqmnMA64/og0XQIm2ZrNX0OSIRCH0H3zOKcsbZD3/f5oouDj0
+	 ybEUnjlE+TmzQ==
+Date: Thu, 28 May 2026 15:55:49 +0200
 From: Thierry Reding <thierry.reding@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org, 
-	Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v2] drm/tegra: dp: fix kernel-doc warnings in dp.h
-Message-ID: <ahhHGN9mwdXETznN@orome>
-References: <20260427184442.693768-1-rdunlap@infradead.org>
+To: Felix Gu <ustc.gu@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding <treding@nvidia.com>, 
+	dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: mipi: Fix device_node reference leak in
+ tegra_mipi_request()
+Message-ID: <ahhJVgM4pd4ecg91@orome>
+References: <20260416-mipi-v1-1-9c027175abdf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
@@ -63,105 +62,89 @@ List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zmagl3xmb7z73b7t"
+	protocol="application/pgp-signature"; boundary="pvbclnvudjorxwsj"
 Content-Disposition: inline
-In-Reply-To: <20260427184442.693768-1-rdunlap@infradead.org>
+In-Reply-To: <20260416-mipi-v1-1-9c027175abdf@gmail.com>
 X-Spamd-Result: default: False [-2.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,nvidia.com,linux.intel.com,kernel.org,suse.de,gmail.com,vger.kernel.org,ffwll.ch];
-	TAGGED_FROM(0.00)[bounces-14737-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14738-lists,linux-tegra=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[nvidia.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-tegra@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-tegra];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: DF2595F3157
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 867CE5F35DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---zmagl3xmb7z73b7t
+--pvbclnvudjorxwsj
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] drm/tegra: dp: fix kernel-doc warnings in dp.h
+Subject: Re: [PATCH] gpu: host1x: mipi: Fix device_node reference leak in
+ tegra_mipi_request()
 MIME-Version: 1.0
 
-On Mon, Apr 27, 2026 at 11:44:42AM -0700, Randy Dunlap wrote:
-> Use correct kernel-doc format and add missing nested struct entries to
-> eliminate kernel-doc warnings:
+On Thu, Apr 16, 2026 at 08:09:29PM +0800, Felix Gu wrote:
+> In tegra_mipi_request(), when provider.np is not equal with args.np, it
+> returns without calling of_node_put(args.np), causing a reference leak.
 >=20
-> Warning: drivers/gpu/drm/tegra/dp.h:28 Incorrect use of kernel-doc format:
->  * tps3_supported:
-> Warning: drivers/gpu/drm/tegra/dp.h:54 struct member 'tps3_supported'
->  not described in 'drm_dp_link_caps'
-> dp.h:73: warning: Function parameter or struct member 'apply_training'
->  not described in 'drm_dp_link_ops'
-> dp.h:73: warning: Function parameter or struct member 'configure'
->  not described in 'drm_dp_link_ops'
-> dp.h:160: warning: Excess struct member 'cr' description in 'drm_dp_link'
+> Convert to use the existing goto out pattern to ensure proper cleanup.
 >=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
+> Fixes: 767598d447aa ("gpu: host1x: mipi: Update tegra_mipi_request() to b=
+e node based")
+> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 > ---
-> v2: rebase & resend
->=20
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Mikko Perttunen <mperttunen@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> ---
->  drivers/gpu/drm/tegra/dp.h |   12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+>  drivers/gpu/host1x/mipi.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
 Applied, thanks.
 
 Thierry
 
---zmagl3xmb7z73b7t
+--pvbclnvudjorxwsj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoYRyEACgkQ3SOs138+
-s6GaTRAAryfYrhDPGzjjcmITEuaH43kfKmC0sjgE+A5DBnaDzEncnGQa5v6OLiby
-dq4/XBFkR3NDKewE12uCYFB+bjFupbMaerXYgqp3XvNbXm2CdGb6sJyPui292av7
-RYEhWw7hEQxsYubL1ky9HXPXc3kRtuUkECl8M12vAI2R0/34RFYFV/zBk+A8w2YT
-k4tzmkycjph0nXTGwdpKTiVX3UR6JytIhy7vlL6jBoCfDLEILpjzIpQsI8pHbF1d
-fF3zUREJBc/ZpevErObf0crUue/iTqwlQ6kS9gCXpQx2Npi+3cXrken20fZNLY+d
-EznozHcgqIeU9Ws86z8rS75bOS6YMkDt4WWVdwJAOG7mgBefs8D0n3pA9rcVdCd4
-6qnpYNcxn4KtDwfiZPMido3z+Gdfzylf4TRFv0Y+Gp2+1euvCOeSl6Fz5QOE/xi1
-w4JmjWxCyYoLhqBHvouMk+VUArr3GhrA8vuRI3HMn0Wab20yxDxWtmKLWDcKsuXE
-GRaYWebeYO5/Y5iZd3mnf3d6RevrGVhdACEFDIR2N9G5LP7XUDxtpwN15EF9hbKX
-ROIgwB7T9K7EMdtDmEeYOif8vAPGv/gSt1Rms+EprzwMbCRNlzF55NfIEqEzCh5p
-O8u3m0VeFEtzMrmE0ss19A4LEGfF5toUSWQhWMdbXTGpYVg64d4=
-=20yL
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoYSWUACgkQ3SOs138+
+s6E1pBAAvwZ+6ixhY6mxhy34Sq0OmRin0E4x4zq33ntGAeuBL3NJPSm9mI29/K+0
+USC61+B/1QD9FUy+mXqZNQeyIi0i1k8oqpLbCyVqUjpJmAT/CUXK1BHwCRUR6UKZ
+VUC4zumFZNh7a54zazhp/pIbn3fdJmauDypbxs2CXonrb3XomcwSuswdvCLkxEXc
+0vv/0YMTVGAChnXAPChpDv0MaT3JSaGVZ559QhWZDOPMYGWCkCwV5n+pps+gWsqu
+GFSyKo3itYAxz+0Zo7uoqHppxvKkX0LxewCoCH41e/kaHR5fCsJawT2VKd8vXVjS
+2sYN1bZCQh5u51OqHIt8IVnCpNhvPdo9W77LKOpuLNvSArceIV3sZeKTHuvQ4UzP
+fY4Fj80j/OvSuSpEDpCnfqPI189jX39BFm9aTvtdBLzVuGV4bLZQeYq542bGd2EA
+dIZauDZaZL4R8Aci1ikmho5UsAjVJswlfoyjA68mzOgcU5OkrJ/ZOlZFWclF3cGO
+IBqslRnCbTo7VXF8MCiloThQW2bGCj6Krc9Uc36RcJV2B6nmYEmrc1mtRQQbrR/H
+vs0rBUEqLuID3oxvwIvSFp+YJlDyweWfLqowk/fELigCyM/ysu/SStirLl3e/Dye
+dimS2hkKSV4/KpfII7uEHKD6x2gooknc54wp4x2V8Bwy19hd8Sw=
+=nyJ1
 -----END PGP SIGNATURE-----
 
---zmagl3xmb7z73b7t--
+--pvbclnvudjorxwsj--
 
