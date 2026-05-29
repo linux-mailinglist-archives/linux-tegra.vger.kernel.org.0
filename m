@@ -1,204 +1,185 @@
-Return-Path: <linux-tegra+bounces-14797-lists+linux-tegra=lfdr.de@vger.kernel.org>
+Return-Path: <linux-tegra+bounces-14798-lists+linux-tegra=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oGGNAuawGWqiyQgAu9opvQ
-	(envelope-from <linux-tegra+bounces-14797-lists+linux-tegra=lfdr.de@vger.kernel.org>)
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 17:29:42 +0200
+	id KI/CMNexGWqtyQgAu9opvQ
+	(envelope-from <linux-tegra+bounces-14798-lists+linux-tegra=lfdr.de@vger.kernel.org>)
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 17:33:43 +0200
 X-Original-To: lists+linux-tegra@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16000604B67
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 17:29:40 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7B3604CCE
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 17:33:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 27183311CDEF
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 15:14:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5421630118F6
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2026 15:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9203DD537;
-	Fri, 29 May 2026 15:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D823403F1;
+	Fri, 29 May 2026 15:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XebJQFSN"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="E/Y8OmFz"
 X-Original-To: linux-tegra@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2EB1EDA32
-	for <linux-tegra@vger.kernel.org>; Fri, 29 May 2026 15:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D214C2E03EA;
+	Fri, 29 May 2026 15:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780067568; cv=none; b=WK/lD9qy+mKMTgm3uMMpfq/cnQ2rBJetFaxgOEg8ni+LufPhhUConSiISsY8E819pFBIFVLKg1QKvXZO5bUv/n0EYTILCiO4yqvYSK7/WbxAvL+MfWP53kSTtxcfHXgwABc3vofxZqNfGssJZdg1gdfRrGdA/L2TuYthonQhog4=
+	t=1780067869; cv=none; b=CMES3MSNZ6S6aGpctuuU8OxUOnphy2aB98jZOWqFN2MBpY6pp5XhULgF25AadOMb9KuuApmNu5wuotDEqzdHA8xN4+FlFysZmKYQh9G68cQzikx1ML34yayxcHhI1GAVyJ/8i5rE1my1QS+Aj7dWgIyVJc87Y+jVsQY4ZOkPzmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780067568; c=relaxed/simple;
-	bh=1LRHL6RRpJa0AYgbeSc6zbjpQR62nFvpYHbdzZFF2VI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bSaRLR9FhhyGXODzw+6eB+HROgRdXXCX1l1iotPhxcr11IEC/TBpBOdh2HsPKDna7HxUzOyKE4yMXHL4NOGbUkpKXzFOfcHcbp3Hj3CUUm9KpMUTZJxtpk1pJJSKJaykhSw9XLptJVQzRKFZFeOtbLpLDKOR04H/5hR4lyCTQqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XebJQFSN; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a88db610ccso13959835e87.2
-        for <linux-tegra@vger.kernel.org>; Fri, 29 May 2026 08:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780067565; x=1780672365; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pSvmsh1X8DGwld71F0x2qMjZ7xR4u2IApS8ys+IPUa4=;
-        b=XebJQFSN9Dfn8gr3oL8O+YvkZBjCrqkxf7yRlW8gZuNsKLWQ44Q64HbXb/sucNl5Ah
-         pOOgd12IfS6urnTD7hwUdD2qt0X1UGdIgbbL71BH8wFU4sy4dCbwJG+lUhbjl99TUtii
-         SJA1pL4IPERdObAhoUMhIygvc/oaEUBBuAkCihgKxLpHKo58Hxvpa34hw/5N35cg3lyr
-         xLP1gFhYIcVJrrZVrvAi+D42KYWn7ueDw+cA8uphD2wbBOs5r/ReFDQ8cc42q1Qxd0Zh
-         D2x/zrb/xfkRZ+n816mzxGAuspZOtKke9EXm4MNDTd2Lij/pCHK5sBLo8pgHPoIbZmiA
-         VwWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780067565; x=1780672365;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pSvmsh1X8DGwld71F0x2qMjZ7xR4u2IApS8ys+IPUa4=;
-        b=tB8Q2mue7VjjtgEYHTv46hnddN53Wcvp5RB2+4u8LC5FGATbcUcKoofsVafvc2tQEZ
-         UyphcEXWyeXXxIMakKY3W7PP18OH34uY4JMRyWoMk1E94k4UJr9zV/1ve1f6f0rI+8WF
-         jFj9LAeuUuHUGoTIW/NS5bngdGB/9S8joqZsX0x1Eqc1CsoJnDGnJuHQbOnxus2rM4ax
-         B0eGZlEOhuUtyz/GLuEoaJ//djl33uF5p08PGlZYwyiiLmM73qjD04YVymOiAnF4M7ov
-         J/HI5oEa4SVeBdAWCNxvRQ2AJv2jFd3my8b+NCtSiXCPfmLWSZsOdcbN4k+36D7ZzLyE
-         b4CA==
-X-Forwarded-Encrypted: i=1; AFNElJ/WmgiGV7PG1pYlFdjKO40HAcXetTXN0d/bOh2TIzNV7MQ4yk8/wcMp8EU1p5LcyMZ9k7E20cXxfOb6zA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWNnSEEdpk3XJSVTqmE6ZJjRwcXJEEmWIBTk0KTn6ov1oHop8Z
-	V7ZUjrDFCYsIXKIgzjvtRO8avx+i+Mp0p2zo5tW7TQGc7LGFlTIeSne0
-X-Gm-Gg: Acq92OFZwtzNgXXvtshiSkxL92uKB0jJLSkCghW/ql4zESup28X89mSGeP/x2z6OhFK
-	oVmLdNpqAh30dRhxZnPq99ddvVMZK8dZiJpzZ1V2zRqi2hFfp9dX1twpEbmu4Wph6Hjxjq8Va8K
-	C5hRIEEQ0rs7N02V8yvvXOxc+Wj/eSQf+VVkXu7xy7rSOw3Y4GYMuPunJWzECswnrGIYCBFKqVu
-	sFTZaK/Cy4haen729/+taF/Kb8KGMCCZfceWBwhi3+uO17RY2s40vzMYM2IZ52HdfgFFFeSSlSa
-	k/eBMk0BmKsqShCS2r4z8cjZVOCZhJga4g7rTp+dxoPsSVBFbyB0V7/nvKMuN3iSI+yc6jh3l8t
-	X8KfNFY8hcu6zI6u1kUcntPDDIzHJrMbSQ4FxNAM6jCNro2pyuKuKu13vqDBqME6xFOX2ySjotD
-	V9chj6QaTEJldf5JPA61CxXlqxd9b/m7E48KeOAsY06+g1Gsz0/mNJ1yRY57IaTgOKpvJvR7QwA
-	/P8uqD1DcCYFPD7wpZbzs5qWzTgUAK3jyc=
-X-Received: by 2002:a05:6512:401f:b0:5aa:5082:6884 with SMTP id 2adb3069b0e04-5aa607c5450mr104267e87.15.1780067564557;
-        Fri, 29 May 2026 08:12:44 -0700 (PDT)
-Received: from orome (p200300e41f1bda00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:da00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa5b06877dsm339340e87.3.2026.05.29.08.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 08:12:42 -0700 (PDT)
-Date: Fri, 29 May 2026 17:12:40 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Ulf Hansson <ulfh@kernel.org>, 
-	Thierry Reding <thierry.reding@kernel.org>, linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] pmdomain: tegra: Add support for multi-socket platforms
-Message-ID: <ahmsDANt8D7RSYdK@orome>
-References: <20260522160251.76862-1-jonathanh@nvidia.com>
+	s=arc-20240116; t=1780067869; c=relaxed/simple;
+	bh=i14utAyWVag4qxanxiMOSsLoacp5PlK9awjdPrY0Lt0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j0qPFaQadhbQ52HzB562wD6EykeqIsPmj0O2alnTMUjh+8PeGUoyGM6c63endgTdIOt+49f6kTZjeI0LN48q7OZB3DVhNOSAx/BGHkeZupxquGg0kco2IsQKcVaw4pduNLGxLtHNJb3pqvpu9VtudNmtzSS7A1h1OWujVirC3io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=E/Y8OmFz; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 284CF237B;
+	Fri, 29 May 2026 08:17:42 -0700 (PDT)
+Received: from [10.57.26.238] (unknown [10.57.26.238])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8093B3F632;
+	Fri, 29 May 2026 08:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780067866; bh=i14utAyWVag4qxanxiMOSsLoacp5PlK9awjdPrY0Lt0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=E/Y8OmFzjPPiFlVn4wlpigbZpVnBOLe/nvmQB9aWj85QNMT7/qwPvsbPCBXgoTSUY
+	 ILoZRm/Zx+YVmLnnnjl6SbY9FgvOkUu3spSzSN72QzgqEzBR85lxu8q43Fz/aKK1vx
+	 t17fO/GqqvBY0+f/5OA/Bl8CQBWaofzEEz9yntmI=
+Message-ID: <c99085e5-cf1f-479d-bef0-b6a4161482e5@arm.com>
+Date: Fri, 29 May 2026 16:17:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-tegra@vger.kernel.org
 List-Id: <linux-tegra.vger.kernel.org>
 List-Subscribe: <mailto:linux-tegra+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-tegra+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wjcahtt7h7qov7lc"
-Content-Disposition: inline
-In-Reply-To: <20260522160251.76862-1-jonathanh@nvidia.com>
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 06/10] thermal/of: Rename the
+ devm_thermal_of_cooling_device_register() function
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, rafael@kernel.org,
+ daniel.lezcano@kernel.org
+Cc: Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Benson Leung <bleung@chromium.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, Avi Fishman <avifishman70@gmail.com>,
+ Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+ Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+ Benjamin Fair <benjaminfair@google.com>, Heiko Stuebner <heiko@sntech.de>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "moderated list:ARM/NUVOTON NPCM ARCHITECTURE" <openbmc@lists.ozlabs.org>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ "open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
+ "open list:KHADAS MCU MFD DRIVER" <linux-amlogic@lists.infradead.org>,
+ "open list:CLANG/LLVM BUILD SUPPORT" <llvm@lists.linux.dev>
+References: <20260526140802.1059293-12-daniel.lezcano@oss.qualcomm.com>
+ <20260526140802.1059293-18-daniel.lezcano@oss.qualcomm.com>
+Content-Language: en-US
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20260526140802.1059293-18-daniel.lezcano@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-14797-lists,linux-tegra=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,pengutronix.de,armlinux.org.uk,gmail.com,ffwll.ch,roeck-us.net,jms.id.au,codeconstruct.com.au,weissschuh.net,chromium.org,google.com,sntech.de,nvidia.com,linaro.org,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[arm.com:+];
+	TAGGED_FROM(0.00)[bounces-14798-lists,linux-tegra=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thierryreding@gmail.com,linux-tegra@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lukasz.luba@arm.com,linux-tegra@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[54];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-tegra];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,nvidia.com:email]
-X-Rspamd-Queue-Id: 16000604B67
+	TAGGED_RCPT(0.00)[linux-tegra,dt,etnaviv,lkml];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,arm.com:mid,arm.com:dkim,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: BE7B3604CCE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---wjcahtt7h7qov7lc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] pmdomain: tegra: Add support for multi-socket platforms
-MIME-Version: 1.0
 
-On Fri, May 22, 2026 at 05:02:51PM +0100, Jon Hunter wrote:
-> On multi-socket platforms each socket has its own BPMP that is
-> registered with the kernel. For such platforms append the NUMA ID for
-> each socket to the BPMP powergate name to ensure there is a unique name
-> for each power-domain. Note that we only append the NUMA ID for
-> powergates that return a valid name because an invalid name indicates
-> that the powergate ID is not supported.
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+On 5/26/26 15:08, Daniel Lezcano wrote:
+> To clarify that the function operates on child nodes, rename:
+> 
+>            devm_thermal_of_cooling_device_register()
+> 	                     |
+> 			     v
+>         devm_thermal_of_child_cooling_device_register()
+> 
+> Used the command:
+> 
+>       	 find . -type f -name '*.[ch]' -exec \
+> 	 sed -i 's/devm_thermal_of_cooling_device_register/\
+> 	 devm_thermal_of_child_cooling_device_register/g' {} \;
+> 
+> Did not used clang-format-diff because it does not indent correctly
+> and checkpatch complained. Manually reindented to make checkpatch
+> happy
+> 
+> This prepares for upcoming support of cooling devices identified by
+> an ID rather than device tree child nodes.
+> 
+> No functional change.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 > ---
->  drivers/pmdomain/tegra/powergate-bpmp.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/drivers/pmdomain/tegra/powergate-bpmp.c b/drivers/pmdomain/t=
-egra/powergate-bpmp.c
-> index 8cde4f384846..1faaa92a5b02 100644
-> --- a/drivers/pmdomain/tegra/powergate-bpmp.c
-> +++ b/drivers/pmdomain/tegra/powergate-bpmp.c
-> @@ -137,6 +137,11 @@ static char *tegra_bpmp_powergate_get_name(struct te=
-gra_bpmp *bpmp,
->  	if (err < 0 || msg.rx.ret < 0)
->  		return NULL;
-> =20
-> +	if (response.get_name.name[0] !=3D '\0' &&
-> +	    dev_to_node(bpmp->dev) !=3D NUMA_NO_NODE)
-> +		return kasprintf(GFP_KERNEL, "%s.%d", response.get_name.name,
-> +				 dev_to_node(bpmp->dev));
+>   drivers/hwmon/amc6821.c                  |  2 +-
+>   drivers/hwmon/aspeed-pwm-tacho.c         |  5 +++--
+>   drivers/hwmon/emc2305.c                  |  6 +++---
+>   drivers/hwmon/gpio-fan.c                 |  6 ++++--
+>   drivers/hwmon/max6650.c                  |  6 +++---
+>   drivers/hwmon/npcm750-pwm-fan.c          |  6 ++++--
+>   drivers/hwmon/pwm-fan.c                  |  5 +++--
+>   drivers/hwmon/qnap-mcu-hwmon.c           |  6 +++---
+>   drivers/hwmon/tc654.c                    |  5 +++--
+>   drivers/memory/tegra/tegra210-emc-core.c |  4 ++--
+>   drivers/soc/qcom/qcom_aoss.c             |  2 +-
+>   drivers/thermal/khadas_mcu_fan.c         |  7 ++++---
+>   drivers/thermal/tegra/soctherm.c         |  6 +++---
+>   drivers/thermal/thermal_of.c             | 15 +++++++++------
+>   include/linux/thermal.h                  | 16 ++++++++--------
+>   15 files changed, 54 insertions(+), 43 deletions(-)
+> 
 
-I just remembered that for GPIO we decided to use %d- with the node ID
-as a prefix, rather than .%d as a suffix. Maybe we should unify on that
-naming scheme? I remember we were going back and forth over it and
-ultimately decided on this because it was more distinct from other
-naming schemes.
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
 
-For GPIO in particular we have <port>.<pin> already for the pin names,
-so adding another .%d for the NUMA ID would've made for really confusing
-names. This doesn't apply for clocks, but it might still be good to
-stick to that naming.
-
-I admit that I haven't been paying very close attention to this, so we
-might need to revisit any patches in flux that are adding multi-socket
-support.
-
-Thierry
-
---wjcahtt7h7qov7lc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoZrOQACgkQ3SOs138+
-s6FbDxAAt1WdKWI4UCAG0yoWHTNP22VLZjGguCxZDl+N/r7yvPeMabfwxrssvgYG
-hvX3YMO54Sy5sNQ9ckd/45Yvf05TuSk/zM2foKJb9rpmZbnJB9Ynhn+y0WBz/Udz
-DxH1hlIMxbp7PFS+TiZaG0rLYXRIl9QQfbc0v81IF+pTSeLq12ARyKVBwL/1bo0M
-VmahKBXjsoXwYJAGhVVxxopZNYvEz+iv/ZAplX1VdeXpMJ9qbv96HU3p1oN44CbM
-cQKjnaQrv6peWJ9s3goQ04GTU5umzER02NrQbzbQv+rNuUVD5GbUg+dWsm0Vom5W
-NcC42wlE0JvzXixXNri3qsgcfJS21NQJshjQFDEDdLTXSyt0+O7WdC+Wgac+fPXE
-QiKWyq5ky0E+h17+Gtw2MPVM/t43xjVx79qNRV95J3Q/uVwxmmn/VF+x/wPSE+AZ
-MKm4T8AvJZbVWfHfXE+NxrSx1iYOYb5vnLCpM9HwAfGvWaDM1naiwIBOegzYVYNy
-H2hC2IhviWihDoJHuddPL0uQNkquPe+fZtFKd5lLU5vMBlo22Fy7BQtYpl+2Zx0U
-2x8RFjoGVkxYhx9h0QqMjoOLo6EVh1L6ofDX+JYkQGbUh7dtgefWYS4ueWaVEWyk
-DzVujli9Dw+h5ykkdC9r9fCIWuE80sAZImJGeJb7FOgi/s197+k=
-=VtYS
------END PGP SIGNATURE-----
-
---wjcahtt7h7qov7lc--
 
